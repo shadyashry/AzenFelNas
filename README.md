@@ -2,6 +2,9 @@
 
 The Muslim daily basic notifications and Islamic practices app, including Adhan, prayer times, Quran, fasting, and more.
 
+## Discord server
+https://discord.gg/G9dnU7Qx5
+
 ## Solution architecture
 
 ### English
