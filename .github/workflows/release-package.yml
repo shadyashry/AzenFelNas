@@ -1,0 +1,37 @@
+# Package release (DESIGN.md §9.2, ADR-009): gsctl build, sign targets (KMS, dual control), publish lab then beta.
+# gsctl arrives in S09 and the R2/KMS infrastructure in S25; until then publishing fails closed.
+name: release-package
+
+on:
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: Target channel
+        type: choice
+        options: [dev, lab]
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment: ${{ inputs.channel }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: 1.27.3
+          cache-dependency-path: tools/gsctl/go.mod
+      - name: Build gsctl
+        run: go build -o bin/gsctl ./tools/gsctl
+      - name: Publish
+        run: |
+          echo "::error::publishing is not available before slices S09 (gsctl) and S25 (distribution infra)"
+          exit 1

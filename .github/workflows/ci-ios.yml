@@ -1,0 +1,55 @@
+# iOS gate (DESIGN.md §12, §17.4): SwiftLint strict, SwiftFormat lint, AthanKit tests, Runner simulator build.
+# macos-15 runners (§5.4); Xcode 26.3 is the newest Xcode on that image (§15 D18).
+name: ci-ios
+
+on:
+  pull_request:
+    paths:
+      - apps/mobile/**
+      - packages/dm_contracts/**
+      - .swiftlint.yml
+      - .swiftformat
+      - .github/workflows/ci-ios.yml
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Select Xcode 26.3
+        run: sudo xcode-select -s /Applications/Xcode_26.3.app
+      - name: SwiftLint 0.65.1 --strict
+        run: |
+          version="$(swiftlint version)"
+          if [ "$version" != "0.65.1" ]; then
+            echo "::error::expected SwiftLint 0.65.1, got $version"
+            exit 1
+          fi
+          swiftlint lint --strict
+      - name: SwiftFormat 0.64.0 --lint
+        run: |
+          curl -sSLo swiftformat.zip https://github.com/nicklockwood/SwiftFormat/releases/download/0.64.0/swiftformat.zip
+          unzip -q swiftformat.zip swiftformat
+          ./swiftformat --lint apps/mobile/ios/AthanKit
+      - name: AthanKit tests
+        working-directory: apps/mobile/ios/AthanKit
+        run: swift test
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: 3.47.7
+          channel: stable
+          cache: true
+      - run: dart pub get
+      - name: Build Runner for the simulator
+        working-directory: apps/mobile
+        run: flutter build ios --simulator --debug

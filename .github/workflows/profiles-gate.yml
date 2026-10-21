@@ -1,0 +1,33 @@
+# Profile gate (DESIGN.md §9.2, ADR-008, REQ-GOV-001..004): schema, non-overlap, compile, lab benchmark, holdout.
+# Profiles arrive in slice S07; until then there is nothing to gate, and any profile fails closed.
+name: profiles-gate
+
+on:
+  pull_request:
+    paths:
+      - profiles/**
+      - .github/workflows/profiles-gate.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Gate profiles
+        run: |
+          shopt -s nullglob globstar
+          profiles=(profiles/**/*.yaml)
+          if [ ${#profiles[@]} -eq 0 ]; then
+            echo "No profiles yet (slice S07). Nothing to gate."
+            exit 0
+          fi
+          echo "::error::profiles exist but the gate stages (S07, S09) are not implemented; failing closed"
+          exit 1

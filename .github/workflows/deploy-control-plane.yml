@@ -1,0 +1,28 @@
+# Control-plane deploy (DESIGN.md §9.3, §26): build, goose migrations, Cloud Run.
+# The API arrives in slice S26; until then this workflow only proves the binary builds.
+name: deploy-control-plane
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: 1.27.3
+          cache-dependency-path: services/control-plane/go.mod
+      - name: Build control-plane
+        run: go build -o bin/api ./services/control-plane/cmd/api
+      - name: Deploy
+        run: echo "No deploy target before slice S26; build only."

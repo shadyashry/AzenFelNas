@@ -1,0 +1,43 @@
+# Schema gate (DESIGN.md §12, ADR-023): metaschema check (check-jsonschema 0.38.2) and ajv-cli 5.0.0 compile.
+# Schemas and the four-language fixture round-trip arrive in slice S02; until then there is nothing to validate.
+name: ci-schemas
+
+on:
+  pull_request:
+    paths:
+      - schemas/**
+      - .github/workflows/ci-schemas.yml
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  schemas:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22.22.0
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version: 0.13.4
+      - name: Validate schemas
+        run: |
+          shopt -s nullglob
+          schemas=(schemas/*.schema.json)
+          if [ ${#schemas[@]} -eq 0 ]; then
+            echo "No schemas yet (slice S02). Nothing to validate."
+            exit 0
+          fi
+          uvx check-jsonschema==0.38.2 --check-metaschema "${schemas[@]}"
+          for s in "${schemas[@]}"; do
+            npx --yes ajv-cli@5.0.0 compile --spec=draft2020 -s "$s"
+          done

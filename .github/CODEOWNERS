@@ -1,0 +1,4 @@
+# REQ-GOV-002: profile PRs need review from the accuracy and Sharia roles (ADR-008).
+# The handles below are role placeholders; replace them with the real GitHub users or teams once D1 is resolved.
+/profiles/ @accuracy-lead @sharia-reviewer
+/DESIGN.md @architect

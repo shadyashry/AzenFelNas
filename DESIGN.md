@@ -920,6 +920,12 @@ Milestone map: M0 runway (S01–S02) · M1 astronomical core (S03–S05) · M2 r
 | D12 | Athan Test audio | Sharia + Legal | neutral tone | §10.4 (code) |
 | D13 | Hosting vendors | Business + Security | Cloudflare + GCP | ADR-022 |
 | D14 | Funding model / donation feature | Business | sponsor-funded; no donation UI | §1.1 |
+| D15 | Melos configuration location (added S01) | Architect | melos ≥ 7 reads its config from the `melos:` key of the root `pubspec.yaml` (pub workspace); the `melos.yaml` named in §5.3 does not exist | root `pubspec.yaml` |
+| D16 | Arch lint mechanism and scope (added S01) | Architect | standalone CLI `dart run dm_lints:arch_lint` (analyzer AST, no analyzer plugin). Pure set `lib/`: no Flutter (`package:flutter*`, `dart:ui`, `dm_ui`, `dm_contracts`) and no `dart:io/ffi/html/isolate/js*/mirrors`; pure set `bin/`, `test/`: no Flutter (`dart:io` allowed for the `bench` CLI and golden files); pure pubspecs: no Flutter dependency. App: `features/<f>/<layer>/` direction presentation → application → domain ← data; domain gets the pure `lib/` ban | `packages/dm_lints` |
+| D17 | TUF key encoding (added S01) | Architect + Security | `public` = lowercase hex of the 32 raw Ed25519 public-key bytes; `keyId` = lowercase hex SHA-256 of those 32 bytes | Appendix C, `tools/gsctl/keys/` |
+| D18 | Pins below "latest stable" (added S01) | Architect | Flutter 3.47.7 pins `test_api` 0.7.12 ⇒ `test` 1.31.1 and `analyzer` 13.3.0; `macos-15` runners top out at Xcode 26.3; JDK Temurin 21.0.11 and Node 22.22.0 have no §5.4 floor and use the current LTS. Revisit on each toolchain upgrade PR | ADR-011 table |
+| D19 | Value types with invariants (added S01) | Architect | types whose constructor must reject invalid values (e.g. `CivilDate`) are hand-written `@immutable final class`es with a validating constructor and value equality; `freezed` (which cannot enforce construction invariants) is used for record-like data types | `dm_core_types` |
+| D20 | Application identifiers (added S01) | Mobile + Product | Android `applicationId` and iOS bundle id `app.dailymuslim`, derived from the App Group `group.app.dailymuslim.shared` (§8.2) | `apps/mobile` |
 
 ---
 
