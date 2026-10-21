@@ -23,6 +23,12 @@ Day `D`: upper transit `T₀` with `localDate(T₀, zone) == D`; lower transits 
 - Each half segment is split at the altitude's stationary points into monotone pieces, so every crossing is bracketed (§15 D34). Ascending events take the rising crossing in `[A₋, T₀]`, descending ones the setting crossing in `[T₀, A₊]`.
 - Consecutive days tile time: `A₊(D)` and `A₋(D+1)` agree to < 1 ms.
 
+## Day calculation (slice S05, 2026-10-21)
+
+- `CalculateDay` takes Dhuhr as `T₀` plus the transit rule's offset, Sunrise as the last rising crossing in `[A₋, T₀]` and Maghrib as the first setting crossing in `[T₀, A₊]` (§15 D37). Without a crossing in the event's direction the event is `NoEvent(polarDay | polarNight)`, by the altitude at `T₀`.
+- A skipped calendar day has no `T₀`, so `calculateDay` returns a `DayResult` without times (§15 D36). The zone selects the day only: raw instants do not change with the zone offset (property test).
+- `dayOffset` is the local date of the displayed instant, by the injected TZDB, minus `D`.
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
@@ -34,6 +40,7 @@ See the `DESIGN.md` sections referenced above.
 ## Tests
 
 - `packages/geo_salah_core/test/solver/culmination_segments_test.dart`: local-date rule, hour angles at `T₀` and `A±`, day tiling, Kiritimati (UTC+14 at 157° W), the skipped Apia day.
+- `packages/geo_salah_core/test/api/calculate_day_test.dart`: Dhuhr at `T₀`, Sunrise and Maghrib in their halves, typed polar day and night at Tromsø, zone independence of raw instants, `dayOffset` +1 after local midnight, the skipped Apia day.
 - `packages/geo_salah_core/test/solver/crossings_test.dart`: bracket exhaustiveness against a dense scan, including grazing targets; monotone pieces; polar day and night; continuity.
 
 ## Supersedes

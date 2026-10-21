@@ -40,13 +40,19 @@ Written without reading `lab/` beyond `lab/README.md` (kickoff §C).
 - **Solver:** Brent to 100 ms on the interpolated altitude, one exact SPA Newton step, then floor to 1 ms. Brackets come from monotone pieces (§15 D34).
 - **Determinism:** inside the engine, repeated runs give bit-identical instants. Across platforms, `dart:math` uses the platform libm, so an instant within about 1 µs of a millisecond boundary can truncate differently. This is the same ±1 ms caveat as D25, to be measured by the golden corpus in S05.
 
+## Golden corpus v1 (slice S05, 2026-10-21)
+
+- **Lab confirmation:** `uv run --frozen lab benchmark --engine dart --tags DAY_OF_MONTH` — 1764 cases (49 cities × 12 days × 3 years), 5292 events, 5292 agreed, 0 discrepancies, 0 blocking, max |residual| 1575 ms (every residual is within its ADR-019 tolerance; each Dhuhr within its fixed 200 ms). Over every reference case (`lab benchmark --engine dart`): 4188 cases, 12564 events, 0 discrepancies, max 1575 ms.
+- **Corpus:** `packages/geo_salah_core/test/golden/<city>/engine.default/<year>.json`, written by `tool/update_golden.dart` from the same engine and stand-ins as the bench (§15 D40), and checked against the lab-confirmed bench responses (5292 of 5292 equal). It freezes raw instants and origins only; Calculation IDs, displayed instants and day offsets change in S06 (rounding), S07 (profile versions) and S10 (TZDB) and are not frozen.
+- **Determinism:** the corpus was generated on Windows x64. `ci-dart` runs the exact-match test on Linux, which is the first cross-platform check of D25's ±1 ms caveat; a mismatch there is a `golden-update` investigation, not a tolerance.
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
 
 ## REQ tags
 
-`REQ-TEST-003`, `REQ-TIME-002`, `REQ-DOM-002` (comparator; engine solver), `REQ-DOM-004` (engine truncation)
+`REQ-TEST-003`, `REQ-TIME-002`, `REQ-DOM-002` (comparator; engine solver), `REQ-DOM-004` (engine truncation; golden exact match), `REQ-TEST-001` (golden corpus for all Appendix H cities)
 
 ## Tests
 
@@ -56,6 +62,7 @@ See the `DESIGN.md` sections referenced above.
 - `lab/tests/test_frozen_reference.py` — artifact integrity, coverage and regeneration.
 - `packages/geo_salah_core/test/astro/spa_paper_example_test.dart` — SPA paper Tables A4.1 and A5.1.
 - `packages/geo_salah_core/test/solver/crossings_test.dart` — exhaustiveness, accuracy against exact SPA, determinism, and the paper's A.2 sunrise and sunset.
+- `packages/geo_salah_core/test/golden_corpus_test.dart` — exact `rawUtcMs` and origin equality for the 147 golden files (REQ-TEST-001, REQ-DOM-004).
 
 ## Supersedes
 

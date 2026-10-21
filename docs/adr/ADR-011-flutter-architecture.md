@@ -28,6 +28,7 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Dart | analyzer (dm_lints) | — | **13.3.0** (14.6.0 needs test_api ≥ 0.7.13; Flutter 3.47.7 pins 0.7.12 — D18) | `dm_lints`, `pubspec.lock` |
 | Dart | test | — | **1.31.1** (same constraint — D18) | package pubspecs, `pubspec.lock` |
 | Dart | glados | 1 | **1.1.7** | `dm_core_types`, `pubspec.lock` |
+| Dart | crypto | 3 | **3.0.7** (BSD-3-Clause; direct dependency of `geo_salah_core` from S05 for the Calculation ID — §15 D38) | `geo_salah_core`, `pubspec.lock` |
 | Dart | meta | — | **1.19.0** | `dm_core_types`, `pubspec.lock` |
 | Dart | path · yaml | — | **1.9.1 · 3.1.4** | `dm_lints`, `pubspec.lock` |
 | Dart | freezed · freezed_annotation · json_serializable · json_annotation · build_runner | 3 · — · 6.9 · — · — | **4.0.1 · 3.1.0 · 6.15.2 · 4.12.0 · 2.16.1** (freezed 4.0.3 and build_runner 2.17.1 need analyzer ≥ 14, blocked by the Flutter `test_api` pin — D18; added S02) | package pubspecs, `pubspec.lock` |
