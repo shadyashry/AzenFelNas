@@ -3,6 +3,7 @@
 #   schemas/fixtures/<name>/valid/*.json   must validate against schemas/<name>.v1.schema.json
 #   schemas/fixtures/<name>/invalid/*.json must NOT validate (one mutation each; name cites the REQ it guards)
 #   profiles/**/*.yaml                     must validate against prayer_profile.v1 (seed and authority profiles, §6.5)
+#   tools/gsctl/testdata/roundtrip/*/metadata/*.json must validate against tuf_metadata.v1 (what gsctl signs, §15 D62)
 # Usage: schemas/tools/validate_fixtures.sh [ajv command]   (default: npx --yes ajv-cli@5.0.0 with ajv-formats@3.0.1)
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -35,5 +36,11 @@ if [ ${#profiles[@]} -eq 0 ]; then echo "FAIL profiles: no profiles/*/*.yaml"; s
 for f in "${profiles[@]}"; do
   if $AJV validate "${OPTS[@]}" -s prayer_profile.v1.schema.json -d "$f" >/dev/null 2>&1; then echo "ok   profile $f"
   else echo "FAIL profile $f"; $AJV validate "${OPTS[@]}" -s prayer_profile.v1.schema.json -d "$f" || true; status=1; fi
+done
+signed=(../tools/gsctl/testdata/roundtrip/*/metadata/*.json)
+if [ ${#signed[@]} -eq 0 ]; then echo "FAIL gsctl: no signed metadata in tools/gsctl/testdata/roundtrip"; status=1; fi
+for f in "${signed[@]}"; do
+  if $AJV validate "${OPTS[@]}" -s tuf_metadata.v1.schema.json -d "$f" >/dev/null 2>&1; then echo "ok   signed  $f"
+  else echo "FAIL signed  $f"; $AJV validate "${OPTS[@]}" -s tuf_metadata.v1.schema.json -d "$f" || true; status=1; fi
 done
 exit $status

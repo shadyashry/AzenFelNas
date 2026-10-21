@@ -7,6 +7,9 @@ on:
       - tools/gsctl/**
       - services/control-plane/**
       - schemas/**
+      # gsctl's tests compile the seed profiles and compare them with the Dart bench copy (§15 D61).
+      - profiles/**
+      - packages/geo_salah_core/bench/profiles/**
       - go.work
       - .golangci.yml
       - .github/workflows/ci-go.yml

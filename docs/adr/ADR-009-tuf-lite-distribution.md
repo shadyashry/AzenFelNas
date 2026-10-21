@@ -16,17 +16,30 @@ Object storage + CDN; four metadata roles; monotonic `sequence`; signature envel
 - **Win:** cheap, cacheable, resists freeze/rollback/CDN compromise.
 - **Lose:** client-side verification code (small, specified).
 
+## Implementation (slice S09, 2026-10-22)
+
+- **Signing side, `tools/gsctl`** (Go, hexagonal, §17.5): `validate | build | sign | verify`. JCS is RFC 8785 (`internal/domain/jcs`). Signatures are Ed25519 over JCS of `signed`; keyId follows §15 D17. Each role signs separately with its own keys; roles have the Appendix C thresholds and strictly monotonic sequences (§15 D59). `build` turns the profiles into the `prayer_profiles` package (§15 D60).
+- **Verifying side, `packages/dm_packages`**: the minimal `VerifyMetadataChain` and `VerifyTargetFile` (§15 D63). S14 builds the package client around them.
+- **Cross-language evidence:** both languages pass one set of JCS vectors (`tools/gsctl/testdata/jcs`). A dev channel that gsctl signed with the dev keys (`tools/gsctl/testdata/roundtrip`) verifies in Go and in Dart.
+- **Keys:** the dev key set and how gsctl loads private keys without them touching the repository are recorded in §15 D62. Production keys arrive with S25 (KMS) and S27 (root ceremony).
+
 ## Consequences
 
-See the `DESIGN.md` sections referenced above.
+- A client verifies root against its embedded keys, then timestamp → snapshot → targets. It accepts only sequences strictly after the ones it trusts; expiry is a warning only.
+- A rollback is `gsctl build -rollback-of <version>` of the old content under a new version, followed by new signatures with higher sequences. Published target names never change content.
+- Publishing to R2 and promotion (`gsctl promote`) are S25. Until then `release-package` signs, verifies and uploads the channel as an artifact.
 
 ## REQ tags
 
-—
+`REQ-DIST-001`, `REQ-DIST-002`, `REQ-DIST-003`, `REQ-DIST-004`, `REQ-PKG-002`, `REQ-PKG-005`
 
 ## Tests
 
-—
+- `tools/gsctl/internal/domain/trust/trust_test.go`: the sign → verify round trip and every flipped bit of every metadata file. Also sequence regression, Appendix C thresholds, target immutability, the 7-day timestamp limit and expiry warnings.
+- `tools/gsctl/internal/app/app_test.go`: build → sign → verify over port fakes, rollback as a higher sequence, and refusal of a republished version or of key-config drift.
+- `tools/gsctl/main_test.go`: the CLI done-test (sign → verify, tampered metadata and package, sequence regression) and the committed vector.
+- `packages/dm_packages/test/tuf/go_round_trip_test.dart`: the Go-signed vector verifies in Dart, while tampering and sequence regressions fail.
+- `tools/gsctl/internal/domain/jcs/jcs_test.go` and `packages/dm_core_types/test/canonical_json_test.dart`: the shared JCS vectors.
 
 ## Supersedes
 

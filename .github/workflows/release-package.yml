@@ -1,5 +1,8 @@
-# Package release (DESIGN.md §9.2, ADR-009): gsctl build, sign targets (KMS, dual control), publish lab then beta.
-# gsctl arrives in S09 and the R2/KMS infrastructure in S25; until then publishing fails closed.
+# Package release (DESIGN.md §9.2, ADR-009): gsctl build, sign every role, verify, publish lab then beta.
+# S09 delivers gsctl validate/build/sign/verify, so this job compiles, signs with the dev keys of the chosen
+# channel's environment and verifies the result as a client would. Publishing to R2 and reading the
+# channel's current metadata (for monotonic sequences across releases) arrive with the distribution
+# infrastructure in S25; until then the job uploads the signed channel as an artifact and fails closed at publish.
 name: release-package
 
 on:
@@ -10,18 +13,34 @@ on:
         type: choice
         options: [dev, lab]
         required: true
+      version:
+        description: Package version (target prayer_profiles/<version>)
+        type: string
+        required: true
+      effective_from:
+        description: Date the release takes effect for all users, YYYY-MM-DD (REQ-GOV-004)
+        type: string
+        required: true
+      note_ar:
+        description: Change note, Arabic
+        type: string
+        required: true
+      note_en:
+        description: Change note, English
+        type: string
+        required: true
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ inputs.channel }}
+  cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 30
     environment: ${{ inputs.channel }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -29,9 +48,44 @@ jobs:
         with:
           go-version: 1.27.3
           cache-dependency-path: tools/gsctl/go.mod
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: 3.47.7
+          channel: stable
+          cache: true
+      - name: Profile semantics in geo_salah_profiles (parse, non-overlap, channel; §15 D61)
+        run: |
+          dart pub get
+          cd packages/geo_salah_profiles && dart test
       - name: Build gsctl
-        run: go build -o bin/gsctl ./tools/gsctl
+        run: go build -o "$RUNNER_TEMP/gsctl" ./tools/gsctl
+      - name: Build, sign and verify the channel
+        env:
+          CHANNEL: ${{ inputs.channel }}
+          VERSION: ${{ inputs.version }}
+          EFFECTIVE_FROM: ${{ inputs.effective_from }}
+          NOTE_AR: ${{ inputs.note_ar }}
+          NOTE_EN: ${{ inputs.note_en }}
+          DM_DEV_ROOT_KEY_1: ${{ secrets.DM_DEV_ROOT_KEY_1 }}
+          DM_DEV_ROOT_KEY_2: ${{ secrets.DM_DEV_ROOT_KEY_2 }}
+          DM_DEV_ROOT_KEY_3: ${{ secrets.DM_DEV_ROOT_KEY_3 }}
+          DM_DEV_TARGETS_KEY_1: ${{ secrets.DM_DEV_TARGETS_KEY_1 }}
+          DM_DEV_SNAPSHOT_KEY_1: ${{ secrets.DM_DEV_SNAPSHOT_KEY_1 }}
+          DM_DEV_TIMESTAMP_KEY_1: ${{ secrets.DM_DEV_TIMESTAMP_KEY_1 }}
+        run: |
+          repo="$RUNNER_TEMP/channel/$CHANNEL"
+          "$RUNNER_TEMP/gsctl" build -profiles profiles -channel "$CHANNEL" -repo "$repo" -version "$VERSION" \
+            -effective-from "$EFFECTIVE_FROM" -note-ar "$NOTE_AR" -note-en "$NOTE_EN"
+          for role in root targets snapshot timestamp; do
+            "$RUNNER_TEMP/gsctl" sign -repo "$repo" -role "$role"
+          done
+          "$RUNNER_TEMP/gsctl" verify -repo "$repo"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: channel-${{ inputs.channel }}-${{ inputs.version }}
+          path: ${{ runner.temp }}/channel/${{ inputs.channel }}
+          if-no-files-found: error
       - name: Publish
         run: |
-          echo "::error::publishing is not available before slices S09 (gsctl) and S25 (distribution infra)"
+          echo "::error::publishing to R2 is not available before slice S25 (distribution infra); the signed channel is in the artifact"
           exit 1

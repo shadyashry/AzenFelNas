@@ -1,7 +1,8 @@
 # Profile gate (DESIGN.md §9.2, ADR-008, REQ-GOV-001..004): schema, non-overlap, compile, lab benchmark, holdout.
-# S07 implements the schema and non-overlap stages plus the seed conformance tests. Compile/sign (gsctl,
-# S09), the derivation-set lab benchmark and the holdout report are not implemented yet, so the gate
-# fails closed for any profile that claims more than DRAFT_UNVERIFIED (§15 D52).
+# S07 implemented the schema and non-overlap stages plus the seed conformance tests; S09 adds the compile stage
+# (gsctl validate: profiles.json layout, governance and channel gates, §15 D60, D61). The derivation-set lab
+# benchmark and the holdout report do not exist yet, so the gate still fails closed for any profile that claims
+# more than DRAFT_UNVERIFIED (§15 D52).
 name: profiles-gate
 
 on:
@@ -9,6 +10,7 @@ on:
     paths:
       - profiles/**
       - packages/geo_salah_profiles/**
+      - tools/gsctl/**
       - schemas/prayer_profile.v1.schema.json
       - .github/workflows/profiles-gate.yml
 
@@ -45,12 +47,18 @@ jobs:
               --strict-required=false --allow-union-types -c ajv-formats --all-errors \
               -s schemas/prayer_profile.v1.schema.json -d "$f"
           done
-      - name: Only DRAFT_UNVERIFIED until the compile, benchmark and holdout stages exist (fail closed)
+      - name: Only DRAFT_UNVERIFIED until the benchmark and holdout stages exist (fail closed)
         run: |
           if grep -LE '^status: DRAFT_UNVERIFIED$' profiles/*/*.yaml | grep .; then
-            echo "::error::a profile above DRAFT_UNVERIFIED needs the S09 compile/sign stage, the lab benchmark and a holdout report"
+            echo "::error::a profile above DRAFT_UNVERIFIED needs the lab benchmark and a holdout report"
             exit 1
           fi
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: 1.27.3
+          cache-dependency-path: tools/gsctl/go.mod
+      - name: Compile profiles.json (gsctl validate, §15 D60, D61)
+        run: go run ./tools/gsctl validate -profiles profiles -channel dev
       - run: dart pub get
       - name: Parse, validate, non-overlap, channel and seed conformance (geo_salah_profiles)
         working-directory: packages/geo_salah_profiles

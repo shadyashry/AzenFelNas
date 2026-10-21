@@ -30,6 +30,7 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Dart | glados | 1 | **1.1.7** | `dm_core_types`, `pubspec.lock` |
 | Dart | crypto | 3 | **3.0.7** (BSD-3-Clause; direct dependency of `geo_salah_core` from S05 for the Calculation ID — §15 D38) | `geo_salah_core`, `pubspec.lock` |
 | Dart | meta | — | **1.19.0** | `dm_core_types`, `pubspec.lock` |
+| Dart | cryptography | 2.7 | **2.9.0** (Apache-2.0; pure-Dart `DartEd25519` for TUF-lite verification in `dm_packages`, added S09 — §15 D63). `crypto` 3.0.7 also becomes a direct dependency of `dm_packages` there | `dm_packages`, `pubspec.lock` |
 | Dart | path · yaml | — | **1.9.1 · 3.1.4** | `dm_lints`, `pubspec.lock` |
 | Dart | freezed · freezed_annotation · json_serializable · json_annotation · build_runner | 3 · — · 6.9 · — · — | **4.0.1 · 3.1.0 · 6.15.2 · 4.12.0 · 2.16.1** (freezed 4.0.3 and build_runner 2.17.1 need analyzer ≥ 14, blocked by the Flutter `test_api` pin — D18; added S02) | package pubspecs, `pubspec.lock` |
 | Dart (first use) | riverpod · flutter_riverpod | 3.0 | **3.4.3** | added in S16 |
@@ -49,6 +50,7 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Go | Go | 1.25 | **1.27.3** | `go.mod`, `go.work`, `.tool-versions`, CI |
 | Go | golangci-lint | 2.4 | **2.15.0** | `ci-go.yml` |
 | Go (first use) | sqlc · goose · zerolog · otel-go | 1.29 · 3.24 · 1.34 · 1.37 | **1.31.1 · 3.29.0 · 1.35.1 · 1.47.0** | `go.sum` with their first user |
+| Go | go.yaml.in/yaml/v3 | — | **3.0.5** (MIT + Apache-2.0; maintained successor of `gopkg.in/yaml.v3`, no transitive modules; `gsctl` reads `profiles/*.yaml`, added S09 — §15 D60) | `tools/gsctl/go.mod`, `go.sum` |
 | Go | go-jsonschema | 0.20 | not adopted — evaluated at 0.24.1 in S02, see ADR-023 amendment / §15 D24 | — |
 | Python | Python · uv | 3.13 · 0.8 | **3.15.0 · 0.13.4** | `.python-version`, `.tool-versions`, `[tool.uv] required-version`, CI |
 | Python | ruff · mypy · pytest · hypothesis | 0.13 · 1.17 · — · 6 | **0.17.1 · 2.4.0 · 9.1.1 · 6.170.5** | `pyproject.toml`, `uv.lock` |
