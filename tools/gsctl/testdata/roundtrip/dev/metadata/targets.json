@@ -1,0 +1,33 @@
+{
+  "signed": {
+    "expires": "2027-01-19T20:05:11Z",
+    "sequence": 1,
+    "targets": {
+      "prayer_profiles/2026.10.1": {
+        "length": 846,
+        "sha256": "ed7d7cb858ca30193a72258001dcc5ced7ca26eb1aa39f5ed9337fa7191105ca",
+        "custom": {
+          "schemaVersion": 1,
+          "payloadFormat": "json",
+          "compat": {
+            "minApp": "1.0.0",
+            "minEngineSchema": 1
+          },
+          "effectiveFrom": "2026-11-01",
+          "priority": "normal",
+          "changeNote": {
+            "ar": "ملفات مواقيت أولية للتطوير، غير معتمدة",
+            "en": "Seed prayer profiles for development, not approved"
+          }
+        }
+      }
+    },
+    "type": "targets"
+  },
+  "signatures": [
+    {
+      "keyId": "f6b91018e30edeb2fb7c9e55f8287d4ec638738ad9dde63934dc019b91e1eb02",
+      "sig": "pnJiOiC6pGI4ZUM+cIL9G9RcAuSgQeWot+JEGacdEqv3Qg73r0/unl3FiAEE6fkWOgIno8w+tD2XgmJ8rJp9Dg=="
+    }
+  ]
+}

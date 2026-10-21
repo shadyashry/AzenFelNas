@@ -1,0 +1,19 @@
+{
+  "signed": {
+    "expires": "2026-11-20T20:05:11Z",
+    "meta": {
+      "targets.json": {
+        "version": 1,
+        "sha256": "cb9c7cd4945e8026a011826001f86f396733333045d44290c90ea3b4b1111cac"
+      }
+    },
+    "sequence": 1,
+    "type": "snapshot"
+  },
+  "signatures": [
+    {
+      "keyId": "053fe74552d9b994b134fb2ab628bfd19cec1ff4b2ab6571574873e302ce430f",
+      "sig": "DqGbGe5i0Fj5VZhknwV6oCx5IlUgDH1HC6Mu24Xgry3n1RNM3O7OA5/K65TdPkFDm02DwbTx9Een9bEvhfg6AA=="
+    }
+  ]
+}

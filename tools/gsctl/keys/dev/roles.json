@@ -1,0 +1,9 @@
+{
+  "description": "Dev key set (dev and lab channels only): which named key signs which TUF-lite role, with the Appendix C thresholds (DESIGN.md §15 D17, D62). Public keys are <name>.pub.hex; private keys are never committed.",
+  "roles": {
+    "root": { "threshold": 2, "keys": ["root-1", "root-2", "root-3"] },
+    "targets": { "threshold": 1, "keys": ["targets-1"] },
+    "snapshot": { "threshold": 1, "keys": ["snapshot-1"] },
+    "timestamp": { "threshold": 1, "keys": ["timestamp-1"] }
+  }
+}

@@ -99,6 +99,14 @@ func TestCLISignVerifyTamperAndRegression_REQ_DIST_001_REQ_DIST_002_REQ_DIST_004
 	})
 }
 
+// What gsctl signed with the dev keys still verifies against the committed
+// trust anchor; dm_packages verifies the same files in Dart (§13 S09).
+func TestCommittedRoundTripVectorVerifies_REQ_DIST_001_REQ_DIST_004(t *testing.T) {
+	t.Parallel()
+	expect(t, gsctl(t, nil, "verify", "-repo", filepath.Join("testdata", "roundtrip", "dev"),
+		"-root-keys", filepath.Join("keys", "dev", "root-keys.json")), exitOK, "verified: root version 1, timestamp 1, snapshot 1, targets 1; 1 target(s)")
+}
+
 func TestCLIUsageErrorsExitWithTwo(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
