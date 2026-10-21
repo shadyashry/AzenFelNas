@@ -9,7 +9,8 @@ part 'hijri_state.freezed.dart';
 /// `hijri(D + 1)` and governs Isha.
 ///
 /// The engine never derives it; the caller supplies it and it is hashed into
-/// the Calculation ID (§6.4 ¶11). Ramadan rule replacement reads it from S08.
+/// the Calculation ID (§6.4 ¶11). Ramadan rule replacement (§6.4 ¶6) reads
+/// [ramadanAtDawn] and [ramadanAtNight]; `dm_hijri` builds it.
 @freezed
 abstract class HijriState with _$HijriState {
   /// Creates a [HijriState].
@@ -26,4 +27,15 @@ abstract class HijriState with _$HijriState {
     /// Version of the `hijri` package the dates came from, when any.
     String? packageVersion,
   }) = _HijriState;
+
+  const new _();
+
+  /// Ramadan governs the fasting day: Imsak and Fajr of `D` (§6.4 ¶6).
+  bool get ramadanAtDawn => dateAtDawn.month == _ramadan;
+
+  /// Ramadan governs the night after sunset of `D`: Isha (§6.4 ¶6).
+  bool get ramadanAtNight => dateAtNight.month == _ramadan;
+
+  /// Ramadan is the ninth Hijri month.
+  static const int _ramadan = 9;
 }

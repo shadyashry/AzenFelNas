@@ -236,8 +236,8 @@ return $default(_that.dateAtDawn,_that.dateAtNight,_that.confidence,_that.packag
 /// @nodoc
 
 
-class _HijriState implements HijriState {
-  const _HijriState({required this.dateAtDawn, required this.dateAtNight, required this.confidence, this.packageVersion});
+class _HijriState extends HijriState {
+  const _HijriState({required this.dateAtDawn, required this.dateAtNight, required this.confidence, this.packageVersion}): super._();
   
 
 /// Hijri date of `D`.
