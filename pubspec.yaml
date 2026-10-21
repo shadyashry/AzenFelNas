@@ -57,9 +57,6 @@ melos:
         orderDependents: true
       packageFilters:
         dependsOn: build_runner
-    gen:check:
-      description: Fail if committed generated code is stale.
-      run: dart run melos run gen && test -z "$(git status --porcelain -- '*.g.dart' '*.freezed.dart')"
     ci:
       description: Everything CI runs for Dart (ci-dart workflow).
       steps:

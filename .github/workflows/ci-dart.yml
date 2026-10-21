@@ -27,7 +27,13 @@ jobs:
           cache: true
       - run: dart pub get
       - name: Generated code is up to date (§15 D22)
-        run: dart run melos run gen:check
+        run: |
+          dart run melos run gen
+          if [ -n "$(git status --porcelain -- '*.g.dart' '*.freezed.dart')" ]; then
+            git status --porcelain -- '*.g.dart' '*.freezed.dart'
+            echo "::error::generated code is stale; run 'melos run gen' and commit the result"
+            exit 1
+          fi
       - name: melos run ci (format, analyze, arch lint, REQ index, tests)
         run: dart run melos run ci
 
