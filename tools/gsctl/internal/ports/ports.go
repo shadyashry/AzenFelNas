@@ -23,6 +23,12 @@ type ProfileSource interface {
 	LoadProfiles(ctx context.Context) ([]profileset.Document, error)
 }
 
+// ChangedPaths lists the repository-relative, slash-separated paths a pull
+// request changes.
+type ChangedPaths interface {
+	ChangedPaths(ctx context.Context) ([]string, error)
+}
+
 // MetadataReader reads a role's metadata file; ErrNotFound when the role
 // was never signed.
 type MetadataReader interface {

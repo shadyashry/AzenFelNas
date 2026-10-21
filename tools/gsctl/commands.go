@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/changelist"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/fsrepo"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/keyfiles"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/pemkeys"
@@ -44,6 +45,24 @@ func runValidate(ctx context.Context, args []string, e env) int {
 	}
 	write(e.stdout, fmt.Sprintf("valid: %d profile(s) for %s; payload %d bytes; compat minApp %s, minEngineSchema %d\n",
 		len(set.Profiles), channel, len(set.Payload), set.Compat.MinApp, set.Compat.MinEngineSchema))
+	return exitOK
+}
+
+func runCheckChange(ctx context.Context, args []string, e env) int {
+	fs := flag.NewFlagSet("check-change", flag.ContinueOnError)
+	base := fs.String("base-profiles", "", "profiles directory of the PR's base")
+	profiles := fs.String("profiles", defaultProfiles, "profiles directory of the PR's head")
+	changed := fs.String("changed", "", "file listing the paths the PR changes, one per line (git diff --name-only)")
+	if !parseFlags(fs, args, e, "base-profiles", "changed") {
+		return exitUsage
+	}
+	err := app.CheckProfileChange{
+		Base: yamlprofiles.Source{Dir: *base}, Head: yamlprofiles.Source{Dir: *profiles}, Changes: changelist.File{Path: *changed},
+	}.Run(ctx)
+	if err != nil {
+		return fail(e, fs.Name(), err)
+	}
+	write(e.stdout, "ok: no angle change together with tz/coordinate data (§9.2)\n")
 	return exitOK
 }
 
@@ -156,6 +175,7 @@ func runVerify(ctx context.Context, args []string, e env) int {
 // interface checks: the adapters implement the ports main wires them to.
 var (
 	_ ports.ProfileSource     = yamlprofiles.Source{}
+	_ ports.ChangedPaths      = changelist.File{}
 	_ ports.MetadataReader    = fsrepo.Repo{}
 	_ ports.MetadataWriter    = fsrepo.Repo{}
 	_ ports.PackageReader     = fsrepo.Repo{}

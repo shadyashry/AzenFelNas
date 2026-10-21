@@ -110,3 +110,9 @@ type Profiles struct{ Docs []profileset.Document }
 
 // LoadProfiles implements ports.ProfileSource.
 func (p Profiles) LoadProfiles(context.Context) ([]profileset.Document, error) { return p.Docs, nil }
+
+// Changes is a fixed ports.ChangedPaths.
+type Changes struct{ Paths []string }
+
+// ChangedPaths implements ports.ChangedPaths.
+func (c Changes) ChangedPaths(context.Context) ([]string, error) { return c.Paths, nil }

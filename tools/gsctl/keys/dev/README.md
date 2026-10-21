@@ -26,6 +26,8 @@ Without `-key-dir`, `gsctl sign` reads each key from the variable `DM_DEV_<ROLE>
 
 ## Loading the private keys into CI
 
+`set-ci-secrets.sh` does steps 1–2 for all six keys on both environments. Run it once from the repository root as a repository admin, after `gh auth login`. It first checks each PEM against its `.pub.hex` and prints no key material.
+
 1. Base64-encode each PEM: `base64 -w0 private/root-1.pem`.
 2. Store them as GitHub Actions secrets `DM_DEV_ROOT_KEY_1..3`, `DM_DEV_TARGETS_KEY_1`, `DM_DEV_SNAPSHOT_KEY_1`, `DM_DEV_TIMESTAMP_KEY_1` on the `dev` and `lab` environments only.
 3. Workflows pass them to `gsctl` as environment variables. They are never written to the workspace or to artifacts.

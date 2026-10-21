@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -180,5 +181,18 @@ func ClockContract(t *testing.T, clock ports.Clock) {
 	now := clock.Now()
 	if now.Location() != time.UTC || now.Unix() <= 0 {
 		t.Fatalf("Now() = %v, want a UTC instant after 1970", now)
+	}
+}
+
+// ChangedPathsContract is the port contract of a changed-path list
+// (REQ-TEST-004): want, in order, slash-separated, with no blank entry.
+func ChangedPathsContract(t *testing.T, source ports.ChangedPaths, want []string) {
+	t.Helper()
+	got, err := source.ChangedPaths(context.Background())
+	if err != nil {
+		t.Fatalf("ChangedPaths: %v", err)
+	}
+	if !slices.Equal(got, want) {
+		t.Fatalf("got %q, want %q", got, want)
 	}
 }

@@ -32,10 +32,11 @@ const (
 const usage = `usage: gsctl <command> [flags]
 
 commands:
-  validate  check profiles/*/*.yaml for a channel
-  build     compile the profiles into a signed-to-be prayer_profiles package and stage its target
-  sign      sign one role: root, targets (adds staged targets), snapshot or timestamp
-  verify    verify a channel's metadata chain and packages as a client would
+  validate      check profiles/*/*.yaml for a channel
+  check-change  refuse a PR that changes an angle and tz/coordinate data together (§9.2)
+  build         compile the profiles into a signed-to-be prayer_profiles package and stage its target
+  sign          sign one role: root, targets (adds staged targets), snapshot or timestamp
+  verify        verify a channel's metadata chain and packages as a client would
 
 Run "gsctl <command> -h" for the flags of a command.
 `
@@ -61,10 +62,11 @@ func run(ctx context.Context, args []string, e env) int {
 		return exitUsage
 	}
 	commands := map[string]func(context.Context, []string, env) int{
-		"validate": runValidate,
-		"build":    runBuild,
-		"sign":     runSign,
-		"verify":   runVerify,
+		"validate":     runValidate,
+		"check-change": runCheckChange,
+		"build":        runBuild,
+		"sign":         runSign,
+		"verify":       runVerify,
 	}
 	cmd, ok := commands[args[0]]
 	if !ok {

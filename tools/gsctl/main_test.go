@@ -107,6 +107,47 @@ func TestCommittedRoundTripVectorVerifies_REQ_DIST_001_REQ_DIST_004(t *testing.T
 		"-root-keys", filepath.Join("keys", "dev", "root-keys.json")), exitOK, "verified: root version 1, timestamp 1, snapshot 1, targets 1; 1 target(s)")
 }
 
+// The §9.2 PR gate end to end: the head is the committed seeds, the base
+// a copy with one angle moved (the value only has to differ).
+func TestCLICheckChangeRefusesAnglesWithCoordinateData(t *testing.T) {
+	t.Parallel()
+	profiles := filepath.Join("..", "..", "profiles")
+	base := t.TempDir()
+	for _, rel := range []string{"ae/ae.awqaf.standard.yaml", "eg/eg.egas.standard.yaml", "engine/engine.default.yaml", "sa/sa.ummalqura.standard.yaml"} {
+		data, err := os.ReadFile(filepath.Join(profiles, filepath.FromSlash(rel))) //nolint:gosec // the repository's own seed profiles
+		if err != nil {
+			t.Fatal(err)
+		}
+		if rel == "eg/eg.egas.standard.yaml" {
+			moved := strings.Replace(string(data), "degrees: 19.5", "degrees: 20.5", 1)
+			if moved == string(data) {
+				t.Fatal("fixture angle not found in the EG seed")
+			}
+			data = []byte(moved)
+		}
+		if err := os.MkdirAll(filepath.Join(base, filepath.Dir(filepath.FromSlash(rel))), 0o750); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(filepath.Join(base, filepath.FromSlash(rel)), data, 0o600); err != nil { //nolint:gosec // the test's own temp directory
+			t.Fatal(err)
+		}
+	}
+	changes := func(paths ...string) string {
+		f := filepath.Join(t.TempDir(), "changed.txt")
+		if err := os.WriteFile(f, []byte(strings.Join(paths, "\n")+"\n"), 0o600); err != nil { //nolint:gosec // the test's own temp directory
+			t.Fatal(err)
+		}
+		return f
+	}
+
+	expect(t, gsctl(t, nil, "check-change", "-base-profiles", base, "-profiles", profiles,
+		"-changed", changes("profiles/eg/eg.egas.standard.yaml")), exitOK, "ok: no angle change")
+	expect(t, gsctl(t, nil, "check-change", "-base-profiles", base, "-profiles", profiles,
+		"-changed", changes("profiles/eg/eg.egas.standard.yaml", "lab/benchmarks/cities.v1.json")), exitFailed, "angles change in eg.egas.standard")
+	expect(t, gsctl(t, nil, "check-change", "-base-profiles", profiles, "-profiles", profiles,
+		"-changed", changes("lab/benchmarks/cities.v1.json")), exitOK, "ok: no angle change")
+}
+
 func TestCLIUsageErrorsExitWithTwo(t *testing.T) {
 	t.Parallel()
 	tests := []struct {

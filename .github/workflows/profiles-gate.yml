@@ -1,8 +1,9 @@
 # Profile gate (DESIGN.md §9.2, ADR-008, REQ-GOV-001..004): schema, non-overlap, compile, lab benchmark, holdout.
-# S07 implemented the schema and non-overlap stages plus the seed conformance tests; S09 adds the compile stage
-# (gsctl validate: profiles.json layout, governance and channel gates, §15 D60, D61). The derivation-set lab
-# benchmark and the holdout report do not exist yet, so the gate still fails closed for any profile that claims
-# more than DRAFT_UNVERIFIED (§15 D52).
+# S07 implemented the schema and non-overlap stages plus the seed conformance tests. S09 adds the compile stage
+# (gsctl validate: profiles.json layout, governance and channel gates, §15 D60, D61) and the §9.2 rule that no PR
+# changes an angle together with tz/coordinate data (gsctl check-change, §15 D64). The derivation-set lab benchmark
+# and the holdout report do not exist yet, so the gate still fails closed for any profile that claims more than
+# DRAFT_UNVERIFIED (§15 D52).
 name: profiles-gate
 
 on:
@@ -27,6 +28,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # the §9.2 change gate diffs against the merge base
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22.22.0
@@ -59,6 +62,17 @@ jobs:
           cache-dependency-path: tools/gsctl/go.mod
       - name: Compile profiles.json (gsctl validate, §15 D60, D61)
         run: go run ./tools/gsctl validate -profiles profiles -channel dev
+      - name: No angle change together with tz/coordinate data (§9.2, gsctl check-change, §15 D64)
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git fetch --no-tags origin "$BASE_REF"
+          merge_base="$(git merge-base "origin/$BASE_REF" HEAD)"
+          mkdir -p "$RUNNER_TEMP/base"
+          git archive "$merge_base" profiles | tar -x -C "$RUNNER_TEMP/base"
+          git diff --name-only "$merge_base" HEAD > "$RUNNER_TEMP/changed.txt"
+          go run ./tools/gsctl check-change -base-profiles "$RUNNER_TEMP/base/profiles" -profiles profiles \
+            -changed "$RUNNER_TEMP/changed.txt"
       - run: dart pub get
       - name: Parse, validate, non-overlap, channel and seed conformance (geo_salah_profiles)
         working-directory: packages/geo_salah_profiles

@@ -27,7 +27,7 @@ Profiles are YAML in `profiles/` with CODEOWNERS `@accuracy-lead` + `@sharia-rev
 
 - `gsctl validate` / `gsctl build` compile `profiles/*/*.yaml` into the signed `profiles.json` package (§15 D60). They refuse a set that breaks the Appendix A governance gate (`APPROVED` without both approvals and a holdout report) or the Appendix E channel gate. This is the signing-time gate of REQ-GOV-001 (§15 D61).
 - `profiles-gate` now runs this compile stage. The D52 semantics stay in `geo_salah_profiles`, which `release-package` also runs before `gsctl build`. The gate still fails closed above `DRAFT_UNVERIFIED` until the lab-benchmark and holdout stages exist.
-- Still owed: the PR-level "no angle change with tz/coordinate data" check. Its default is a `profiles-gate` diff step once the tz and coordinate packages exist (S10, S11; §15 D61).
+- `gsctl check-change` enforces the §9.2 PR-level rule "no angle change in a PR that also touches tz/coordinate data" (§15 D64). `profiles-gate` runs it against the PR's merge base.
 
 ## Consequences
 
@@ -42,6 +42,7 @@ See the `DESIGN.md` sections referenced above.
 - `packages/geo_salah_profiles/test/parse_prayer_profile_test.dart`: the APPROVED gate, nearest rounding, offsets and Ramadan events.
 - `packages/geo_salah_profiles/test/check_profile_channel_test.dart`: the channel gate.
 - `tools/gsctl/internal/domain/profileset/compile_test.go`, `tools/gsctl/internal/app/app_test.go`: the signing-time governance and channel gates.
+- `tools/gsctl/internal/domain/profileset/change_gate_test.go`, `tools/gsctl/main_test.go`: the §9.2 angle and tz/coordinate rule.
 
 ## Supersedes
 

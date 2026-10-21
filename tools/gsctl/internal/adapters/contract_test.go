@@ -4,10 +4,12 @@ package adapters_test
 
 import (
 	"errors"
+	"os"
 	"path/filepath"
 	"testing"
 	"time"
 
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/changelist"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/fsrepo"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/keyfiles"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/pemkeys"
@@ -72,6 +74,20 @@ func TestProfileSourceContract_REQ_TEST_004(t *testing.T) {
 			t.Fatal(err)
 		}
 		testsupport.ProfileSourceContract(t, testsupport.Profiles{Docs: docs})
+	})
+}
+
+func TestChangedPathsContract_REQ_TEST_004(t *testing.T) {
+	want := []string{"profiles/eg/eg.egas.standard.yaml", "data-pipelines/src/x.py"}
+	t.Run("changelist", func(t *testing.T) {
+		path := filepath.Join(t.TempDir(), "changed.txt")
+		if err := os.WriteFile(path, []byte("profiles/eg/eg.egas.standard.yaml\r\n\n data-pipelines\\src\\x.py \n"), 0o600); err != nil {
+			t.Fatal(err)
+		}
+		testsupport.ChangedPathsContract(t, changelist.File{Path: path}, want)
+	})
+	t.Run("in-memory fake", func(t *testing.T) {
+		testsupport.ChangedPathsContract(t, testsupport.Changes{Paths: want}, want)
 	})
 }
 
