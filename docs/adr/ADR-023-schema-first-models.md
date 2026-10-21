@@ -58,6 +58,10 @@ S03 adds six schemas, with fixtures: `bench_request`, `bench_failure`, `benchmar
 | datamodel-code-generator | 0.86.0 | MIT | generates the pydantic models; locked in `lab/tools/codegen` (CPython 3.14.8), not a lab dependency |
 | JPL DE440s ephemeris | `de440s.bsp` | U.S. Government work (JPL/NASA), not redistributed | reference positions; fetched by URL with sha256 pin |
 
+## `prayer_profile.v1` model location (slice S07, 2026-10-21)
+
+The Dart `prayer_profile.v1` model moved from `geo_salah_profiles` to `geo_salah_core` (§15 D51). The engine bench needs it, and `geo_salah_profiles` already depends on core. Its JSON is unchanged: the generated serializers are identical, Appendix A's nullable members are written as `null` through per-field `@JsonKey(includeIfNull: true)`, and the fixture round-trip test moved with it (`geo_salah_core/test/wire/prayer_profile_round_trip_test.dart`).
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
