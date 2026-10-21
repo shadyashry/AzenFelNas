@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "city": "Utqiaġvik",
+  "profileId": "engine.default",
+  "profileVersion": "0000.0.0",
+  "observer": {
+    "latitudeDeg": 71.29,
+    "longitudeDeg": -156.79,
+    "zoneId": "America/Anchorage",
+    "offsetSeconds": -32400
+  },
+  "days": [
+    {
+      "day": "2026-01-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "POLAR_NIGHT"
+          }
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1768516602441
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "POLAR_NIGHT"
+          }
+        }
+      ]
+    },
+    {
+      "day": "2026-02-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1771182640474
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1771195272544
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1771207999006
+        }
+      ]
+    },
+    {
+      "day": "2026-03-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1773593315173
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1773614154693
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1773635129997
+        }
+      ]
+    },
+    {
+      "day": "2026-04-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1776262231964
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1776292023759
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1776322034730
+        }
+      ]
+    },
+    {
+      "day": "2026-05-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "POLAR_DAY"
+          }
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1778883810293
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "POLAR_DAY"
+          }
+        }
+      ]
+    },
+    {
+      "day": "2026-06-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "POLAR_DAY"
+          }
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1781562465603
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "POLAR_DAY"
+          }
+        }
+      ]
+    },
+    {
+      "day": "2026-07-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "POLAR_DAY"
+          }
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1784154793045
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "POLAR_DAY"
+          }
+        }
+      ]
+    },
+    {
+      "day": "2026-08-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1786799212867
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1786833094819
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1786866684578
+        }
+      ]
+    },
+    {
+      "day": "2026-09-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1789486679855
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1789510933498
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1789535031129
+        }
+      ]
+    },
+    {
+      "day": "2026-10-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1792086535989
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1792102371014
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1792118099223
+        }
+      ]
+    },
+    {
+      "day": "2026-11-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1794776291038
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1794780709652
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1794785064360
+        }
+      ]
+    },
+    {
+      "day": "2026-12-15",
+      "times": [
+        {
+          "event": "SUNRISE",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "POLAR_NIGHT"
+          }
+        },
+        {
+          "event": "DHUHR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1797373349502
+        },
+        {
+          "event": "MAGHRIB",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "POLAR_NIGHT"
+          }
+        }
+      ]
+    }
+  ]
+}
