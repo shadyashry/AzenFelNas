@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/pipeline_manifest.v1.schema.json",
+  "title": "Pipeline manifest v1",
+  "description": "Output manifest of a deterministic Python pipeline in lab/ or data-pipelines/ (DESIGN.md §17.6): the pinned inputs by sha256, the tool versions and the outputs by sha256. Re-running the pipeline with the same inputs reproduces the outputs byte for byte. No timestamps, so the manifest is reproducible too.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "pipeline", "inputs", "tools", "parameters", "outputs"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "pipeline": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]*$", "description": "Pipeline name, e.g. lab.reference." },
+    "inputs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/input" } },
+    "tools": {
+      "type": "object",
+      "description": "Name → exact version of every tool or library that affects the outputs.",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Name → value of every non-file input (e.g. the year range).",
+      "additionalProperties": { "type": "string" }
+    },
+    "outputs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/output" } }
+  },
+  "$defs": {
+    "hex64": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "relativePath": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$", "description": "Relative path with forward slashes." },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "sha256"],
+      "properties": {
+        "role": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "path": { "$ref": "#/$defs/relativePath", "description": "Relative to the repository root." },
+        "url": { "type": "string", "pattern": "^https://" },
+        "sha256": { "$ref": "#/$defs/hex64" }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "records"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relativePath", "description": "Relative to the directory of the manifest." },
+        "sha256": { "$ref": "#/$defs/hex64" },
+        "records": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

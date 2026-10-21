@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/bench_failure.v1.schema.json",
+  "title": "Bench failure v1",
+  "description": "The stdout line the engine bench writes when a bench_request.v1 line yields a typed failure instead of a DayResult (DESIGN.md §6.1, §6.2 EngineFailure, Appendix J). It answers the request line at the same position.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "failure"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code"],
+      "properties": {
+        "code": {
+          "description": "Appendix J failure code.",
+          "enum": ["LOC_PERMISSION_DENIED", "LOC_SERVICES_OFF", "LOC_UNAVAILABLE", "LOC_STALE", "TZ_UNRESOLVED", "COUNTRY_UNRESOLVED", "PROFILE_NOT_FOUND", "PROFILE_OVERLAP", "PROFILE_INVALID", "ENGINE_ORDERING", "ENGINE_UNSUPPORTED_POLICY", "HIJRI_UNKNOWN_MONTH", "PKG_SIG_INVALID", "PKG_HASH_MISMATCH", "PKG_INCOMPATIBLE", "PKG_SEQUENCE_REGRESSION", "PKG_EXPIRED_WARNING", "PKG_NETWORK", "PKG_STORAGE", "PLAN_WRITE_FAILED", "PLAN_SCHEMA_UNSUPPORTED", "ALARM_PERMISSION_MISSING", "ALARM_SCHEDULE_FAILED", "AUDIO_ASSET_MISSING", "CLOCK_SKEW", "DB_MIGRATION_FAILED", "DIAG_EXPORT_FAILED"]
+        },
+        "detail": { "type": "string", "minLength": 1, "description": "Human-readable detail, e.g. the EngineFailure payload; never coordinates (REQ-PRIV-001)." }
+      }
+    }
+  }
+}

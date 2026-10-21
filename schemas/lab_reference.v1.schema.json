@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/lab_reference.v1.schema.json",
+  "title": "Lab reference day v1",
+  "description": "One line of the Accuracy Lab reference JSONL (DESIGN.md §9.4, ADR-019): Skyfield + JPL de440s.bsp instants of the astronomical events of one benchmark city on one prayer day (ADR-004 culmination segment), with the ADR-019 time tolerance of each.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "caseId", "cityId", "latitudeDeg", "longitudeDeg", "zoneId", "day", "tags", "events"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "caseId": { "type": "string", "pattern": "^[a-z][a-z0-9_]*/\\d{4}-\\d{2}-\\d{2}$", "description": "<cityId>/<day>." },
+    "cityId": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$", "maxLength": 32 },
+    "latitudeDeg": { "type": "number", "minimum": -90, "maximum": 90 },
+    "longitudeDeg": { "type": "number", "minimum": -180, "maximum": 180 },
+    "zoneId": { "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$", "maxLength": 64 },
+    "day": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "Prayer day: the civil date in zoneId of the upper transit (ADR-004)." },
+    "tags": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Why the day is in the Appendix H date set.",
+      "items": { "enum": ["MARCH_EQUINOX", "JUNE_SOLSTICE", "SEPTEMBER_EQUINOX", "DECEMBER_SOLSTICE", "DAY_OF_MONTH", "DST_WINDOW", "RAMADAN_FIRST_DAY", "RAMADAN_LAST_DAY"] }
+    },
+    "events": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/event" } }
+  },
+  "$defs": {
+    "eventName": {
+      "description": "Astronomical event: SUNRISE/SUNSET = Sun's centre at the ADR-003 horizon altitude in the ascending/descending half of the segment; TRANSIT = upper meridian transit.",
+      "enum": ["SUNRISE", "TRANSIT", "SUNSET"]
+    },
+    "event": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "event", "referenceUtcMs", "toleranceMs", "rateDegPerS"],
+          "properties": {
+            "kind": { "const": "PRIMARY" },
+            "event": { "$ref": "#/$defs/eventName" },
+            "referenceUtcMs": { "type": "integer", "minimum": 0, "description": "Event instant, truncated to 1 ms." },
+            "toleranceMs": { "type": "integer", "minimum": 200, "maximum": 60000, "description": "ADR-019 clamp(0.001° / |rate|, 0.2 s, 60 s), rounded up to 1 ms." },
+            "rateDegPerS": { "type": "number", "description": "Rate of the event's defining angle at the event: altitude for SUNRISE/SUNSET, local hour angle for TRANSIT (°/s)." }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "event", "reason"],
+          "properties": {
+            "kind": { "const": "NO_EVENT" },
+            "event": { "$ref": "#/$defs/eventName" },
+            "reason": { "enum": ["POLAR_DAY", "POLAR_NIGHT"] }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "event", "candidatesUtcMs"],
+          "description": "The half segment does not hold exactly one crossing in the event's direction: the reference lists every crossing and picks none (unknown beats invented, §0.2 rule 10).",
+          "properties": {
+            "kind": { "const": "AMBIGUOUS" },
+            "event": { "$ref": "#/$defs/eventName" },
+            "candidatesUtcMs": { "type": "array", "minItems": 1, "items": { "type": "integer", "minimum": 0 } }
+          }
+        }
+      ]
+    }
+  }
+}

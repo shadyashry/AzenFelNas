@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/bench_request.v1.schema.json",
+  "title": "Bench request v1",
+  "description": "One stdin line of the engine bench `dart run geo_salah_core:bench` (DESIGN.md §6.1, §9.4): {observer, profileId, day}. The bench answers every request line, in order, with exactly one stdout line: a calculation_trace.v1 document or a bench_failure.v1 document.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "observer", "profileId", "day"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "observer": { "$ref": "#/$defs/observer" },
+    "profileId": { "type": "string", "pattern": "^[a-z]{2}\\.[a-z0-9_]+\\.[a-z0-9_]+$|^engine\\.default$" },
+    "day": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "CivilDate interpreted in observer.zoneId (§6.2)." }
+  },
+  "$defs": {
+    "observer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["latitudeDeg", "longitudeDeg", "zoneId", "source"],
+      "description": "Observer of §6.2.",
+      "properties": {
+        "latitudeDeg": { "type": "number", "minimum": -90, "maximum": 90 },
+        "longitudeDeg": { "type": "number", "minimum": -180, "maximum": 180 },
+        "horizontalAccuracyM": { "type": "number", "minimum": 0 },
+        "elevation": { "$ref": "#/$defs/elevationSample" },
+        "zoneId": { "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$", "maxLength": 64 },
+        "source": { "enum": ["DEVICE", "PINNED", "MANUAL", "MOSQUE", "BENCHMARK"] }
+      }
+    },
+    "elevationSample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valueM", "datum", "source", "observedUtcMs"],
+      "description": "ElevationSample of §6.2; provenance only (ADR-003).",
+      "properties": {
+        "valueM": { "type": "number" },
+        "datum": { "enum": ["WGS84_ELLIPSOID", "EGM2008", "UNKNOWN"] },
+        "source": { "enum": ["GNSS", "MANUAL"] },
+        "verticalAccuracyM": { "type": "number", "minimum": 0 },
+        "datasetVersion": { "type": "string", "minLength": 1 },
+        "observedUtcMs": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

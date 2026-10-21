@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/discrepancy_report.v1.schema.json",
+  "title": "Discrepancy report v1",
+  "description": "Output of `lab benchmark` (DESIGN.md §9.4): the engine's raw instants compared with the lab reference under the ADR-019 tolerance. Entries carry the §6.7 discrepancy fields; an UNKNOWN entry above tolerance blocks promotion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "profileId", "referenceSha256", "summary", "discrepancies", "failures"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "profileId": { "$ref": "#/$defs/profileId" },
+    "referenceSha256": { "$ref": "#/$defs/hex64", "description": "sha256 of the reference JSONL compared against." },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cases", "failedCases", "comparedEvents", "agreed", "discrepancies", "blocking", "maxAbsDeltaMs"],
+      "properties": {
+        "cases": { "type": "integer", "minimum": 0 },
+        "failedCases": { "type": "integer", "minimum": 0, "description": "Cases the engine answered with bench_failure.v1." },
+        "comparedEvents": { "type": "integer", "minimum": 0 },
+        "agreed": { "type": "integer", "minimum": 0, "description": "Compared events within tolerance, or without an instant on both sides for the same reason." },
+        "discrepancies": { "type": "integer", "minimum": 0 },
+        "blocking": { "type": "integer", "minimum": 0, "description": "Discrepancies classified UNKNOWN plus failed cases; non-zero blocks promotion (§6.7)." },
+        "maxAbsDeltaMs": { "type": "integer", "minimum": 0, "description": "Largest |engineRawUtcMs − referenceUtcMs| over events with an instant on both sides." }
+      }
+    },
+    "discrepancies": { "type": "array", "items": { "$ref": "#/$defs/discrepancy" } },
+    "failures": { "type": "array", "items": { "$ref": "#/$defs/failure" } }
+  },
+  "$defs": {
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["caseId", "code"],
+      "properties": {
+        "caseId": { "type": "string", "pattern": "^[a-z][a-z0-9_]*/\\d{4}-\\d{2}-\\d{2}$" },
+        "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$", "description": "bench_failure.v1 failure.code." },
+        "detail": { "type": "string", "minLength": 1 }
+      }
+    },
+    "hex64": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "profileId": { "type": "string", "pattern": "^[a-z]{2}\\.[a-z0-9_]+\\.[a-z0-9_]+$|^engine\\.default$" },
+    "discrepancy": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "§6.7 discrepancy fields. referenceUtcMs / engineRawUtcMs / deltaMs are absent when that side has no instant; decision, owner and linkedChange are written at triage.",
+      "required": ["caseId", "city", "lat", "lon", "day", "event", "engineVersion", "profileId", "profileVersion", "tzdbVersion", "toleranceMs", "classification"],
+      "properties": {
+        "caseId": { "type": "string", "pattern": "^[a-z][a-z0-9_]*/\\d{4}-\\d{2}-\\d{2}$" },
+        "city": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "lon": { "type": "number", "minimum": -180, "maximum": 180 },
+        "day": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "event": { "enum": ["IMSAK", "FAJR", "SUNRISE", "DHUHR", "ASR", "MAGHRIB", "ISHA"] },
+        "engineVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "profileId": { "$ref": "#/$defs/profileId" },
+        "profileVersion": { "type": "string", "pattern": "^\\d{4}\\.\\d{1,2}\\.\\d+$" },
+        "tzdbVersion": { "type": "string", "pattern": "^\\d{4}[a-z]$" },
+        "referenceUtcMs": { "type": "integer", "minimum": 0 },
+        "engineRawUtcMs": { "type": "integer", "minimum": 0 },
+        "deltaMs": { "type": "integer", "description": "engineRawUtcMs − referenceUtcMs." },
+        "toleranceMs": { "type": "integer", "minimum": 0 },
+        "classification": { "enum": ["ENGINE_BUG", "PROFILE_ERROR", "REFERENCE_AMBIGUITY", "TOLERANCE_NOISE", "CIVIL_TIME", "UNKNOWN"] },
+        "decision": { "type": "string", "minLength": 1 },
+        "owner": { "type": "string", "minLength": 1 },
+        "linkedChange": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

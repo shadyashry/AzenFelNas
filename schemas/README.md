@@ -10,7 +10,12 @@ JSON Schema (draft 2020-12) is the contract for every JSON document that crosses
 | `event_log.v1` | Appendix J | Dart `dm_contracts` · Kotlin `athan-core` · Swift `AthanKit` |
 | `tuf_metadata.v1` | §9.1, Appendix C | Dart `dm_packages` · Go `tools/gsctl/internal/schema/tuf` |
 | `telemetry_aggregate.v1` | Appendix L | Dart `dm_contracts` · Go `services/control-plane/internal/schema/telemetry` |
-| `calculation_trace.v1` | Appendix M, §6.4 ¶11 | Dart `geo_salah_core` (Python lab models in S03) |
+| `calculation_trace.v1` | Appendix M, §6.4 ¶11 | Dart `geo_salah_core` · Python `lab` |
+| `bench_request.v1`, `bench_failure.v1` | §6.1, §9.4, §15 D29 (engine bench JSONL contract) | Python `lab` · Dart `geo_salah_core` bench CLI (S06) |
+| `benchmark_cities.v1` | Appendix H, §15 D30 (`lab/benchmarks/cities.v1.json`) | Python `lab` |
+| `lab_reference.v1` | §9.4, ADR-019 (one line of the frozen reference JSONL) | Python `lab` |
+| `discrepancy_report.v1` | §6.7, §9.4 | Python `lab` |
+| `pipeline_manifest.v1` | §17.6 (inputs, tools and outputs by sha256) | Python `lab` (and `data-pipelines` from S10) |
 | `hijri_package.v1` | §9.5 | Dart `dm_hijri` (Python pipeline models in S10) |
 | `gazetteer_package.v1` | §9.5 | Dart `dm_contracts` (Python pipeline models in S12) |
 | `athan_audio_manifest.v1` | §9.5 | Dart `dm_contracts` |

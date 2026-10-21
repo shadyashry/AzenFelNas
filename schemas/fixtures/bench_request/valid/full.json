@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "observer": {
+    "latitudeDeg": 12.34,
+    "longitudeDeg": -98.76,
+    "horizontalAccuracyM": 25.0,
+    "elevation": {
+      "valueM": 120.5,
+      "datum": "EGM2008",
+      "source": "GNSS",
+      "verticalAccuracyM": 8.0,
+      "datasetVersion": "zz-fixture-1",
+      "observedUtcMs": 1761000000000
+    },
+    "zoneId": "Etc/GMT-3",
+    "source": "BENCHMARK"
+  },
+  "profileId": "zz.fixture.full",
+  "day": "2026-10-21"
+}

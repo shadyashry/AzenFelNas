@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "pipeline": "lab.reference",
+  "inputs": [
+    {
+      "role": "cities",
+      "path": "lab/benchmarks/zz_fixture.json",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "role": "ephemeris",
+      "url": "https://example.invalid/zz.bsp",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "tools": {
+    "python": "3.15.0",
+    "skyfield": "1.55"
+  },
+  "parameters": {
+    "years": "2026-2028"
+  },
+  "outputs": [
+    {
+      "path": "zz_fixture.jsonl",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "records": 42
+    }
+  ]
+}

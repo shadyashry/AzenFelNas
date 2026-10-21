@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "source": "zz fixture",
+  "dateSet": {
+    "seasons": [
+      "MARCH_EQUINOX",
+      "DECEMBER_SOLSTICE"
+    ],
+    "dayOfMonth": 15,
+    "dstWindowDays": 7,
+    "ramadan": [
+      {
+        "hijriYear": 1447,
+        "firstDay": "2026-02-17",
+        "lastDay": "2026-03-18",
+        "confidence": "EXPECTED",
+        "source": "zz fixture"
+      }
+    ]
+  },
+  "cities": []
+}

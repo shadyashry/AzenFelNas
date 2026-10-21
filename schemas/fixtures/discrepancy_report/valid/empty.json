@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "profileId": "engine.default",
+  "referenceSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "summary": {
+    "cases": 0,
+    "failedCases": 0,
+    "comparedEvents": 0,
+    "agreed": 0,
+    "discrepancies": 0,
+    "blocking": 0,
+    "maxAbsDeltaMs": 0
+  },
+  "discrepancies": [],
+  "failures": []
+}

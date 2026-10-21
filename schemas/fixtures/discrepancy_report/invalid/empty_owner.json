@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "profileId": "zz.fixture.full",
+  "referenceSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "summary": {
+    "cases": 2,
+    "failedCases": 1,
+    "comparedEvents": 3,
+    "agreed": 1,
+    "discrepancies": 2,
+    "blocking": 2,
+    "maxAbsDeltaMs": 500
+  },
+  "discrepancies": [
+    {
+      "caseId": "zz_city/2026-10-21",
+      "city": "zz_city",
+      "lat": 12.34,
+      "lon": -98.76,
+      "day": "2026-10-21",
+      "event": "DHUHR",
+      "engineVersion": "0.1.0",
+      "profileId": "zz.fixture.full",
+      "profileVersion": "2026.10.1",
+      "tzdbVersion": "2026c",
+      "referenceUtcMs": 1761044400123,
+      "engineRawUtcMs": 1761044400623,
+      "deltaMs": 500,
+      "toleranceMs": 240,
+      "classification": "ENGINE_BUG",
+      "decision": "fix transit refinement",
+      "owner": "",
+      "linkedChange": "zz-fixture-1"
+    },
+    {
+      "caseId": "zz_city/2026-10-21",
+      "city": "zz_city",
+      "lat": 12.34,
+      "lon": -98.76,
+      "day": "2026-10-21",
+      "event": "MAGHRIB",
+      "engineVersion": "0.1.0",
+      "profileId": "zz.fixture.full",
+      "profileVersion": "2026.10.1",
+      "tzdbVersion": "2026c",
+      "engineRawUtcMs": 1761087600000,
+      "toleranceMs": 0,
+      "classification": "UNKNOWN"
+    }
+  ],
+  "failures": [
+    {
+      "caseId": "zz_city/2026-10-22",
+      "code": "ENGINE_ORDERING",
+      "detail": "ordering violation"
+    }
+  ]
+}

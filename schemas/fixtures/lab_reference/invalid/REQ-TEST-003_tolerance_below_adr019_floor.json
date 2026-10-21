@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "caseId": "zz_city/2026-10-21",
+  "cityId": "zz_city",
+  "latitudeDeg": 12.34,
+  "longitudeDeg": -98.76,
+  "zoneId": "Etc/GMT-3",
+  "day": "2026-10-21",
+  "tags": [
+    "DAY_OF_MONTH",
+    "DST_WINDOW"
+  ],
+  "events": [
+    {
+      "kind": "AMBIGUOUS",
+      "event": "SUNRISE",
+      "candidatesUtcMs": [
+        1761021600000,
+        1761022200000
+      ]
+    },
+    {
+      "kind": "PRIMARY",
+      "event": "TRANSIT",
+      "referenceUtcMs": 1761044400123,
+      "toleranceMs": 199,
+      "rateDegPerS": 0.004167
+    },
+    {
+      "kind": "NO_EVENT",
+      "event": "SUNSET",
+      "reason": "POLAR_DAY"
+    }
+  ]
+}
