@@ -52,6 +52,13 @@ Written without reading `lab/` beyond `lab/README.md` (kickoff §C).
 - **Corpus:** schemaVersion 2 adds Fajr, Asr, Isha and `displayedUtcMs`. The 5292 v1 entries are identical in origin and raw instant (the `golden-update` commit has the numeric diff).
 - **Gap:** Fajr, Asr and Isha have no lab reference. Their 5292 entries are frozen engine output, checked against exact SPA by property tests only. A lab `reference-update` for twilight and Asr crossings is owed (§15 D48).
 
+## High-latitude fallbacks in the corpus (slice S08, 2026-10-21)
+
+- **Lab confirmation, engine 0.4.0:** `--tags DAY_OF_MONTH` 1764 cases, 5292 events agreed, 0 discrepancies (0 blocking), max |residual| 1575 ms. Every reference case: 4188 cases, 12564 agreed, 0 blocking, max 1575 ms. Sunrise, Dhuhr and Maghrib still carry only `ROUNDING` and never fall back. The comparator accepts a typed `FALLBACK` only where the reference has no root (REQ-DOM-002), and S08 creates none for these events.
+- **Corpus (`golden-update`):** 270 of 10 584 entries change, all Fajr/Isha `NO_EVENT(TWILIGHT_ABSENT)` → `FALLBACK(anglePortion | nearestLatitude 48.5)`. A fallback entry carries its method. Everything else is identical.
+- **Gap:** fallback instants are engine output with no independent reference, like the other twilight entries (§15 D48). Unit tests check them against the §6.4 ¶7 night definitions built from the engine's own lab-confirmed Sunrise and Maghrib.
+- **Determinism:** `calculateRange` shares a `SolvedDays` memo between days and stays bit-identical to `calculateDay` (§15 D55).
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.

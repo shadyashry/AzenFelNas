@@ -31,6 +31,12 @@ Scope: `countries[]` (ISO 3166-1 alpha-2) resolved offline via the `country_poly
   - `ResolveProfile`: country + day, falling back to `engine.default`, which the engine flags `noLocalProfile`.
 - Seeds: `engine.default`, `eg.egas.standard`, `sa.ummalqura.standard` and `ae.awqaf.standard` in `profiles/`, all `DRAFT_UNVERIFIED`. Values DESIGN.md does not give are §15 D50 engineering defaults.
 
+## Chain and Ramadan rules read by the engine (slice S08, 2026-10-21)
+
+- The engine reads `highLatitudeChain` (§6.4 ¶7) and `ramadanRules` (§6.4 ¶6) as data. Every method and Ramadan rule comes from the profile; the code holds only the §6.2 method definitions and the mechanics (§15 D54, D56).
+- A fallback is `Estimated` with its ±1 km sensitivity, whatever the profile's standing: `Authority aligned` stays a property of primary times (REQ-DOM-050, §15 D55).
+- The seed chains are the §6.5 illustration `[anglePortion, nearestLatitude 48.5]` (§15 D50) and resolve every high-latitude Fajr and Isha of the 49 benchmark cities in 2026–2028.
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
@@ -41,7 +47,7 @@ See the `DESIGN.md` sections referenced above.
 
 ## Tests
 
-- `packages/geo_salah_profiles/test/seed_profiles_test.dart`: the S07 done-test; every seed and its Ramadan variant parses, validates and calculates every benchmark city of its scope.
+- `packages/geo_salah_profiles/test/seed_profiles_test.dart`: the S07 done-test; every seed parses, validates and calculates every benchmark city of its scope, in and outside Ramadan. The S08 done-test: the SA seed's Ramadan Isha in the trace.
 - `packages/geo_salah_profiles/test/validate_profile_set_test.dart`: the overlap fixture is `PROFILE_OVERLAP`; consecutive and retired versions pass.
 - `packages/geo_salah_profiles/test/resolve_profile_test.dart`, `parse_prayer_profile_test.dart`.
 

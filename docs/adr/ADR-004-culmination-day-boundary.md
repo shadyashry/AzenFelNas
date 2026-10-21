@@ -35,6 +35,11 @@ Day `D`: upper transit `T₀` with `localDate(T₀, zone) == D`; lower transits 
 - An interval event takes its base's raw instant (§15 D42), so Isha after Maghrib may carry `dayOffset` +1 like a late Isha.
 - `dayOffset` now comes from the **displayed** instant, after rounding.
 
+## High-latitude nights (slice S08, 2026-10-21)
+
+- The nights of §6.4 ¶7 join neighbouring prayer days. Fajr(D) and Imsak(D) use sunset(D−1) → sunrise(D) and Isha(D) uses sunset(D) → sunrise(D+1), each bound being the profile's own Maghrib or Sunrise root in its day's segments. Because consecutive segments tile time, the night always spans the shared lower transit. A missing bound skips the night methods (§15 D54).
+- `nearestValidDay` keeps a borrowed root's distance from that day's `T₀` on day D, so the event keeps its place in the solar day.
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
@@ -48,6 +53,7 @@ See the `DESIGN.md` sections referenced above.
 - `packages/geo_salah_core/test/solver/culmination_segments_test.dart`: local-date rule, hour angles at `T₀` and `A±`, day tiling, Kiritimati (UTC+14 at 157° W), the skipped Apia day.
 - `packages/geo_salah_core/test/api/calculate_day_test.dart`: Dhuhr at `T₀`, Sunrise and Maghrib in their halves, typed polar day and night at Tromsø, zone independence of raw instants, `dayOffset` +1 after local midnight, the skipped Apia day.
 - `packages/geo_salah_core/test/api/calculate_day_rules_test.dart`: Fajr rising in `[A₋, T₀]`, Isha setting and Asr between Dhuhr and `A₊`, interval events on the base's raw instant.
+- `packages/geo_salah_core/test/rules/high_latitude_test.dart`: the ¶7 nights across days, `nearestValidDay` relative to `T₀`.
 - `packages/geo_salah_core/test/solver/crossings_test.dart`: bracket exhaustiveness against a dense scan, including grazing targets; monotone pieces; polar day and night; continuity.
 
 ## Supersedes
