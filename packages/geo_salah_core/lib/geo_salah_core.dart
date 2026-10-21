@@ -5,7 +5,7 @@
 /// platform. Holds the `calculation_trace.v1` wire model and shared wire codes
 /// since S02 and the `TzDatabase` port the engine consumes (S04). Since S05 it
 /// exposes the §6.2 domain types, the Calculation ID and the trace writer;
-/// since S06 the `CalculateDay` use case for every
+/// since S06 the `CalculateDay` and `CalculateRange` use cases for every
 /// event (altitude, transit, shadow-factor, horizon and interval rules,
 /// per-event rounding, flags, the ordering guard and the confidence
 /// mapping). The astronomical core (`src/astro`, `src/solver`), the rule
@@ -14,6 +14,7 @@
 library;
 
 export 'package:geo_salah_core/src/api/calculate_day.dart';
+export 'package:geo_salah_core/src/api/calculate_range.dart';
 export 'package:geo_salah_core/src/api/engine_version.dart';
 export 'package:geo_salah_core/src/model/adjustment_kind.dart';
 export 'package:geo_salah_core/src/model/adjustment_step.dart';
