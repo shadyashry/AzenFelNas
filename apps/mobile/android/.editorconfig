@@ -1,0 +1,6 @@
+# ktlint for athan-core (DESIGN.md §17.3).
+root = true
+
+[*.{kt,kts}]
+ktlint_code_style = ktlint_official
+max_line_length = 120

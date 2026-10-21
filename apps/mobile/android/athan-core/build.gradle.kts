@@ -1,23 +1,44 @@
 // athan-core: native Athan layer (DESIGN.md §8.1). Reads SchedulePlan only; never calculates times (ADR-002).
-// Empty until slice S21; this file fixes the module's compiler bar (§17.3).
+// Wire models of the plan, snapshot and event log since S02; scheduling arrives in S21. Compiler bar: §17.3.
 plugins {
     id("com.android.library")
     // gradle.properties keeps android.builtInKotlin=false (Flutter template), so Kotlin is applied explicitly.
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
     namespace = "app.dailymuslim.athan"
-    compileSdk = libs.versions.compile.sdk.get().toInt()
+    compileSdk =
+        libs.versions.compile.sdk
+            .get()
+            .toInt()
 
     defaultConfig {
-        minSdk = libs.versions.min.sdk.get().toInt()
+        minSdk =
+            libs.versions.min.sdk
+                .get()
+                .toInt()
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+            // Repository root, so tests can read schemas/fixtures and DESIGN.md (ADR-023 round-trip).
+            it.systemProperty("dm.repoRoot", rootProject.projectDir.resolve("../../..").canonicalPath)
+        }
+    }
+}
+
+dependencies {
+    implementation(libs.kotlinx.serialization.json)
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 kotlin {

@@ -1,0 +1,8 @@
+# detekt for athan-core (DESIGN.md §17.3): defaults plus the thresholds the design fixes.
+# Disabling a rule needs a justification comment and a reviewer (§0.2 rule 11).
+complexity:
+  CyclomaticComplexMethod:
+    threshold: 10
+style:
+  MaxLineLength:
+    maxLineLength: 120
