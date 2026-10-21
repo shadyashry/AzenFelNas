@@ -6,5 +6,18 @@
     "source": "MANUAL"
   },
   "profileId": "engine.default",
-  "day": "2026-01-01"
+  "day": "2026-01-01",
+  "hijri": {
+    "dateAtDawn": {
+      "year": 1448,
+      "month": 4,
+      "day": 29
+    },
+    "dateAtNight": {
+      "year": 1448,
+      "month": 4,
+      "day": 30
+    },
+    "confidence": "EXPECTED"
+  }
 }

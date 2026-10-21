@@ -2,15 +2,19 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dailymuslim.app/schemas/bench_request.v1.schema.json",
   "title": "Bench request v1",
-  "description": "One stdin line of the engine bench `dart run geo_salah_core:bench` (DESIGN.md §6.1, §9.4): {observer, profileId, day}. The bench answers every request line, in order, with exactly one stdout line: a calculation_trace.v1 document or a bench_failure.v1 document.",
+  "description": "One stdin line of the engine bench `dart run geo_salah_core:bench` (DESIGN.md §6.1, §9.4): {observer, profileId, day, hijri}. The bench answers every request line, in order, with exactly one stdout line: a calculation_trace.v1 document or a bench_failure.v1 document (§15 D29).",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "observer", "profileId", "day"],
+  "required": ["schemaVersion", "observer", "profileId", "day", "hijri"],
   "properties": {
     "schemaVersion": { "const": 1 },
     "observer": { "$ref": "#/$defs/observer" },
     "profileId": { "type": "string", "pattern": "^[a-z]{2}\\.[a-z0-9_]+\\.[a-z0-9_]+$|^engine\\.default$" },
-    "day": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "CivilDate interpreted in observer.zoneId (§6.2)." }
+    "day": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "CivilDate interpreted in observer.zoneId (§6.2)." },
+    "hijri": {
+      "$ref": "#/$defs/hijri",
+      "description": "HijriState of §6.2 for `day`, echoed as calculation_trace.v1 inputs.hijri. Until the hijri package exists the lab sends the ADR-016 tabular state with confidence EXPECTED (§15 D29)."
+    }
   },
   "$defs": {
     "observer": {
@@ -39,6 +43,27 @@
         "verticalAccuracyM": { "type": "number", "minimum": 0 },
         "datasetVersion": { "type": "string", "minLength": 1 },
         "observedUtcMs": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "hijriDate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["year", "month", "day"],
+      "properties": {
+        "year": { "type": "integer", "minimum": 1 },
+        "month": { "type": "integer", "minimum": 1, "maximum": 12 },
+        "day": { "type": "integer", "minimum": 1, "maximum": 30 }
+      }
+    },
+    "hijri": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dateAtDawn", "dateAtNight", "confidence"],
+      "description": "dateAtDawn = Hijri date of `day` (governs Imsak/Fajr); dateAtNight = Hijri date of the following day (governs Isha), §6.2.",
+      "properties": {
+        "dateAtDawn": { "$ref": "#/$defs/hijriDate" },
+        "dateAtNight": { "$ref": "#/$defs/hijriDate" },
+        "confidence": { "enum": ["CONFIRMED", "EXPECTED", "USER_OVERRIDE"] }
       }
     }
   }

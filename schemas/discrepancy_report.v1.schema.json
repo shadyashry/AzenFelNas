@@ -18,10 +18,14 @@
         "cases": { "type": "integer", "minimum": 0 },
         "failedCases": { "type": "integer", "minimum": 0, "description": "Cases the engine answered with bench_failure.v1." },
         "comparedEvents": { "type": "integer", "minimum": 0 },
-        "agreed": { "type": "integer", "minimum": 0, "description": "Compared events within tolerance, or without an instant on both sides for the same reason." },
+        "agreed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Compared events within tolerance, or without an instant on both sides for the same reason."
+        },
         "discrepancies": { "type": "integer", "minimum": 0 },
         "blocking": { "type": "integer", "minimum": 0, "description": "Discrepancies classified UNKNOWN plus failed cases; non-zero blocks promotion (§6.7)." },
-        "maxAbsDeltaMs": { "type": "integer", "minimum": 0, "description": "Largest |engineRawUtcMs − referenceUtcMs| over events with an instant on both sides." }
+        "maxAbsDeltaMs": { "type": "integer", "minimum": 0, "description": "Largest |residual| = |engineRawUtcMs − referenceUtcMs − expected Dhuhr offset| over PRIMARY reference events the engine answered with a PRIMARY instant." }
       }
     },
     "discrepancies": { "type": "array", "items": { "$ref": "#/$defs/discrepancy" } },
@@ -44,7 +48,21 @@
       "type": "object",
       "additionalProperties": false,
       "description": "§6.7 discrepancy fields. referenceUtcMs / engineRawUtcMs / deltaMs are absent when that side has no instant; decision, owner and linkedChange are written at triage.",
-      "required": ["caseId", "city", "lat", "lon", "day", "event", "engineVersion", "profileId", "profileVersion", "tzdbVersion", "toleranceMs", "classification"],
+      "required": [
+        "caseId",
+        "city",
+        "lat",
+        "lon",
+        "day",
+        "event",
+        "engineVersion",
+        "profileId",
+        "profileVersion",
+        "tzdbVersion",
+        "toleranceMs",
+        "check",
+        "classification"
+      ],
       "properties": {
         "caseId": { "type": "string", "pattern": "^[a-z][a-z0-9_]*/\\d{4}-\\d{2}-\\d{2}$" },
         "city": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
@@ -60,6 +78,10 @@
         "engineRawUtcMs": { "type": "integer", "minimum": 0 },
         "deltaMs": { "type": "integer", "description": "engineRawUtcMs − referenceUtcMs." },
         "toleranceMs": { "type": "integer", "minimum": 0 },
+        "check": {
+          "enum": ["INSTANT", "ORIGIN", "DHUHR_OFFSET", "NEAR_TANGENT", "AMBIGUOUS_REFERENCE"],
+          "description": "INSTANT: residual beyond tolerance; ORIGIN: typed origin or reason differs, or an event is missing; DHUHR_OFFSET: whole-minute Dhuhr offset differs from the expected one; NEAR_TANGENT / AMBIGUOUS_REFERENCE: the reference instant is ill-conditioned or absent (§15 D29)."
+        },
         "classification": { "enum": ["ENGINE_BUG", "PROFILE_ERROR", "REFERENCE_AMBIGUITY", "TOLERANCE_NOISE", "CIVIL_TIME", "UNKNOWN"] },
         "decision": { "type": "string", "minLength": 1 },
         "owner": { "type": "string", "minLength": 1 },

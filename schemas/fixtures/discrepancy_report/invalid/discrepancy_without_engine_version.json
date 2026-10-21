@@ -26,6 +26,7 @@
       "engineRawUtcMs": 1761044400623,
       "deltaMs": 500,
       "toleranceMs": 240,
+      "check": "INSTANT",
       "classification": "ENGINE_BUG",
       "decision": "fix transit refinement",
       "owner": "accuracy-lead",
@@ -44,6 +45,7 @@
       "tzdbVersion": "2026c",
       "engineRawUtcMs": 1761087600000,
       "toleranceMs": 0,
+      "check": "ORIGIN",
       "classification": "UNKNOWN"
     }
   ],

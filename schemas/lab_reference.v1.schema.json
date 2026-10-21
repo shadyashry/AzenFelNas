@@ -13,13 +13,29 @@
     "latitudeDeg": { "type": "number", "minimum": -90, "maximum": 90 },
     "longitudeDeg": { "type": "number", "minimum": -180, "maximum": 180 },
     "zoneId": { "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$", "maxLength": 64 },
-    "day": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "Prayer day: the civil date in zoneId of the upper transit (ADR-004)." },
+    "day": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Prayer day: the civil date in zoneId of the upper transit (ADR-004)."
+    },
     "tags": {
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
       "description": "Why the day is in the Appendix H date set.",
-      "items": { "enum": ["MARCH_EQUINOX", "JUNE_SOLSTICE", "SEPTEMBER_EQUINOX", "DECEMBER_SOLSTICE", "DAY_OF_MONTH", "DST_WINDOW", "RAMADAN_FIRST_DAY", "RAMADAN_LAST_DAY"] }
+      "items": {
+        "enum": [
+          "MARCH_EQUINOX",
+          "JUNE_SOLSTICE",
+          "SEPTEMBER_EQUINOX",
+          "DECEMBER_SOLSTICE",
+          "DAY_OF_MONTH",
+          "DST_WINDOW",
+          "RAMADAN_FIRST_DAY",
+          "RAMADAN_LAST_DAY"
+        ]
+      }
     },
     "events": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/event" } }
   },
@@ -38,19 +54,35 @@
             "kind": { "const": "PRIMARY" },
             "event": { "$ref": "#/$defs/eventName" },
             "referenceUtcMs": { "type": "integer", "minimum": 0, "description": "Event instant, truncated to 1 ms." },
-            "toleranceMs": { "type": "integer", "minimum": 200, "maximum": 60000, "description": "ADR-019 clamp(0.001° / |rate|, 0.2 s, 60 s), rounded up to 1 ms." },
-            "rateDegPerS": { "type": "number", "description": "Rate of the event's defining angle at the event: altitude for SUNRISE/SUNSET, local hour angle for TRANSIT (°/s)." }
+            "toleranceMs": {
+              "type": "integer",
+              "minimum": 200,
+              "maximum": 60000,
+              "description": "SUNRISE/SUNSET: ADR-019 clamp(0.001° / |dh/dt|, 0.2 s, 60 s), applied only where the clamp's cap is not reached; TRANSIT: the fixed transit time tolerance (§15 D26). Rounded up to 1 ms."
+            },
+            "rateDegPerS": {
+              "type": "number",
+              "description": "d(altitude)/dt at the event for SUNRISE/SUNSET; d(local hour angle)/dt for TRANSIT, recorded for information (°/s)."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "event", "referenceUtcMs", "rateDegPerS"],
+          "description": "A single crossing exists but the Sun's centre meets the horizon altitude nearly tangentially: |dh/dt| < 0.001° / 60 s, so the ADR-019 time formula does not apply and the instant is ill-conditioned. Graded explicitly, never with a time tolerance (§15 D26).",
+          "properties": {
+            "kind": { "const": "NEAR_TANGENT" },
+            "event": { "enum": ["SUNRISE", "SUNSET"] },
+            "referenceUtcMs": { "type": "integer", "minimum": 0 },
+            "rateDegPerS": { "type": "number" }
           }
         },
         {
           "type": "object",
           "additionalProperties": false,
           "required": ["kind", "event", "reason"],
-          "properties": {
-            "kind": { "const": "NO_EVENT" },
-            "event": { "$ref": "#/$defs/eventName" },
-            "reason": { "enum": ["POLAR_DAY", "POLAR_NIGHT"] }
-          }
+          "properties": { "kind": { "const": "NO_EVENT" }, "event": { "$ref": "#/$defs/eventName" }, "reason": { "enum": ["POLAR_DAY", "POLAR_NIGHT"] } }
         },
         {
           "type": "object",

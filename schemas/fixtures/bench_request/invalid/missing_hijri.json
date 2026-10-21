@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "observer": {
+    "latitudeDeg": 0.0,
+    "longitudeDeg": 0.0,
+    "zoneId": "Etc/GMT",
+    "source": "MANUAL"
+  },
+  "profileId": "engine.default",
+  "day": "2026-01-01"
+}

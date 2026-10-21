@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "caseId": "zz_city/2026-05-18",
+  "cityId": "zz_city",
+  "latitudeDeg": 12.34,
+  "longitudeDeg": -98.76,
+  "zoneId": "Etc/GMT-3",
+  "day": "2026-05-18",
+  "tags": [
+    "DAY_OF_MONTH",
+    "DST_WINDOW"
+  ],
+  "events": [
+    {
+      "kind": "PRIMARY",
+      "event": "SUNRISE",
+      "referenceUtcMs": 1779060000000,
+      "toleranceMs": 9000,
+      "rateDegPerS": 0.000111
+    },
+    {
+      "kind": "PRIMARY",
+      "event": "TRANSIT",
+      "referenceUtcMs": 1779098400000,
+      "toleranceMs": 200,
+      "rateDegPerS": 0.004166
+    },
+    {
+      "kind": "NEAR_TANGENT",
+      "event": "SUNSET",
+      "referenceUtcMs": 1779139000000,
+      "rateDegPerS": -8.1e-06,
+      "toleranceMs": 60000
+    }
+  ]
+}

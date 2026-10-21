@@ -16,5 +16,18 @@
     "source": "BENCHMARK"
   },
   "profileId": "zz.fixture.full",
-  "day": "2026-10-21"
+  "day": "2026-10-21",
+  "hijri": {
+    "dateAtDawn": {
+      "year": 1448,
+      "month": 4,
+      "day": 29
+    },
+    "dateAtNight": {
+      "year": 1448,
+      "month": 4,
+      "day": 30
+    },
+    "confidence": "EXPECTED"
+  }
 }
