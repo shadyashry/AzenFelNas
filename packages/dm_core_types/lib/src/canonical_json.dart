@@ -1,5 +1,6 @@
-/// JSON Canonicalization Scheme (RFC 8785) for the JSON values the engine
-/// hashes (§6.4 ¶11).
+/// JSON Canonicalization Scheme (RFC 8785), shared by the engine's
+/// Calculation ID (§6.4 ¶11, §15 D38) and the TUF-lite signatures of the
+/// package client (Appendix C, REQ-DIST-004).
 ///
 /// Supported values: `null`, `bool`, `int`, finite `double`, `String`,
 /// `List` of supported values and `Map` with `String` keys. Object members

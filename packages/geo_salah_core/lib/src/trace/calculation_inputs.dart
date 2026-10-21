@@ -9,7 +9,6 @@ import 'package:geo_salah_core/src/model/observer.dart';
 import 'package:geo_salah_core/src/model/prayer_profile.dart';
 import 'package:geo_salah_core/src/model/reference_mode.dart';
 import 'package:geo_salah_core/src/model/reference_point.dart';
-import 'package:geo_salah_core/src/trace/canonical_json.dart';
 import 'package:meta/meta.dart';
 
 /// The inputs a Calculation ID covers (§6.4 ¶11): coordinates rounded to 6
