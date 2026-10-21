@@ -2,3 +2,7 @@
 # The handles below are role placeholders; replace them with the real GitHub users or teams once D1 is resolved.
 /profiles/ @accuracy-lead @sharia-reviewer
 /DESIGN.md @architect
+# The lab reference is frozen before the engine and is its independent check (ADR-019, kickoff §C):
+# lab changes need the accuracy lead and the architect; reference changes also need the
+# `reference-update` label (ci-lab).
+/lab/ @accuracy-lead @architect

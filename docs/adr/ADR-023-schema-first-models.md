@@ -39,11 +39,11 @@ Language matrix (§15 D24): each language models the schemas it produces or cons
 
 ## Python models (slice S03, 2026-10-21)
 
-As §17.6 requires, the lab's models are pydantic v2 classes **generated** from `schemas/`. `lab/scripts/gen_models.sh` runs datamodel-code-generator; the output is committed under `lab/src/dm_lab/schema/`, and `ci-lab` fails if regeneration changes it (§15 D27). Every valid fixture of the seven schemas the lab models round-trips through them (`lab/tests/test_schema_models.py`).
+As §17.6 requires, the lab's models are pydantic v2 classes **generated** from `schemas/`. `lab/scripts/gen_models.sh` runs datamodel-code-generator from its locked tool project `lab/tools/codegen`; the output is committed under `lab/src/dm_lab/schema/`, and `ci-lab` fails if regeneration changes it (§15 D27). Every valid fixture of the seven schemas the lab models round-trips through them (`lab/tests/test_schema_models.py`).
 
-Invalid fixtures that need a JSON Schema conditional (`if/then/else`) are listed in that test, because pydantic does not model conditionals. ajv still rejects them, and the comparator treats such shapes as mismatches.
+Invalid fixtures that need a JSON Schema conditional (`if/then/else`) are listed in that test, because pydantic does not model conditionals. ajv still rejects them, and the comparator raises a contract error for them (`compare.py` `_check_time_shape`).
 
-S03 adds six schemas, with fixtures: `bench_request`, `bench_failure`, `benchmark_cities`, `lab_reference`, `discrepancy_report`, `pipeline_manifest`. In the Dart engine, `bench_request` and `bench_failure` will be modelled when the bench CLI lands (S06).
+S03 adds six schemas, with fixtures: `bench_request`, `bench_failure`, `benchmark_cities`, `lab_reference`, `discrepancy_report`, `pipeline_manifest`. In the Dart engine, `bench_request` and `bench_failure` will be modelled when the minimal bench CLI lands (S05; extended in S06).
 
 ## Dependencies added in S03 (license check, §0.2 rule 8)
 
@@ -55,7 +55,7 @@ S03 adds six schemas, with fixtures: `bench_request`, `bench_failure`, `benchmar
 | sgp4 · certifi | 2.27 · 2026.10.19 | MIT · MPL-2.0 | Skyfield transitive dependencies, unused by the lab |
 | pydantic · pydantic-core | 2.14.1 · 2.50.1 | MIT | wire models (lab only) |
 | tzdata | 2026.5 | Apache-2.0 (data: public domain) | pinned IANA zones for lab civil dates |
-| datamodel-code-generator | 0.86.0 | MIT | generates the pydantic models; isolated uvx tool, not a lab dependency |
+| datamodel-code-generator | 0.86.0 | MIT | generates the pydantic models; locked in `lab/tools/codegen` (CPython 3.14.8), not a lab dependency |
 | JPL DE440s ephemeris | `de440s.bsp` | U.S. Government work (JPL/NASA), not redistributed | reference positions; fetched by URL with sha256 pin |
 
 ## Consequences

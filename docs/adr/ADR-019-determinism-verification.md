@@ -18,15 +18,17 @@ Cross-platform conformance: raw instants truncated to 1 ms must be identical. Go
 
 ## Reference harness (slice S03, 2026-10-21)
 
-The lab side of this ADR is frozen in S03, before the engine exists (kickoff §C). It is realised as follows (no change to the decision above):
+The lab side of this ADR is frozen in S03, before the engine exists (kickoff §C). It is realised as follows; the tolerance part of the decision was amended on 2026-10-21 (§15 D26, §4 text updated):
 
 - **Reference:** Skyfield 1.55 over JPL `de440s.bsp`, pinned by sha256 and never committed (§15 D28). Positions are the apparent topocentric Sun centre, observer on WGS84 at 0 m, geometric altitude with no refraction (ADR-003).
 - **Time scales:** UT1 ≡ UTC is realised as ΔT = 69.184 s, guarded against the leap-second table (§15 D25).
 - **Prayer day:** ADR-004 culmination segments; sunrise and sunset at −(34′ + 16′) from `lab/config/harness.v1.toml`.
-- **Tolerance:** `tol_s = clamp(0.001° / |rate|, 0.2 s, 60 s)`. The rate is the altitude rate for sunrise/sunset and the local hour-angle rate for the transit (§15 D26). **Clarification decided 2026-10-21:** in the decision above, `dh/dt` means the rate of the angle that defines the event, so Dhuhr is held to about 0.24 s instead of the 60 s cap.
-- **Frozen artifact:** `lab/reference/sun_events.2026-2028.v1.jsonl` (`lab_reference.v1`, 4 188 city-days) with a `pipeline_manifest.v1` of input hashes. Regeneration with the same inputs is byte-identical.
+- **Tolerance (decision amended 2026-10-21, §15 D26):**
+  - Sunrise/sunset: `clamp(0.001° / |dh/dt|, 0.2 s, 60 s)` where `|dh/dt| ≥ 0.001° / 60 s`. Slower crossings are reported `NEAR_TANGENT` and graded explicitly, never with a capped tolerance.
+  - Dhuhr: not altitude-defined, so it has a fixed 0.2 s time tolerance (required accuracy and reference precision, not an angle rate). A Dhuhr offset is checked separately (`DHUHR_OFFSET`).
+- **Frozen artifact:** `lab/reference/sun_events.2026-2028.v1.jsonl` (`lab_reference.v1`, 4 188 city-days) with a `pipeline_manifest.v1` of input hashes. Two runs on one platform are byte-identical; across platforms, regeneration is checked within 1 ms (libm), as §15 D25 states. The manifest also hashes the reference-deciding lab code, and changes under `lab/reference/` need the `reference-update` label (CODEOWNERS `/lab/`).
 - **Comparison:** `lab benchmark` runs the engine bench JSONL contract (§15 D29) and writes `discrepancy_report.v1`.
-- **Done-test evidence:** published equinox/solstice sunrise (MET Norway, §15 D31) for Cairo, Makkah and London is reproduced within 60 s.
+- **Done-test evidence:** published equinox/solstice sunrise (MET Norway, §15 D31) for Cairo, Makkah and London falls in the published (truncated) minute; a wiring check matches Skyfield's own rise/set/transit finders to ≤ 2 ms.
 
 ## Consequences
 

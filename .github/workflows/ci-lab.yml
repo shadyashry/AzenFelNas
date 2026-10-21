@@ -1,10 +1,12 @@
 # Python gate (DESIGN.md §17.6) for lab/ and data-pipelines/: ruff ALL, ruff format, mypy --strict, pytest.
 # lab/ also checks that its pydantic models match schemas/ (ADR-023, §15 D27) and caches the pinned
-# de440s.bsp ephemeris by its sha256 (§15 D28).
+# de440s.bsp ephemeris by its sha256 (§15 D28). Changes to the frozen reference need the
+# `reference-update` label (ADR-019, §15 D25).
 name: ci-lab
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
     paths:
       - lab/**
       - data-pipelines/**
@@ -49,3 +51,27 @@ jobs:
       - run: uv run --frozen ruff format --check .
       - run: uv run --frozen mypy src tests
       - run: uv run --frozen pytest
+
+  reference-freeze:
+    # lab/reference/** is the frozen ADR-019 reference. Its manifest hashes the cities, the config, the
+    # ephemeris pin and the reference-deciding lab code, and test_frozen_reference.py fails unless the
+    # manifest matches them; so any change to those inputs also changes lab/reference/** and lands here.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Frozen reference changes carry the reference-update label
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HAS_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'reference-update') }}
+        run: |
+          changed=$(git diff --name-only "$BASE_SHA" HEAD -- lab/reference)
+          if [ -n "$changed" ] && [ "$HAS_LABEL" != "true" ]; then
+            echo "::error::lab/reference changed without the reference-update label:"
+            echo "$changed"
+            exit 1
+          fi
+          echo "reference-freeze: ok (changed: ${changed:-none}, label: $HAS_LABEL)"
