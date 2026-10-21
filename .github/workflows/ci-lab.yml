@@ -1,4 +1,6 @@
 # Python gate (DESIGN.md §17.6) for lab/ and data-pipelines/: ruff ALL, ruff format, mypy --strict, pytest.
+# lab/ also checks that its pydantic models match schemas/ (ADR-023, §15 D27) and caches the pinned
+# de440s.bsp ephemeris by its sha256 (§15 D28).
 name: ci-lab
 
 on:
@@ -6,6 +8,7 @@ on:
     paths:
       - lab/**
       - data-pipelines/**
+      - schemas/**
       - .github/workflows/ci-lab.yml
   push:
     branches: [main]
@@ -33,6 +36,15 @@ jobs:
         with:
           version: 0.13.4
       - run: uv sync --frozen
+      - name: Generated models match schemas/ (lab)
+        if: matrix.project == 'lab'
+        run: bash scripts/gen_models.sh && git diff --exit-code -- src/dm_lab/schema
+      - name: Cache the pinned ephemeris (lab)
+        if: matrix.project == 'lab'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: lab/.cache
+          key: de440s-c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2
       - run: uv run --frozen ruff check .
       - run: uv run --frozen ruff format --check .
       - run: uv run --frozen mypy src tests

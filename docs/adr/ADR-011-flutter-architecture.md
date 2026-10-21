@@ -51,7 +51,11 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Go | go-jsonschema | 0.20 | not adopted — evaluated at 0.24.1 in S02, see ADR-023 amendment / §15 D24 | — |
 | Python | Python · uv | 3.13 · 0.8 | **3.15.0 · 0.13.4** | `.python-version`, `.tool-versions`, `[tool.uv] required-version`, CI |
 | Python | ruff · mypy · pytest · hypothesis | 0.13 · 1.17 · — · 6 | **0.17.1 · 2.4.0 · 9.1.1 · 6.170.5** | `pyproject.toml`, `uv.lock` |
-| Python (first use) | pydantic · skyfield · jplephem · shapely | 2.11 · 1.53 · 2.22 · 2.1 | pinned at latest stable in their first slice (S02/S03/S11) | `uv.lock` |
+| Python (lab) | pydantic · skyfield · jplephem | 2.11 · 1.53 · 2.22 | **2.14.1 · 1.55 · 2.24** (added S03) | `lab/pyproject.toml`, `lab/uv.lock` |
+| Python (lab) | numpy · tzdata | — | **2.5.4 · 2026.5** (IANA 2026e) (no floor; pinned because they affect reference output, added S03) | `lab/pyproject.toml`, `lab/uv.lock` |
+| Python (lab tool) | datamodel-code-generator | — | **0.86.0**, run via `uvx --python 3.14` (§15 D27, added S03) | `lab/scripts/gen_models.sh` |
+| Data (lab) | JPL `de440s.bsp` | 1849–2150 | sha256 `c1c7feea…49f2`, fetched by URL (§15 D28) | `lab/config/harness.v1.toml` |
+| Python (first use) | shapely | 2.1 | pinned at latest stable in its first slice (S11) | `uv.lock` |
 | Schemas | ajv-cli · ajv-formats · check-jsonschema | 5 · — · 0.33 | **5.0.0 · 3.0.1 · 0.38.2** | `ci-schemas.yml`, `schemas/tools/validate_fixtures.sh` |
 | Schemas | kaitai-struct-compiler · js-yaml | — | **0.11.0 · 5.5.0** (CI only, added S02) | `ci-schemas.yml` |
 | CI | Node.js (ajv-cli only) | — | **22.22.0** (no floor — D18) | `ci-schemas.yml`, `.tool-versions` |
