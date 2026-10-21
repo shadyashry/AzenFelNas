@@ -228,9 +228,11 @@
         {
           "event": "FAJR",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1810341367323,
+          "displayedUtcMs": 1810341420000
         },
         {
           "event": "SUNRISE",
@@ -267,9 +269,11 @@
         {
           "event": "ISHA",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1810417852640,
+          "displayedUtcMs": 1810417860000
         }
       ]
     },
@@ -279,9 +283,11 @@
         {
           "event": "FAJR",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1813018807687,
+          "displayedUtcMs": 1813018860000
         },
         {
           "event": "SUNRISE",
@@ -318,9 +324,11 @@
         {
           "event": "ISHA",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1813097694476,
+          "displayedUtcMs": 1813097700000
         }
       ]
     },
@@ -330,9 +338,11 @@
         {
           "event": "FAJR",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1815611655162,
+          "displayedUtcMs": 1815611700000
         },
         {
           "event": "SUNRISE",
@@ -369,9 +379,11 @@
         {
           "event": "ISHA",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1815689487329,
+          "displayedUtcMs": 1815689520000
         }
       ]
     },
@@ -381,9 +393,11 @@
         {
           "event": "FAJR",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1818291697240,
+          "displayedUtcMs": 1818291720000
         },
         {
           "event": "SUNRISE",
@@ -420,9 +434,11 @@
         {
           "event": "ISHA",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1818366080686,
+          "displayedUtcMs": 1818366120000
         }
       ]
     },

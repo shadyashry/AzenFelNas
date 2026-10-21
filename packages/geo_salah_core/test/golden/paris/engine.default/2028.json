@@ -281,9 +281,11 @@
         {
           "event": "FAJR",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1844645113177,
+          "displayedUtcMs": 1844645160000
         },
         {
           "event": "SUNRISE",
@@ -320,9 +322,11 @@
         {
           "event": "ISHA",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1844720233373,
+          "displayedUtcMs": 1844720280000
         }
       ]
     },

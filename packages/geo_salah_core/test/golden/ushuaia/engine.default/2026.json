@@ -16,9 +16,11 @@
         {
           "event": "FAJR",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1768457436607,
+          "displayedUtcMs": 1768457460000
         },
         {
           "event": "SUNRISE",
@@ -55,9 +57,11 @@
         {
           "event": "ISHA",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1768533274256,
+          "displayedUtcMs": 1768533300000
         }
       ]
     },
@@ -544,9 +548,11 @@
         {
           "event": "FAJR",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1794722005634,
+          "displayedUtcMs": 1794722040000
         },
         {
           "event": "SUNRISE",
@@ -583,9 +589,11 @@
         {
           "event": "ISHA",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1794796941059,
+          "displayedUtcMs": 1794796980000
         }
       ]
     },
@@ -595,9 +603,11 @@
         {
           "event": "FAJR",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1797313730891,
+          "displayedUtcMs": 1797313740000
         },
         {
           "event": "SUNRISE",
@@ -634,9 +644,11 @@
         {
           "event": "ISHA",
           "origin": {
-            "kind": "NO_EVENT",
-            "reason": "TWILIGHT_ABSENT"
-          }
+            "kind": "FALLBACK",
+            "method": "anglePortion"
+          },
+          "rawUtcMs": 1797390481756,
+          "displayedUtcMs": 1797390540000
         }
       ]
     }

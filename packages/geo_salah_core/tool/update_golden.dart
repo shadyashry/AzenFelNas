@@ -1,5 +1,6 @@
 // Writes the golden corpus v2 (DESIGN.md §6.7, ADR-019, §15 D48):
-// `test/golden/<city>/<profileId>/<year>.json`, the engine's own origins, raw
+// `test/golden/<city>/<profileId>/<year>.json`, the engine's own origins (a
+// fallback with its method in the calculation_trace.v1 form, §15 D54), raw
 // instants and displayed instants of every event for the Appendix H cities on
 // the 15th of every month of 2026–2028 (the lab's `DAY_OF_MONTH` set, §15
 // D30), with the bench profile data and fixed-offset zones.
@@ -71,7 +72,8 @@ const List<(String, String, double, double, String)> _cities = [
   ('nairobi', 'Nairobi', -1.29, 36.82, 'Africa/Nairobi'),
 ];
 
-/// Shape-only Hijri state: no S06 event reads it.
+/// Shape-only Hijri state: engine.default has no Ramadan rules (§6.5), so it
+/// only enters the Calculation ID.
 const HijriState _hijri = HijriState(
   dateAtDawn: HijriDate(year: 1447, month: 1, day: 1),
   dateAtNight: HijriDate(year: 1447, month: 1, day: 2),
@@ -156,7 +158,20 @@ Map<String, Object?> _day(
           'event': time.event.name.toUpperCase(),
           'origin': switch (time.origin) {
             Primary() => {'kind': 'PRIMARY'},
-            Fallback() => throw StateError('No fallback before S08'),
+            Fallback(:final method) => {
+              'kind': 'FALLBACK',
+              'method': switch (method) {
+                AnglePortion() => 'anglePortion',
+                MiddleOfNight() => 'middleOfNight',
+                SeventhOfNight() => 'seventhOfNight',
+                NearestLatitude(:final latDeg) => {
+                  'nearestLatitude': {'latDeg': latDeg},
+                },
+                NearestValidDay(:final maxDays) => {
+                  'nearestValidDay': {'maxDays': maxDays},
+                },
+              },
+            },
             NoEvent(:final reason) => {
               'kind': 'NO_EVENT',
               'reason': reason.code,

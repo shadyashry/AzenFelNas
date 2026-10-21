@@ -27,7 +27,20 @@ Map<String, Object?> _timeJson(PrayerTime time) => {
   'event': time.event.name.toUpperCase(),
   'origin': switch (time.origin) {
     Primary() => {'kind': 'PRIMARY'},
-    Fallback() => {'kind': 'FALLBACK'},
+    Fallback(:final method) => {
+      'kind': 'FALLBACK',
+      'method': switch (method) {
+        AnglePortion() => 'anglePortion',
+        MiddleOfNight() => 'middleOfNight',
+        SeventhOfNight() => 'seventhOfNight',
+        NearestLatitude(:final latDeg) => {
+          'nearestLatitude': {'latDeg': latDeg},
+        },
+        NearestValidDay(:final maxDays) => {
+          'nearestValidDay': {'maxDays': maxDays},
+        },
+      },
+    },
     NoEvent(:final reason) => {'kind': 'NO_EVENT', 'reason': reason.code},
   },
   if (time.rawUtcMs case final int raw) 'rawUtcMs': raw,
