@@ -1,7 +1,8 @@
 // Package profile holds the hand-written Go wire model of prayer_profile.v1
 // (Appendix A, ADR-007, ADR-023, §15 D24). Members the schema allows to be
 // null are always written, as null when unset; profile values are data only
-// (§0.2 rule 1). Validation beyond shape arrives with gsctl validate (S09).
+// (§0.2 rule 1). gsctl's checks beyond shape are in internal/domain/profileset
+// (§15 D61).
 package profile
 
 import "github.com/samehamin/daily_muslim/tools/gsctl/internal/schema/jsonx"

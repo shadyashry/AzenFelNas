@@ -1,0 +1,35 @@
+{
+  "description": "RFC 8785 (JCS) conformance vectors shared by gsctl (Go, internal/domain/jcs) and dm_core_types (Dart, CanonicalJson). `input` is JSON text; `canonical` is its expected canonical text (DESIGN.md \u00a715 D59, REQ-DIST-004).",
+  "vectors": [
+    {
+      "name": "member order by UTF-16 code units (RFC 8785 \u00a73.2.3)",
+      "input": "{\"\u20ac\":\"Euro Sign\",\"\\r\":\"Carriage Return\",\"\ufb33\":\"Hebrew Letter Dalet With Dagesh\",\"1\":\"One\",\"\ud83d\ude00\":\"Emoji: Grinning Face\",\"\\u0080\":\"Control\",\"\u00f6\":\"Latin Small Letter O With Diaeresis\"}",
+      "canonical": "{\"\\r\":\"Carriage Return\",\"1\":\"One\",\"\u0080\":\"Control\",\"\u00f6\":\"Latin Small Letter O With Diaeresis\",\"\u20ac\":\"Euro Sign\",\"\ud83d\ude00\":\"Emoji: Grinning Face\",\"\ufb33\":\"Hebrew Letter Dalet With Dagesh\"}"
+    },
+    {
+      "name": "numbers in the ECMAScript form (RFC 8785 Appendix B)",
+      "input": "[333333333.33333329, 1E30, 4.50, 2e-3, 0.000000000000000000000000001, 1e21, 1e20, -0, 0.000001, 1e-7, 25.2, -7.59, 100, 1.0]",
+      "canonical": "[333333333.3333333,1e+30,4.5,0.002,1e-27,1e+21,100000000000000000000,0,0.000001,1e-7,25.2,-7.59,100,1]"
+    },
+    {
+      "name": "integral doubles above 2^53 use the shortest round-trip digits",
+      "input": "[123456789012345680000, 9007199254740993, -9007199254740993, 9007199254740992]",
+      "canonical": "[123456789012345680000,9007199254740992,-9007199254740992,9007199254740992]"
+    },
+    {
+      "name": "strings escape only quote, backslash and C0 controls",
+      "input": "\"a\\\"b\\\\c\\n\\u0001\\u001f\\b\\f\\r\\t\\/\u00e9\u2028<>&\"",
+      "canonical": "\"a\\\"b\\\\c\\n\\u0001\\u001f\\b\\f\\r\\t/\u00e9\u2028<>&\""
+    },
+    {
+      "name": "whitespace removed and nested values sorted",
+      "input": " { \"b\" : [ 1 , true , null , { \"y\" : 2 , \"x\" : 1 } ] ,\n \"a\" : { \"z\" : \"x\" , \"B\" : \"y\" } } ",
+      "canonical": "{\"a\":{\"B\":\"y\",\"z\":\"x\"},\"b\":[1,true,null,{\"x\":1,\"y\":2}]}"
+    },
+    {
+      "name": "a TUF-lite timestamp document",
+      "input": "{\"type\":\"timestamp\",\"sequence\":7,\"expires\":\"2026-10-28T00:00:00Z\",\"meta\":{\"snapshot.json\":{\"version\":7,\"sha256\":\"00ff\"}}}",
+      "canonical": "{\"expires\":\"2026-10-28T00:00:00Z\",\"meta\":{\"snapshot.json\":{\"sha256\":\"00ff\",\"version\":7}},\"sequence\":7,\"type\":\"timestamp\"}"
+    }
+  ]
+}

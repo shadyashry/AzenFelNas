@@ -1,6 +1,6 @@
 // Package tuf holds the hand-written Go wire model of tuf_metadata.v1
 // (Appendix C, ADR-009, ADR-023, §15 D24). Signing and verification over the
-// JCS canonical form of Signed arrive with gsctl sign/verify (S09).
+// JCS canonical form of Signed live in internal/domain/trust (S09).
 package tuf
 
 import (
