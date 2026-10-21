@@ -1,0 +1,48 @@
+# eg.egas.standard: Egypt (DESIGN.md §6.5, the worked example of the profile format).
+# DRAFT_UNVERIFIED seed (Appendix E): illustrative until evidence and approvals exist; loads on dev/lab only.
+# Value sources are in profiles/README.md; "§15 D50" marks an engineering default awaiting the Sharia board.
+profileId: eg.egas.standard
+schemaVersion: 1
+version: 2026.10.1
+status: DRAFT_UNVERIFIED
+effectiveFrom: "2026-11-01"
+effectiveTo: null
+scope:
+  countries: [EG]
+  adminAreas: []
+  polygonsRef: null
+authority:
+  name: "Egyptian General Authority of Survey convention"
+  type: GOVERNMENT
+referenceMode: EXACT_COORDINATE
+referencePoints: []
+rules:
+  imsak: null
+  fajr: { type: solarAltitude, degrees: 19.5 }   # §6.5 (illustrative)
+  sunrise: { type: horizon }
+  dhuhr: { type: transit, offsetMinutes: 0 }
+  asr: { type: shadowFactor, k: 1 }
+  maghrib: { type: horizon }
+  isha: { type: solarAltitude, degrees: 17.5 }   # §6.5 (illustrative)
+horizon:
+  elevationPolicy: NONE
+highLatitude:
+  chain: [anglePortion, { nearestLatitude: { latDeg: 48.5 } }]   # §6.5
+rounding:
+  default: ceil
+  sunrise: floor
+adjustments:
+  perEventMinutes: {}
+  maxAbsMinutes: 3                               # §6.5
+  ramadan: {}
+evidence:
+  sources: []                                    # owed (§15 D50)
+  benchmarkSet: eg-2026-q4                       # §6.5
+  holdoutReport: null
+  benchmarkReportId: null
+approvals:
+  religious: null
+  accuracy: null
+compatibility:
+  minEngineSchema: 1
+  minAppVersion: "1.0.0"

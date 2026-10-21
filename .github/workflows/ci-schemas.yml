@@ -1,4 +1,4 @@
-# Schema gate (DESIGN.md §12, ADR-023): metaschema check, valid/invalid fixtures with ajv-cli, Kaitai layouts compile.
+# Schema gate (DESIGN.md §12, ADR-023): metaschema check, valid/invalid fixtures and profiles/*/*.yaml with ajv-cli, Kaitai layouts compile.
 # The four-language fixture round-trips run in ci-dart, ci-android, ci-ios and ci-go.
 name: ci-schemas
 
@@ -6,6 +6,7 @@ on:
   pull_request:
     paths:
       - schemas/**
+      - profiles/**
       - .github/workflows/ci-schemas.yml
   push:
     branches: [main]

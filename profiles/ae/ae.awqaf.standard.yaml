@@ -1,0 +1,49 @@
+# ae.awqaf.standard: United Arab Emirates (DESIGN.md §6.5).
+# DRAFT_UNVERIFIED seed (Appendix E): illustrative until evidence and approvals exist; loads on dev/lab only.
+# DESIGN.md gives no rule value for this profile: every value below is the engine.default value, an
+# engineering default awaiting the Sharia board (§15 D50). Sources are in profiles/README.md.
+profileId: ae.awqaf.standard
+schemaVersion: 1
+version: 2026.10.1
+status: DRAFT_UNVERIFIED
+effectiveFrom: "2026-11-01"                      # as the §6.5 example (§15 D50)
+effectiveTo: null
+scope:
+  countries: [AE]
+  adminAreas: []
+  polygonsRef: null
+authority:
+  name: "General Authority of Islamic Affairs and Endowments convention"
+  type: GOVERNMENT                               # §15 D50
+referenceMode: EXACT_COORDINATE
+referencePoints: []
+rules:
+  imsak: null
+  fajr: { type: solarAltitude, degrees: 18 }     # engine.default value (§15 D50)
+  sunrise: { type: horizon }
+  dhuhr: { type: transit }
+  asr: { type: shadowFactor, k: 1 }              # engine.default value (§15 D50)
+  maghrib: { type: horizon }
+  isha: { type: solarAltitude, degrees: 18 }     # engine.default value (§15 D50)
+horizon:
+  elevationPolicy: NONE
+highLatitude:
+  chain: [anglePortion, { nearestLatitude: { latDeg: 48.5 } }]   # §6.5 illustration (§15 D50)
+rounding:
+  default: ceil
+  sunrise: floor
+adjustments:
+  perEventMinutes: {}
+  maxAbsMinutes: 0                               # no offsets (§15 D50)
+  ramadan: {}
+evidence:
+  sources: []                                    # owed (§15 D50)
+  benchmarkSet: ae-2026-q4
+  holdoutReport: null
+  benchmarkReportId: null
+approvals:
+  religious: null
+  accuracy: null
+compatibility:
+  minEngineSchema: 1
+  minAppVersion: "1.0.0"

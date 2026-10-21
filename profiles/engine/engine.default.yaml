@@ -1,0 +1,48 @@
+# engine.default: the fallback profile when no authority profile covers the place (DESIGN.md §6.5, ADR-007).
+# DRAFT_UNVERIFIED seed (Appendix E): illustrative until evidence and approvals exist; loads on dev/lab only.
+# Value sources are in profiles/README.md; "§15 D50" marks an engineering default awaiting the Sharia board.
+profileId: engine.default
+schemaVersion: 1
+version: 2026.10.1
+status: DRAFT_UNVERIFIED
+effectiveFrom: "0001-01-01"   # the fallback covers every day of the engine's domain (§15 D50)
+effectiveTo: null
+scope:
+  countries: ["*"]
+  adminAreas: []
+  polygonsRef: null
+authority:
+  name: "Engine default (no local authority profile)"
+  type: ENGINE_DEFAULT
+referenceMode: EXACT_COORDINATE
+referencePoints: []
+rules:
+  imsak: null
+  fajr: { type: solarAltitude, degrees: 18 }   # §6.5
+  sunrise: { type: horizon }                   # ADR-003 defaults
+  dhuhr: { type: transit }
+  asr: { type: shadowFactor, k: 1 }            # §6.5
+  maghrib: { type: horizon }
+  isha: { type: solarAltitude, degrees: 18 }   # §6.5
+horizon:
+  elevationPolicy: NONE                        # ADR-003, §15 D3
+highLatitude:
+  chain: [anglePortion, { nearestLatitude: { latDeg: 48.5 } }]   # §6.5 illustration (§15 D50)
+rounding:
+  default: ceil                                # ADR-005, §15 D4
+  sunrise: floor
+adjustments:
+  perEventMinutes: {}
+  maxAbsMinutes: 0                             # no offsets (§15 D50)
+  ramadan: {}
+evidence:
+  sources: []                                  # owed (§15 D50)
+  benchmarkSet: engine-default
+  holdoutReport: null
+  benchmarkReportId: null
+approvals:
+  religious: null
+  accuracy: null
+compatibility:
+  minEngineSchema: 1
+  minAppVersion: "1.0.0"

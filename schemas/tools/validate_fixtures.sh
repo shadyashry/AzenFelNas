@@ -2,6 +2,7 @@
 # Validates every schema and its fixtures with ajv-cli (DESIGN.md §12, ADR-023):
 #   schemas/fixtures/<name>/valid/*.json   must validate against schemas/<name>.v1.schema.json
 #   schemas/fixtures/<name>/invalid/*.json must NOT validate (one mutation each; name cites the REQ it guards)
+#   profiles/**/*.yaml                     must validate against prayer_profile.v1 (seed and authority profiles, §6.5)
 # Usage: schemas/tools/validate_fixtures.sh [ajv command]   (default: npx --yes ajv-cli@5.0.0 with ajv-formats@3.0.1)
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -28,5 +29,11 @@ for schema in *.schema.json; do
     if $AJV validate "${OPTS[@]}" -s "$schema" -d "$f" >/dev/null 2>&1; then echo "FAIL invalid $f (was accepted)"; status=1
     else echo "ok   invalid $f"; fi
   done
+done
+profiles=(../profiles/*/*.yaml)
+if [ ${#profiles[@]} -eq 0 ]; then echo "FAIL profiles: no profiles/*/*.yaml"; status=1; fi
+for f in "${profiles[@]}"; do
+  if $AJV validate "${OPTS[@]}" -s prayer_profile.v1.schema.json -d "$f" >/dev/null 2>&1; then echo "ok   profile $f"
+  else echo "FAIL profile $f"; $AJV validate "${OPTS[@]}" -s prayer_profile.v1.schema.json -d "$f" || true; status=1; fi
 done
 exit $status

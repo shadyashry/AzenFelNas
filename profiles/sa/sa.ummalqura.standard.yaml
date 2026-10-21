@@ -1,0 +1,49 @@
+# sa.ummalqura.standard: Saudi Arabia (DESIGN.md §6.5).
+# DRAFT_UNVERIFIED seed (Appendix E): illustrative until evidence and approvals exist; loads on dev/lab only.
+# Value sources are in profiles/README.md; "§15 D50" marks an engineering default awaiting the Sharia board.
+profileId: sa.ummalqura.standard
+schemaVersion: 1
+version: 2026.10.1
+status: DRAFT_UNVERIFIED
+effectiveFrom: "2026-11-01"                      # as the §6.5 example (§15 D50)
+effectiveTo: null
+scope:
+  countries: [SA]
+  adminAreas: []
+  polygonsRef: null
+authority:
+  name: "Umm al-Qura convention"
+  type: GOVERNMENT                               # §15 D50
+referenceMode: EXACT_COORDINATE
+referencePoints: []
+rules:
+  imsak: null
+  fajr: { type: solarAltitude, degrees: 18 }     # engine.default value (§15 D50)
+  sunrise: { type: horizon }
+  dhuhr: { type: transit }
+  asr: { type: shadowFactor, k: 1 }              # engine.default value (§15 D50)
+  maghrib: { type: horizon }
+  isha: { type: intervalAfter, base: maghrib, minutes: 90 }   # §6.5
+horizon:
+  elevationPolicy: NONE
+highLatitude:
+  chain: [anglePortion, { nearestLatitude: { latDeg: 48.5 } }]   # §6.5 illustration (§15 D50)
+rounding:
+  default: ceil
+  sunrise: floor
+adjustments:
+  perEventMinutes: {}
+  maxAbsMinutes: 0                               # no offsets (§15 D50)
+  ramadan:
+    isha: { type: intervalAfter, base: maghrib, minutes: 120 }   # §6.5
+evidence:
+  sources: []                                    # owed (§15 D50)
+  benchmarkSet: sa-2026-q4
+  holdoutReport: null
+  benchmarkReportId: null
+approvals:
+  religious: null
+  accuracy: null
+compatibility:
+  minEngineSchema: 1
+  minAppVersion: "1.0.0"
