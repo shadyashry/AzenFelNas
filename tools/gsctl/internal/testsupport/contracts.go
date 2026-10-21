@@ -3,8 +3,11 @@ package testsupport
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
+	"strings"
 	"testing"
+	"time"
 
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/trust"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/ports"
@@ -112,4 +115,70 @@ func KeyRingContract(t *testing.T, ks KeySet, newRing func(t *testing.T) ports.K
 			t.Fatalf("err = %v", err)
 		}
 	})
+}
+
+// KeyMaterialContract is the port contract of the public key sources
+// (REQ-TEST-004): the key config and the trust anchor describe exactly ks.
+func KeyMaterialContract(t *testing.T, ks KeySet, config ports.KeyConfigSource, anchor ports.TrustAnchorSource) {
+	t.Helper()
+	ctx := context.Background()
+	got, err := config.LoadKeyConfig(ctx)
+	if err != nil {
+		t.Fatalf("LoadKeyConfig: %v", err)
+	}
+	for _, role := range trust.Roles() {
+		want, have := ks.Config.Roles[role], got.Roles[role]
+		if want.Threshold != have.Threshold || len(want.Keys) != len(have.Keys) {
+			t.Fatalf("%s: got %+v, want %+v", role, have, want)
+		}
+		for i := range want.Keys {
+			if want.Keys[i].Name != have.Keys[i].Name || !want.Keys[i].Key.Equal(have.Keys[i].Key) {
+				t.Fatalf("%s key %d: got %s, want %s", role, i, have.Keys[i].Name, want.Keys[i].Name)
+			}
+		}
+	}
+	a, err := anchor.LoadTrustAnchor(ctx)
+	if err != nil {
+		t.Fatalf("LoadTrustAnchor: %v", err)
+	}
+	if a.Threshold != ks.Anchor.Threshold || len(a.Keys) != len(ks.Anchor.Keys) {
+		t.Fatalf("anchor %+v, want %+v", a, ks.Anchor)
+	}
+	for i := range a.Keys {
+		if !a.Keys[i].Equal(ks.Anchor.Keys[i]) {
+			t.Fatalf("anchor key %d differs", i)
+		}
+	}
+}
+
+// ProfileSourceContract is the port contract of a profile source
+// (REQ-TEST-004): documents are JSON objects with slash-separated relative
+// paths, in path order.
+func ProfileSourceContract(t *testing.T, source ports.ProfileSource) {
+	t.Helper()
+	docs, err := source.LoadProfiles(context.Background())
+	if err != nil {
+		t.Fatalf("LoadProfiles: %v", err)
+	}
+	if len(docs) == 0 {
+		t.Fatal("no documents")
+	}
+	for i, d := range docs {
+		if i > 0 && docs[i-1].Path >= d.Path {
+			t.Fatalf("paths out of order: %s before %s", docs[i-1].Path, d.Path)
+		}
+		if strings.Contains(d.Path, `\`) || strings.HasPrefix(d.Path, "/") || !json.Valid(d.JSON) || !bytes.HasPrefix(d.JSON, []byte("{")) {
+			t.Fatalf("document %s is not a JSON object at a relative slash path", d.Path)
+		}
+	}
+}
+
+// ClockContract is the port contract of a clock (REQ-TEST-004): UTC and
+// after the Unix epoch.
+func ClockContract(t *testing.T, clock ports.Clock) {
+	t.Helper()
+	now := clock.Now()
+	if now.Location() != time.UTC || now.Unix() <= 0 {
+		t.Fatalf("Now() = %v, want a UTC instant after 1970", now)
+	}
 }

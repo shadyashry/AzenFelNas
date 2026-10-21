@@ -4,10 +4,15 @@ package adapters_test
 
 import (
 	"errors"
+	"path/filepath"
 	"testing"
+	"time"
 
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/fsrepo"
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/keyfiles"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/pemkeys"
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/sysclock"
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/yamlprofiles"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/trust"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/ports"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/testsupport"
@@ -43,6 +48,37 @@ func TestKeyRingContract_REQ_TEST_004(t *testing.T) {
 		testsupport.KeyRingContract(t, ks, func(*testing.T) ports.KeyRing {
 			return testsupport.Ring{Signers: map[string]trust.Signer{"targets-1": ks.Signers["targets-1"]}}
 		})
+	})
+}
+
+func TestKeyMaterialContract_REQ_TEST_004(t *testing.T) {
+	ks := testsupport.NewKeySet(t)
+	t.Run("keyfiles", func(t *testing.T) {
+		dir := t.TempDir()
+		ks.WritePublic(t, dir)
+		testsupport.KeyMaterialContract(t, ks, keyfiles.KeyConfig{Dir: dir}, keyfiles.TrustAnchor{File: filepath.Join(dir, "root-keys.json")})
+	})
+	t.Run("in-memory fakes", func(t *testing.T) {
+		testsupport.KeyMaterialContract(t, ks, testsupport.KeyConfig{Config: ks.Config}, testsupport.Anchor{Anchor: ks.Anchor})
+	})
+}
+
+func TestProfileSourceContract_REQ_TEST_004(t *testing.T) {
+	source := yamlprofiles.Source{Dir: filepath.Join("..", "..", "..", "..", "profiles")}
+	t.Run("yamlprofiles", func(t *testing.T) { testsupport.ProfileSourceContract(t, source) })
+	t.Run("in-memory fake", func(t *testing.T) {
+		docs, err := source.LoadProfiles(t.Context())
+		if err != nil {
+			t.Fatal(err)
+		}
+		testsupport.ProfileSourceContract(t, testsupport.Profiles{Docs: docs})
+	})
+}
+
+func TestClockContract_REQ_TEST_004(t *testing.T) {
+	t.Run("sysclock", func(t *testing.T) { testsupport.ClockContract(t, sysclock.Clock{}) })
+	t.Run("fixed fake", func(t *testing.T) {
+		testsupport.ClockContract(t, testsupport.Clock{T: time.Date(2026, 10, 22, 0, 0, 0, 0, time.UTC)})
 	})
 }
 
