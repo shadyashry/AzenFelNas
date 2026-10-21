@@ -115,9 +115,8 @@ void main() {
     );
 
     Glados2(_cityIndex, _days).test(
-      'gives every time a typed origin: PRIMARY with all instants or '
-      'NO_EVENT with none, never a fallback where a root exists '
-      '(REQ-DOM-002)',
+      'gives every time a typed origin: PRIMARY or FALLBACK with all '
+      'instants, NO_EVENT with none (REQ-DOM-002)',
       (index, epochDay) {
         final result = calculateOk(
           testCities[index],
@@ -142,7 +141,9 @@ void main() {
               expect(time.displayedUtcMs, isNull);
               expect(time.dayOffset, isNull);
             case Fallback():
-              fail('No fallback before S08: $time');
+              expect(time.rawUtcMs, isNotNull);
+              expect(time.displayedUtcMs, isNotNull);
+              expect(time.dayOffset, isNotNull);
           }
         }
       },

@@ -5,7 +5,7 @@
 /// it.
 abstract final class EngineVersion {
   /// The current engine version, `MAJOR.MINOR.PATCH`.
-  static const String current = '0.3.0';
+  static const String current = '0.4.0';
 
   /// The profile schema the engine evaluates: a profile whose
   /// `compatibility.minEngineSchema` exceeds it cannot be loaded

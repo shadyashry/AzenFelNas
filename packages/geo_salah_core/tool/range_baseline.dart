@@ -31,7 +31,8 @@ const List<(String, double, double, String)> _cities = [
 
 const int _runs = 5;
 
-/// Shape-only Hijri state: no S06 event reads it.
+/// Shape-only Hijri state: engine.default has no Ramadan rules (§6.5), so it
+/// only enters the Calculation ID.
 HijriState _hijri(CivilDate day) => const HijriState(
   dateAtDawn: HijriDate(year: 1448, month: 1, day: 1),
   dateAtNight: HijriDate(year: 1448, month: 1, day: 2),

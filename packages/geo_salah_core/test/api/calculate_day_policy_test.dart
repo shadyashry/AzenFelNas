@@ -76,7 +76,7 @@ void main() {
   group('rounding (ADR-005, REQ-DOM-003)', () {
     Glados2(_cityIndex, _days).test(
       'rounds each timed event exactly once, as its last step, and keeps '
-      'the raw instant the rule instant (REQ-DOM-003)',
+      'the raw instant the rule (or fallback) instant (REQ-DOM-003)',
       (index, epochDay) {
         final city = testCities[index];
         final result = calculateOk(city, CivilDate.fromEpochDay(epochDay));
@@ -86,8 +86,11 @@ void main() {
             expect(steps, isEmpty);
             continue;
           }
-          expect(steps.map((s) => s.kind), [AdjustmentKind.rounding]);
-          expect(_raw(time) + steps.single.deltaMs, _displayed(time));
+          expect(steps.map((s) => s.kind), [
+            if (time.origin is Fallback) AdjustmentKind.highLatitudeFallback,
+            AdjustmentKind.rounding,
+          ]);
+          expect(_raw(time) + steps.last.deltaMs, _displayed(time));
           expect(
             (_displayed(time) + city.offsetSeconds * 1000) % 60000,
             0,
@@ -291,7 +294,8 @@ void main() {
 
   group('confidence (REQ-DOM-050)', () {
     test('labels primary times of an approved government profile with a '
-        'benchmark report Authority aligned and missing ones Unknown', () {
+        'benchmark report Authority aligned, fallbacks Estimated and missing '
+        'ones Unknown', () {
       final result = _ok(
         _calculate(
           testProfile.copyWith(
@@ -311,6 +315,17 @@ void main() {
       );
       expect(
         timeOf(result, PrayerEvent.isha).confidence,
+        const ConfidenceLabel.estimated(rangeMinutes: 5),
+      );
+      final chainless = _ok(
+        _calculate(
+          testProfile.copyWith(highLatitudeChain: const []),
+          zoneId: 'Europe/London',
+          day: CivilDate(2026, 6, 21),
+        ),
+      );
+      expect(
+        timeOf(chainless, PrayerEvent.isha).confidence,
         const ConfidenceLabel.unknown(reasonCode: 'TWILIGHT_ABSENT'),
       );
     });

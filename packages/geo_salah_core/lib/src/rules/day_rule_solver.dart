@@ -162,7 +162,7 @@ final class DayRuleSolver {
     if (offset == Duration.zero || offset.isNegative == baseIsEarlier) {
       return _invalid('${event.name} interval duration must be positive');
     }
-    return Result.ok(_interval.solve(baseSolution, offset));
+    return Result.ok(_interval.solve(baseSolution, offset, baseEvent: base));
   }
 
   static Result<RuleSolution, EngineFailure> _invalid(String reason) =>

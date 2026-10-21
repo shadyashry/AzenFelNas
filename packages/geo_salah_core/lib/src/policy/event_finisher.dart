@@ -16,15 +16,19 @@ import 'package:geo_salah_core/src/rules/rule_solution.dart';
 /// displayed instant, in order.
 typedef FinishedEvent = ({PrayerTime time, List<AdjustmentStep> steps});
 
-/// Turns one event's rule solution into its [PrayerTime] (§6.4 ¶8–¶9):
-/// the per-event offset (`perEventOffset` step, only when non-zero), then
+/// Turns one event's solution into its [PrayerTime] (§6.4 ¶8–¶9): the
+/// per-event offset (`perEventOffset` step, only when non-zero), then
 /// rounding as the last step (one `rounding` step per timed event, also when
-/// it moves nothing, REQ-DOM-003), then the day's flags, the event's
-/// `nearRoundingBoundary` flag and the confidence label (REQ-DOM-050).
+/// it moves nothing, REQ-DOM-003), then the day's flags, the event's own
+/// flags, `nearRoundingBoundary`, `highLatitudeFallback` for a fallback, and
+/// the confidence label (REQ-DOM-050).
 ///
-/// `rawUtcMs` stays the rule's instant; `dayOffset` is the local date of the
-/// displayed instant minus the prayer day. Step reasons are stable codes
-/// (§15 D43). Pure and deterministic.
+/// A [RuleRoot] is `primary`; a [RuleFallback] is `fallback(method)`,
+/// labelled `estimated` with its ±1 km sensitivity (§15 D55); a
+/// [RuleNoRoot] is `noEvent(reason)`. `rawUtcMs` stays the instant before
+/// the adjustments; `dayOffset` is the local date of the displayed instant
+/// minus the prayer day. Step reasons are stable codes (§15 D43). Pure and
+/// deterministic.
 final class EventFinisher {
   /// The finisher.
   const new();
@@ -35,7 +39,8 @@ final class EventFinisher {
   static const int _msPerDay = 86400000;
 
   /// The time of [event] from [solution] on [day] under [profile], local
-  /// time from [tzdb] in [zoneId], with the day-level [dayFlags].
+  /// time from [tzdb] in [zoneId], with the day-level [dayFlags] and the
+  /// event's own [eventFlags].
   FinishedEvent finish(
     PrayerEvent event,
     RuleSolution solution, {
@@ -44,7 +49,9 @@ final class EventFinisher {
     required String zoneId,
     required TzDatabase tzdb,
     required Set<ResultFlag> dayFlags,
+    Set<ResultFlag> eventFlags = const {},
   }) {
+    final flags = {...dayFlags, ...eventFlags};
     switch (solution) {
       case RuleNoRoot(:final reason):
         final origin = EventOrigin.noEvent(reason);
@@ -57,57 +64,94 @@ final class EventFinisher {
               profile,
               perturbationMinutes: 0,
             ),
-            flags: dayFlags,
+            flags: flags,
           ),
           steps: const [],
         );
-      case RuleRoot(utcMs: final raw):
-        const origin = EventOrigin.primary();
-        final minutes = profile.perEventMinutes[event] ?? 0;
-        final adjusted = raw + minutes * _minuteMs;
-        final mode =
-            profile.roundingOverrides[event] ?? profile.roundingDefault;
-        final rounded = _rounding.round(
-          adjusted,
-          mode,
-          offsetSeconds: tzdb.offsetSecondsAt(zoneId, adjusted),
+      case RuleRoot(:final utcMs):
+        return _timed(
+          event,
+          utcMs,
+          const EventOrigin.primary(),
+          perturbationMinutes: 0,
+          flags: flags,
+          profile: profile,
+          day: day,
+          zoneId: zoneId,
+          tzdb: tzdb,
         );
-        final displayed = rounded.displayedUtcMs;
-        return (
-          time: PrayerTime.timed(
-            event: event,
-            rawUtcMs: raw,
-            displayedUtcMs: displayed,
-            dayOffset: _localEpochDay(displayed, zoneId, tzdb) - day.epochDay,
-            origin: origin,
-            // No fallback before S08, so no perturbation is needed (§15 D46).
-            confidence: _confidence.labelOf(
-              origin,
-              profile,
-              perturbationMinutes: 0,
-            ),
-            flags: {
-              ...dayFlags,
-              if (rounded.nearBoundary) ResultFlag.nearRoundingBoundary,
-            },
-          ),
-          steps: List.unmodifiable([
-            if (minutes != 0)
-              AdjustmentStep(
-                event: event,
-                kind: AdjustmentKind.perEventOffset,
-                deltaMs: adjusted - raw,
-                reason: 'adjustments.perEventMinutes',
-              ),
-            AdjustmentStep(
-              event: event,
-              kind: AdjustmentKind.rounding,
-              deltaMs: displayed - adjusted,
-              reason: _roundingReason(mode),
-            ),
-          ]),
+      case RuleFallback(
+        :final utcMs,
+        :final method,
+        :final perturbationMinutes,
+      ):
+        return _timed(
+          event,
+          utcMs,
+          EventOrigin.fallback(method),
+          perturbationMinutes: perturbationMinutes,
+          flags: {...flags, ResultFlag.highLatitudeFallback},
+          profile: profile,
+          day: day,
+          zoneId: zoneId,
+          tzdb: tzdb,
         );
     }
+  }
+
+  static FinishedEvent _timed(
+    PrayerEvent event,
+    int raw,
+    EventOrigin origin, {
+    required int perturbationMinutes,
+    required Set<ResultFlag> flags,
+    required PrayerProfile profile,
+    required CivilDate day,
+    required String zoneId,
+    required TzDatabase tzdb,
+  }) {
+    final minutes = profile.perEventMinutes[event] ?? 0;
+    final adjusted = raw + minutes * _minuteMs;
+    final mode = profile.roundingOverrides[event] ?? profile.roundingDefault;
+    final rounded = _rounding.round(
+      adjusted,
+      mode,
+      offsetSeconds: tzdb.offsetSecondsAt(zoneId, adjusted),
+    );
+    final displayed = rounded.displayedUtcMs;
+    return (
+      time: PrayerTime.timed(
+        event: event,
+        rawUtcMs: raw,
+        displayedUtcMs: displayed,
+        dayOffset: _localEpochDay(displayed, zoneId, tzdb) - day.epochDay,
+        origin: origin,
+        confidence: _confidence.labelOf(
+          origin,
+          profile,
+          perturbationMinutes: perturbationMinutes,
+        ),
+        flags: {
+          ...flags,
+          if (rounded.nearBoundary) ResultFlag.nearRoundingBoundary,
+        },
+      ),
+      steps: List.unmodifiable([
+        if (minutes != 0)
+          AdjustmentStep(
+            event: event,
+            kind: AdjustmentKind.perEventOffset,
+            deltaMs: adjusted - raw,
+            reason: 'adjustments.perEventMinutes',
+          ),
+        AdjustmentStep(
+          event: event,
+          kind: AdjustmentKind.rounding,
+          deltaMs: displayed - adjusted,
+          reason: _roundingReason(mode),
+        ),
+      ]),
+    );
   }
 
   static String _roundingReason(RoundingMode mode) => switch (mode) {

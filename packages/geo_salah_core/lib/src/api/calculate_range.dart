@@ -7,6 +7,7 @@ import 'package:geo_salah_core/src/model/hijri_state.dart';
 import 'package:geo_salah_core/src/model/observer.dart';
 import 'package:geo_salah_core/src/model/prayer_profile.dart';
 import 'package:geo_salah_core/src/model/tz_database.dart';
+import 'package:geo_salah_core/src/rules/solved_days.dart';
 
 /// Calculates consecutive prayer days (§6.3 `calculateRange`, §6.4 ¶2,
 /// REQ-PERF-001).
@@ -14,9 +15,11 @@ import 'package:geo_salah_core/src/model/tz_database.dart';
 /// Day `from + i` for `i` in `0 … days − 1`, each exactly as `CalculateDay`
 /// calculates it with the Hijri state `hijriFor(day)`: a range returns the
 /// same `DayResult`s, bit for bit, as the days calculated one by one
-/// (REQ-DOM-004). The range only shares SPA samples between neighbouring
-/// days through a per-call [SunSampleCache] (three of a day's five samples
-/// are the next day's), which saves work and changes no value.
+/// (REQ-DOM-004). The range only shares work between neighbouring days
+/// through one per-call [SolvedDays] memo: its [SunSampleCache] (three of a
+/// day's five samples are the next day's) and the days the high-latitude
+/// chain solves around each day (one day's neighbour is the next day's
+/// prayer day, §15 D55). That saves work and changes no value.
 ///
 /// **Domain**: `1 ≤ days ≤ 400` (§6.3) and every day within years
 /// 1–`CalculateDay.lastYear`; otherwise [ArgumentError], a precondition like
@@ -54,7 +57,11 @@ final class CalculateRange {
         'range ends after year ${DayCalculation.lastYear}',
       );
     }
-    final cache = SunSampleCache();
+    final solvedDays = SolvedDays(
+      zoneId: observer.zoneId,
+      tzdb: tzdb,
+      cache: SunSampleCache(),
+    );
     final results = <DayResult>[];
     for (var i = 0; i < days; i++) {
       final day = CivilDate.fromEpochDay(from.epochDay + i);
@@ -64,7 +71,7 @@ final class CalculateRange {
         day: day,
         tzdb: tzdb,
         hijri: hijriFor(day),
-        cache: cache,
+        days: solvedDays,
       );
       switch (result) {
         case Err(:final failure):

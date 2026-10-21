@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:dm_core_types/dm_core_types.dart';
+import 'package:dm_hijri/dm_hijri.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:geo_salah_profiles/geo_salah_profiles.dart';
 import 'package:test/test.dart';
 
 import 'support/fixed_offset_tz_database.dart';
+import 'support/fixtures.dart';
 import 'support/profile_files.dart';
 
 /// Appendix H cities per scope: name, latitude, longitude, IANA zone and its
@@ -38,10 +42,18 @@ final FixedOffsetTzDatabase _tzdb = FixedOffsetTzDatabase({
       zoneId: (hours * 3600).round(),
 });
 
-/// Shape-only Hijri state: no S07 event reads it (Ramadan replacement is S08).
-const HijriState _hijri = HijriState(
+/// A Hijri state outside Ramadan: every rule is the standard one.
+const HijriState _outsideRamadan = HijriState(
   dateAtDawn: HijriDate(year: 1448, month: 1, day: 1),
   dateAtNight: HijriDate(year: 1448, month: 1, day: 2),
+  confidence: HijriConfidence.expected,
+);
+
+/// A Hijri state inside Ramadan, dawn and night: every Ramadan rule
+/// replaces its event's rule (§6.4 ¶6).
+const HijriState _inRamadan = HijriState(
+  dateAtDawn: HijriDate(year: 1448, month: 9, day: 10),
+  dateAtNight: HijriDate(year: 1448, month: 9, day: 11),
   confidence: HijriConfidence.expected,
 );
 
@@ -50,22 +62,19 @@ final List<CivilDate> _days = [
   for (var month = 1; month <= 12; month++) CivilDate(2027, month, 15),
 ];
 
-/// [profile] and, when it has Ramadan rules, its Ramadan variant: the rules
-/// with each Ramadan rule in place (what S08 substitutes, §6.4 ¶6).
-List<(String, PrayerProfile)> _variants(PrayerProfile profile) => [
-  ('standard', profile),
-  if (profile.ramadanRules.isNotEmpty)
-    (
-      'Ramadan',
-      profile.copyWith(rules: {...profile.rules, ...profile.ramadanRules}),
-    ),
+/// The Hijri states that exercise [profile]: outside Ramadan and, when it
+/// has Ramadan rules, inside Ramadan, where the engine replaces them.
+List<(String, HijriState)> _variants(PrayerProfile profile) => [
+  ('standard', _outsideRamadan),
+  if (profile.ramadanRules.isNotEmpty) ('Ramadan', _inRamadan),
 ];
 
 DayResult _calculate(
   PrayerProfile profile,
   (String, double, double, String, double) city,
-  CivilDate day,
-) {
+  CivilDate day, {
+  HijriState hijri = _outsideRamadan,
+}) {
   final (name, lat, lon, zoneId, _) = city;
   return switch (const CalculateDay()(
     observer: Observer(
@@ -77,7 +86,7 @@ DayResult _calculate(
     profile: profile,
     day: day,
     tzdb: _tzdb,
-    hijri: _hijri,
+    hijri: hijri,
   )) {
     Ok(:final value) => value,
     Err(:final failure) => throw StateError(
@@ -123,10 +132,10 @@ void main() {
         final scope = profile.countries.single;
         final cities = _cities[scope];
         if (cities == null) fail('No benchmark city for $scope');
-        for (final (variant, candidate) in _variants(profile)) {
+        for (final (variant, hijri) in _variants(profile)) {
           for (final city in cities) {
             for (final day in _days) {
-              final result = _calculate(candidate, city, day);
+              final result = _calculate(profile, city, day, hijri: hijri);
               expect(result.times, isNotEmpty, reason: '$variant $city $day');
               for (final time in result.times) {
                 expect(
@@ -155,15 +164,26 @@ void main() {
     });
 
     test('carry the §6.5 Umm al-Qura Isha intervals: 90 min after Maghrib, '
-        '120 min in the Ramadan variant', () {
+        '120 min in Ramadan by the tabular calendar (ADR-016)', () {
       final sa = seedProfiles().singleWhere(
         (p) => p.profileId == 'sa.ummalqura.standard',
       );
-      final [(_, standard), (_, ramadan)] = _variants(sa);
       final makkah = _cities['SA']!.first; // SAFETY: the map literal has SA.
-      final day = CivilDate(2027, 2, 15);
-      final plain = _calculate(standard, makkah, day);
-      final fasting = _calculate(ramadan, makkah, day);
+      // 9 Dhu al-Qa'da and 9 Ramadan 1448 in the tabular calendar.
+      final plainDay = CivilDate(2027, 4, 15);
+      final fastingDay = CivilDate(2027, 2, 15);
+      final plain = _calculate(
+        sa,
+        makkah,
+        plainDay,
+        hijri: const BuildHijriState()(day: plainDay),
+      );
+      final fasting = _calculate(
+        sa,
+        makkah,
+        fastingDay,
+        hijri: const BuildHijriState()(day: fastingDay),
+      );
       expect(
         _raw(plain, PrayerEvent.isha) - _raw(plain, PrayerEvent.maghrib),
         const Duration(minutes: 90).inMilliseconds,
@@ -172,6 +192,56 @@ void main() {
         _raw(fasting, PrayerEvent.isha) - _raw(fasting, PrayerEvent.maghrib),
         const Duration(minutes: 120).inMilliseconds,
       );
+    });
+
+    test('show the Ramadan Isha replacement in the calculation trace, '
+        'flagged HIJRI_EXPECTED under the tabular calendar (S08 done-test, '
+        '§6.4 ¶6)', () {
+      final sa = seedProfiles().singleWhere(
+        (p) => p.profileId == 'sa.ummalqura.standard',
+      );
+      final (name, lat, lon, zoneId, _) =
+          _cities['SA']!.first; // SAFETY: the map literal has SA.
+      final day = CivilDate(2027, 2, 15);
+      final hijri = const BuildHijriState()(day: day);
+      final observer = Observer(
+        latitudeDeg: lat,
+        longitudeDeg: lon,
+        zoneId: zoneId,
+        source: ObserverSource.benchmark,
+      );
+      final result = _calculate(
+        sa,
+        (name, lat, lon, zoneId, 3),
+        day,
+        hijri: hijri,
+      );
+
+      final trace = const CalculationTraceWriter().write(
+        result,
+        CalculationInputs.of(
+          observer: observer,
+          profile: sa,
+          day: day,
+          hijri: hijri,
+        ),
+      );
+      final json = jsonEncode(trace.toJson());
+      final isha = CalculationTraceDocument.fromJson(
+        asJsonObject(jsonDecode(json)),
+      ).times.singleWhere((time) => time.event == PrayerEventCode.isha);
+
+      expect(hijri.ramadanAtNight, isTrue);
+      expect(
+        isha.adjustmentTrace.first,
+        AdjustmentStepDocument(
+          event: PrayerEventCode.isha,
+          kind: AdjustmentKindCode.ramadanRuleReplacement,
+          deltaMs: const Duration(minutes: 30).inMilliseconds,
+          reason: 'adjustments.ramadan',
+        ),
+      );
+      expect(isha.flags, contains(ResultFlagCode.hijriExpected));
     });
   });
 }

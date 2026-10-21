@@ -25,6 +25,11 @@ final TestCity _nearPole = (
   offsetSeconds: 3600,
 );
 
+/// The seed without a high-latitude chain: the rule step's own reasons.
+final PrayerProfile _chainless = testProfile.copyWith(
+  highLatitudeChain: const [],
+);
+
 CulminationSegments _segments(TestCity city, CivilDate day) =>
     switch (CulminationSegments.locate(
       day: day,
@@ -108,9 +113,13 @@ void main() {
       },
     );
 
-    test('types a Sun that never rises to −α as NO_EVENT(polarNight) '
-        '(REQ-DOM-002)', () {
-      final result = calculateOk(_nearPole, CivilDate(2026, 12, 21));
+    test('types a Sun that never rises to −α as NO_EVENT(polarNight) at the '
+        'rule step (REQ-DOM-002)', () {
+      final result = calculateOk(
+        _nearPole,
+        CivilDate(2026, 12, 21),
+        profile: _chainless,
+      );
       for (final event in [PrayerEvent.fajr, PrayerEvent.isha]) {
         expect(
           timeOf(result, event).origin,
@@ -123,11 +132,12 @@ void main() {
       }
     });
 
-    test('types a Sun that never sinks to −α as NO_EVENT(twilightAbsent), '
-        'never a fallback (REQ-DOM-002)', () {
+    test('types a Sun that never sinks to −α as NO_EVENT(twilightAbsent) '
+        'at the rule step (REQ-DOM-002)', () {
       final result = calculateOk(
         cityIn('Europe/London'),
         CivilDate(2026, 6, 21),
+        profile: _chainless,
       );
       for (final event in [PrayerEvent.fajr, PrayerEvent.isha]) {
         expect(
@@ -202,7 +212,7 @@ void main() {
     });
 
     test('types an Asr altitude the Sun never sinks to as '
-        'NO_EVENT(polarDay) (REQ-DOM-002)', () {
+        'NO_EVENT(polarDay), which no chain resolves (REQ-DOM-002)', () {
       final result = calculateOk(_nearPole, CivilDate(2026, 6, 21));
       expect(
         timeOf(result, PrayerEvent.asr).origin,
@@ -249,10 +259,16 @@ void main() {
                 _raw(time) - _raw(baseTime),
                 offset.inMilliseconds,
               );
-            case final NoEvent noEvent:
-              expect(time.origin, noEvent);
+            case NoEvent():
+              // The event walks its own chain (§15 D54).
+              expect(time.origin, isNot(const EventOrigin.primary()));
             case Fallback():
-              fail('No fallback before S08');
+              // An interval on a fallback base follows it (§15 D54).
+              expect(time.origin, baseTime.origin);
+              expect(
+                _raw(time) - _raw(baseTime),
+                offset.inMilliseconds,
+              );
           }
         }
       },

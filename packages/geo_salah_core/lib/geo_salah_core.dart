@@ -10,8 +10,9 @@
 /// per-event rounding, flags, the ordering guard and the confidence
 /// mapping); since S07 the full §6.2 `PrayerProfile`, its `prayer_profile.v1`
 /// wire model and `PrayerProfileMapper` (moved here from `geo_salah_profiles`
-/// so the engine bench and the app share one mapping, §15 D51). The
-/// astronomical core (`src/astro`, `src/solver`), the rule
+/// so the engine bench and the app share one mapping, §15 D51); since S08
+/// Ramadan rule replacement and the high-latitude chain with typed
+/// fallbacks (§6.4 ¶6–¶7). The astronomical core (`src/astro`, `src/solver`), the rule
 /// solvers and policies (`src/rules`, `src/policy`) and the lab bench
 /// (`src/bench`, `bin/bench.dart`) stay internal.
 library;
