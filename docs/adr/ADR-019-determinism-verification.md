@@ -46,6 +46,12 @@ Written without reading `lab/` beyond `lab/README.md` (kickoff §C).
 - **Corpus:** `packages/geo_salah_core/test/golden/<city>/engine.default/<year>.json`, written by `tool/update_golden.dart` from the same engine and stand-ins as the bench (§15 D40), and checked against the lab-confirmed bench responses (5292 of 5292 equal). It freezes raw instants and origins only; Calculation IDs, displayed instants and day offsets change in S06 (rounding), S07 (profile versions) and S10 (TZDB) and are not frozen.
 - **Determinism:** the corpus was generated on Windows x64. `ci-dart` runs the exact-match test on Linux, which is the first cross-platform check of D25's ±1 ms caveat; a mismatch there is a `golden-update` investigation, not a tolerance.
 
+## Golden corpus v2 (slice S06, 2026-10-21)
+
+- **Lab confirmation (same engine):** `--tags DAY_OF_MONTH`: 1764 cases, 5292 events agreed, 0 discrepancies (0 blocking), max |residual| 1575 ms. Every reference case: 4188 cases, 12564 events, 0 discrepancies, max 1575 ms. The bench now answers all six `engine.default` events; the lab compares Sunrise, Dhuhr and Maghrib, each of which carries only a `ROUNDING` step (§15 D29).
+- **Corpus:** schemaVersion 2 adds Fajr, Asr, Isha and `displayedUtcMs`. The 5292 v1 entries are identical in origin and raw instant (the `golden-update` commit has the numeric diff).
+- **Gap:** Fajr, Asr and Isha have no lab reference. Their 5292 entries are frozen engine output, checked against exact SPA by property tests only. A lab `reference-update` for twilight and Asr crossings is owed (§15 D48).
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
@@ -62,7 +68,8 @@ See the `DESIGN.md` sections referenced above.
 - `lab/tests/test_frozen_reference.py` — artifact integrity, coverage and regeneration.
 - `packages/geo_salah_core/test/astro/spa_paper_example_test.dart` — SPA paper Tables A4.1 and A5.1.
 - `packages/geo_salah_core/test/solver/crossings_test.dart` — exhaustiveness, accuracy against exact SPA, determinism, and the paper's A.2 sunrise and sunset.
-- `packages/geo_salah_core/test/golden_corpus_test.dart` — exact `rawUtcMs` and origin equality for the 147 golden files (REQ-TEST-001, REQ-DOM-004).
+- `packages/geo_salah_core/test/golden_corpus_test.dart` — exact origin, `rawUtcMs` and (v2) `displayedUtcMs` equality for the 147 golden files (REQ-TEST-001, REQ-DOM-004).
+- `packages/geo_salah_core/test/api/calculate_range_test.dart` — a range equals its days bit for bit (REQ-DOM-004).
 
 ## Supersedes
 

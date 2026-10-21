@@ -21,6 +21,11 @@ Sunrise/sunset solve `h_geo = −(refractionArcmin + semidiameterArcmin)/60 − 
 - `EventRule.horizon({refractionArcmin = 34, semidiameterArcmin = 16})` carries the ADR-003 defaults as the §6.2 type's defaults; profiles override them as data. `HorizonRuleSolver` solves the geometric topocentric altitude `−(refraction + semidiameter)/60 − dip` and applies no refraction model on top.
 - `dip = 0` under `elevationPolicy = NONE`; `ABOVE_LOCAL_TERRAIN` and `AUTHORITY_TABLE` return `EngineFailure.unsupportedPolicy('horizon.elevationPolicy')`. The observer is placed on the ellipsoid at 0 m; `Observer.elevation` is not read.
 
+## Twilight and Asr altitudes (slice S06, 2026-10-21)
+
+- `EventRule.solarAltitude(degrees)` solves `h_geo = −degrees` with no refraction and no dip. A property test checks the exact SPA altitude at every Fajr and Isha instant against `−α` within 10⁻⁵° plus 1 ms of rate, so the 34′ constant cannot leak into twilight events.
+- The Asr altitude `arccot(k + tan|φ − δ(T₀)|)` is geometric as well (§6.4 ¶6, §15 D41). Values come from profile data only: in S06 that is the bench stand-in `bench/profiles/engine.default.json` (§15 D48).
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
@@ -32,6 +37,7 @@ See the `DESIGN.md` sections referenced above.
 ## Tests
 
 - `packages/geo_salah_core/test/api/calculate_day_test.dart`: the horizon rule at −(34′ + 16′) geometric altitude with no dip and no refraction model (property over 12 cities × 2026–2028); refraction and semidiameter taken from the rule; `unsupportedPolicy` for the `[DEFERRED V2]` policies.
+- `packages/geo_salah_core/test/api/calculate_day_rules_test.dart`: Fajr and Isha at exactly `−α` (no refraction or dip) and Asr at the shadow-factor altitude (properties); typed `polarNight`, `twilightAbsent`, `asrUndefined` and `polarDay`.
 
 ## Supersedes
 

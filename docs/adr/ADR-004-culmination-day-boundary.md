@@ -29,6 +29,12 @@ Day `D`: upper transit `T₀` with `localDate(T₀, zone) == D`; lower transits 
 - A skipped calendar day has no `T₀`, so `calculateDay` returns a `DayResult` without times (§15 D36). The zone selects the day only: raw instants do not change with the zone offset (property test).
 - `dayOffset` is the local date of the displayed instant, by the injected TZDB, minus `D`.
 
+## Every event (slice S06, 2026-10-21)
+
+- Fajr (and Imsak) are searched in `[A₋, T₀]`, and Asr and Isha in `[T₀, A₊]`. The crossing is chosen as for the horizon rule (§15 D37, D41), and the choice is shared through `HalfSegmentCrossing`. The shadow-factor rule defines descending events only.
+- An interval event takes its base's raw instant (§15 D42), so Isha after Maghrib may carry `dayOffset` +1 like a late Isha.
+- `dayOffset` now comes from the **displayed** instant, after rounding.
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
@@ -41,6 +47,7 @@ See the `DESIGN.md` sections referenced above.
 
 - `packages/geo_salah_core/test/solver/culmination_segments_test.dart`: local-date rule, hour angles at `T₀` and `A±`, day tiling, Kiritimati (UTC+14 at 157° W), the skipped Apia day.
 - `packages/geo_salah_core/test/api/calculate_day_test.dart`: Dhuhr at `T₀`, Sunrise and Maghrib in their halves, typed polar day and night at Tromsø, zone independence of raw instants, `dayOffset` +1 after local midnight, the skipped Apia day.
+- `packages/geo_salah_core/test/api/calculate_day_rules_test.dart`: Fajr rising in `[A₋, T₀]`, Isha setting and Asr between Dhuhr and `A₊`, interval events on the base's raw instant.
 - `packages/geo_salah_core/test/solver/crossings_test.dart`: bracket exhaustiveness against a dense scan, including grazing targets; monotone pieces; polar day and night; continuity.
 
 ## Supersedes

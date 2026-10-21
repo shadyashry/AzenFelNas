@@ -16,17 +16,23 @@ Scope: `countries[]` (ISO 3166-1 alpha-2) resolved offline via the `country_poly
 - **Win:** —
 - **Lose:** —
 
+## Engine subset (slice S06, 2026-10-21)
+
+- The engine's `PrayerProfile` carries `status`, `authorityType` and `benchmarkReportId`, read only by `ConfidenceMapper`. `Authority aligned` requires `approved`, a `government` or `recognizedBody` authority, and a report id; every other primary time of an `ENGINE_DEFAULT` or `COMMUNITY_CONVENTION` profile is `Calculated` (REQ-DOM-050, §15 D46).
+- S07 completes the model and the loader, and replaces the bench stand-in data (§15 D48).
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
 
 ## REQ tags
 
-—
+`REQ-DOM-050`, `REQ-DOM-010`
 
 ## Tests
 
-—
+- `packages/geo_salah_core/test/policy/confidence_mapper_test.dart`: the four §6.2 rows and every non-aligned standing.
+- `packages/geo_salah_core/test/api/calculate_day_policy_test.dart`: `Authority aligned` and `Unknown` through `CalculateDay`; `engine.default` is `Calculated`.
 
 ## Supersedes
 
