@@ -1,0 +1,11 @@
+# Wire models follow schemas/*.schema.json (ADR-023): unknown keys are rejected and optional fields are
+# omitted rather than written as null (§15 D21).
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          checked: true
+          disallow_unrecognized_keys: true
+          explicit_to_json: true
+          include_if_null: false

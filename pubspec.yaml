@@ -50,10 +50,16 @@ melos:
         flutter: true
         dirExists: test
     gen:
-      description: Code generation (pigeon + freezed + json). No package uses build_runner yet.
-      exec: dart run build_runner build --delete-conflicting-outputs
+      description: Code generation (freezed + json_serializable; pigeon from S20). Outputs are committed (§15 D22).
+      exec:
+        command: dart run build_runner build
+        concurrency: 1
+        orderDependents: true
       packageFilters:
         dependsOn: build_runner
+    gen:check:
+      description: Fail if committed generated code is stale.
+      run: dart run melos run gen && test -z "$(git status --porcelain -- '*.g.dart' '*.freezed.dart')"
     ci:
       description: Everything CI runs for Dart (ci-dart workflow).
       steps:

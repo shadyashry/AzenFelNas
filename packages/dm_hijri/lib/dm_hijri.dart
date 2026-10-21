@@ -2,5 +2,10 @@
 /// (DESIGN.md §5.2, ADR-016).
 ///
 /// Pure Dart set (DESIGN.md §0.2 rule 2): imports nothing from Flutter or the
-/// platform. Empty until slice S08 (DESIGN.md §13).
+/// platform. Holds the `hijri_package.v1` wire model since S02; the calendar
+/// and HijriState arrive in S08.
 library;
+
+export 'package:dm_hijri/src/package/hijri_month_document.dart';
+export 'package:dm_hijri/src/package/hijri_month_status_code.dart';
+export 'package:dm_hijri/src/package/hijri_package_document.dart';
