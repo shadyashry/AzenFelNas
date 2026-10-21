@@ -1,0 +1,32 @@
+/// Failure codes of DESIGN.md Appendix J.
+///
+/// Mirrors DESIGN.md Appendix J and `dm_core_types` verbatim (REQ-ERR-002); raw values are the wire names.
+enum FailureCode: String, Codable, CaseIterable, Sendable {
+    case locPermissionDenied = "LOC_PERMISSION_DENIED"
+    case locServicesOff = "LOC_SERVICES_OFF"
+    case locUnavailable = "LOC_UNAVAILABLE"
+    case locStale = "LOC_STALE"
+    case tzUnresolved = "TZ_UNRESOLVED"
+    case countryUnresolved = "COUNTRY_UNRESOLVED"
+    case profileNotFound = "PROFILE_NOT_FOUND"
+    case profileOverlap = "PROFILE_OVERLAP"
+    case profileInvalid = "PROFILE_INVALID"
+    case engineOrdering = "ENGINE_ORDERING"
+    case engineUnsupportedPolicy = "ENGINE_UNSUPPORTED_POLICY"
+    case hijriUnknownMonth = "HIJRI_UNKNOWN_MONTH"
+    case pkgSigInvalid = "PKG_SIG_INVALID"
+    case pkgHashMismatch = "PKG_HASH_MISMATCH"
+    case pkgIncompatible = "PKG_INCOMPATIBLE"
+    case pkgSequenceRegression = "PKG_SEQUENCE_REGRESSION"
+    case pkgExpiredWarning = "PKG_EXPIRED_WARNING"
+    case pkgNetwork = "PKG_NETWORK"
+    case pkgStorage = "PKG_STORAGE"
+    case planWriteFailed = "PLAN_WRITE_FAILED"
+    case planSchemaUnsupported = "PLAN_SCHEMA_UNSUPPORTED"
+    case alarmPermissionMissing = "ALARM_PERMISSION_MISSING"
+    case alarmScheduleFailed = "ALARM_SCHEDULE_FAILED"
+    case audioAssetMissing = "AUDIO_ASSET_MISSING"
+    case clockSkew = "CLOCK_SKEW"
+    case dbMigrationFailed = "DB_MIGRATION_FAILED"
+    case diagExportFailed = "DIAG_EXPORT_FAILED"
+}

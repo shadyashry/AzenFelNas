@@ -1,12 +1,20 @@
-# DESIGN.md §17.4 — run as `swiftlint --strict`.
+# DESIGN.md §17.4 — run as `swiftlint --strict` (warnings fail).
 included:
   - apps/mobile/ios/AthanKit
 opt_in_rules:
   - force_unwrapping
   - implicitly_unwrapped_optional
-  - explicit_acl
   - fatal_error_message
 force_cast: error
 force_try: error
 force_unwrapping: error
 implicitly_unwrapped_optional: error
+# SwiftFormat's default trailingCommas rule adds them; require them so the two tools agree.
+trailing_comma:
+  mandatory_comma: true
+identifier_name:
+  # Wire members fixed by schemas/*.schema.json (ADR-023): plan ids and the ar/en locale keys.
+  excluded:
+    - id
+    - ar
+    - en

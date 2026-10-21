@@ -4,9 +4,10 @@ import PackageDescription
 
 let package = Package(
     name: "AthanKit",
-    platforms: [.iOS(.v18)],
+    // macOS is only the host for `swift test` in ci-ios; the package ships on iOS 18+.
+    platforms: [.iOS(.v18), .macOS(.v15)],
     products: [
-        .library(name: "AthanKit", targets: ["AthanKit"])
+        .library(name: "AthanKit", targets: ["AthanKit"]),
     ],
     targets: [
         .target(
