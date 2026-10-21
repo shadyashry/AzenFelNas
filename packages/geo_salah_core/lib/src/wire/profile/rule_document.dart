@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geo_salah_profiles/src/document/interval_base_code.dart';
+import 'package:geo_salah_core/src/wire/profile/interval_base_code.dart';
 
 part 'rule_document.freezed.dart';
 part 'rule_document.g.dart';

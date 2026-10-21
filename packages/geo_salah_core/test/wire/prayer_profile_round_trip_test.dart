@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:geo_salah_profiles/geo_salah_profiles.dart';
+import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:test/test.dart';
 
-import 'support/fixtures.dart';
+import '../support/fixtures.dart';
 
 void main() {
   roundTripValidFixtures<PrayerProfileDocument>(

@@ -1,0 +1,28 @@
+# Overlap fixture (S07 done-test): shape test data in the user-assigned country ZZ, never a prayer
+# profile (schemas/README.md). zz.fixture.first and zz.fixture.second both cover ZZ in June 2027,
+# so ValidateProfileSet must refuse the pair with PROFILE_OVERLAP (ADR-007, §9.2).
+profileId: zz.fixture.second
+schemaVersion: 1
+version: 2026.10.1
+status: DRAFT_UNVERIFIED
+effectiveFrom: "2027-06-01"
+effectiveTo: null
+scope: { countries: [ZZ], adminAreas: [], polygonsRef: null }
+authority: { name: "Schema fixture (not a prayer profile)", type: COMMUNITY_CONVENTION }
+referenceMode: EXACT_COORDINATE
+referencePoints: []
+rules:
+  imsak: null
+  fajr: { type: solarAltitude, degrees: 13.5 }
+  sunrise: { type: horizon }
+  dhuhr: { type: transit }
+  asr: { type: shadowFactor, k: 2 }
+  maghrib: { type: horizon }
+  isha: { type: solarAltitude, degrees: 14.5 }
+horizon: { elevationPolicy: NONE }
+highLatitude: { chain: [middleOfNight] }
+rounding: { default: floor }
+adjustments: { perEventMinutes: {}, maxAbsMinutes: 0, ramadan: {} }
+evidence: { sources: [], benchmarkSet: zz-fixture, holdoutReport: null, benchmarkReportId: null }
+approvals: { religious: null, accuracy: null }
+compatibility: { minEngineSchema: 1, minAppVersion: "1.0.0" }

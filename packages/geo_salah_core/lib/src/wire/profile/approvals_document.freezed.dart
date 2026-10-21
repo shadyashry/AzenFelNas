@@ -17,8 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$ApprovalsDocument {
 
 /// Religious approval.
- ReligiousApprovalDocument? get religious;/// Accuracy approval.
- AccuracyApprovalDocument? get accuracy;
+@JsonKey(includeIfNull: true) ReligiousApprovalDocument? get religious;/// Accuracy approval.
+@JsonKey(includeIfNull: true) AccuracyApprovalDocument? get accuracy;
 /// Create a copy of ApprovalsDocument
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -56,7 +56,7 @@ abstract mixin class $ApprovalsDocumentCopyWith<$Res>  {
   factory $ApprovalsDocumentCopyWith(ApprovalsDocument value, $Res Function(ApprovalsDocument) _then) = _$ApprovalsDocumentCopyWithImpl;
 @useResult
 $Res call({
- ReligiousApprovalDocument? religious, AccuracyApprovalDocument? accuracy
+@JsonKey(includeIfNull: true) ReligiousApprovalDocument? religious,@JsonKey(includeIfNull: true) AccuracyApprovalDocument? accuracy
 });
 
 
@@ -186,7 +186,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ReligiousApprovalDocument? religious,  AccuracyApprovalDocument? accuracy)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: true)  ReligiousApprovalDocument? religious, @JsonKey(includeIfNull: true)  AccuracyApprovalDocument? accuracy)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ApprovalsDocument() when $default != null:
 return $default(_that.religious,_that.accuracy);case _:
@@ -207,7 +207,7 @@ return $default(_that.religious,_that.accuracy);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ReligiousApprovalDocument? religious,  AccuracyApprovalDocument? accuracy)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: true)  ReligiousApprovalDocument? religious, @JsonKey(includeIfNull: true)  AccuracyApprovalDocument? accuracy)  $default,) {final _that = this;
 switch (_that) {
 case _ApprovalsDocument():
 return $default(_that.religious,_that.accuracy);case _:
@@ -227,7 +227,7 @@ return $default(_that.religious,_that.accuracy);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ReligiousApprovalDocument? religious,  AccuracyApprovalDocument? accuracy)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: true)  ReligiousApprovalDocument? religious, @JsonKey(includeIfNull: true)  AccuracyApprovalDocument? accuracy)?  $default,) {final _that = this;
 switch (_that) {
 case _ApprovalsDocument() when $default != null:
 return $default(_that.religious,_that.accuracy);case _:
@@ -242,13 +242,13 @@ return $default(_that.religious,_that.accuracy);case _:
 @JsonSerializable()
 
 class _ApprovalsDocument implements ApprovalsDocument {
-  const _ApprovalsDocument({required this.religious, required this.accuracy});
+  const _ApprovalsDocument({@JsonKey(includeIfNull: true) required this.religious, @JsonKey(includeIfNull: true) required this.accuracy});
   factory _ApprovalsDocument.fromJson(Map<String, dynamic> json) => _$ApprovalsDocumentFromJson(json);
 
 /// Religious approval.
-@override final  ReligiousApprovalDocument? religious;
+@override@JsonKey(includeIfNull: true) final  ReligiousApprovalDocument? religious;
 /// Accuracy approval.
-@override final  AccuracyApprovalDocument? accuracy;
+@override@JsonKey(includeIfNull: true) final  AccuracyApprovalDocument? accuracy;
 
 /// Create a copy of ApprovalsDocument
 /// with the given fields replaced by the non-null parameter values.
@@ -285,7 +285,7 @@ abstract mixin class _$ApprovalsDocumentCopyWith<$Res> implements $ApprovalsDocu
   factory _$ApprovalsDocumentCopyWith(_ApprovalsDocument value, $Res Function(_ApprovalsDocument) _then) = __$ApprovalsDocumentCopyWithImpl;
 @override @useResult
 $Res call({
- ReligiousApprovalDocument? religious, AccuracyApprovalDocument? accuracy
+@JsonKey(includeIfNull: true) ReligiousApprovalDocument? religious,@JsonKey(includeIfNull: true) AccuracyApprovalDocument? accuracy
 });
 
 

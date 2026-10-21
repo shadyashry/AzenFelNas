@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$RulesDocument {
 
 /// Imsak rule, or `null`.
- RuleDocument? get imsak;/// Fajr rule.
+@JsonKey(includeIfNull: true) RuleDocument? get imsak;/// Fajr rule.
  RuleDocument get fajr;/// Sunrise rule.
  RuleDocument get sunrise;/// Dhuhr rule.
  RuleDocument get dhuhr;/// Asr rule.
@@ -61,7 +61,7 @@ abstract mixin class $RulesDocumentCopyWith<$Res>  {
   factory $RulesDocumentCopyWith(RulesDocument value, $Res Function(RulesDocument) _then) = _$RulesDocumentCopyWithImpl;
 @useResult
 $Res call({
- RuleDocument? imsak, RuleDocument fajr, RuleDocument sunrise, RuleDocument dhuhr, RuleDocument asr, RuleDocument maghrib, RuleDocument isha
+@JsonKey(includeIfNull: true) RuleDocument? imsak, RuleDocument fajr, RuleDocument sunrise, RuleDocument dhuhr, RuleDocument asr, RuleDocument maghrib, RuleDocument isha
 });
 
 
@@ -238,7 +238,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RuleDocument? imsak,  RuleDocument fajr,  RuleDocument sunrise,  RuleDocument dhuhr,  RuleDocument asr,  RuleDocument maghrib,  RuleDocument isha)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: true)  RuleDocument? imsak,  RuleDocument fajr,  RuleDocument sunrise,  RuleDocument dhuhr,  RuleDocument asr,  RuleDocument maghrib,  RuleDocument isha)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RulesDocument() when $default != null:
 return $default(_that.imsak,_that.fajr,_that.sunrise,_that.dhuhr,_that.asr,_that.maghrib,_that.isha);case _:
@@ -259,7 +259,7 @@ return $default(_that.imsak,_that.fajr,_that.sunrise,_that.dhuhr,_that.asr,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RuleDocument? imsak,  RuleDocument fajr,  RuleDocument sunrise,  RuleDocument dhuhr,  RuleDocument asr,  RuleDocument maghrib,  RuleDocument isha)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: true)  RuleDocument? imsak,  RuleDocument fajr,  RuleDocument sunrise,  RuleDocument dhuhr,  RuleDocument asr,  RuleDocument maghrib,  RuleDocument isha)  $default,) {final _that = this;
 switch (_that) {
 case _RulesDocument():
 return $default(_that.imsak,_that.fajr,_that.sunrise,_that.dhuhr,_that.asr,_that.maghrib,_that.isha);case _:
@@ -279,7 +279,7 @@ return $default(_that.imsak,_that.fajr,_that.sunrise,_that.dhuhr,_that.asr,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RuleDocument? imsak,  RuleDocument fajr,  RuleDocument sunrise,  RuleDocument dhuhr,  RuleDocument asr,  RuleDocument maghrib,  RuleDocument isha)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: true)  RuleDocument? imsak,  RuleDocument fajr,  RuleDocument sunrise,  RuleDocument dhuhr,  RuleDocument asr,  RuleDocument maghrib,  RuleDocument isha)?  $default,) {final _that = this;
 switch (_that) {
 case _RulesDocument() when $default != null:
 return $default(_that.imsak,_that.fajr,_that.sunrise,_that.dhuhr,_that.asr,_that.maghrib,_that.isha);case _:
@@ -294,11 +294,11 @@ return $default(_that.imsak,_that.fajr,_that.sunrise,_that.dhuhr,_that.asr,_that
 @JsonSerializable()
 
 class _RulesDocument implements RulesDocument {
-  const _RulesDocument({required this.imsak, required this.fajr, required this.sunrise, required this.dhuhr, required this.asr, required this.maghrib, required this.isha});
+  const _RulesDocument({@JsonKey(includeIfNull: true) required this.imsak, required this.fajr, required this.sunrise, required this.dhuhr, required this.asr, required this.maghrib, required this.isha});
   factory _RulesDocument.fromJson(Map<String, dynamic> json) => _$RulesDocumentFromJson(json);
 
 /// Imsak rule, or `null`.
-@override final  RuleDocument? imsak;
+@override@JsonKey(includeIfNull: true) final  RuleDocument? imsak;
 /// Fajr rule.
 @override final  RuleDocument fajr;
 /// Sunrise rule.
@@ -347,7 +347,7 @@ abstract mixin class _$RulesDocumentCopyWith<$Res> implements $RulesDocumentCopy
   factory _$RulesDocumentCopyWith(_RulesDocument value, $Res Function(_RulesDocument) _then) = __$RulesDocumentCopyWithImpl;
 @override @useResult
 $Res call({
- RuleDocument? imsak, RuleDocument fajr, RuleDocument sunrise, RuleDocument dhuhr, RuleDocument asr, RuleDocument maghrib, RuleDocument isha
+@JsonKey(includeIfNull: true) RuleDocument? imsak, RuleDocument fajr, RuleDocument sunrise, RuleDocument dhuhr, RuleDocument asr, RuleDocument maghrib, RuleDocument isha
 });
 
 

@@ -4,7 +4,7 @@ JSON Schema (draft 2020-12) is the contract for every JSON document that crosses
 
 | Schema | Source in `DESIGN.md` | Models (round-tripped against the fixtures) |
 |---|---|---|
-| `prayer_profile.v1` | Appendix A (copied verbatim) | Dart `geo_salah_profiles` · Go `tools/gsctl/internal/schema/profile` |
+| `prayer_profile.v1` | Appendix A (copied verbatim) | Dart `geo_salah_core` (moved from `geo_salah_profiles` in S07, §15 D51) · Go `tools/gsctl/internal/schema/profile` |
 | `schedule_plan.v1` | §7.7, Appendix B | Dart `dm_contracts` · Kotlin `athan-core` · Swift `AthanKit` |
 | `snapshot.v1` | Appendix I | Dart `dm_contracts` · Kotlin `athan-core` · Swift `AthanKit` |
 | `event_log.v1` | Appendix J | Dart `dm_contracts` · Kotlin `athan-core` · Swift `AthanKit` |
@@ -40,7 +40,7 @@ Fixture values are shape test data, not prayer profiles: they use the user-assig
 ## Checks
 
 ```bash
-schemas/tools/validate_fixtures.sh          # ajv-cli 5.0.0 + ajv-formats 3.0.1: valid accepted, invalid rejected
+schemas/tools/validate_fixtures.sh          # ajv-cli 5.0.0 + ajv-formats 3.0.1: valid accepted, invalid rejected, profiles/*/*.yaml valid
 uvx check-jsonschema==0.38.2 --check-metaschema schemas/*.schema.json
 node schemas/tools/check_ksy.cjs            # kaitai-struct-compiler 0.11.0 compiles the binary layouts
 ```

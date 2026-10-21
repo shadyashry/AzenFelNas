@@ -8,7 +8,10 @@
 /// since S06 the `CalculateDay` and `CalculateRange` use cases for every
 /// event (altitude, transit, shadow-factor, horizon and interval rules,
 /// per-event rounding, flags, the ordering guard and the confidence
-/// mapping). The astronomical core (`src/astro`, `src/solver`), the rule
+/// mapping); since S07 the full §6.2 `PrayerProfile`, its `prayer_profile.v1`
+/// wire model and `PrayerProfileMapper` (moved here from `geo_salah_profiles`
+/// so the engine bench and the app share one mapping, §15 D51). The
+/// astronomical core (`src/astro`, `src/solver`), the rule
 /// solvers and policies (`src/rules`, `src/policy`) and the lab bench
 /// (`src/bench`, `bin/bench.dart`) stay internal.
 library;
@@ -40,9 +43,12 @@ export 'package:geo_salah_core/src/model/prayer_profile.dart';
 export 'package:geo_salah_core/src/model/prayer_time.dart';
 export 'package:geo_salah_core/src/model/profile_status.dart';
 export 'package:geo_salah_core/src/model/provenance.dart';
+export 'package:geo_salah_core/src/model/reference_mode.dart';
+export 'package:geo_salah_core/src/model/reference_point.dart';
 export 'package:geo_salah_core/src/model/result_flag.dart';
 export 'package:geo_salah_core/src/model/rounding_mode.dart';
 export 'package:geo_salah_core/src/model/tz_database.dart';
+export 'package:geo_salah_core/src/profile/prayer_profile_mapper.dart';
 export 'package:geo_salah_core/src/trace/adjustment_kind_code.dart';
 export 'package:geo_salah_core/src/trace/adjustment_step_document.dart';
 export 'package:geo_salah_core/src/trace/calculation_id.dart';
@@ -61,3 +67,24 @@ export 'package:geo_salah_core/src/trace/trace_provenance_document.dart';
 export 'package:geo_salah_core/src/trace/trace_time_document.dart';
 export 'package:geo_salah_core/src/wire/high_latitude_method_document.dart';
 export 'package:geo_salah_core/src/wire/prayer_event_code.dart';
+export 'package:geo_salah_core/src/wire/profile/accuracy_approval_document.dart';
+export 'package:geo_salah_core/src/wire/profile/adjustments_document.dart';
+export 'package:geo_salah_core/src/wire/profile/approvals_document.dart';
+export 'package:geo_salah_core/src/wire/profile/authority_document.dart';
+export 'package:geo_salah_core/src/wire/profile/authority_type_code.dart';
+export 'package:geo_salah_core/src/wire/profile/compatibility_document.dart';
+export 'package:geo_salah_core/src/wire/profile/elevation_policy_code.dart';
+export 'package:geo_salah_core/src/wire/profile/evidence_document.dart';
+export 'package:geo_salah_core/src/wire/profile/evidence_source_document.dart';
+export 'package:geo_salah_core/src/wire/profile/high_latitude_document.dart';
+export 'package:geo_salah_core/src/wire/profile/horizon_document.dart';
+export 'package:geo_salah_core/src/wire/profile/interval_base_code.dart';
+export 'package:geo_salah_core/src/wire/profile/prayer_profile_document.dart';
+export 'package:geo_salah_core/src/wire/profile/profile_scope_document.dart';
+export 'package:geo_salah_core/src/wire/profile/profile_status_code.dart';
+export 'package:geo_salah_core/src/wire/profile/reference_mode_code.dart';
+export 'package:geo_salah_core/src/wire/profile/reference_point_document.dart';
+export 'package:geo_salah_core/src/wire/profile/religious_approval_document.dart';
+export 'package:geo_salah_core/src/wire/profile/rounding_mode_code.dart';
+export 'package:geo_salah_core/src/wire/profile/rule_document.dart';
+export 'package:geo_salah_core/src/wire/profile/rules_document.dart';

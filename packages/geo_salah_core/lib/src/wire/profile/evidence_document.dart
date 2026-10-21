@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geo_salah_profiles/src/document/evidence_source_document.dart';
+import 'package:geo_salah_core/src/wire/profile/evidence_source_document.dart';
 
 part 'evidence_document.freezed.dart';
 part 'evidence_document.g.dart';
@@ -16,10 +16,10 @@ abstract class EvidenceDocument with _$EvidenceDocument {
     required String benchmarkSet,
 
     /// Holdout report id; always written, `null` when absent.
-    required String? holdoutReport,
+    @JsonKey(includeIfNull: true) required String? holdoutReport,
 
     /// Benchmark report id; always written, `null` when absent.
-    required String? benchmarkReportId,
+    @JsonKey(includeIfNull: true) required String? benchmarkReportId,
   }) = _EvidenceDocument;
 
   /// Decodes [json]; throws `CheckedFromJsonException` when it does not

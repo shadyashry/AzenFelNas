@@ -1,11 +1,15 @@
 # Profile gate (DESIGN.md §9.2, ADR-008, REQ-GOV-001..004): schema, non-overlap, compile, lab benchmark, holdout.
-# Profiles arrive in slice S07; until then there is nothing to gate, and any profile fails closed.
+# S07 implements the schema and non-overlap stages plus the seed conformance tests. Compile/sign (gsctl,
+# S09), the derivation-set lab benchmark and the holdout report are not implemented yet, so the gate
+# fails closed for any profile that claims more than DRAFT_UNVERIFIED (§15 D52).
 name: profiles-gate
 
 on:
   pull_request:
     paths:
       - profiles/**
+      - packages/geo_salah_profiles/**
+      - schemas/prayer_profile.v1.schema.json
       - .github/workflows/profiles-gate.yml
 
 permissions:
@@ -21,13 +25,33 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Gate profiles
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22.22.0
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: 3.47.7
+          channel: stable
+          cache: true
+      - name: Install pinned schema tools
+        run: npm install --no-save --no-package-lock ajv-cli@5.0.0 ajv-formats@3.0.1 js-yaml@5.5.0
+      - name: Schema (Appendix A) for every profile
         run: |
-          shopt -s nullglob globstar
-          profiles=(profiles/**/*.yaml)
-          if [ ${#profiles[@]} -eq 0 ]; then
-            echo "No profiles yet (slice S07). Nothing to gate."
-            exit 0
+          shopt -s nullglob
+          profiles=(profiles/*/*.yaml)
+          if [ ${#profiles[@]} -eq 0 ]; then echo "::error::no profiles"; exit 1; fi
+          for f in "${profiles[@]}"; do
+            node_modules/.bin/ajv validate --spec=draft2020 --strict=true --strict-types=false \
+              --strict-required=false --allow-union-types -c ajv-formats --all-errors \
+              -s schemas/prayer_profile.v1.schema.json -d "$f"
+          done
+      - name: Only DRAFT_UNVERIFIED until the compile, benchmark and holdout stages exist (fail closed)
+        run: |
+          if grep -LE '^status: DRAFT_UNVERIFIED$' profiles/*/*.yaml | grep .; then
+            echo "::error::a profile above DRAFT_UNVERIFIED needs the S09 compile/sign stage, the lab benchmark and a holdout report"
+            exit 1
           fi
-          echo "::error::profiles exist but the gate stages (S07, S09) are not implemented; failing closed"
-          exit 1
+      - run: dart pub get
+      - name: Parse, validate, non-overlap, channel and seed conformance (geo_salah_profiles)
+        working-directory: packages/geo_salah_profiles
+        run: dart test

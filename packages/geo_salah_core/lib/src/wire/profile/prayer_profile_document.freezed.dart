@@ -22,7 +22,7 @@ mixin _$PrayerProfileDocument {
  String get version;/// Lifecycle status.
  ProfileStatusCode get status;/// First day the profile applies, `YYYY-MM-DD`.
  String get effectiveFrom;/// Last day, or `null`; always written.
- String? get effectiveTo;/// Geographic scope.
+@JsonKey(includeIfNull: true) String? get effectiveTo;/// Geographic scope.
  ProfileScopeDocument get scope;/// Authority.
  AuthorityDocument get authority;/// Reference mode.
  ReferenceModeCode get referenceMode;/// Reference points.
@@ -72,7 +72,7 @@ abstract mixin class $PrayerProfileDocumentCopyWith<$Res>  {
   factory $PrayerProfileDocumentCopyWith(PrayerProfileDocument value, $Res Function(PrayerProfileDocument) _then) = _$PrayerProfileDocumentCopyWithImpl;
 @useResult
 $Res call({
- String profileId, int schemaVersion, String version, ProfileStatusCode status, String effectiveFrom, String? effectiveTo, ProfileScopeDocument scope, AuthorityDocument authority, ReferenceModeCode referenceMode, List<ReferencePointDocument> referencePoints, RulesDocument rules, HorizonDocument horizon, HighLatitudeDocument highLatitude, Map<String, RoundingModeCode> rounding, AdjustmentsDocument adjustments, EvidenceDocument evidence, ApprovalsDocument approvals, CompatibilityDocument compatibility
+ String profileId, int schemaVersion, String version, ProfileStatusCode status, String effectiveFrom,@JsonKey(includeIfNull: true) String? effectiveTo, ProfileScopeDocument scope, AuthorityDocument authority, ReferenceModeCode referenceMode, List<ReferencePointDocument> referencePoints, RulesDocument rules, HorizonDocument horizon, HighLatitudeDocument highLatitude, Map<String, RoundingModeCode> rounding, AdjustmentsDocument adjustments, EvidenceDocument evidence, ApprovalsDocument approvals, CompatibilityDocument compatibility
 });
 
 
@@ -275,7 +275,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String profileId,  int schemaVersion,  String version,  ProfileStatusCode status,  String effectiveFrom,  String? effectiveTo,  ProfileScopeDocument scope,  AuthorityDocument authority,  ReferenceModeCode referenceMode,  List<ReferencePointDocument> referencePoints,  RulesDocument rules,  HorizonDocument horizon,  HighLatitudeDocument highLatitude,  Map<String, RoundingModeCode> rounding,  AdjustmentsDocument adjustments,  EvidenceDocument evidence,  ApprovalsDocument approvals,  CompatibilityDocument compatibility)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String profileId,  int schemaVersion,  String version,  ProfileStatusCode status,  String effectiveFrom, @JsonKey(includeIfNull: true)  String? effectiveTo,  ProfileScopeDocument scope,  AuthorityDocument authority,  ReferenceModeCode referenceMode,  List<ReferencePointDocument> referencePoints,  RulesDocument rules,  HorizonDocument horizon,  HighLatitudeDocument highLatitude,  Map<String, RoundingModeCode> rounding,  AdjustmentsDocument adjustments,  EvidenceDocument evidence,  ApprovalsDocument approvals,  CompatibilityDocument compatibility)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PrayerProfileDocument() when $default != null:
 return $default(_that.profileId,_that.schemaVersion,_that.version,_that.status,_that.effectiveFrom,_that.effectiveTo,_that.scope,_that.authority,_that.referenceMode,_that.referencePoints,_that.rules,_that.horizon,_that.highLatitude,_that.rounding,_that.adjustments,_that.evidence,_that.approvals,_that.compatibility);case _:
@@ -296,7 +296,7 @@ return $default(_that.profileId,_that.schemaVersion,_that.version,_that.status,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String profileId,  int schemaVersion,  String version,  ProfileStatusCode status,  String effectiveFrom,  String? effectiveTo,  ProfileScopeDocument scope,  AuthorityDocument authority,  ReferenceModeCode referenceMode,  List<ReferencePointDocument> referencePoints,  RulesDocument rules,  HorizonDocument horizon,  HighLatitudeDocument highLatitude,  Map<String, RoundingModeCode> rounding,  AdjustmentsDocument adjustments,  EvidenceDocument evidence,  ApprovalsDocument approvals,  CompatibilityDocument compatibility)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String profileId,  int schemaVersion,  String version,  ProfileStatusCode status,  String effectiveFrom, @JsonKey(includeIfNull: true)  String? effectiveTo,  ProfileScopeDocument scope,  AuthorityDocument authority,  ReferenceModeCode referenceMode,  List<ReferencePointDocument> referencePoints,  RulesDocument rules,  HorizonDocument horizon,  HighLatitudeDocument highLatitude,  Map<String, RoundingModeCode> rounding,  AdjustmentsDocument adjustments,  EvidenceDocument evidence,  ApprovalsDocument approvals,  CompatibilityDocument compatibility)  $default,) {final _that = this;
 switch (_that) {
 case _PrayerProfileDocument():
 return $default(_that.profileId,_that.schemaVersion,_that.version,_that.status,_that.effectiveFrom,_that.effectiveTo,_that.scope,_that.authority,_that.referenceMode,_that.referencePoints,_that.rules,_that.horizon,_that.highLatitude,_that.rounding,_that.adjustments,_that.evidence,_that.approvals,_that.compatibility);case _:
@@ -316,7 +316,7 @@ return $default(_that.profileId,_that.schemaVersion,_that.version,_that.status,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String profileId,  int schemaVersion,  String version,  ProfileStatusCode status,  String effectiveFrom,  String? effectiveTo,  ProfileScopeDocument scope,  AuthorityDocument authority,  ReferenceModeCode referenceMode,  List<ReferencePointDocument> referencePoints,  RulesDocument rules,  HorizonDocument horizon,  HighLatitudeDocument highLatitude,  Map<String, RoundingModeCode> rounding,  AdjustmentsDocument adjustments,  EvidenceDocument evidence,  ApprovalsDocument approvals,  CompatibilityDocument compatibility)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String profileId,  int schemaVersion,  String version,  ProfileStatusCode status,  String effectiveFrom, @JsonKey(includeIfNull: true)  String? effectiveTo,  ProfileScopeDocument scope,  AuthorityDocument authority,  ReferenceModeCode referenceMode,  List<ReferencePointDocument> referencePoints,  RulesDocument rules,  HorizonDocument horizon,  HighLatitudeDocument highLatitude,  Map<String, RoundingModeCode> rounding,  AdjustmentsDocument adjustments,  EvidenceDocument evidence,  ApprovalsDocument approvals,  CompatibilityDocument compatibility)?  $default,) {final _that = this;
 switch (_that) {
 case _PrayerProfileDocument() when $default != null:
 return $default(_that.profileId,_that.schemaVersion,_that.version,_that.status,_that.effectiveFrom,_that.effectiveTo,_that.scope,_that.authority,_that.referenceMode,_that.referencePoints,_that.rules,_that.horizon,_that.highLatitude,_that.rounding,_that.adjustments,_that.evidence,_that.approvals,_that.compatibility);case _:
@@ -331,7 +331,7 @@ return $default(_that.profileId,_that.schemaVersion,_that.version,_that.status,_
 @JsonSerializable()
 
 class _PrayerProfileDocument implements PrayerProfileDocument {
-  const _PrayerProfileDocument({required this.profileId, required this.schemaVersion, required this.version, required this.status, required this.effectiveFrom, required this.effectiveTo, required this.scope, required this.authority, required this.referenceMode, required  List<ReferencePointDocument> referencePoints, required this.rules, required this.horizon, required this.highLatitude, required  Map<String, RoundingModeCode> rounding, required this.adjustments, required this.evidence, required this.approvals, required this.compatibility}): _referencePoints = referencePoints,_rounding = rounding;
+  const _PrayerProfileDocument({required this.profileId, required this.schemaVersion, required this.version, required this.status, required this.effectiveFrom, @JsonKey(includeIfNull: true) required this.effectiveTo, required this.scope, required this.authority, required this.referenceMode, required  List<ReferencePointDocument> referencePoints, required this.rules, required this.horizon, required this.highLatitude, required  Map<String, RoundingModeCode> rounding, required this.adjustments, required this.evidence, required this.approvals, required this.compatibility}): _referencePoints = referencePoints,_rounding = rounding;
   factory _PrayerProfileDocument.fromJson(Map<String, dynamic> json) => _$PrayerProfileDocumentFromJson(json);
 
 /// `<iso2>.<authority>.<variant>` or `engine.default`.
@@ -345,7 +345,7 @@ class _PrayerProfileDocument implements PrayerProfileDocument {
 /// First day the profile applies, `YYYY-MM-DD`.
 @override final  String effectiveFrom;
 /// Last day, or `null`; always written.
-@override final  String? effectiveTo;
+@override@JsonKey(includeIfNull: true) final  String? effectiveTo;
 /// Geographic scope.
 @override final  ProfileScopeDocument scope;
 /// Authority.
@@ -420,7 +420,7 @@ abstract mixin class _$PrayerProfileDocumentCopyWith<$Res> implements $PrayerPro
   factory _$PrayerProfileDocumentCopyWith(_PrayerProfileDocument value, $Res Function(_PrayerProfileDocument) _then) = __$PrayerProfileDocumentCopyWithImpl;
 @override @useResult
 $Res call({
- String profileId, int schemaVersion, String version, ProfileStatusCode status, String effectiveFrom, String? effectiveTo, ProfileScopeDocument scope, AuthorityDocument authority, ReferenceModeCode referenceMode, List<ReferencePointDocument> referencePoints, RulesDocument rules, HorizonDocument horizon, HighLatitudeDocument highLatitude, Map<String, RoundingModeCode> rounding, AdjustmentsDocument adjustments, EvidenceDocument evidence, ApprovalsDocument approvals, CompatibilityDocument compatibility
+ String profileId, int schemaVersion, String version, ProfileStatusCode status, String effectiveFrom,@JsonKey(includeIfNull: true) String? effectiveTo, ProfileScopeDocument scope, AuthorityDocument authority, ReferenceModeCode referenceMode, List<ReferencePointDocument> referencePoints, RulesDocument rules, HorizonDocument horizon, HighLatitudeDocument highLatitude, Map<String, RoundingModeCode> rounding, AdjustmentsDocument adjustments, EvidenceDocument evidence, ApprovalsDocument approvals, CompatibilityDocument compatibility
 });
 
 

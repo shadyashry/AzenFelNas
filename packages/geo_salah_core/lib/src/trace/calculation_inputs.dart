@@ -7,12 +7,17 @@ import 'package:geo_salah_core/src/model/hijri_date.dart';
 import 'package:geo_salah_core/src/model/hijri_state.dart';
 import 'package:geo_salah_core/src/model/observer.dart';
 import 'package:geo_salah_core/src/model/prayer_profile.dart';
+import 'package:geo_salah_core/src/model/reference_mode.dart';
+import 'package:geo_salah_core/src/model/reference_point.dart';
 import 'package:geo_salah_core/src/trace/canonical_json.dart';
 import 'package:meta/meta.dart';
 
 /// The inputs a Calculation ID covers (§6.4 ¶11): coordinates rounded to 6
 /// decimals, zone, day, profile identity and the Hijri state.
 ///
+/// The coordinates are where the engine calculates: the observer's, or,
+/// under `authorityReferencePoint` with the one reference point the
+/// resolver left for the observer's area, that point's (ADR-006, §15 D53).
 /// The engine calculates at the **rounded** coordinates, so equal
 /// [inputsHash]es give equal raw instants (REQ-DOM-004, §15 D38). [toJson]
 /// is exactly the `inputs` object of `calculation_trace.v1`. Immutable and
@@ -26,15 +31,31 @@ final class CalculationInputs {
     required PrayerProfile profile,
     required CivilDate day,
     required HijriState hijri,
-  }) => CalculationInputs._(
-    latitudeDeg: round6(observer.latitudeDeg),
-    longitudeDeg: round6(observer.longitudeDeg),
-    zoneId: observer.zoneId,
-    day: day,
-    profileId: profile.profileId,
-    profileVersion: profile.version,
-    hijri: hijri,
-  );
+  }) {
+    final (latitudeDeg, longitudeDeg) = switch ((
+      profile.referenceMode,
+      profile.referencePoints,
+    )) {
+      (ReferenceMode.authorityReferencePoint, [final ReferencePoint point]) => (
+        point.lat,
+        point.lon,
+      ),
+      (
+        ReferenceMode.authorityReferencePoint || ReferenceMode.exactCoordinate,
+        _,
+      ) =>
+        (observer.latitudeDeg, observer.longitudeDeg),
+    };
+    return CalculationInputs._(
+      latitudeDeg: round6(latitudeDeg),
+      longitudeDeg: round6(longitudeDeg),
+      zoneId: observer.zoneId,
+      day: day,
+      profileId: profile.profileId,
+      profileVersion: profile.version,
+      hijri: hijri,
+    );
+  }
 
   const new _({
     required this.latitudeDeg,

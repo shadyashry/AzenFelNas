@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geo_salah_profiles/src/document/elevation_policy_code.dart';
+import 'package:geo_salah_core/src/wire/profile/elevation_policy_code.dart';
 
 part 'horizon_document.freezed.dart';
 part 'horizon_document.g.dart';

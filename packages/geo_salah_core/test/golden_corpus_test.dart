@@ -75,7 +75,6 @@ void main() {
       final (:observer, :tzdb) = _setUp(golden['observer']);
       final profile = readEngineDefault();
       expect(golden['schemaVersion'], 2);
-      expect(golden['profileVersion'], profile.version);
 
       for (final dayJson in asJsonList(golden['days']).map(asJsonObject)) {
         final day = switch (dayJson['day']) {

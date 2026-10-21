@@ -1,5 +1,6 @@
 # Wire models follow schemas/*.schema.json (ADR-023): unknown keys are rejected and optional fields are
-# omitted rather than written as null (§15 D21).
+# omitted rather than written as null (§15 D21). The prayer_profile.v1 models (lib/src/wire/profile/)
+# write Appendix A's nullable members as null with a per-field @JsonKey(includeIfNull: true).
 targets:
   $default:
     builders:

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geo_salah_profiles/src/document/rule_document.dart';
+import 'package:geo_salah_core/src/wire/profile/rule_document.dart';
 
 part 'rules_document.freezed.dart';
 part 'rules_document.g.dart';
@@ -11,7 +11,7 @@ abstract class RulesDocument with _$RulesDocument {
   /// Creates a [RulesDocument].
   const factory({
     /// Imsak rule, or `null`.
-    required RuleDocument? imsak,
+    @JsonKey(includeIfNull: true) required RuleDocument? imsak,
 
     /// Fajr rule.
     required RuleDocument fajr,

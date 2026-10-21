@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:geo_salah_core/src/bench/bench_profiles.dart';
 
-/// The bench stand-in profiles, read from `bench/profiles/*.json` (profile
-/// data, §15 D48; tests run from the package root).
-Map<String, PrayerProfile> readBenchProfiles() {
+/// The decoded `bench/profiles/*.json` documents: the compiled seed profiles
+/// (§15 D48, D51; tests run from the package root).
+List<Object?> readBenchProfileDocuments() {
   final files =
       Directory(BenchProfiles.directory)
           .listSync()
@@ -14,12 +14,14 @@ Map<String, PrayerProfile> readBenchProfiles() {
           .where((f) => f.path.endsWith('.json'))
           .toList()
         ..sort((a, b) => a.path.compareTo(b.path));
-  return BenchProfiles.byId([
-    for (final file in files) jsonDecode(file.readAsStringSync()),
-  ]);
+  return [for (final file in files) jsonDecode(file.readAsStringSync())];
 }
 
-/// The `engine.default` stand-in.
+/// The bench profiles, by id.
+Map<String, PrayerProfile> readBenchProfiles() =>
+    BenchProfiles.byId(readBenchProfileDocuments());
+
+/// The `engine.default` seed profile.
 PrayerProfile readEngineDefault() =>
     switch (readBenchProfiles()[BenchProfiles.engineDefaultId]) {
       final PrayerProfile profile => profile,

@@ -19,8 +19,8 @@ mixin _$EvidenceDocument {
 /// Sources.
  List<EvidenceSourceDocument> get sources;/// Benchmark set id.
  String get benchmarkSet;/// Holdout report id; always written, `null` when absent.
- String? get holdoutReport;/// Benchmark report id; always written, `null` when absent.
- String? get benchmarkReportId;
+@JsonKey(includeIfNull: true) String? get holdoutReport;/// Benchmark report id; always written, `null` when absent.
+@JsonKey(includeIfNull: true) String? get benchmarkReportId;
 /// Create a copy of EvidenceDocument
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -58,7 +58,7 @@ abstract mixin class $EvidenceDocumentCopyWith<$Res>  {
   factory $EvidenceDocumentCopyWith(EvidenceDocument value, $Res Function(EvidenceDocument) _then) = _$EvidenceDocumentCopyWithImpl;
 @useResult
 $Res call({
- List<EvidenceSourceDocument> sources, String benchmarkSet, String? holdoutReport, String? benchmarkReportId
+ List<EvidenceSourceDocument> sources, String benchmarkSet,@JsonKey(includeIfNull: true) String? holdoutReport,@JsonKey(includeIfNull: true) String? benchmarkReportId
 });
 
 
@@ -166,7 +166,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<EvidenceSourceDocument> sources,  String benchmarkSet,  String? holdoutReport,  String? benchmarkReportId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<EvidenceSourceDocument> sources,  String benchmarkSet, @JsonKey(includeIfNull: true)  String? holdoutReport, @JsonKey(includeIfNull: true)  String? benchmarkReportId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EvidenceDocument() when $default != null:
 return $default(_that.sources,_that.benchmarkSet,_that.holdoutReport,_that.benchmarkReportId);case _:
@@ -187,7 +187,7 @@ return $default(_that.sources,_that.benchmarkSet,_that.holdoutReport,_that.bench
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<EvidenceSourceDocument> sources,  String benchmarkSet,  String? holdoutReport,  String? benchmarkReportId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<EvidenceSourceDocument> sources,  String benchmarkSet, @JsonKey(includeIfNull: true)  String? holdoutReport, @JsonKey(includeIfNull: true)  String? benchmarkReportId)  $default,) {final _that = this;
 switch (_that) {
 case _EvidenceDocument():
 return $default(_that.sources,_that.benchmarkSet,_that.holdoutReport,_that.benchmarkReportId);case _:
@@ -207,7 +207,7 @@ return $default(_that.sources,_that.benchmarkSet,_that.holdoutReport,_that.bench
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<EvidenceSourceDocument> sources,  String benchmarkSet,  String? holdoutReport,  String? benchmarkReportId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<EvidenceSourceDocument> sources,  String benchmarkSet, @JsonKey(includeIfNull: true)  String? holdoutReport, @JsonKey(includeIfNull: true)  String? benchmarkReportId)?  $default,) {final _that = this;
 switch (_that) {
 case _EvidenceDocument() when $default != null:
 return $default(_that.sources,_that.benchmarkSet,_that.holdoutReport,_that.benchmarkReportId);case _:
@@ -222,7 +222,7 @@ return $default(_that.sources,_that.benchmarkSet,_that.holdoutReport,_that.bench
 @JsonSerializable()
 
 class _EvidenceDocument implements EvidenceDocument {
-  const _EvidenceDocument({required  List<EvidenceSourceDocument> sources, required this.benchmarkSet, required this.holdoutReport, required this.benchmarkReportId}): _sources = sources;
+  const _EvidenceDocument({required  List<EvidenceSourceDocument> sources, required this.benchmarkSet, @JsonKey(includeIfNull: true) required this.holdoutReport, @JsonKey(includeIfNull: true) required this.benchmarkReportId}): _sources = sources;
   factory _EvidenceDocument.fromJson(Map<String, dynamic> json) => _$EvidenceDocumentFromJson(json);
 
 /// Sources.
@@ -237,9 +237,9 @@ class _EvidenceDocument implements EvidenceDocument {
 /// Benchmark set id.
 @override final  String benchmarkSet;
 /// Holdout report id; always written, `null` when absent.
-@override final  String? holdoutReport;
+@override@JsonKey(includeIfNull: true) final  String? holdoutReport;
 /// Benchmark report id; always written, `null` when absent.
-@override final  String? benchmarkReportId;
+@override@JsonKey(includeIfNull: true) final  String? benchmarkReportId;
 
 /// Create a copy of EvidenceDocument
 /// with the given fields replaced by the non-null parameter values.
@@ -276,7 +276,7 @@ abstract mixin class _$EvidenceDocumentCopyWith<$Res> implements $EvidenceDocume
   factory _$EvidenceDocumentCopyWith(_EvidenceDocument value, $Res Function(_EvidenceDocument) _then) = __$EvidenceDocumentCopyWithImpl;
 @override @useResult
 $Res call({
- List<EvidenceSourceDocument> sources, String benchmarkSet, String? holdoutReport, String? benchmarkReportId
+ List<EvidenceSourceDocument> sources, String benchmarkSet,@JsonKey(includeIfNull: true) String? holdoutReport,@JsonKey(includeIfNull: true) String? benchmarkReportId
 });
 
 

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geo_salah_core/geo_salah_core.dart';
+import 'package:geo_salah_core/src/wire/high_latitude_method_document.dart';
 
 part 'high_latitude_document.freezed.dart';
 part 'high_latitude_document.g.dart';

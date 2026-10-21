@@ -15,6 +15,7 @@ import 'package:geo_salah_core/src/model/prayer_event.dart';
 import 'package:geo_salah_core/src/model/prayer_profile.dart';
 import 'package:geo_salah_core/src/model/prayer_time.dart';
 import 'package:geo_salah_core/src/model/provenance.dart';
+import 'package:geo_salah_core/src/model/reference_mode.dart';
 import 'package:geo_salah_core/src/model/tz_database.dart';
 import 'package:geo_salah_core/src/policy/adjustments.dart';
 import 'package:geo_salah_core/src/policy/day_flags.dart';
@@ -30,11 +31,13 @@ import 'package:geo_salah_core/src/trace/calculation_trace_writer.dart';
 /// The §6.4 pipeline for one prayer day, shared by `CalculateDay` and
 /// `CalculateRange` (internal; not exported).
 ///
-/// Steps, in order: elevation policy (ADR-003) → culmination segments
-/// (ADR-004) → rules (¶6, interval rules on raw bases) → per-event offsets
-/// (¶8) → rounding, last (¶9) → flags and confidence (REQ-DOM-050) →
-/// ordering guard on displayed instants (¶10, REQ-DOM-001) → Calculation ID
-/// (¶11). High-latitude fallbacks and Ramadan rule replacement join in S08.
+/// Steps, in order: elevation policy (ADR-003) → calculation point
+/// (ADR-006: the observer, or its area's reference point) → culmination
+/// segments (ADR-004) → rules (¶6, interval rules on raw bases) →
+/// per-event offsets (¶8) → rounding, last (¶9) → flags and confidence
+/// (REQ-DOM-050) → ordering guard on displayed instants (¶10, REQ-DOM-001)
+/// → Calculation ID (¶11). High-latitude fallbacks and Ramadan rule
+/// replacement join in S08.
 ///
 /// An optional [SunSampleCache] lets a range reuse SPA samples between days;
 /// it never changes a result (REQ-DOM-004). Pure and deterministic.
@@ -77,6 +80,15 @@ final class DayCalculation {
     }
     if (_offsets.check(profile) case Err(:final failure)) {
       return Result.err(failure);
+    }
+    if (profile.referenceMode == ReferenceMode.authorityReferencePoint &&
+        profile.referencePoints.length != 1) {
+      return Result.err(
+        EngineFailure.invalidProfile(
+          'referencePoints: ${profile.referencePoints.length} points; the '
+          "resolver leaves the one for the observer's area (ADR-006)",
+        ),
+      );
     }
     final inputs = CalculationInputs.of(
       observer: observer,
@@ -122,7 +134,12 @@ final class DayCalculation {
     required CalculationInputs inputs,
     required TzDatabase tzdb,
   }) {
-    final dayFlags = _flags.of(observer: observer, day: inputs.day, tzdb: tzdb);
+    final dayFlags = _flags.of(
+      observer: observer,
+      profile: profile,
+      day: inputs.day,
+      tzdb: tzdb,
+    );
     final times = <PrayerTime>[];
     final steps = <AdjustmentStep>[];
     for (final MapEntry(key: event, value: solution) in solutions.entries) {

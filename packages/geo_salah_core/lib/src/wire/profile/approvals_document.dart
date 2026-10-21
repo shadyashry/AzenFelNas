@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geo_salah_profiles/src/document/accuracy_approval_document.dart';
-import 'package:geo_salah_profiles/src/document/religious_approval_document.dart';
+import 'package:geo_salah_core/src/wire/profile/accuracy_approval_document.dart';
+import 'package:geo_salah_core/src/wire/profile/religious_approval_document.dart';
 
 part 'approvals_document.freezed.dart';
 part 'approvals_document.g.dart';
@@ -11,10 +11,10 @@ abstract class ApprovalsDocument with _$ApprovalsDocument {
   /// Creates a [ApprovalsDocument].
   const factory({
     /// Religious approval.
-    required ReligiousApprovalDocument? religious,
+    @JsonKey(includeIfNull: true) required ReligiousApprovalDocument? religious,
 
     /// Accuracy approval.
-    required AccuracyApprovalDocument? accuracy,
+    @JsonKey(includeIfNull: true) required AccuracyApprovalDocument? accuracy,
   }) = _ApprovalsDocument;
 
   /// Decodes [json]; throws `CheckedFromJsonException` when it does not

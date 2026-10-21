@@ -13,11 +13,18 @@ Since S06 it calculates every event:
 - `CalculateRange` shares SPA samples between neighbouring days and returns exactly what `CalculateDay` returns.
 - High-latitude fallbacks and Ramadan rule replacement arrive in S08 (§15 D41–D47).
 
+Since S07 the package also holds:
+- the full §6.2 `PrayerProfile` (`lib/src/model/`);
+- the `prayer_profile.v1` wire model (`lib/src/wire/profile/`, moved from `geo_salah_profiles`);
+- `PrayerProfileMapper` (`lib/src/profile/`), the one document → domain mapping.
+
+The engine calculates at the authority reference point under `AUTHORITY_REFERENCE_POINT` (ADR-006) and flags `referenceModeAuthorityPoint` and `noLocalProfile` (§15 D51, D53).
+
 ## Lab bench
 
 `dart run geo_salah_core:bench` speaks the §15 D29 JSONL contract (`bench_request.v1` in, one `calculation_trace.v1` or `bench_failure.v1` line out per request) for every event. It runs with these stand-ins:
 - fixed standard-offset zones (`lib/src/bench/`, §15 D40);
-- the profile **data** in `bench/profiles/`: an `engine.default` stand-in whose values cite §6.5, ADR-003 and ADR-005 (§15 D48, `bench/profiles/README.md`).
+- the profile **data** in `bench/profiles/`: since S07, the compiled JSON of the seed `profiles/engine/engine.default.yaml`. It is read through the same wire model and `PrayerProfileMapper` as the app's profiles (§15 D48, D51, `bench/profiles/README.md`).
 
 The Accuracy Lab drives it with `uv run --frozen lab benchmark --engine dart` from `lab/`.
 

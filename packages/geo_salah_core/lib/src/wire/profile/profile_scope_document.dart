@@ -13,7 +13,7 @@ abstract class ProfileScopeDocument with _$ProfileScopeDocument {
 
     /// Polygon set reference (deferred to V1); always written, `null` when
     /// unset.
-    required String? polygonsRef,
+    @JsonKey(includeIfNull: true) required String? polygonsRef,
 
     /// ISO 3166-2 codes (deferred to V1).
     @Default(<String>[]) List<String> adminAreas,

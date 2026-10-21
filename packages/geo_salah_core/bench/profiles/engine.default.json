@@ -1,12 +1,23 @@
 {
   "profileId": "engine.default",
   "schemaVersion": 1,
-  "version": "0000.0.1",
+  "version": "2026.10.1",
   "status": "DRAFT_UNVERIFIED",
+  "effectiveFrom": "0001-01-01",
+  "effectiveTo": null,
+  "scope": {
+    "countries": [
+      "*"
+    ],
+    "adminAreas": [],
+    "polygonsRef": null
+  },
   "authority": {
-    "name": "Engine default (bench stand-in, DESIGN.md §6.5)",
+    "name": "Engine default (no local authority profile)",
     "type": "ENGINE_DEFAULT"
   },
+  "referenceMode": "EXACT_COORDINATE",
+  "referencePoints": [],
   "rules": {
     "imsak": null,
     "fajr": {
@@ -34,11 +45,37 @@
   "horizon": {
     "elevationPolicy": "NONE"
   },
+  "highLatitude": {
+    "chain": [
+      "anglePortion",
+      {
+        "nearestLatitude": {
+          "latDeg": 48.5
+        }
+      }
+    ]
+  },
   "rounding": {
     "default": "ceil",
     "sunrise": "floor"
   },
+  "adjustments": {
+    "perEventMinutes": {},
+    "maxAbsMinutes": 0,
+    "ramadan": {}
+  },
   "evidence": {
+    "sources": [],
+    "benchmarkSet": "engine-default",
+    "holdoutReport": null,
     "benchmarkReportId": null
+  },
+  "approvals": {
+    "religious": null,
+    "accuracy": null
+  },
+  "compatibility": {
+    "minEngineSchema": 1,
+    "minAppVersion": "1.0.0"
   }
 }

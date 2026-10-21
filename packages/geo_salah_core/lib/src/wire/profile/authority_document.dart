@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geo_salah_profiles/src/document/authority_type_code.dart';
+import 'package:geo_salah_core/src/wire/profile/authority_type_code.dart';
 
 part 'authority_document.freezed.dart';
 part 'authority_document.g.dart';

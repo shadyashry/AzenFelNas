@@ -19,7 +19,7 @@ mixin _$ProfileScopeDocument {
 /// ISO 3166-1 alpha-2 codes, or `*` for all.
  List<String> get countries;/// Polygon set reference (deferred to V1); always written, `null` when
 /// unset.
- String? get polygonsRef;/// ISO 3166-2 codes (deferred to V1).
+@JsonKey(includeIfNull: true) String? get polygonsRef;/// ISO 3166-2 codes (deferred to V1).
  List<String> get adminAreas;
 /// Create a copy of ProfileScopeDocument
 /// with the given fields replaced by the non-null parameter values.
@@ -58,7 +58,7 @@ abstract mixin class $ProfileScopeDocumentCopyWith<$Res>  {
   factory $ProfileScopeDocumentCopyWith(ProfileScopeDocument value, $Res Function(ProfileScopeDocument) _then) = _$ProfileScopeDocumentCopyWithImpl;
 @useResult
 $Res call({
- List<String> countries, String? polygonsRef, List<String> adminAreas
+ List<String> countries,@JsonKey(includeIfNull: true) String? polygonsRef, List<String> adminAreas
 });
 
 
@@ -165,7 +165,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String> countries,  String? polygonsRef,  List<String> adminAreas)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String> countries, @JsonKey(includeIfNull: true)  String? polygonsRef,  List<String> adminAreas)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProfileScopeDocument() when $default != null:
 return $default(_that.countries,_that.polygonsRef,_that.adminAreas);case _:
@@ -186,7 +186,7 @@ return $default(_that.countries,_that.polygonsRef,_that.adminAreas);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String> countries,  String? polygonsRef,  List<String> adminAreas)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String> countries, @JsonKey(includeIfNull: true)  String? polygonsRef,  List<String> adminAreas)  $default,) {final _that = this;
 switch (_that) {
 case _ProfileScopeDocument():
 return $default(_that.countries,_that.polygonsRef,_that.adminAreas);case _:
@@ -206,7 +206,7 @@ return $default(_that.countries,_that.polygonsRef,_that.adminAreas);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String> countries,  String? polygonsRef,  List<String> adminAreas)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String> countries, @JsonKey(includeIfNull: true)  String? polygonsRef,  List<String> adminAreas)?  $default,) {final _that = this;
 switch (_that) {
 case _ProfileScopeDocument() when $default != null:
 return $default(_that.countries,_that.polygonsRef,_that.adminAreas);case _:
@@ -221,7 +221,7 @@ return $default(_that.countries,_that.polygonsRef,_that.adminAreas);case _:
 @JsonSerializable()
 
 class _ProfileScopeDocument implements ProfileScopeDocument {
-  const _ProfileScopeDocument({required  List<String> countries, required this.polygonsRef,  List<String> adminAreas = const <String>[]}): _countries = countries,_adminAreas = adminAreas;
+  const _ProfileScopeDocument({required  List<String> countries, @JsonKey(includeIfNull: true) required this.polygonsRef,  List<String> adminAreas = const <String>[]}): _countries = countries,_adminAreas = adminAreas;
   factory _ProfileScopeDocument.fromJson(Map<String, dynamic> json) => _$ProfileScopeDocumentFromJson(json);
 
 /// ISO 3166-1 alpha-2 codes, or `*` for all.
@@ -235,7 +235,7 @@ class _ProfileScopeDocument implements ProfileScopeDocument {
 
 /// Polygon set reference (deferred to V1); always written, `null` when
 /// unset.
-@override final  String? polygonsRef;
+@override@JsonKey(includeIfNull: true) final  String? polygonsRef;
 /// ISO 3166-2 codes (deferred to V1).
  final  List<String> _adminAreas;
 /// ISO 3166-2 codes (deferred to V1).
@@ -281,7 +281,7 @@ abstract mixin class _$ProfileScopeDocumentCopyWith<$Res> implements $ProfileSco
   factory _$ProfileScopeDocumentCopyWith(_ProfileScopeDocument value, $Res Function(_ProfileScopeDocument) _then) = __$ProfileScopeDocumentCopyWithImpl;
 @override @useResult
 $Res call({
- List<String> countries, String? polygonsRef, List<String> adminAreas
+ List<String> countries,@JsonKey(includeIfNull: true) String? polygonsRef, List<String> adminAreas
 });
 
 

@@ -1,17 +1,17 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geo_salah_profiles/src/document/adjustments_document.dart';
-import 'package:geo_salah_profiles/src/document/approvals_document.dart';
-import 'package:geo_salah_profiles/src/document/authority_document.dart';
-import 'package:geo_salah_profiles/src/document/compatibility_document.dart';
-import 'package:geo_salah_profiles/src/document/evidence_document.dart';
-import 'package:geo_salah_profiles/src/document/high_latitude_document.dart';
-import 'package:geo_salah_profiles/src/document/horizon_document.dart';
-import 'package:geo_salah_profiles/src/document/profile_scope_document.dart';
-import 'package:geo_salah_profiles/src/document/profile_status_code.dart';
-import 'package:geo_salah_profiles/src/document/reference_mode_code.dart';
-import 'package:geo_salah_profiles/src/document/reference_point_document.dart';
-import 'package:geo_salah_profiles/src/document/rounding_mode_code.dart';
-import 'package:geo_salah_profiles/src/document/rules_document.dart';
+import 'package:geo_salah_core/src/wire/profile/adjustments_document.dart';
+import 'package:geo_salah_core/src/wire/profile/approvals_document.dart';
+import 'package:geo_salah_core/src/wire/profile/authority_document.dart';
+import 'package:geo_salah_core/src/wire/profile/compatibility_document.dart';
+import 'package:geo_salah_core/src/wire/profile/evidence_document.dart';
+import 'package:geo_salah_core/src/wire/profile/high_latitude_document.dart';
+import 'package:geo_salah_core/src/wire/profile/horizon_document.dart';
+import 'package:geo_salah_core/src/wire/profile/profile_scope_document.dart';
+import 'package:geo_salah_core/src/wire/profile/profile_status_code.dart';
+import 'package:geo_salah_core/src/wire/profile/reference_mode_code.dart';
+import 'package:geo_salah_core/src/wire/profile/reference_point_document.dart';
+import 'package:geo_salah_core/src/wire/profile/rounding_mode_code.dart';
+import 'package:geo_salah_core/src/wire/profile/rules_document.dart';
 
 part 'prayer_profile_document.freezed.dart';
 part 'prayer_profile_document.g.dart';
@@ -39,7 +39,7 @@ abstract class PrayerProfileDocument with _$PrayerProfileDocument {
     required String effectiveFrom,
 
     /// Last day, or `null`; always written.
-    required String? effectiveTo,
+    @JsonKey(includeIfNull: true) required String? effectiveTo,
 
     /// Geographic scope.
     required ProfileScopeDocument scope,
