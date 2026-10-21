@@ -7,6 +7,8 @@ on:
     paths:
       - apps/mobile/**
       - packages/dm_contracts/**
+      - schemas/**
+      - DESIGN.md
       - .swiftlint.yml
       - .swiftformat
       - .github/workflows/ci-ios.yml

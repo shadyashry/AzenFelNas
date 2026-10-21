@@ -6,6 +6,7 @@ on:
     paths:
       - tools/gsctl/**
       - services/control-plane/**
+      - schemas/**
       - go.work
       - .golangci.yml
       - .github/workflows/ci-go.yml

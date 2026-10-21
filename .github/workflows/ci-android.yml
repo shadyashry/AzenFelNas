@@ -1,5 +1,4 @@
-# Android gate (DESIGN.md §12): debug APK plus the athan-core module with the §17.3 compiler bar.
-# detekt, ktlint and the JUnit/Robolectric suites join in S21 with the first Kotlin source.
+# Android gate (DESIGN.md §12, §17.3): ktlint, detekt, athan-core unit tests (fixture round-trips), debug APK.
 name: ci-android
 
 on:
@@ -7,6 +6,7 @@ on:
     paths:
       - apps/mobile/**
       - packages/dm_contracts/**
+      - schemas/**
       - .github/workflows/ci-android.yml
   push:
     branches: [main]
@@ -34,9 +34,18 @@ jobs:
           channel: stable
           cache: true
       - run: dart pub get
-      - name: Build debug APK
+      - name: Build debug APK (generates the Gradle wrapper)
         working-directory: apps/mobile
         run: flutter build apk --debug
-      - name: Build athan-core
+      - name: ktlint 1.8.0 and detekt 1.23.8 (pinned, checksum verified)
         working-directory: apps/mobile/android
-        run: ./gradlew --no-daemon :athan-core:assembleDebug
+        run: |
+          curl -sSLo ktlint.jar https://github.com/pinterest/ktlint/releases/download/1.8.0/ktlint
+          echo "a3fd620207d5c40da6ca789b95e7f823c54e854b7fade7f613e91096a3706d75  ktlint.jar" | sha256sum -c
+          curl -sSLo detekt.jar https://github.com/detekt/detekt/releases/download/v1.23.8/detekt-cli-1.23.8-all.jar
+          echo "2ce2ff952e150baf28a29cda70a363b0340b3e81a55f43e51ec5edffc3d066c1  detekt.jar" | sha256sum -c
+          java -jar ktlint.jar "athan-core/src/**/*.kt" "athan-core/*.kts"
+          java -jar detekt.jar --input athan-core/src --config config/detekt.yml --build-upon-default-config
+      - name: athan-core unit tests
+        working-directory: apps/mobile/android
+        run: ./gradlew --no-daemon :athan-core:testDebugUnitTest

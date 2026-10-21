@@ -26,6 +26,8 @@ jobs:
           channel: stable
           cache: true
       - run: dart pub get
+      - name: Generated code is up to date (§15 D22)
+        run: dart run melos run gen:check
       - name: melos run ci (format, analyze, arch lint, REQ index, tests)
         run: dart run melos run ci
 

@@ -26,6 +26,13 @@ __pycache__/
 .ruff_cache/
 .pytest_cache/
 
+# Node (schema tooling installed in CI)
+node_modules/
+
+# Lint tools downloaded by ci-android
+/apps/mobile/android/ktlint.jar
+/apps/mobile/android/detekt.jar
+
 # OS
 .DS_Store
 Thumbs.db

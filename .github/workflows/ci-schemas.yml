@@ -1,5 +1,5 @@
-# Schema gate (DESIGN.md §12, ADR-023): metaschema check (check-jsonschema 0.38.2) and ajv-cli 5.0.0 compile.
-# Schemas and the four-language fixture round-trip arrive in slice S02; until then there is nothing to validate.
+# Schema gate (DESIGN.md §12, ADR-023): metaschema check, valid/invalid fixtures with ajv-cli, Kaitai layouts compile.
+# The four-language fixture round-trips run in ci-dart, ci-android, ci-ios and ci-go.
 name: ci-schemas
 
 on:
@@ -29,15 +29,11 @@ jobs:
       - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
           version: 0.13.4
-      - name: Validate schemas
-        run: |
-          shopt -s nullglob
-          schemas=(schemas/*.schema.json)
-          if [ ${#schemas[@]} -eq 0 ]; then
-            echo "No schemas yet (slice S02). Nothing to validate."
-            exit 0
-          fi
-          uvx check-jsonschema==0.38.2 --check-metaschema "${schemas[@]}"
-          for s in "${schemas[@]}"; do
-            npx --yes ajv-cli@5.0.0 compile --spec=draft2020 -s "$s"
-          done
+      - name: Metaschema check (check-jsonschema 0.38.2)
+        run: uvx check-jsonschema==0.38.2 --check-metaschema schemas/*.schema.json
+      - name: Install pinned schema tools
+        run: npm install --no-save --no-package-lock ajv-cli@5.0.0 ajv-formats@3.0.1 kaitai-struct-compiler@0.11.0 js-yaml@5.5.0
+      - name: Fixtures (valid accepted, invalid rejected)
+        run: AJV="$PWD/node_modules/.bin/ajv" schemas/tools/validate_fixtures.sh
+      - name: Kaitai layouts compile
+        run: node schemas/tools/check_ksy.cjs
