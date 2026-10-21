@@ -79,7 +79,7 @@ iOS (`AthanKit`)
 - AlarmKit `.fixed(Date)` on iOS 26+; `UNTimeIntervalNotificationTrigger` from absolute instants on iOS 18; ≤ 64 pending by priority; notification path never reports `READY`; silent switch / Focus ⇒ probe `nil` ⇒ `unknown`.
 
 ## 6. Backend rules (DESIGN.md §9, §17.5, §17.6)
-Control plane and `gsctl` (Go — unless ADR-010 is amended to Python, in which case §17.6 applies with FastAPI + pydantic v2)
+Control plane and `gsctl` (Go — fixed by ADR-010; Python is used only for the lab and data pipelines)
 - Hexagonal layout: `internal/domain`, `internal/app`, `internal/ports` (1–3 method interfaces defined by consumers), `internal/adapters/{http,postgres,attest,storage}`, `cmd/*` composition roots.
 - golangci-lint set from §17.5 (`errcheck`, `staticcheck`, `gosec`, `govet`, `revive`, `errorlint`, `exhaustive`, `gocritic`), `gofumpt`, `-race`.
 - Errors always wrapped with context (`%w`); sentinel `var Err…`; typed errors mapped to RFC 9457 problem details with a trace id; `log.Fatal` only in `main`; no ignored errors without a comment.
