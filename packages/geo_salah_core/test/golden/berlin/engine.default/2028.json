@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "city": "Berlin",
   "profileId": "engine.default",
-  "profileVersion": "0000.0.0",
+  "profileVersion": "0000.0.1",
   "observer": {
     "latitudeDeg": 52.52,
     "longitudeDeg": 13.41,
@@ -14,25 +14,52 @@
       "day": "2028-01-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1831525597814,
+          "displayedUtcMs": 1831525620000
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1831533016732
+          "rawUtcMs": 1831533016732,
+          "displayedUtcMs": 1831533000000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1831547734248
+          "rawUtcMs": 1831547734248,
+          "displayedUtcMs": 1831547760000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1831554131597,
+          "displayedUtcMs": 1831554180000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1831562477067
+          "rawUtcMs": 1831562477067,
+          "displayedUtcMs": 1831562520000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1831569899576,
+          "displayedUtcMs": 1831569900000
         }
       ]
     },
@@ -40,25 +67,52 @@
       "day": "2028-02-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1834201730963,
+          "displayedUtcMs": 1834201740000
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1834208621617
+          "rawUtcMs": 1834208621617,
+          "displayedUtcMs": 1834208580000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1834226427621
+          "rawUtcMs": 1834226427621,
+          "displayedUtcMs": 1834226460000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1834235252699,
+          "displayedUtcMs": 1834235280000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1834244281741
+          "rawUtcMs": 1834244281741,
+          "displayedUtcMs": 1834244340000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1834251184771,
+          "displayedUtcMs": 1834251240000
         }
       ]
     },
@@ -66,25 +120,52 @@
       "day": "2028-03-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1836703485320,
+          "displayedUtcMs": 1836703500000
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1836710386369
+          "rawUtcMs": 1836710386369,
+          "displayedUtcMs": 1836710340000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1836731706744
+          "rawUtcMs": 1836731706744,
+          "displayedUtcMs": 1836731760000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1836743129962,
+          "displayedUtcMs": 1836743160000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1836753088252
+          "rawUtcMs": 1836753088252,
+          "displayedUtcMs": 1836753120000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1836760018561,
+          "displayedUtcMs": 1836760020000
         }
       ]
     },
@@ -92,25 +173,52 @@
       "day": "2028-04-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1839376459635,
+          "displayedUtcMs": 1839376500000
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1839384466733
+          "rawUtcMs": 1839384466733,
+          "displayedUtcMs": 1839384420000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1839409576109
+          "rawUtcMs": 1839409576109,
+          "displayedUtcMs": 1839409620000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1839423325573,
+          "displayedUtcMs": 1839423360000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1839434754781
+          "rawUtcMs": 1839434754781,
+          "displayedUtcMs": 1839434760000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1839442834096,
+          "displayedUtcMs": 1839442860000
         }
       ]
     },
@@ -118,25 +226,52 @@
       "day": "2028-05-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1841960600800,
+          "displayedUtcMs": 1841960640000
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1841972979430
+          "rawUtcMs": 1841972979430,
+          "displayedUtcMs": 1841972940000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1842001363093
+          "rawUtcMs": 1842001363093,
+          "displayedUtcMs": 1842001380000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1842016611931,
+          "displayedUtcMs": 1842016620000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1842029807926
+          "rawUtcMs": 1842029807926,
+          "displayedUtcMs": 1842029820000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1842042681583,
+          "displayedUtcMs": 1842042720000
         }
       ]
     },
@@ -144,25 +279,50 @@
       "day": "2028-06-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "TWILIGHT_ABSENT"
+          }
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1844649765332
+          "rawUtcMs": 1844649765332,
+          "displayedUtcMs": 1844649720000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1844680017949
+          "rawUtcMs": 1844680017949,
+          "displayedUtcMs": 1844680020000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1844695903857,
+          "displayedUtcMs": 1844695920000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1844710282568
+          "rawUtcMs": 1844710282568,
+          "displayedUtcMs": 1844710320000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "TWILIGHT_ABSENT"
+          }
         }
       ]
     },
@@ -170,25 +330,50 @@
       "day": "2028-07-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "TWILIGHT_ABSENT"
+          }
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1847242930964
+          "rawUtcMs": 1847242930964,
+          "displayedUtcMs": 1847242920000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1847272344138
+          "rawUtcMs": 1847272344138,
+          "displayedUtcMs": 1847272380000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1847287930970,
+          "displayedUtcMs": 1847287980000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1847301709658
+          "rawUtcMs": 1847301709658,
+          "displayedUtcMs": 1847301720000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "NO_EVENT",
+            "reason": "TWILIGHT_ABSENT"
+          }
         }
       ]
     },
@@ -196,25 +381,52 @@
       "day": "2028-08-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1849915166310,
+          "displayedUtcMs": 1849915200000
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1849924172140
+          "rawUtcMs": 1849924172140,
+          "displayedUtcMs": 1849924140000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1849950644635
+          "rawUtcMs": 1849950644635,
+          "displayedUtcMs": 1849950660000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1849965010235,
+          "displayedUtcMs": 1849965060000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1849977048628
+          "rawUtcMs": 1849977048628,
+          "displayedUtcMs": 1849977060000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1849985948757,
+          "displayedUtcMs": 1849986000000
         }
       ]
     },
@@ -222,25 +434,52 @@
       "day": "2028-09-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1852598490596,
+          "displayedUtcMs": 1852598520000
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1852605673147
+          "rawUtcMs": 1852605673147,
+          "displayedUtcMs": 1852605660000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1852628483073
+          "rawUtcMs": 1852628483073,
+          "displayedUtcMs": 1852628520000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1852640807388,
+          "displayedUtcMs": 1852640820000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1852651228957
+          "rawUtcMs": 1852651228957,
+          "displayedUtcMs": 1852651260000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1852658371636,
+          "displayedUtcMs": 1852658400000
         }
       ]
     },
@@ -248,25 +487,52 @@
       "day": "2028-10-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1855193927159,
+          "displayedUtcMs": 1855193940000
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1855200754718
+          "rawUtcMs": 1855200754718,
+          "displayedUtcMs": 1855200720000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1855219921501
+          "rawUtcMs": 1855219921501,
+          "displayedUtcMs": 1855219980000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1855229704279,
+          "displayedUtcMs": 1855229760000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1855239035303
+          "rawUtcMs": 1855239035303,
+          "displayedUtcMs": 1855239060000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1855245845665,
+          "displayedUtcMs": 1855245900000
         }
       ]
     },
@@ -274,25 +540,52 @@
       "day": "2028-11-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1857875326753,
+          "displayedUtcMs": 1857875340000
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1857882535999
+          "rawUtcMs": 1857882535999,
+          "displayedUtcMs": 1857882480000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1857898261958
+          "rawUtcMs": 1857898261958,
+          "displayedUtcMs": 1857898320000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1857905393729,
+          "displayedUtcMs": 1857905400000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1857913953147
+          "rawUtcMs": 1857913953147,
+          "displayedUtcMs": 1857913980000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1857921156383,
+          "displayedUtcMs": 1857921180000
         }
       ]
     },
@@ -300,25 +593,52 @@
       "day": "2028-12-15",
       "times": [
         {
+          "event": "FAJR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1860469413170,
+          "displayedUtcMs": 1860469440000
+        },
+        {
           "event": "SUNRISE",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1860477069502
+          "rawUtcMs": 1860477069502,
+          "displayedUtcMs": 1860477060000
         },
         {
           "event": "DHUHR",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1860490903064
+          "rawUtcMs": 1860490903064,
+          "displayedUtcMs": 1860490920000
+        },
+        {
+          "event": "ASR",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1860496594285,
+          "displayedUtcMs": 1860496620000
         },
         {
           "event": "MAGHRIB",
           "origin": {
             "kind": "PRIMARY"
           },
-          "rawUtcMs": 1860504730207
+          "rawUtcMs": 1860504730207,
+          "displayedUtcMs": 1860504780000
+        },
+        {
+          "event": "ISHA",
+          "origin": {
+            "kind": "PRIMARY"
+          },
+          "rawUtcMs": 1860512385790,
+          "displayedUtcMs": 1860512400000
         }
       ]
     }

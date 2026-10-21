@@ -27,4 +27,4 @@ The Accuracy Lab drives it with `uv run --frozen lab benchmark --engine dart` fr
 
 ## Golden corpus
 
-`test/golden/<city>/<profileId>/<year>.json` holds the engine's raw instants and origins, frozen after the lab confirmed them (ADR-019, §15 D40); `test/golden_corpus_test.dart` requires exact equality. Regenerate only in a `golden-update` change (§0.2 rule 3): `dart run tool/update_golden.dart`.
+`test/golden/<city>/<profileId>/<year>.json` (v2, S06) holds the engine's origins, raw instants and displayed instants of every `engine.default` event. Sunrise, Dhuhr and Maghrib were frozen after the lab confirmed them (ADR-019, §15 D40). Fajr, Asr and Isha have no lab reference yet (§15 D48). `test/golden_corpus_test.dart` requires exact equality. Regenerate only in a `golden-update` change (§0.2 rule 3): `dart run tool/update_golden.dart`.

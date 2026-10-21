@@ -1,8 +1,8 @@
-// Writes the golden corpus (DESIGN.md §6.7, ADR-019):
-// `test/golden/<city>/<profileId>/<year>.json`, the engine's own raw instants
-// and origins for the Appendix H cities on the 15th of every month of
-// 2026–2028 (the lab's `DAY_OF_MONTH` set, §15 D30), with the bench profile
-// data and fixed-offset zones.
+// Writes the golden corpus v2 (DESIGN.md §6.7, ADR-019, §15 D48):
+// `test/golden/<city>/<profileId>/<year>.json`, the engine's own origins, raw
+// instants and displayed instants of every event for the Appendix H cities on
+// the 15th of every month of 2026–2028 (the lab's `DAY_OF_MONTH` set, §15
+// D30), with the bench profile data and fixed-offset zones.
 //
 // Run from packages/geo_salah_core only after `uv run --frozen lab benchmark
 // --engine dart --tags DAY_OF_MONTH` reports 0 blocking discrepancies, and
@@ -95,7 +95,7 @@ void main() {
           _day(observer, profile, CivilDate(year, month, 15), tzdb),
       ];
       final golden = encoder.convert({
-        'schemaVersion': 1,
+        'schemaVersion': 2,
         'city': name,
         'profileId': profile.profileId,
         'profileVersion': profile.version,
@@ -163,6 +163,8 @@ Map<String, Object?> _day(
             },
           },
           if (time.rawUtcMs case final int raw) 'rawUtcMs': raw,
+          if (time.displayedUtcMs case final int displayed)
+            'displayedUtcMs': displayed,
         },
     ],
   };

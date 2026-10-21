@@ -10,11 +10,11 @@ import 'support/engine_fixtures.dart';
 import 'support/fake_tz_database.dart';
 import 'support/fixtures.dart';
 
-/// The golden corpus v1 (§6.7, ADR-019):
+/// The golden corpus v2 (§6.7, ADR-019, §15 D48):
 /// `test/golden/<city>/<profileId>/<year>.json`, written by
-/// `tool/update_golden.dart` after the lab confirmed every instant within
-/// ADR-019 tolerance. Each listed event's origin and raw instant must match
-/// exactly; v1 lists Sunrise, Dhuhr and Maghrib.
+/// `tool/update_golden.dart` after the lab confirmed the Sunrise, Dhuhr and
+/// Maghrib instants within ADR-019 tolerance. Every event's origin, raw
+/// instant and displayed instant must match exactly.
 List<File> _goldenFiles() =>
     Directory('test/golden')
         .listSync(recursive: true)
@@ -31,6 +31,7 @@ Map<String, Object?> _timeJson(PrayerTime time) => {
     NoEvent(:final reason) => {'kind': 'NO_EVENT', 'reason': reason.code},
   },
   if (time.rawUtcMs case final int raw) 'rawUtcMs': raw,
+  if (time.displayedUtcMs case final int displayed) 'displayedUtcMs': displayed,
 };
 
 /// The golden observer and its fixed-offset zone.
@@ -73,6 +74,8 @@ void main() {
       final golden = asJsonObject(jsonDecode(file.readAsStringSync()));
       final (:observer, :tzdb) = _setUp(golden['observer']);
       final profile = readEngineDefault();
+      expect(golden['schemaVersion'], 2);
+      expect(golden['profileVersion'], profile.version);
 
       for (final dayJson in asJsonList(golden['days']).map(asJsonObject)) {
         final day = switch (dayJson['day']) {
@@ -93,16 +96,8 @@ void main() {
         // Assert
         switch (result) {
           case Ok(:final value):
-            final listed = {
-              for (final time in asJsonList(dayJson['times']))
-                asJsonObject(time)['event'],
-            };
             expect(
-              [
-                for (final time in value.times)
-                  if (listed.contains(time.event.name.toUpperCase()))
-                    _timeJson(time),
-              ],
+              [for (final time in value.times) _timeJson(time)],
               dayJson['times'],
               reason: '$name $day',
             );
