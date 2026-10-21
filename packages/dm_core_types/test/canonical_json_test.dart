@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:test/test.dart';
 
@@ -34,5 +37,29 @@ void main() {
         'é"',
       );
     });
+  });
+
+  // The vectors gsctl's Go JCS also passes: Go-signed metadata verifies in
+  // Dart only if both write the same canonical bytes (REQ-DIST-004).
+  group('CanonicalJson matches the shared Go vectors (REQ-DIST-004)', () {
+    final file = File('../../tools/gsctl/testdata/jcs/vectors.json');
+    final vectors = switch (jsonDecode(file.readAsStringSync())) {
+      {'vectors': final List<Object?> list} => list,
+      _ => throw const FormatException('vectors.json has no vectors'),
+    };
+    for (final vector in vectors) {
+      final (name, input, canonical) = switch (vector) {
+        {
+          'name': final String name,
+          'input': final String input,
+          'canonical': final String canonical,
+        } =>
+          (name, input, canonical),
+        _ => throw FormatException('malformed vector $vector'),
+      };
+      test(name, () {
+        expect(CanonicalJson.encode(jsonDecode(input)), canonical);
+      });
+    }
   });
 }

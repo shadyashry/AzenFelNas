@@ -27,7 +27,7 @@ abstract final class CanonicalJson {
       case final bool flag:
         out.write(flag ? 'true' : 'false');
       case final int number:
-        out.write(number);
+        out.write(_integer(number));
       case final double number:
         out.write(_number(number));
       case final String text:
@@ -64,14 +64,25 @@ abstract final class CanonicalJson {
     out.write('}');
   }
 
+  /// 2^53 − 1: every integer up to it is exactly one IEEE 754 double.
+  static const int _maxSafeInteger = 9007199254740991;
+
+  /// An integer beyond ±(2^53 − 1) is written as the double nearest to it,
+  /// as ECMAScript would read it (RFC 8785 §3.2.2.3).
+  static String _integer(int value) => value.abs() <= _maxSafeInteger
+      ? value.toString()
+      : _number(value.toDouble());
+
+  /// Dart's `double.toString` is ECMAScript's shortest round-trip form
+  /// (decimal from 1e-6 to 1e21, exponent outside it) except for the `.0`
+  /// it appends to integral values, which is dropped; `-0.0` is `0`.
   static String _number(double value) {
     if (!value.isFinite) {
       throw ArgumentError.value(value, 'value', 'not a finite number');
     }
-    if (value == value.truncateToDouble() && value.abs() < 1e21) {
-      return value.toInt().toString(); // also maps -0.0 to "0"
-    }
-    return value.toString();
+    if (value == 0) return '0';
+    final text = value.toString();
+    return text.endsWith('.0') ? text.substring(0, text.length - 2) : text;
   }
 
   static void _string(StringBuffer out, String text) {
