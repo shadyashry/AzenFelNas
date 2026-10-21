@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "pipeline": "lab.reference",
+  "inputs": [
+    {
+      "role": "cities",
+      "path": "lab/benchmarks/cities.v1.json",
+      "sha256": "3fcbd1f2ea16a76bcfc9d51109f3458da1fd3608072278f84ebe5bbe00487ae4"
+    },
+    {
+      "role": "config",
+      "path": "lab/config/harness.v1.toml",
+      "sha256": "34aa28ce5b8a39e5df1173b8c31b6c50f831ce14aa571c6ff2bd457b40996100"
+    },
+    {
+      "role": "ephemeris",
+      "url": "https://ssd.jpl.nasa.gov/ftp/eph/planets/bsp/de440s.bsp",
+      "sha256": "c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2"
+    }
+  ],
+  "tools": {
+    "python": "3.15.0",
+    "dm_lab": "0.1.0",
+    "jplephem": "2.24",
+    "numpy": "2.5.4",
+    "pydantic": "2.14.1",
+    "skyfield": "1.55",
+    "tzdata": "2026.5",
+    "tzdb": "2026e"
+  },
+  "parameters": {
+    "years": "2026-2028",
+    "deltaTSeconds": "69.184"
+  },
+  "outputs": [
+    {
+      "path": "sun_events.2026-2028.v1.jsonl",
+      "sha256": "1d0753dd072fb78878e6c9f11c7615a7268b385343484a5cf9486cea2e792775",
+      "records": 4188
+    }
+  ]
+}
