@@ -23,7 +23,7 @@ The lab side of this ADR is frozen in S03, before the engine exists (kickoff §C
 - **Reference:** Skyfield 1.55 over JPL `de440s.bsp`, pinned by sha256 and never committed (§15 D28). Positions are the apparent topocentric Sun centre, observer on WGS84 at 0 m, geometric altitude with no refraction (ADR-003).
 - **Time scales:** UT1 ≡ UTC is realised as ΔT = 69.184 s, guarded against the leap-second table (§15 D25).
 - **Prayer day:** ADR-004 culmination segments; sunrise and sunset at −(34′ + 16′) from `lab/config/harness.v1.toml`.
-- **Tolerance:** `tol_s = clamp(0.001° / |rate|, 0.2 s, 60 s)`. The rate is the altitude rate for sunrise/sunset and the local hour-angle rate for the transit (§15 D26).
+- **Tolerance:** `tol_s = clamp(0.001° / |rate|, 0.2 s, 60 s)`. The rate is the altitude rate for sunrise/sunset and the local hour-angle rate for the transit (§15 D26). **Clarification decided 2026-10-21:** in the decision above, `dh/dt` means the rate of the angle that defines the event, so Dhuhr is held to about 0.24 s instead of the 60 s cap.
 - **Frozen artifact:** `lab/reference/sun_events.2026-2028.v1.jsonl` (`lab_reference.v1`, 4 188 city-days) with a `pipeline_manifest.v1` of input hashes. Regeneration with the same inputs is byte-identical.
 - **Comparison:** `lab benchmark` runs the engine bench JSONL contract (§15 D29) and writes `discrepancy_report.v1`.
 - **Done-test evidence:** published equinox/solstice sunrise (MET Norway, §15 D31) for Cairo, Makkah and London is reproduced within 60 s.
