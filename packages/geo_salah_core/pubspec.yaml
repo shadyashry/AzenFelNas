@@ -8,6 +8,7 @@ environment:
   sdk: ^3.13.5
 
 dependencies:
+  crypto: 3.0.7
   dm_core_types: 0.1.0
   freezed_annotation: 3.1.0
   json_annotation: 4.12.0
