@@ -36,3 +36,7 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
+
+# Accuracy Lab: downloaded ephemeris cache and benchmark run outputs (DESIGN.md §15 D28)
+/lab/.cache/
+/lab/out/

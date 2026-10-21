@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "source": "test subset of lab/benchmarks/cities.v1.json",
+  "dateSet": {
+    "seasons": ["MARCH_EQUINOX"],
+    "dayOfMonth": 15,
+    "dstWindowDays": 0,
+    "ramadan": []
+  },
+  "cities": [
+    { "cityId": "cairo", "name": "Cairo", "latitudeDeg": 30.04, "longitudeDeg": 31.24, "zoneId": "Africa/Cairo", "country": "EG" },
+    { "cityId": "tromso", "name": "Tromsø", "latitudeDeg": 69.65, "longitudeDeg": 18.96, "zoneId": "Europe/Oslo", "country": "NO" }
+  ]
+}

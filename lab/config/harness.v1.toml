@@ -1,0 +1,58 @@
+# Accuracy Lab reference harness configuration (DESIGN.md §9.4, ADR-019).
+#
+# Astronomy and time-scale constants only. No religious parameter lives here or in lab code
+# (DESIGN.md §0.2 rule 1): the 34′ + 16′ horizon below is the astronomical definition of sunrise and
+# sunset that ADR-003 fixes, and the harness reports raw instants; profiles, offsets and rounding
+# belong to the engine and to profiles/*.yaml.
+schema_version = 1
+
+[ephemeris]
+# JPL DE440s, 1849–2150 (ADR-019, DESIGN.md §5.4). Fetched by URL and verified against this sha256
+# before use; never committed (DESIGN.md §15 D28). Both official JPL mirrors served identical bytes on
+# 2026-10-21: https://ssd.jpl.nasa.gov/ftp/eph/planets/bsp/ and
+# https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/.
+file_name = "de440s.bsp"
+url = "https://ssd.jpl.nasa.gov/ftp/eph/planets/bsp/de440s.bsp"
+sha256 = "c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2"
+size_bytes = 32726016
+
+[horizon]
+# ADR-003: sunrise/sunset solve h_geo = −(refractionArcmin + semidiameterArcmin)/60 − dip,
+# defaults 34′ + 16′ = 0.8333°, dip = 0 (elevationPolicy NONE). Geometric topocentric altitude:
+# no refraction model is applied on top of these constants.
+refraction_arcmin = 34.0
+semidiameter_arcmin = 16.0
+dip_deg = 0.0
+
+[time]
+# ADR-019: UT1 − UTC is ignored (UT1 ≡ UTC). TT − TAI = 32.184 s (IAU 1991 Resolution A4).
+# TAI − UTC = 37 s since 2017-01-01 (IERS Bulletin C 52); the harness refuses to run on a day where the
+# pinned Skyfield leap-second table disagrees (DESIGN.md §15 D25).
+ut1_minus_utc_s = 0.0
+tt_minus_tai_s = 32.184
+tai_minus_utc_s = 37.0
+
+[observer]
+# ADR-003: elevation is provenance only; the observer stands on the WGS84 ellipsoid.
+elevation_m = 0.0
+
+[tolerance]
+# ADR-019: tol_s = clamp(altitude_deg / |rate|, min_s, max_s), rate in °/s at the event: the altitude
+# rate for sunrise/sunset, the local hour-angle rate for the transit (DESIGN.md §15 D26).
+altitude_deg = 0.001
+min_s = 0.2
+max_s = 60.0
+
+[search]
+# Sampling step of the crossing search inside a culmination half-segment (ADR-004); roots are then
+# bracketed to 1 ms by skyfield.searchlib.find_discrete. 5 min resolves any excursion across the
+# horizon that lasts longer than 5 min; shorter ones are not resolved (DESIGN.md §15 D25).
+step_minutes = 5.0
+# Rate of an event's defining angle by central difference over ± this half-width.
+rate_half_width_s = 1.0
+
+[benchmark]
+# Engine event ↔ reference event compared by `lab benchmark` (DESIGN.md §15 D29). Valid for profiles
+# whose sunrise/maghrib rules are `horizon` with the ADR-003 defaults and whose dhuhr rule is `transit`
+# with offset 0, e.g. engine.default in S05.
+event_map = { SUNRISE = "SUNRISE", DHUHR = "TRANSIT", MAGHRIB = "SUNSET" }
