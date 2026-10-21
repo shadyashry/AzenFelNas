@@ -8,7 +8,8 @@ import 'package:test/test.dart';
 import '../support/engine_fixtures.dart';
 
 // Expected values computed independently with Python's hashlib and base64
-// (RFC 4648) from the canonical string below.
+// (RFC 4648) from the canonical string below; the profile version is pinned
+// to the S05 sentinel so the vector does not follow the bench stand-in.
 const String _canonicalInputs =
     '{"day":"2026-03-20","hijri":{"confidence":"EXPECTED",'
     '"dateAtDawn":{"day":1,"month":10,"year":1447},'
@@ -25,7 +26,7 @@ CalculationInputs _inputs({double lat = 21.42}) => CalculationInputs.of(
     zoneId: 'Asia/Riyadh',
     source: ObserverSource.benchmark,
   ),
-  profile: testProfile,
+  profile: testProfile.copyWith(version: '0000.0.0'),
   day: CivilDate(2026, 3, 20),
   hijri: testHijri,
 );

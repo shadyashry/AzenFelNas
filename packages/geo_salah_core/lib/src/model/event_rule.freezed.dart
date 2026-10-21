@@ -56,12 +56,16 @@ extension EventRulePatterns on EventRule {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TransitRule value)?  transit,TResult Function( HorizonRule value)?  horizon,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SolarAltitudeRule value)?  solarAltitude,TResult Function( TransitRule value)?  transit,TResult Function( ShadowFactorRule value)?  shadowFactor,TResult Function( HorizonRule value)?  horizon,TResult Function( IntervalAfterRule value)?  intervalAfter,TResult Function( IntervalBeforeRule value)?  intervalBefore,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case TransitRule() when transit != null:
-return transit(_that);case HorizonRule() when horizon != null:
-return horizon(_that);case _:
+case SolarAltitudeRule() when solarAltitude != null:
+return solarAltitude(_that);case TransitRule() when transit != null:
+return transit(_that);case ShadowFactorRule() when shadowFactor != null:
+return shadowFactor(_that);case HorizonRule() when horizon != null:
+return horizon(_that);case IntervalAfterRule() when intervalAfter != null:
+return intervalAfter(_that);case IntervalBeforeRule() when intervalBefore != null:
+return intervalBefore(_that);case _:
   return orElse();
 
 }
@@ -79,12 +83,16 @@ return horizon(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TransitRule value)  transit,required TResult Function( HorizonRule value)  horizon,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SolarAltitudeRule value)  solarAltitude,required TResult Function( TransitRule value)  transit,required TResult Function( ShadowFactorRule value)  shadowFactor,required TResult Function( HorizonRule value)  horizon,required TResult Function( IntervalAfterRule value)  intervalAfter,required TResult Function( IntervalBeforeRule value)  intervalBefore,}){
 final _that = this;
 switch (_that) {
-case TransitRule():
-return transit(_that);case HorizonRule():
-return horizon(_that);}
+case SolarAltitudeRule():
+return solarAltitude(_that);case TransitRule():
+return transit(_that);case ShadowFactorRule():
+return shadowFactor(_that);case HorizonRule():
+return horizon(_that);case IntervalAfterRule():
+return intervalAfter(_that);case IntervalBeforeRule():
+return intervalBefore(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -98,12 +106,16 @@ return horizon(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TransitRule value)?  transit,TResult? Function( HorizonRule value)?  horizon,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SolarAltitudeRule value)?  solarAltitude,TResult? Function( TransitRule value)?  transit,TResult? Function( ShadowFactorRule value)?  shadowFactor,TResult? Function( HorizonRule value)?  horizon,TResult? Function( IntervalAfterRule value)?  intervalAfter,TResult? Function( IntervalBeforeRule value)?  intervalBefore,}){
 final _that = this;
 switch (_that) {
-case TransitRule() when transit != null:
-return transit(_that);case HorizonRule() when horizon != null:
-return horizon(_that);case _:
+case SolarAltitudeRule() when solarAltitude != null:
+return solarAltitude(_that);case TransitRule() when transit != null:
+return transit(_that);case ShadowFactorRule() when shadowFactor != null:
+return shadowFactor(_that);case HorizonRule() when horizon != null:
+return horizon(_that);case IntervalAfterRule() when intervalAfter != null:
+return intervalAfter(_that);case IntervalBeforeRule() when intervalBefore != null:
+return intervalBefore(_that);case _:
   return null;
 
 }
@@ -120,11 +132,15 @@ return horizon(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( Duration offset)?  transit,TResult Function( double refractionArcmin,  double semidiameterArcmin)?  horizon,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( double degrees)?  solarAltitude,TResult Function( Duration offset)?  transit,TResult Function( int k)?  shadowFactor,TResult Function( double refractionArcmin,  double semidiameterArcmin)?  horizon,TResult Function( PrayerEvent base,  Duration duration)?  intervalAfter,TResult Function( PrayerEvent base,  Duration duration)?  intervalBefore,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case TransitRule() when transit != null:
-return transit(_that.offset);case HorizonRule() when horizon != null:
-return horizon(_that.refractionArcmin,_that.semidiameterArcmin);case _:
+case SolarAltitudeRule() when solarAltitude != null:
+return solarAltitude(_that.degrees);case TransitRule() when transit != null:
+return transit(_that.offset);case ShadowFactorRule() when shadowFactor != null:
+return shadowFactor(_that.k);case HorizonRule() when horizon != null:
+return horizon(_that.refractionArcmin,_that.semidiameterArcmin);case IntervalAfterRule() when intervalAfter != null:
+return intervalAfter(_that.base,_that.duration);case IntervalBeforeRule() when intervalBefore != null:
+return intervalBefore(_that.base,_that.duration);case _:
   return orElse();
 
 }
@@ -142,11 +158,15 @@ return horizon(_that.refractionArcmin,_that.semidiameterArcmin);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( Duration offset)  transit,required TResult Function( double refractionArcmin,  double semidiameterArcmin)  horizon,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( double degrees)  solarAltitude,required TResult Function( Duration offset)  transit,required TResult Function( int k)  shadowFactor,required TResult Function( double refractionArcmin,  double semidiameterArcmin)  horizon,required TResult Function( PrayerEvent base,  Duration duration)  intervalAfter,required TResult Function( PrayerEvent base,  Duration duration)  intervalBefore,}) {final _that = this;
 switch (_that) {
-case TransitRule():
-return transit(_that.offset);case HorizonRule():
-return horizon(_that.refractionArcmin,_that.semidiameterArcmin);}
+case SolarAltitudeRule():
+return solarAltitude(_that.degrees);case TransitRule():
+return transit(_that.offset);case ShadowFactorRule():
+return shadowFactor(_that.k);case HorizonRule():
+return horizon(_that.refractionArcmin,_that.semidiameterArcmin);case IntervalAfterRule():
+return intervalAfter(_that.base,_that.duration);case IntervalBeforeRule():
+return intervalBefore(_that.base,_that.duration);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -160,15 +180,87 @@ return horizon(_that.refractionArcmin,_that.semidiameterArcmin);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( Duration offset)?  transit,TResult? Function( double refractionArcmin,  double semidiameterArcmin)?  horizon,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( double degrees)?  solarAltitude,TResult? Function( Duration offset)?  transit,TResult? Function( int k)?  shadowFactor,TResult? Function( double refractionArcmin,  double semidiameterArcmin)?  horizon,TResult? Function( PrayerEvent base,  Duration duration)?  intervalAfter,TResult? Function( PrayerEvent base,  Duration duration)?  intervalBefore,}) {final _that = this;
 switch (_that) {
-case TransitRule() when transit != null:
-return transit(_that.offset);case HorizonRule() when horizon != null:
-return horizon(_that.refractionArcmin,_that.semidiameterArcmin);case _:
+case SolarAltitudeRule() when solarAltitude != null:
+return solarAltitude(_that.degrees);case TransitRule() when transit != null:
+return transit(_that.offset);case ShadowFactorRule() when shadowFactor != null:
+return shadowFactor(_that.k);case HorizonRule() when horizon != null:
+return horizon(_that.refractionArcmin,_that.semidiameterArcmin);case IntervalAfterRule() when intervalAfter != null:
+return intervalAfter(_that.base,_that.duration);case IntervalBeforeRule() when intervalBefore != null:
+return intervalBefore(_that.base,_that.duration);case _:
   return null;
 
 }
 }
+
+}
+
+/// @nodoc
+
+
+class SolarAltitudeRule implements EventRule {
+  const SolarAltitudeRule({required this.degrees});
+  
+
+ final  double degrees;
+
+/// Create a copy of EventRule
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SolarAltitudeRuleCopyWith<SolarAltitudeRule> get copyWith => _$SolarAltitudeRuleCopyWithImpl<SolarAltitudeRule>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is SolarAltitudeRule&&(identical(other.degrees, degrees) || other.degrees == degrees));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,degrees);
+}
+
+@override
+String toString() {
+    return 'EventRule.solarAltitude(degrees: $degrees)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SolarAltitudeRuleCopyWith<$Res> implements $EventRuleCopyWith<$Res> {
+  factory $SolarAltitudeRuleCopyWith(SolarAltitudeRule value, $Res Function(SolarAltitudeRule) _then) = _$SolarAltitudeRuleCopyWithImpl;
+@useResult
+$Res call({
+ double degrees
+});
+
+
+
+
+}
+/// @nodoc
+class _$SolarAltitudeRuleCopyWithImpl<$Res>
+    implements $SolarAltitudeRuleCopyWith<$Res> {
+  _$SolarAltitudeRuleCopyWithImpl(this._self, this._then);
+
+  final SolarAltitudeRule _self;
+  final $Res Function(SolarAltitudeRule) _then;
+
+/// Create a copy of EventRule
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? degrees = null,}) {
+  return _then(SolarAltitudeRule(
+degrees: null == degrees ? _self.degrees : degrees // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
 
 }
 
@@ -243,6 +335,74 @@ as Duration,
 /// @nodoc
 
 
+class ShadowFactorRule implements EventRule {
+  const ShadowFactorRule({required this.k});
+  
+
+ final  int k;
+
+/// Create a copy of EventRule
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ShadowFactorRuleCopyWith<ShadowFactorRule> get copyWith => _$ShadowFactorRuleCopyWithImpl<ShadowFactorRule>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ShadowFactorRule&&(identical(other.k, k) || other.k == k));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,k);
+}
+
+@override
+String toString() {
+    return 'EventRule.shadowFactor(k: $k)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ShadowFactorRuleCopyWith<$Res> implements $EventRuleCopyWith<$Res> {
+  factory $ShadowFactorRuleCopyWith(ShadowFactorRule value, $Res Function(ShadowFactorRule) _then) = _$ShadowFactorRuleCopyWithImpl;
+@useResult
+$Res call({
+ int k
+});
+
+
+
+
+}
+/// @nodoc
+class _$ShadowFactorRuleCopyWithImpl<$Res>
+    implements $ShadowFactorRuleCopyWith<$Res> {
+  _$ShadowFactorRuleCopyWithImpl(this._self, this._then);
+
+  final ShadowFactorRule _self;
+  final $Res Function(ShadowFactorRule) _then;
+
+/// Create a copy of EventRule
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? k = null,}) {
+  return _then(ShadowFactorRule(
+k: null == k ? _self.k : k // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
 class HorizonRule implements EventRule {
   const HorizonRule({this.refractionArcmin = 34, this.semidiameterArcmin = 16});
   
@@ -304,6 +464,146 @@ class _$HorizonRuleCopyWithImpl<$Res>
 refractionArcmin: null == refractionArcmin ? _self.refractionArcmin : refractionArcmin // ignore: cast_nullable_to_non_nullable
 as double,semidiameterArcmin: null == semidiameterArcmin ? _self.semidiameterArcmin : semidiameterArcmin // ignore: cast_nullable_to_non_nullable
 as double,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class IntervalAfterRule implements EventRule {
+  const IntervalAfterRule({required this.base, required this.duration});
+  
+
+ final  PrayerEvent base;
+ final  Duration duration;
+
+/// Create a copy of EventRule
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$IntervalAfterRuleCopyWith<IntervalAfterRule> get copyWith => _$IntervalAfterRuleCopyWithImpl<IntervalAfterRule>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is IntervalAfterRule&&(identical(other.base, base) || other.base == base)&&(identical(other.duration, duration) || other.duration == duration));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,base,duration);
+}
+
+@override
+String toString() {
+    return 'EventRule.intervalAfter(base: $base, duration: $duration)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $IntervalAfterRuleCopyWith<$Res> implements $EventRuleCopyWith<$Res> {
+  factory $IntervalAfterRuleCopyWith(IntervalAfterRule value, $Res Function(IntervalAfterRule) _then) = _$IntervalAfterRuleCopyWithImpl;
+@useResult
+$Res call({
+ PrayerEvent base, Duration duration
+});
+
+
+
+
+}
+/// @nodoc
+class _$IntervalAfterRuleCopyWithImpl<$Res>
+    implements $IntervalAfterRuleCopyWith<$Res> {
+  _$IntervalAfterRuleCopyWithImpl(this._self, this._then);
+
+  final IntervalAfterRule _self;
+  final $Res Function(IntervalAfterRule) _then;
+
+/// Create a copy of EventRule
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? base = null,Object? duration = null,}) {
+  return _then(IntervalAfterRule(
+base: null == base ? _self.base : base // ignore: cast_nullable_to_non_nullable
+as PrayerEvent,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
+as Duration,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class IntervalBeforeRule implements EventRule {
+  const IntervalBeforeRule({required this.base, required this.duration});
+  
+
+ final  PrayerEvent base;
+ final  Duration duration;
+
+/// Create a copy of EventRule
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$IntervalBeforeRuleCopyWith<IntervalBeforeRule> get copyWith => _$IntervalBeforeRuleCopyWithImpl<IntervalBeforeRule>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is IntervalBeforeRule&&(identical(other.base, base) || other.base == base)&&(identical(other.duration, duration) || other.duration == duration));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,base,duration);
+}
+
+@override
+String toString() {
+    return 'EventRule.intervalBefore(base: $base, duration: $duration)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $IntervalBeforeRuleCopyWith<$Res> implements $EventRuleCopyWith<$Res> {
+  factory $IntervalBeforeRuleCopyWith(IntervalBeforeRule value, $Res Function(IntervalBeforeRule) _then) = _$IntervalBeforeRuleCopyWithImpl;
+@useResult
+$Res call({
+ PrayerEvent base, Duration duration
+});
+
+
+
+
+}
+/// @nodoc
+class _$IntervalBeforeRuleCopyWithImpl<$Res>
+    implements $IntervalBeforeRuleCopyWith<$Res> {
+  _$IntervalBeforeRuleCopyWithImpl(this._self, this._then);
+
+  final IntervalBeforeRule _self;
+  final $Res Function(IntervalBeforeRule) _then;
+
+/// Create a copy of EventRule
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? base = null,Object? duration = null,}) {
+  return _then(IntervalBeforeRule(
+base: null == base ? _self.base : base // ignore: cast_nullable_to_non_nullable
+as PrayerEvent,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
+as Duration,
   ));
 }
 

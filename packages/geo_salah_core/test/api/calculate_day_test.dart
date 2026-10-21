@@ -124,9 +124,12 @@ void main() {
           CivilDate.fromEpochDay(epochDay),
         );
         expect(result.times.map((t) => t.event), [
+          PrayerEvent.fajr,
           PrayerEvent.sunrise,
           PrayerEvent.dhuhr,
+          PrayerEvent.asr,
           PrayerEvent.maghrib,
+          PrayerEvent.isha,
         ]);
         for (final time in result.times) {
           switch (time.origin) {
@@ -139,7 +142,7 @@ void main() {
               expect(time.displayedUtcMs, isNull);
               expect(time.dayOffset, isNull);
             case Fallback():
-              fail('S05 has no fallback: $time');
+              fail('No fallback before S08: $time');
           }
         }
       },
@@ -358,7 +361,7 @@ void main() {
       );
       expect(
         calculateOk(apia, CivilDate(2011, 12, 31), tzdb: tzdb).times,
-        hasLength(3),
+        hasLength(6),
       );
     });
 
@@ -380,11 +383,11 @@ void main() {
           engineVersion: EngineVersion.current,
           deltaTModel: 'espenak-meeus-2006',
           profileId: 'engine.default',
-          profileVersion: '0000.0.0',
+          profileVersion: testProfile.version,
           tzdbVersion: testTzdb.version,
           inputsHash: result.provenance.inputsHash,
           hijriConfidence: HijriConfidence.expected,
-          adjustmentTrace: const [],
+          adjustmentTrace: result.provenance.adjustmentTrace,
         ),
       );
       expect(result.calculationId, matches(RegExp(r'^GS-[A-Z2-7]{16}$')));

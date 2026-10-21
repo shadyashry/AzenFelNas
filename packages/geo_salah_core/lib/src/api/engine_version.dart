@@ -5,5 +5,5 @@
 /// it.
 abstract final class EngineVersion {
   /// The current engine version, `MAJOR.MINOR.PATCH`.
-  static const String current = '0.1.0';
+  static const String current = '0.2.0';
 }

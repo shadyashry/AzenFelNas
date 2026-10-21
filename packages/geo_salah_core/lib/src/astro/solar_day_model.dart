@@ -2,6 +2,7 @@ import 'package:geo_salah_core/src/astro/angles.dart';
 import 'package:geo_salah_core/src/astro/exact_sun.dart';
 import 'package:geo_salah_core/src/astro/interpolation.dart';
 import 'package:geo_salah_core/src/astro/sun_sample.dart';
+import 'package:geo_salah_core/src/astro/sun_sample_cache.dart';
 import 'package:geo_salah_core/src/astro/topocentric.dart';
 import 'package:geo_salah_core/src/solver/altitude_source.dart';
 import 'package:meta/meta.dart';
@@ -22,14 +23,19 @@ import 'package:meta/meta.dart';
 /// deterministic.
 @immutable
 final class SolarDayModel implements AltitudeSource {
-  /// The model of [exact] sampled around [anchorUtcMs].
+  /// The model of [exact] sampled around [anchorUtcMs], reusing samples
+  /// already in [cache] (values are identical either way).
   ///
   /// Throws [RangeError] when a sample falls outside the SPA validity range.
-  factory around(ExactSun exact, {required double anchorUtcMs}) {
+  factory around(
+    ExactSun exact, {
+    required double anchorUtcMs,
+    SunSampleCache? cache,
+  }) {
     final start = anchorUtcMs - 2 * _stepMs;
-    final samples = [
-      for (var k = 0; k < 5; k++) exact.sampleAt(start + k * _stepMs),
-    ];
+    SunSample sample(double utcMs) =>
+        cache?.sampleAt(exact, utcMs) ?? exact.sampleAt(utcMs);
+    final samples = [for (var k = 0; k < 5; k++) sample(start + k * _stepMs)];
     CubicHermiteSeries series(double Function(SunSample) select) =>
         CubicHermiteSeries.fromSamples(
           startMs: start,

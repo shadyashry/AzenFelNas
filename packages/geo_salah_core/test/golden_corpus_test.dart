@@ -3,16 +3,18 @@ import 'dart:io';
 
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
-import 'package:geo_salah_core/src/bench/bench_profiles.dart';
 import 'package:test/test.dart';
 
+import 'support/bench_profile_files.dart';
 import 'support/engine_fixtures.dart';
 import 'support/fake_tz_database.dart';
 import 'support/fixtures.dart';
 
 /// The golden corpus v1 (§6.7, ADR-019):
-/// `test/golden/<city>/<profileId>/<year>.json`, written by `tool/update_golden.dart` after the lab confirmed
-/// every instant within ADR-019 tolerance. Raw instants must match exactly.
+/// `test/golden/<city>/<profileId>/<year>.json`, written by
+/// `tool/update_golden.dart` after the lab confirmed every instant within
+/// ADR-019 tolerance. Each listed event's origin and raw instant must match
+/// exactly; v1 lists Sunrise, Dhuhr and Maghrib.
 List<File> _goldenFiles() =>
     Directory('test/golden')
         .listSync(recursive: true)
@@ -70,8 +72,7 @@ void main() {
       // Arrange
       final golden = asJsonObject(jsonDecode(file.readAsStringSync()));
       final (:observer, :tzdb) = _setUp(golden['observer']);
-      const profile = BenchProfiles.engineDefault;
-      expect(golden['profileVersion'], profile.version);
+      final profile = readEngineDefault();
 
       for (final dayJson in asJsonList(golden['days']).map(asJsonObject)) {
         final day = switch (dayJson['day']) {
@@ -92,8 +93,16 @@ void main() {
         // Assert
         switch (result) {
           case Ok(:final value):
+            final listed = {
+              for (final time in asJsonList(dayJson['times']))
+                asJsonObject(time)['event'],
+            };
             expect(
-              [for (final time in value.times) _timeJson(time)],
+              [
+                for (final time in value.times)
+                  if (listed.contains(time.event.name.toUpperCase()))
+                    _timeJson(time),
+              ],
               dayJson['times'],
               reason: '$name $day',
             );

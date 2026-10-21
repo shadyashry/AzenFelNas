@@ -2,6 +2,7 @@ import 'package:dm_core_types/dm_core_types.dart';
 import 'package:geo_salah_core/src/astro/delta_t.dart';
 import 'package:geo_salah_core/src/astro/exact_sun.dart';
 import 'package:geo_salah_core/src/astro/solar_day_model.dart';
+import 'package:geo_salah_core/src/astro/sun_sample_cache.dart';
 import 'package:geo_salah_core/src/astro/topocentric_site.dart';
 import 'package:geo_salah_core/src/model/tz_database.dart';
 import 'package:geo_salah_core/src/solver/monotone_pieces.dart';
@@ -24,6 +25,7 @@ final class CulminationSegments {
     required this.day,
     required this.lowerBeforeUtcMs,
     required this.upperUtcMs,
+    required this.upperDeclinationDeg,
     required this.lowerAfterUtcMs,
     required this.ascending,
     required this.descending,
@@ -44,6 +46,7 @@ final class CulminationSegments {
       day: day,
       lowerBeforeUtcMs: lowerBefore,
       upperUtcMs: upper,
+      upperDeclinationDeg: model.declinationDeg(upper),
       lowerAfterUtcMs: lowerAfter,
       ascending: MonotonePieces.of(model, startMs: lowerBefore, endMs: upper),
       descending: MonotonePieces.of(model, startMs: upper, endMs: lowerAfter),
@@ -59,13 +62,16 @@ final class CulminationSegments {
   /// The search starts at mean solar noon of [day] at the site's longitude,
   /// finds the nearest transit and moves by whole days until its local date
   /// is [day]. Each try builds one [SolarDayModel] anchored there (five SPA
-  /// evaluations), and the transits are refined with exact SPA steps.
+  /// evaluations, fewer when [cache] already holds some of them), and the
+  /// transits are refined with exact SPA steps. [cache] never changes the
+  /// result.
   static CulminationSegments? locate({
     required CivilDate day,
     required TopocentricSite site,
     required String zoneId,
     required TzDatabase tzdb,
     EspenakMeeusDeltaT deltaT = const EspenakMeeusDeltaT(),
+    SunSampleCache? cache,
   }) {
     final exact = ExactSun(site, deltaT: deltaT);
     var anchor =
@@ -74,7 +80,11 @@ final class CulminationSegments {
         site.longitudeDeg / 360 * _msPerDay;
     int? previousShift;
     for (var attempt = 0; attempt < 3; attempt++) {
-      final model = SolarDayModel.around(exact, anchorUtcMs: anchor);
+      final model = SolarDayModel.around(
+        exact,
+        anchorUtcMs: anchor,
+        cache: cache,
+      );
       final upper = model.instantOfHourAngle(0, guessUtcMs: anchor);
       final shift = _localEpochDay(upper, zoneId, tzdb) - day.epochDay;
       if (shift == 0) return CulminationSegments._build(day, model, upper);
@@ -101,6 +111,10 @@ final class CulminationSegments {
 
   /// The upper transit `T₀` (local date [day]).
   final double upperUtcMs;
+
+  /// The Sun's geocentric declination `δ(T₀)` at [upperUtcMs], degrees
+  /// (interpolated, §6.4 ¶2): the noon declination of the Asr rule (§6.4 ¶6).
+  final double upperDeclinationDeg;
 
   /// The lower transit `A₊` after [upperUtcMs].
   final double lowerAfterUtcMs;

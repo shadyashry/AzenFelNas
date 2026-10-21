@@ -1,0 +1,44 @@
+{
+  "profileId": "engine.default",
+  "schemaVersion": 1,
+  "version": "0000.0.1",
+  "status": "DRAFT_UNVERIFIED",
+  "authority": {
+    "name": "Engine default (bench stand-in, DESIGN.md §6.5)",
+    "type": "ENGINE_DEFAULT"
+  },
+  "rules": {
+    "imsak": null,
+    "fajr": {
+      "type": "solarAltitude",
+      "degrees": 18
+    },
+    "sunrise": {
+      "type": "horizon"
+    },
+    "dhuhr": {
+      "type": "transit"
+    },
+    "asr": {
+      "type": "shadowFactor",
+      "k": 1
+    },
+    "maghrib": {
+      "type": "horizon"
+    },
+    "isha": {
+      "type": "solarAltitude",
+      "degrees": 18
+    }
+  },
+  "horizon": {
+    "elevationPolicy": "NONE"
+  },
+  "rounding": {
+    "default": "ceil",
+    "sunrise": "floor"
+  },
+  "evidence": {
+    "benchmarkReportId": null
+  }
+}

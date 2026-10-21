@@ -1,8 +1,8 @@
 // Writes the golden corpus (DESIGN.md §6.7, ADR-019):
 // `test/golden/<city>/<profileId>/<year>.json`, the engine's own raw instants
 // and origins for the Appendix H cities on the 15th of every month of
-// 2026–2028 (the lab's `DAY_OF_MONTH` set, §15 D30), with the S05 bench
-// profile and fixed-offset zones.
+// 2026–2028 (the lab's `DAY_OF_MONTH` set, §15 D30), with the bench profile
+// data and fixed-offset zones.
 //
 // Run from packages/geo_salah_core only after `uv run --frozen lab benchmark
 // --engine dart --tags DAY_OF_MONTH` reports 0 blocking discrepancies, and
@@ -71,7 +71,7 @@ const List<(String, String, double, double, String)> _cities = [
   ('nairobi', 'Nairobi', -1.29, 36.82, 'Africa/Nairobi'),
 ];
 
-/// Shape-only Hijri state: S05 events do not read it.
+/// Shape-only Hijri state: no S06 event reads it.
 const HijriState _hijri = HijriState(
   dateAtDawn: HijriDate(year: 1447, month: 1, day: 1),
   dateAtNight: HijriDate(year: 1447, month: 1, day: 2),
@@ -79,7 +79,7 @@ const HijriState _hijri = HijriState(
 );
 
 void main() {
-  const profile = BenchProfiles.engineDefault;
+  final profile = _engineDefault();
   const tzdb = StandardOffsetTzDatabase();
   const encoder = JsonEncoder.withIndent('  ');
   for (final (slug, name, lat, lon, zoneId) in _cities) {
@@ -114,6 +114,24 @@ void main() {
   }
 }
 
+/// The `engine.default` stand-in data (§15 D48).
+PrayerProfile _engineDefault() {
+  final files =
+      Directory(BenchProfiles.directory)
+          .listSync()
+          .whereType<File>()
+          .where((f) => f.path.endsWith('.json'))
+          .toList()
+        ..sort((a, b) => a.path.compareTo(b.path));
+  final profiles = BenchProfiles.byId([
+    for (final file in files) jsonDecode(file.readAsStringSync()),
+  ]);
+  return switch (profiles[BenchProfiles.engineDefaultId]) {
+    final PrayerProfile profile => profile,
+    null => throw StateError('bench/profiles has no engine.default'),
+  };
+}
+
 Map<String, Object?> _day(
   Observer observer,
   PrayerProfile profile,
@@ -138,7 +156,7 @@ Map<String, Object?> _day(
           'event': time.event.name.toUpperCase(),
           'origin': switch (time.origin) {
             Primary() => {'kind': 'PRIMARY'},
-            Fallback() => throw StateError('S05 has no fallback'),
+            Fallback() => throw StateError('No fallback before S08'),
             NoEvent(:final reason) => {
               'kind': 'NO_EVENT',
               'reason': reason.code,

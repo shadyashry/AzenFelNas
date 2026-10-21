@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:geo_salah_core/src/bench/bench_failure_document.dart';
-import 'package:geo_salah_core/src/bench/bench_profiles.dart';
 import 'package:geo_salah_core/src/bench/bench_request_document.dart';
 import 'package:geo_salah_core/src/bench/bench_runner.dart';
 import 'package:geo_salah_core/src/bench/bench_time_zones.dart';
 import 'package:test/test.dart';
 
+import '../support/bench_profile_files.dart';
 import '../support/fixtures.dart';
 
 /// Fake [BenchTimeZones] port: Apia skipping 2011-12-30, as in the TZDB.
@@ -67,7 +67,8 @@ List<File> _fixtures(String schema, String kind) =>
 
 void main() {
   group('BenchRunner (§15 D29)', () {
-    const runner = BenchRunner();
+    final profiles = readBenchProfiles();
+    final runner = BenchRunner(profiles: profiles);
 
     test('answers a request with a calculation trace that echoes its Hijri '
         'state in inputs.hijri', () {
@@ -83,9 +84,12 @@ void main() {
       );
       expect(trace.provenance.profileId, 'engine.default');
       expect(trace.times.map((t) => t.event), [
+        PrayerEventCode.fajr,
         PrayerEventCode.sunrise,
         PrayerEventCode.dhuhr,
+        PrayerEventCode.asr,
         PrayerEventCode.maghrib,
+        PrayerEventCode.isha,
       ]);
     });
 
@@ -107,7 +111,7 @@ void main() {
         '(REQ-ERR-002)', () {
       final runner = BenchRunner(
         profiles: {
-          'engine.default': BenchProfiles.engineDefault.copyWith(
+          'engine.default': readEngineDefault().copyWith(
             elevationPolicy: HorizonElevationPolicy.authorityTable,
           ),
         },
@@ -120,14 +124,17 @@ void main() {
 
     test('answers a calendar day the zone skipped with TZ_UNRESOLVED '
         '(§15 D36)', () {
-      final runner = BenchRunner(timeZones: _ApiaTimeZones());
+      final runner = BenchRunner(
+        profiles: profiles,
+        timeZones: _ApiaTimeZones(),
+      );
       Map<String, Object?> apia(String day) => runner.answer(
         _request(zoneId: 'Pacific/Apia', day: day, lat: -13.83, lon: -171.76),
       );
       expect(_failureCode(apia('2011-12-30')), 'TZ_UNRESOLVED');
       expect(
         CalculationTraceDocument.fromJson(apia('2011-12-31')).times,
-        hasLength(3),
+        hasLength(6),
       );
     });
 

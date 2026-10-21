@@ -29,14 +29,21 @@ void main() {
         jsonDecode(jsonEncode(_trace('Europe/Tromso', CivilDate(2026, 6, 21)))),
       );
       final times = asJsonList(json['times']).map(asJsonObject).toList();
-      expect(times.map((t) => t['event']), ['SUNRISE', 'DHUHR', 'MAGHRIB']);
+      expect(times.map((t) => t['event']), [
+        'FAJR',
+        'SUNRISE',
+        'DHUHR',
+        'ASR',
+        'MAGHRIB',
+        'ISHA',
+      ]);
       for (final time in times) {
         final noEvent = asJsonObject(time['origin'])['kind'] == 'NO_EVENT';
         for (final key in ['rawUtcMs', 'displayedUtcMs', 'dayOffset']) {
           expect(time.containsKey(key), !noEvent, reason: '$key in $time');
         }
       }
-      expect(asJsonObject(times.first['origin'])['reason'], 'POLAR_DAY');
+      expect(asJsonObject(times[1]['origin'])['reason'], 'POLAR_DAY');
     });
 
     test('writes the calculation inputs, provenance and ID of the day '
@@ -55,11 +62,26 @@ void main() {
       expect(trace.inputs.hijri.confidence, HijriConfidenceCode.expected);
     });
 
-    test('carries no adjustment on the compared events in S05 (§15 D29)', () {
+    test('carries only a ROUNDING step on the compared events Sunrise, '
+        'Dhuhr and Maghrib (§15 D29, REQ-DOM-003)', () {
       final trace = _trace('Africa/Cairo', CivilDate(2026, 3, 20));
-      for (final time in trace.times) {
-        expect(time.adjustmentTrace, isEmpty);
-        expect(time.displayedUtcMs, time.rawUtcMs);
+      const compared = {
+        PrayerEventCode.sunrise,
+        PrayerEventCode.dhuhr,
+        PrayerEventCode.maghrib,
+      };
+      final times = trace.times.where((t) => compared.contains(t.event));
+      expect(times, hasLength(3));
+      for (final time in times) {
+        expect(time.adjustmentTrace.map((s) => s.kind), [
+          AdjustmentKindCode.rounding,
+        ]);
+        final step = time.adjustmentTrace.single;
+        expect(step.event, time.event);
+        expect(
+          (time.rawUtcMs ?? 0) + step.deltaMs,
+          time.displayedUtcMs,
+        );
       }
     });
 

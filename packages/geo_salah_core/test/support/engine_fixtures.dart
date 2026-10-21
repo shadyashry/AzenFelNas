@@ -1,20 +1,19 @@
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
-import 'package:geo_salah_core/src/bench/bench_profiles.dart';
 
+import 'bench_profile_files.dart';
 import 'sites.dart';
 
-/// A Hijri state for engine tests. Shape test data: S05 events do not read
-/// it; it only enters the Calculation ID.
+/// A Hijri state for engine tests. Shape test data: no S06 event reads it
+/// (Ramadan rules arrive in S08); it only enters the Calculation ID.
 const HijriState testHijri = HijriState(
   dateAtDawn: HijriDate(year: 1447, month: 10, day: 1),
   dateAtNight: HijriDate(year: 1447, month: 10, day: 2),
   confidence: HijriConfidence.expected,
 );
 
-/// The S05 `engine.default` stand-in (sunrise and maghrib horizon rules,
-/// dhuhr transit, all at their §6.2 defaults).
-const PrayerProfile testProfile = BenchProfiles.engineDefault;
+/// The `engine.default` bench stand-in, read from its data file (§15 D48).
+final PrayerProfile testProfile = readEngineDefault();
 
 /// The observer of [city].
 Observer observerOf(TestCity city) => Observer(
@@ -28,11 +27,11 @@ Observer observerOf(TestCity city) => Observer(
 DayResult calculateOk(
   TestCity city,
   CivilDate day, {
-  PrayerProfile profile = testProfile,
+  PrayerProfile? profile,
   TzDatabase? tzdb,
 }) => switch (const CalculateDay()(
   observer: observerOf(city),
-  profile: profile,
+  profile: profile ?? testProfile,
   day: day,
   tzdb: tzdb ?? testTzdb,
   hijri: testHijri,

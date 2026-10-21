@@ -3,7 +3,6 @@ import 'package:geo_salah_core/src/api/calculate_day.dart';
 import 'package:geo_salah_core/src/bench/bench_failure_detail_document.dart';
 import 'package:geo_salah_core/src/bench/bench_failure_document.dart';
 import 'package:geo_salah_core/src/bench/bench_observer_document.dart';
-import 'package:geo_salah_core/src/bench/bench_profiles.dart';
 import 'package:geo_salah_core/src/bench/bench_request_document.dart';
 import 'package:geo_salah_core/src/bench/bench_time_zones.dart';
 import 'package:geo_salah_core/src/bench/observer_source_code.dart';
@@ -32,11 +31,11 @@ import 'package:json_annotation/json_annotation.dart';
 /// date or one outside the engine's years) is the caller's error: [answer]
 /// throws [FormatException]. Pure and deterministic.
 final class BenchRunner {
-  /// A runner over [timeZones] and [profiles]; the defaults are the S05
-  /// fixed-offset zones and the `engine.default` stand-in.
+  /// A runner over [profiles] (by id, from the stand-in data, §15 D48) and
+  /// [timeZones]; the default zones are the S05 fixed-offset stand-in.
   const new({
+    required this.profiles,
     this.timeZones = const StandardOffsetTzDatabase(),
-    this.profiles = BenchProfiles.byId,
   });
 
   static const CalculateDay _calculateDay = CalculateDay();
