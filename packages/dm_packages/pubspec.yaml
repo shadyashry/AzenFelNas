@@ -1,0 +1,11 @@
+name: dm_packages
+description: "TUF-lite package client: verify, stage, activate and roll back signed data packages (DESIGN.md §7.4, ADR-009)."
+version: 0.1.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.13.5
+
+dev_dependencies:
+  dm_lints: 0.1.0

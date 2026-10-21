@@ -1,0 +1,65 @@
+# Daily Muslim monorepo root: pub workspace + melos configuration (DESIGN.md §5.3).
+# melos ≥ 7 reads its configuration from the `melos:` key here; there is no melos.yaml (§15 D15).
+name: daily_muslim_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.13.5
+
+workspace:
+  - apps/mobile
+  - packages/dm_civil_time
+  - packages/dm_contracts
+  - packages/dm_core_types
+  - packages/dm_hijri
+  - packages/dm_lints
+  - packages/dm_packages
+  - packages/dm_ui
+  - packages/geo_salah_core
+  - packages/geo_salah_profiles
+
+dev_dependencies:
+  dm_lints: 0.1.0
+  melos: 8.9.0
+
+melos:
+  repository: https://github.com/samehamin/daily_muslim
+  scripts:
+    format:check:
+      description: Fail if any Dart file is not formatted.
+      run: dart format --output=none --set-exit-if-changed .
+    analyze:
+      description: Strict analysis of the whole workspace (infos are fatal).
+      run: dart analyze --fatal-infos .
+    lint:arch:
+      description: Architecture lint — pure Dart set imports nothing from Flutter/platform; feature layer rules (§0.2 rule 2, §12).
+      run: dart run dm_lints:arch_lint .
+    lint:req:
+      description: Every REQ-* ID used in the repository exists in DESIGN.md Appendix F (§0.1, §12).
+      run: dart run dm_lints:req_index .
+    test:dart:
+      description: Run tests of pure Dart packages.
+      exec: dart test
+      packageFilters:
+        flutter: false
+        dirExists: test
+    test:flutter:
+      description: Run tests of Flutter packages and the app.
+      exec: flutter test
+      packageFilters:
+        flutter: true
+        dirExists: test
+    gen:
+      description: Code generation (pigeon + freezed + json). No package uses build_runner yet.
+      exec: dart run build_runner build --delete-conflicting-outputs
+      packageFilters:
+        dependsOn: build_runner
+    ci:
+      description: Everything CI runs for Dart (ci-dart workflow).
+      steps:
+        - format:check
+        - analyze
+        - lint:arch
+        - lint:req
+        - test:dart
+        - test:flutter

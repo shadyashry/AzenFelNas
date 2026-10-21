@@ -1,0 +1,19 @@
+# DESIGN.md §17.5. Applies to every Go module in go.work.
+version: "2"
+linters:
+  default: standard
+  enable:
+    - errcheck
+    - errorlint
+    - exhaustive
+    - gocritic
+    - gosec
+    - govet
+    - revive
+    - staticcheck
+  settings:
+    exhaustive:
+      default-signifies-exhaustive: false
+formatters:
+  enable:
+    - gofumpt

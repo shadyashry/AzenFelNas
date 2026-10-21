@@ -1,0 +1,7 @@
+# Analysis options for the pure Dart set (DESIGN.md §0.2 rule 2): the shared strict set plus
+# documentation of every public API (§17.2).
+include: package:dm_lints/analysis_options.yaml
+
+linter:
+  rules:
+    public_member_api_docs: true

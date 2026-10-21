@@ -1,0 +1,11 @@
+name: dm_civil_time
+description: "TzDatabase over the app's pinned TZDB, plus tz and country polygon indexes (DESIGN.md §5.2, ADR-015)."
+version: 0.1.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.13.5
+
+dev_dependencies:
+  dm_lints: 0.1.0

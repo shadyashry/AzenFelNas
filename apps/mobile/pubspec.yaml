@@ -1,0 +1,21 @@
+name: daily_muslim
+description: "Daily Muslim — offline-first prayer times, Athan and Qibla for iOS and Android (DESIGN.md §7)."
+publish_to: none
+version: 0.1.0+1
+resolution: workspace
+
+environment:
+  sdk: ^3.13.5
+  flutter: 3.47.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  dm_lints: 0.1.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

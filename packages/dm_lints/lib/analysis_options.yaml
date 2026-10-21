@@ -1,0 +1,32 @@
+# Shared strict analysis options for every Dart package and the app (DESIGN.md §17.2).
+# Disabling a rule requires a justification comment and a reviewer (§0.2 rule 11).
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.pigeon.dart"
+    - "build/**"
+
+formatter:
+  # Keep author-placed trailing commas so `require_trailing_commas` and the formatter agree.
+  trailing_commas: preserve
+
+linter:
+  rules:
+    always_declare_return_types: true
+    avoid_dynamic_calls: true
+    avoid_print: true
+    cast_nullable_to_non_nullable: true
+    prefer_final_in_for_each: true
+    prefer_final_locals: true
+    require_trailing_commas: true
+    sort_constructors_first: true
+    unnecessary_late: true
+    # Enabled only for the pure Dart set (pure.yaml), per §17.2.
+    public_member_api_docs: false

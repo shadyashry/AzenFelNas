@@ -1,0 +1,45 @@
+[project]
+name = "dm_lab"
+version = "0.0.0"
+description = "Accuracy Lab: reference harness and benchmark runner (DESIGN.md §9.4). Empty until slice S03."
+requires-python = "==3.15.*"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "hypothesis==6.170.5",
+  "mypy==2.4.0",
+  "pytest==9.1.1",
+  "ruff==0.17.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.4,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv]
+required-version = "==0.13.4"
+
+[tool.ruff]
+target-version = "py315"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "D203",   # conflicts with D211 (no blank line before class docstring); D211 wins.
+  "D213",   # conflicts with D212 (summary on first line); D212 wins.
+  "COM812", # conflicts with the ruff formatter.
+  "CPY001", # no per-file copyright headers; licensing is repository-level (LICENSES.md).
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"] # pytest uses bare assert.
+
+[tool.mypy]
+strict = true
+python_version = "3.15"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--strict-markers", "--strict-config"]

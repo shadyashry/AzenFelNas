@@ -1,0 +1,11 @@
+name: geo_salah_core
+description: "Geo Salah Engine: ephemeris, solver, rules, rounding, Qibla, SolarState, provenance and PrayerProfile value types (DESIGN.md §6)."
+version: 0.1.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.13.5
+
+dev_dependencies:
+  dm_lints: 0.1.0

@@ -1,0 +1,21 @@
+name: dm_lints
+description: "Shared strict analysis options plus the architecture lint and REQ-index check of the Daily Muslim monorepo."
+version: 0.1.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.13.5
+
+dependencies:
+  analyzer: 13.3.0
+  path: 1.9.1
+  very_good_analysis: 11.0.0
+  yaml: 3.1.4
+
+dev_dependencies:
+  test: 1.31.1
+
+executables:
+  arch_lint:
+  req_index:

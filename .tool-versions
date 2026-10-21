@@ -1,0 +1,8 @@
+flutter 3.47.7-stable
+dart 3.13.5
+golang 1.27.3
+python 3.15.0
+uv 0.13.4
+java temurin-21.0.11+10.0.LTS
+gradle 9.8.2
+nodejs 22.22.0

@@ -1,0 +1,31 @@
+# Secrets — never commit (REQ-SEC-030)
+/tools/gsctl/keys/**/private/
+*.pem
+*.key
+.env
+.env.*
+
+# Dart / Flutter
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+coverage/
+pubspec_overrides.yaml
+
+# Go
+/tools/gsctl/bin/
+/services/control-plane/bin/
+
+# Python
+.venv/
+__pycache__/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,11 @@
+name: geo_salah_profiles
+description: "Parses and validates prayer profiles and resolves point + date to a profile (DESIGN.md §6.5, ADR-007)."
+version: 0.1.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.13.5
+
+dev_dependencies:
+  dm_lints: 0.1.0

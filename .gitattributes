@@ -1,0 +1,7 @@
+# Normalise text files to LF in the repository; binaries are detected automatically.
+* text=auto eol=lf
+*.bat text eol=crlf
+*.png binary
+*.jar binary
+*.docx binary
+*.pdf binary

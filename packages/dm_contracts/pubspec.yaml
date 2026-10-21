@@ -1,0 +1,16 @@
+name: dm_contracts
+description: "Pigeon platform contracts and shared JSON models between Dart, Kotlin and Swift (DESIGN.md §7.8)."
+version: 0.1.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.13.5
+  flutter: 3.47.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  dm_lints: 0.1.0

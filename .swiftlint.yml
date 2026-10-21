@@ -1,0 +1,12 @@
+# DESIGN.md §17.4 — run as `swiftlint --strict`.
+included:
+  - apps/mobile/ios/AthanKit
+opt_in_rules:
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - explicit_acl
+  - fatal_error_message
+force_cast: error
+force_try: error
+force_unwrapping: error
+implicitly_unwrapped_optional: error

@@ -1,0 +1,16 @@
+name: dm_ui
+description: "Design system: tokens, SkyTheme and RTL-aware components (DESIGN.md §7.9, ADR-018)."
+version: 0.1.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.13.5
+  flutter: 3.47.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  dm_lints: 0.1.0

@@ -1,0 +1,11 @@
+include: package:dm_lints/analysis_options.yaml
+
+analyzer:
+  # Repeats the dm_lints excludes: an including file's list replaces, not extends, the included one.
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.pigeon.dart"
+    - build/**
+    - android/**
+    - ios/**
