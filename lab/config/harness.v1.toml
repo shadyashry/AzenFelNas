@@ -37,11 +37,18 @@ tai_minus_utc_s = 37.0
 elevation_m = 0.0
 
 [tolerance]
-# ADR-019: tol_s = clamp(altitude_deg / |rate|, min_s, max_s), rate in °/s at the event: the altitude
-# rate for sunrise/sunset, the local hour-angle rate for the transit (DESIGN.md §15 D26).
+# ADR-019 (as amended, DESIGN.md §15 D26). Altitude-defined events (sunrise, sunset):
+# tol_s = clamp(altitude_deg / |dh/dt|, min_s, max_s), dh/dt in °/s at the event, applied only where
+# |dh/dt| >= altitude_deg / max_s. Below that rate the crossing is near-tangent and the reference reports it
+# as NEAR_TANGENT, graded explicitly instead of with a capped time tolerance.
 altitude_deg = 0.001
 min_s = 0.2
 max_s = 60.0
+# The transit (Dhuhr) is not altitude-defined and has its own time tolerance, set by the required accuracy
+# and the reference's precision, not by an angle rate: reference bracket <= 1 ms, ΔT-model difference
+# <= 0.02 s, SPA position error (±0.0003°) <= 0.07 s at the transit; 0.2 s keeps Dhuhr as strict as the
+# strictest altitude event and below the 0.5 s nearRoundingBoundary flag (ADR-005).
+transit_s = 0.2
 
 [search]
 # Sampling step of the crossing search inside a culmination half-segment (ADR-004); roots are then
@@ -51,8 +58,18 @@ step_minutes = 5.0
 # Rate of an event's defining angle by central difference over ± this half-width.
 rate_half_width_s = 1.0
 
+[hijri]
+# ADR-016 tabular ("Kuwaiti") Islamic calendar, used only to fill bench_request.v1 `hijri` with confidence
+# EXPECTED until the hijri package exists (DESIGN.md §15 D29): 30-year cycle, these leap years,
+# astronomical epoch 1 Muharram 1 AH = JDN 1948439. A calendar definition, not a Ramadan rule.
+epoch_jdn = 1948439
+cycle_years = 30
+leap_years = [2, 5, 7, 10, 13, 16, 18, 21, 24, 26, 29]
+
 [benchmark]
-# Engine event ↔ reference event compared by `lab benchmark` (DESIGN.md §15 D29). Valid for profiles
-# whose sunrise/maghrib rules are `horizon` with the ADR-003 defaults and whose dhuhr rule is `transit`
-# with offset 0, e.g. engine.default in S05.
+# Engine event ↔ reference event compared by `lab benchmark` (DESIGN.md §15 D29). Valid only for
+# profiles whose sunrise/maghrib rules are `horizon` with the ADR-003 defaults and whose compared events
+# carry no per-event adjustment; `profiles` lists the ids allowed. A Dhuhr transit offset is checked
+# separately against the run's --dhuhr-offset-minutes, never assumed here.
 event_map = { SUNRISE = "SUNRISE", DHUHR = "TRANSIT", MAGHRIB = "SUNSET" }
+profiles = ["engine.default"]

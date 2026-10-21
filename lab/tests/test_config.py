@@ -16,17 +16,24 @@ def test_time_scale_makes_ut1_equal_utc(config: HarnessConfig) -> None:
     assert math.isclose(config.time.delta_t_s, 69.184, abs_tol=1e-9)
 
 
-def test_tolerance_is_the_adr019_formula(config: HarnessConfig) -> None:
-    """ADR-019: 0.001°, clamped to [0.2 s, 60 s]."""
-    assert (config.tolerance.altitude_deg, config.tolerance.min_s, config.tolerance.max_s) == (
-        0.001,
-        0.2,
-        60.0,
-    )
+def test_tolerance_is_the_amended_adr019_policy(config: HarnessConfig) -> None:
+    """ADR-019 (§15 D26): 0.001° in [0.2 s, 60 s] for altitude events; 0.2 s for the transit."""
+    tolerance = config.tolerance
+
+    assert (tolerance.altitude_deg, tolerance.min_s, tolerance.max_s) == (0.001, 0.2, 60.0)
+    assert tolerance.transit_s == 0.2
+    assert math.isclose(tolerance.min_rate_deg_per_s, 0.001 / 60)
+
+
+def test_hijri_calendar_is_the_adr016_tabular_one(config: HarnessConfig) -> None:
+    """ADR-016: 30-year cycle, leap years {2,5,7,10,13,16,18,21,24,26,29}, epoch JDN 1948439."""
+    assert (config.hijri.epoch_jdn, config.hijri.cycle_years) == (1_948_439, 30)
+    assert config.hijri.leap_years == {2, 5, 7, 10, 13, 16, 18, 21, 24, 26, 29}
 
 
 def test_benchmark_compares_only_astronomical_events(config: HarnessConfig) -> None:
-    """Only Sunrise, Dhuhr (transit) and Maghrib (sunset) are compared (§15 D29)."""
+    """Only Sunrise, Dhuhr (transit) and Maghrib (sunset), only for engine.default (§15 D29)."""
+    assert config.benchmark.profiles == {"engine.default"}
     assert config.benchmark.event_map == {
         "SUNRISE": "SUNRISE",
         "DHUHR": "TRANSIT",

@@ -11,15 +11,23 @@ from dm_lab.config import HarnessConfig
 from dm_lab.dateset import BenchmarkDay
 from dm_lab.hashing import sha256_file
 from dm_lab.jsonl import read_jsonl
-from dm_lab.paths import DEFAULT_CITIES, DEFAULT_CONFIG, DEFAULT_REFERENCE, repo_relative
+from dm_lab.manifest import REFERENCE_SOURCES, source_input
+from dm_lab.paths import (
+    DEFAULT_CITIES,
+    DEFAULT_CONFIG,
+    DEFAULT_REFERENCE,
+    PACKAGE_DIR,
+    repo_relative,
+)
 from dm_lab.reference import CalculateReferenceDay
 from dm_lab.schema.benchmark_cities_v1 import BenchmarkCitiesV1, City
 from dm_lab.schema.lab_reference_v1 import EventPRIMARY, LabReferenceDayV1
 from dm_lab.schema.pipeline_manifest_v1 import PipelineManifestV1
 
 _MANIFEST = DEFAULT_REFERENCE.with_name("sun_events.2026-2028.v1.manifest.json")
-_SAMPLE_EVERY = 173  # ~25 lines spread over every city and year
+_SAMPLE_EVERY = 173  # ~25 lines spread over every city and year, plus every polar line
 _SLACK_MS = 1  # 1 ms truncation can flip with the platform's libm (DESIGN.md §15 D25)
+_INSTANT_KEYS = ("referenceUtcMs", "toleranceMs", "candidatesUtcMs", "rateDegPerS")
 
 
 @pytest.fixture(scope="module")
@@ -55,6 +63,15 @@ def test_was_built_from_the_committed_inputs(
     assert manifest.parameters["years"] == "2026-2028"
 
 
+def test_was_built_by_the_current_harness_source(manifest: PipelineManifestV1) -> None:
+    """Changing reference-deciding code requires regenerating the reference (`reference-update`)."""
+    recorded = {i.role: i.sha256 for i in manifest.inputs}["harness_source"]
+
+    current = source_input("harness_source", PACKAGE_DIR, REFERENCE_SOURCES).sha256
+
+    assert recorded == current
+
+
 def test_covers_every_city_in_every_year(
     frozen: list[LabReferenceDayV1],
     city_file: BenchmarkCitiesV1,
@@ -75,19 +92,41 @@ def test_every_day_has_a_primary_transit(frozen: list[LabReferenceDayV1]) -> Non
     )
 
 
+def _shape(line: LabReferenceDayV1) -> list[dict[str, object]]:
+    """Every event field except the numbers that may move by 1 ms across platforms."""
+    return [
+        {k: v for k, v in e.model_dump(mode="json").items() if k not in _INSTANT_KEYS}
+        for e in line.events
+    ]
+
+
+def _numbers(line: LabReferenceDayV1) -> list[int]:
+    values: list[int] = []
+    for event in line.events:
+        document = event.model_dump(mode="json")
+        values.extend(
+            v for k in ("referenceUtcMs", "toleranceMs") if isinstance(v := document.get(k), int)
+        )
+        values.extend(document.get("candidatesUtcMs", []))
+    return values
+
+
 def test_regenerates_a_sample_within_one_millisecond(
     frozen: list[LabReferenceDayV1],
     calculate: CalculateReferenceDay,
     cities: dict[str, City],
 ) -> None:
-    """Recomputing spread-out lines gives the same outcomes and instants within 1 ms."""
-    for line in frozen[::_SAMPLE_EVERY]:
+    """Sampled and all polar lines recompute exactly, numbers within 1 ms (§15 D25).
+
+    Kinds, reasons, tags and ids must match exactly; instants and tolerances may move by 1 ms.
+    """
+    polar = [line for line in frozen if any(e.kind != "PRIMARY" for e in line.events)]
+    for line in frozen[::_SAMPLE_EVERY] + polar:
         day = BenchmarkDay(date.fromisoformat(line.day), tuple(line.tags))
 
         again = calculate(cities[line.city_id], day)
 
-        assert [e.kind for e in again.events] == [e.kind for e in line.events]
-        for old, new in zip(line.events, again.events, strict=True):
-            if isinstance(old, EventPRIMARY) and isinstance(new, EventPRIMARY):
-                assert abs(old.reference_utc_ms - new.reference_utc_ms) <= _SLACK_MS
-                assert abs(old.tolerance_ms - new.tolerance_ms) <= _SLACK_MS
+        assert (again.case_id, again.tags, _shape(again)) == (line.case_id, line.tags, _shape(line))
+        old, new = _numbers(line), _numbers(again)
+        assert len(old) == len(new)
+        assert all(abs(a - b) <= _SLACK_MS for a, b in zip(old, new, strict=True))

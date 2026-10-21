@@ -28,7 +28,7 @@ class Summary(WireModel):
     """
     max_abs_delta_ms: Annotated[StrictInt, Field(alias="maxAbsDeltaMs", ge=0)]
     """
-    Largest |engineRawUtcMs − referenceUtcMs| over events with an instant on both sides.
+    Largest |residual| = |engineRawUtcMs − referenceUtcMs − expected Dhuhr offset| over PRIMARY reference events the engine answered with a PRIMARY instant.
     """
 
 
@@ -80,6 +80,10 @@ class Discrepancy(WireModel):
     engineRawUtcMs − referenceUtcMs.
     """
     tolerance_ms: Annotated[StrictInt, Field(alias="toleranceMs", ge=0)]
+    check: Literal["INSTANT", "ORIGIN", "DHUHR_OFFSET", "NEAR_TANGENT", "AMBIGUOUS_REFERENCE"]
+    """
+    INSTANT: residual beyond tolerance; ORIGIN: typed origin or reason differs, or an event is missing; DHUHR_OFFSET: whole-minute Dhuhr offset differs from the expected one; NEAR_TANGENT / AMBIGUOUS_REFERENCE: the reference instant is ill-conditioned or absent (§15 D29).
+    """
     classification: Literal[
         "ENGINE_BUG",
         "PROFILE_ERROR",

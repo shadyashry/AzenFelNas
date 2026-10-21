@@ -22,12 +22,26 @@ class EventPRIMARY(WireModel):
     """
     tolerance_ms: Annotated[StrictInt, Field(alias="toleranceMs", ge=200, le=60000)]
     """
-    ADR-019 clamp(0.001° / |rate|, 0.2 s, 60 s), rounded up to 1 ms.
+    SUNRISE/SUNSET: ADR-019 clamp(0.001° / |dh/dt|, 0.2 s, 60 s), applied only where the clamp's cap is not reached; TRANSIT: the fixed transit time tolerance (§15 D26). Rounded up to 1 ms.
     """
     rate_deg_per_s: Annotated[float, Field(alias="rateDegPerS")]
     """
-    Rate of the event's defining angle at the event: altitude for SUNRISE/SUNSET, local hour angle for TRANSIT (°/s).
+    d(altitude)/dt at the event for SUNRISE/SUNSET; d(local hour angle)/dt for TRANSIT, recorded for information (°/s).
     """
+
+
+class EventNEARTANGENT(WireModel):
+    """
+    A single crossing exists but the Sun's centre meets the horizon altitude nearly tangentially: |dh/dt| < 0.001° / 60 s, so the ADR-019 time formula does not apply and the instant is ill-conditioned. Graded explicitly, never with a time tolerance (§15 D26).
+    """
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    kind: Literal["NEAR_TANGENT"]
+    event: Literal["SUNRISE", "SUNSET"]
+    reference_utc_ms: Annotated[StrictInt, Field(alias="referenceUtcMs", ge=0)]
+    rate_deg_per_s: Annotated[float, Field(alias="rateDegPerS")]
 
 
 class EventNOEVENT(WireModel):
@@ -105,4 +119,6 @@ class LabReferenceDayV1(WireModel):
     """
     Why the day is in the Appendix H date set.
     """
-    events: Annotated[list[EventPRIMARY | EventNOEVENT | EventAMBIGUOUS], Field(min_length=1)]
+    events: Annotated[
+        list[EventPRIMARY | EventNEARTANGENT | EventNOEVENT | EventAMBIGUOUS], Field(min_length=1)
+    ]

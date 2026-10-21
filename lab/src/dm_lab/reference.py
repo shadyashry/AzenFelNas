@@ -3,6 +3,10 @@
 Prayer day D: the upper transit T₀ whose civil date in the city's zone is D, and the lower transits
 A₋ < T₀ < A₊ around it. Sunrise is the upward crossing of the ADR-003 horizon altitude in [A₋, T₀],
 sunset the downward crossing in [T₀, A₊], the transit is T₀ itself (REQ-TIME-002).
+
+Tolerances (ADR-019 as amended by §15 D26): sunrise/sunset by the altitude-rate formula, except a
+near-tangent crossing, which is reported as NEAR_TANGENT with no tolerance; the transit by its own
+fixed time tolerance.
 """
 
 from datetime import UTC, date, datetime, time, timedelta, tzinfo
@@ -14,15 +18,16 @@ from dm_lab.schema.benchmark_cities_v1 import City
 from dm_lab.schema.lab_reference_v1 import (
     CandidatesUtcM,
     EventAMBIGUOUS,
+    EventNEARTANGENT,
     EventNOEVENT,
     EventPRIMARY,
     LabReferenceDayV1,
 )
 from dm_lab.segment import Ambiguous, HalfOutcome, NoRoot, Root, classify_half
 from dm_lab.sky import Crossing, Transit
-from dm_lab.tolerance import tolerance_ms
+from dm_lab.tolerance import altitude_tolerance_ms, is_near_tangent, transit_tolerance_ms
 
-type ReferenceEvent = EventPRIMARY | EventNOEVENT | EventAMBIGUOUS
+type ReferenceEvent = EventPRIMARY | EventNEARTANGENT | EventNOEVENT | EventAMBIGUOUS
 
 _EPOCH = datetime(1970, 1, 1, tzinfo=UTC)
 _ONE_DAY = timedelta(days=1)
@@ -115,10 +120,12 @@ class CalculateReferenceDay:
                 classify_half(rising, rising=True, above_at_transit=above),
                 (lat, lon),
             ),
-            self._primary(
-                "TRANSIT",
-                transit_ms,
-                self._sun.hour_angle_rate_deg_per_s(lat, lon, transit_ms),
+            EventPRIMARY(
+                kind="PRIMARY",
+                event="TRANSIT",
+                reference_utc_ms=transit_ms,
+                tolerance_ms=transit_tolerance_ms(self._tolerance),
+                rate_deg_per_s=_rounded(self._sun.hour_angle_rate_deg_per_s(lat, lon, transit_ms)),
             ),
             self._horizon_event(
                 "SUNSET",
@@ -166,7 +173,20 @@ class CalculateReferenceDay:
             case Root(utc_ms=utc_ms):
                 lat, lon = site
                 rate = self._sun.altitude_rate_deg_per_s(lat, lon, utc_ms)
-                return self._primary(event, utc_ms, rate)
+                if is_near_tangent(rate, self._tolerance):
+                    return EventNEARTANGENT(
+                        kind="NEAR_TANGENT",
+                        event=event,
+                        reference_utc_ms=utc_ms,
+                        rate_deg_per_s=_rounded(rate),
+                    )
+                return EventPRIMARY(
+                    kind="PRIMARY",
+                    event=event,
+                    reference_utc_ms=utc_ms,
+                    tolerance_ms=altitude_tolerance_ms(rate, self._tolerance),
+                    rate_deg_per_s=_rounded(rate),
+                )
             case NoRoot(reason=reason):
                 return EventNOEVENT(kind="NO_EVENT", event=event, reason=reason)
             case Ambiguous(candidates_utc_ms=candidates):
@@ -178,19 +198,9 @@ class CalculateReferenceDay:
             case _:
                 assert_never(outcome)
 
-    def _primary(
-        self,
-        event: Literal["SUNRISE", "TRANSIT", "SUNSET"],
-        utc_ms: int,
-        rate_deg_per_s: float,
-    ) -> EventPRIMARY:
-        return EventPRIMARY(
-            kind="PRIMARY",
-            event=event,
-            reference_utc_ms=utc_ms,
-            tolerance_ms=tolerance_ms(rate_deg_per_s, self._tolerance),
-            rate_deg_per_s=round(rate_deg_per_s, _RATE_DECIMALS),
-        )
+
+def _rounded(rate_deg_per_s: float) -> float:
+    return round(rate_deg_per_s, _RATE_DECIMALS)
 
 
 def _utc_ms(moment: datetime) -> int:

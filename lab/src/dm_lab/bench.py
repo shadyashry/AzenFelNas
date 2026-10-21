@@ -1,6 +1,7 @@
 """The engine bench JSONL contract, lab side (DESIGN.md §6.1, §9.4, §15 D29).
 
-stdin: one bench_request.v1 line per case. stdout: exactly one line per request line, in order —
+stdin: one bench_request.v1 line per case, carrying the Hijri state the engine must echo.
+stdout: exactly one line per request line, in order —
 a calculation_trace.v1 document, or a bench_failure.v1 document for a typed failure.
 """
 
@@ -15,7 +16,7 @@ from pydantic import ValidationError
 
 from dm_lab.jsonl import encode_line
 from dm_lab.schema.bench_failure_v1 import BenchFailureV1
-from dm_lab.schema.bench_request_v1 import BenchRequestV1, Observer
+from dm_lab.schema.bench_request_v1 import BenchRequestV1, Hijri, Observer
 from dm_lab.schema.calculation_trace_v1 import CalculationTraceV1
 from dm_lab.schema.lab_reference_v1 import LabReferenceDayV1
 
@@ -39,7 +40,7 @@ class RunEngineBench(Protocol):
         ...
 
 
-def request_for(reference: LabReferenceDayV1, profile_id: str) -> BenchRequestV1:
+def request_for(reference: LabReferenceDayV1, profile_id: str, hijri: Hijri) -> BenchRequestV1:
     """Build the bench request for the city and prayer day of `reference`."""
     return BenchRequestV1(
         schema_version=1,
@@ -51,6 +52,7 @@ def request_for(reference: LabReferenceDayV1, profile_id: str) -> BenchRequestV1
         ),
         profile_id=profile_id,
         day=reference.day,
+        hijri=hijri,
     )
 
 

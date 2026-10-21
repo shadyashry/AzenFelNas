@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # Generates the pydantic v2 models of lab/src/dm_lab/schema/ from schemas/ (ADR-023, DESIGN.md §17.6).
 # The output is committed; ci-lab re-runs this script and fails when the tree changes.
-# datamodel-code-generator runs as an isolated uvx tool on Python 3.14: its pyyaml dependency has no
-# CPython 3.15 Windows wheel yet (DESIGN.md §15 D27). The generated code targets Python 3.15.
+# datamodel-code-generator runs from its own locked project, tools/codegen (uv.lock, CPython 3.14.8): its
+# pyyaml dependency has no CPython 3.15 Windows wheel yet (DESIGN.md §15 D27). The generated code
+# targets Python 3.15.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-GEN_VERSION=0.86.0
+GEN_VERSION=0.86.0 # must match tools/codegen/pyproject.toml
 OUT=src/dm_lab/schema
 SCHEMAS=(
   benchmark_cities
@@ -17,7 +18,7 @@ SCHEMAS=(
   pipeline_manifest
 )
 for name in "${SCHEMAS[@]}"; do
-  uvx --python 3.14 --from "datamodel-code-generator==${GEN_VERSION}" datamodel-codegen \
+  uv run --frozen --project tools/codegen datamodel-codegen \
     --input "../schemas/${name}.v1.schema.json" \
     --input-file-type jsonschema \
     --output "${OUT}/${name}_v1.py" \

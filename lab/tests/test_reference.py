@@ -11,8 +11,13 @@ from dm_lab.config import HarnessConfig
 from dm_lab.dateset import BenchmarkDay, DateTag
 from dm_lab.reference import CalculateReferenceDay
 from dm_lab.schema.benchmark_cities_v1 import City
-from dm_lab.schema.lab_reference_v1 import EventNOEVENT, EventPRIMARY, LabReferenceDayV1
-from dm_lab.sky import SkyfieldSun, TimeScaleError
+from dm_lab.schema.lab_reference_v1 import (
+    EventNEARTANGENT,
+    EventNOEVENT,
+    EventPRIMARY,
+    LabReferenceDayV1,
+)
+from dm_lab.sky import Crossing, SkyfieldSun, TimeScaleError, Transit
 from dm_lab.tzdb import PinnedTzdb
 
 _EPOCH = datetime(1970, 1, 1, tzinfo=UTC)
@@ -91,7 +96,7 @@ def test_tolerance_follows_the_event_rate_req_test_003(
     longyearbyen = _primaries(_day(calculate, cities["longyearbyen"], "2026-03-20"))
 
     assert quito["SUNRISE"].tolerance_ms == 240
-    assert quito["TRANSIT"].tolerance_ms == 240
+    assert quito["TRANSIT"].tolerance_ms == 200  # fixed transit tolerance (§15 D26)
     assert longyearbyen["SUNRISE"].tolerance_ms > 1000
 
 
@@ -146,3 +151,66 @@ def test_mid_latitude_days_have_ordered_primary_events(
     assert events["TRANSIT"].reference_utc_ms < events["SUNSET"].reference_utc_ms
     assert events["SUNRISE"].rate_deg_per_s > 0 > events["SUNSET"].rate_deg_per_s
     assert all(200 <= e.tolerance_ms <= 60_000 for e in events.values())
+
+
+class _GrazingSun:
+    """Fake `SunEphemeris` port: a day whose sunset crossing is near-tangent (shape data)."""
+
+    transit_ms = 1_779_098_400_000
+    sunrise_ms = transit_ms - 30_000_000
+    sunset_ms = transit_ms + 40_000_000
+
+    def check_time_scale(self, utc_ms: int) -> None:
+        del utc_ms
+
+    def transits(self, lat: float, lon: float, start_ms: int, end_ms: int) -> list[Transit]:
+        del lat, lon, start_ms, end_ms
+        half_day = 43_200_000
+        return [
+            Transit(self.transit_ms - half_day, upper=False),
+            Transit(self.transit_ms, upper=True),
+            Transit(self.transit_ms + half_day, upper=False),
+        ]
+
+    def crossings(
+        self,
+        lat: float,
+        lon: float,
+        span_ms: tuple[int, int],
+        altitude_deg: float,
+    ) -> list[Crossing]:
+        del lat, lon, altitude_deg
+        rising = span_ms[1] == self.transit_ms
+        return [Crossing(self.sunrise_ms if rising else self.sunset_ms, rising=rising)]
+
+    def altitude_deg(self, lat: float, lon: float, utc_ms: int) -> float:
+        del lat, lon, utc_ms
+        return 10.0
+
+    def altitude_rate_deg_per_s(self, lat: float, lon: float, utc_ms: int) -> float:
+        del lat, lon
+        return 0.002 if utc_ms == self.sunrise_ms else -0.000001
+
+    def hour_angle_rate_deg_per_s(self, lat: float, lon: float, utc_ms: int) -> float:
+        del lat, lon, utc_ms
+        return 0.004166
+
+
+def test_reports_a_near_tangent_crossing_without_a_tolerance(
+    config: HarnessConfig,
+    cities: dict[str, City],
+) -> None:
+    """A crossing slower than 0.001° per 60 s is NEAR_TANGENT, never a capped PRIMARY (§15 D26)."""
+    calculate = CalculateReferenceDay(
+        _GrazingSun(),
+        PinnedTzdb(),
+        config.horizon.altitude_deg,
+        config.tolerance,
+    )
+
+    reference = calculate(cities["tromso"], BenchmarkDay(date(2026, 5, 18), _TAGS))
+
+    kinds = {e.event: e.kind for e in reference.events}
+    assert kinds == {"SUNRISE": "PRIMARY", "TRANSIT": "PRIMARY", "SUNSET": "NEAR_TANGENT"}
+    [near] = [e for e in reference.events if isinstance(e, EventNEARTANGENT)]
+    assert near.reference_utc_ms == _GrazingSun.sunset_ms

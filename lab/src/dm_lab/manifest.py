@@ -1,5 +1,6 @@
 """pipeline_manifest.v1 documents: pinned inputs, tool versions and outputs, by sha256 (§17.6)."""
 
+import hashlib
 import platform
 from collections.abc import Iterable, Mapping
 from importlib import metadata
@@ -11,10 +12,36 @@ from dm_lab.schema.pipeline_manifest_v1 import Input, Output, PipelineManifestV1
 
 LAB_DISTRIBUTIONS = ("dm_lab", "jplephem", "numpy", "pydantic", "skyfield", "tzdata")
 
+# Modules whose code decides the bytes of the reference JSONL. Their combined hash is a manifest
+# input, so changing any of them without regenerating the frozen reference fails
+# test_frozen_reference.py.
+REFERENCE_SOURCES = (
+    "build_reference.py",
+    "config.py",
+    "dateset.py",
+    "jsonl.py",
+    "reference.py",
+    "schema/base.py",
+    "schema/benchmark_cities_v1.py",
+    "schema/lab_reference_v1.py",
+    "segment.py",
+    "sky.py",
+    "tolerance.py",
+    "tzdb.py",
+)
+
 
 def file_input(role: str, path: Path) -> Input:
     """Describe a repository file the pipeline read."""
     return Input(role=role, path=repo_relative(path), sha256=sha256_file(path))
+
+
+def source_input(role: str, package_dir: Path, relative_paths: Iterable[str]) -> Input:
+    """Describe source files by one sha256 over their sorted paths and contents' sha256s."""
+    digest = hashlib.sha256()
+    for relative in sorted(relative_paths):
+        digest.update(f"{relative}\0{sha256_file(package_dir / relative)}\n".encode())
+    return Input(role=role, path=repo_relative(package_dir), sha256=digest.hexdigest())
 
 
 def url_input(role: str, url: str, sha256: str) -> Input:

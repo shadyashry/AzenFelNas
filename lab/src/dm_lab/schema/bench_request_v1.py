@@ -23,6 +23,28 @@ class ElevationSample(WireModel):
     observed_utc_ms: Annotated[StrictInt, Field(alias="observedUtcMs", ge=0)]
 
 
+class HijriDate(WireModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    year: Annotated[StrictInt, Field(ge=1)]
+    month: Annotated[StrictInt, Field(ge=1, le=12)]
+    day: Annotated[StrictInt, Field(ge=1, le=30)]
+
+
+class Hijri(WireModel):
+    """
+    dateAtDawn = Hijri date of `day` (governs Imsak/Fajr); dateAtNight = Hijri date of the following day (governs Isha), §6.2.
+    """
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    date_at_dawn: Annotated[HijriDate, Field(alias="dateAtDawn")]
+    date_at_night: Annotated[HijriDate, Field(alias="dateAtNight")]
+    confidence: Literal["CONFIRMED", "EXPECTED", "USER_OVERRIDE"]
+
+
 class Observer(WireModel):
     """
     Observer of §6.2.
@@ -45,7 +67,7 @@ class Observer(WireModel):
 
 class BenchRequestV1(WireModel):
     """
-    One stdin line of the engine bench `dart run geo_salah_core:bench` (DESIGN.md §6.1, §9.4): {observer, profileId, day}. The bench answers every request line, in order, with exactly one stdout line: a calculation_trace.v1 document or a bench_failure.v1 document.
+    One stdin line of the engine bench `dart run geo_salah_core:bench` (DESIGN.md §6.1, §9.4): {observer, profileId, day, hijri}. The bench answers every request line, in order, with exactly one stdout line: a calculation_trace.v1 document or a bench_failure.v1 document (§15 D29).
     """
 
     model_config = ConfigDict(
@@ -60,4 +82,8 @@ class BenchRequestV1(WireModel):
     day: Annotated[StrictStr, Field(pattern="^\\d{4}-\\d{2}-\\d{2}$")]
     """
     CivilDate interpreted in observer.zoneId (§6.2).
+    """
+    hijri: Hijri
+    """
+    HijriState of §6.2 for `day`, echoed as calculation_trace.v1 inputs.hijri. Until the hijri package exists the lab sends the ADR-016 tabular state with confidence EXPECTED (§15 D29).
     """

@@ -3,7 +3,8 @@
 import os
 from pathlib import Path
 
-LAB_ROOT = Path(__file__).resolve().parents[2]
+PACKAGE_DIR = Path(__file__).resolve().parent
+LAB_ROOT = PACKAGE_DIR.parents[1]
 REPO_ROOT = LAB_ROOT.parent
 
 DEFAULT_CONFIG = LAB_ROOT / "config" / "harness.v1.toml"

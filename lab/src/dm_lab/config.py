@@ -66,11 +66,17 @@ class ObserverConfig(_Section):
 
 
 class ToleranceConfig(_Section):
-    """ADR-019 time tolerance: clamp(altitude_deg / |rate|, min_s, max_s)."""
+    """ADR-019 time tolerances (§15 D26): altitude events by formula, the transit by fixed time."""
 
     altitude_deg: float = Field(gt=0)
     min_s: float = Field(gt=0)
     max_s: float = Field(gt=0)
+    transit_s: float = Field(gt=0)
+
+    @property
+    def min_rate_deg_per_s(self) -> float:
+        """Slowest altitude rate the formula applies to; slower crossings are near-tangent."""
+        return self.altitude_deg / self.max_s
 
 
 class SearchConfig(_Section):
@@ -80,10 +86,19 @@ class SearchConfig(_Section):
     rate_half_width_s: float = Field(gt=0, le=60)
 
 
+class HijriConfig(_Section):
+    """ADR-016 tabular calendar: cycle length, leap years within it, epoch of 1 Muharram 1 AH."""
+
+    epoch_jdn: int = Field(gt=0)
+    cycle_years: int = Field(gt=0)
+    leap_years: frozenset[int] = Field(min_length=1)
+
+
 class BenchmarkConfig(_Section):
-    """Which reference event each compared engine event realises."""
+    """Which reference event each compared engine event realises, and for which profiles."""
 
     event_map: dict[EngineEvent, ReferenceEvent] = Field(min_length=1)
+    profiles: frozenset[str] = Field(min_length=1)
 
 
 class HarnessConfig(_Section):
@@ -96,6 +111,7 @@ class HarnessConfig(_Section):
     observer: ObserverConfig
     tolerance: ToleranceConfig
     search: SearchConfig
+    hijri: HijriConfig
     benchmark: BenchmarkConfig
 
 

@@ -1,0 +1,13 @@
+# Locked environment of the model generator used by lab/scripts/gen_models.sh (DESIGN.md §15 D27).
+# Not a package and not a lab dependency. It runs on CPython 3.14 because pyyaml (a datamodel-code-generator
+# dependency) has no CPython 3.15 Windows wheel yet; the generated code targets Python 3.15.
+[project]
+name = "dm_lab_codegen"
+version = "0.0.0"
+description = "Pinned datamodel-code-generator for the lab's schema models."
+requires-python = "==3.14.*"
+dependencies = ["datamodel-code-generator==0.86.0"]
+
+[tool.uv]
+required-version = "==0.13.4"
+package = false

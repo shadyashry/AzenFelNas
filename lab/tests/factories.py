@@ -1,12 +1,23 @@
 """Builders of wire records for comparator tests (shape data, never prayer profiles)."""
 
+import json
 from collections.abc import Mapping
 from typing import Literal
 
+from dm_lab.bench import request_for
+from dm_lab.compare import BenchCase
+from dm_lab.schema.bench_request_v1 import Hijri
 from dm_lab.schema.calculation_trace_v1 import CalculationTraceV1
 from dm_lab.schema.lab_reference_v1 import LabReferenceDayV1
 
 type Origin = Literal["PRIMARY", "FALLBACK", "NO_EVENT"]
+
+# ADR-016 tabular Hijri state of 2026-03-20 (2 and 3 Shawwal 1447); test_hijri.py checks it.
+HIJRI_2026_03_20: dict[str, object] = {
+    "dateAtDawn": {"year": 1447, "month": 10, "day": 2},
+    "dateAtNight": {"year": 1447, "month": 10, "day": 3},
+    "confidence": "EXPECTED",
+}
 
 TRANSIT_MS = 1_774_000_800_000
 SUNRISE_MS = TRANSIT_MS - 21_600_000
@@ -98,11 +109,7 @@ def trace_for(
                 "day": trace_day,
                 "profileId": "engine.default",
                 "profileVersion": "2026.10.1",
-                "hijri": {
-                    "dateAtDawn": {"year": 1447, "month": 10, "day": 1},
-                    "dateAtNight": {"year": 1447, "month": 10, "day": 2},
-                    "confidence": "EXPECTED",
-                },
+                "hijri": HIJRI_2026_03_20,
             },
             "provenance": {
                 "engineVersion": "0.1.0",
@@ -120,3 +127,26 @@ def trace_for(
             ],
         },
     )
+
+
+def case_for(reference: LabReferenceDayV1) -> BenchCase:
+    """The case of `reference`: its engine.default request with the 2026-03-20 Hijri state."""
+    return BenchCase(
+        reference,
+        request_for(reference, "engine.default", Hijri.model_validate(HIJRI_2026_03_20)),
+    )
+
+
+def with_time(
+    trace: CalculationTraceV1, event: str, changes: Mapping[str, object]
+) -> CalculationTraceV1:
+    """`trace` with the wire fields in `changes` replaced (None deletes) in the time of `event`."""
+    document = json.loads(trace.model_dump_json(exclude_none=True))
+    for time in document["times"]:
+        if time["event"] == event:
+            for key, value in changes.items():
+                if value is None:
+                    time.pop(key, None)
+                else:
+                    time[key] = value
+    return CalculationTraceV1.model_validate(document)

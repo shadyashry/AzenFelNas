@@ -29,7 +29,7 @@ def test_reference_writes_jsonl_and_a_manifest_of_hashes(tmp_path: Path) -> None
     assert [(o.path, o.sha256, o.records) for o in manifest.outputs] == [
         ("ref.jsonl", sha256_file(out), len(lines)),
     ]
-    assert {i.role for i in manifest.inputs} == {"cities", "config", "ephemeris"}
+    assert {i.role for i in manifest.inputs} == {"cities", "config", "ephemeris", "harness_source"}
     assert manifest.parameters["years"] == "2026-2026"
     assert manifest.tools["skyfield"] == "1.55"
 
@@ -78,3 +78,28 @@ def test_benchmark_refuses_a_reference_that_differs_from_its_manifest(tmp_path: 
     )
 
     assert status == EXIT_ERROR
+
+
+def test_benchmark_refuses_a_profile_outside_the_allow_list(tmp_path: Path) -> None:
+    """A profile the sun-event comparison is not valid for is a usage error (§15 D29)."""
+    out = tmp_path / "ref.jsonl"
+    _build(out)
+
+    status = main(
+        [
+            "benchmark",
+            "--engine",
+            "dart",
+            "--cities",
+            str(_CITIES),
+            "--reference",
+            str(out),
+            "--profile",
+            "eg.egas.standard",
+            "--out",
+            str(tmp_path / "bench"),
+        ],
+    )
+
+    assert status == EXIT_ERROR
+    assert not (tmp_path / "bench").exists()
