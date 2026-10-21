@@ -16,17 +16,25 @@ Day `D`: upper transit `T₀` with `localDate(T₀, zone) == D`; lower transits 
 - **Win:** correct at high latitude in summer and in zones like `Pacific/Kiritimati`.
 - **Lose:** slightly more code than civil-day search.
 
+## Engine realisation (slice S04, 2026-10-21)
+
+- `CulminationSegments.locate` (`geo_salah_core/lib/src/solver/culmination_segments.dart`) starts at mean solar noon of `D` at the observer's longitude. It solves `H = 0°` on the interpolated day model (§6.4 ¶2), refines with one exact SPA step, and moves by whole days until `localDate(T₀, zone) == D`. `A₋` and `A₊` solve `H = 180°` from `T₀ ∓ 12 h` the same way.
+- A zone that skips a calendar day (e.g. `Pacific/Apia` 2011-12-30) has no `T₀` on it; `locate` returns `null`, and S05 decides how `calculateDay` reports it (§15 D35).
+- Each half segment is split at the altitude's stationary points into monotone pieces, so every crossing is bracketed (§15 D34). Ascending events take the rising crossing in `[A₋, T₀]`, descending ones the setting crossing in `[T₀, A₊]`.
+- Consecutive days tile time: `A₊(D)` and `A₋(D+1)` agree to < 1 ms.
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
 
 ## REQ tags
 
-—
+`REQ-TIME-002`, `REQ-DOM-002` (no root ⇒ no event, never an extrapolation)
 
 ## Tests
 
-—
+- `packages/geo_salah_core/test/solver/culmination_segments_test.dart`: local-date rule, hour angles at `T₀` and `A±`, day tiling, Kiritimati (UTC+14 at 157° W), the skipped Apia day.
+- `packages/geo_salah_core/test/solver/crossings_test.dart`: bracket exhaustiveness against a dense scan, including grazing targets; monotone pieces; polar day and night; continuity.
 
 ## Supersedes
 
