@@ -1,0 +1,14 @@
+{
+  "signed": {
+    "type": "snapshot",
+    "sequence": 7,
+    "expires": "2026-11-21T00:00:00Z",
+    "meta": {
+      "targets.json": {
+        "version": 7,
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    }
+  },
+  "signatures": []
+}

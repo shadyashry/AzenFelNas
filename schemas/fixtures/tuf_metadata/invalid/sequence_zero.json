@@ -1,0 +1,19 @@
+{
+  "signed": {
+    "type": "timestamp",
+    "sequence": 0,
+    "expires": "2026-10-28T00:00:00Z",
+    "meta": {
+      "snapshot.json": {
+        "version": 7,
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+    }
+  },
+  "signatures": [
+    {
+      "keyId": "ec9d6f6646350b50e24e167e376cf3c2ec54f08675b17f038a10d38d8b68d9d1",
+      "sig": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+    }
+  ]
+}

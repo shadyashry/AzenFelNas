@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "calculationId": "GS-ABCDEFGHIJ234567",
+  "day": "2026-10-21",
+  "inputs": {
+    "lat": 12.345678,
+    "lon": -98.765432,
+    "zoneId": "Etc/GMT-3",
+    "day": "2026-10-21",
+    "profileId": "zz.fixture.full",
+    "profileVersion": "2026.10.1",
+    "hijri": {
+      "dateAtDawn": {
+        "year": 1448,
+        "month": 4,
+        "day": 29
+      },
+      "dateAtNight": {
+        "year": 1448,
+        "month": 4,
+        "day": 30
+      },
+      "confidence": "EXPECTED"
+    }
+  },
+  "provenance": {
+    "engineVersion": "0.1.0",
+    "deltaTModel": "espenak-meeus-2006",
+    "profileId": "zz.fixture.full",
+    "profileVersion": "2026.10.1",
+    "tzdbVersion": "2026c",
+    "inputsHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "hijriConfidence": "EXPECTED"
+  },
+  "times": [
+    {
+      "event": "IMSAK",
+      "origin": {
+        "kind": "NO_EVENT",
+        "reason": "CHAIN_EXHAUSTED"
+      },
+      "confidence": {
+        "kind": "UNKNOWN",
+        "reasonCode": "CHAIN_EXHAUSTED"
+      },
+      "flags": [],
+      "adjustmentTrace": [],
+      "rawUtcMs": 1,
+      "displayedUtcMs": 1,
+      "dayOffset": 0
+    },
+    {
+      "event": "FAJR",
+      "rawUtcMs": 1761021623456,
+      "displayedUtcMs": 1761021660000,
+      "dayOffset": 0,
+      "origin": {
+        "kind": "FALLBACK",
+        "method": "anglePortion"
+      },
+      "confidence": {
+        "kind": "ESTIMATED",
+        "rangeMinutes": 7
+      },
+      "flags": [
+        "HIGH_LATITUDE_FALLBACK",
+        "HIJRI_EXPECTED"
+      ],
+      "adjustmentTrace": [
+        {
+          "event": "FAJR",
+          "kind": "HIGH_LATITUDE_FALLBACK",
+          "deltaMs": 0,
+          "reason": "angle portion"
+        },
+        {
+          "event": "FAJR",
+          "kind": "ROUNDING",
+          "deltaMs": 36544,
+          "reason": "ceil"
+        }
+      ]
+    },
+    {
+      "event": "SUNRISE",
+      "rawUtcMs": 1761025000999,
+      "displayedUtcMs": 1761024960000,
+      "dayOffset": 0,
+      "origin": {
+        "kind": "FALLBACK",
+        "method": {
+          "nearestLatitude": {
+            "latDeg": 45.5
+          }
+        }
+      },
+      "confidence": {
+        "kind": "ESTIMATED",
+        "rangeMinutes": 5
+      },
+      "flags": [
+        "NEAR_ROUNDING_BOUNDARY"
+      ],
+      "adjustmentTrace": [
+        {
+          "event": "SUNRISE",
+          "kind": "ROUNDING",
+          "deltaMs": -40999,
+          "reason": "floor"
+        }
+      ]
+    },
+    {
+      "event": "DHUHR",
+      "rawUtcMs": 1761040812345,
+      "displayedUtcMs": 1761040860000,
+      "dayOffset": 0,
+      "origin": {
+        "kind": "PRIMARY"
+      },
+      "confidence": {
+        "kind": "AUTHORITY_ALIGNED",
+        "benchmarkReportId": "zz-report-1"
+      },
+      "flags": [],
+      "adjustmentTrace": [
+        {
+          "event": "DHUHR",
+          "kind": "PER_EVENT_OFFSET",
+          "deltaMs": 0,
+          "reason": "offset 0",
+          "evidenceId": "zz-evidence-1"
+        }
+      ]
+    },
+    {
+      "event": "ASR",
+      "rawUtcMs": 1761053400000,
+      "displayedUtcMs": 1761053400000,
+      "dayOffset": 0,
+      "origin": {
+        "kind": "PRIMARY"
+      },
+      "confidence": {
+        "kind": "VERIFIED",
+        "sourceRef": "zz-source",
+        "freshUntilUtcMs": 1763600000000
+      },
+      "flags": [],
+      "adjustmentTrace": []
+    },
+    {
+      "event": "MAGHRIB",
+      "rawUtcMs": 1761062399000,
+      "displayedUtcMs": 1761062400000,
+      "dayOffset": 0,
+      "origin": {
+        "kind": "PRIMARY"
+      },
+      "confidence": {
+        "kind": "OBSERVED",
+        "count": 12,
+        "lastSeenUtcMs": 1760900000000
+      },
+      "flags": [],
+      "adjustmentTrace": []
+    },
+    {
+      "event": "ISHA",
+      "rawUtcMs": 1761087600000,
+      "displayedUtcMs": 1761087600000,
+      "dayOffset": 1,
+      "origin": {
+        "kind": "FALLBACK",
+        "method": {
+          "nearestValidDay": {
+            "maxDays": 7
+          }
+        }
+      },
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "flags": [
+        "DST_TRANSITION_DAY"
+      ],
+      "adjustmentTrace": [
+        {
+          "event": "ISHA",
+          "kind": "RAMADAN_RULE_REPLACEMENT",
+          "deltaMs": 0,
+          "reason": "fixture"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "id": 9900001,
+    "name": "مدينة الاختبار",
+    "asciiName": "Fixture City",
+    "altNames": {
+      "ar": [
+        "مدينة الاختبار"
+      ],
+      "en": [
+        "Fixture City",
+        "Fixtureville"
+      ]
+    },
+    "country": "ZZ",
+    "admin1": "01",
+    "lat": 91,
+    "lon": -98.76543,
+    "population": 150000,
+    "zoneId": "Etc/GMT-3"
+  },
+  {
+    "id": 9900002,
+    "name": "Fixture Town",
+    "asciiName": "Fixture Town",
+    "altNames": {
+      "ar": [],
+      "en": []
+    },
+    "country": "ZZ",
+    "admin1": "",
+    "lat": -1.5,
+    "lon": 179.99,
+    "population": 15000,
+    "zoneId": "Pacific/Fiji"
+  }
+]

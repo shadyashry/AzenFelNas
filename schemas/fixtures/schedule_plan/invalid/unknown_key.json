@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "generation": 42,
+  "contextId": "ctx_fixture_1",
+  "zoneId": "Etc/GMT-3",
+  "tzdbVersion": "2026c",
+  "generatedAtUtcMs": 1761000000000,
+  "horizonEndUtcMs": 1763600000000,
+  "entries": [
+    {
+      "id": "a1b2c3d4e5f60718",
+      "day": "2026-10-21",
+      "event": "FAJR",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1761021660000,
+      "displayLocal": "04:41",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Adhan"
+      },
+      "body": {
+        "ar": "نص تجريبي",
+        "en": "Fixture body"
+      },
+      "soundId": "athan_fixture_v1",
+      "priority": 1
+    },
+    {
+      "id": "0102030405060708",
+      "day": "2026-10-21",
+      "event": "DHUHR",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1761040800000,
+      "displayLocal": "12:00",
+      "title": {
+        "ar": "تذكير",
+        "en": "Reminder"
+      },
+      "body": {
+        "ar": "نص تجريبي",
+        "en": "Fixture body"
+      },
+      "soundId": "reminder_fixture_v1",
+      "priority": 3
+    },
+    {
+      "id": "1112131415161718",
+      "day": "2026-10-22",
+      "event": "IMSAK",
+      "kind": "IMSAK",
+      "fireAtUtcMs": 1761107460000,
+      "displayLocal": "04:31",
+      "title": {
+        "ar": "الإمساك",
+        "en": "Imsak"
+      },
+      "body": {
+        "ar": "نص تجريبي",
+        "en": "Fixture body"
+      },
+      "soundId": "imsak_fixture_v1",
+      "priority": 2
+    },
+    {
+      "id": "ffeeddccbbaa9988",
+      "day": "2026-11-18",
+      "kind": "HORIZON_WARNING",
+      "fireAtUtcMs": 1763427200000,
+      "displayLocal": "23:00",
+      "title": {
+        "ar": "افتح التطبيق",
+        "en": "Open the app"
+      },
+      "body": {
+        "ar": "نص تجريبي",
+        "en": "Fixture body"
+      },
+      "soundId": "default",
+      "priority": 1
+    }
+  ],
+  "policy": {
+    "locale": "ar",
+    "respectDnd": false,
+    "vibrate": true,
+    "fullAthanAndroid": true,
+    "iosClipSeconds": 29,
+    "preReminderMinutes": 0,
+    "snoozeMinutes": 5
+  },
+  "note": "x"
+}

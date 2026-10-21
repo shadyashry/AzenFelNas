@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "day": "2026-10-21",
+  "appVersion": "1.0.0",
+  "platform": "android",
+  "osMajor": 16,
+  "countryCode": "EG",
+  "counters": {
+    "packageActivations": {
+      "prayer_profiles": 1,
+      "tzdata": 0
+    },
+    "healthState": {
+      "READY": 3,
+      "LIMITED": 1
+    },
+    "testResults": {
+      "heard": 1,
+      "notHeard": 0,
+      "unknown": 0
+    },
+    "syncOutcome": {
+      "ok": -1,
+      "warn": 1,
+      "fail": 0
+    }
+  }
+}

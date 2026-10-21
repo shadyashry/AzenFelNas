@@ -1,0 +1,86 @@
+{
+  "profileId": "zz.fixture.candidate",
+  "schemaVersion": 1,
+  "version": "2026.10.1",
+  "status": "CANDIDATE",
+  "effectiveFrom": "2026-11-01",
+  "effectiveTo": "2027-12-31",
+  "scope": {
+    "countries": [
+      "*"
+    ],
+    "adminAreas": [],
+    "polygonsRef": null
+  },
+  "authority": {
+    "name": "Schema fixture (not a prayer profile)",
+    "type": "ENGINE_DEFAULT"
+  },
+  "referenceMode": "EXACT_COORDINATE",
+  "referencePoints": [],
+  "rules": {
+    "imsak": null,
+    "fajr": {
+      "type": "solarAltitude",
+      "degrees": 13.5
+    },
+    "sunrise": {
+      "type": "horizon"
+    },
+    "dhuhr": {
+      "type": "transit"
+    },
+    "asr": {
+      "type": "shadowFactor",
+      "k": 1
+    },
+    "maghrib": {
+      "type": "horizon"
+    },
+    "isha": {
+      "type": "solarAltitude",
+      "degrees": 14.5
+    }
+  },
+  "horizon": {
+    "elevationPolicy": "NONE"
+  },
+  "highLatitude": {
+    "chain": [
+      "middleOfNight"
+    ]
+  },
+  "rounding": {
+    "default": "floor"
+  },
+  "adjustments": {
+    "perEventMinutes": {},
+    "maxAbsMinutes": 0,
+    "ramadan": {}
+  },
+  "evidence": {
+    "sources": [],
+    "benchmarkSet": "zz-fixture",
+    "holdoutReport": "zz-holdout-1",
+    "benchmarkReportId": "zz-report-1"
+  },
+  "approvals": {
+    "religious": {
+      "reviewer": "Fixture reviewer",
+      "qualification": "Fixture qualification",
+      "date": "2026-10-02",
+      "scope": [
+        "rules",
+        "rounding"
+      ]
+    },
+    "accuracy": {
+      "reviewer": "Fixture accuracy lead",
+      "date": "2026-10-03"
+    }
+  },
+  "compatibility": {
+    "minEngineSchema": 1,
+    "minAppVersion": "1.0.0"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/event_log.v1.schema.json",
+  "title": "Event log entry v1",
+  "description": "One on-device event: a line of the native events.jsonl and a row of the drift event_log table (DESIGN.md Appendix J, §9.6). attrs is a closed allow-list, so no lat/lon key can exist, and no value pattern admits a decimal coordinate (REQ-PRIV-001).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["utcMs", "level", "code", "attrs"],
+  "properties": {
+    "utcMs": { "type": "integer", "minimum": 0 },
+    "level": { "enum": ["DEBUG", "INFO", "WARN", "ERROR"] },
+    "code": {
+      "enum": ["APP_START", "PKG_ACTIVATED", "PKG_ROLLED_BACK", "PLAN_BUILT", "PLAN_APPLIED", "ALARM_SCHEDULED", "ALARM_PRESENTED", "ALARM_DISMISSED", "HEALTH_EVALUATED", "TEST_STARTED", "TEST_RESULT", "CONTEXT_CHANGED", "SYNC_RESULT", "RETENTION_RUN"]
+    },
+    "attrs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "description": "Failure code (Appendix J).",
+          "enum": ["LOC_PERMISSION_DENIED", "LOC_SERVICES_OFF", "LOC_UNAVAILABLE", "LOC_STALE", "TZ_UNRESOLVED", "COUNTRY_UNRESOLVED", "PROFILE_NOT_FOUND", "PROFILE_OVERLAP", "PROFILE_INVALID", "ENGINE_ORDERING", "ENGINE_UNSUPPORTED_POLICY", "HIJRI_UNKNOWN_MONTH", "PKG_SIG_INVALID", "PKG_HASH_MISMATCH", "PKG_INCOMPATIBLE", "PKG_SEQUENCE_REGRESSION", "PKG_EXPIRED_WARNING", "PKG_NETWORK", "PKG_STORAGE", "PLAN_WRITE_FAILED", "PLAN_SCHEMA_UNSUPPORTED", "ALARM_PERMISSION_MISSING", "ALARM_SCHEDULE_FAILED", "AUDIO_ASSET_MISSING", "CLOCK_SKEW", "DB_MIGRATION_FAILED", "DIAG_EXPORT_FAILED"]
+        },
+        "generation": { "type": "integer", "minimum": 0 },
+        "entryId": { "type": "string", "pattern": "^[a-f0-9]{16}$" },
+        "packageType": { "type": "string", "pattern": "^[a-z_]{1,32}$" },
+        "version": { "type": "string", "pattern": "^(\\d{4}\\.\\d{1,2}\\.\\d+|\\d{4}[a-z]|\\d+\\.\\d+\\.\\d+)$" },
+        "state": { "type": "string", "pattern": "^[A-Za-z_]{1,32}$" },
+        "reason": { "type": "string", "pattern": "^[A-Za-z_]{1,64}$" },
+        "durationMs": { "type": "integer", "minimum": 0 },
+        "count": { "type": "integer", "minimum": 0 },
+        "zoneId": { "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$", "maxLength": 64 },
+        "countryCode": { "type": "string", "pattern": "^[A-Z]{2}$" }
+      }
+    }
+  }
+}

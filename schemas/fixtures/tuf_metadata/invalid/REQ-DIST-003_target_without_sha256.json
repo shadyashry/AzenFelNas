@@ -1,0 +1,52 @@
+{
+  "signed": {
+    "type": "targets",
+    "sequence": 7,
+    "expires": "2027-04-21T00:00:00Z",
+    "targets": {
+      "prayer_profiles/2026.10.1": {
+        "length": 51234,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "custom": {
+          "schemaVersion": 1,
+          "payloadFormat": "json",
+          "compat": {
+            "minApp": "1.0.0",
+            "minEngineSchema": 1
+          },
+          "effectiveFrom": "2026-11-01",
+          "priority": "normal",
+          "changeNote": {
+            "ar": "ملاحظة تجريبية",
+            "en": "Fixture change note"
+          }
+        }
+      },
+      "tzdata/2026c": {
+        "length": 401234,
+        "custom": {
+          "schemaVersion": 1,
+          "payloadFormat": "bin",
+          "compat": {
+            "minApp": "1.0.0",
+            "minEngineSchema": 1
+          },
+          "effectiveFrom": "2026-10-21",
+          "priority": "urgent",
+          "changeNote": {
+            "ar": "ملاحظة تجريبية",
+            "en": "Fixture change note"
+          },
+          "rollbackOf": "2026d",
+          "attribution": "IANA tz database (public domain)"
+        }
+      }
+    }
+  },
+  "signatures": [
+    {
+      "keyId": "7efee8296fba8f167f8786d903c37ceeeaf2a984a66783631ab19245f36808a1",
+      "sig": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+    }
+  ]
+}

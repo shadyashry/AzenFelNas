@@ -1,0 +1,121 @@
+{
+  "profileId": "zz.fixture.full",
+  "schemaVersion": 1,
+  "version": "2026.10.1",
+  "status": "DRAFT_UNVERIFIED",
+  "effectiveFrom": "2026-11-01",
+  "effectiveTo": null,
+  "scope": {
+    "countries": [
+      "ZZ"
+    ],
+    "adminAreas": [
+      "ZZ-01"
+    ],
+    "polygonsRef": null
+  },
+  "authority": {
+    "name": "Schema fixture (not a prayer profile)",
+    "type": "COMMUNITY_CONVENTION"
+  },
+  "referenceMode": "AUTHORITY_REFERENCE_POINT",
+  "referencePoints": [
+    {
+      "area": "ZZ",
+      "lat": 1.5,
+      "lon": 2.5
+    }
+  ],
+  "rules": {
+    "imsak": {
+      "type": "intervalBefore",
+      "base": "fajr",
+      "minutes": 10
+    },
+    "fajr": {
+      "type": "solarAltitude",
+      "degrees": 12.5
+    },
+    "sunrise": {
+      "type": "horizon"
+    },
+    "dhuhr": {
+      "type": "transit",
+      "offsetMinutes": 2
+    },
+    "asr": {
+      "type": "expression",
+      "k": 1
+    },
+    "maghrib": {
+      "type": "horizon",
+      "refractionArcmin": 30,
+      "semidiameterArcmin": 15
+    },
+    "isha": {
+      "type": "intervalAfter",
+      "base": "maghrib",
+      "minutes": 45
+    }
+  },
+  "horizon": {
+    "elevationPolicy": "NONE"
+  },
+  "highLatitude": {
+    "chain": [
+      "anglePortion",
+      "middleOfNight",
+      "seventhOfNight",
+      {
+        "nearestLatitude": {
+          "latDeg": 45.5
+        }
+      },
+      {
+        "nearestValidDay": {
+          "maxDays": 7
+        }
+      }
+    ]
+  },
+  "rounding": {
+    "default": "ceil",
+    "sunrise": "floor",
+    "dhuhr": "nearest"
+  },
+  "adjustments": {
+    "perEventMinutes": {
+      "asr": 1,
+      "maghrib": -1
+    },
+    "maxAbsMinutes": 2,
+    "ramadan": {
+      "isha": {
+        "type": "intervalAfter",
+        "base": "maghrib",
+        "minutes": 60
+      }
+    }
+  },
+  "evidence": {
+    "sources": [
+      {
+        "title": "Fixture source",
+        "url": "https://example.invalid/fixture",
+        "retrievedOn": "2026-10-01",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "benchmarkSet": "zz-fixture",
+    "holdoutReport": null,
+    "benchmarkReportId": null
+  },
+  "approvals": {
+    "religious": null,
+    "accuracy": null
+  },
+  "compatibility": {
+    "minEngineSchema": 1,
+    "minAppVersion": "1.0.0"
+  }
+}

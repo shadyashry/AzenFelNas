@@ -1,0 +1,19 @@
+{
+  "signed": {
+    "type": "snapshot",
+    "sequence": 7,
+    "expires": "2026-11-21T00:00:00Z",
+    "meta": {
+      "targets.json": {
+        "version": 7,
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    }
+  },
+  "signatures": [
+    {
+      "keyId": "467b963bf8760633248856e98f3efe25b6d9ed30733c46e2560fb2128a77905b",
+      "sig": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+    }
+  ]
+}

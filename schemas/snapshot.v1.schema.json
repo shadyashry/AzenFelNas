@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/snapshot.v1.schema.json",
+  "title": "Snapshot v1",
+  "description": "Next 48 h of displayed times, labels and the sky-phase timeline, written alongside the SchedulePlan; widgets never recalculate (DESIGN.md §7.7, Appendix I).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "contextId", "zoneId", "tzdbVersion", "generatedAtUtcMs", "locale", "items", "skyTimeline", "health"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "contextId": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "zoneId": { "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$", "maxLength": 64 },
+    "tzdbVersion": { "type": "string", "pattern": "^\\d{4}[a-z]$" },
+    "generatedAtUtcMs": { "$ref": "#/$defs/utcMs" },
+    "locale": { "enum": ["ar", "en"] },
+    "items": { "type": "array", "items": { "$ref": "#/$defs/item" } },
+    "skyTimeline": { "type": "array", "items": { "$ref": "#/$defs/skySegment" } },
+    "health": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "reasonsCount"],
+      "properties": {
+        "state": { "enum": ["READY", "LIMITED", "NOT_READY", "UNKNOWN"] },
+        "reasonsCount": { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "$defs": {
+    "utcMs": { "type": "integer", "minimum": 0, "description": "UTC epoch milliseconds." },
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["day", "event", "displayedUtcMs", "displayLocal", "confidence", "dayOffset"],
+      "properties": {
+        "day": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "event": { "enum": ["IMSAK", "FAJR", "SUNRISE", "DHUHR", "ASR", "MAGHRIB", "ISHA"] },
+        "displayedUtcMs": { "$ref": "#/$defs/utcMs" },
+        "displayLocal": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "dayOffset": { "type": "integer", "minimum": -1, "maximum": 1, "description": "Local-date offset of the event from the prayer day (Isha may be +1, ADR-004)." }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["CALCULATED", "AUTHORITY_ALIGNED", "VERIFIED", "ESTIMATED", "OBSERVED", "UNKNOWN"] },
+        "detail": { "type": "string", "minLength": 1, "maxLength": 120, "description": "Pre-rendered detail: benchmark report id, source, ±range, count or reason." }
+      },
+      "if": { "properties": { "kind": { "enum": ["CALCULATED"] } } },
+      "then": { "not": { "required": ["detail"] } },
+      "else": { "required": ["detail"], "description": "Estimated/Observed always carry their range or count (REQ-UX-001); the other labels carry their source or reason." }
+    },
+    "skySegment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fromUtcMs", "phase"],
+      "properties": {
+        "fromUtcMs": { "$ref": "#/$defs/utcMs" },
+        "phase": { "enum": ["night", "astronomicalDawn", "nauticalDawn", "civilDawn", "goldenMorning", "day", "goldenEvening", "civilDusk", "nauticalDusk", "astronomicalDusk"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/calculation_trace.v1.schema.json",
+  "title": "Calculation trace v1",
+  "description": "Serialised DayResult + Provenance with per-event detail and the inputs object of §6.4 ¶11; used by the Passport renderer, the deep-link import and lab discrepancy reports (DESIGN.md Appendix M). Provenance's adjustment trace is carried per event (times[].adjustmentTrace).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "calculationId", "day", "inputs", "provenance", "times"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "calculationId": { "type": "string", "pattern": "^GS-[A-Z2-7]{16}$", "description": "'GS-' + RFC 4648 base32 (upper, no padding) of the first 10 bytes of sha256(inputsHash|engineVersion|deltaTModel|tzdbVersion) (§6.4 ¶11)." },
+    "day": { "$ref": "#/$defs/civilDate" },
+    "inputs": { "$ref": "#/$defs/inputs" },
+    "provenance": { "$ref": "#/$defs/provenance" },
+    "times": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/time" } }
+  },
+  "$defs": {
+    "civilDate": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "utcMs": { "type": "integer", "minimum": 0 },
+    "hex64": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "profileId": { "type": "string", "pattern": "^[a-z]{2}\\.[a-z0-9_]+\\.[a-z0-9_]+$|^engine\\.default$" },
+    "profileVersion": { "type": "string", "pattern": "^\\d{4}\\.\\d{1,2}\\.\\d+$" },
+    "event": { "enum": ["IMSAK", "FAJR", "SUNRISE", "DHUHR", "ASR", "MAGHRIB", "ISHA"] },
+    "hijriConfidence": { "enum": ["CONFIRMED", "EXPECTED", "USER_OVERRIDE"] },
+    "hijriDate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["year", "month", "day"],
+      "properties": {
+        "year": { "type": "integer", "minimum": 1 },
+        "month": { "type": "integer", "minimum": 1, "maximum": 12 },
+        "day": { "type": "integer", "minimum": 1, "maximum": 30 }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lat", "lon", "zoneId", "day", "profileId", "profileVersion", "hijri"],
+      "description": "Hashed as JCS canonical JSON into provenance.inputsHash; lat/lon rounded to 6 decimals (§6.4 ¶11).",
+      "properties": {
+        "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "lon": { "type": "number", "minimum": -180, "maximum": 180 },
+        "zoneId": { "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$", "maxLength": 64 },
+        "day": { "$ref": "#/$defs/civilDate" },
+        "profileId": { "$ref": "#/$defs/profileId" },
+        "profileVersion": { "$ref": "#/$defs/profileVersion" },
+        "hijri": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["dateAtDawn", "dateAtNight", "confidence"],
+          "properties": {
+            "dateAtDawn": { "$ref": "#/$defs/hijriDate" },
+            "dateAtNight": { "$ref": "#/$defs/hijriDate" },
+            "confidence": { "$ref": "#/$defs/hijriConfidence" }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engineVersion", "deltaTModel", "profileId", "profileVersion", "tzdbVersion", "inputsHash", "hijriConfidence"],
+      "properties": {
+        "engineVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "deltaTModel": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "profileId": { "$ref": "#/$defs/profileId" },
+        "profileVersion": { "$ref": "#/$defs/profileVersion" },
+        "tzdbVersion": { "type": "string", "pattern": "^\\d{4}[a-z]$" },
+        "inputsHash": { "$ref": "#/$defs/hex64" },
+        "hijriConfidence": { "$ref": "#/$defs/hijriConfidence" }
+      }
+    },
+    "hlMethod": {
+      "description": "Same shape as prayer_profile.v1 highLatitude.chain items.",
+      "oneOf": [
+        { "enum": ["anglePortion", "middleOfNight", "seventhOfNight"] },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["nearestLatitude"],
+          "properties": {
+            "nearestLatitude": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["latDeg"],
+              "properties": { "latDeg": { "type": "number", "minimum": 40, "maximum": 60 } }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["nearestValidDay"],
+          "properties": {
+            "nearestValidDay": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["maxDays"],
+              "properties": { "maxDays": { "type": "integer", "minimum": 1, "maximum": 60 } }
+            }
+          }
+        }
+      ]
+    },
+    "origin": {
+      "description": "EventOrigin (REQ-DOM-002).",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": { "kind": { "const": "PRIMARY" } }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "method"],
+          "properties": { "kind": { "const": "FALLBACK" }, "method": { "$ref": "#/$defs/hlMethod" } }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "reason"],
+          "properties": {
+            "kind": { "const": "NO_EVENT" },
+            "reason": { "enum": ["POLAR_DAY", "POLAR_NIGHT", "TWILIGHT_ABSENT", "ASR_UNDEFINED", "CHAIN_EXHAUSTED"] }
+          }
+        }
+      ]
+    },
+    "confidence": {
+      "description": "ConfidenceLabel (REQ-DOM-010, REQ-DOM-050); Estimated/Observed always carry a range or count (REQ-UX-001).",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": { "kind": { "const": "CALCULATED" } }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "benchmarkReportId"],
+          "properties": { "kind": { "const": "AUTHORITY_ALIGNED" }, "benchmarkReportId": { "type": "string", "minLength": 1 } }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "sourceRef", "freshUntilUtcMs"],
+          "properties": {
+            "kind": { "const": "VERIFIED" },
+            "sourceRef": { "type": "string", "minLength": 1 },
+            "freshUntilUtcMs": { "$ref": "#/$defs/utcMs" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "rangeMinutes"],
+          "properties": { "kind": { "const": "ESTIMATED" }, "rangeMinutes": { "type": "integer", "minimum": 1 } }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "count", "lastSeenUtcMs"],
+          "properties": {
+            "kind": { "const": "OBSERVED" },
+            "count": { "type": "integer", "minimum": 1 },
+            "lastSeenUtcMs": { "$ref": "#/$defs/utcMs" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "reasonCode"],
+          "properties": { "kind": { "const": "UNKNOWN" }, "reasonCode": { "type": "string", "pattern": "^[A-Z0-9_]+$" } }
+        }
+      ]
+    },
+    "flag": {
+      "enum": [
+        "NEAR_ROUNDING_BOUNDARY",
+        "HIGH_LATITUDE_FALLBACK",
+        "LOW_LOCATION_ACCURACY",
+        "DST_TRANSITION_DAY",
+        "STALE_TZDB",
+        "HIJRI_EXPECTED",
+        "REFERENCE_MODE_AUTHORITY_POINT",
+        "MANUAL_COORDINATE_RESOLUTION",
+        "ZONE_BOUNDARY_PROXIMITY",
+        "NO_LOCAL_PROFILE"
+      ]
+    },
+    "adjustmentStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event", "kind", "deltaMs", "reason"],
+      "properties": {
+        "event": { "$ref": "#/$defs/event" },
+        "kind": { "enum": ["PER_EVENT_OFFSET", "RAMADAN_RULE_REPLACEMENT", "HIGH_LATITUDE_FALLBACK", "ROUNDING"] },
+        "deltaMs": { "type": "integer" },
+        "reason": { "type": "string", "minLength": 1 },
+        "evidenceId": { "type": "string", "minLength": 1 }
+      }
+    },
+    "time": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event", "origin", "confidence", "flags", "adjustmentTrace"],
+      "properties": {
+        "event": { "$ref": "#/$defs/event" },
+        "rawUtcMs": { "$ref": "#/$defs/utcMs", "description": "Truncated to 1 ms (REQ-DOM-004)." },
+        "displayedUtcMs": { "$ref": "#/$defs/utcMs", "description": "After rounding, applied once and last (REQ-DOM-003)." },
+        "dayOffset": { "type": "integer", "minimum": -1, "maximum": 1 },
+        "origin": { "$ref": "#/$defs/origin" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "flags": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/flag" } },
+        "adjustmentTrace": { "type": "array", "items": { "$ref": "#/$defs/adjustmentStep" } }
+      },
+      "if": { "properties": { "origin": { "properties": { "kind": { "const": "NO_EVENT" } } } } },
+      "then": { "not": { "anyOf": [{ "required": ["rawUtcMs"] }, { "required": ["displayedUtcMs"] }, { "required": ["dayOffset"] }] } },
+      "else": { "required": ["rawUtcMs", "displayedUtcMs", "dayOffset"] }
+    }
+  }
+}

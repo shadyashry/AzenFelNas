@@ -1,0 +1,18 @@
+{
+  "country": "ZZ",
+  "months": [
+    {
+      "hijriYear": 1448,
+      "hijriMonth": 9,
+      "gregorianStart": "2027-02-08",
+      "status": "confirmed",
+      "sourceUrl": "http://example.invalid/a"
+    },
+    {
+      "hijriYear": 1448,
+      "hijriMonth": 10,
+      "gregorianStart": "2027-03-10",
+      "status": "expected"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "sounds": [
+    {
+      "soundId": "athan_fixture_v1",
+      "file": "athan/athan_fixture_v1.m4a",
+      "durationMs": 181000,
+      "licenceRef": "fixture-licence",
+      "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "soundId": "athan_fixture_fajr_v1",
+      "file": "athan/athan_fixture_fajr_v1.m4a",
+      "durationMs": 205000,
+      "fajrVariantOf": "athan_fixture_v1",
+      "licenceRef": "fixture-licence"
+    }
+  ]
+}

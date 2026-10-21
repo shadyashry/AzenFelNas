@@ -1,0 +1,20 @@
+{
+  "id": 9900001,
+  "name": "مدينة الاختبار",
+  "asciiName": "Fixture City",
+  "altNames": {
+    "ar": [
+      "مدينة الاختبار"
+    ],
+    "en": [
+      "Fixture City",
+      "Fixtureville"
+    ]
+  },
+  "country": "ZZ",
+  "admin1": "01",
+  "lat": 12.34567,
+  "lon": -98.76543,
+  "population": 150000,
+  "zoneId": "Etc/GMT-3"
+}

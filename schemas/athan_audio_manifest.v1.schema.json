@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/athan_audio_manifest.v1.schema.json",
+  "title": "Athan audio manifest v1",
+  "description": "Bundled Athan sounds: AAC-LC 96 kbps .m4a at -16 LUFS under assets/athan/ (DESIGN.md §9.5, §10.4). iOS notification clips are at most 29 s (REQ-ALM-034); clip cutting is checked by the audio pipeline, not here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["sounds"],
+  "properties": {
+    "sounds": { "type": "array", "items": { "$ref": "#/$defs/sound" } }
+  },
+  "$defs": {
+    "sound": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["soundId", "file", "durationMs", "licenceRef", "sha256"],
+      "properties": {
+        "soundId": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "file": { "type": "string", "pattern": "^[a-z0-9_/-]+\\.m4a$" },
+        "durationMs": { "type": "integer", "minimum": 1 },
+        "fajrVariantOf": { "type": "string", "pattern": "^[a-z0-9_]+$", "description": "soundId of the regular Athan this Fajr recording belongs to." },
+        "licenceRef": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    }
+  }
+}

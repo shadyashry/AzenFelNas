@@ -1,0 +1,9 @@
+{
+  "utcMs": 1761000000001,
+  "level": "INFO",
+  "code": "PKG_ACTIVATED",
+  "attrs": {
+    "packageType": "tzdata",
+    "version": "2026c"
+  }
+}

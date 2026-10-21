@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "day": "2026-10-21",
+  "appVersion": "1.0.0",
+  "platform": "ios",
+  "osMajor": 18,
+  "counters": {
+    "packageActivations": {},
+    "healthState": {},
+    "testResults": {
+      "heard": 1,
+      "notHeard": 0,
+      "unknown": 0
+    },
+    "syncOutcome": {
+      "ok": 4,
+      "warn": 1,
+      "fail": 0
+    }
+  }
+}

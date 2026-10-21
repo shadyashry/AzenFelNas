@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "generation": 0,
+  "contextId": "ctx_fixture_1",
+  "zoneId": "Etc/GMT-3",
+  "tzdbVersion": "2026c",
+  "generatedAtUtcMs": 1761000000000,
+  "horizonEndUtcMs": 1763600000000,
+  "entries": [],
+  "policy": {
+    "locale": "en",
+    "respectDnd": false,
+    "vibrate": true,
+    "fullAthanAndroid": true,
+    "iosClipSeconds": 29,
+    "preReminderMinutes": 30,
+    "snoozeMinutes": 5
+  }
+}

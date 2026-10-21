@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "contextId": "ctx_fixture_1",
+  "zoneId": "Etc/GMT-3",
+  "tzdbVersion": "2026c",
+  "generatedAtUtcMs": 1761000000000,
+  "locale": "en",
+  "items": [
+    {
+      "day": "2026-10-21",
+      "event": "FAJR",
+      "displayedUtcMs": 1761021660000,
+      "displayLocal": "04:41",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-10-21",
+      "event": "DHUHR",
+      "displayedUtcMs": 1761040860000,
+      "displayLocal": "12:01",
+      "confidence": {
+        "kind": "AUTHORITY_ALIGNED",
+        "detail": "zz-report-1"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-10-21",
+      "event": "ASR",
+      "displayedUtcMs": 1761053400000,
+      "displayLocal": "15:30",
+      "confidence": {
+        "kind": "VERIFIED",
+        "detail": "Fixture source"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-10-21",
+      "event": "MAGHRIB",
+      "displayedUtcMs": 1761062400000,
+      "displayLocal": "18:00",
+      "confidence": {
+        "kind": "OBSERVED",
+        "detail": "12"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-10-21",
+      "event": "ISHA",
+      "displayedUtcMs": 1761087600000,
+      "displayLocal": "01:00",
+      "confidence": {
+        "kind": "ESTIMATED",
+        "detail": "±7"
+      },
+      "dayOffset": 2
+    },
+    {
+      "day": "2026-10-22",
+      "event": "IMSAK",
+      "displayedUtcMs": 1761107460000,
+      "displayLocal": "04:31",
+      "confidence": {
+        "kind": "UNKNOWN",
+        "detail": "CHAIN_EXHAUSTED"
+      },
+      "dayOffset": 0
+    }
+  ],
+  "skyTimeline": [
+    {
+      "fromUtcMs": 1761000000000,
+      "phase": "night"
+    },
+    {
+      "fromUtcMs": 1761018000000,
+      "phase": "astronomicalDawn"
+    },
+    {
+      "fromUtcMs": 1761030000000,
+      "phase": "day"
+    },
+    {
+      "fromUtcMs": 1761062400000,
+      "phase": "civilDusk"
+    }
+  ],
+  "health": {
+    "state": "LIMITED",
+    "reasonsCount": 2
+  }
+}

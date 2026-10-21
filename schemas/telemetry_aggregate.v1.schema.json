@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/telemetry_aggregate.v1.schema.json",
+  "title": "Telemetry aggregate v1",
+  "description": "Opt-in daily aggregate counters (DESIGN.md Appendix L, §9.6): no ids, no coordinates, no timestamps finer than a day (REQ-PRIV-001). Unknown keys are rejected (REQ-API-005).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "day", "appVersion", "platform", "osMajor", "counters"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "day": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "appVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "platform": { "enum": ["android", "ios"] },
+    "osMajor": { "type": "integer", "minimum": 1, "maximum": 99 },
+    "countryCode": { "type": "string", "pattern": "^[A-Z]{2}$" },
+    "counters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packageActivations", "healthState", "testResults", "syncOutcome"],
+      "properties": {
+        "packageActivations": {
+          "type": "object",
+          "description": "Activations per package type.",
+          "propertyNames": { "enum": ["prayer_profiles", "tzdata", "tz_polygons", "country_polygons", "gazetteer", "hijri", "athan_audio_manifest"] },
+          "additionalProperties": { "$ref": "#/$defs/count" }
+        },
+        "healthState": {
+          "type": "object",
+          "description": "Health evaluations per Athan Health state.",
+          "propertyNames": { "enum": ["READY", "LIMITED", "NOT_READY", "UNKNOWN"] },
+          "additionalProperties": { "$ref": "#/$defs/count" }
+        },
+        "testResults": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["heard", "notHeard", "unknown"],
+          "properties": {
+            "heard": { "$ref": "#/$defs/count" },
+            "notHeard": { "$ref": "#/$defs/count" },
+            "unknown": { "$ref": "#/$defs/count" }
+          }
+        },
+        "syncOutcome": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ok", "warn", "fail"],
+          "properties": {
+            "ok": { "$ref": "#/$defs/count" },
+            "warn": { "$ref": "#/$defs/count" },
+            "fail": { "$ref": "#/$defs/count" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "count": { "type": "integer", "minimum": 0 }
+  }
+}

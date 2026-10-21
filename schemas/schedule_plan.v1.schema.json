@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/schedule_plan.v1.schema.json",
+  "title": "SchedulePlan v1",
+  "description": "Precomputed, native-readable alarm plan: the only input of native Athan scheduling (DESIGN.md §7.7, Appendix B, ADR-002). Semantic rule not expressible here, checked by the plan builder (S20): horizonEndUtcMs >= max(entries[].fireAtUtcMs).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generation", "contextId", "zoneId", "tzdbVersion", "generatedAtUtcMs", "horizonEndUtcMs", "entries", "policy"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generation": { "type": "integer", "minimum": 0, "description": "Monotonic id of this desired plan." },
+    "contextId": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "zoneId": { "$ref": "#/$defs/zoneId" },
+    "tzdbVersion": { "$ref": "#/$defs/tzdbVersion" },
+    "generatedAtUtcMs": { "$ref": "#/$defs/utcMs" },
+    "horizonEndUtcMs": { "$ref": "#/$defs/utcMs" },
+    "entries": { "type": "array", "items": { "$ref": "#/$defs/entry" } },
+    "policy": { "$ref": "#/$defs/policy" }
+  },
+  "$defs": {
+    "utcMs": { "type": "integer", "minimum": 0, "description": "UTC epoch milliseconds." },
+    "zoneId": { "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$", "maxLength": 64 },
+    "tzdbVersion": { "type": "string", "pattern": "^\\d{4}[a-z]$" },
+    "localized": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ar", "en"],
+      "properties": {
+        "ar": { "type": "string", "minLength": 1 },
+        "en": { "type": "string", "minLength": 1 }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "day", "kind", "fireAtUtcMs", "displayLocal", "title", "body", "soundId", "priority"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-f0-9]{16}$", "description": "Lowercase hex of sha256(UTF-8 'contextId|day|event|kind')[0:16] (§7.7)." },
+        "day": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "event": { "enum": ["IMSAK", "FAJR", "SUNRISE", "DHUHR", "ASR", "MAGHRIB", "ISHA"] },
+        "kind": { "enum": ["ATHAN", "PRE_REMINDER", "IMSAK", "HORIZON_WARNING"] },
+        "fireAtUtcMs": { "$ref": "#/$defs/utcMs", "description": "Equals the event's displayedUtcMs (REQ-ALM-001)." },
+        "displayLocal": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$", "description": "Pre-rendered HH:mm in the plan's zone." },
+        "title": { "$ref": "#/$defs/localized" },
+        "body": { "$ref": "#/$defs/localized" },
+        "soundId": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "priority": { "type": "integer", "minimum": 1, "maximum": 3, "description": "iOS 64-slot fitting: ATHAN 1 > IMSAK 2 > PRE_REMINDER 3; HORIZON_WARNING always kept." }
+      },
+      "if": { "properties": { "kind": { "const": "HORIZON_WARNING" } } },
+      "then": { "not": { "required": ["event"] } },
+      "else": { "required": ["event"] }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["locale", "respectDnd", "vibrate", "fullAthanAndroid", "iosClipSeconds", "preReminderMinutes", "snoozeMinutes"],
+      "properties": {
+        "locale": { "enum": ["ar", "en"] },
+        "respectDnd": { "type": "boolean" },
+        "vibrate": { "type": "boolean" },
+        "fullAthanAndroid": { "type": "boolean" },
+        "iosClipSeconds": { "type": "integer", "minimum": 1, "maximum": 29, "description": "iOS notification clips are at most 29 s (REQ-ALM-034)." },
+        "preReminderMinutes": { "enum": [0, 5, 10, 15, 30], "description": "REQ-ALM-042." },
+        "snoozeMinutes": { "const": 5, "description": "Snooze is 5 min, once (REQ-ALM-042)." }
+      }
+    }
+  }
+}

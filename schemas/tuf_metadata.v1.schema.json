@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/tuf_metadata.v1.schema.json",
+  "title": "TUF-lite metadata v1",
+  "description": "Signed envelope of every distribution metadata file: root, targets, snapshot, timestamp (DESIGN.md §9.1, Appendix C, ADR-009). Signatures are Ed25519 over the JCS (RFC 8785) canonical JSON of `signed` (REQ-DIST-004); verification is not expressible here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["signed", "signatures"],
+  "properties": {
+    "signed": {
+      "oneOf": [
+        { "$ref": "#/$defs/rootSigned" },
+        { "$ref": "#/$defs/targetsSigned" },
+        { "$ref": "#/$defs/snapshotSigned" },
+        { "$ref": "#/$defs/timestampSigned" }
+      ]
+    },
+    "signatures": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/signature" } }
+  },
+  "$defs": {
+    "hex64": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "expires": { "type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$", "description": "UTC, second precision." },
+    "sequence": { "type": "integer", "minimum": 1, "description": "Strictly monotonic per role (REQ-DIST-002, REQ-PKG-005)." },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["keyId", "sig"],
+      "properties": {
+        "keyId": { "$ref": "#/$defs/hex64", "description": "Lowercase hex SHA-256 of the raw 32-byte public key (§15 D17)." },
+        "sig": { "type": "string", "pattern": "^[A-Za-z0-9+/]{86}==$", "description": "Base64 of the 64-byte Ed25519 signature." }
+      }
+    },
+    "key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scheme", "public"],
+      "properties": {
+        "scheme": { "const": "ed25519" },
+        "public": { "$ref": "#/$defs/hex64", "description": "Lowercase hex of the raw 32-byte public key (§15 D17)." }
+      }
+    },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["keyIds", "threshold"],
+      "properties": {
+        "keyIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/hex64" } },
+        "threshold": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "rootSigned": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "version", "expires", "keys", "roles"],
+      "properties": {
+        "type": { "const": "root" },
+        "version": { "type": "integer", "minimum": 1 },
+        "expires": { "$ref": "#/$defs/expires" },
+        "keys": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "pattern": "^[a-f0-9]{64}$" },
+          "additionalProperties": { "$ref": "#/$defs/key" }
+        },
+        "roles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["root", "targets", "snapshot", "timestamp"],
+          "description": "Thresholds of Appendix C (REQ-DIST-001): root 3 keys / threshold 2; the other roles threshold 1.",
+          "properties": {
+            "root": {
+              "allOf": [
+                { "$ref": "#/$defs/role" },
+                { "properties": { "keyIds": { "minItems": 3, "maxItems": 3 }, "threshold": { "const": 2 } } }
+              ]
+            },
+            "targets": { "allOf": [{ "$ref": "#/$defs/role" }, { "properties": { "threshold": { "const": 1 } } }] },
+            "snapshot": { "allOf": [{ "$ref": "#/$defs/role" }, { "properties": { "threshold": { "const": 1 } } }] },
+            "timestamp": { "allOf": [{ "$ref": "#/$defs/role" }, { "properties": { "threshold": { "const": 1 } } }] }
+          }
+        }
+      }
+    },
+    "targetsSigned": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "sequence", "expires", "targets"],
+      "properties": {
+        "type": { "const": "targets" },
+        "sequence": { "$ref": "#/$defs/sequence" },
+        "expires": { "$ref": "#/$defs/expires" },
+        "targets": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z_]+/[0-9A-Za-z.+-]+$", "description": "<packageType>/<version>." },
+          "additionalProperties": { "$ref": "#/$defs/target" }
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["length", "sha256", "custom"],
+      "properties": {
+        "length": { "type": "integer", "minimum": 0 },
+        "sha256": { "$ref": "#/$defs/hex64", "description": "Content address of the .dmpkg (REQ-DIST-003)." },
+        "custom": { "$ref": "#/$defs/targetCustom" }
+      }
+    },
+    "targetCustom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "payloadFormat", "compat", "effectiveFrom", "priority", "changeNote"],
+      "properties": {
+        "schemaVersion": { "type": "integer", "minimum": 1 },
+        "payloadFormat": { "enum": ["json", "bin", "sqlite"] },
+        "compat": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["minApp", "minEngineSchema"],
+          "properties": {
+            "minApp": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+            "minEngineSchema": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "effectiveFrom": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "priority": { "enum": ["normal", "urgent"] },
+        "changeNote": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ar", "en"],
+          "properties": { "ar": { "type": "string" }, "en": { "type": "string" } }
+        },
+        "rollbackOf": { "type": "string", "pattern": "^[0-9A-Za-z.+-]+$", "description": "Version this target rolls back from (REQ-DIST-002)." },
+        "attribution": { "type": "string", "minLength": 1 }
+      }
+    },
+    "metaRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "sha256"],
+      "properties": {
+        "version": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/hex64" }
+      }
+    },
+    "snapshotSigned": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "sequence", "expires", "meta"],
+      "properties": {
+        "type": { "const": "snapshot" },
+        "sequence": { "$ref": "#/$defs/sequence" },
+        "expires": { "$ref": "#/$defs/expires" },
+        "meta": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["targets.json"],
+          "properties": { "targets.json": { "$ref": "#/$defs/metaRef" } }
+        }
+      }
+    },
+    "timestampSigned": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "sequence", "expires", "meta"],
+      "properties": {
+        "type": { "const": "timestamp" },
+        "sequence": { "$ref": "#/$defs/sequence" },
+        "expires": { "$ref": "#/$defs/expires", "description": "At most 7 days after signing (§9.1); checked by gsctl, not expressible here." },
+        "meta": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["snapshot.json"],
+          "properties": { "snapshot.json": { "$ref": "#/$defs/metaRef" } }
+        }
+      }
+    }
+  }
+}
