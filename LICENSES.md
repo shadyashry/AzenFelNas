@@ -6,8 +6,8 @@ Placeholder created in slice S01. This file is **generated per release** (`DESIG
 
 | Source | Licence | Obligation |
 |---|---|---|
-| timezone-boundary-builder (`tz_polygons`) | ODbL | attribution; produced database published under ODbL |
-| Natural Earth admin-0 1:10m (`country_polygons`) | Public domain | attribution (courtesy) |
+| timezone-boundary-builder (`tz_polygons`; release 2026e from S11) | ODbL | attribution; produced database published under ODbL |
+| Natural Earth admin-0 map units 1:10m (`country_polygons`; release 5.1.2 from S11) | Public domain | attribution (courtesy) |
 | GeoNames `cities15000` + alternate names (`gazetteer`) | CC BY 4.0 | attribution |
 | IANA tz database and `zic` (`tzdata`; release 2026e from S10, pinned in `data-pipelines/config/tzdata.v1.toml`) | Public domain | — |
 

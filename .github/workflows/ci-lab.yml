@@ -2,7 +2,8 @@
 # lab/ also checks that its pydantic models match schemas/ (ADR-023, §15 D27) and caches the pinned
 # de440s.bsp ephemeris by its sha256 (§15 D28). Changes to the frozen reference need the
 # `reference-update` label (ADR-019, §15 D25). data-pipelines/ also checks its generated models, and
-# `tzdata-rebuild` reproduces the pinned tzdata payload, oracle and manifest byte for byte (§15 D66).
+# `tzdata-rebuild` reproduces the pinned tzdata payload, oracle and manifest byte for byte (§15 D66),
+# and the pinned tz/country polygon packages (§15 D70).
 name: ci-lab
 
 on:
@@ -81,6 +82,13 @@ jobs:
         run: |
           uv run --frozen pytest -q -k rebuild | tee "$RUNNER_TEMP/rebuild.txt"
           grep -q "1 passed" "$RUNNER_TEMP/rebuild.txt"
+      - name: Polygon packages rebuild byte for byte
+        run: |
+          mkdir -p "$RUNNER_TEMP/polygons"
+          uv run --frozen dm-pipelines polygons fetch --dataset tz --dest "$RUNNER_TEMP/polygons/timezones.geojson.zip"
+          uv run --frozen dm-pipelines polygons fetch --dataset country --dest "$RUNNER_TEMP/polygons/ne_10m_admin_0_map_units.geojson"
+          DM_POLYGON_SOURCES="$RUNNER_TEMP/polygons" uv run --frozen pytest -q -k "rebuild and polygons" | tee "$RUNNER_TEMP/polygons.txt"
+          grep -q "2 passed" "$RUNNER_TEMP/polygons.txt"
 
   reference-freeze:
     # lab/reference/** is the frozen ADR-019 reference. Its manifest hashes the cities, the config, the

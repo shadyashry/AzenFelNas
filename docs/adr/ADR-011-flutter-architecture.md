@@ -59,6 +59,10 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Python (lab) | numpy · tzdata | — | **2.5.4 · 2026.5** (IANA 2026e) (no floor; pinned because they affect reference output, added S03) | `lab/pyproject.toml`, `lab/uv.lock` |
 | Python (data-pipelines) | pydantic | 2.11 | **2.14.1** (MIT; wire models generated from `schemas/` like the lab's, added S10 — §15 D66) | `data-pipelines/pyproject.toml`, `data-pipelines/uv.lock` |
 | Data (data-pipelines) | IANA tz release (data + `zic` source) | — | **2026e**, 53 files sha256-pinned, git commit `039ef27c…` (public domain; §15 D66, added S10) | `data-pipelines/config/tzdata.v1.toml` |
+| Python (data-pipelines) | shapely · numpy | — | **2.2.0 · 2.5.4** (BSD-3-Clause; numpy also 0BSD/MIT/Zlib/CC0 parts; shapely 2.2.0 is the first release with CPython 3.15 wheels; polygon simplification, grid index and the lookup oracle — §15 D70, added S11) | `data-pipelines/pyproject.toml`, `data-pipelines/uv.lock` |
+| Python (data-pipelines, dev) | types-shapely | — | **2.1.0.20260728** (Apache-2.0; typeshed stubs for `mypy --strict`, added S11) | `data-pipelines/pyproject.toml` |
+| Data (data-pipelines) | timezone-boundary-builder `timezones.geojson.zip` | — | **2026e** (matches the IANA pin), sha256-pinned (ODbL-1.0: attribution, produced database under ODbL — §10; §15 D70, added S11) | `data-pipelines/config/polygons.v1.toml` |
+| Data (data-pipelines) | Natural Earth `ne_10m_admin_0_map_units.geojson` | — | **5.1.2**, sha256-pinned (public domain; §15 D70, added S11) | `data-pipelines/config/polygons.v1.toml` |
 | Python (lab tool) | datamodel-code-generator | — | **0.86.0** with its dependencies locked on CPython 3.14.8 (§15 D27, added S03) | `lab/tools/codegen/uv.lock` |
 | Data (lab) | JPL `de440s.bsp` | 1849–2150 | sha256 `c1c7feea…49f2`, fetched by URL (§15 D28) | `lab/config/harness.v1.toml` |
 | Python (first use) | shapely | 2.1 | pinned at latest stable in its first slice (S11) | `uv.lock` |
