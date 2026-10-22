@@ -11,7 +11,8 @@ import 'package:dm_packages/src/tuf/tuf_signed.dart';
 /// `rollbackOf`, and that the client has not refused. The candidate with
 /// the latest `effectiveFrom` wins, ties going to the greater version in
 /// byte order. Nothing is chosen when the winner is already active. Types
-/// this build does not know are ignored.
+/// this build does not know, and names without a `<type>/` part, are
+/// ignored.
 final class SelectTargets {
   /// The use case.
   const new();
@@ -32,7 +33,9 @@ final class SelectTargets {
     final best = <PackageType, TargetChoice>{};
     for (final MapEntry(key: name, value: target) in targets.targets.entries) {
       final slash = name.indexOf('/');
-      final type = PackageType.fromWire(name.substring(0, slash));
+      final type = slash < 1
+          ? null
+          : PackageType.fromWire(name.substring(0, slash));
       if (type == null ||
           rolledBack.contains(name) ||
           refusedNames.contains(name) ||

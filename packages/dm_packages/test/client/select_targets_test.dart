@@ -114,6 +114,8 @@ void main() {
         _select({
           'tzdata/2026e': _target('2026-01-01'),
           'future_type/1.0.0': _target('2026-01-01'),
+          'no-slash': _target('2026-01-01'),
+          '/1.0.0': _target('2026-01-01'),
           'gazetteer/1.0.0': _target('2026-01-01'),
         }),
         ['gazetteer/1.0.0', 'tzdata/2026e'],
