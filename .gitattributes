@@ -8,3 +8,6 @@
 # TUF-lite packages and the signed round-trip vector: hashes and signatures pin their exact bytes (§15 D62).
 *.dmpkg binary
 tools/gsctl/testdata/roundtrip/dev/** -text
+# The pinned TZDB payload and its oracle: the manifest pins their exact bytes (§15 D66).
+*.tzf binary
+packages/dm_civil_time/data/tzdata/** -text

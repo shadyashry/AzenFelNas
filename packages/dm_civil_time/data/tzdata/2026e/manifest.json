@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "pipeline": "data-pipelines.tzdata",
+  "inputs": [
+    {
+      "role": "iana_tz",
+      "url": "https://data.iana.org/time-zones/releases/tzdb-2026e.tar.lz",
+      "sha256": "927bc26a014726836682cb88ce6fcb357d12c7dfff7303303e02f0374129ce34"
+    },
+    {
+      "role": "config",
+      "path": "data-pipelines/config/tzdata.v1.toml",
+      "sha256": "0f50cd7bf367fdaed611ac2e5e418652717210e1d8d863c110a5443b96d88766"
+    },
+    {
+      "role": "cities",
+      "path": "lab/benchmarks/cities.v1.json",
+      "sha256": "3fcbd1f2ea16a76bcfc9d51109f3458da1fd3608072278f84ebe5bbe00487ae4"
+    },
+    {
+      "role": "encoder",
+      "path": "packages/dm_civil_time/tool/encode_tzf.dart",
+      "sha256": "8c6a17f7b1796c54f512aa3c3de73b3e59d936cdec0393f46cdaf9699df22cd7"
+    },
+    {
+      "role": "pipeline_source",
+      "path": "data-pipelines/src/dm_pipelines/tzdata/compile.py",
+      "sha256": "51f53ad8b4fed77072fa9d1a41d7e27251265ae809a39fa28c9d59d6d8b01ff7"
+    },
+    {
+      "role": "pipeline_source",
+      "path": "data-pipelines/src/dm_pipelines/tzdata/oracle.py",
+      "sha256": "3bb5a437e30247a475b438db09f7781aafa83d73c41c91807a636df85eb87209"
+    }
+  ],
+  "tools": {
+    "zic": "tzcode 2026e (built from the pinned release)",
+    "package:timezone": "0.11.2",
+    "dart": "3.13.5",
+    "python": "3.15"
+  },
+  "parameters": {
+    "tzdbVersion": "2026e",
+    "dataForm": "rearguard",
+    "zicFlags": "-b fat",
+    "oracleFromYear": "2026",
+    "oracleToYear": "2028",
+    "oracleWindowDays": "7"
+  },
+  "outputs": [
+    {
+      "path": "tzdata.tzf",
+      "sha256": "78ba31d78fb7bf870e312a187e8bef849189c3521dbf68d1ee5f5fe4f8e71891",
+      "records": 598
+    },
+    {
+      "path": "dst_oracle.json",
+      "sha256": "c9c7171d797952edbca9d3477d1839d12f52a5ab290e03c9864afd11bdb01605",
+      "records": 41
+    }
+  ]
+}
