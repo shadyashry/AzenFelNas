@@ -1,0 +1,7 @@
+{"schemaVersion":1,"dataset":"tz_polygons","sourceVersion":"2026e","seed":11,"earthRadiusM":6371008.8,"distanceLimitM":50000,
+ "samples":[
+  {"name":"sphere","points":[
+   {"lonE6":-150000000,"latE6":-20000000,"containing":null,"nearest":null,"nearestDistanceM":null,"otherDistanceM":null},
+   {"lonE6":31233000,"latE6":30044000,"containing":"Africa/Cairo","nearest":null,"nearestDistanceM":null,"otherDistanceM":null}]},
+  {"name":"land","points":[
+   {"lonE6":34900000,"latE6":29550000,"containing":"Africa/Cairo","nearest":null,"nearestDistanceM":null,"otherDistanceM":3120.4}]}]}

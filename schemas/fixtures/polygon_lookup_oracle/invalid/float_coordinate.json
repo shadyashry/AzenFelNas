@@ -1,0 +1,2 @@
+{"schemaVersion":1,"dataset":"tz_polygons","sourceVersion":"2026e","seed":11,"earthRadiusM":6371008.8,"distanceLimitM":50000,
+ "samples":[{"name":"sphere","points":[{"lonE6":31.233,"latE6":30044000,"containing":"Africa/Cairo","nearest":null,"nearestDistanceM":null,"otherDistanceM":null}]}]}

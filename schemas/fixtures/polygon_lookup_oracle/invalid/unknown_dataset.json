@@ -1,0 +1,2 @@
+{"schemaVersion":1,"dataset":"gazetteer","sourceVersion":"2026e","seed":11,"earthRadiusM":6371008.8,"distanceLimitM":50000,
+ "samples":[{"name":"sphere","points":[{"lonE6":0,"latE6":0,"containing":null,"nearest":null,"nearestDistanceM":null,"otherDistanceM":null}]}]}
