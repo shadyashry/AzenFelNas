@@ -22,11 +22,11 @@ See the `DESIGN.md` sections referenced above.
 
 ## REQ tags
 
-—
+`REQ-PRIV-002`, `REQ-TIME-010` (clock integrity lives in the same feature).
 
 ## Tests
 
-—
+S13 (§15 D73): `apps/mobile/test/features/contexts/contexts_done_test.dart` (pinned polygons + drift), `resolve_observer_context_test.dart` (fix acceptance, randomised REQ-PRIV-002 check, mock-location diagnostics), `pin_place_test.dart`, `platform_location_permissions_test.dart` (coarse / when-in-use only).
 
 ## Supersedes
 
