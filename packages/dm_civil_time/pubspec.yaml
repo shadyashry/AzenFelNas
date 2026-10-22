@@ -7,5 +7,14 @@ resolution: workspace
 environment:
   sdk: ^3.13.5
 
+dependencies:
+  dm_core_types: 0.1.0
+  geo_salah_core: 0.4.0
+  meta: 1.19.0
+
 dev_dependencies:
   dm_lints: 0.1.0
+  test: 1.31.1
+  # Encoder (tool/encode_tzf.dart) and differential-test oracle only; the
+  # runtime reader is ours (§15 D66). BSD-2-Clause.
+  timezone: 0.11.2
