@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:dm_packages/src/tuf/tuf_signed.dart';
 import 'package:dm_packages/src/verify/hex.dart';
 import 'package:meta/meta.dart';
 
@@ -16,6 +17,7 @@ final class TrustedRoot {
   new({
     required Map<String, String> publicKeysById,
     required this.threshold,
+    this.version = 0,
   }) : publicKeys = Map.unmodifiable({
          for (final MapEntry(key: id, value: public) in publicKeysById.entries)
            id: _checkedKey(id, public),
@@ -47,6 +49,22 @@ final class TrustedRoot {
       ),
     _ => throw const FormatException('not a root-keys.json document'),
   };
+
+  /// The root role of a verified [root] document: the anchor its successor
+  /// must satisfy for a rotation (Appendix C). Throws as the constructor
+  /// does; a root that passed `VerifyMetadataChain` never throws.
+  factory ofRoot(TufRootSigned root) => TrustedRoot(
+    publicKeysById: {
+      for (final id in root.roles.root.keyIds)
+        if (root.keys[id] case final key?) id: key.public,
+    },
+    threshold: root.roles.root.threshold,
+    version: root.version,
+  );
+
+  /// The `root.json` version these keys come from; 0 for the keys embedded
+  /// in the app. A received root with a lower version is a regression.
+  final int version;
 
   /// keyId → raw 32-byte public key.
   final Map<String, List<int>> publicKeys;

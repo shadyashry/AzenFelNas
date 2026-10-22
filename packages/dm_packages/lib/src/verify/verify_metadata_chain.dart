@@ -15,12 +15,15 @@ import 'package:dm_packages/src/verify/verify_ed25519.dart';
 /// ADR-009): `root.json` against the [TrustedRoot]'s threshold; `timestamp`,
 /// `snapshot` and `targets` against the root's roles; each file against the
 /// SHA-256 and sequence its parent pins; every sequence strictly after the
-/// trusted one (REQ-DIST-001..004, REQ-PKG-005). Expiry is a
-/// [FreshnessWarning], never a failure (REQ-PKG-002).
+/// trusted one, except an unchanged file
+/// (REQ-DIST-001..004, REQ-PKG-005). Expiry is a [FreshnessWarning], never
+/// a failure (REQ-PKG-002).
 ///
-/// The minimal S09 verifier for the Go ↔ Dart round trip (§15 D63); S14
-/// adds root rotation chains, staging and activation around it. Pure apart
-/// from the injected [VerifyEd25519]; deterministic for equal inputs.
+/// Root rotation (Appendix C, §15 D74): a `root.json` whose root role names
+/// other keys than the [TrustedRoot] must carry the trusted root's
+/// threshold and its own; a lower root version is `PKG_SEQUENCE_REGRESSION`.
+/// Pure apart from the injected [VerifyEd25519]; deterministic for equal
+/// inputs.
 final class VerifyMetadataChain {
   /// The use case, checking signatures with [_ed25519].
   const new(this._ed25519);
@@ -52,6 +55,9 @@ final class VerifyMetadataChain {
       timestamp: docs.timestamp.sequence,
       snapshot: docs.snapshot.sequence,
       targets: docs.targets.sequence,
+      timestampSha256: docs.timestampSha256,
+      snapshotSha256: docs.snapshotSha256,
+      targetsSha256: docs.targetsSha256,
     );
     if (_regression(sequences, trusted) case final PackageFailure failure) {
       return Result.err(failure);
@@ -87,7 +93,38 @@ final class VerifyMetadataChain {
         trusted.threshold,
       );
       if (anchorFailure != null) return Result.err(anchorFailure);
-      return rootKeys(doc).map((keys) => _Root(doc, keys));
+      if (doc.version < trusted.version) {
+        return Result.err(
+          PackageFailure.sequenceRegression(
+            role: MetadataRole.root,
+            sequence: doc.version,
+            trusted: trusted.version,
+          ),
+        );
+      }
+      final Map<String, List<int>> keys;
+      switch (rootKeys(doc)) {
+        case Ok(:final value):
+          keys = value;
+        case Err(:final failure):
+          return Result.err(failure);
+      }
+      final ownIds = doc.roles.root.keyIds.toSet();
+      final rotated =
+          ownIds.length != trusted.publicKeys.length ||
+          !ownIds.every(trusted.publicKeys.containsKey);
+      if (rotated) {
+        final ownFailure = await checkThreshold(
+          _ed25519,
+          'root.json (its own root role)',
+          envelope,
+          keys,
+          ownIds,
+          doc.roles.root.threshold,
+        );
+        if (ownFailure != null) return Result.err(ownFailure);
+      }
+      return Result.ok(_Root(doc, keys));
     }
     return const Result.err(
       PackageFailure.signatureInvalid('root.json holds another role'),
@@ -119,7 +156,7 @@ final class VerifyMetadataChain {
           (_, _, Err(:final failure)):
         return Result.err(failure);
       case (
-        Ok(value: (final ts, _)),
+        Ok(value: (final ts, final tsEnvelope)),
         Ok(value: (final sn, final snEnvelope)),
         Ok(value: (final tg, final tgEnvelope)),
       ):
@@ -137,7 +174,16 @@ final class VerifyMetadataChain {
               sn.meta.targetsJson,
             );
         return pinFailure == null
-            ? Result.ok(_Docs(ts, sn, tg))
+            ? Result.ok(
+                _Docs(
+                  ts,
+                  sn,
+                  tg,
+                  tsEnvelope.sha256Hex,
+                  snEnvelope.sha256Hex,
+                  tgEnvelope.sha256Hex,
+                ),
+              )
             : Result.err(pinFailure);
     }
   }
@@ -177,17 +223,33 @@ final class VerifyMetadataChain {
     TrustedSequences trusted,
   ) {
     final checks = [
-      (MetadataRole.timestamp, received.timestamp, trusted.timestamp),
-      (MetadataRole.snapshot, received.snapshot, trusted.snapshot),
-      (MetadataRole.targets, received.targets, trusted.targets),
+      (
+        MetadataRole.timestamp,
+        received.timestamp,
+        trusted.timestamp,
+        _unchanged(received.timestampSha256, trusted.timestampSha256),
+      ),
+      (
+        MetadataRole.snapshot,
+        received.snapshot,
+        trusted.snapshot,
+        _unchanged(received.snapshotSha256, trusted.snapshotSha256),
+      ),
+      (
+        MetadataRole.targets,
+        received.targets,
+        trusted.targets,
+        _unchanged(received.targetsSha256, trusted.targetsSha256),
+      ),
     ];
-    for (final (role, sequence, trustedSequence) in checks) {
+    for (final (role, sequence, trustedSequence, unchanged) in checks) {
       if (sequence < 1) {
         return PackageFailure.signatureInvalid(
           '${role.name}.json sequence $sequence',
         );
       }
-      if (trustedSequence > 0 && sequence <= trustedSequence) {
+      final equalAllowed = unchanged && sequence == trustedSequence;
+      if (trustedSequence > 0 && sequence <= trustedSequence && !equalAllowed) {
         return PackageFailure.sequenceRegression(
           role: role,
           sequence: sequence,
@@ -197,6 +259,10 @@ final class VerifyMetadataChain {
     }
     return null;
   }
+
+  /// Whether a file hashing to [received] is the trusted one, [trusted].
+  static bool _unchanged(String? received, String? trusted) =>
+      trusted != null && received == trusted;
 
   static Result<List<FreshnessWarning>, PackageFailure> _freshness(
     TufRootSigned root,
@@ -232,11 +298,21 @@ final class _Root {
   final Map<String, List<int>> keys;
 }
 
-/// The three verified role documents.
+/// The three verified role documents and the hashes of their files.
 final class _Docs {
-  const new(this.timestamp, this.snapshot, this.targets);
+  const new(
+    this.timestamp,
+    this.snapshot,
+    this.targets,
+    this.timestampSha256,
+    this.snapshotSha256,
+    this.targetsSha256,
+  );
 
   final TufTimestampSigned timestamp;
   final TufSnapshotSigned snapshot;
   final TufTargetsSigned targets;
+  final String timestampSha256;
+  final String snapshotSha256;
+  final String targetsSha256;
 }

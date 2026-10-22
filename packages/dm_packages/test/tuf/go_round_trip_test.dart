@@ -4,6 +4,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:test/test.dart';
@@ -83,9 +84,14 @@ void main() {
       final verified = _ok(await _run(_files));
 
       // Assert
+      final sequences = verified.sequences;
       expect(
-        verified.sequences,
-        const TrustedSequences(timestamp: 1, snapshot: 1, targets: 1),
+        (sequences.timestamp, sequences.snapshot, sequences.targets),
+        (1, 1, 1),
+      );
+      expect(
+        sequences.targetsSha256,
+        sha256.convert(_files.targets).toString(),
       );
       expect(verified.warnings, isEmpty);
       expect(verified.targets.targets.keys, ['prayer_profiles/2026.10.1']);
