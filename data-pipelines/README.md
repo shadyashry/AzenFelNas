@@ -28,4 +28,14 @@ DM_POLYGON_SOURCES=/tmp/src uv run --frozen pytest -k rebuild   # byte-identical
 
 **A new source release**: update the dataset's table in `config/polygons.v1.toml` (version, URL, sha256), run `fetch` and `build`, and commit the new directory in place of the old one. The tz polygons should follow the IANA pin (same release name).
 
+## gazetteer (S12, §15 D72)
+
+```
+uv run --frozen dm-pipelines gazetteer fetch --dest /tmp/src/geonamescache.whl
+uv run --frozen dm-pipelines gazetteer build --source /tmp/src/geonamescache.whl
+DM_GAZETTEER_SOURCE=/tmp/src/geonamescache.whl uv run --frozen pytest -k "rebuild and gazetteer"
+```
+
+The source is GeoNames `cities15000` as shipped in the sha256-pinned `geonamescache` wheel (`config/gazetteer.v1.toml`), because `download.geonames.org` is denied in the build environment. `build` writes `apps/mobile/assets/packages/gazetteer/<version>/`: `gazetteer.json` (`gazetteer_package.v1`, one place per line, sorted by id) and `manifest.json`. Arabic and English alternate names are chosen by script (see `src/dm_pipelines/gazetteer/source.py`).
+
 Models in `src/dm_pipelines/schema/` are generated from `schemas/` by `scripts/gen_models.sh`; `ci-lab` checks that they are fresh.

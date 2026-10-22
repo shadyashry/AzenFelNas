@@ -3,7 +3,7 @@
 # de440s.bsp ephemeris by its sha256 (§15 D28). Changes to the frozen reference need the
 # `reference-update` label (ADR-019, §15 D25). data-pipelines/ also checks its generated models, and
 # `tzdata-rebuild` reproduces the pinned tzdata payload, oracle and manifest byte for byte (§15 D66),
-# and the pinned tz/country polygon packages (§15 D70).
+# the pinned tz/country polygon packages (§15 D70) and the gazetteer package (§15 D72).
 name: ci-lab
 
 on:
@@ -13,6 +13,7 @@ on:
       - lab/**
       - data-pipelines/**
       - packages/dm_civil_time/**
+      - apps/mobile/assets/packages/**
       - schemas/**
       - .github/workflows/ci-lab.yml
   push:
@@ -89,6 +90,11 @@ jobs:
           uv run --frozen dm-pipelines polygons fetch --dataset country --dest "$RUNNER_TEMP/polygons/ne_10m_admin_0_map_units.geojson"
           DM_POLYGON_SOURCES="$RUNNER_TEMP/polygons" uv run --frozen pytest -q -k "rebuild and polygons" | tee "$RUNNER_TEMP/polygons.txt"
           grep -q "2 passed" "$RUNNER_TEMP/polygons.txt"
+      - name: Gazetteer package rebuilds byte for byte
+        run: |
+          uv run --frozen dm-pipelines gazetteer fetch --dest "$RUNNER_TEMP/geonamescache.whl"
+          DM_GAZETTEER_SOURCE="$RUNNER_TEMP/geonamescache.whl" uv run --frozen pytest -q -k "rebuild and gazetteer" | tee "$RUNNER_TEMP/gazetteer.txt"
+          grep -q "1 passed" "$RUNNER_TEMP/gazetteer.txt"
 
   reference-freeze:
     # lab/reference/** is the frozen ADR-019 reference. Its manifest hashes the cities, the config, the

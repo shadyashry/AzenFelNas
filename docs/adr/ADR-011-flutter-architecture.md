@@ -34,6 +34,7 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Dart | path · yaml | — | **1.9.1 · 3.1.4** | `dm_lints`, `pubspec.lock` |
 | Dart | timezone | 0.10 | **0.11.2** (BSD-2-Clause; **dev dependency** of `dm_civil_time`: the encoder tool and the differential-test oracle. The app reads the `.tzf` payload with `dm_civil_time`'s own reader, so neither `timezone` nor its transitive `http` ships in the pure set — §15 D66, added S10) | `dm_civil_time`, `pubspec.lock` |
 | Dart | freezed · freezed_annotation · json_serializable · json_annotation · build_runner | 3 · — · 6.9 · — · — | **4.0.1 · 3.1.0 · 6.15.2 · 4.12.0 · 2.16.1** (freezed 4.0.3 and build_runner 2.17.1 need analyzer ≥ 14, blocked by the Flutter `test_api` pin — D18; added S02) | package pubspecs, `pubspec.lock` |
+| Dart | drift · drift_dev · sqlite3 | 2.28 · — · — | **2.35.2 · 2.35.1 · 3.7.1** (MIT; `drift` is a direct dependency of the app from S12 for the gazetteer tables, `drift_dev` a dev dependency run by `melos run gen`, `sqlite3` transitive — its build hook bundles SQLite (public domain) for host tests and devices; `drift_flutter` waits for S16 — §15 D72) | `apps/mobile/pubspec.yaml`, `pubspec.lock` |
 | Dart (first use) | riverpod · flutter_riverpod | 3.0 | **3.4.3** | added in S16 |
 | Android | Gradle | 8.14 | **9.8.2** (sha256-pinned wrapper) | `gradle-wrapper.properties`, `.tool-versions` |
 | Android | AGP | 8.11 | **9.4.1** | `settings.gradle.kts`, `libs.versions.toml` |
@@ -63,6 +64,7 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Python (data-pipelines, dev) | types-shapely | — | **2.1.0.20260728** (Apache-2.0; typeshed stubs for `mypy --strict`, added S11) | `data-pipelines/pyproject.toml` |
 | Data (data-pipelines) | timezone-boundary-builder `timezones.geojson.zip` | — | **2026e** (matches the IANA pin), sha256-pinned (ODbL-1.0: attribution, produced database under ODbL — §10; §15 D70, added S11) | `data-pipelines/config/polygons.v1.toml` |
 | Data (data-pipelines) | Natural Earth `ne_10m_admin_0_map_units.geojson` | — | **5.1.2**, sha256-pinned (public domain; §15 D70, added S11) | `data-pipelines/config/polygons.v1.toml` |
+| Data (data-pipelines) | GeoNames `cities15000` via the `geonamescache` wheel | — | **3.0.2** (uploaded 2026-07-28), sha256-pinned (data CC BY 4.0, attribution; package code MIT and not shipped; download.geonames.org is denied here — §15 D72, added S12) | `data-pipelines/config/gazetteer.v1.toml` |
 | Python (lab tool) | datamodel-code-generator | — | **0.86.0** with its dependencies locked on CPython 3.14.8 (§15 D27, added S03) | `lab/tools/codegen/uv.lock` |
 | Data (lab) | JPL `de440s.bsp` | 1849–2150 | sha256 `c1c7feea…49f2`, fetched by URL (§15 D28) | `lab/config/harness.v1.toml` |
 | Python (first use) | shapely | 2.1 | pinned at latest stable in its first slice (S11) | `uv.lock` |
