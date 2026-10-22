@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "pipeline": "data-pipelines.tz_polygons",
+  "inputs": [
+    {
+      "role": "source",
+      "url": "https://github.com/evansiroky/timezone-boundary-builder/releases/download/2026e/timezones.geojson.zip",
+      "sha256": "a75361c760d6de2fc95c63e97e0b1086d5dfe6fdb2bc6d96efeb3a94673aaa01"
+    },
+    {
+      "role": "config",
+      "path": "data-pipelines/config/polygons.v1.toml",
+      "sha256": "24581bbdd26deebfb2c9aba7f7e70a7410a0c5eeccc4bb02f7fd04fa03cb5b88"
+    },
+    {
+      "role": "pipeline_source",
+      "path": "data-pipelines/src/dm_pipelines/polygons/source.py",
+      "sha256": "5a1f5cada625b47b428110829355e81d13747bb4f6dcdd5b0e54a6214d7067d4"
+    },
+    {
+      "role": "pipeline_source",
+      "path": "data-pipelines/src/dm_pipelines/polygons/encode.py",
+      "sha256": "ff31f50ad2a4e937bc5cf01a4877a40b0143648b19a3d04478c7b2b95f743c11"
+    },
+    {
+      "role": "pipeline_source",
+      "path": "data-pipelines/src/dm_pipelines/polygons/oracle.py",
+      "sha256": "19516c5bd15ca0e44dcbf73c19436dc473fdf0b92ac6da4be53d942e8b2c628a"
+    }
+  ],
+  "tools": {
+    "shapely": "2.2.0",
+    "numpy": "2.5.4",
+    "python": "3.15"
+  },
+  "parameters": {
+    "sourceVersion": "2026e",
+    "license": "ODbL-1.0",
+    "nameProperty": "tzid",
+    "simplifyToleranceDeg": "0.001",
+    "polygons": "1220",
+    "points": "863803",
+    "oracleSeed": "11"
+  },
+  "outputs": [
+    {
+      "path": "tz_polygons.bin",
+      "sha256": "9328d3627ab80e697161dcdea47294f1ed4d51ae9e9f71cb1ccae3ef9b1ffc70",
+      "records": 419
+    },
+    {
+      "path": "lookup_oracle.json",
+      "sha256": "d1c96eafdd56d9cadd7a321dd199d44f2546ddbfa1052bfef3c27c98ad5e475d",
+      "records": 2000
+    }
+  ]
+}

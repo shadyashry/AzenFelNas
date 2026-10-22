@@ -8,13 +8,17 @@ from pydantic import ValidationError
 
 from dm_pipelines.schema.base import WireModel
 from dm_pipelines.schema.pipeline_manifest_v1 import PipelineManifestV1
+from dm_pipelines.schema.polygon_lookup_oracle_v1 import PolygonLookupOracleV1
 from dm_pipelines.schema.tz_transition_oracle_v1 import TzTransitionOracleV1
 
 FIXTURES = Path(__file__).resolve().parents[2] / "schemas" / "fixtures"
 MODELS: dict[str, type[WireModel]] = {
     "pipeline_manifest": PipelineManifestV1,
     "tz_transition_oracle": TzTransitionOracleV1,
+    "polygon_lookup_oracle": PolygonLookupOracleV1,
 }
+# Schemas whose required members may be null: the dump keeps the nulls.
+NULLABLE = {"polygon_lookup_oracle"}
 CASES = [(name, path) for name in MODELS for path in sorted((FIXTURES / name).glob("*/*.json"))]
 
 
@@ -26,7 +30,8 @@ def test_valid_fixtures_round_trip_and_invalid_ones_are_refused(schema: str, pat
     model = MODELS[schema]
     if path.parent.name == "valid":
         decoded = model.model_validate_json(text)
-        assert json.loads(decoded.model_dump_json(exclude_none=True)) == json.loads(text)
+        dumped = decoded.model_dump_json(exclude_none=schema not in NULLABLE)
+        assert json.loads(dumped) == json.loads(text)
     else:
         with pytest.raises(ValidationError):
             model.model_validate_json(text)

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "pipeline": "data-pipelines.country_polygons",
+  "inputs": [
+    {
+      "role": "source",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_map_units.geojson",
+      "sha256": "57da82be755f4afccd8f3b14251bb2752f5df1395f47d2d86f817470c4a48862"
+    },
+    {
+      "role": "config",
+      "path": "data-pipelines/config/polygons.v1.toml",
+      "sha256": "24581bbdd26deebfb2c9aba7f7e70a7410a0c5eeccc4bb02f7fd04fa03cb5b88"
+    },
+    {
+      "role": "pipeline_source",
+      "path": "data-pipelines/src/dm_pipelines/polygons/source.py",
+      "sha256": "5a1f5cada625b47b428110829355e81d13747bb4f6dcdd5b0e54a6214d7067d4"
+    },
+    {
+      "role": "pipeline_source",
+      "path": "data-pipelines/src/dm_pipelines/polygons/encode.py",
+      "sha256": "ff31f50ad2a4e937bc5cf01a4877a40b0143648b19a3d04478c7b2b95f743c11"
+    },
+    {
+      "role": "pipeline_source",
+      "path": "data-pipelines/src/dm_pipelines/polygons/oracle.py",
+      "sha256": "19516c5bd15ca0e44dcbf73c19436dc473fdf0b92ac6da4be53d942e8b2c628a"
+    }
+  ],
+  "tools": {
+    "shapely": "2.2.0",
+    "numpy": "2.5.4",
+    "python": "3.15"
+  },
+  "parameters": {
+    "sourceVersion": "5.1.2",
+    "license": "public domain (Natural Earth)",
+    "nameProperty": "ISO_A2_EH",
+    "simplifyToleranceDeg": "0.001",
+    "polygons": "4255",
+    "points": "492282",
+    "oracleSeed": "11"
+  },
+  "outputs": [
+    {
+      "path": "country_polygons.bin",
+      "sha256": "a262029f49a130f7a236672d077bcd4bc13355df4a00dfd0fa230cdc8410850b",
+      "records": 250
+    },
+    {
+      "path": "lookup_oracle.json",
+      "sha256": "3bb80d2a96b7bd9caf784b071a4fda068c8af40371eeef32a0bb819dbf155b16",
+      "records": 2000
+    }
+  ]
+}

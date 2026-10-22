@@ -1,0 +1,35 @@
+# Pinned sources of the `tz_polygons` and `country_polygons` packages (DESIGN.md §9.5, ADR-015,
+# §15 D70-D71). `dm-pipelines polygons build` refuses a source file unless its sha256 is exactly the
+# pin below. A new source release is a commit that changes this file and the committed outputs.
+
+[tz]
+version = "2026e"
+url = "https://github.com/evansiroky/timezone-boundary-builder/releases/download/2026e/timezones.geojson.zip"
+sha256 = "a75361c760d6de2fc95c63e97e0b1086d5dfe6fdb2bc6d96efeb3a94673aaa01"
+# The zip holds one GeoJSON file; each feature's zone id is this property.
+zipMember = "combined.json"
+nameProperty = "tzid"
+license = "ODbL-1.0"
+
+[country]
+version = "5.1.2"
+url = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_map_units.geojson"
+sha256 = "57da82be755f4afccd8f3b14251bb2752f5df1395f47d2d86f817470c4a48862"
+zipMember = ""
+# The admin-0 *map units* layer keeps ISO-coded territories (Svalbard SJ, Bouvet BV, ...) apart from
+# their sovereign, which the countries layer merges. ISO_A2_EH fills the ISO_A2 gaps (France,
+# Norway, ...); features whose code is not two letters ("-99": disputed or unassigned areas) are
+# left out, so such places resolve to "no country" (§15 D70).
+nameProperty = "ISO_A2_EH"
+license = "public domain (Natural Earth)"
+
+[build]
+# Douglas-Peucker tolerance in degrees (§9.5).
+simplifyToleranceDeg = 0.001
+
+[oracle]
+# The S11 done-test (§13): seeded points per sample, answers from shapely on the source geometry.
+seed = 11
+pointsPerSample = 1000
+earthRadiusM = 6371008.8
+distanceLimitM = 50000.0

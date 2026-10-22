@@ -2,9 +2,12 @@
 
     dm-pipelines tzdata fetch --dest DIR          # clone the pinned IANA commit (needs git)
     dm-pipelines tzdata build --source DIR [--out DIR]
+    dm-pipelines polygons fetch --dataset tz|country --dest FILE  # the pinned source (curl)
+    dm-pipelines polygons build --dataset tz|country --source FILE
+        [--out DIR]
 
-`build` needs `make`, a C compiler and `dart` on PATH. Exit codes: 0 done, 1 refused (pins, tools),
-2 usage error.
+`tzdata build` needs `make`, a C compiler and `dart` on PATH. Exit codes: 0 done, 1 refused
+(pins, tools), 2 usage error.
 """
 
 import argparse
@@ -15,6 +18,11 @@ from pathlib import Path
 from pydantic import ValidationError
 
 from dm_pipelines.commands import CommandError, CommandRunner, SubprocessRunner
+from dm_pipelines.hashing import sha256_file
+from dm_pipelines.polygons.config import Dataset, load_polygons_config
+from dm_pipelines.polygons.pipeline import CONFIG as POLYGONS_CONFIG
+from dm_pipelines.polygons.pipeline import BuildPolygons, default_out
+from dm_pipelines.schema.pipeline_manifest_v1 import PipelineManifestV1
 from dm_pipelines.tzdata.config import load_tzdata_config
 from dm_pipelines.tzdata.oracle import CorpusError
 from dm_pipelines.tzdata.pipeline import CONFIG, DART_PACKAGE, BuildTzdata, PinError
@@ -34,6 +42,21 @@ def _parser() -> argparse.ArgumentParser:
     build = commands.add_parser("build", help="build tzdata.tzf, dst_oracle.json and manifest.json")
     build.add_argument("--source", type=Path, required=True, help="IANA tz source tree")
     build.add_argument("--out", type=Path, help="output directory (default: dm_civil_time data)")
+    polygons = pipelines.add_parser(
+        "polygons", help="the tz_polygons and country_polygons packages"
+    )
+    polygon_commands = polygons.add_subparsers(dest="command", required=True)
+    polygon_fetch = polygon_commands.add_parser(
+        "fetch", help="download the pinned source and verify"
+    )
+    polygon_build = polygon_commands.add_parser(
+        "build", help="build <package>.bin, oracle, manifest"
+    )
+    for command in (polygon_fetch, polygon_build):
+        command.add_argument("--dataset", choices=("tz", "country"), required=True)
+    polygon_fetch.add_argument("--dest", type=Path, required=True, help="file to write")
+    polygon_build.add_argument("--source", type=Path, required=True, help="pinned source file")
+    polygon_build.add_argument("--out", type=Path, help="output directory (default: dm_civil_time)")
     return parser
 
 
@@ -47,6 +70,31 @@ def _fetch(runner: CommandRunner, repo: Path, dest: Path) -> None:
     verify_source(dest, config.files)
 
 
+def _fetch_polygons(runner: CommandRunner, repo: Path, dataset: Dataset, dest: Path) -> None:
+    pin = load_polygons_config(repo / POLYGONS_CONFIG).source(dataset)
+    if dest.exists():
+        message = f"{dest} exists"
+        raise FileExistsError(message)
+    runner.run(["curl", "-fsSL", "--proto", "=https", "-o", str(dest), pin.url], dest.parent)
+    if (actual := sha256_file(dest)) != pin.sha256:
+        dest.unlink()
+        message = f"{dest.name}: sha256 {actual}, pinned {pin.sha256}"
+        raise SourceMismatchError(message)
+
+
+def _build(runner: CommandRunner, args: argparse.Namespace) -> tuple[Path, PipelineManifestV1]:
+    repo: Path = args.repo
+    if args.pipeline == "polygons":
+        dataset: Dataset = args.dataset
+        out: Path = args.out or default_out(
+            repo, dataset, load_polygons_config(repo / POLYGONS_CONFIG)
+        )
+        return out, BuildPolygons(repo=repo).run(dataset, args.source, out)
+    version = load_tzdata_config(repo / CONFIG).release.version
+    out = args.out or repo / DART_PACKAGE / "data" / "tzdata" / version
+    return out, BuildTzdata(runner=runner, repo=repo).run(args.source, out)
+
+
 def run(argv: Sequence[str], runner: CommandRunner) -> int:
     """Run the command line `argv` with `runner`; return the exit code."""
     try:
@@ -56,12 +104,13 @@ def run(argv: Sequence[str], runner: CommandRunner) -> int:
     repo: Path = args.repo
     try:
         if args.command == "fetch":
-            _fetch(runner, repo, args.dest)
+            if args.pipeline == "polygons":
+                _fetch_polygons(runner, repo, args.dataset, args.dest)
+            else:
+                _fetch(runner, repo, args.dest)
             print(f"fetched: {args.dest}")  # noqa: T201 - the CLI reports on stdout
             return 0
-        version = load_tzdata_config(repo / CONFIG).release.version
-        out: Path = args.out or repo / DART_PACKAGE / "data" / "tzdata" / version
-        manifest = BuildTzdata(runner=runner, repo=repo).run(args.source, out)
+        out, manifest = _build(runner, args)
     except (
         SourceMismatchError,
         CommandError,
