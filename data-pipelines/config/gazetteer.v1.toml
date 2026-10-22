@@ -1,0 +1,15 @@
+# Pinned source of the `gazetteer` package (DESIGN.md §9.5, ADR-015, §15 D72).
+# `dm-pipelines gazetteer build` refuses the source unless its sha256 is exactly the pin below. A new
+# source release is a commit that changes this file and the committed output.
+#
+# download.geonames.org is denied by this environment's egress policy, so the GeoNames cities15000
+# dump is read from the `geonamescache` wheel on PyPI (MIT code; the data stays GeoNames CC BY 4.0).
+# Its JSON keeps the dump's untagged `alternatenames`, so Arabic and English names are chosen by
+# script (§15 D72); switching to cities15000.zip + alternateNamesV2.zip is owed.
+
+[source]
+version = "3.0.2"
+url = "https://files.pythonhosted.org/packages/48/c2/52f1b29de8839b4b55cd2641dfd722a6a94953d74fa82514e26084a92318/geonamescache-3.0.2-py3-none-any.whl"
+sha256 = "b830e8942f2d58c7e68782dcf4dff2ffe8c4104a35ee881ed1ad4023cefcdba4"
+zipMember = "geonamescache/data/cities15000.json"
+license = "CC-BY-4.0 (GeoNames data); MIT (geonamescache)"

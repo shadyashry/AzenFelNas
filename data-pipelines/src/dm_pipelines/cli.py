@@ -5,6 +5,8 @@
     dm-pipelines polygons fetch --dataset tz|country --dest FILE  # the pinned source (curl)
     dm-pipelines polygons build --dataset tz|country --source FILE
         [--out DIR]
+    dm-pipelines gazetteer fetch --dest FILE    # the pinned source (curl)
+    dm-pipelines gazetteer build --source FILE [--out DIR]
 
 `tzdata build` needs `make`, a C compiler and `dart` on PATH. Exit codes: 0 done, 1 refused
 (pins, tools), 2 usage error.
@@ -18,6 +20,10 @@ from pathlib import Path
 from pydantic import ValidationError
 
 from dm_pipelines.commands import CommandError, CommandRunner, SubprocessRunner
+from dm_pipelines.gazetteer.config import load_gazetteer_config
+from dm_pipelines.gazetteer.pipeline import CONFIG as GAZETTEER_CONFIG
+from dm_pipelines.gazetteer.pipeline import BuildGazetteer
+from dm_pipelines.gazetteer.pipeline import default_out as gazetteer_out
 from dm_pipelines.hashing import sha256_file
 from dm_pipelines.polygons.config import Dataset, load_polygons_config
 from dm_pipelines.polygons.pipeline import CONFIG as POLYGONS_CONFIG
@@ -57,6 +63,15 @@ def _parser() -> argparse.ArgumentParser:
     polygon_fetch.add_argument("--dest", type=Path, required=True, help="file to write")
     polygon_build.add_argument("--source", type=Path, required=True, help="pinned source file")
     polygon_build.add_argument("--out", type=Path, help="output directory (default: dm_civil_time)")
+    gazetteer = pipelines.add_parser("gazetteer", help="the gazetteer package (GeoNames)")
+    gazetteer_commands = gazetteer.add_subparsers(dest="command", required=True)
+    gazetteer_fetch = gazetteer_commands.add_parser(
+        "fetch", help="download the pinned source and verify"
+    )
+    gazetteer_fetch.add_argument("--dest", type=Path, required=True, help="file to write")
+    gazetteer_build = gazetteer_commands.add_parser("build", help="build gazetteer.json, manifest")
+    gazetteer_build.add_argument("--source", type=Path, required=True, help="pinned source file")
+    gazetteer_build.add_argument("--out", type=Path, help="output directory (default: app assets)")
     return parser
 
 
@@ -72,13 +87,17 @@ def _fetch(runner: CommandRunner, repo: Path, dest: Path) -> None:
 
 def _fetch_polygons(runner: CommandRunner, repo: Path, dataset: Dataset, dest: Path) -> None:
     pin = load_polygons_config(repo / POLYGONS_CONFIG).source(dataset)
+    _download(runner, pin.url, pin.sha256, dest)
+
+
+def _download(runner: CommandRunner, url: str, sha256: str, dest: Path) -> None:
     if dest.exists():
         message = f"{dest} exists"
         raise FileExistsError(message)
-    runner.run(["curl", "-fsSL", "--proto", "=https", "-o", str(dest), pin.url], dest.parent)
-    if (actual := sha256_file(dest)) != pin.sha256:
+    runner.run(["curl", "-fsSL", "--proto", "=https", "-o", str(dest), url], dest.parent)
+    if (actual := sha256_file(dest)) != sha256:
         dest.unlink()
-        message = f"{dest.name}: sha256 {actual}, pinned {pin.sha256}"
+        message = f"{dest.name}: sha256 {actual}, pinned {sha256}"
         raise SourceMismatchError(message)
 
 
@@ -90,6 +109,9 @@ def _build(runner: CommandRunner, args: argparse.Namespace) -> tuple[Path, Pipel
             repo, dataset, load_polygons_config(repo / POLYGONS_CONFIG)
         )
         return out, BuildPolygons(repo=repo).run(dataset, args.source, out)
+    if args.pipeline == "gazetteer":
+        out = args.out or gazetteer_out(repo, load_gazetteer_config(repo / GAZETTEER_CONFIG))
+        return out, BuildGazetteer(repo=repo).run(args.source, out)
     version = load_tzdata_config(repo / CONFIG).release.version
     out = args.out or repo / DART_PACKAGE / "data" / "tzdata" / version
     return out, BuildTzdata(runner=runner, repo=repo).run(args.source, out)
@@ -106,6 +128,9 @@ def run(argv: Sequence[str], runner: CommandRunner) -> int:
         if args.command == "fetch":
             if args.pipeline == "polygons":
                 _fetch_polygons(runner, repo, args.dataset, args.dest)
+            elif args.pipeline == "gazetteer":
+                source = load_gazetteer_config(repo / GAZETTEER_CONFIG).source
+                _download(runner, source.url, source.sha256, args.dest)
             else:
                 _fetch(runner, repo, args.dest)
             print(f"fetched: {args.dest}")  # noqa: T201 - the CLI reports on stdout

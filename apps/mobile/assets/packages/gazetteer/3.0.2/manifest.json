@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "pipeline": "data-pipelines.gazetteer",
+  "inputs": [
+    {
+      "role": "source",
+      "url": "https://files.pythonhosted.org/packages/48/c2/52f1b29de8839b4b55cd2641dfd722a6a94953d74fa82514e26084a92318/geonamescache-3.0.2-py3-none-any.whl",
+      "sha256": "b830e8942f2d58c7e68782dcf4dff2ffe8c4104a35ee881ed1ad4023cefcdba4"
+    },
+    {
+      "role": "config",
+      "path": "data-pipelines/config/gazetteer.v1.toml",
+      "sha256": "0f9b9b698933cd60ae81c4af1c939b4496a6444504f35870e0c5c1c183de1db9"
+    },
+    {
+      "role": "pipeline_source",
+      "path": "data-pipelines/src/dm_pipelines/gazetteer/source.py",
+      "sha256": "dffea43ffd5e07049da97818dea3313e486a24811b078bb99383e94114701202"
+    }
+  ],
+  "tools": {
+    "pydantic": "2.14.1",
+    "python": "3.15"
+  },
+  "parameters": {
+    "sourceVersion": "3.0.2",
+    "sourceMember": "geonamescache/data/cities15000.json",
+    "license": "CC-BY-4.0 (GeoNames data); MIT (geonamescache)",
+    "places": "34006",
+    "arabicNames": "11727",
+    "latinNames": "112762"
+  },
+  "outputs": [
+    {
+      "path": "gazetteer.json",
+      "sha256": "9103057b24d66558baf01f875582507ec95570d42c3ba676e7d0fc0976ffc45a",
+      "records": 34006
+    }
+  ]
+}
