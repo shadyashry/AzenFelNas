@@ -1,7 +1,5 @@
 import 'package:drift/drift.dart';
 
-part 'packages_database.g.dart';
-
 /// §7.3 `active_packages`: one row per package type.
 @DataClassName('ActivePackageRow')
 class ActivePackages extends Table {
@@ -94,15 +92,4 @@ class PackageTrust extends Table {
 
   @override
   Set<Column<Object>> get primaryKey => {id};
-}
-
-/// The package tables on their own database until the app shell (S16)
-/// opens `dm.sqlite` with drift_flutter (§15 D74).
-@DriftDatabase(tables: [ActivePackages, PackageFiles, PackageTrust])
-final class PackagesDatabase extends _$PackagesDatabase {
-  /// The database on [executor].
-  new(super.e);
-
-  @override
-  int get schemaVersion => 1;
 }

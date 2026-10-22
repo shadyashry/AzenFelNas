@@ -1,4 +1,4 @@
-import 'package:daily_muslim/features/packages/data/packages_database.dart';
+import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:drift/drift.dart';
@@ -12,7 +12,7 @@ final class DriftPackageCatalog
   /// The catalog in [_db].
   const new(this._db);
 
-  final PackagesDatabase _db;
+  final DmDatabase _db;
 
   @override
   Future<ActivePackage?> active(PackageType type) async {

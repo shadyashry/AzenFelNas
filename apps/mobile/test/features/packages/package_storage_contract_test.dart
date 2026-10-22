@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:daily_muslim/features/packages/data/drift_package_trust_store.dart';
 import 'package:daily_muslim/features/packages/data/io_package_blob_store.dart';
-import 'package:daily_muslim/features/packages/data/packages_database.dart';
+import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:dm_packages/testing.dart';
@@ -15,7 +15,7 @@ void main() {
   final trustStores =
       <String, (PackageTrustStore, Future<void> Function()) Function()>{
         'DriftPackageTrustStore': () {
-          final db = PackagesDatabase(NativeDatabase.memory());
+          final db = DmDatabase(NativeDatabase.memory());
           return (DriftPackageTrustStore(db), db.close);
         },
         'InMemoryTrustStore': () => (InMemoryTrustStore(), () async {}),

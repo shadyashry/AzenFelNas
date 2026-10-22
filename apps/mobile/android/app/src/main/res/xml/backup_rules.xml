@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Auto Backup up to API 30 (android:fullBackupContent). places.sqlite lives in
+     filesDir/places/ and never leaves the device (REQ-PRIV-003, DESIGN.md §7.3). -->
+<full-backup-content>
+    <exclude domain="file" path="places/" />
+</full-backup-content>

@@ -13,13 +13,21 @@ dependencies:
   dm_contracts: 0.1.0
   dm_core_types: 0.1.0
   dm_packages: 0.1.0
+  dm_ui: 0.1.0
   drift: 2.35.2
+  drift_flutter: 0.3.1
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_riverpod: 3.4.3
   geo_salah_core: 0.4.0
   geolocator: 14.1.1
+  go_router: 18.1.1
+  intl: 0.20.3
   json_annotation: 4.12.0
   meta: 1.19.0
+  path_provider: 2.1.6
   permission_handler: 13.0.2
   permission_handler_platform_interface: 4.4.1
 
@@ -29,9 +37,12 @@ dev_dependencies:
   drift_dev: 2.35.1
   flutter_test:
     sdk: flutter
+  sqlite3: 3.7.1
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/packages/seeds.json
     - assets/packages/gazetteer/3.0.2/gazetteer.json
+    - assets/legal/attributions.v1.json

@@ -1,7 +1,7 @@
 // REQ-TEST-004: the package catalog contract, run against the drift
 // adapter and the in-memory fake alike.
 import 'package:daily_muslim/features/packages/data/drift_package_catalog.dart';
-import 'package:daily_muslim/features/packages/data/packages_database.dart';
+import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:dm_packages/testing.dart';
@@ -53,7 +53,7 @@ Future<List<(String, PackageFileState)>> _states(_Catalog c) async => [
 void main() {
   final implementations = <String, _Catalog Function()>{
     'DriftPackageCatalog': () {
-      final db = PackagesDatabase(NativeDatabase.memory());
+      final db = DmDatabase(NativeDatabase.memory());
       final catalog = DriftPackageCatalog(db);
       return (read: catalog, write: catalog, close: db.close);
     },

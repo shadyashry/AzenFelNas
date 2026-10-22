@@ -7,5 +7,7 @@ analyzer:
     - "**/*.freezed.dart"
     - "**/*.pigeon.dart"
     - build/**
+    - test/drift/*/generated/**
+    - lib/l10n/app_localizations*.dart
     - android/**
     - ios/**

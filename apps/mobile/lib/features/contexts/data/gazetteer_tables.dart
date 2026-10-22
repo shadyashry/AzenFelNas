@@ -1,7 +1,5 @@
 import 'package:drift/drift.dart';
 
-part 'gazetteer_database.g.dart';
-
 /// The `gazetteer` table of §7.3: one row per place, filled at package
 /// activation.
 @DataClassName('GazetteerRow')
@@ -65,12 +63,3 @@ class GazetteerNames extends Table {
 }
 
 /// The gazetteer tables on their own database until the app shell (S16)
-/// folds them into `dm.sqlite` (§15 D72).
-@DriftDatabase(tables: [Gazetteer, GazetteerNames])
-final class GazetteerDatabase extends _$GazetteerDatabase {
-  /// The database on [executor].
-  new(super.e);
-
-  @override
-  int get schemaVersion => 1;
-}

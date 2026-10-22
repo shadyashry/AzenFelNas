@@ -1,0 +1,8 @@
+# flutter gen-l10n (§7.11, §15 D76): ARB in lib/l10n, generated Dart committed beside it.
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false
+format: true
+required-resource-attributes: true
