@@ -1,5 +1,6 @@
 // Measures the REQ-PERF-001 baseline (DESIGN.md §6.4 ¶2, §18.7): a one-year
-// `calculateRange` with the `engine.default` bench stand-in, median of 5 timed
+// `calculateRange` with the `engine.default` bench profile and the pinned
+// TZDB (§15 D68), median of 5 timed
 // runs after three warm-up runs, per city. REQ-PERF-001 is judged in a release
 // build, so compile it ahead of time and run the executable from
 // packages/geo_salah_core:
@@ -17,7 +18,8 @@ import 'dart:io';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:geo_salah_core/src/bench/bench_profiles.dart';
-import 'package:geo_salah_core/src/bench/standard_offset_tz_database.dart';
+
+import '../bin/src/pinned_bench_time_zones.dart';
 
 /// Appendix H cities of different latitude and zone offset.
 const List<(String, double, double, String)> _cities = [
@@ -41,7 +43,7 @@ HijriState _hijri(CivilDate day) => const HijriState(
 
 void main() {
   final profile = _engineDefault();
-  const tzdb = StandardOffsetTzDatabase();
+  final tzdb = PinnedBenchTimeZones.load();
   final from = CivilDate(2026, 1, 1);
   final medians = <int>[];
   for (final (name, lat, lon, zoneId) in _cities) {

@@ -16,6 +16,8 @@ import 'package:geo_salah_core/src/bench/bench_profiles.dart';
 import 'package:geo_salah_core/src/bench/bench_runner.dart';
 import 'package:geo_salah_core/src/model/prayer_profile.dart';
 
+import 'src/pinned_bench_time_zones.dart';
+
 Future<void> main() async {
   final Map<String, PrayerProfile> profiles;
   try {
@@ -29,7 +31,19 @@ Future<void> main() async {
     exitCode = 2;
     return;
   }
-  final runner = BenchRunner(profiles: profiles);
+  final PinnedBenchTimeZones timeZones;
+  try {
+    timeZones = PinnedBenchTimeZones.load();
+  } on FormatException catch (e) {
+    stderr.writeln('bench: pinned tzdata: ${e.message}');
+    exitCode = 2;
+    return;
+  } on FileSystemException catch (e) {
+    stderr.writeln('bench: pinned tzdata: ${e.message} (${e.path})');
+    exitCode = 2;
+    return;
+  }
+  final runner = BenchRunner(profiles: profiles, timeZones: timeZones);
   final lines = stdin.transform(utf8.decoder).transform(const LineSplitter());
   var number = 0;
   await for (final line in lines) {

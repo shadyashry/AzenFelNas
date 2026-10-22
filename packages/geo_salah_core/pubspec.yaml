@@ -16,6 +16,9 @@ dependencies:
 
 dev_dependencies:
   build_runner: 2.16.1
+  # bin/bench, tool/ and tests read the pinned TZDB through it; lib/ depends
+  # on the TzDatabase port only (§15 D68). A dev-dependency cycle is legal.
+  dm_civil_time: 0.1.0
   dm_lints: 0.1.0
   freezed: 4.0.1
   glados: 1.1.7

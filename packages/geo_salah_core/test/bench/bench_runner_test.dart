@@ -8,6 +8,7 @@ import 'package:geo_salah_core/src/bench/bench_runner.dart';
 import 'package:geo_salah_core/src/bench/bench_time_zones.dart';
 import 'package:test/test.dart';
 
+import '../../bin/src/pinned_bench_time_zones.dart';
 import '../support/bench_profile_files.dart';
 import '../support/fixtures.dart';
 
@@ -68,7 +69,16 @@ List<File> _fixtures(String schema, String kind) =>
 void main() {
   group('BenchRunner (§15 D29)', () {
     final profiles = readBenchProfiles();
-    final runner = BenchRunner(profiles: profiles);
+    final pinned = PinnedBenchTimeZones.load();
+    final runner = BenchRunner(profiles: profiles, timeZones: pinned);
+
+    test('calculates in the pinned TZDB, not a stand-in (REQ-TIME-020)', () {
+      final trace = CalculationTraceDocument.fromJson(
+        runner.answer(_request()),
+      );
+      expect(trace.provenance.tzdbVersion, pinned.version);
+      expect(pinned.version, matches(RegExp(r'^\d{4}[a-z]+$')));
+    });
 
     test('answers a request with a calculation trace that echoes its Hijri '
         'state in inputs.hijri', () {
@@ -102,7 +112,7 @@ void main() {
 
     test('answers an unknown zone with TZ_UNRESOLVED (REQ-ERR-002)', () {
       expect(
-        _failureCode(runner.answer(_request(zoneId: 'Etc/GMT-3'))),
+        _failureCode(runner.answer(_request(zoneId: 'Mars/Olympus'))),
         'TZ_UNRESOLVED',
       );
     });
@@ -115,6 +125,7 @@ void main() {
             elevationPolicy: HorizonElevationPolicy.authorityTable,
           ),
         },
+        timeZones: pinned,
       );
       expect(
         _failureCode(runner.answer(_request())),

@@ -17,7 +17,8 @@ import 'dart:io';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:geo_salah_core/src/bench/bench_profiles.dart';
-import 'package:geo_salah_core/src/bench/standard_offset_tz_database.dart';
+
+import 'standard_offset_tz_database.dart';
 
 /// Appendix H: slug, name, latitude, longitude, and the city's IANA zone.
 const List<(String, String, double, double, String)> _cities = [

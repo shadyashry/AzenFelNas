@@ -6,7 +6,6 @@ import 'package:geo_salah_core/src/bench/bench_observer_document.dart';
 import 'package:geo_salah_core/src/bench/bench_request_document.dart';
 import 'package:geo_salah_core/src/bench/bench_time_zones.dart';
 import 'package:geo_salah_core/src/bench/observer_source_code.dart';
-import 'package:geo_salah_core/src/bench/standard_offset_tz_database.dart';
 import 'package:geo_salah_core/src/model/hijri_confidence.dart';
 import 'package:geo_salah_core/src/model/hijri_date.dart';
 import 'package:geo_salah_core/src/model/hijri_state.dart';
@@ -31,12 +30,10 @@ import 'package:json_annotation/json_annotation.dart';
 /// date or one outside the engine's years) is the caller's error: [answer]
 /// throws [FormatException]. Pure and deterministic.
 final class BenchRunner {
-  /// A runner over [profiles] (by id, from the stand-in data, §15 D48) and
-  /// [timeZones]; the default zones are the S05 fixed-offset stand-in.
-  const new({
-    required this.profiles,
-    this.timeZones = const StandardOffsetTzDatabase(),
-  });
+  /// A runner over [profiles] (by id, from the bench profile data, §15 D48)
+  /// and [timeZones]: the pinned TZDB of `dm_civil_time`, which `bin/bench`
+  /// loads (§15 D68).
+  const new({required this.profiles, required this.timeZones});
 
   static const CalculateDay _calculateDay = CalculateDay();
   static const CalculationTraceWriter _writer = CalculationTraceWriter();
