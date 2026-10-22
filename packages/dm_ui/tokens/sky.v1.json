@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "source": "DESIGN.md Appendix G",
+  "phases": {
+    "night": {"top": "#0B1026", "bottom": "#1B2140", "accent": "#F4D58D", "onSurface": "#F3F4F8"},
+    "astronomicalDawn": {"top": "#14183A", "bottom": "#3B2A5E", "accent": "#E9B98A", "onSurface": "#F3F4F8"},
+    "nauticalDawn": {"top": "#3B2A5E", "bottom": "#7A4B7A", "accent": "#FFC9A3", "onSurface": "#F3F4F8"},
+    "civilDawn": {"top": "#7A4B7A", "bottom": "#E08A6A", "accent": "#FFE3B0", "onSurface": "#F3F4F8"},
+    "goldenMorning": {"top": "#E08A6A", "bottom": "#F6C177", "accent": "#2B2140", "onSurface": "#0F1B2D"},
+    "day": {"top": "#5FA8E6", "bottom": "#CFE8FA", "accent": "#1F4F7A", "onSurface": "#0F1B2D"},
+    "goldenEvening": {"top": "#F2A65A", "bottom": "#E26D5A", "accent": "#2B2140", "onSurface": "#0F1B2D"},
+    "civilDusk": {"top": "#D96C7A", "bottom": "#6E4A8E", "accent": "#FFE3B0", "onSurface": "#F3F4F8"},
+    "nauticalDusk": {"top": "#4A3A7A", "bottom": "#262B57", "accent": "#E9B98A", "onSurface": "#F3F4F8"},
+    "astronomicalDusk": {"top": "#1B2140", "bottom": "#0F1430", "accent": "#F4D58D", "onSurface": "#F3F4F8"}
+  },
+  "onSurfaceCandidates": ["#0F1B2D", "#F3F4F8"],
+  "static": {
+    "light": {"surface": "#FAF9F6", "onSurface": "#1C1B1F", "primary": "#1F6F5F", "secondary": "#B8862E", "error": "#B3261E"},
+    "dark": {"surface": "#121318", "onSurface": "#E6E1E5", "primary": "#7FC8B8", "secondary": "#E3B661", "error": "#F2B8B5"}
+  },
+  "space": [4, 8, 12, 16, 24, 32, 48],
+  "radius": [8, 12, 16, 24],
+  "type": {
+    "display": [40, 48],
+    "headline": [28, 36],
+    "title": [20, 28],
+    "body": [16, 24],
+    "label": [13, 18]
+  },
+  "arabicExtraLineHeight": 2,
+  "motion": {"standardMs": 200, "reducedMs": 0, "skyMinRepaintMs": 60000}
+}
