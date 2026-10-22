@@ -12,13 +12,15 @@
 /// wire model and `PrayerProfileMapper` (moved here from `geo_salah_profiles`
 /// so the engine bench and the app share one mapping, §15 D51); since S08
 /// Ramadan rule replacement and the high-latitude chain with typed
-/// fallbacks (§6.4 ¶6–¶7). The astronomical core (`src/astro`, `src/solver`), the rule
+/// fallbacks (§6.4 ¶6–¶7); since S15 `ComputeSolarState` and the Appendix G
+/// `SkyPhase` bands for the Sky theme. The astronomical core (`src/astro`, `src/solver`), the rule
 /// solvers and policies (`src/rules`, `src/policy`) and the lab bench
 /// (`src/bench`, `bin/bench.dart`) stay internal.
 library;
 
 export 'package:geo_salah_core/src/api/calculate_day.dart';
 export 'package:geo_salah_core/src/api/calculate_range.dart';
+export 'package:geo_salah_core/src/api/compute_solar_state.dart';
 export 'package:geo_salah_core/src/api/engine_version.dart';
 export 'package:geo_salah_core/src/model/adjustment_kind.dart';
 export 'package:geo_salah_core/src/model/adjustment_step.dart';
@@ -48,6 +50,8 @@ export 'package:geo_salah_core/src/model/reference_mode.dart';
 export 'package:geo_salah_core/src/model/reference_point.dart';
 export 'package:geo_salah_core/src/model/result_flag.dart';
 export 'package:geo_salah_core/src/model/rounding_mode.dart';
+export 'package:geo_salah_core/src/model/sky_phase.dart';
+export 'package:geo_salah_core/src/model/solar_state.dart';
 export 'package:geo_salah_core/src/model/tz_database.dart';
 export 'package:geo_salah_core/src/profile/prayer_profile_mapper.dart';
 export 'package:geo_salah_core/src/trace/adjustment_kind_code.dart';
