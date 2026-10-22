@@ -9,7 +9,7 @@ Placeholder created in slice S01. This file is **generated per release** (`DESIG
 | timezone-boundary-builder (`tz_polygons`) | ODbL | attribution; produced database published under ODbL |
 | Natural Earth admin-0 1:10m (`country_polygons`) | Public domain | attribution (courtesy) |
 | GeoNames `cities15000` + alternate names (`gazetteer`) | CC BY 4.0 | attribution |
-| IANA tz database (`tzdata`) | Public domain | — |
+| IANA tz database and `zic` (`tzdata`; release 2026e from S10, pinned in `data-pipelines/config/tzdata.v1.toml`) | Public domain | — |
 
 ## Accuracy Lab (development only, not shipped in the app)
 

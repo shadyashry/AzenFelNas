@@ -15,8 +15,9 @@ JSON Schema (draft 2020-12) is the contract for every JSON document that crosses
 | `benchmark_cities.v1` | Appendix H, §15 D30 (`lab/benchmarks/cities.v1.json`) | Python `lab` |
 | `lab_reference.v1` | §9.4, ADR-019 (one line of the frozen reference JSONL) | Python `lab` |
 | `discrepancy_report.v1` | §6.7, §9.4 | Python `lab` |
-| `pipeline_manifest.v1` | §17.6 (inputs, tools and outputs by sha256) | Python `lab` (and `data-pipelines` from S10) |
-| `hijri_package.v1` | §9.5 | Dart `dm_hijri` (Python pipeline models in S10) |
+| `pipeline_manifest.v1` | §17.6 (inputs, tools and outputs by sha256) | Python `lab` · Python `data-pipelines` · Go `tools/gsctl/internal/schema/pipeline` (S10, §15 D69) |
+| `tz_transition_oracle.v1` | §13 S10, §15 D67 (DST transition oracle) | Python `data-pipelines` (producer); `dm_civil_time` tests read it field by field (test-only consumer) |
+| `hijri_package.v1` | §9.5 | Dart `dm_hijri` (Python pipeline models with the `hijri` pipeline) |
 | `gazetteer_package.v1` | §9.5 | Dart `dm_contracts` (Python pipeline models in S12) |
 | `athan_audio_manifest.v1` | §9.5 | Dart `dm_contracts` |
 | `tz_polygons.v1.ksy`, `country_polygons.v1.ksy` | §9.5 | Dart readers in S11 |

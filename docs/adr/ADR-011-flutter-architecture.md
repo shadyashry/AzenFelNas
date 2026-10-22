@@ -32,6 +32,7 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Dart | meta | — | **1.19.0** | `dm_core_types`, `pubspec.lock` |
 | Dart | cryptography | 2.7 | **2.9.0** (Apache-2.0; pure-Dart `DartEd25519` for TUF-lite verification in `dm_packages`, added S09 — §15 D63). `crypto` 3.0.7 also becomes a direct dependency of `dm_packages` there | `dm_packages`, `pubspec.lock` |
 | Dart | path · yaml | — | **1.9.1 · 3.1.4** | `dm_lints`, `pubspec.lock` |
+| Dart | timezone | 0.10 | **0.11.2** (BSD-2-Clause; **dev dependency** of `dm_civil_time`: the encoder tool and the differential-test oracle. The app reads the `.tzf` payload with `dm_civil_time`'s own reader, so neither `timezone` nor its transitive `http` ships in the pure set — §15 D66, added S10) | `dm_civil_time`, `pubspec.lock` |
 | Dart | freezed · freezed_annotation · json_serializable · json_annotation · build_runner | 3 · — · 6.9 · — · — | **4.0.1 · 3.1.0 · 6.15.2 · 4.12.0 · 2.16.1** (freezed 4.0.3 and build_runner 2.17.1 need analyzer ≥ 14, blocked by the Flutter `test_api` pin — D18; added S02) | package pubspecs, `pubspec.lock` |
 | Dart (first use) | riverpod · flutter_riverpod | 3.0 | **3.4.3** | added in S16 |
 | Android | Gradle | 8.14 | **9.8.2** (sha256-pinned wrapper) | `gradle-wrapper.properties`, `.tool-versions` |
@@ -56,6 +57,8 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Python | ruff · mypy · pytest · hypothesis | 0.13 · 1.17 · — · 6 | **0.17.1 · 2.4.0 · 9.1.1 · 6.170.5** | `pyproject.toml`, `uv.lock` |
 | Python (lab) | pydantic · skyfield · jplephem | 2.11 · 1.53 · 2.22 | **2.14.1 · 1.55 · 2.24** (added S03) | `lab/pyproject.toml`, `lab/uv.lock` |
 | Python (lab) | numpy · tzdata | — | **2.5.4 · 2026.5** (IANA 2026e) (no floor; pinned because they affect reference output, added S03) | `lab/pyproject.toml`, `lab/uv.lock` |
+| Python (data-pipelines) | pydantic | 2.11 | **2.14.1** (MIT; wire models generated from `schemas/` like the lab's, added S10 — §15 D66) | `data-pipelines/pyproject.toml`, `data-pipelines/uv.lock` |
+| Data (data-pipelines) | IANA tz release (data + `zic` source) | — | **2026e**, 53 files sha256-pinned, git commit `039ef27c…` (public domain; §15 D66, added S10) | `data-pipelines/config/tzdata.v1.toml` |
 | Python (lab tool) | datamodel-code-generator | — | **0.86.0** with its dependencies locked on CPython 3.14.8 (§15 D27, added S03) | `lab/tools/codegen/uv.lock` |
 | Data (lab) | JPL `de440s.bsp` | 1849–2150 | sha256 `c1c7feea…49f2`, fetched by URL (§15 D28) | `lab/config/harness.v1.toml` |
 | Python (first use) | shapely | 2.1 | pinned at latest stable in its first slice (S11) | `uv.lock` |
