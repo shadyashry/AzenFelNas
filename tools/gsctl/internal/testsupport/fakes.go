@@ -116,3 +116,31 @@ type Changes struct{ Paths []string }
 
 // ChangedPaths implements ports.ChangedPaths.
 func (c Changes) ChangedPaths(context.Context) ([]string, error) { return c.Paths, nil }
+
+// Bucket is an in-memory ports.ObjectStore with the localbucket contract.
+// Not safe for concurrent use.
+type Bucket struct {
+	Objects      map[string][]byte
+	CacheControl map[string]string
+}
+
+// NewBucket returns an empty bucket.
+func NewBucket() *Bucket {
+	return &Bucket{Objects: map[string][]byte{}, CacheControl: map[string]string{}}
+}
+
+// GetObject implements ports.ObjectStore.
+func (b *Bucket) GetObject(_ context.Context, key string) ([]byte, error) {
+	data, ok := b.Objects[key]
+	if !ok {
+		return nil, fmt.Errorf("%s: %w", key, ports.ErrNotFound)
+	}
+	return append([]byte(nil), data...), nil
+}
+
+// PutObject implements ports.ObjectStore.
+func (b *Bucket) PutObject(_ context.Context, key string, data []byte, cacheControl string) error {
+	b.Objects[key] = append([]byte(nil), data...)
+	b.CacheControl[key] = cacheControl
+	return nil
+}

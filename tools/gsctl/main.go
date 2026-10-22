@@ -2,8 +2,8 @@
 // packages and signs and verifies TUF-lite metadata (DESIGN.md §9.1–§9.2,
 // Appendix C, ADR-008, ADR-009). This file and commands.go are the
 // composition root: they parse flags into typed requests, wire adapters to
-// use cases and map errors to exit codes. Publishing and promotion arrive
-// with the distribution infrastructure (S25).
+// use cases and map errors to exit codes. publish and serve use a local
+// bucket until the distribution infrastructure (S25) adds R2 and promotion.
 package main
 
 import (
@@ -37,6 +37,8 @@ commands:
   build         compile the profiles into a signed-to-be prayer_profiles package and stage its target
   sign          sign one role: root, targets (adds staged targets), snapshot or timestamp
   verify        verify a channel's metadata chain and packages as a client would
+  publish       verify a signed channel and copy it into the local distribution bucket (dev, lab)
+  serve         serve the local bucket over HTTP the way the CDN serves R2
 
 Run "gsctl <command> -h" for the flags of a command.
 `
@@ -67,6 +69,8 @@ func run(ctx context.Context, args []string, e env) int {
 		"build":        runBuild,
 		"sign":         runSign,
 		"verify":       runVerify,
+		"publish":      runPublish,
+		"serve":        runServe,
 	}
 	cmd, ok := commands[args[0]]
 	if !ok {

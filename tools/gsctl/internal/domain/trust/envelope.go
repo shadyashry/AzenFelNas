@@ -49,6 +49,23 @@ func ParseEnvelope(file []byte) (Envelope, error) {
 	return Envelope{Metadata: m, Length: len(file), SHA256: hex.EncodeToString(sum[:]), canonicalSigned: canonical}, nil
 }
 
+// Sequence is the document's monotonic number: `version` for root,
+// `sequence` for the other roles.
+func (e Envelope) Sequence() int {
+	switch doc := e.Metadata.Signed.Variant.(type) {
+	case tuf.Root:
+		return doc.Version
+	case tuf.Targets:
+		return doc.Sequence
+	case tuf.Snapshot:
+		return doc.Sequence
+	case tuf.Timestamp:
+		return doc.Sequence
+	default:
+		return 0
+	}
+}
+
 // Sign signs signed with every signer and returns the envelope, one
 // signature per distinct key, sorted by keyId. Ed25519 over the JCS form of
 // signed (REQ-DIST-004).

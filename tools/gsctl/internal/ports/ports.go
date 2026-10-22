@@ -62,6 +62,15 @@ type StagedTargets interface {
 	ClearStaged(ctx context.Context, names []string) error
 }
 
+// ObjectStore is the distribution bucket (§9.1): a local directory now, R2
+// in S25 (§15 D65). GetObject returns ErrNotFound for an absent key;
+// PutObject stores data with its Cache-Control and replaces an existing
+// object.
+type ObjectStore interface {
+	GetObject(ctx context.Context, key string) ([]byte, error)
+	PutObject(ctx context.Context, key string, data []byte, cacheControl string) error
+}
+
 // KeyConfigSource loads which public keys sign which role.
 type KeyConfigSource interface {
 	LoadKeyConfig(ctx context.Context) (trust.KeyConfig, error)

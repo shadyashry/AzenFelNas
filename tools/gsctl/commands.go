@@ -8,6 +8,7 @@ import (
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/changelist"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/fsrepo"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/keyfiles"
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/localbucket"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/pemkeys"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/sysclock"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/yamlprofiles"
@@ -176,6 +177,7 @@ func runVerify(ctx context.Context, args []string, e env) int {
 var (
 	_ ports.ProfileSource     = yamlprofiles.Source{}
 	_ ports.ChangedPaths      = changelist.File{}
+	_ ports.ObjectStore       = localbucket.Bucket{}
 	_ ports.MetadataReader    = fsrepo.Repo{}
 	_ ports.MetadataWriter    = fsrepo.Repo{}
 	_ ports.PackageReader     = fsrepo.Repo{}

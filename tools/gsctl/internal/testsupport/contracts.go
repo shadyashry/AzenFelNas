@@ -196,3 +196,28 @@ func ChangedPathsContract(t *testing.T, source ports.ChangedPaths, want []string
 		t.Fatalf("got %q, want %q", got, want)
 	}
 }
+
+// ObjectStoreContract is the port contract of the distribution bucket
+// (REQ-TEST-004): an absent key is ErrNotFound and a put replaces. newStore
+// returns an empty bucket.
+func ObjectStoreContract(t *testing.T, newStore func(t *testing.T) ports.ObjectStore) {
+	t.Helper()
+	ctx := context.Background()
+	t.Run("an absent key is ErrNotFound", func(t *testing.T) {
+		if _, err := newStore(t).GetObject(ctx, "dev/metadata/timestamp.json"); !errors.Is(err, ports.ErrNotFound) {
+			t.Fatalf("err = %v", err)
+		}
+	})
+	t.Run("a put replaces the object", func(t *testing.T) {
+		s := newStore(t)
+		for _, content := range []string{"first", "second"} {
+			if err := s.PutObject(ctx, "dev/metadata/timestamp.json", []byte(content), "public, max-age=300"); err != nil {
+				t.Fatal(err)
+			}
+		}
+		got, err := s.GetObject(ctx, "dev/metadata/timestamp.json")
+		if err != nil || string(got) != "second" {
+			t.Fatalf("GetObject = %q, %v", got, err)
+		}
+	})
+}

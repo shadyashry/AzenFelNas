@@ -17,6 +17,9 @@ pubspec_overrides.yaml
 
 # Go
 /tools/gsctl/bin/
+# Local distribution plane: channel signing state and the local bucket (§15 D65)
+/out/
+/dist/
 /services/control-plane/bin/
 
 # Python

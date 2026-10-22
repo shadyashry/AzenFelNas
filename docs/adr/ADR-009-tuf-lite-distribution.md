@@ -27,16 +27,17 @@ Object storage + CDN; four metadata roles; monotonic `sequence`; signature envel
 
 - A client verifies root against its embedded keys, then timestamp → snapshot → targets. It accepts only sequences strictly after the ones it trusts; expiry is a warning only.
 - A rollback is `gsctl build -rollback-of <version>` of the old content under a new version, followed by new signatures with higher sequences. Published target names never change content.
-- Publishing to R2 and promotion (`gsctl promote`) are S25. Until then `release-package` signs, verifies and uploads the channel as an artifact.
+- Until S25 the distribution plane is local (§15 D65). `gsctl publish` writes a verified channel into a bucket directory in the §9.1 layout and cache policy, and `gsctl serve` serves it on loopback like the CDN. `release-package` publishes into such a directory and uploads it as an artifact. S25 adds the R2 adapter behind the same `ObjectStore` port, plus `gsctl promote`.
 
 ## REQ tags
 
-`REQ-DIST-001`, `REQ-DIST-002`, `REQ-DIST-003`, `REQ-DIST-004`, `REQ-PKG-002`, `REQ-PKG-005`
+`REQ-DIST-001`, `REQ-DIST-002`, `REQ-DIST-003`, `REQ-DIST-004`, `REQ-DIST-005`, `REQ-DIST-006` (local stand-in), `REQ-PKG-002`, `REQ-PKG-005`
 
 ## Tests
 
 - `tools/gsctl/internal/domain/trust/trust_test.go`: the sign → verify round trip and every flipped bit of every metadata file. Also sequence regression, Appendix C thresholds, target immutability, the 7-day timestamp limit and expiry warnings.
 - `tools/gsctl/internal/app/app_test.go`: build → sign → verify over port fakes, rollback as a higher sequence, and refusal of a republished version or of key-config drift.
+- `tools/gsctl/internal/domain/distribution/distribution_test.go`, `internal/app/publish_channel_test.go`, `internal/adapters/localbucket/localbucket_test.go`, `distribution_commands_test.go`: the bucket layout and cache policy, publish monotonicity and immutability, and the local CDN.
 - `tools/gsctl/main_test.go`: the CLI done-test (sign → verify, tampered metadata and package, sequence regression) and the committed vector.
 - `packages/dm_packages/test/tuf/go_round_trip_test.dart`: the Go-signed vector verifies in Dart, while tampering and sequence regressions fail.
 - `tools/gsctl/internal/domain/jcs/jcs_test.go` and `packages/dm_core_types/test/canonical_json_test.dart`: the shared JCS vectors.

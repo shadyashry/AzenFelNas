@@ -24,6 +24,10 @@ go run ./tools/gsctl sign -repo out/dev -role targets -key-dir tools/gsctl/keys/
 
 Without `-key-dir`, `gsctl sign` reads each key from the variable `DM_DEV_<ROLE>_KEY_<N>` (for example `DM_DEV_ROOT_KEY_1`, `DM_DEV_TIMESTAMP_KEY_1`), holding the base64 of the PEM. A key that is absent is skipped; signing fails unless the role's threshold of keys is present and each matches its public key here.
 
+## Local stand-in for the CI secrets
+
+`source tools/gsctl/keys/dev/load-ci-env.sh [private-dir]` exports the same six `DM_DEV_*` variables into the current shell. It checks each PEM against its `.pub.hex` first, writes nothing to disk and prints names only. `gsctl sign` without `-key-dir`, and `tools/gsctl/scripts/local-release.sh`, then behave as they will in CI (§15 D65). `unset ${!DM_DEV_@}` removes them.
+
 ## Loading the private keys into CI
 
 `set-ci-secrets.sh` does steps 1–2 for all six keys on both environments. Run it once from the repository root as a repository admin, after `gh auth login`. It first checks each PEM against its `.pub.hex` and prints no key material.

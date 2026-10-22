@@ -16,6 +16,10 @@ Recorded in `DESIGN.md` §4; no further text in the index.
 - **Win:** zero-egress object storage for a global free app; managed Postgres; one container.
 - **Lose:** two vendors (acceptable — distribution and control plane are independent by design). Region `europe-west1`; no identity is stored, so residency concerns are limited to transient IP (§24).
 
+## Local stand-in before S25 (slice S09, 2026-10-22)
+
+Until S25 provisions R2 and the CDN, the distribution plane runs locally: `gsctl publish` writes channels into a bucket directory in the §9.1 layout with each object's Cache-Control, and `gsctl serve` serves it on loopback (§15 D65). The R2 adapter replaces the local bucket behind the same `ObjectStore` port. Layout, cache policy and publish rules carry over unchanged.
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.
