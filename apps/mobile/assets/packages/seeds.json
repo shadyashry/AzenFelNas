@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "seeds": [
+    {
+      "type": "gazetteer",
+      "version": "3.0.2",
+      "schemaVersion": 1,
+      "payload": "gazetteer/3.0.2/gazetteer.json",
+      "sha256": "9103057b24d66558baf01f875582507ec95570d42c3ba676e7d0fc0976ffc45a"
+    }
+  ]
+}

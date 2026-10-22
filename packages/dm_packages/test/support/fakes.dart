@@ -87,6 +87,7 @@ final class PrefixCheckPayload implements CheckPayload {
   @override
   Result<void, PackageFailure> call(
     PackageType type,
+    String version,
     int schemaVersion,
     List<int> payload,
   ) => String.fromCharCodes(payload.take(7)) == 'INVALID'

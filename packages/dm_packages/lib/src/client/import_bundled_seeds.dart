@@ -86,7 +86,12 @@ final class ImportBundledSeeds {
         PackageFailure.hashMismatch('$seed does not match its index'),
       );
     }
-    return _checkPayload(seed.type, seed.schemaVersion, payload).map(
+    return _checkPayload(
+      seed.type,
+      seed.version,
+      seed.schemaVersion,
+      payload,
+    ).map(
       (_) => StagedPackage(
         file: PackageFile(
           type: seed.type,

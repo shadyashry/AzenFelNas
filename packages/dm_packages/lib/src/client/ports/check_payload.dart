@@ -6,9 +6,11 @@ import 'package:dm_packages/src/verify/package_failure.dart';
 /// "verify sha256 + schema + compat"). Contract: a payload the type's reader
 /// refuses is `PKG_INCOMPATIBLE`; checking has no side effect.
 abstract interface class CheckPayload {
-  /// Whether [payload] is a valid [type] payload of [schemaVersion].
+  /// Whether [payload] is a valid [type] [version] payload of
+  /// [schemaVersion].
   Result<void, PackageFailure> call(
     PackageType type,
+    String version,
     int schemaVersion,
     List<int> payload,
   );

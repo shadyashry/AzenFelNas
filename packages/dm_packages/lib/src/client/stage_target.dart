@@ -66,6 +66,7 @@ final class StageTarget {
         .flatMap(
           (payload) => _checkPayload(
             choice.type,
+            choice.version,
             target.custom.schemaVersion,
             payload,
           ).map((_) => payload),
