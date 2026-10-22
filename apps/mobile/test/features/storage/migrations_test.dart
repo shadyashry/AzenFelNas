@@ -10,7 +10,6 @@ import 'package:daily_muslim/features/storage/data/places_database.dart';
 import 'package:daily_muslim/features/storage/data/static_rules_backup_exclusion.dart';
 import 'package:daily_muslim/features/storage/domain/storage_failure.dart';
 import 'package:dm_core_types/dm_core_types.dart';
-import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:drift_dev/api/migrations_native.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -60,13 +59,18 @@ void main() {
     });
   });
 
-  test('a fresh start creates both files and opens them (REQ-ERR-001)', () async {
-    final result = await files()();
-    final opened = (result as Ok).value;
-    expect(File('${root.path}/dm.sqlite').existsSync(), isTrue);
-    expect(File('${root.path}/places/places.sqlite').existsSync(), isTrue);
-    await opened.close();
-  });
+  test(
+    'a fresh start creates both files and opens them (REQ-ERR-001)',
+    () async {
+      final opened = switch (await files()()) {
+        Ok(:final value) => value,
+        Err(:final failure) => fail('$failure'),
+      };
+      expect(File('${root.path}/dm.sqlite').existsSync(), isTrue);
+      expect(File('${root.path}/places/places.sqlite').existsSync(), isTrue);
+      await opened.close();
+    },
+  );
 
   test(
     'a dm.sqlite from a newer app is refused as DB_MIGRATION_FAILED and left '
@@ -80,11 +84,14 @@ void main() {
 
       final result = await files()();
 
-      expect(result, const Result<Object, StorageFailure>.err(
-        MigrationFailed('dm.sqlite'),
-      ));
       expect(
-        (result as Err<Object, StorageFailure>).failure.code,
+        result,
+        const Result<Object, StorageFailure>.err(
+          MigrationFailed('dm.sqlite'),
+        ),
+      );
+      expect(
+        const MigrationFailed('dm.sqlite').code,
         FailureCode.dbMigrationFailed,
       );
       final raw = sqlite3.open(file.path);
@@ -146,9 +153,7 @@ void main() {
 
   test('foreign keys are enforced on every connection', () async {
     final places = PlacesDatabase(NativeDatabase.memory());
-    final row = await places
-        .customSelect('PRAGMA foreign_keys')
-        .getSingle();
+    final row = await places.customSelect('PRAGMA foreign_keys').getSingle();
     expect(row.data.values.single, 1);
     await places.close();
   });

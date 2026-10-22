@@ -10,6 +10,7 @@ import 'package:drift/native.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 /// 2026-10-22T09:00:00Z.
 const harnessNowUtcMs = 1792659600000;
@@ -36,3 +37,11 @@ Widget harnessApp(
   ),
   child: DailyMuslimApp(initialLocation: initialLocation),
 );
+
+/// Unmounts the app so drift's stream timers fire inside the fake clock, then
+/// closes [databases] on the real event loop.
+Future<void> disposeApp(WidgetTester tester, OpenedDatabases databases) async {
+  await tester.pumpWidget(const SizedBox.shrink());
+  await tester.pump(Duration.zero);
+  await tester.runAsync(databases.close);
+}
