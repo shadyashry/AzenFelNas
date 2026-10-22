@@ -4,7 +4,7 @@ import 'package:dm_civil_time/dm_civil_time.dart';
 /// matches nothing.
 final class TablePolygons implements LocateInPolygons {
   /// The lookups of [table].
-  const TablePolygons(this.table);
+  const new(this.table);
 
   /// The answer per point.
   final Map<GeoPointE6, PolygonMatch> table;
