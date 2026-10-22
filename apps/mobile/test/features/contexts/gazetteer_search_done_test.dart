@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:daily_muslim/features/contexts/application/import_gazetteer.dart';
 import 'package:daily_muslim/features/contexts/application/search_gazetteer.dart';
 import 'package:daily_muslim/features/contexts/data/drift_gazetteer_store.dart';
-import 'package:daily_muslim/features/contexts/data/gazetteer_database.dart';
 import 'package:daily_muslim/features/contexts/data/json_gazetteer_payload_decoder.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
+import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:drift/native.dart';
@@ -20,11 +20,11 @@ const _cairo = 360630;
 /// the production adapters; «القاهرة» and "Cairo" both resolve, and search
 /// stays under 50 ms.
 void main() {
-  late GazetteerDatabase db;
+  late DmDatabase db;
   late SearchGazetteer search;
 
   setUpAll(() async {
-    db = GazetteerDatabase(NativeDatabase.memory());
+    db = DmDatabase(NativeDatabase.memory());
     final store = DriftGazetteerStore(db);
     final imported = await ImportGazetteer(
       const JsonGazetteerPayloadDecoder(),

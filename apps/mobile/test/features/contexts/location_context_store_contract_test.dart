@@ -1,10 +1,10 @@
 import 'package:daily_muslim/features/contexts/data/drift_location_context_store.dart';
-import 'package:daily_muslim/features/contexts/data/places_database.dart';
 import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
 import 'package:daily_muslim/features/contexts/domain/context_source.dart';
 import 'package:daily_muslim/features/contexts/domain/location_context.dart';
 import 'package:daily_muslim/features/contexts/domain/location_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/location_ports.dart';
+import 'package:daily_muslim/features/storage/data/places_database.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';

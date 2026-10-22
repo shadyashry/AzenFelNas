@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "package": "tz_polygons",
+      "name": "timezone-boundary-builder",
+      "licence": "ODbL-1.0",
+      "notice": "Time zone boundaries from timezone-boundary-builder by Evan Siroky, based on OpenStreetMap data © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0. The time zone database produced from it is published under the ODbL."
+    },
+    {
+      "package": "country_polygons",
+      "name": "Natural Earth",
+      "licence": "public-domain",
+      "notice": "Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com."
+    },
+    {
+      "package": "gazetteer",
+      "name": "GeoNames",
+      "licence": "CC-BY-4.0",
+      "notice": "Contains data from GeoNames, geonames.org, CC BY 4.0."
+    },
+    {
+      "package": "tzdata",
+      "name": "IANA tz database",
+      "licence": "public-domain",
+      "notice": "Time zone rules from the IANA tz database (public domain)."
+    }
+  ]
+}

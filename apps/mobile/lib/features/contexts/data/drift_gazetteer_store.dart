@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:daily_muslim/features/contexts/data/gazetteer_database.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_place.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_ports.dart';
 import 'package:daily_muslim/features/contexts/domain/search_key.dart';
+import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:drift/drift.dart';
@@ -16,7 +16,7 @@ final class DriftGazetteerStore implements FindGazetteerPlaces, StoreGazetteer {
   /// The store over [_db].
   const new(this._db);
 
-  final GazetteerDatabase _db;
+  final DmDatabase _db;
 
   /// Above every code point, so `key < prefix + _last` bounds a prefix range.
   static const _last = '\u{10FFFF}';

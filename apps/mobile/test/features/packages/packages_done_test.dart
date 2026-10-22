@@ -8,13 +8,12 @@ import 'dart:io';
 
 import 'package:daily_muslim/features/contexts/application/import_gazetteer.dart';
 import 'package:daily_muslim/features/contexts/data/drift_gazetteer_store.dart';
-import 'package:daily_muslim/features/contexts/data/gazetteer_database.dart';
 import 'package:daily_muslim/features/contexts/data/json_gazetteer_payload_decoder.dart';
 import 'package:daily_muslim/features/packages/application/importing_apply_package.dart';
 import 'package:daily_muslim/features/packages/data/asset_bundled_seeds.dart';
 import 'package:daily_muslim/features/packages/data/drift_package_catalog.dart';
 import 'package:daily_muslim/features/packages/data/package_payload_checks.dart';
-import 'package:daily_muslim/features/packages/data/packages_database.dart';
+import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:drift/native.dart';
@@ -31,16 +30,14 @@ final class _Events implements RecordPackageEvent {
 }
 
 void main() {
-  late PackagesDatabase packages;
-  late GazetteerDatabase gazetteer;
+  late DmDatabase db;
   late DriftPackageCatalog catalog;
   late _Events events;
   late ImportBundledSeeds importSeeds;
 
   setUp(() {
-    packages = PackagesDatabase(NativeDatabase.memory());
-    gazetteer = GazetteerDatabase(NativeDatabase.memory());
-    catalog = DriftPackageCatalog(packages);
+    db = DmDatabase(NativeDatabase.memory());
+    catalog = DriftPackageCatalog(db);
     events = _Events();
     importSeeds = ImportBundledSeeds(
       seeds: AssetBundledSeeds((key) => File(key).readAsBytes()),
@@ -57,7 +54,7 @@ void main() {
         apply: ImportingApplyPackage(
           ImportGazetteer(
             const JsonGazetteerPayloadDecoder(),
-            DriftGazetteerStore(gazetteer),
+            DriftGazetteerStore(db),
           ),
         ),
         events: events,
@@ -65,14 +62,11 @@ void main() {
     );
   });
   tearDown(() async {
-    await packages.close();
-    await gazetteer.close();
+    await db.close();
   });
 
   Future<int> places() async =>
-      (await gazetteer
-              .customSelect('SELECT COUNT(*) AS n FROM gazetteer')
-              .getSingle())
+      (await db.customSelect('SELECT COUNT(*) AS n FROM gazetteer').getSingle())
           .read<int>('n');
 
   test('REQ-PKG-003 the bundled gazetteer seed is imported on first launch '

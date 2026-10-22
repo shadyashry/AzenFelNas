@@ -1,0 +1,157 @@
+{
+  "@@locale": "en",
+  "appTitle": "Daily Muslim",
+  "@appTitle": {
+    "description": "App name in the title bar and task switcher."
+  },
+  "homeTitle": "Today",
+  "@homeTitle": {
+    "description": "Home screen title."
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings screen title and button label."
+  },
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "Settings row: app language."
+  },
+  "languageArabic": "العربية",
+  "@languageArabic": {
+    "description": "Language choice; always written in Arabic."
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "Language choice; always written in English."
+  },
+  "languageSystem": "Device language",
+  "@languageSystem": {
+    "description": "Language choice: follow the device."
+  },
+  "settingsDigits": "Digits",
+  "@settingsDigits": {
+    "description": "Settings row: digit style."
+  },
+  "digitsLocale": "Same as language",
+  "@digitsLocale": {
+    "description": "Digit choice: follow the language."
+  },
+  "digitsWestern": "0123456789",
+  "@digitsWestern": {
+    "description": "Digit choice: western digits, shown as digits."
+  },
+  "digitsArabicIndic": "٠١٢٣٤٥٦٧٨٩",
+  "@digitsArabicIndic": {
+    "description": "Digit choice: Arabic-Indic digits, shown as digits."
+  },
+  "settingsTheme": "Appearance",
+  "@settingsTheme": {
+    "description": "Settings row: theme mode."
+  },
+  "themeSky": "Sky (follows the sun)",
+  "@themeSky": {
+    "description": "Theme choice: header colours follow the sun."
+  },
+  "themeLight": "Light",
+  "@themeLight": {
+    "description": "Theme choice."
+  },
+  "themeDark": "Dark",
+  "@themeDark": {
+    "description": "Theme choice."
+  },
+  "themeSystem": "Same as device",
+  "@themeSystem": {
+    "description": "Theme choice: follow the device."
+  },
+  "settingsReducedMotion": "Reduce motion",
+  "@settingsReducedMotion": {
+    "description": "Settings switch: turn off animations."
+  },
+  "settingsAttributions": "Data sources and licences",
+  "@settingsAttributions": {
+    "description": "Settings row and screen title for attributions."
+  },
+  "attributionsOpenSource": "Open-source licences",
+  "@attributionsOpenSource": {
+    "description": "Button: the licences of the software the app uses."
+  },
+  "healthTitle": "Athan Health",
+  "@healthTitle": {
+    "description": "Athan Health screen title."
+  },
+  "qiblaTitle": "Qibla",
+  "@qiblaTitle": {
+    "description": "Qibla screen title."
+  },
+  "passportTitle": "Accuracy Passport",
+  "@passportTitle": {
+    "description": "Accuracy Passport screen title."
+  },
+  "notYetAvailable": "This screen arrives in a later update.",
+  "@notYetAvailable": {
+    "description": "Body of a screen that is not built yet."
+  },
+  "needsAttentionTitle": "Needs attention",
+  "@needsAttentionTitle": {
+    "description": "Title of a notice about something the user can fix."
+  },
+  "needsAttentionCode": "Code {code}",
+  "@needsAttentionCode": {
+    "description": "Technical code under a notice, for support.",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "CLOCK_SKEW"
+      }
+    }
+  },
+  "startupFailedTitle": "The app could not open its data",
+  "@startupFailedTitle": {
+    "description": "Title shown when the databases could not be opened."
+  },
+  "remediationGrantLocationPermission": "Allow location access, or choose a place yourself.",
+  "@remediationGrantLocationPermission": {
+    "description": "Remediation."
+  },
+  "remediationTurnOnLocationServices": "Turn on location in the device settings, or choose a place yourself.",
+  "@remediationTurnOnLocationServices": {
+    "description": "Remediation."
+  },
+  "remediationChooseManualPlace": "Choose your place from the list or enter its coordinates.",
+  "@remediationChooseManualPlace": {
+    "description": "Remediation."
+  },
+  "remediationWaitForDataUpdate": "Nothing to do now. A data update will fix this.",
+  "@remediationWaitForDataUpdate": {
+    "description": "Remediation."
+  },
+  "remediationRetryWhenOnline": "Connect to the internet. The app will try again.",
+  "@remediationRetryWhenOnline": {
+    "description": "Remediation."
+  },
+  "remediationFreeUpStorage": "Free some storage on the device.",
+  "@remediationFreeUpStorage": {
+    "description": "Remediation."
+  },
+  "remediationTryAgain": "Try again.",
+  "@remediationTryAgain": {
+    "description": "Remediation."
+  },
+  "remediationUpdateApp": "Install the latest version of the app.",
+  "@remediationUpdateApp": {
+    "description": "Remediation."
+  },
+  "remediationGrantAlarmPermission": "Allow alarms and notifications so the Athan can sound on time.",
+  "@remediationGrantAlarmPermission": {
+    "description": "Remediation."
+  },
+  "remediationOpenAthanHealth": "Open Athan Health for the details.",
+  "@remediationOpenAthanHealth": {
+    "description": "Remediation."
+  },
+  "remediationCheckDeviceClock": "Set the device's date and time to update automatically.",
+  "@remediationCheckDeviceClock": {
+    "description": "Remediation."
+  }
+}

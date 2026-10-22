@@ -1,8 +1,8 @@
 import 'package:daily_muslim/features/contexts/data/drift_gazetteer_store.dart';
-import 'package:daily_muslim/features/contexts/data/gazetteer_database.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_ports.dart';
 import 'package:daily_muslim/features/contexts/domain/search_key.dart';
+import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,7 +33,7 @@ Future<List<(int, String, bool)>> _find(
 void main() {
   final implementations = <String, _Store Function()>{
     'DriftGazetteerStore': () {
-      final db = GazetteerDatabase(NativeDatabase.memory());
+      final db = DmDatabase(NativeDatabase.memory());
       final store = DriftGazetteerStore(db);
       return (find: store, save: store, close: db.close);
     },

@@ -1,9 +1,7 @@
 import 'package:drift/drift.dart';
 
-part 'places_database.g.dart';
-
 /// The `location_contexts` table of §7.3 (`places.sqlite`, excluded from
-/// backup — REQ-PRIV-003, S16).
+/// backup — REQ-PRIV-003).
 @DataClassName('LocationContextRow')
 class LocationContexts extends Table {
   /// Row id.
@@ -43,13 +41,35 @@ class LocationContexts extends Table {
   IntColumn get lastUsedUtc => integer()();
 }
 
-/// The location tables on their own database until the app shell (S16)
-/// opens `places.sqlite` with drift_flutter (§15 D73).
-@DriftDatabase(tables: [LocationContexts])
-final class PlacesDatabase extends _$PlacesDatabase {
-  /// The database on [executor].
-  new(super.e);
+/// The `elevation_samples` table of §7.3: provenance of an elevation used for
+/// a context; never read by a calculation.
+@DataClassName('ElevationSampleRow')
+class ElevationSamples extends Table {
+  /// Row id.
+  IntColumn get id => integer().autoIncrement()();
 
-  @override
-  int get schemaVersion => 1;
+  /// The context the sample belongs to.
+  IntColumn get contextId => integer().references(
+    LocationContexts,
+    #id,
+    onDelete: KeyAction.cascade,
+  )();
+
+  /// Elevation in metres.
+  RealColumn get valueM => real().named('value_m')();
+
+  /// Vertical datum, e.g. `EGM2008`.
+  TextColumn get datum => text()();
+
+  /// Where the value came from (a dataset or the device).
+  TextColumn get source => text()();
+
+  /// Vertical accuracy in metres; null when unknown.
+  RealColumn get vAccM => real().named('v_acc_m').nullable()();
+
+  /// Version of the dataset; null for a device reading.
+  TextColumn get datasetVersion => text().nullable()();
+
+  /// When the value was observed (UTC epoch ms).
+  IntColumn get observedUtc => integer()();
 }

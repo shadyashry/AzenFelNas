@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- API 31+ (android:dataExtractionRules): neither cloud backup nor device-to-device
+     transfer carries places.sqlite (REQ-PRIV-003, DESIGN.md §7.3). -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="file" path="places/" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="file" path="places/" />
+    </device-transfer>
+</data-extraction-rules>
