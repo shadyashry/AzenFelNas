@@ -15,7 +15,7 @@ Branch `slice/s15-dm-ui`, cut from `slice/s14-packages-client` at `cbdfc58`. Dra
 ## Evidence (this session, Linux)
 - **Done-test** `packages/dm_ui/test/sky_contrast_done_test.dart`: 10 phases × light/dark × LTR/RTL = 40 rendered cases; sky text equals `onSurface` with ≥ 4.5:1 over top/mid/bottom through the scrim, content text ≥ 4.5:1 on the static surface, direction checked, 40 goldens in `test/goldens/`. **Green.**
 - `dm_ui`: 63 tests (0 before). `geo_salah_core`: +6 (`test/api/compute_solar_state_test.dart`).
-- Gates: see `GATES` below.
+- Gates: `dart run melos run ci` SUCCESS — `geo_salah_core` 321, `dm_ui` 63, app 135, `dm_packages` 78, `dm_civil_time` 134, others unchanged; arch_lint 0 violations (487 files), req_index 0 problems; format and analyze clean.
 - Go, lab, schemas not touched → not run. No Android/iOS build possible here.
 
 ## REQ IDs proved by named tests
