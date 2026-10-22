@@ -35,7 +35,7 @@ func TargetName(version string) string { return PackageType + "/" + version }
 
 // Target returns the target entry of a .dmpkg built from s for r.
 func (s Set) Target(r Release, container []byte) (string, tuf.Target, error) {
-	if err := r.check(); err != nil {
+	if err := r.Validate(); err != nil {
 		return "", tuf.Target{}, err
 	}
 	sum := sha256.Sum256(container)
@@ -54,7 +54,9 @@ func (s Set) Target(r Release, container []byte) (string, tuf.Target, error) {
 	return TargetName(r.Version), tuf.Target{Length: int64(len(container)), SHA256: hex.EncodeToString(sum[:]), Custom: custom}, nil
 }
 
-func (r Release) check() error {
+// Validate refuses release fields the target schema would refuse; every
+// package type shares it.
+func (r Release) Validate() error {
 	var msgs []string
 	if !targetVersionPattern.MatchString(r.Version) {
 		msgs = append(msgs, fmt.Sprintf("version %q must match %s", r.Version, targetVersionPattern))

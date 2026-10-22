@@ -13,6 +13,7 @@ import (
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/jcs"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/profileset"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/trust"
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/tzdatapkg"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/ports"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/schema/profile"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/schema/tuf"
@@ -76,10 +77,32 @@ func (u VerifyRepository) verifyTarget(ctx context.Context, name string, target 
 	if err := trust.VerifyTarget(name, target, container); err != nil {
 		return err
 	}
-	if !strings.HasPrefix(name, profileset.PackageType+"/") {
+	switch {
+	case strings.HasPrefix(name, profileset.PackageType+"/"):
+		return verifyProfilesPayload(name, target, container)
+	case strings.HasPrefix(name, tzdatapkg.PackageType+"/"):
+		return verifyTzdataPayload(name, target, container)
+	default:
 		return nil // a package type gsctl does not build yet: bytes only
 	}
-	return verifyProfilesPayload(name, target, container)
+}
+
+func verifyTzdataPayload(name string, target tuf.Target, container []byte) error {
+	fileName, payload, err := dmpkg.Unpack(container)
+	if err != nil {
+		return fmt.Errorf("%w: %s: %w", trust.ErrMalformed, name, err)
+	}
+	if fileName != tzdatapkg.PayloadFileName || target.Custom.PayloadFormat != tuf.PayloadBin ||
+		target.Custom.SchemaVersion != tzdatapkg.PayloadSchemaVersion {
+		return fmt.Errorf("%w: %s holds %q schema %d", trust.ErrMalformed, name, fileName, target.Custom.SchemaVersion)
+	}
+	if _, err := tzdatapkg.TzdbVersion(strings.TrimPrefix(name, tzdatapkg.PackageType+"/")); err != nil {
+		return fmt.Errorf("%w: %s: %w", trust.ErrMalformed, name, err)
+	}
+	if _, err := tzdatapkg.CountZones(payload); err != nil {
+		return fmt.Errorf("%w: %s: %w", trust.ErrMalformed, name, err)
+	}
+	return nil
 }
 
 // verifyProfilesPayload checks a prayer_profiles payload against §15 D60:

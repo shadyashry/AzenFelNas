@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
+	"os"
 
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/changelist"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/fsrepo"
@@ -15,6 +17,7 @@ import (
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/app"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/profileset"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/trust"
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/tzdatapkg"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/ports"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/schema/tuf"
 )
@@ -69,34 +72,79 @@ func runCheckChange(ctx context.Context, args []string, e env) int {
 
 func runBuild(ctx context.Context, args []string, e env) int {
 	fs := flag.NewFlagSet("build", flag.ContinueOnError)
-	profiles := fs.String("profiles", defaultProfiles, "profiles directory")
-	channelName := fs.String("channel", "", "channel the set must be valid for: dev, lab, beta or production")
+	packageType := fs.String("type", profileset.PackageType, "package type: prayer_profiles or tzdata")
+	profiles := fs.String("profiles", defaultProfiles, "profiles directory (prayer_profiles)")
+	channelName := fs.String("channel", "", "channel the set must be valid for: dev, lab, beta or production (prayer_profiles)")
+	payload := fs.String("payload", "", "payload file built by the data pipeline (tzdata: tzdata.tzf)")
+	manifest := fs.String("manifest", "", "the pipeline's manifest.json, which must list the payload (tzdata)")
+	minApp := fs.String("min-app", "1.0.0", "oldest app version that reads the payload (tzdata)")
 	repo := fs.String("repo", "", "channel repository directory (metadata/, packages/, staged/)")
-	version := fs.String("version", "", "package version, the <version> of the target name prayer_profiles/<version>")
+	version := fs.String("version", "", "package version, the <version> of the target name <type>/<version>")
 	effectiveFrom := fs.String("effective-from", "", "date (YYYY-MM-DD) the release takes effect for all users (REQ-GOV-004)")
 	noteAr := fs.String("note-ar", "", "change note in Arabic")
 	noteEn := fs.String("note-en", "", "change note in English")
 	priority := fs.String("priority", string(tuf.PriorityNormal), "normal or urgent")
 	rollbackOf := fs.String("rollback-of", "", "version this release rolls back (REQ-DIST-002)")
-	if !parseFlags(fs, args, e, "channel", "repo", "version", "effective-from", "note-ar", "note-en") {
+	required := []string{"repo", "version", "effective-from", "note-ar", "note-en"}
+	if !parseFlags(fs, args, e, required...) {
 		return exitUsage
 	}
-	channel, err := profileset.ParseChannel(*channelName)
-	if err != nil {
-		return usageError(e, fs.Name(), err)
-	}
-	store := fsrepo.Repo{Dir: *repo}
-	built, err := app.BuildProfilesPackage{
-		Source: yamlprofiles.Source{Dir: *profiles}, Packages: store, Stager: store,
-	}.Run(ctx, app.BuildRequest{Channel: channel, Release: profileset.Release{
+	release := profileset.Release{
 		Version: *version, EffectiveFrom: *effectiveFrom, Priority: tuf.Priority(*priority),
 		ChangeNote: tuf.ChangeNote{Ar: *noteAr, En: *noteEn}, RollbackOf: *rollbackOf,
-	}})
+	}
+	store := fsrepo.Repo{Dir: *repo}
+	switch *packageType {
+	case profileset.PackageType:
+		return buildProfiles(ctx, e, fs.Name(), *channelName, *profiles, store, release)
+	case tzdatapkg.PackageType:
+		return buildTzdata(ctx, e, fs.Name(), *payload, *manifest, *minApp, store, release)
+	default:
+		return usageError(e, fs.Name(), fmt.Errorf("-type %q: gsctl builds prayer_profiles and tzdata", *packageType))
+	}
+}
+
+func buildProfiles(ctx context.Context, e env, cmd, channelName, profiles string, store fsrepo.Repo, release profileset.Release) int {
+	if channelName == "" {
+		return usageError(e, cmd, errors.New("-channel is required for prayer_profiles"))
+	}
+	channel, err := profileset.ParseChannel(channelName)
 	if err != nil {
-		return fail(e, fs.Name(), err)
+		return usageError(e, cmd, err)
+	}
+	built, err := app.BuildProfilesPackage{
+		Source: yamlprofiles.Source{Dir: profiles}, Packages: store, Stager: store,
+	}.Run(ctx, app.BuildRequest{Channel: channel, Release: release})
+	if err != nil {
+		return fail(e, cmd, err)
 	}
 	write(e.stdout, lines(
 		fmt.Sprintf("built: %s from %d profile(s), %d bytes, sha256 %s", built.Name, built.Profiles, built.Target.Length, built.Target.SHA256),
+		"staged: sign the targets, snapshot and timestamp roles to publish it",
+	))
+	return exitOK
+}
+
+func buildTzdata(ctx context.Context, e env, cmd, payloadPath, manifestPath, minApp string, store fsrepo.Repo, release profileset.Release) int {
+	if payloadPath == "" || manifestPath == "" {
+		return usageError(e, cmd, errors.New("-payload and -manifest are required for tzdata"))
+	}
+	payload, err := os.ReadFile(payloadPath) //nolint:gosec // the release manager names the pipeline output
+	if err != nil {
+		return fail(e, cmd, err)
+	}
+	manifest, err := os.ReadFile(manifestPath) //nolint:gosec // the release manager names the pipeline output
+	if err != nil {
+		return fail(e, cmd, err)
+	}
+	built, err := app.BuildTzdataPackage{Packages: store, Stager: store}.Run(ctx, app.TzdataBuildRequest{
+		Payload: payload, Manifest: manifest, Release: release, MinApp: minApp,
+	})
+	if err != nil {
+		return fail(e, cmd, err)
+	}
+	write(e.stdout, lines(
+		fmt.Sprintf("built: %s from %d zone(s), %d bytes, sha256 %s", built.Name, built.Zones, built.Target.Length, built.Target.SHA256),
 		"staged: sign the targets, snapshot and timestamp roles to publish it",
 	))
 	return exitOK

@@ -34,7 +34,7 @@ const usage = `usage: gsctl <command> [flags]
 commands:
   validate      check profiles/*/*.yaml for a channel
   check-change  refuse a PR that changes an angle and tz/coordinate data together (§9.2)
-  build         compile the profiles into a signed-to-be prayer_profiles package and stage its target
+  build         package prayer_profiles (compiled profiles) or tzdata (the pipeline's payload) and stage its target
   sign          sign one role: root, targets (adds staged targets), snapshot or timestamp
   verify        verify a channel's metadata chain and packages as a client would
   publish       verify a signed channel and copy it into the local distribution bucket (dev, lab)
