@@ -12,6 +12,7 @@ dependencies:
   dm_civil_time: 0.1.0
   dm_contracts: 0.1.0
   dm_core_types: 0.1.0
+  dm_packages: 0.1.0
   drift: 2.35.2
   flutter:
     sdk: flutter
@@ -31,3 +32,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/packages/seeds.json
+    - assets/packages/gazetteer/3.0.2/gazetteer.json
