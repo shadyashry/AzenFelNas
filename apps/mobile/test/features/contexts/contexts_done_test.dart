@@ -7,7 +7,9 @@ import 'package:daily_muslim/features/contexts/application/pin_place.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_observer_context.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_place.dart';
 import 'package:daily_muslim/features/contexts/data/drift_location_context_store.dart';
+import 'package:daily_muslim/features/contexts/data/event_log_context_events.dart';
 import 'package:daily_muslim/features/contexts/data/places_database.dart';
+import 'package:daily_muslim/features/contexts/domain/context_changed.dart';
 import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
 import 'package:daily_muslim/features/contexts/domain/location_context.dart';
 import 'package:daily_muslim/features/contexts/domain/location_failure.dart';
@@ -122,7 +124,7 @@ void main() {
     // The resolver never read a fix while the manual place was active; the
     // mock fix is recorded once the user follows the device location again.
     expect(
-      events.entries.where((e) => e.attrs.reason == 'mock_location'),
+      events.entries.where((e) => e.reason == ContextChangeReason.mockLocation),
       isEmpty,
     );
     device.current = Ok(fixAt(london, isMock: true));
@@ -130,10 +132,13 @@ void main() {
     expect(followed.context.place.zoneId, 'Europe/London');
     expect(followed.context.place.country, 'GB');
     expect(followed.context.id, current.context.id);
-    final mock = events.entries.singleWhere(
-      (e) => e.attrs.reason == LocateObserver.mockLocationReason,
+    final mock = EventLogContextEvents.entryOf(
+      events.entries.singleWhere(
+        (e) => e.reason == ContextChangeReason.mockLocation,
+      ),
     );
     expect(mock.level, EventLogLevel.warn);
+    expect(mock.code, EventCode.contextChanged);
     expect(jsonEncode(mock.toJson()), isNot(contains('51.5')));
 
     final rows = await db.select(db.locationContexts).get();

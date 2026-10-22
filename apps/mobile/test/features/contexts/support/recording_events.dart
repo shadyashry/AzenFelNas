@@ -1,11 +1,11 @@
+import 'package:daily_muslim/features/contexts/domain/context_changed.dart';
 import 'package:daily_muslim/features/contexts/domain/location_ports.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 
 /// Keeps every recorded event, in order.
-final class RecordingEvents implements RecordEvent {
+final class RecordingEvents implements RecordContextEvent {
   /// The events so far.
-  final List<EventLogEntry> entries = [];
+  final List<ContextChanged> entries = [];
 
   @override
-  Future<void> record(EventLogEntry entry) async => entries.add(entry);
+  Future<void> record(ContextChanged event) async => entries.add(event);
 }

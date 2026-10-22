@@ -1,3 +1,4 @@
+import 'package:daily_muslim/features/contexts/domain/context_changed.dart';
 import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
 import 'package:daily_muslim/features/contexts/domain/context_place.dart';
 import 'package:daily_muslim/features/contexts/domain/context_source.dart';
@@ -5,7 +6,6 @@ import 'package:daily_muslim/features/contexts/domain/location_access.dart';
 import 'package:daily_muslim/features/contexts/domain/location_context.dart';
 import 'package:daily_muslim/features/contexts/domain/location_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/location_fix.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
 /// Device location (port of `ResolveObserverContext`; adapter:
@@ -63,9 +63,9 @@ abstract interface class WriteLocationContexts {
   });
 }
 
-/// The on-device diagnostic event log (§9.6, Appendix J); the drift ring
-/// buffer arrives with the app shell (S16).
-abstract interface class RecordEvent {
-  /// Appends [entry]; never throws and never blocks the caller's outcome.
-  Future<void> record(EventLogEntry entry);
+/// The resolver's diagnostics (§9.6): `EventLogContextEvents` maps them to
+/// Appendix J entries; the drift ring buffer arrives with the app shell (S16).
+abstract interface class RecordContextEvent {
+  /// Records [event]; never throws and never changes the caller's outcome.
+  Future<void> record(ContextChanged event);
 }

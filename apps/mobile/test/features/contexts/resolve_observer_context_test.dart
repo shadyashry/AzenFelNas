@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:daily_muslim/features/contexts/application/locate_observer.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_observer_context.dart';
+import 'package:daily_muslim/features/contexts/data/event_log_context_events.dart';
+import 'package:daily_muslim/features/contexts/domain/context_changed.dart';
 import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
 import 'package:daily_muslim/features/contexts/domain/context_source.dart';
 import 'package:daily_muslim/features/contexts/domain/location_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/resolved_context.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
@@ -174,27 +174,26 @@ void main() {
 
       expect(mocked, unmocked);
       final mockEvents = h.events.entries.where(
-        (e) => e.attrs.reason == LocateObserver.mockLocationReason,
+        (e) => e.reason == ContextChangeReason.mockLocation,
       );
-      expect(mockEvents, hasLength(1));
-      expect(
-        mockEvents.single,
-        const EventLogEntry(
+      expect(mockEvents, [
+        const ContextChanged(
           utcMs: noonUtcMs,
-          level: EventLogLevel.warn,
-          code: EventCode.contextChanged,
-          attrs: EventLogAttrs(
-            reason: 'mock_location',
-            zoneId: 'Africa/Cairo',
-            countryCode: 'EG',
-          ),
+          reason: ContextChangeReason.mockLocation,
+          zoneId: 'Africa/Cairo',
+          country: 'EG',
         ),
-      );
+      ]);
       expect(
-        real.events.entries.where((e) => e.attrs.reason == 'mock_location'),
+        real.events.entries.where(
+          (e) => e.reason == ContextChangeReason.mockLocation,
+        ),
         isEmpty,
       );
-      final wire = jsonEncode([for (final e in h.events.entries) e.toJson()]);
+      final wire = jsonEncode([
+        for (final e in h.events.entries)
+          EventLogContextEvents.entryOf(e).toJson(),
+      ]);
       expect(wire, isNot(contains('30.04')));
       expect(wire, isNot(contains('31.23')));
     });
@@ -206,7 +205,7 @@ void main() {
       h.locator.current = Ok(fixAt(londonPlace.point));
       await resolve();
       expect(
-        [for (final e in h.events.entries) e.attrs.zoneId],
+        [for (final e in h.events.entries) e.zoneId],
         ['Africa/Cairo', 'Europe/London'],
       );
     });

@@ -1,11 +1,11 @@
 import 'package:daily_muslim/features/contexts/application/resolve_place.dart';
+import 'package:daily_muslim/features/contexts/domain/context_changed.dart';
 import 'package:daily_muslim/features/contexts/domain/context_source.dart';
 import 'package:daily_muslim/features/contexts/domain/location_context.dart';
 import 'package:daily_muslim/features/contexts/domain/location_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/location_fix.dart';
 import 'package:daily_muslim/features/contexts/domain/location_ports.dart';
 import 'package:daily_muslim/features/contexts/domain/resolved_context.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
 /// The device-location chain of §7.5 that refreshes the `current` context:
@@ -26,7 +26,7 @@ final class LocateObserver {
   final ReadLocationContexts _read;
   final WriteLocationContexts _write;
   final ResolvePlace _resolvePlace;
-  final RecordEvent _events;
+  final RecordContextEvent _events;
 
   /// Coarsest accepted fix (ADR-014).
   static const maxAccuracyM = 5000.0;
@@ -95,33 +95,18 @@ final class LocateObserver {
     LocationContext? previous,
     int now,
   ) async {
-    final attrs = EventLogAttrs(
+    ContextChanged event(ContextChangeReason reason) => ContextChanged(
+      utcMs: now,
+      reason: reason,
       zoneId: context.place.zoneId,
-      countryCode: context.place.country,
+      country: context.place.country,
     );
     if (fix.isMock) {
-      await _events.record(
-        EventLogEntry(
-          utcMs: now,
-          level: EventLogLevel.warn,
-          code: EventCode.contextChanged,
-          attrs: attrs.copyWith(reason: mockLocationReason),
-        ),
-      );
+      await _events.record(event(ContextChangeReason.mockLocation));
     }
     if (previous?.place.zoneId != context.place.zoneId ||
         previous?.place.country != context.place.country) {
-      await _events.record(
-        EventLogEntry(
-          utcMs: now,
-          level: EventLogLevel.info,
-          code: EventCode.contextChanged,
-          attrs: attrs.copyWith(reason: 'resolver'),
-        ),
-      );
+      await _events.record(event(ContextChangeReason.resolver));
     }
   }
-
-  /// `attrs.reason` of the event that records a mock fix.
-  static const mockLocationReason = 'mock_location';
 }
