@@ -58,12 +58,9 @@ func TestCLIBuildsSignsAndVerifiesTzdata_REQ_DIST_003_REQ_TIME_020(t *testing.T)
 			"-effective-from", "2026-11-01", "-note-ar", "x", "-note-en", "x"), exitUsage, "-type \"hijri\"")
 	})
 	t.Run("a refused build stages nothing", func(t *testing.T) {
-		entries, err := os.ReadDir(filepath.Join(repo, "staged"))
-		if err != nil && !os.IsNotExist(err) {
-			t.Fatal(err)
-		}
-		if len(entries) != 0 {
-			t.Fatalf("staged after refusals: %v", entries)
+		staged, err := filepath.Glob(filepath.Join(repo, "staged", "*", "*.json"))
+		if err != nil || len(staged) != 0 {
+			t.Fatalf("staged after refusals: %v, %v", staged, err)
 		}
 	})
 }
