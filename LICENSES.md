@@ -25,3 +25,10 @@ IBM Plex Sans Arabic, Inter — SIL Open Font License 1.1.
 ## Software dependencies
 
 Generated from the SBOM per release.
+
+## Ported code
+
+| Source | Licence | Obligation |
+|---|---|---|
+| GeographicLib 2.0 `Geodesic` inverse (C. F. F. Karney, 2011–2022), ported to Dart in `packages/geo_salah_core/lib/src/astro/geodesic.dart` (S18, §6.6) | MIT/X11 | keep the copyright notice in the ported file and in the app's licence page |
+| GeographicLib 2.0 Python, used only to generate `packages/geo_salah_core/test/qibla/qibla_vectors.json` (`tool/qibla_vectors.py`, not shipped) | MIT/X11 | — |
