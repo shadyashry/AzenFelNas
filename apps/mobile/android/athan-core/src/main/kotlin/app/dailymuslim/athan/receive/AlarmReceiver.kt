@@ -7,6 +7,8 @@ import android.content.Intent
 import app.dailymuslim.athan.bridge.AthanGraph
 import app.dailymuslim.athan.plan.EventLevel
 import app.dailymuslim.athan.playback.AthanForegroundService
+import app.dailymuslim.athan.schedule.AlarmTrigger
+import app.dailymuslim.athan.schedule.DeliveryMode
 import app.dailymuslim.athan.schedule.ReconcileCause
 import kotlin.concurrent.thread
 
@@ -22,10 +24,30 @@ public class AlarmReceiver : BroadcastReceiver() {
     ) {
         val trigger = TriggerIntents.triggerOf(intent) ?: return
         val mode = TriggerIntents.modeOf(intent)
-        val graph = AthanGraph(context)
+        val dndActive = dndActive(context)
+        // Plan read, presentation and re-arming (file I/O plus up to ArmingWindow.DEFAULT_CAPACITY binder calls)
+        // run off the main thread (§17.3).
+        val pending = goAsync()
+        thread(name = "athan-fire") {
+            try {
+                val graph = AthanGraph(context)
+                present(context, graph, trigger, mode, dndActive)
+                graph.rearm(ReconcileCause.ALARM_FIRED)
+            } finally {
+                pending.finish()
+            }
+        }
+    }
+
+    private fun present(
+        context: Context,
+        graph: AthanGraph,
+        trigger: AlarmTrigger,
+        mode: DeliveryMode,
+        dndActive: Boolean,
+    ) {
         graph.receipts.presented(trigger.alarmId, ReceiptStage.RECEIVER)
-        val plan = graph.planStore.read()
-        when (val presentation = graph.presentation.of(trigger, mode, plan, dndActive(context))) {
+        when (val presentation = graph.presentation.of(trigger, mode, graph.planStore.read(), dndActive)) {
             is Presentation.Playback -> {
                 AthanForegroundService.start(context, graph, presentation)
             }
@@ -37,15 +59,6 @@ public class AlarmReceiver : BroadcastReceiver() {
 
             is Presentation.Drop -> {
                 graph.receipts.presented(trigger.alarmId, ReceiptStage.DROPPED, level = EventLevel.WARN)
-            }
-        }
-        // Re-arming is file I/O plus up to ArmingWindow.DEFAULT_CAPACITY binder calls: off the main thread (§17.3).
-        val pending = goAsync()
-        thread(name = "athan-rearm") {
-            try {
-                graph.rearm(ReconcileCause.ALARM_FIRED)
-            } finally {
-                pending.finish()
             }
         }
     }

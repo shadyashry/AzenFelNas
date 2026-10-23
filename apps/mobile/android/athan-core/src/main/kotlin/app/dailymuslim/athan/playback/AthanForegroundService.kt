@@ -155,6 +155,7 @@ public class AthanForegroundService : Service() {
         private const val EXTRA_SOUND = "app.dailymuslim.athan.SOUND"
         private const val EXTRA_TITLE = "app.dailymuslim.athan.TITLE"
         private const val EXTRA_BODY = "app.dailymuslim.athan.BODY"
+        private const val EXTRA_SNOOZE_MINUTES = "app.dailymuslim.athan.SNOOZE_MINUTES"
         private const val EXTRA_VIBRATE = "app.dailymuslim.athan.VIBRATE"
         private const val EXTRA_FALLBACK_KIND = "app.dailymuslim.athan.FALLBACK_KIND"
         private const val EXTRA_FALLBACK_SOUND = "app.dailymuslim.athan.FALLBACK_SOUND"
@@ -208,6 +209,7 @@ public class AthanForegroundService : Service() {
         internal fun snoozeIntent(
             context: Context,
             entryId: String,
+            minutes: Int,
         ): PendingIntent =
             PendingIntent.getService(
                 context,
@@ -215,7 +217,9 @@ public class AthanForegroundService : Service() {
                 Intent(
                     context,
                     AthanForegroundService::class.java,
-                ).setAction(ACTION_SNOOZE).putExtra(EXTRA_ENTRY_ID, entryId),
+                ).setAction(ACTION_SNOOZE)
+                    .putExtra(EXTRA_ENTRY_ID, entryId)
+                    .putExtra(EXTRA_SNOOZE_MINUTES, minutes),
                 PENDING_FLAGS,
             )
 
@@ -230,6 +234,7 @@ public class AthanForegroundService : Service() {
                 .putExtra(EXTRA_TITLE, playback.text?.title)
                 .putExtra(EXTRA_BODY, playback.text?.body)
                 .putExtra(EXTRA_ENTRY_ID, playback.snoozeEntryId)
+                .putExtra(EXTRA_SNOOZE_MINUTES, playback.snoozeMinutes)
                 .putExtra(EXTRA_VIBRATE, playback.vibrate)
                 .putExtra(EXTRA_FALLBACK_KIND, playback.fallback.kind.name)
                 .putExtra(EXTRA_FALLBACK_SOUND, playback.fallback.soundId)
@@ -249,6 +254,7 @@ public class AthanForegroundService : Service() {
                 soundId = soundId,
                 text = text,
                 snoozeEntryId = intent.getStringExtra(EXTRA_ENTRY_ID),
+                snoozeMinutes = intent.getIntExtra(EXTRA_SNOOZE_MINUTES, 0),
                 vibrate = intent.getBooleanExtra(EXTRA_VIBRATE, true),
                 fallback =
                     Presentation.Notify(

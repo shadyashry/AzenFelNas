@@ -59,7 +59,10 @@ internal class AlertNotifications(
                 )
         playback.snoozeEntryId?.let { entryId ->
             builder.addAction(
-                action(R.string.athan_action_snooze, AthanForegroundService.snoozeIntent(context, entryId)),
+                action(
+                    R.string.athan_action_snooze,
+                    AthanForegroundService.snoozeIntent(context, entryId, playback.snoozeMinutes),
+                ),
             )
         }
         return builder.build()

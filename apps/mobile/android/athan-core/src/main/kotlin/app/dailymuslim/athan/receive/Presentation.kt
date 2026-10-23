@@ -22,6 +22,7 @@ internal sealed interface Presentation {
         val soundId: String,
         val text: AlertText?,
         val snoozeEntryId: String?,
+        val snoozeMinutes: Int,
         val vibrate: Boolean,
         val fallback: Notify,
     ) : Presentation
@@ -58,7 +59,15 @@ internal class ChoosePresentation {
             is AlarmTrigger.Test -> {
                 val notify = Presentation.Notify(trigger.alarmId, ChannelKind.ATHAN, trigger.soundId, null)
                 if (mode == DeliveryMode.ALARM_CLOCK) {
-                    Presentation.Playback(trigger.alarmId, trigger.soundId, null, null, vibrate = true, notify)
+                    Presentation.Playback(
+                        trigger.alarmId,
+                        trigger.soundId,
+                        null,
+                        null,
+                        0,
+                        vibrate = true,
+                        fallback = notify,
+                    )
                 } else {
                     notify
                 }
@@ -96,6 +105,7 @@ internal class ChoosePresentation {
                 soundId = entry.soundId,
                 text = text,
                 snoozeEntryId = if (snoozable && plan.policy.snoozeMinutes > 0) entryId else null,
+                snoozeMinutes = plan.policy.snoozeMinutes,
                 vibrate = plan.policy.vibrate,
                 fallback = notify,
             )

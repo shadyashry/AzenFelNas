@@ -30,6 +30,7 @@ internal class ChoosePresentationTest {
         assertEquals(athan.soundId, playback.soundId)
         assertEquals(AlertText(athan.title.ar, athan.body.ar), playback.text)
         assertEquals(athan.id, playback.snoozeEntryId)
+        assertEquals(5, playback.snoozeMinutes)
         assertEquals(ChannelKind.ATHAN, playback.fallback.kind)
     }
 
