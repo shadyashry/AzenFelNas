@@ -7,6 +7,8 @@ import Foundation
 /// - `dailymuslim://spike/answer?reason=heard|not_heard|long_audio_full|long_audio_cut&entry=<id>&heard=<s>`
 /// - `dailymuslim://spike/budget?requested=70`
 /// - `dailymuslim://spike/observe` (records `alarmkit_alerting` while the app stays open)
+/// - `dailymuslim://spike/export` (copies the App Group log to `Documents/spike-events.jsonl` for Xcode's
+///   Download Container)
 public enum S19Spike {
     /// Handles [url] when it is a spike URL; `false` lets the app route it normally.
     public static func handle(url: URL) -> Bool {
@@ -42,10 +44,22 @@ public enum S19Spike {
             Task { try? await SpikeNotificationBudget.probe(requested: requested) }
         case "/answer":
             answer(query)
+        case "/export":
+            export()
         default:
             return false
         }
         return true
+    }
+
+    private static func export() {
+        let manager = FileManager.default
+        guard let log = SpikeEventLog.shared(),
+              let documents = manager.urls(for: .documentDirectory, in: .userDomainMask).first
+        else { return }
+        let target = documents.appendingPathComponent("spike-events.jsonl")
+        try? manager.removeItem(at: target)
+        try? manager.copyItem(at: log.url, to: target)
     }
 
     private static func answer(_ query: [String: String]) {

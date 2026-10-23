@@ -20,6 +20,8 @@ No `USE_EXACT_ALARM` / `USE_FULL_SCREEN_INTENT`. Runtime `canScheduleExactAlarms
 
 See the `DESIGN.md` sections referenced above.
 
+**S19 (2026-10-23).** The spike for this ADR's open question is ADR-025: code, receipt protocol, scenario matrix and go/no-go criteria are in place; the physical-device run is OWED, so the conservative state in ADR-025 ("Decision per outcome") applies until it reports.
+
 ## REQ tags
 
 —
