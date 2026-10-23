@@ -55,20 +55,31 @@ final class CalculateSchedule {
         chosen = value;
     }
     final observer = ObserverOf.context(resolved);
+    HijriState hijriFor(CivilDate day) =>
+        _hijri(day: day, overrideDays: hijriOverrideDays);
     return _range(
       observer: observer,
       profile: chosen,
       from: today,
       days: days,
       tzdb: data.tzdb,
-      hijriFor: (day) => _hijri(day: day, overrideDays: hijriOverrideDays),
+      hijriFor: hijriFor,
     ).map(
       (results) => Schedule(
         context: resolved,
-        profileId: chosen.profileId,
+        profile: chosen,
         engineDefault: chosen.profileId == engineDefaultProfileId,
         tzdbVersion: data.tzdb.version,
         days: results,
+        inputs: [
+          for (final result in results)
+            CalculationInputs.of(
+              observer: observer,
+              profile: chosen,
+              day: result.day,
+              hijri: hijriFor(result.day),
+            ),
+        ],
       ),
     );
   }

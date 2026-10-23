@@ -28,6 +28,19 @@ void main() {
       expect(schedule.tzdbVersion, '2026e');
     });
 
+    test('REQ-DOM-004 each day carries the inputs its Calculation ID '
+        'hashes', () {
+      final schedule = _ok(calculate(cairo(), data));
+      expect(schedule.inputs, hasLength(schedule.days.length));
+      for (var i = 0; i < schedule.days.length; i++) {
+        expect(
+          schedule.inputs[i].inputsHash,
+          schedule.days[i].provenance.inputsHash,
+        );
+        expect(schedule.inputs[i].day, schedule.days[i].day);
+      }
+    });
+
     test('REQ-DOM-050 before the Egyptian seed profile takes effect '
         '(2026-11-01) Cairo uses engine.default', () {
       final schedule = _ok(calculate(cairo(), data));
