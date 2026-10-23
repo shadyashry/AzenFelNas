@@ -27,7 +27,7 @@ struct AthanBridge: Sendable {
         let probes = await graph.platformProbes.probes(on: path)
             + graph.planProbes.probes(of: graph.planStore.read(), nowUtcMs: now)
         let report = graph.evaluateHealth(probes, path: path, evaluatedAtUtcMs: now)
-        graph.events.append(.healthEvaluated, .of(state: report.state.rawValue, reason: path.label))
+        graph.events.append(.healthEvaluated, .of(state: report.state.label, reason: path.label))
         return report
     }
 

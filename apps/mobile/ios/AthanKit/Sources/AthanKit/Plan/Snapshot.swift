@@ -64,7 +64,7 @@ struct SnapshotHealth: Codable, Equatable, Sendable {
 }
 
 /// Athan Health states (§8.3).
-enum HealthState: String, Codable, Sendable {
+enum HealthState: String, Codable, Equatable, Sendable {
     case ready = "READY"
     case limited = "LIMITED"
     case notReady = "NOT_READY"

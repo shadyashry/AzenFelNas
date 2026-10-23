@@ -1,9 +1,13 @@
-/// `HealthState` of DESIGN.md §7.8; `rawValue` is the pigeon/Dart enum name.
-enum HealthState: String, Equatable, Sendable {
-    case ready
-    case limited
-    case notReady
-    case unknown
+extension HealthState {
+    /// The pigeon/Dart enum name of §7.8 (the raw value is the snapshot's wire name).
+    var label: String {
+        switch self {
+        case .ready: "ready"
+        case .limited: "limited"
+        case .notReady: "notReady"
+        case .unknown: "unknown"
+        }
+    }
 }
 
 /// The `HealthReason`s of DESIGN.md §7.8 that iOS can report; `rawValue` is the pigeon/Dart enum name.

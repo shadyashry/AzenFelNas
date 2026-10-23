@@ -4,7 +4,6 @@ import PackageDescription
 
 let package = Package(
     name: "AthanKit",
-    defaultLocalization: "en",
     // macOS is only the host for `swift test` in ci-ios; the package ships on iOS 18+.
     platforms: [.iOS(.v18), .macOS(.v15)],
     products: [
@@ -13,7 +12,7 @@ let package = Package(
     targets: [
         .target(
             name: "AthanKit",
-    defaultLocalization: "en",
+            resources: [.process("Resources")],
             swiftSettings: [.enableUpcomingFeature("ExistentialAny")]
         ),
         .testTarget(name: "AthanKitTests", dependencies: ["AthanKit"]),

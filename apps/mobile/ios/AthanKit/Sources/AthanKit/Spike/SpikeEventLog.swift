@@ -17,7 +17,7 @@ struct SpikeEventLog: Sendable {
         let manager = FileManager.default
         try? manager.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         if !manager.fileExists(atPath: url.path) {
-            manager.createFile(atPath: url.path, contents: nil)
+            _ = manager.createFile(atPath: url.path, contents: nil)
         }
         guard let handle = try? FileHandle(forWritingTo: url) else { return }
         defer { try? handle.close() }
