@@ -1,11 +1,14 @@
 import 'package:daily_muslim/features/home/domain/day_view.dart';
 import 'package:daily_muslim/features/home/domain/time_row_view.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
+import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-/// The rows of one [day], each with its confidence label (REQ-UX-001).
+/// The rows of one [day], each with its confidence label (REQ-UX-001);
+/// tapping a row opens its Passport entry, `<calcId>#<event>` (US-05).
 final class TimeRows extends StatelessWidget {
   /// The rows of [day] in [style].
   const new({required this.day, required this.style, super.key});
@@ -29,6 +32,9 @@ final class TimeRows extends StatelessWidget {
             label: row.confidence,
             locale: style.locale,
             digits: style.digits,
+            onTap: () => context.push(
+              CalculationRoute(day.calculationId, event: row.event).location,
+            ),
           ),
       ],
     );

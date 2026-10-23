@@ -601,6 +601,360 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'no time on this day'**
   String get noTimeReason;
+
+  /// Passport: Calculation ID not found.
+  ///
+  /// In en, this message translates to:
+  /// **'This calculation is not on this device'**
+  String get passportNotFoundTitle;
+
+  /// Passport: not found explanation.
+  ///
+  /// In en, this message translates to:
+  /// **'The link\'s Calculation ID is not in this week\'s times and the link carries no inputs to recompute it.'**
+  String get passportNotFoundBody;
+
+  /// Passport import mismatch title.
+  ///
+  /// In en, this message translates to:
+  /// **'Computed differently on this device'**
+  String get passportMismatchTitle;
+
+  /// Import mismatch: IDs differ (§6.4 ¶11).
+  ///
+  /// In en, this message translates to:
+  /// **'This time was computed with a different engine, profile or time-zone data version.'**
+  String get passportMismatchVersions;
+
+  /// Import mismatch: profile version missing.
+  ///
+  /// In en, this message translates to:
+  /// **'This device does not have profile {profile} version {version}.'**
+  String passportMismatchProfile(String profile, String version);
+
+  /// Import mismatch: zone missing.
+  ///
+  /// In en, this message translates to:
+  /// **'This device\'s time-zone data does not include the shared place\'s zone.'**
+  String get passportMismatchZone;
+
+  /// Calculation ID carried by the link.
+  ///
+  /// In en, this message translates to:
+  /// **'In the link: {id}'**
+  String passportLinkId(String id);
+
+  /// Calculation ID this device computed.
+  ///
+  /// In en, this message translates to:
+  /// **'On this device: {id}'**
+  String passportLocalId(String id);
+
+  /// This device's versions on a mismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'This device: engine {engine}, time-zone data {tzdb}'**
+  String passportThisDevice(String engine, String tzdb);
+
+  /// Import matched banner.
+  ///
+  /// In en, this message translates to:
+  /// **'Recomputed on this device: the result matches the link.'**
+  String get passportImportMatch;
+
+  /// Copy the share link.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get passportCopyLink;
+
+  /// Snackbar after copying.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied'**
+  String get passportLinkCopied;
+
+  /// Passport inputs section.
+  ///
+  /// In en, this message translates to:
+  /// **'Inputs'**
+  String get passportInputsTitle;
+
+  /// Passport versions section.
+  ///
+  /// In en, this message translates to:
+  /// **'Versions'**
+  String get passportVersionsTitle;
+
+  /// Inputs: coordinates.
+  ///
+  /// In en, this message translates to:
+  /// **'Coordinates'**
+  String get passportCoordinates;
+
+  /// Inputs: zone.
+  ///
+  /// In en, this message translates to:
+  /// **'Time zone'**
+  String get passportZone;
+
+  /// Inputs: day.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get passportDay;
+
+  /// Inputs: profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get passportProfile;
+
+  /// Inputs: Hijri dates.
+  ///
+  /// In en, this message translates to:
+  /// **'Hijri date (dawn / night)'**
+  String get passportHijri;
+
+  /// Versions: engine.
+  ///
+  /// In en, this message translates to:
+  /// **'Engine'**
+  String get passportEngine;
+
+  /// Versions: ΔT model.
+  ///
+  /// In en, this message translates to:
+  /// **'ΔT model'**
+  String get passportDeltaT;
+
+  /// Versions: TZDB.
+  ///
+  /// In en, this message translates to:
+  /// **'Time-zone data'**
+  String get passportTzdb;
+
+  /// Versions: inputs hash.
+  ///
+  /// In en, this message translates to:
+  /// **'Inputs hash'**
+  String get passportInputsHash;
+
+  /// Raw instant, local, with seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculated instant {time}'**
+  String passportRaw(String time);
+
+  /// Displayed time.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown as {time}'**
+  String passportShown(String time);
+
+  /// Rounding ceil.
+  ///
+  /// In en, this message translates to:
+  /// **'Rounded up to the next minute'**
+  String get passportRoundingCeil;
+
+  /// Rounding floor.
+  ///
+  /// In en, this message translates to:
+  /// **'Rounded down to the minute'**
+  String get passportRoundingFloor;
+
+  /// Rounding nearest.
+  ///
+  /// In en, this message translates to:
+  /// **'Rounded to the nearest minute'**
+  String get passportRoundingNearest;
+
+  /// Origin primary.
+  ///
+  /// In en, this message translates to:
+  /// **'From the astronomical rule'**
+  String get passportOriginPrimary;
+
+  /// Origin fallback.
+  ///
+  /// In en, this message translates to:
+  /// **'From the high-latitude method {method}'**
+  String passportOriginFallback(String method);
+
+  /// Origin no event.
+  ///
+  /// In en, this message translates to:
+  /// **'No time on this day ({reason})'**
+  String passportOriginNoEvent(String reason);
+
+  /// Sensitivity line (§6.7).
+  ///
+  /// In en, this message translates to:
+  /// **'±1 km changes this by ≤ {seconds} s'**
+  String passportSensitivity(int seconds);
+
+  /// One adjustment trace step.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind}: {seconds} s'**
+  String passportAdjustment(String kind, String seconds);
+
+  /// Adjustment kind perEventOffset.
+  ///
+  /// In en, this message translates to:
+  /// **'Offset'**
+  String get passportAdjustOffset;
+
+  /// Adjustment kind ramadanRuleReplacement.
+  ///
+  /// In en, this message translates to:
+  /// **'Ramadan rule'**
+  String get passportAdjustRamadan;
+
+  /// Adjustment kind highLatitudeFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'High-latitude method'**
+  String get passportAdjustHighLatitude;
+
+  /// Adjustment kind rounding.
+  ///
+  /// In en, this message translates to:
+  /// **'Rounding'**
+  String get passportAdjustRounding;
+
+  /// Flag nearRoundingBoundary.
+  ///
+  /// In en, this message translates to:
+  /// **'The calculated instant is within half a second of a minute boundary.'**
+  String get flagNearRoundingBoundary;
+
+  /// Flag highLatitudeFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'A high-latitude method gave this time.'**
+  String get flagHighLatitudeFallback;
+
+  /// Flag lowLocationAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location is approximate.'**
+  String get flagLowLocationAccuracy;
+
+  /// Flag dstTransitionDay.
+  ///
+  /// In en, this message translates to:
+  /// **'The clocks change on this day.'**
+  String get flagDstTransitionDay;
+
+  /// Flag staleTzdb.
+  ///
+  /// In en, this message translates to:
+  /// **'The time-zone data on this device is old.'**
+  String get flagStaleTzdb;
+
+  /// Flag hijriExpected.
+  ///
+  /// In en, this message translates to:
+  /// **'The Hijri date is expected, not yet announced.'**
+  String get flagHijriExpected;
+
+  /// Flag referenceModeAuthorityPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculated at the authority\'s reference point for your area.'**
+  String get flagReferenceModeAuthorityPoint;
+
+  /// Flag manualCoordinateResolution.
+  ///
+  /// In en, this message translates to:
+  /// **'The place was chosen by hand.'**
+  String get flagManualCoordinateResolution;
+
+  /// Flag zoneBoundaryProximity.
+  ///
+  /// In en, this message translates to:
+  /// **'You are near a time-zone border.'**
+  String get flagZoneBoundaryProximity;
+
+  /// Flag noLocalProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'No local profile covers this place; the engine default is used.'**
+  String get flagNoLocalProfile;
+
+  /// No flags.
+  ///
+  /// In en, this message translates to:
+  /// **'No flags for this time.'**
+  String get passportNoFlags;
+
+  /// Qibla: no heading yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for the compass…'**
+  String get qiblaNoHeading;
+
+  /// Qibla: numeric only.
+  ///
+  /// In en, this message translates to:
+  /// **'This device has no usable compass. Face the bearing below using a map or a physical compass.'**
+  String get qiblaNumericOnly;
+
+  /// Qibla: calibration guidance.
+  ///
+  /// In en, this message translates to:
+  /// **'Compass accuracy is low. Move the phone in a figure-eight away from metal.'**
+  String get qiblaCalibrating;
+
+  /// Qibla bearing line.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla: {degrees}° from true north'**
+  String qiblaBearing(String degrees);
+
+  /// Distance to the Kaaba.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km to the Kaaba'**
+  String qiblaDistance(String km);
+
+  /// Heading accuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Compass accuracy ±{degrees}°'**
+  String qiblaAccuracy(String degrees);
+
+  /// Turn instruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn {degrees}° {direction}'**
+  String qiblaTurn(String degrees, String direction);
+
+  /// Turn right.
+  ///
+  /// In en, this message translates to:
+  /// **'right'**
+  String get qiblaRight;
+
+  /// Turn left.
+  ///
+  /// In en, this message translates to:
+  /// **'left'**
+  String get qiblaLeft;
+
+  /// Facing within tolerance.
+  ///
+  /// In en, this message translates to:
+  /// **'You are facing the Qibla.'**
+  String get qiblaFacing;
+
+  /// Qibla without a place.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a place to see the Qibla.'**
+  String get qiblaNeedsPlace;
 }
 
 class _AppLocalizationsDelegate

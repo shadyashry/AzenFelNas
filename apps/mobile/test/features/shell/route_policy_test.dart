@@ -2,6 +2,7 @@ import 'package:daily_muslim/app/app_router.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/domain/route_policy.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geo_salah_core/geo_salah_core.dart';
 
 void main() {
   const id = 'GS-ABCDEFGHIJKLMNOP';
@@ -61,6 +62,50 @@ void main() {
     );
   });
 
+  group('Calculation links carry an event and inputs (§6.4 ¶11)', () {
+    test('REQ-SEC-010 <calcId>#<event> and ?i= open the Passport', () {
+      expect(
+        parse('dailymuslim://app/calc/$id#asr'),
+        const CalculationRoute(id, event: PrayerEvent.asr),
+      );
+      expect(
+        parse('dailymuslim://app/calc/$id?i=eyJhIjoxfQ#fajr'),
+        const CalculationRoute(
+          id,
+          event: PrayerEvent.fajr,
+          inputs: 'eyJhIjoxfQ',
+        ),
+      );
+      expect(
+        parse('/calc/$id/isha?i=abc-_9'),
+        const CalculationRoute(id, event: PrayerEvent.isha, inputs: 'abc-_9'),
+      );
+    });
+
+    test('REQ-SEC-010 any other query or fragment on a Calculation link is '
+        'refused', () {
+      for (final bad in [
+        'dailymuslim://app/calc/$id#noon',
+        'dailymuslim://app/calc/$id?x=1',
+        'dailymuslim://app/calc/$id?i=a&i=b',
+        'dailymuslim://app/calc/$id?i=a&x=b',
+        'dailymuslim://app/calc/$id?i=a+b',
+        'dailymuslim://app/calc/$id?i=${'A' * 2049}',
+        'dailymuslim://app/calc/$id/asr#fajr',
+        'dailymuslim://app/calc/$id/noon',
+      ]) {
+        expect(parse(bad), isNull, reason: bad);
+      }
+    });
+
+    test('a link with a fragment is rewritten to the in-app event path', () {
+      expect(
+        AppRouter.redirect(Uri.parse('dailymuslim://app/calc/$id#dhuhr')),
+        '/calc/$id/dhuhr',
+      );
+    });
+  });
+
   test('in-app locations name every route', () {
     expect(parse('/'), isA<HomeRoute>());
     expect(parse('/settings'), isA<SettingsRoute>());
@@ -85,6 +130,9 @@ void main() {
       HealthRoute(),
       QiblaRoute(),
       CalculationRoute(id),
+      CalculationRoute(id, event: PrayerEvent.maghrib),
+      CalculationRoute(id, inputs: 'abc'),
+      CalculationRoute(id, event: PrayerEvent.imsak, inputs: 'abc'),
     ]) {
       expect(parse(route.location), route, reason: route.location);
     }

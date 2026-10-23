@@ -393,5 +393,341 @@
   "noTimeReason": "no time on this day",
   "@noTimeReason": {
     "description": "Unknown reason when an event has no time."
+  },
+  "passportNotFoundTitle": "This calculation is not on this device",
+  "@passportNotFoundTitle": {
+    "description": "Passport: Calculation ID not found."
+  },
+  "passportNotFoundBody": "The link's Calculation ID is not in this week's times and the link carries no inputs to recompute it.",
+  "@passportNotFoundBody": {
+    "description": "Passport: not found explanation."
+  },
+  "passportMismatchTitle": "Computed differently on this device",
+  "@passportMismatchTitle": {
+    "description": "Passport import mismatch title."
+  },
+  "passportMismatchVersions": "This time was computed with a different engine, profile or time-zone data version.",
+  "@passportMismatchVersions": {
+    "description": "Import mismatch: IDs differ (§6.4 ¶11)."
+  },
+  "passportMismatchProfile": "This device does not have profile {profile} version {version}.",
+  "@passportMismatchProfile": {
+    "description": "Import mismatch: profile version missing.",
+    "placeholders": {
+      "profile": {
+        "type": "String",
+        "example": "eg.egas.standard"
+      },
+      "version": {
+        "type": "String",
+        "example": "2026.10.1"
+      }
+    }
+  },
+  "passportMismatchZone": "This device's time-zone data does not include the shared place's zone.",
+  "@passportMismatchZone": {
+    "description": "Import mismatch: zone missing."
+  },
+  "passportLinkId": "In the link: {id}",
+  "@passportLinkId": {
+    "description": "Calculation ID carried by the link.",
+    "placeholders": {
+      "id": {
+        "type": "String",
+        "example": "GS-ABCDEFGHIJKLMNOP"
+      }
+    }
+  },
+  "passportLocalId": "On this device: {id}",
+  "@passportLocalId": {
+    "description": "Calculation ID this device computed.",
+    "placeholders": {
+      "id": {
+        "type": "String",
+        "example": "GS-ABCDEFGHIJKLMNOP"
+      }
+    }
+  },
+  "passportThisDevice": "This device: engine {engine}, time-zone data {tzdb}",
+  "@passportThisDevice": {
+    "description": "This device's versions on a mismatch.",
+    "placeholders": {
+      "engine": {
+        "type": "String",
+        "example": "0.4.0"
+      },
+      "tzdb": {
+        "type": "String",
+        "example": "2026e"
+      }
+    }
+  },
+  "passportImportMatch": "Recomputed on this device: the result matches the link.",
+  "@passportImportMatch": {
+    "description": "Import matched banner."
+  },
+  "passportCopyLink": "Copy link",
+  "@passportCopyLink": {
+    "description": "Copy the share link."
+  },
+  "passportLinkCopied": "Link copied",
+  "@passportLinkCopied": {
+    "description": "Snackbar after copying."
+  },
+  "passportInputsTitle": "Inputs",
+  "@passportInputsTitle": {
+    "description": "Passport inputs section."
+  },
+  "passportVersionsTitle": "Versions",
+  "@passportVersionsTitle": {
+    "description": "Passport versions section."
+  },
+  "passportCoordinates": "Coordinates",
+  "@passportCoordinates": {
+    "description": "Inputs: coordinates."
+  },
+  "passportZone": "Time zone",
+  "@passportZone": {
+    "description": "Inputs: zone."
+  },
+  "passportDay": "Day",
+  "@passportDay": {
+    "description": "Inputs: day."
+  },
+  "passportProfile": "Profile",
+  "@passportProfile": {
+    "description": "Inputs: profile."
+  },
+  "passportHijri": "Hijri date (dawn / night)",
+  "@passportHijri": {
+    "description": "Inputs: Hijri dates."
+  },
+  "passportEngine": "Engine",
+  "@passportEngine": {
+    "description": "Versions: engine."
+  },
+  "passportDeltaT": "ΔT model",
+  "@passportDeltaT": {
+    "description": "Versions: ΔT model."
+  },
+  "passportTzdb": "Time-zone data",
+  "@passportTzdb": {
+    "description": "Versions: TZDB."
+  },
+  "passportInputsHash": "Inputs hash",
+  "@passportInputsHash": {
+    "description": "Versions: inputs hash."
+  },
+  "passportRaw": "Calculated instant {time}",
+  "@passportRaw": {
+    "description": "Raw instant, local, with seconds.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "05:41:37.512"
+      }
+    }
+  },
+  "passportShown": "Shown as {time}",
+  "@passportShown": {
+    "description": "Displayed time.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "05:42"
+      }
+    }
+  },
+  "passportRoundingCeil": "Rounded up to the next minute",
+  "@passportRoundingCeil": {
+    "description": "Rounding ceil."
+  },
+  "passportRoundingFloor": "Rounded down to the minute",
+  "@passportRoundingFloor": {
+    "description": "Rounding floor."
+  },
+  "passportRoundingNearest": "Rounded to the nearest minute",
+  "@passportRoundingNearest": {
+    "description": "Rounding nearest."
+  },
+  "passportOriginPrimary": "From the astronomical rule",
+  "@passportOriginPrimary": {
+    "description": "Origin primary."
+  },
+  "passportOriginFallback": "From the high-latitude method {method}",
+  "@passportOriginFallback": {
+    "description": "Origin fallback.",
+    "placeholders": {
+      "method": {
+        "type": "String",
+        "example": "angleBased"
+      }
+    }
+  },
+  "passportOriginNoEvent": "No time on this day ({reason})",
+  "@passportOriginNoEvent": {
+    "description": "Origin no event.",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "sunNeverReachesAngle"
+      }
+    }
+  },
+  "passportSensitivity": "±1 km changes this by ≤ {seconds} s",
+  "@passportSensitivity": {
+    "description": "Sensitivity line (§6.7).",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "passportAdjustment": "{kind}: {seconds} s",
+  "@passportAdjustment": {
+    "description": "One adjustment trace step.",
+    "placeholders": {
+      "kind": {
+        "type": "String",
+        "example": "Offset"
+      },
+      "seconds": {
+        "type": "String",
+        "example": "+60"
+      }
+    }
+  },
+  "passportAdjustOffset": "Offset",
+  "@passportAdjustOffset": {
+    "description": "Adjustment kind perEventOffset."
+  },
+  "passportAdjustRamadan": "Ramadan rule",
+  "@passportAdjustRamadan": {
+    "description": "Adjustment kind ramadanRuleReplacement."
+  },
+  "passportAdjustHighLatitude": "High-latitude method",
+  "@passportAdjustHighLatitude": {
+    "description": "Adjustment kind highLatitudeFallback."
+  },
+  "passportAdjustRounding": "Rounding",
+  "@passportAdjustRounding": {
+    "description": "Adjustment kind rounding."
+  },
+  "flagNearRoundingBoundary": "The calculated instant is within half a second of a minute boundary.",
+  "@flagNearRoundingBoundary": {
+    "description": "Flag nearRoundingBoundary."
+  },
+  "flagHighLatitudeFallback": "A high-latitude method gave this time.",
+  "@flagHighLatitudeFallback": {
+    "description": "Flag highLatitudeFallback."
+  },
+  "flagLowLocationAccuracy": "Your location is approximate.",
+  "@flagLowLocationAccuracy": {
+    "description": "Flag lowLocationAccuracy."
+  },
+  "flagDstTransitionDay": "The clocks change on this day.",
+  "@flagDstTransitionDay": {
+    "description": "Flag dstTransitionDay."
+  },
+  "flagStaleTzdb": "The time-zone data on this device is old.",
+  "@flagStaleTzdb": {
+    "description": "Flag staleTzdb."
+  },
+  "flagHijriExpected": "The Hijri date is expected, not yet announced.",
+  "@flagHijriExpected": {
+    "description": "Flag hijriExpected."
+  },
+  "flagReferenceModeAuthorityPoint": "Calculated at the authority's reference point for your area.",
+  "@flagReferenceModeAuthorityPoint": {
+    "description": "Flag referenceModeAuthorityPoint."
+  },
+  "flagManualCoordinateResolution": "The place was chosen by hand.",
+  "@flagManualCoordinateResolution": {
+    "description": "Flag manualCoordinateResolution."
+  },
+  "flagZoneBoundaryProximity": "You are near a time-zone border.",
+  "@flagZoneBoundaryProximity": {
+    "description": "Flag zoneBoundaryProximity."
+  },
+  "flagNoLocalProfile": "No local profile covers this place; the engine default is used.",
+  "@flagNoLocalProfile": {
+    "description": "Flag noLocalProfile."
+  },
+  "passportNoFlags": "No flags for this time.",
+  "@passportNoFlags": {
+    "description": "No flags."
+  },
+  "qiblaNoHeading": "Waiting for the compass…",
+  "@qiblaNoHeading": {
+    "description": "Qibla: no heading yet."
+  },
+  "qiblaNumericOnly": "This device has no usable compass. Face the bearing below using a map or a physical compass.",
+  "@qiblaNumericOnly": {
+    "description": "Qibla: numeric only."
+  },
+  "qiblaCalibrating": "Compass accuracy is low. Move the phone in a figure-eight away from metal.",
+  "@qiblaCalibrating": {
+    "description": "Qibla: calibration guidance."
+  },
+  "qiblaBearing": "Qibla: {degrees}° from true north",
+  "@qiblaBearing": {
+    "description": "Qibla bearing line.",
+    "placeholders": {
+      "degrees": {
+        "type": "String",
+        "example": "135.9"
+      }
+    }
+  },
+  "qiblaDistance": "{km} km to the Kaaba",
+  "@qiblaDistance": {
+    "description": "Distance to the Kaaba.",
+    "placeholders": {
+      "km": {
+        "type": "String",
+        "example": "1,284"
+      }
+    }
+  },
+  "qiblaAccuracy": "Compass accuracy ±{degrees}°",
+  "@qiblaAccuracy": {
+    "description": "Heading accuracy.",
+    "placeholders": {
+      "degrees": {
+        "type": "String",
+        "example": "8"
+      }
+    }
+  },
+  "qiblaTurn": "Turn {degrees}° {direction}",
+  "@qiblaTurn": {
+    "description": "Turn instruction.",
+    "placeholders": {
+      "degrees": {
+        "type": "String",
+        "example": "12"
+      },
+      "direction": {
+        "type": "String",
+        "example": "right"
+      }
+    }
+  },
+  "qiblaRight": "right",
+  "@qiblaRight": {
+    "description": "Turn right."
+  },
+  "qiblaLeft": "left",
+  "@qiblaLeft": {
+    "description": "Turn left."
+  },
+  "qiblaFacing": "You are facing the Qibla.",
+  "@qiblaFacing": {
+    "description": "Facing within tolerance."
+  },
+  "qiblaNeedsPlace": "Choose a place to see the Qibla.",
+  "@qiblaNeedsPlace": {
+    "description": "Qibla without a place."
   }
 }

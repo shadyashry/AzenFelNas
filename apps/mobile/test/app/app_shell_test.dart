@@ -65,10 +65,18 @@ void main() {
     ),
   );
 
-  shellTest(
+  testWidgets(
     'a valid Calculation ID link opens the Passport (REQ-SEC-010)',
-    location: '/calc/GS-ABCDEFGHIJKLMNOP',
-    (tester, _) async => expect(find.text('Accuracy Passport'), findsOneWidget),
+    (tester) async {
+      // The Passport shows progress while the runtime data loads, so this
+      // test pumps until the page is up instead of settling.
+      final dbs = memoryDatabases();
+      await tester.pumpWidget(
+        harnessApp(dbs, initialLocation: '/calc/GS-ABCDEFGHIJKLMNOP#fajr'),
+      );
+      await pumpUntil(tester, find.text('Accuracy Passport'));
+      await disposeApp(tester, dbs);
+    },
   );
 
   shellTest(

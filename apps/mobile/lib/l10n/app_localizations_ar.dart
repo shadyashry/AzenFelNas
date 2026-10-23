@@ -291,4 +291,219 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noTimeReason => 'مفيش وقت في اليوم ده';
+
+  @override
+  String get passportNotFoundTitle => 'الحساب ده مش موجود على الجهاز ده';
+
+  @override
+  String get passportNotFoundBody =>
+      'رقم الحساب مش في مواعيد الأسبوع ده، واللينك مفيهوش بيانات نعيد بيها الحساب.';
+
+  @override
+  String get passportMismatchTitle => 'الجهاز ده حسبها بشكل مختلف';
+
+  @override
+  String get passportMismatchVersions =>
+      'الوقت ده اتحسب بنسخة مختلفة من المحرك أو الإعدادات أو بيانات المناطق الزمنية.';
+
+  @override
+  String passportMismatchProfile(String profile, String version) {
+    return 'الجهاز ده مفيهوش إعدادات $profile نسخة $version.';
+  }
+
+  @override
+  String get passportMismatchZone =>
+      'بيانات المناطق الزمنية على الجهاز ده مفيهاش منطقة المكان ده.';
+
+  @override
+  String passportLinkId(String id) {
+    return 'في اللينك: $id';
+  }
+
+  @override
+  String passportLocalId(String id) {
+    return 'على الجهاز ده: $id';
+  }
+
+  @override
+  String passportThisDevice(String engine, String tzdb) {
+    return 'الجهاز ده: المحرك $engine، بيانات المناطق الزمنية $tzdb';
+  }
+
+  @override
+  String get passportImportMatch =>
+      'اتحسبت تاني على الجهاز ده: النتيجة زي اللينك.';
+
+  @override
+  String get passportCopyLink => 'انسخ اللينك';
+
+  @override
+  String get passportLinkCopied => 'اتنسخ اللينك';
+
+  @override
+  String get passportInputsTitle => 'المدخلات';
+
+  @override
+  String get passportVersionsTitle => 'النسخ';
+
+  @override
+  String get passportCoordinates => 'الإحداثيات';
+
+  @override
+  String get passportZone => 'المنطقة الزمنية';
+
+  @override
+  String get passportDay => 'اليوم';
+
+  @override
+  String get passportProfile => 'الإعدادات';
+
+  @override
+  String get passportHijri => 'التاريخ الهجري (الفجر / الليل)';
+
+  @override
+  String get passportEngine => 'المحرك';
+
+  @override
+  String get passportDeltaT => 'نموذج ΔT';
+
+  @override
+  String get passportTzdb => 'بيانات المناطق الزمنية';
+
+  @override
+  String get passportInputsHash => 'بصمة المدخلات';
+
+  @override
+  String passportRaw(String time) {
+    return 'اللحظة المحسوبة $time';
+  }
+
+  @override
+  String passportShown(String time) {
+    return 'بتظهر $time';
+  }
+
+  @override
+  String get passportRoundingCeil => 'متقربة للدقيقة اللي بعدها';
+
+  @override
+  String get passportRoundingFloor => 'متقربة للدقيقة اللي قبلها';
+
+  @override
+  String get passportRoundingNearest => 'متقربة لأقرب دقيقة';
+
+  @override
+  String get passportOriginPrimary => 'من القاعدة الفلكية';
+
+  @override
+  String passportOriginFallback(String method) {
+    return 'من طريقة خطوط العرض العالية $method';
+  }
+
+  @override
+  String passportOriginNoEvent(String reason) {
+    return 'مفيش وقت في اليوم ده ($reason)';
+  }
+
+  @override
+  String passportSensitivity(int seconds) {
+    return '±١ كم بيغير ده بـ ≤ $seconds ث';
+  }
+
+  @override
+  String passportAdjustment(String kind, String seconds) {
+    return '$kind: $seconds ث';
+  }
+
+  @override
+  String get passportAdjustOffset => 'إزاحة';
+
+  @override
+  String get passportAdjustRamadan => 'قاعدة رمضان';
+
+  @override
+  String get passportAdjustHighLatitude => 'طريقة خطوط العرض العالية';
+
+  @override
+  String get passportAdjustRounding => 'التقريب';
+
+  @override
+  String get flagNearRoundingBoundary =>
+      'اللحظة المحسوبة قريبة أقل من نص ثانية من بداية دقيقة.';
+
+  @override
+  String get flagHighLatitudeFallback =>
+      'طريقة خطوط العرض العالية هي اللي طلعت الوقت ده.';
+
+  @override
+  String get flagLowLocationAccuracy => 'موقعك تقريبي.';
+
+  @override
+  String get flagDstTransitionDay => 'الساعة بتتغير في اليوم ده.';
+
+  @override
+  String get flagStaleTzdb => 'بيانات المناطق الزمنية على الجهاز قديمة.';
+
+  @override
+  String get flagHijriExpected => 'التاريخ الهجري متوقع ولسه ما اتعلنش.';
+
+  @override
+  String get flagReferenceModeAuthorityPoint =>
+      'محسوب عند نقطة المرجع بتاعة الجهة لمنطقتك.';
+
+  @override
+  String get flagManualCoordinateResolution => 'المكان اتختار يدوي.';
+
+  @override
+  String get flagZoneBoundaryProximity => 'انت قريب من حدود منطقة زمنية.';
+
+  @override
+  String get flagNoLocalProfile =>
+      'مفيش إعدادات محلية للمكان ده؛ بنستخدم الافتراضي.';
+
+  @override
+  String get passportNoFlags => 'مفيش ملاحظات على الوقت ده.';
+
+  @override
+  String get qiblaNoHeading => 'مستنيين البوصلة…';
+
+  @override
+  String get qiblaNumericOnly =>
+      'الجهاز ده مفيهوش بوصلة تنفع. اتجه للزاوية دي بخريطة أو بوصلة عادية.';
+
+  @override
+  String get qiblaCalibrating =>
+      'دقة البوصلة ضعيفة. حرّك الموبايل على شكل ٨ بعيد عن المعادن.';
+
+  @override
+  String qiblaBearing(String degrees) {
+    return 'القبلة: $degrees° من الشمال الحقيقي';
+  }
+
+  @override
+  String qiblaDistance(String km) {
+    return '$km كم للكعبة';
+  }
+
+  @override
+  String qiblaAccuracy(String degrees) {
+    return 'دقة البوصلة ±$degrees°';
+  }
+
+  @override
+  String qiblaTurn(String degrees, String direction) {
+    return 'لف $degrees° $direction';
+  }
+
+  @override
+  String get qiblaRight => 'يمين';
+
+  @override
+  String get qiblaLeft => 'شمال';
+
+  @override
+  String get qiblaFacing => 'انت في اتجاه القبلة.';
+
+  @override
+  String get qiblaNeedsPlace => 'اختار مكان علشان تشوف القبلة.';
 }

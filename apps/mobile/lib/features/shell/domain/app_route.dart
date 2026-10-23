@@ -1,3 +1,4 @@
+import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:meta/meta.dart';
 
 /// Every screen the router can show: a closed set, so a location that is not
@@ -98,27 +99,58 @@ final class QiblaRoute extends AppRoute {
 }
 
 /// The Accuracy Passport of one Calculation ID (S18).
+/// The Accuracy Passport of a Calculation ID (§6.4 ¶11, P1), optionally
+/// focused on one event (`<calcId>#<event>`) and carrying a shared link's
+/// inputs for local recomputation.
 @immutable
 final class CalculationRoute extends AppRoute {
-  /// The route for [calculationId], which must match [idPattern].
-  const new(this.calculationId);
+  /// The Passport of [calculationId], focused on [event] when given, with a
+  /// shared link's base64url [inputs] when given.
+  const new(this.calculationId, {this.event, this.inputs});
 
-  /// `calculation_trace.v1` `calculationId` (§6.4 ¶11).
+  /// `GS-` + 16 base32 characters.
   static final idPattern = RegExp(r'^GS-[A-Z2-7]{16}$');
+
+  /// A shared link's `i` parameter: unpadded base64url, at most 2048
+  /// characters (§15 D78).
+  static final inputsPattern = RegExp(r'^[A-Za-z0-9_-]{1,2048}$');
 
   /// The Calculation ID.
   final String calculationId;
 
+  /// The focused event, or `null` for the whole day.
+  final PrayerEvent? event;
+
+  /// A shared link's encoded inputs, or `null` for a local lookup.
+  final String? inputs;
+
+  /// The event named by [code] (`PrayerEvent.name`), or `null`.
+  static PrayerEvent? eventOf(String code) {
+    for (final event in PrayerEvent.values) {
+      if (event.name == code) return event;
+    }
+    return null;
+  }
+
   @override
-  String get location => '/calc/$calculationId';
+  String get location {
+    final path = event == null
+        ? '/calc/$calculationId'
+        : '/calc/$calculationId/${event?.name}';
+    return inputs == null ? path : '$path?i=$inputs';
+  }
 
   @override
   bool get linkable => true;
 
   @override
   bool operator ==(Object other) =>
-      other is CalculationRoute && other.calculationId == calculationId;
+      other is CalculationRoute &&
+      other.calculationId == calculationId &&
+      other.event == event &&
+      other.inputs == inputs;
 
   @override
-  int get hashCode => Object.hash(CalculationRoute, calculationId);
+  int get hashCode =>
+      Object.hash(CalculationRoute, calculationId, event, inputs);
 }

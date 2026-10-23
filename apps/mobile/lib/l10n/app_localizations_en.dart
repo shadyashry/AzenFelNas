@@ -290,4 +290,220 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noTimeReason => 'no time on this day';
+
+  @override
+  String get passportNotFoundTitle => 'This calculation is not on this device';
+
+  @override
+  String get passportNotFoundBody =>
+      'The link\'s Calculation ID is not in this week\'s times and the link carries no inputs to recompute it.';
+
+  @override
+  String get passportMismatchTitle => 'Computed differently on this device';
+
+  @override
+  String get passportMismatchVersions =>
+      'This time was computed with a different engine, profile or time-zone data version.';
+
+  @override
+  String passportMismatchProfile(String profile, String version) {
+    return 'This device does not have profile $profile version $version.';
+  }
+
+  @override
+  String get passportMismatchZone =>
+      'This device\'s time-zone data does not include the shared place\'s zone.';
+
+  @override
+  String passportLinkId(String id) {
+    return 'In the link: $id';
+  }
+
+  @override
+  String passportLocalId(String id) {
+    return 'On this device: $id';
+  }
+
+  @override
+  String passportThisDevice(String engine, String tzdb) {
+    return 'This device: engine $engine, time-zone data $tzdb';
+  }
+
+  @override
+  String get passportImportMatch =>
+      'Recomputed on this device: the result matches the link.';
+
+  @override
+  String get passportCopyLink => 'Copy link';
+
+  @override
+  String get passportLinkCopied => 'Link copied';
+
+  @override
+  String get passportInputsTitle => 'Inputs';
+
+  @override
+  String get passportVersionsTitle => 'Versions';
+
+  @override
+  String get passportCoordinates => 'Coordinates';
+
+  @override
+  String get passportZone => 'Time zone';
+
+  @override
+  String get passportDay => 'Day';
+
+  @override
+  String get passportProfile => 'Profile';
+
+  @override
+  String get passportHijri => 'Hijri date (dawn / night)';
+
+  @override
+  String get passportEngine => 'Engine';
+
+  @override
+  String get passportDeltaT => 'ΔT model';
+
+  @override
+  String get passportTzdb => 'Time-zone data';
+
+  @override
+  String get passportInputsHash => 'Inputs hash';
+
+  @override
+  String passportRaw(String time) {
+    return 'Calculated instant $time';
+  }
+
+  @override
+  String passportShown(String time) {
+    return 'Shown as $time';
+  }
+
+  @override
+  String get passportRoundingCeil => 'Rounded up to the next minute';
+
+  @override
+  String get passportRoundingFloor => 'Rounded down to the minute';
+
+  @override
+  String get passportRoundingNearest => 'Rounded to the nearest minute';
+
+  @override
+  String get passportOriginPrimary => 'From the astronomical rule';
+
+  @override
+  String passportOriginFallback(String method) {
+    return 'From the high-latitude method $method';
+  }
+
+  @override
+  String passportOriginNoEvent(String reason) {
+    return 'No time on this day ($reason)';
+  }
+
+  @override
+  String passportSensitivity(int seconds) {
+    return '±1 km changes this by ≤ $seconds s';
+  }
+
+  @override
+  String passportAdjustment(String kind, String seconds) {
+    return '$kind: $seconds s';
+  }
+
+  @override
+  String get passportAdjustOffset => 'Offset';
+
+  @override
+  String get passportAdjustRamadan => 'Ramadan rule';
+
+  @override
+  String get passportAdjustHighLatitude => 'High-latitude method';
+
+  @override
+  String get passportAdjustRounding => 'Rounding';
+
+  @override
+  String get flagNearRoundingBoundary =>
+      'The calculated instant is within half a second of a minute boundary.';
+
+  @override
+  String get flagHighLatitudeFallback =>
+      'A high-latitude method gave this time.';
+
+  @override
+  String get flagLowLocationAccuracy => 'Your location is approximate.';
+
+  @override
+  String get flagDstTransitionDay => 'The clocks change on this day.';
+
+  @override
+  String get flagStaleTzdb => 'The time-zone data on this device is old.';
+
+  @override
+  String get flagHijriExpected =>
+      'The Hijri date is expected, not yet announced.';
+
+  @override
+  String get flagReferenceModeAuthorityPoint =>
+      'Calculated at the authority\'s reference point for your area.';
+
+  @override
+  String get flagManualCoordinateResolution => 'The place was chosen by hand.';
+
+  @override
+  String get flagZoneBoundaryProximity => 'You are near a time-zone border.';
+
+  @override
+  String get flagNoLocalProfile =>
+      'No local profile covers this place; the engine default is used.';
+
+  @override
+  String get passportNoFlags => 'No flags for this time.';
+
+  @override
+  String get qiblaNoHeading => 'Waiting for the compass…';
+
+  @override
+  String get qiblaNumericOnly =>
+      'This device has no usable compass. Face the bearing below using a map or a physical compass.';
+
+  @override
+  String get qiblaCalibrating =>
+      'Compass accuracy is low. Move the phone in a figure-eight away from metal.';
+
+  @override
+  String qiblaBearing(String degrees) {
+    return 'Qibla: $degrees° from true north';
+  }
+
+  @override
+  String qiblaDistance(String km) {
+    return '$km km to the Kaaba';
+  }
+
+  @override
+  String qiblaAccuracy(String degrees) {
+    return 'Compass accuracy ±$degrees°';
+  }
+
+  @override
+  String qiblaTurn(String degrees, String direction) {
+    return 'Turn $degrees° $direction';
+  }
+
+  @override
+  String get qiblaRight => 'right';
+
+  @override
+  String get qiblaLeft => 'left';
+
+  @override
+  String get qiblaFacing => 'You are facing the Qibla.';
+
+  @override
+  String get qiblaNeedsPlace => 'Choose a place to see the Qibla.';
 }
