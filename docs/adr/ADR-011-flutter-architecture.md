@@ -40,6 +40,7 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Dart | go_router | 16 | **18.1.1** (BSD-3-Clause; app dependency from S16; routes validated by `RoutePolicy` — §15 D76) | `apps/mobile`, `pubspec.lock` |
 | Dart | drift_flutter · path_provider | — | **0.3.1 · 2.1.6** (MIT · BSD-3-Clause; app dependencies from S16 to open `dm.sqlite` / `places.sqlite` under the app support directory; they pull `sqlite3_flutter_libs` 0.6.0+eol and `sqlcipher_flutter_libs` 0.7.0+eol, empty stubs, and `jni`/`objective_c` (BSD-3-Clause) for `path_provider` — §15 D76) | `apps/mobile`, `pubspec.lock` |
 | Dart | intl · flutter_localizations | 0.20 | **0.20.3** (BSD-3-Clause; the version `flutter_localizations` of Flutter 3.47.7 requires; ARB codegen with `flutter gen-l10n` from S16 — §15 D76) | `apps/mobile/l10n.yaml`, `pubspec.lock` |
+| Dart | geo_salah_profiles · dm_hijri (workspace) | — | **0.2.0 · 0.1.0** (this repository's licence; pure-Dart app dependencies from S17 for `ParseProfileSetPayload`/`ResolveProfile`/`CheckProfileChannel` and `BuildHijriState` — §15 D77) | `apps/mobile/pubspec.yaml` |
 | Android | Gradle | 8.14 | **9.8.2** (sha256-pinned wrapper) | `gradle-wrapper.properties`, `.tool-versions` |
 | Android | AGP | 8.11 | **9.4.1** | `settings.gradle.kts`, `libs.versions.toml` |
 | Android | Kotlin | 2.2 | **2.4.21** | `settings.gradle.kts`, `libs.versions.toml` |
