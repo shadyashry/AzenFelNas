@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:daily_muslim/app/daily_muslim_app.dart';
 import 'package:daily_muslim/app/di.dart';
+import 'package:daily_muslim/features/contexts/domain/location_ports.dart';
 import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
 import 'package:daily_muslim/features/storage/data/places_database.dart';
@@ -11,6 +12,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../features/contexts/support/fake_device_locator.dart';
+import 'fake_location_access.dart';
 
 /// 2026-10-22T09:00:00Z.
 const harnessNowUtcMs = 1792659600000;
@@ -28,12 +32,17 @@ Widget harnessApp(
   OpenedDatabases databases, {
   String initialLocation = '/',
   Directory? blobRoot,
+  LocateDevice? locator,
+  RequestLocationAccess? locationAccess,
+  Clock? clock,
 }) => ProviderScope(
   overrides: AppBindings.of(
     databases: databases,
     assets: rootBundle,
-    clock: FixedClock(harnessNowUtcMs),
+    clock: clock ?? FixedClock(harnessNowUtcMs),
     blobRoot: blobRoot ?? Directory.systemTemp.createTempSync('dm_blobs'),
+    locator: locator ?? FakeDeviceLocator(),
+    locationAccess: locationAccess ?? FakeLocationAccess(),
   ),
   child: DailyMuslimApp(initialLocation: initialLocation),
 );

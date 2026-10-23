@@ -1,10 +1,12 @@
+import 'package:daily_muslim/features/contexts/presentation/manual_place_page.dart';
+import 'package:daily_muslim/features/home/presentation/timeline_page.dart';
+import 'package:daily_muslim/features/onboarding/presentation/home_gate.dart';
 import 'package:daily_muslim/features/settings/presentation/attributions_page.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_page.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/domain/route_policy.dart';
 import 'package:daily_muslim/features/shell/presentation/placeholder_page.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 /// The router (§7.1): every location passes [RoutePolicy] before a page is
@@ -19,7 +21,7 @@ abstract final class AppRouter {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const _Home(),
+        builder: (context, state) => const HomeGate(),
         routes: [
           GoRoute(
             path: 'settings',
@@ -30,6 +32,14 @@ abstract final class AppRouter {
                 builder: (context, state) => const AttributionsPage(),
               ),
             ],
+          ),
+          GoRoute(
+            path: 'timeline',
+            builder: (context, state) => const TimelinePage(),
+          ),
+          GoRoute(
+            path: 'place',
+            builder: (context, state) => const ManualPlacePage(),
           ),
           GoRoute(
             path: 'health',
@@ -59,25 +69,5 @@ abstract final class AppRouter {
     final route = RoutePolicy.parse(uri);
     if (route == null) return const HomeRoute().location;
     return route.location == uri.toString() ? null : route.location;
-  }
-}
-
-/// Home until S17 builds it.
-final class _Home extends StatelessWidget {
-  const new();
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    return PlaceholderPage(
-      title: l.homeTitle,
-      actions: [
-        IconButton(
-          tooltip: l.settingsTitle,
-          icon: const Icon(Icons.settings_outlined),
-          onPressed: () => context.push(const SettingsRoute().location),
-        ),
-      ],
-    );
   }
 }

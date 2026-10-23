@@ -7,6 +7,34 @@
       "schemaVersion": 1,
       "payload": "gazetteer/3.0.2/gazetteer.json",
       "sha256": "9103057b24d66558baf01f875582507ec95570d42c3ba676e7d0fc0976ffc45a"
+    },
+    {
+      "type": "prayer_profiles",
+      "version": "2026.10.1",
+      "schemaVersion": 1,
+      "payload": "prayer_profiles/2026.10.1/profiles.json",
+      "sha256": "bf6ac91149b5101dfb5e63e3b929d09d015e9c0b97444d979fb9060a21794899"
+    },
+    {
+      "type": "tzdata",
+      "version": "2026e",
+      "schemaVersion": 1,
+      "payload": "tzdata/2026e/tzdata.tzf",
+      "sha256": "78ba31d78fb7bf870e312a187e8bef849189c3521dbf68d1ee5f5fe4f8e71891"
+    },
+    {
+      "type": "tz_polygons",
+      "version": "2026e",
+      "schemaVersion": 1,
+      "payload": "tz_polygons/2026e/tz_polygons.bin",
+      "sha256": "9328d3627ab80e697161dcdea47294f1ed4d51ae9e9f71cb1ccae3ef9b1ffc70"
+    },
+    {
+      "type": "country_polygons",
+      "version": "5.1.2",
+      "schemaVersion": 1,
+      "payload": "country_polygons/5.1.2/country_polygons.bin",
+      "sha256": "a262029f49a130f7a236672d077bcd4bc13355df4a00dfd0fa230cdc8410850b"
     }
   ]
 }

@@ -153,5 +153,245 @@
   "remediationCheckDeviceClock": "Set the device's date and time to update automatically.",
   "@remediationCheckDeviceClock": {
     "description": "Remediation."
+  },
+  "onboardingWelcomeTitle": "Prayer times for where you are",
+  "@onboardingWelcomeTitle": {
+    "description": "Onboarding welcome step title."
+  },
+  "onboardingWelcomeBody": "Works offline, without an account. Your location stays on this phone.",
+  "@onboardingWelcomeBody": {
+    "description": "Onboarding welcome step body."
+  },
+  "onboardingStart": "Get started",
+  "@onboardingStart": {
+    "description": "Onboarding welcome button."
+  },
+  "onboardingLocationTitle": "Where are you?",
+  "@onboardingLocationTitle": {
+    "description": "Onboarding location step title."
+  },
+  "onboardingLocationBody": "Approximate location is enough for today's times. You can choose a place instead.",
+  "@onboardingLocationBody": {
+    "description": "Onboarding location step body."
+  },
+  "onboardingUseLocation": "Use approximate location",
+  "@onboardingUseLocation": {
+    "description": "Button: ask for approximate location."
+  },
+  "onboardingChoosePlace": "Choose a place",
+  "@onboardingChoosePlace": {
+    "description": "Button: open manual place search."
+  },
+  "onboardingResolving": "Finding your place…",
+  "@onboardingResolving": {
+    "description": "Shown while the location is resolved."
+  },
+  "onboardingFailedTitle": "Location is not available",
+  "@onboardingFailedTitle": {
+    "description": "Onboarding: location failed."
+  },
+  "onboardingTryAgain": "Try again",
+  "@onboardingTryAgain": {
+    "description": "Button: retry location."
+  },
+  "onboardingDoneTitle": "Your times are ready",
+  "@onboardingDoneTitle": {
+    "description": "Onboarding done step title."
+  },
+  "onboardingDoneBody": "Prayer times for {place}.",
+  "@onboardingDoneBody": {
+    "description": "Onboarding done step body.",
+    "placeholders": {
+      "place": {
+        "type": "String",
+        "example": "Cairo"
+      }
+    }
+  },
+  "onboardingShowTimes": "Show today's times",
+  "@onboardingShowTimes": {
+    "description": "Onboarding done button."
+  },
+  "placeTitle": "Choose a place",
+  "@placeTitle": {
+    "description": "Manual place screen title."
+  },
+  "placeSearchHint": "City name",
+  "@placeSearchHint": {
+    "description": "Manual place search field hint."
+  },
+  "placeIdle": "Search the offline list of cities.",
+  "@placeIdle": {
+    "description": "Manual place: before searching."
+  },
+  "placeSearching": "Searching…",
+  "@placeSearching": {
+    "description": "Manual place: search running."
+  },
+  "placeEmpty": "No place found. Try another spelling or enter coordinates.",
+  "@placeEmpty": {
+    "description": "Manual place: no results."
+  },
+  "placeError": "The search did not work (code {code}).",
+  "@placeError": {
+    "description": "Manual place: search failed.",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "PKG_STORAGE"
+      }
+    }
+  },
+  "placeEnterCoordinates": "Enter coordinates",
+  "@placeEnterCoordinates": {
+    "description": "Button: switch to coordinate entry."
+  },
+  "placeLatitude": "Latitude",
+  "@placeLatitude": {
+    "description": "Coordinate entry field."
+  },
+  "placeLongitude": "Longitude",
+  "@placeLongitude": {
+    "description": "Coordinate entry field."
+  },
+  "placeName": "Place name",
+  "@placeName": {
+    "description": "Coordinate entry: label field."
+  },
+  "placeCoordinatesInvalid": "Latitude from -90 to 90, longitude from -180 to 180.",
+  "@placeCoordinatesInvalid": {
+    "description": "Coordinate entry: invalid numbers."
+  },
+  "placeUse": "Use this place",
+  "@placeUse": {
+    "description": "Coordinate entry: save button."
+  },
+  "homeNextPrayer": "Next: {prayer}",
+  "@homeNextPrayer": {
+    "description": "Home: next prayer line.",
+    "placeholders": {
+      "prayer": {
+        "type": "String",
+        "example": "Asr"
+      }
+    }
+  },
+  "homeCountdown": "in {hours} h {minutes} min",
+  "@homeCountdown": {
+    "description": "Home: countdown to the next prayer.",
+    "placeholders": {
+      "hours": {
+        "type": "String",
+        "example": "2"
+      },
+      "minutes": {
+        "type": "String",
+        "example": "05"
+      }
+    }
+  },
+  "homeNoNextPrayer": "No further prayer in the coming days",
+  "@homeNoNextPrayer": {
+    "description": "Home: no timed prayer left."
+  },
+  "homeNeedsLocation": "Choose where to show prayer times for.",
+  "@homeNeedsLocation": {
+    "description": "Home: no usable place."
+  },
+  "homeNoProfile": "There is no local authority profile here; the engine default is used.",
+  "@homeNoProfile": {
+    "description": "Home: engine default profile used (US-06)."
+  },
+  "homeError": "Prayer times could not be worked out (code {code}).",
+  "@homeError": {
+    "description": "Home: calculation failed.",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "ENGINE_ORDERING"
+      }
+    }
+  },
+  "homeHealthUnknown": "Athan: not set up yet",
+  "@homeHealthUnknown": {
+    "description": "Home: Athan readiness before Athan exists."
+  },
+  "homeManualPlace": "Manual place · {label}",
+  "@homeManualPlace": {
+    "description": "Home: place chip for a manual context (US-02).",
+    "placeholders": {
+      "label": {
+        "type": "String",
+        "example": "Alexandria"
+      }
+    }
+  },
+  "homeCurrentPlace": "Approximate location",
+  "@homeCurrentPlace": {
+    "description": "Home: place chip for the device location."
+  },
+  "homePinnedPlace": "Pinned place · {label}",
+  "@homePinnedPlace": {
+    "description": "Home: place chip for a pinned context.",
+    "placeholders": {
+      "label": {
+        "type": "String",
+        "example": "Home"
+      }
+    }
+  },
+  "homeChangePlace": "Change place",
+  "@homeChangePlace": {
+    "description": "Home: button to manual place."
+  },
+  "timelineTitle": "Next 7 days",
+  "@timelineTitle": {
+    "description": "Day timeline title and Home button."
+  },
+  "timelineError": "The days could not be worked out (code {code}).",
+  "@timelineError": {
+    "description": "Day timeline: failed.",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "PKG_STORAGE"
+      }
+    }
+  },
+  "prayerImsak": "Imsak",
+  "@prayerImsak": {
+    "description": "Event name."
+  },
+  "prayerFajr": "Fajr",
+  "@prayerFajr": {
+    "description": "Event name."
+  },
+  "prayerSunrise": "Sunrise",
+  "@prayerSunrise": {
+    "description": "Event name."
+  },
+  "prayerDhuhr": "Dhuhr",
+  "@prayerDhuhr": {
+    "description": "Event name."
+  },
+  "prayerAsr": "Asr",
+  "@prayerAsr": {
+    "description": "Event name."
+  },
+  "prayerMaghrib": "Maghrib",
+  "@prayerMaghrib": {
+    "description": "Event name."
+  },
+  "prayerIsha": "Isha",
+  "@prayerIsha": {
+    "description": "Event name."
+  },
+  "noTimeText": "—",
+  "@noTimeText": {
+    "description": "Time cell when an event has no time."
+  },
+  "noTimeReason": "no time on this day",
+  "@noTimeReason": {
+    "description": "Unknown reason when an event has no time."
   }
 }

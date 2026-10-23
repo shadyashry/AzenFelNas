@@ -6,6 +6,7 @@
 // packages/dm_packages/test/client/package_client_done_test.dart.
 import 'dart:io';
 
+import 'package:daily_muslim/app/app_build.dart';
 import 'package:daily_muslim/features/contexts/application/import_gazetteer.dart';
 import 'package:daily_muslim/features/contexts/data/drift_gazetteer_store.dart';
 import 'package:daily_muslim/features/contexts/data/json_gazetteer_payload_decoder.dart';
@@ -42,11 +43,7 @@ void main() {
     importSeeds = ImportBundledSeeds(
       seeds: AssetBundledSeeds((key) => File(key).readAsBytes()),
       catalog: catalog,
-      app: AppCompat(
-        appVersion: '0.1.0',
-        engineSchema: 1,
-        schemaVersions: const {PackageType.gazetteer: 1},
-      ),
+      app: AppBuild.compat,
       checkPayload: const PackagePayloadChecks(),
       activate: ActivateStaged(
         read: catalog,
@@ -78,7 +75,7 @@ void main() {
     // Assert
     expect(first.failures, isEmpty);
     expect(
-      first.imported.single,
+      first.imported.singleWhere((a) => a.type == PackageType.gazetteer),
       isA<ActivePackage>()
           .having((a) => a.type, 'type', PackageType.gazetteer)
           .having((a) => a.version, 'version', '3.0.2')
@@ -87,7 +84,10 @@ void main() {
     );
     expect(second.imported, isEmpty);
     expect(await places(), 34006);
-    expect(events.events.whereType<PackageActivated>(), hasLength(1));
+    expect(
+      events.events.whereType<PackageActivated>(),
+      hasLength(first.imported.length),
+    );
   });
 
   test('REQ-PKG-001 a gazetteer payload that does not decode is refused '

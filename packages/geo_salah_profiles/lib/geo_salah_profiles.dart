@@ -13,6 +13,7 @@ library;
 
 export 'package:geo_salah_profiles/src/check_profile_channel.dart';
 export 'package:geo_salah_profiles/src/parse_prayer_profile.dart';
+export 'package:geo_salah_profiles/src/parse_profile_set_payload.dart';
 export 'package:geo_salah_profiles/src/profile_failure.dart';
 export 'package:geo_salah_profiles/src/profile_set.dart';
 export 'package:geo_salah_profiles/src/release_channel.dart';
