@@ -54,3 +54,20 @@ Future<void> disposeApp(WidgetTester tester, OpenedDatabases databases) async {
   await tester.pump(Duration.zero);
   await tester.runAsync(databases.close);
 }
+
+/// Pumps, letting database work finish on the real event loop between
+/// frames, until [finder] matches; fails after [attempts] rounds.
+Future<void> pumpUntil(
+  WidgetTester tester,
+  Finder finder, {
+  int attempts = 200,
+}) async {
+  for (var i = 0; i < attempts; i++) {
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 5)),
+    );
+    await tester.pump(const Duration(milliseconds: 16));
+    if (finder.evaluate().isNotEmpty) return;
+  }
+  fail('not found after $attempts rounds: $finder');
+}
