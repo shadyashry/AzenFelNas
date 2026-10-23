@@ -6,7 +6,7 @@ part 'schedule_plan.freezed.dart';
 part 'schedule_plan.g.dart';
 
 /// Wire form of `schedule_plan.v1` (Appendix B): the only input of native
-/// scheduling (ADR-002). Building it arrives in S20.
+/// scheduling (ADR-002), built by the app's `BuildSchedulePlan` (S20).
 @freezed
 abstract class SchedulePlan with _$SchedulePlan {
   /// Creates a [SchedulePlan].
