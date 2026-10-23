@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- DESIGN.md §8.2: plan.json, snapshot.json and events.jsonl live in this App Group (REQ-ALM-035). -->
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.app.dailymuslim.shared</string>
+	</array>
+	<!-- Athan, Imsak and pre-reminder notifications are time-sensitive (§15 D82). -->
+	<key>com.apple.developer.usernotifications.time-sensitive</key>
+	<true/>
+</dict>
+</plist>

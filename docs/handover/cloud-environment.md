@@ -70,7 +70,24 @@ S10's extra check (`make`, `cc` and `git` are preinstalled):
 ## Not installed yet
 
 - **Temurin JDK 21.0.11** (`.tool-versions`): the system has OpenJDK 21.0.12. Install it and the **Android SDK (compileSdk 36)** when S19/S21 need Gradle builds.
-- **Xcode / Swift**: none on Linux; `ci-ios` (macOS) validates AthanKit.
+- **Xcode**: none on Linux; `ci-ios` (macOS) builds Runner and the Darwin-only AthanKit files.
+
+## Swift on Linux (added S22)
+
+`download.swift.org` and `ghcr.io` blobs are denied; Docker Hub and GitHub release downloads are not. The Docker daemon is installed but not running:
+
+```bash
+(nohup dockerd > /tmp/dockerd.log 2>&1 &); sleep 8
+docker pull -q swift:6.2-noble                     # Swift 6.2 toolchain
+docker run --rm -v /home/user/AzenFelNas:/repo -v swiftbuild:/repo/apps/mobile/ios/AthanKit/.build \
+  -w /repo/apps/mobile/ios/AthanKit swift:6.2-noble swift test      # the core; Platform/ and Spike/ are Darwin-only
+mkdir -p /tmp/sl /tmp/sf
+curl -fsSL -o /tmp/sl/sl.zip https://github.com/realm/SwiftLint/releases/download/0.65.1/swiftlint_linux_amd64.zip && unzip -oq /tmp/sl/sl.zip -d /tmp/sl
+curl -fsSL -o /tmp/sf/sf.zip https://github.com/nicklockwood/SwiftFormat/releases/download/0.64.0/swiftformat_linux.zip && unzip -oq /tmp/sf/sf.zip -d /tmp/sf
+/tmp/sl/swiftlint-static lint --strict && /tmp/sf/swiftformat_linux --lint apps/mobile/ios/AthanKit
+```
+
+The repository is mounted whole because the tests find their fixtures by walking up to `DESIGN.md`; the named volume keeps `.build` out of the checkout. SwiftLint's SourceKit-only rule (`statement_position`) is skipped on Linux; macOS CI runs it.
 - **Python 3.15**: uv downloads it automatically on `uv sync`.
 
 ## Session hygiene
