@@ -128,4 +128,166 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get remediationCheckDeviceClock =>
       'Set the device\'s date and time to update automatically.';
+
+  @override
+  String get onboardingWelcomeTitle => 'Prayer times for where you are';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Works offline, without an account. Your location stays on this phone.';
+
+  @override
+  String get onboardingStart => 'Get started';
+
+  @override
+  String get onboardingLocationTitle => 'Where are you?';
+
+  @override
+  String get onboardingLocationBody =>
+      'Approximate location is enough for today\'s times. You can choose a place instead.';
+
+  @override
+  String get onboardingUseLocation => 'Use approximate location';
+
+  @override
+  String get onboardingChoosePlace => 'Choose a place';
+
+  @override
+  String get onboardingResolving => 'Finding your place…';
+
+  @override
+  String get onboardingFailedTitle => 'Location is not available';
+
+  @override
+  String get onboardingTryAgain => 'Try again';
+
+  @override
+  String get onboardingDoneTitle => 'Your times are ready';
+
+  @override
+  String onboardingDoneBody(String place) {
+    return 'Prayer times for $place.';
+  }
+
+  @override
+  String get onboardingShowTimes => 'Show today\'s times';
+
+  @override
+  String get placeTitle => 'Choose a place';
+
+  @override
+  String get placeSearchHint => 'City name';
+
+  @override
+  String get placeIdle => 'Search the offline list of cities.';
+
+  @override
+  String get placeSearching => 'Searching…';
+
+  @override
+  String get placeEmpty =>
+      'No place found. Try another spelling or enter coordinates.';
+
+  @override
+  String placeError(String code) {
+    return 'The search did not work (code $code).';
+  }
+
+  @override
+  String get placeEnterCoordinates => 'Enter coordinates';
+
+  @override
+  String get placeLatitude => 'Latitude';
+
+  @override
+  String get placeLongitude => 'Longitude';
+
+  @override
+  String get placeName => 'Place name';
+
+  @override
+  String get placeCoordinatesInvalid =>
+      'Latitude from -90 to 90, longitude from -180 to 180.';
+
+  @override
+  String get placeUse => 'Use this place';
+
+  @override
+  String homeNextPrayer(String prayer) {
+    return 'Next: $prayer';
+  }
+
+  @override
+  String homeCountdown(String hours, String minutes) {
+    return 'in $hours h $minutes min';
+  }
+
+  @override
+  String get homeNoNextPrayer => 'No further prayer in the coming days';
+
+  @override
+  String get homeNeedsLocation => 'Choose where to show prayer times for.';
+
+  @override
+  String get homeNoProfile =>
+      'There is no local authority profile here; the engine default is used.';
+
+  @override
+  String homeError(String code) {
+    return 'Prayer times could not be worked out (code $code).';
+  }
+
+  @override
+  String get homeHealthUnknown => 'Athan: not set up yet';
+
+  @override
+  String homeManualPlace(String label) {
+    return 'Manual place · $label';
+  }
+
+  @override
+  String get homeCurrentPlace => 'Approximate location';
+
+  @override
+  String homePinnedPlace(String label) {
+    return 'Pinned place · $label';
+  }
+
+  @override
+  String get homeChangePlace => 'Change place';
+
+  @override
+  String get timelineTitle => 'Next 7 days';
+
+  @override
+  String timelineError(String code) {
+    return 'The days could not be worked out (code $code).';
+  }
+
+  @override
+  String get prayerImsak => 'Imsak';
+
+  @override
+  String get prayerFajr => 'Fajr';
+
+  @override
+  String get prayerSunrise => 'Sunrise';
+
+  @override
+  String get prayerDhuhr => 'Dhuhr';
+
+  @override
+  String get prayerAsr => 'Asr';
+
+  @override
+  String get prayerMaghrib => 'Maghrib';
+
+  @override
+  String get prayerIsha => 'Isha';
+
+  @override
+  String get noTimeText => '—';
+
+  @override
+  String get noTimeReason => 'no time on this day';
 }

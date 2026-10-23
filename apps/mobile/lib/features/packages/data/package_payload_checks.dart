@@ -4,6 +4,7 @@ import 'package:daily_muslim/features/contexts/data/json_gazetteer_payload_decod
 import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
+import 'package:geo_salah_profiles/geo_salah_profiles.dart';
 
 /// [CheckPayload] with each type's own reader: the payload must decode
 /// exactly as the runtime will read it (§7.4 "schema"). A type without a
@@ -36,7 +37,12 @@ final class PackagePayloadChecks implements CheckPayload {
       },
       PackageType.tzPolygons => _polygons(bytes, PolygonDataset.tz),
       PackageType.countryPolygons => _polygons(bytes, PolygonDataset.country),
-      PackageType.prayerProfiles ||
+      PackageType.prayerProfiles => switch (const ParseProfileSetPayload()(
+        payload,
+      )) {
+        Ok() => null,
+        Err(:final failure) => failure.detail,
+      },
       PackageType.hijri ||
       PackageType.athanAudioManifest => 'no ${type.wire} reader in this build',
     };

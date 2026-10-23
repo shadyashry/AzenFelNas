@@ -319,6 +319,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set the device\'s date and time to update automatically.'**
   String get remediationCheckDeviceClock;
+
+  /// Onboarding welcome step title.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times for where you are'**
+  String get onboardingWelcomeTitle;
+
+  /// Onboarding welcome step body.
+  ///
+  /// In en, this message translates to:
+  /// **'Works offline, without an account. Your location stays on this phone.'**
+  String get onboardingWelcomeBody;
+
+  /// Onboarding welcome button.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onboardingStart;
+
+  /// Onboarding location step title.
+  ///
+  /// In en, this message translates to:
+  /// **'Where are you?'**
+  String get onboardingLocationTitle;
+
+  /// Onboarding location step body.
+  ///
+  /// In en, this message translates to:
+  /// **'Approximate location is enough for today\'s times. You can choose a place instead.'**
+  String get onboardingLocationBody;
+
+  /// Button: ask for approximate location.
+  ///
+  /// In en, this message translates to:
+  /// **'Use approximate location'**
+  String get onboardingUseLocation;
+
+  /// Button: open manual place search.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a place'**
+  String get onboardingChoosePlace;
+
+  /// Shown while the location is resolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding your place…'**
+  String get onboardingResolving;
+
+  /// Onboarding: location failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is not available'**
+  String get onboardingFailedTitle;
+
+  /// Button: retry location.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get onboardingTryAgain;
+
+  /// Onboarding done step title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your times are ready'**
+  String get onboardingDoneTitle;
+
+  /// Onboarding done step body.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times for {place}.'**
+  String onboardingDoneBody(String place);
+
+  /// Onboarding done button.
+  ///
+  /// In en, this message translates to:
+  /// **'Show today\'s times'**
+  String get onboardingShowTimes;
+
+  /// Manual place screen title.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a place'**
+  String get placeTitle;
+
+  /// Manual place search field hint.
+  ///
+  /// In en, this message translates to:
+  /// **'City name'**
+  String get placeSearchHint;
+
+  /// Manual place: before searching.
+  ///
+  /// In en, this message translates to:
+  /// **'Search the offline list of cities.'**
+  String get placeIdle;
+
+  /// Manual place: search running.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching…'**
+  String get placeSearching;
+
+  /// Manual place: no results.
+  ///
+  /// In en, this message translates to:
+  /// **'No place found. Try another spelling or enter coordinates.'**
+  String get placeEmpty;
+
+  /// Manual place: search failed.
+  ///
+  /// In en, this message translates to:
+  /// **'The search did not work (code {code}).'**
+  String placeError(String code);
+
+  /// Button: switch to coordinate entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter coordinates'**
+  String get placeEnterCoordinates;
+
+  /// Coordinate entry field.
+  ///
+  /// In en, this message translates to:
+  /// **'Latitude'**
+  String get placeLatitude;
+
+  /// Coordinate entry field.
+  ///
+  /// In en, this message translates to:
+  /// **'Longitude'**
+  String get placeLongitude;
+
+  /// Coordinate entry: label field.
+  ///
+  /// In en, this message translates to:
+  /// **'Place name'**
+  String get placeName;
+
+  /// Coordinate entry: invalid numbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Latitude from -90 to 90, longitude from -180 to 180.'**
+  String get placeCoordinatesInvalid;
+
+  /// Coordinate entry: save button.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this place'**
+  String get placeUse;
+
+  /// Home: next prayer line.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {prayer}'**
+  String homeNextPrayer(String prayer);
+
+  /// Home: countdown to the next prayer.
+  ///
+  /// In en, this message translates to:
+  /// **'in {hours} h {minutes} min'**
+  String homeCountdown(String hours, String minutes);
+
+  /// Home: no timed prayer left.
+  ///
+  /// In en, this message translates to:
+  /// **'No further prayer in the coming days'**
+  String get homeNoNextPrayer;
+
+  /// Home: no usable place.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose where to show prayer times for.'**
+  String get homeNeedsLocation;
+
+  /// Home: engine default profile used (US-06).
+  ///
+  /// In en, this message translates to:
+  /// **'There is no local authority profile here; the engine default is used.'**
+  String get homeNoProfile;
+
+  /// Home: calculation failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times could not be worked out (code {code}).'**
+  String homeError(String code);
+
+  /// Home: Athan readiness before Athan exists.
+  ///
+  /// In en, this message translates to:
+  /// **'Athan: not set up yet'**
+  String get homeHealthUnknown;
+
+  /// Home: place chip for a manual context (US-02).
+  ///
+  /// In en, this message translates to:
+  /// **'Manual place · {label}'**
+  String homeManualPlace(String label);
+
+  /// Home: place chip for the device location.
+  ///
+  /// In en, this message translates to:
+  /// **'Approximate location'**
+  String get homeCurrentPlace;
+
+  /// Home: place chip for a pinned context.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned place · {label}'**
+  String homePinnedPlace(String label);
+
+  /// Home: button to manual place.
+  ///
+  /// In en, this message translates to:
+  /// **'Change place'**
+  String get homeChangePlace;
+
+  /// Day timeline title and Home button.
+  ///
+  /// In en, this message translates to:
+  /// **'Next 7 days'**
+  String get timelineTitle;
+
+  /// Day timeline: failed.
+  ///
+  /// In en, this message translates to:
+  /// **'The days could not be worked out (code {code}).'**
+  String timelineError(String code);
+
+  /// Event name.
+  ///
+  /// In en, this message translates to:
+  /// **'Imsak'**
+  String get prayerImsak;
+
+  /// Event name.
+  ///
+  /// In en, this message translates to:
+  /// **'Fajr'**
+  String get prayerFajr;
+
+  /// Event name.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise'**
+  String get prayerSunrise;
+
+  /// Event name.
+  ///
+  /// In en, this message translates to:
+  /// **'Dhuhr'**
+  String get prayerDhuhr;
+
+  /// Event name.
+  ///
+  /// In en, this message translates to:
+  /// **'Asr'**
+  String get prayerAsr;
+
+  /// Event name.
+  ///
+  /// In en, this message translates to:
+  /// **'Maghrib'**
+  String get prayerMaghrib;
+
+  /// Event name.
+  ///
+  /// In en, this message translates to:
+  /// **'Isha'**
+  String get prayerIsha;
+
+  /// Time cell when an event has no time.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get noTimeText;
+
+  /// Unknown reason when an event has no time.
+  ///
+  /// In en, this message translates to:
+  /// **'no time on this day'**
+  String get noTimeReason;
 }
 
 class _AppLocalizationsDelegate

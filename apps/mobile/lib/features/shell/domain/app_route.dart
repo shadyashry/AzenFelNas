@@ -49,6 +49,30 @@ final class AttributionsRoute extends AppRoute {
   bool get linkable => false;
 }
 
+/// The seven-day timeline (S17).
+final class TimelineRoute extends AppRoute {
+  /// The route.
+  const new();
+
+  @override
+  String get location => '/timeline';
+
+  @override
+  bool get linkable => false;
+}
+
+/// Manual place search and coordinate entry (S17).
+final class PlaceRoute extends AppRoute {
+  /// The route.
+  const new();
+
+  @override
+  String get location => '/place';
+
+  @override
+  bool get linkable => false;
+}
+
 /// Athan Health (S20).
 final class HealthRoute extends AppRoute {
   /// The route.

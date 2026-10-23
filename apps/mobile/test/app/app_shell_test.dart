@@ -27,10 +27,12 @@ void shellTest(
 });
 
 void main() {
-  shellTest('the app starts on Home in the device language', (tester, _) async {
-    expect(find.text('Today'), findsOneWidget);
-    expect(find.byTooltip('Settings'), findsOneWidget);
-  });
+  shellTest(
+    'the first start opens onboarding in the device language',
+    (tester, _) async {
+      expect(find.text('Prayer times for where you are'), findsOneWidget);
+    },
+  );
 
   shellTest(
     'choosing Arabic switches the copy and the direction',
@@ -57,7 +59,10 @@ void main() {
   shellTest(
     'a refused deep link lands on Home (REQ-SEC-010)',
     location: '/calc/not-an-id',
-    (tester, _) async => expect(find.text('Today'), findsOneWidget),
+    (tester, _) async => expect(
+      find.text('Prayer times for where you are'),
+      findsOneWidget,
+    ),
   );
 
   shellTest(

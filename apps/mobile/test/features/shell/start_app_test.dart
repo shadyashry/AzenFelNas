@@ -11,6 +11,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../support/app_harness.dart';
+import '../../support/fake_location_access.dart';
+import '../contexts/support/fake_device_locator.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +34,8 @@ void main() {
       assets: rootBundle,
       clock: FixedClock(harnessNowUtcMs),
       blobRoot: blobs,
+      locator: FakeDeviceLocator(),
+      locationAccess: FakeLocationAccess(),
     ),
   );
 
@@ -45,8 +49,14 @@ void main() {
 
       expect(report.seeds.failures, isEmpty);
       expect(
-        report.seeds.imported.map((p) => p.type),
-        [PackageType.gazetteer],
+        report.seeds.imported.map((p) => p.type).toSet(),
+        {
+          PackageType.gazetteer,
+          PackageType.prayerProfiles,
+          PackageType.tzdata,
+          PackageType.tzPolygons,
+          PackageType.countryPolygons,
+        },
       );
       expect(report.garbage, const Result<int, PackageFailure>.ok(0));
       final events = await DriftEventLog(dbs.dm).entries();

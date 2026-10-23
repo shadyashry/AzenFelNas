@@ -35,6 +35,8 @@ abstract final class RoutePolicy {
     [] => const HomeRoute(),
     ['settings'] => const SettingsRoute(),
     ['settings', 'attributions'] => const AttributionsRoute(),
+    ['timeline'] => const TimelineRoute(),
+    ['place'] => const PlaceRoute(),
     ['health'] => const HealthRoute(),
     ['qibla'] => const QiblaRoute(),
     ['calc', final id] when CalculationRoute.idPattern.hasMatch(id) =>
