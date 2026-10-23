@@ -2,6 +2,7 @@ import 'package:daily_muslim/features/contexts/presentation/manual_place_page.da
 import 'package:daily_muslim/features/home/presentation/timeline_page.dart';
 import 'package:daily_muslim/features/onboarding/presentation/home_gate.dart';
 import 'package:daily_muslim/features/passport/presentation/passport_page.dart';
+import 'package:daily_muslim/features/qibla/presentation/qibla_page.dart';
 import 'package:daily_muslim/features/settings/presentation/attributions_page.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_page.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
@@ -51,9 +52,7 @@ abstract final class AppRouter {
           ),
           GoRoute(
             path: 'qibla',
-            builder: (context, state) => PlaceholderPage(
-              title: AppLocalizations.of(context).qiblaTitle,
-            ),
+            builder: (context, state) => const QiblaPage(),
           ),
           GoRoute(
             path: 'calc/:id',

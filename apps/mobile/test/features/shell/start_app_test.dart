@@ -13,6 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../support/app_harness.dart';
 import '../../support/fake_location_access.dart';
 import '../contexts/support/fake_device_locator.dart';
+import '../qibla/support/fake_heading_source.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,7 @@ void main() {
       blobRoot: blobs,
       locator: FakeDeviceLocator(),
       locationAccess: FakeLocationAccess(),
+      heading: FakeHeadingSource(),
     ),
   );
 

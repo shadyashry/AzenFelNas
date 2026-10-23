@@ -19,6 +19,7 @@ import 'package:geo_salah_profiles/geo_salah_profiles.dart';
 import '../../support/app_harness.dart';
 import '../../support/fake_location_access.dart';
 import '../contexts/support/fake_device_locator.dart';
+import '../qibla/support/fake_heading_source.dart';
 
 String _code(Result<RuntimeData, Failure> result) => switch (result) {
   Ok() => 'ok',
@@ -59,6 +60,7 @@ void main() {
         blobRoot: blobs,
         locator: FakeDeviceLocator(),
         locationAccess: FakeLocationAccess(),
+        heading: FakeHeadingSource(),
       ),
     );
     await container.read(appStartProvider.future);

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:daily_muslim/app/daily_muslim_app.dart';
 import 'package:daily_muslim/app/di.dart';
 import 'package:daily_muslim/features/contexts/domain/location_ports.dart';
+import 'package:daily_muslim/features/qibla/domain/heading_source.dart';
 import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
 import 'package:daily_muslim/features/storage/data/places_database.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../features/contexts/support/fake_device_locator.dart';
+import '../features/qibla/support/fake_heading_source.dart';
 import 'fake_location_access.dart';
 
 /// 2026-10-22T09:00:00Z.
@@ -34,6 +36,7 @@ Widget harnessApp(
   Directory? blobRoot,
   LocateDevice? locator,
   RequestLocationAccess? locationAccess,
+  HeadingSource? heading,
   Clock? clock,
 }) => ProviderScope(
   overrides: AppBindings.of(
@@ -43,6 +46,7 @@ Widget harnessApp(
     blobRoot: blobRoot ?? Directory.systemTemp.createTempSync('dm_blobs'),
     locator: locator ?? FakeDeviceLocator(),
     locationAccess: locationAccess ?? FakeLocationAccess(),
+    heading: heading ?? FakeHeadingSource(),
   ),
   child: DailyMuslimApp(initialLocation: initialLocation),
 );

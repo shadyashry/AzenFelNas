@@ -18,7 +18,9 @@ void main() {
   final import = ImportCalculationLink(data.tzdb, data.profiles);
   final day = schedule.days[2];
 
-  LinkedInputs linked(String encoded) => CalculationLink.decode(encoded)!;
+  LinkedInputs linked(String? encoded) =>
+      CalculationLink.decode(encoded ?? '') ??
+      (throw StateError(encoded ?? ''));
 
   group('ResolveCalculationId (§6.4 ¶11, US-05)', () {
     test('REQ-DOM-004 a schedule day resolves by its ID, focused on the '
@@ -28,8 +30,8 @@ void main() {
         day.calculationId,
         event: PrayerEvent.asr,
       );
-      expect(entry, isNotNull);
-      expect(entry!.day, day);
+      if (entry == null) fail('not resolved');
+      expect(entry.day, day);
       expect(entry.focus, PrayerEvent.asr);
       expect(entry.origin, PassportOrigin.local);
       expect(entry.inputs.inputsHash, day.provenance.inputsHash);
@@ -59,7 +61,7 @@ void main() {
       expect(link.path, '/calc/${day.calculationId}');
       expect(link.fragment, 'fajr');
       expect(link.queryParametersAll.keys, ['i']);
-      final back = linked(link.queryParameters['i']!);
+      final back = linked(link.queryParameters['i']);
       expect(back.latitudeDeg, schedule.inputs[2].latitudeDeg);
       expect(back.zoneId, 'Africa/Cairo');
       expect(back.day, day.day);
@@ -87,7 +89,7 @@ void main() {
     test('REQ-DOM-004 the same inputs recompute to the same ID here', () {
       final outcome = import(day.calculationId, linked(encoded));
       expect(outcome, isA<ImportMatched>());
-      final entry = (outcome! as ImportMatched).entry;
+      final entry = _as<ImportMatched>(outcome).entry;
       expect(entry.origin, PassportOrigin.importedMatch);
       expect(entry.day.calculationId, day.calculationId);
       expect(
@@ -99,7 +101,7 @@ void main() {
     test('REQ-DOM-004 another ID for the same inputs is a version mismatch '
         'with this device versions, never the sender values', () {
       final outcome = import('GS-AAAAAAAAAAAAAAAA', linked(encoded));
-      final mismatch = (outcome! as ImportMismatched).mismatch;
+      final mismatch = _as<ImportMismatched>(outcome).mismatch;
       expect(mismatch.reason, MismatchReason.differentVersions);
       expect(mismatch.linkId, 'GS-AAAAAAAAAAAAAAAA');
       expect(mismatch.localId, day.calculationId);
@@ -116,7 +118,7 @@ void main() {
         day.calculationId,
         linked(CalculationLink.encodeJson(json)),
       );
-      final mismatch = (outcome! as ImportMismatched).mismatch;
+      final mismatch = _as<ImportMismatched>(outcome).mismatch;
       expect(mismatch.reason, MismatchReason.profileUnavailable);
       expect(mismatch.profileVersion, '1999.1.1');
       expect(mismatch.localId, isNull);
@@ -129,7 +131,7 @@ void main() {
         linked(CalculationLink.encodeJson(json)),
       );
       expect(
-        (outcome! as ImportMismatched).mismatch.reason,
+        _as<ImportMismatched>(outcome).mismatch.reason,
         MismatchReason.zoneUnavailable,
       );
     });
@@ -155,3 +157,7 @@ void main() {
     });
   });
 }
+
+/// [value] as [T]; fails the test otherwise.
+T _as<T>(Object? value) =>
+    value is T ? value : throw StateError('not $T: $value');

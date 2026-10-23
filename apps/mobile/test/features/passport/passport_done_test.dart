@@ -32,7 +32,7 @@ void main() {
     expect(route, isA<CalculationRoute>(), reason: link);
     await tester.pumpWidget(
       localizedApp(
-        PassportPage(route! as CalculationRoute),
+        PassportPage(_as<CalculationRoute>(route)),
         overrides: [
           scheduleProvider.overrideWith(
             (ref) async => local == null
@@ -115,3 +115,7 @@ void main() {
     expect(find.text('This calculation is not on this device'), findsOneWidget);
   });
 }
+
+/// [value] as [T]; fails the test otherwise.
+T _as<T>(Object? value) =>
+    value is T ? value : throw StateError('not $T: $value');

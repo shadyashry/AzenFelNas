@@ -26,7 +26,7 @@ void main() {
   final golden = jsonDecode(
     File('test/qibla/qibla_vectors.json').readAsStringSync(),
   ) as Map<String, Object?>;
-  final vectors = (golden['vectors']! as List<Object?>)
+  final vectors = _as<List<Object?>>(golden['vectors'])
       .cast<Map<String, Object?>>();
 
   group('CalculateQibla (§6.6)', () {
@@ -34,16 +34,16 @@ void main() {
       expect(vectors, hasLength(greaterThanOrEqualTo(250)));
       for (final v in vectors) {
         final got = qibla(
-          _at((v['lat']! as num).toDouble(), (v['lon']! as num).toDouble()),
+          _at(_as<num>(v['lat']).toDouble(), _as<num>(v['lon']).toDouble()),
         );
-        final want = (v['bearingDeg']! as num).toDouble();
+        final want = _as<num>(v['bearingDeg']).toDouble();
         expect(
           _angleDelta(got.bearingDeg, want),
           lessThan(_bearingToleranceDeg),
           reason: '${v['name']}: ${got.bearingDeg} vs $want',
         );
         expect(
-          (got.distanceM - (v['distanceM']! as num).toDouble()).abs(),
+          (got.distanceM - _as<num>(v['distanceM']).toDouble()).abs(),
           lessThan(_distanceToleranceM),
           reason: '${v['name']} distance',
         );
@@ -82,3 +82,7 @@ void main() {
     });
   });
 }
+
+/// [value] as [T]; fails the test otherwise.
+T _as<T>(Object? value) =>
+    value is T ? value : throw StateError('not $T: $value');

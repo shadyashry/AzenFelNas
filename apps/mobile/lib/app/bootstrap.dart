@@ -5,6 +5,7 @@ import 'package:daily_muslim/app/di.dart';
 import 'package:daily_muslim/app/startup_failure_app.dart';
 import 'package:daily_muslim/features/contexts/data/geolocator_device_locator.dart';
 import 'package:daily_muslim/features/contexts/data/permission_handler_location_access.dart';
+import 'package:daily_muslim/features/qibla/data/channel_heading_source.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/storage/data/database_files.dart';
 import 'package:daily_muslim/features/storage/data/method_channel_backup_exclusion.dart';
@@ -48,6 +49,7 @@ abstract final class Bootstrap {
             locationAccess: PermissionHandlerLocationAccess(
               PermissionHandlerPlatform.instance,
             ),
+            heading: const ChannelHeadingSource(),
           ),
           child: const DailyMuslimApp(),
         );

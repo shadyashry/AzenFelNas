@@ -48,8 +48,11 @@ void main() {
     schedule,
     schedule.days.first.calculationId,
     event: PrayerEvent.maghrib,
-  )!;
-  final view = PassportView.of(entry, data.tzdb);
+  );
+  final view = PassportView.of(
+    entry ?? (throw StateError('no entry')),
+    data.tzdb,
+  );
 
   group('Passport UiState (§18.4) — every variant renders', () {
     testWidgets('loading shows progress', (tester) async {

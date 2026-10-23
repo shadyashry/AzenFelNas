@@ -1,3 +1,4 @@
+import CoreLocation
 import Flutter
 import UIKit
 
@@ -14,6 +15,9 @@ import UIKit
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
     if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "DmBackupExclusion") {
       BackupExclusionChannel.register(messenger: registrar.messenger())
+    }
+    if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "DmHeading") {
+      HeadingStreamHandler.register(messenger: registrar.messenger())
     }
   }
 }
@@ -49,5 +53,55 @@ enum BackupExclusionChannel {
     } catch {
       return false
     }
+  }
+}
+
+/// `HeadingApi` (DESIGN.md §7.8, §15 D78) on the `dm/heading` event channel: listening starts
+/// `CLLocationManager` heading updates, cancelling stops them. Each sample is
+/// `{"heading": trueHeading?, "accuracy": headingAccuracy?}`; `trueHeading` is reported only
+/// while it is valid (≥ 0, which needs location authorization), `headingAccuracy` only when
+/// ≥ 0. No magnetometer is `{"unavailable": true}`. Here, not in its own file, because adding
+/// a file needs an Xcode project edit; moves to pigeon in S20.
+final class HeadingStreamHandler: NSObject, FlutterStreamHandler, CLLocationManagerDelegate {
+  static let name = "dm/heading"
+
+  private let manager = CLLocationManager()
+  private var sink: FlutterEventSink?
+
+  static func register(messenger: FlutterBinaryMessenger) {
+    let channel = FlutterEventChannel(name: name, binaryMessenger: messenger)
+    channel.setStreamHandler(HeadingStreamHandler())
+  }
+
+  func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink)
+    -> FlutterError?
+  {
+    guard CLLocationManager.headingAvailable() else {
+      events(["unavailable": true])
+      events(FlutterEndOfEventStream)
+      return nil
+    }
+    sink = events
+    manager.delegate = self
+    manager.headingFilter = 1
+    manager.startUpdatingHeading()
+    return nil
+  }
+
+  func onCancel(withArguments arguments: Any?) -> FlutterError? {
+    manager.stopUpdatingHeading()
+    sink = nil
+    return nil
+  }
+
+  func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    guard let sink else { return }
+    let heading: Any = newHeading.trueHeading >= 0 ? newHeading.trueHeading : NSNull()
+    let accuracy: Any = newHeading.headingAccuracy >= 0 ? newHeading.headingAccuracy : NSNull()
+    sink(["heading": heading, "accuracy": accuracy])
+  }
+
+  func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
+    true
   }
 }

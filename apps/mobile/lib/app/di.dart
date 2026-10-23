@@ -23,6 +23,8 @@ import 'package:daily_muslim/features/packages/data/event_log_package_events.dar
 import 'package:daily_muslim/features/packages/data/io_gzip_inflate.dart';
 import 'package:daily_muslim/features/packages/data/io_package_blob_store.dart';
 import 'package:daily_muslim/features/packages/data/package_payload_checks.dart';
+import 'package:daily_muslim/features/qibla/domain/heading_source.dart';
+import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
 import 'package:daily_muslim/features/schedule/application/calculate_schedule.dart';
 import 'package:daily_muslim/features/schedule/application/load_runtime_data.dart';
 import 'package:daily_muslim/features/schedule/domain/runtime_data.dart';
@@ -52,6 +54,7 @@ abstract final class AppBindings {
     required Directory blobRoot,
     required LocateDevice locator,
     required RequestLocationAccess locationAccess,
+    required HeadingSource heading,
   }) {
     final settings = DriftSettingsStore(databases.dm);
     final eventLog = DriftEventLog(databases.dm);
@@ -117,6 +120,7 @@ abstract final class AppBindings {
         ),
       ),
       completeFirstRunProvider.overrideWithValue(CompleteFirstRun(settings)),
+      headingSourceProvider.overrideWithValue(heading),
     ];
   }
 
