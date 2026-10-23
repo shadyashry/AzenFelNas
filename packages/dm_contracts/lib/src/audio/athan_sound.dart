@@ -1,3 +1,4 @@
+import 'package:dm_contracts/src/audio/athan_ios_clip.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'athan_sound.freezed.dart';
@@ -25,6 +26,9 @@ abstract class AthanSound with _$AthanSound {
 
     /// Regular sound this Fajr recording belongs to.
     String? fajrVariantOf,
+
+    /// iOS notification and AlarmKit clip (REQ-ALM-034).
+    AthanIosClip? iosClip,
   }) = _AthanSound;
 
   /// Decodes [json]; throws `CheckedFromJsonException` when it does not

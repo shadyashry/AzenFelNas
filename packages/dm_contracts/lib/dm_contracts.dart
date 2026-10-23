@@ -6,6 +6,7 @@
 library;
 
 export 'package:dm_contracts/src/audio/athan_audio_manifest.dart';
+export 'package:dm_contracts/src/audio/athan_ios_clip.dart';
 export 'package:dm_contracts/src/audio/athan_sound.dart';
 export 'package:dm_contracts/src/event_log/event_code_converter.dart';
 export 'package:dm_contracts/src/event_log/event_log_attrs.dart';

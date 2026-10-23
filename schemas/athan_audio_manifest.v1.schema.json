@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dailymuslim.app/schemas/athan_audio_manifest.v1.schema.json",
   "title": "Athan audio manifest v1",
-  "description": "Bundled Athan sounds: AAC-LC 96 kbps .m4a at -16 LUFS under assets/athan/ (DESIGN.md §9.5, §10.4). iOS notification clips are at most 29 s (REQ-ALM-034); clip cutting is checked by the audio pipeline, not here.",
+  "description": "Bundled Athan sounds: AAC-LC 96 kbps .m4a at -16 LUFS under assets/athan/ (DESIGN.md §9.5, §10.4). iOS notification and AlarmKit sounds are a sound's optional `iosClip`: a .caf of at most 29 s (REQ-ALM-034, ADR-013) that AthanKit copies to Library/Sounds/<soundId>.caf; cutting at phrase boundaries is checked by the audio pipeline, not here.",
   "type": "object",
   "additionalProperties": false,
   "required": ["sounds"],
@@ -20,6 +20,18 @@
         "durationMs": { "type": "integer", "minimum": 1 },
         "fajrVariantOf": { "type": "string", "pattern": "^[a-z0-9_]+$", "description": "soundId of the regular Athan this Fajr recording belongs to." },
         "licenceRef": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "iosClip": { "$ref": "#/$defs/iosClip" }
+      }
+    },
+    "iosClip": {
+      "description": "UNNotificationSound plays aiff/wav/caf of at most 30 s, so the iOS clip is a .caf of at most 29 000 ms (REQ-ALM-034).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "durationMs", "sha256"],
+      "properties": {
+        "file": { "type": "string", "pattern": "^[a-z0-9_/-]+\\.caf$" },
+        "durationMs": { "type": "integer", "minimum": 1, "maximum": 29000 },
         "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
       }
     }
