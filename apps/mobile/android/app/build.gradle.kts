@@ -47,6 +47,6 @@ flutter {
 }
 
 dependencies {
-    // S19 native spike (DESIGN.md §13): debug builds only; S21 makes athan-core a release dependency.
-    debugImplementation(project(":athan-core"))
+    // Native Athan layer (DESIGN.md §8.1); its S19 spike sources stay in athan-core/src/debug (D79, D81).
+    implementation(project(":athan-core"))
 }

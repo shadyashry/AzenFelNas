@@ -1,5 +1,5 @@
 // athan-core: native Athan layer (DESIGN.md §8.1). Reads SchedulePlan only; never calculates times (ADR-002).
-// Wire models of the plan, snapshot and event log since S02; scheduling arrives in S21. Compiler bar: §17.3.
+// Wire models since S02, plan stores since S20, scheduling, receivers, playback, channels and probes since S21. §17.3.
 plugins {
     id("com.android.library")
     // gradle.properties keeps android.builtInKotlin=false (Flutter template), so Kotlin is applied explicitly.

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- athan-core copy (DESIGN.md §18.8, D81). DRAFT: Product/Content own the wording; Athan text itself comes
+     pre-rendered from the plan. -->
+<resources>
+    <string name="athan_channel_athan">Athan</string>
+    <string name="athan_channel_pre_reminder">Prayer reminders</string>
+    <string name="athan_channel_imsak">Imsak</string>
+    <string name="athan_channel_horizon_warning">Schedule refresh</string>
+    <string name="athan_channel_playback">Athan playing</string>
+    <string name="athan_action_stop">Stop</string>
+    <string name="athan_action_snooze">Snooze</string>
+    <string name="athan_test_title">Athan Test</string>
+    <string name="athan_test_body">Did you hear it? Open the app to answer.</string>
+</resources>

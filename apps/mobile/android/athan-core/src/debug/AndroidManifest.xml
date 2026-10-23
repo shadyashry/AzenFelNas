@@ -14,6 +14,12 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <!-- S21 device-suite driver (D81): am start -n app.dailymuslim/app.dailymuslim.athan.suite.AthanSuiteActivity -->
+        <activity
+            android:name="app.dailymuslim.athan.suite.AthanSuiteActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <receiver
             android:name="app.dailymuslim.athan.spike.SpikeAlarmReceiver"
             android:directBootAware="true"

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DRAFT Arabic copy; Content approval OWED (D81). -->
+<resources>
+    <string name="athan_channel_athan">الأذان</string>
+    <string name="athan_channel_pre_reminder">تذكير بالصلاة</string>
+    <string name="athan_channel_imsak">الإمساك</string>
+    <string name="athan_channel_horizon_warning">تحديث المواعيد</string>
+    <string name="athan_channel_playback">الأذان شغّال</string>
+    <string name="athan_action_stop">إيقاف</string>
+    <string name="athan_action_snooze">تأجيل</string>
+    <string name="athan_test_title">تجربة الأذان</string>
+    <string name="athan_test_body">سمعته؟ افتح التطبيق وجاوب.</string>
+</resources>
