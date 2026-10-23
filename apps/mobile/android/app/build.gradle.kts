@@ -45,3 +45,8 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    // S19 native spike (DESIGN.md §13): debug builds only; S21 makes athan-core a release dependency.
+    debugImplementation(project(":athan-core"))
+}

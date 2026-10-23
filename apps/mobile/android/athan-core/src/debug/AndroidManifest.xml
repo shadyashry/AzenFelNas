@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S19 native spike (DESIGN.md §13, docs/adr/ADR-025-s19-native-spike.md). Debug builds only: release never merges it. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application>
+        <!-- adb entry point: am start -n app.dailymuslim/app.dailymuslim.athan.spike.SpikeActivity --es cmd schedule ... -->
+        <activity
+            android:name="app.dailymuslim.athan.spike.SpikeActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <receiver
+            android:name="app.dailymuslim.athan.spike.SpikeAlarmReceiver"
+            android:directBootAware="true"
+            android:exported="false" />
+
+        <receiver
+            android:name="app.dailymuslim.athan.spike.SpikeBootReceiver"
+            android:directBootAware="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="app.dailymuslim.athan.spike.SpikePlaybackService"
+            android:directBootAware="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+    </application>
+</manifest>
