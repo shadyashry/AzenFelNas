@@ -506,4 +506,36 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get qiblaNeedsPlace => 'اختار مكان علشان تشوف القبلة.';
+
+  @override
+  String planAthanTitle(String prayer) {
+    return 'أذان $prayer';
+  }
+
+  @override
+  String planAthanBody(String prayer) {
+    return 'جه وقت $prayer.';
+  }
+
+  @override
+  String get planImsakTitle => 'الإمساك';
+
+  @override
+  String get planImsakBody => 'جه وقت الإمساك.';
+
+  @override
+  String planPreReminderTitle(String prayer, int minutes) {
+    return '$prayer بعد $minutes دقيقة';
+  }
+
+  @override
+  String planPreReminderBody(String prayer, int minutes) {
+    return 'أذان $prayer بعد $minutes دقيقة.';
+  }
+
+  @override
+  String get planHorizonTitle => 'جدول الأذان قرب يخلص';
+
+  @override
+  String get planHorizonBody => 'افتح التطبيق علشان الأذان يفضل متجدول.';
 }

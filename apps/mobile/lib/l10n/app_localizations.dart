@@ -955,6 +955,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose a place to see the Qibla.'**
   String get qiblaNeedsPlace;
+
+  /// Plan notification title of an Athan (§7.7).
+  ///
+  /// In en, this message translates to:
+  /// **'{prayer} Athan'**
+  String planAthanTitle(String prayer);
+
+  /// Plan notification body of an Athan.
+  ///
+  /// In en, this message translates to:
+  /// **'It is time for {prayer}.'**
+  String planAthanBody(String prayer);
+
+  /// Plan notification title of the Imsak alert.
+  ///
+  /// In en, this message translates to:
+  /// **'Imsak'**
+  String get planImsakTitle;
+
+  /// Plan notification body of the Imsak alert.
+  ///
+  /// In en, this message translates to:
+  /// **'It is Imsak time.'**
+  String get planImsakBody;
+
+  /// Plan pre-reminder title (REQ-ALM-042).
+  ///
+  /// In en, this message translates to:
+  /// **'{prayer} in {minutes} min'**
+  String planPreReminderTitle(String prayer, int minutes);
+
+  /// Plan pre-reminder body.
+  ///
+  /// In en, this message translates to:
+  /// **'The {prayer} Athan is in {minutes} minutes.'**
+  String planPreReminderBody(String prayer, int minutes);
+
+  /// Horizon warning title (REQ-ALM-010).
+  ///
+  /// In en, this message translates to:
+  /// **'Athan schedule ends soon'**
+  String get planHorizonTitle;
+
+  /// Horizon warning body.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Daily Muslim to keep the Athan scheduled.'**
+  String get planHorizonBody;
 }
 
 class _AppLocalizationsDelegate

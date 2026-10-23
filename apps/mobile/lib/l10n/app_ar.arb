@@ -142,5 +142,13 @@
   "qiblaRight": "يمين",
   "qiblaLeft": "شمال",
   "qiblaFacing": "انت في اتجاه القبلة.",
-  "qiblaNeedsPlace": "اختار مكان علشان تشوف القبلة."
+  "qiblaNeedsPlace": "اختار مكان علشان تشوف القبلة.",
+  "planAthanTitle": "أذان {prayer}",
+  "planAthanBody": "جه وقت {prayer}.",
+  "planImsakTitle": "الإمساك",
+  "planImsakBody": "جه وقت الإمساك.",
+  "planPreReminderTitle": "{prayer} بعد {minutes} دقيقة",
+  "planPreReminderBody": "أذان {prayer} بعد {minutes} دقيقة.",
+  "planHorizonTitle": "جدول الأذان قرب يخلص",
+  "planHorizonBody": "افتح التطبيق علشان الأذان يفضل متجدول."
 }

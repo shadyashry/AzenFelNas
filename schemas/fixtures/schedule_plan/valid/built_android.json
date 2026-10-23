@@ -1,0 +1,5401 @@
+{
+  "schemaVersion": 1,
+  "generation": 1,
+  "contextId": "ctx_1",
+  "zoneId": "Africa/Cairo",
+  "tzdbVersion": "2026e",
+  "generatedAtUtcMs": 1792659600000,
+  "horizonEndUtcMs": 1795191660000,
+  "entries": [
+    {
+      "id": "3fd57d3da3423a97",
+      "day": "2026-10-22",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792661400000,
+      "displayLocal": "12:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "610044d967b0417e",
+      "day": "2026-10-22",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792662000000,
+      "displayLocal": "12:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "fbf593b15fe5dcd5",
+      "day": "2026-10-22",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792672920000,
+      "displayLocal": "15:42",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "91fbfdf04e20d17f",
+      "day": "2026-10-22",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792673520000,
+      "displayLocal": "15:52",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "e029ca9eda842e53",
+      "day": "2026-10-22",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792681680000,
+      "displayLocal": "18:08",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "246c35ae57ecd4bc",
+      "day": "2026-10-22",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792682280000,
+      "displayLocal": "18:18",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "44f47bf366d402ad",
+      "day": "2026-10-22",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792686480000,
+      "displayLocal": "19:28",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "a214d748c8d3d3a6",
+      "day": "2026-10-22",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792687080000,
+      "displayLocal": "19:38",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "02d55860048b14e6",
+      "day": "2026-10-23",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792722780000,
+      "displayLocal": "05:33",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "f8945e05066e74b1",
+      "day": "2026-10-23",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792723380000,
+      "displayLocal": "05:43",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "f346d751cac6afa4",
+      "day": "2026-10-23",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792747800000,
+      "displayLocal": "12:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "b9398b54c52e20b5",
+      "day": "2026-10-23",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792748400000,
+      "displayLocal": "12:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "650a87e9b09ec718",
+      "day": "2026-10-23",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792759320000,
+      "displayLocal": "15:42",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "522428d0c3a694aa",
+      "day": "2026-10-23",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792759920000,
+      "displayLocal": "15:52",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "db0fab5c5d01f7cd",
+      "day": "2026-10-23",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792768020000,
+      "displayLocal": "18:07",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "f894389272777b12",
+      "day": "2026-10-23",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792768620000,
+      "displayLocal": "18:17",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "98075937878b288a",
+      "day": "2026-10-23",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792772820000,
+      "displayLocal": "19:27",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "6134bdccfa0e54a8",
+      "day": "2026-10-23",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792773420000,
+      "displayLocal": "19:37",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "4686accd175a6831",
+      "day": "2026-10-24",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792809180000,
+      "displayLocal": "05:33",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "3603930f9f53d094",
+      "day": "2026-10-24",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792809780000,
+      "displayLocal": "05:43",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "e22bcec8351efdc6",
+      "day": "2026-10-24",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792834200000,
+      "displayLocal": "12:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "31056cb629e12e06",
+      "day": "2026-10-24",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792834800000,
+      "displayLocal": "12:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "2d51f63c693ec2b9",
+      "day": "2026-10-24",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792845660000,
+      "displayLocal": "15:41",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "249c6d85fbf19dc4",
+      "day": "2026-10-24",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792846260000,
+      "displayLocal": "15:51",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "74d5b12c1c76d605",
+      "day": "2026-10-24",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792854360000,
+      "displayLocal": "18:06",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "bc49816caf7ac761",
+      "day": "2026-10-24",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792854960000,
+      "displayLocal": "18:16",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "f6701f48ac1c9885",
+      "day": "2026-10-24",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792859160000,
+      "displayLocal": "19:26",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "a9ff231f1c656a16",
+      "day": "2026-10-24",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792859760000,
+      "displayLocal": "19:36",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "46ddce34633fc2af",
+      "day": "2026-10-25",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792895640000,
+      "displayLocal": "05:34",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "30e2c617ec630f53",
+      "day": "2026-10-25",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792896240000,
+      "displayLocal": "05:44",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "296b6aa56ef5e3ad",
+      "day": "2026-10-25",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792920600000,
+      "displayLocal": "12:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "921df64cc09d206b",
+      "day": "2026-10-25",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792921200000,
+      "displayLocal": "12:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "7ac221d15f4a09ec",
+      "day": "2026-10-25",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792932000000,
+      "displayLocal": "15:40",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "9793f2788b845dcc",
+      "day": "2026-10-25",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792932600000,
+      "displayLocal": "15:50",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "f3db4562e545c762",
+      "day": "2026-10-25",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792940700000,
+      "displayLocal": "18:05",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "7d7f67264c50e20c",
+      "day": "2026-10-25",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792941300000,
+      "displayLocal": "18:15",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "ed1c771bfe24f622",
+      "day": "2026-10-25",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792945500000,
+      "displayLocal": "19:25",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "5ceba5833c4cc8ec",
+      "day": "2026-10-25",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792946100000,
+      "displayLocal": "19:35",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "a1fdaf7f33d88998",
+      "day": "2026-10-26",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1792982040000,
+      "displayLocal": "05:34",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "7b3a60f2ce76c792",
+      "day": "2026-10-26",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1792982640000,
+      "displayLocal": "05:44",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "9fe3ab7b2dacdf1f",
+      "day": "2026-10-26",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793007000000,
+      "displayLocal": "12:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "e9d76e63e3ce85ef",
+      "day": "2026-10-26",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793007600000,
+      "displayLocal": "12:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "f8760dbe22471588",
+      "day": "2026-10-26",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793018340000,
+      "displayLocal": "15:39",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "1c298fdcf7ed4533",
+      "day": "2026-10-26",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793018940000,
+      "displayLocal": "15:49",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "0bf6d3273bebe9d8",
+      "day": "2026-10-26",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793027040000,
+      "displayLocal": "18:04",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "b742f7285d071ae0",
+      "day": "2026-10-26",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793027640000,
+      "displayLocal": "18:14",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "d62214861c414706",
+      "day": "2026-10-26",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793031840000,
+      "displayLocal": "19:24",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "af6d5ef358ab4973",
+      "day": "2026-10-26",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793032440000,
+      "displayLocal": "19:34",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "a1e60bccfa4f7998",
+      "day": "2026-10-27",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793068500000,
+      "displayLocal": "05:35",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "27fac912a2beb20e",
+      "day": "2026-10-27",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793069100000,
+      "displayLocal": "05:45",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "e12838c95e902d36",
+      "day": "2026-10-27",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793093340000,
+      "displayLocal": "12:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "5189fbcbaa0acee0",
+      "day": "2026-10-27",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793093940000,
+      "displayLocal": "12:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "e715030e33a7ebfe",
+      "day": "2026-10-27",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793104740000,
+      "displayLocal": "15:39",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "87fe7e96b7654dcb",
+      "day": "2026-10-27",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793105340000,
+      "displayLocal": "15:49",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "f238286480395277",
+      "day": "2026-10-27",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793113380000,
+      "displayLocal": "18:03",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "3c7f1eacec5daec1",
+      "day": "2026-10-27",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793113980000,
+      "displayLocal": "18:13",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "c40d30cad05011e3",
+      "day": "2026-10-27",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793118180000,
+      "displayLocal": "19:23",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "a233bd25da1edd94",
+      "day": "2026-10-27",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793118780000,
+      "displayLocal": "19:33",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "5025562207be50f2",
+      "day": "2026-10-28",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793154960000,
+      "displayLocal": "05:36",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "a399d4c819d3cd6e",
+      "day": "2026-10-28",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793155560000,
+      "displayLocal": "05:46",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "ea522075d41e23af",
+      "day": "2026-10-28",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793179740000,
+      "displayLocal": "12:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "4f6b16a64e4558e6",
+      "day": "2026-10-28",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793180340000,
+      "displayLocal": "12:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "ca978cb2552b0dfa",
+      "day": "2026-10-28",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793191080000,
+      "displayLocal": "15:38",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "2a22b6ff5b8150e2",
+      "day": "2026-10-28",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793191680000,
+      "displayLocal": "15:48",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "70d0277597744e19",
+      "day": "2026-10-28",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793199720000,
+      "displayLocal": "18:02",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "f5965894bc2f26a4",
+      "day": "2026-10-28",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793200320000,
+      "displayLocal": "18:12",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "0f02a697e240d48d",
+      "day": "2026-10-28",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793204580000,
+      "displayLocal": "19:23",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "351c7ecf888eb812",
+      "day": "2026-10-28",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793205180000,
+      "displayLocal": "19:33",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "e10072f6e4c3cffd",
+      "day": "2026-10-29",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793241360000,
+      "displayLocal": "05:36",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "8478caa18c41231d",
+      "day": "2026-10-29",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793241960000,
+      "displayLocal": "05:46",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "28706fde04defb6f",
+      "day": "2026-10-29",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793266140000,
+      "displayLocal": "12:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "71066c8fc145de37",
+      "day": "2026-10-29",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793266740000,
+      "displayLocal": "12:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "5dee1f80d20656ee",
+      "day": "2026-10-29",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793277420000,
+      "displayLocal": "15:37",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "6aa26393016ed047",
+      "day": "2026-10-29",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793278020000,
+      "displayLocal": "15:47",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "caa5addd833698ac",
+      "day": "2026-10-29",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793286060000,
+      "displayLocal": "18:01",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "a78b85ec0179b068",
+      "day": "2026-10-29",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793286660000,
+      "displayLocal": "18:11",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "250386ae64c8a88b",
+      "day": "2026-10-29",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793290920000,
+      "displayLocal": "19:22",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "ee9df4e538466f04",
+      "day": "2026-10-29",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793291520000,
+      "displayLocal": "19:32",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "bcd7b4035aef8026",
+      "day": "2026-10-30",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793327820000,
+      "displayLocal": "04:37",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "aaa06734728816ae",
+      "day": "2026-10-30",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793328420000,
+      "displayLocal": "04:47",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "55f0fc10cf4ed1cf",
+      "day": "2026-10-30",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793352540000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "ea4bffbabb17c108",
+      "day": "2026-10-30",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793353140000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "eeb62072369785a5",
+      "day": "2026-10-30",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793363820000,
+      "displayLocal": "14:37",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "695ada3e3c0d98d8",
+      "day": "2026-10-30",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793364420000,
+      "displayLocal": "14:47",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "c3d3881d702eb7e7",
+      "day": "2026-10-30",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793372400000,
+      "displayLocal": "17:00",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "55c8be020e360922",
+      "day": "2026-10-30",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793373000000,
+      "displayLocal": "17:10",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "e79350bd5030d567",
+      "day": "2026-10-30",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793377260000,
+      "displayLocal": "18:21",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "bb833da692e5ac96",
+      "day": "2026-10-30",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793377860000,
+      "displayLocal": "18:31",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "04bb0aa310d4ffd4",
+      "day": "2026-10-31",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793414280000,
+      "displayLocal": "04:38",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "de663ac40573e5e0",
+      "day": "2026-10-31",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793414880000,
+      "displayLocal": "04:48",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "bb917d1d23ad71af",
+      "day": "2026-10-31",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793438940000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "7efe4dd32dc41d00",
+      "day": "2026-10-31",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793439540000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "7b0ace17670e7e2f",
+      "day": "2026-10-31",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793450160000,
+      "displayLocal": "14:36",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "9f70a0ad868b86ba",
+      "day": "2026-10-31",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793450760000,
+      "displayLocal": "14:46",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "1d40f0eceeaa9ede",
+      "day": "2026-10-31",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793458740000,
+      "displayLocal": "16:59",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "a47aa4171abae171",
+      "day": "2026-10-31",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793459340000,
+      "displayLocal": "17:09",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "f84809269adce08e",
+      "day": "2026-10-31",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793463600000,
+      "displayLocal": "18:20",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "35513258914e347b",
+      "day": "2026-10-31",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793464200000,
+      "displayLocal": "18:30",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "71b076bd0b5adad5",
+      "day": "2026-11-01",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793500680000,
+      "displayLocal": "04:38",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "e542fe7868f45003",
+      "day": "2026-11-01",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793501280000,
+      "displayLocal": "04:48",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "dd70fa94c1e2eb0b",
+      "day": "2026-11-01",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793525340000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "e92a4c4240cb0e98",
+      "day": "2026-11-01",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793525940000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "33e720cf0b1a4a00",
+      "day": "2026-11-01",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793536560000,
+      "displayLocal": "14:36",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "0c7dc786e5a4b882",
+      "day": "2026-11-01",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793537160000,
+      "displayLocal": "14:46",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "845e878af1cec3fe",
+      "day": "2026-11-01",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793545140000,
+      "displayLocal": "16:59",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "415f868327446d6e",
+      "day": "2026-11-01",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793545740000,
+      "displayLocal": "17:09",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "2b35b5d01a48241f",
+      "day": "2026-11-01",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793550000000,
+      "displayLocal": "18:20",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "eed26ff310b17d5a",
+      "day": "2026-11-01",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793550600000,
+      "displayLocal": "18:30",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "cef2d16d21ada28e",
+      "day": "2026-11-02",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793587140000,
+      "displayLocal": "04:39",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "57f1fd44b23a0dd0",
+      "day": "2026-11-02",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793587740000,
+      "displayLocal": "04:49",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "32b5b4d3769d719d",
+      "day": "2026-11-02",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793611740000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "77ea34ad84c1d503",
+      "day": "2026-11-02",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793612340000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "be71614aa36ebe04",
+      "day": "2026-11-02",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793622900000,
+      "displayLocal": "14:35",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "ec726d599ad69146",
+      "day": "2026-11-02",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793623500000,
+      "displayLocal": "14:45",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "d30ef9de380f4b82",
+      "day": "2026-11-02",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793631480000,
+      "displayLocal": "16:58",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "9a4c527f6222cce1",
+      "day": "2026-11-02",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793632080000,
+      "displayLocal": "17:08",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "ab65279419bed469",
+      "day": "2026-11-02",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793636340000,
+      "displayLocal": "18:19",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "1df63ae9b35c8806",
+      "day": "2026-11-02",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793636940000,
+      "displayLocal": "18:29",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "17cf840b787e780f",
+      "day": "2026-11-03",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793673600000,
+      "displayLocal": "04:40",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "441d6ead999218a2",
+      "day": "2026-11-03",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793674200000,
+      "displayLocal": "04:50",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "bfb9f6089c34e6df",
+      "day": "2026-11-03",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793698140000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "e5210b782d8da332",
+      "day": "2026-11-03",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793698740000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "6e5f5da277862cf6",
+      "day": "2026-11-03",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793709240000,
+      "displayLocal": "14:34",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "06995f987dd01c73",
+      "day": "2026-11-03",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793709840000,
+      "displayLocal": "14:44",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "6893ab80183ad928",
+      "day": "2026-11-03",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793717820000,
+      "displayLocal": "16:57",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "3d3191b95b4e988c",
+      "day": "2026-11-03",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793718420000,
+      "displayLocal": "17:07",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "37ae405750e664ce",
+      "day": "2026-11-03",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793722680000,
+      "displayLocal": "18:18",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "3ed9a9077cc7c082",
+      "day": "2026-11-03",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793723280000,
+      "displayLocal": "18:28",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "55a9cc6616a4dee3",
+      "day": "2026-11-04",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793760000000,
+      "displayLocal": "04:40",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "03ea0d7da029ca6a",
+      "day": "2026-11-04",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793760600000,
+      "displayLocal": "04:50",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "9e0ef4c5310b6a08",
+      "day": "2026-11-04",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793784540000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "890c515ecf2964ec",
+      "day": "2026-11-04",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793785140000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "c5060b965bfe1d4b",
+      "day": "2026-11-04",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793795640000,
+      "displayLocal": "14:34",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "ab47e83667cf675f",
+      "day": "2026-11-04",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793796240000,
+      "displayLocal": "14:44",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "757a7826613ad00e",
+      "day": "2026-11-04",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793804160000,
+      "displayLocal": "16:56",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "c545ea227b37eabd",
+      "day": "2026-11-04",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793804760000,
+      "displayLocal": "17:06",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "28786b61c4c5fced",
+      "day": "2026-11-04",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793809080000,
+      "displayLocal": "18:18",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "ba4aa49225c5376f",
+      "day": "2026-11-04",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793809680000,
+      "displayLocal": "18:28",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "f8da87e3f53c43e5",
+      "day": "2026-11-05",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793846460000,
+      "displayLocal": "04:41",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "6affa9d6009f610e",
+      "day": "2026-11-05",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793847060000,
+      "displayLocal": "04:51",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "307e8b2a77b2267c",
+      "day": "2026-11-05",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793870940000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "ec9ae49085fe8826",
+      "day": "2026-11-05",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793871540000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "f7c19426105adaf5",
+      "day": "2026-11-05",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793881980000,
+      "displayLocal": "14:33",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "c2ac92d39a6e1c53",
+      "day": "2026-11-05",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793882580000,
+      "displayLocal": "14:43",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "34ed1158ee3f0f1e",
+      "day": "2026-11-05",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793890500000,
+      "displayLocal": "16:55",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "893737dad78cac99",
+      "day": "2026-11-05",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793891100000,
+      "displayLocal": "17:05",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "120ac8b95cec023d",
+      "day": "2026-11-05",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793895420000,
+      "displayLocal": "18:17",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "c9d6bc548d94ca97",
+      "day": "2026-11-05",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793896020000,
+      "displayLocal": "18:27",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "6725e22b26c76c87",
+      "day": "2026-11-06",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793932920000,
+      "displayLocal": "04:42",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "f2129f5bb3866586",
+      "day": "2026-11-06",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793933520000,
+      "displayLocal": "04:52",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "d06c10d46e6ded48",
+      "day": "2026-11-06",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793957340000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "90619b0372251f72",
+      "day": "2026-11-06",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793957940000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "72337beff2ed4272",
+      "day": "2026-11-06",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793968380000,
+      "displayLocal": "14:33",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "f8005d6e3a46f0f6",
+      "day": "2026-11-06",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793968980000,
+      "displayLocal": "14:43",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "056a623a3d1c6df5",
+      "day": "2026-11-06",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793976900000,
+      "displayLocal": "16:55",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "9af48c59b9373342",
+      "day": "2026-11-06",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793977500000,
+      "displayLocal": "17:05",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "db0777a9f64fd015",
+      "day": "2026-11-06",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1793981760000,
+      "displayLocal": "18:16",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "c090972aa3deb3bc",
+      "day": "2026-11-06",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1793982360000,
+      "displayLocal": "18:26",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "e8e8646f446a7528",
+      "day": "2026-11-07",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794019320000,
+      "displayLocal": "04:42",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "3f8ef43f74ce96e4",
+      "day": "2026-11-07",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794019920000,
+      "displayLocal": "04:52",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "978173b66abd143f",
+      "day": "2026-11-07",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794043740000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "a69e493912b79f00",
+      "day": "2026-11-07",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794044340000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "54919577ff1f183a",
+      "day": "2026-11-07",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794054720000,
+      "displayLocal": "14:32",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "c9785f61ce6e7ea9",
+      "day": "2026-11-07",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794055320000,
+      "displayLocal": "14:42",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "da21345cb825df66",
+      "day": "2026-11-07",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794063240000,
+      "displayLocal": "16:54",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "e28aa725150881bf",
+      "day": "2026-11-07",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794063840000,
+      "displayLocal": "17:04",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "a8c11336225988e0",
+      "day": "2026-11-07",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794068160000,
+      "displayLocal": "18:16",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "6e2cfa1ec08bcdd5",
+      "day": "2026-11-07",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794068760000,
+      "displayLocal": "18:26",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "c07c9766353da96c",
+      "day": "2026-11-08",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794105780000,
+      "displayLocal": "04:43",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "ec30203438f7767d",
+      "day": "2026-11-08",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794106380000,
+      "displayLocal": "04:53",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "3d636c5dbd6af0fe",
+      "day": "2026-11-08",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794130140000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "399a3f6d3f041fd7",
+      "day": "2026-11-08",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794130740000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "a1b248602ae7d951",
+      "day": "2026-11-08",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794141120000,
+      "displayLocal": "14:32",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "d9b645ce49a4089c",
+      "day": "2026-11-08",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794141720000,
+      "displayLocal": "14:42",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "00456f4d63e0ddb6",
+      "day": "2026-11-08",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794149580000,
+      "displayLocal": "16:53",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "7e19b9c68edb4922",
+      "day": "2026-11-08",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794150180000,
+      "displayLocal": "17:03",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "a4bb3134d2c9ba0f",
+      "day": "2026-11-08",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794154500000,
+      "displayLocal": "18:15",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "c0318f3e7e5fdf71",
+      "day": "2026-11-08",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794155100000,
+      "displayLocal": "18:25",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "46739672a5931379",
+      "day": "2026-11-09",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794192240000,
+      "displayLocal": "04:44",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "d28a2e28fc5a366d",
+      "day": "2026-11-09",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794192840000,
+      "displayLocal": "04:54",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "8205b451e10b1e71",
+      "day": "2026-11-09",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794216540000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "720fa47c87a1da08",
+      "day": "2026-11-09",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794217140000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "e2b20a46e8c29966",
+      "day": "2026-11-09",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794227460000,
+      "displayLocal": "14:31",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "b13bda0f71771623",
+      "day": "2026-11-09",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794228060000,
+      "displayLocal": "14:41",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "479cb0571e2661bd",
+      "day": "2026-11-09",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794235980000,
+      "displayLocal": "16:53",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "a3bb2fc915ab079b",
+      "day": "2026-11-09",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794236580000,
+      "displayLocal": "17:03",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "1d054dd75fba6109",
+      "day": "2026-11-09",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794240900000,
+      "displayLocal": "18:15",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "12ba66b546dc9a50",
+      "day": "2026-11-09",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794241500000,
+      "displayLocal": "18:25",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "0f212acaf0cc0c73",
+      "day": "2026-11-10",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794278640000,
+      "displayLocal": "04:44",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "30bbc047abe6f4c4",
+      "day": "2026-11-10",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794279240000,
+      "displayLocal": "04:54",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "099781b8e69dd86f",
+      "day": "2026-11-10",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794302940000,
+      "displayLocal": "11:29",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "5fe388c0118692fe",
+      "day": "2026-11-10",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794303540000,
+      "displayLocal": "11:39",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "589371ee72959bb8",
+      "day": "2026-11-10",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794313860000,
+      "displayLocal": "14:31",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "1b997642fa3f3c4e",
+      "day": "2026-11-10",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794314460000,
+      "displayLocal": "14:41",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "0200b58fab1f06d1",
+      "day": "2026-11-10",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794322320000,
+      "displayLocal": "16:52",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "64e010d11011dc77",
+      "day": "2026-11-10",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794322920000,
+      "displayLocal": "17:02",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "791a57b576f44104",
+      "day": "2026-11-10",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794327240000,
+      "displayLocal": "18:14",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "ba453beec841aad2",
+      "day": "2026-11-10",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794327840000,
+      "displayLocal": "18:24",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "63b2555c1a82813d",
+      "day": "2026-11-11",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794365100000,
+      "displayLocal": "04:45",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "459b7d3ca5a2c684",
+      "day": "2026-11-11",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794365700000,
+      "displayLocal": "04:55",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "e7caa98bdeecb7a7",
+      "day": "2026-11-11",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794389400000,
+      "displayLocal": "11:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "f7cd8df3ddc7b314",
+      "day": "2026-11-11",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794390000000,
+      "displayLocal": "11:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "1f27f8f094d57d4d",
+      "day": "2026-11-11",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794400200000,
+      "displayLocal": "14:30",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "10d8cd2de4c5f346",
+      "day": "2026-11-11",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794400800000,
+      "displayLocal": "14:40",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "ea1189a8e8bfec0d",
+      "day": "2026-11-11",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794408720000,
+      "displayLocal": "16:52",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "5d46e16eee802cf3",
+      "day": "2026-11-11",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794409320000,
+      "displayLocal": "17:02",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "6b3986ab6049ab0a",
+      "day": "2026-11-11",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794413640000,
+      "displayLocal": "18:14",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "216a4351eec3b72d",
+      "day": "2026-11-11",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794414240000,
+      "displayLocal": "18:24",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "4db9d98765551d89",
+      "day": "2026-11-12",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794451560000,
+      "displayLocal": "04:46",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "2a0fc20b95f2253f",
+      "day": "2026-11-12",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794452160000,
+      "displayLocal": "04:56",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "ba25cf4fe68a5ea8",
+      "day": "2026-11-12",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794475800000,
+      "displayLocal": "11:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "0dbae8d30962627b",
+      "day": "2026-11-12",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794476400000,
+      "displayLocal": "11:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "2453aad47f973c1c",
+      "day": "2026-11-12",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794486600000,
+      "displayLocal": "14:30",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "0db580e6d76f094c",
+      "day": "2026-11-12",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794487200000,
+      "displayLocal": "14:40",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "f10e4a690479af9f",
+      "day": "2026-11-12",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794495060000,
+      "displayLocal": "16:51",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "de49f40b4d4e5e79",
+      "day": "2026-11-12",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794495660000,
+      "displayLocal": "17:01",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "1380062aa297f5c5",
+      "day": "2026-11-12",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794499980000,
+      "displayLocal": "18:13",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "25588a75345d5ecb",
+      "day": "2026-11-12",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794500580000,
+      "displayLocal": "18:23",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "4c9b70de4a3dc5f3",
+      "day": "2026-11-13",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794537960000,
+      "displayLocal": "04:46",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "a1065c899f6bcfe7",
+      "day": "2026-11-13",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794538560000,
+      "displayLocal": "04:56",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "75270b1f7a6a8b0e",
+      "day": "2026-11-13",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794562200000,
+      "displayLocal": "11:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "df8645c5475dd65a",
+      "day": "2026-11-13",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794562800000,
+      "displayLocal": "11:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "3279dcf52d48edb9",
+      "day": "2026-11-13",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794572940000,
+      "displayLocal": "14:29",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "3ce0cdb486ccd522",
+      "day": "2026-11-13",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794573540000,
+      "displayLocal": "14:39",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "15b08c27af354dcf",
+      "day": "2026-11-13",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794581400000,
+      "displayLocal": "16:50",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "52b960ad4af496f6",
+      "day": "2026-11-13",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794582000000,
+      "displayLocal": "17:00",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "ce7506dcfbd96dbe",
+      "day": "2026-11-13",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794586380000,
+      "displayLocal": "18:13",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "494e7bd1779cb6b1",
+      "day": "2026-11-13",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794586980000,
+      "displayLocal": "18:23",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "eafa85e3dd101022",
+      "day": "2026-11-14",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794624420000,
+      "displayLocal": "04:47",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "984c83b65a3033d6",
+      "day": "2026-11-14",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794625020000,
+      "displayLocal": "04:57",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "389710e86821c449",
+      "day": "2026-11-14",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794648600000,
+      "displayLocal": "11:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "8fb0d989774eda79",
+      "day": "2026-11-14",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794649200000,
+      "displayLocal": "11:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "91bed1d5e471d961",
+      "day": "2026-11-14",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794659340000,
+      "displayLocal": "14:29",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "7ab6de0ea3bf11f0",
+      "day": "2026-11-14",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794659940000,
+      "displayLocal": "14:39",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "757b61a62f2b3882",
+      "day": "2026-11-14",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794667800000,
+      "displayLocal": "16:50",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "60c51e2bee4ae62e",
+      "day": "2026-11-14",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794668400000,
+      "displayLocal": "17:00",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "817c77347323b081",
+      "day": "2026-11-14",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794672720000,
+      "displayLocal": "18:12",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "c8e37e75a753a3c7",
+      "day": "2026-11-14",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794673320000,
+      "displayLocal": "18:22",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "1488cf237fa29169",
+      "day": "2026-11-15",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794710880000,
+      "displayLocal": "04:48",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "414ad66e2aefc39e",
+      "day": "2026-11-15",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794711480000,
+      "displayLocal": "04:58",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "5e58573b31397fe0",
+      "day": "2026-11-15",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794735000000,
+      "displayLocal": "11:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "3f095a009f1829db",
+      "day": "2026-11-15",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794735600000,
+      "displayLocal": "11:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "9d9d8d839967dc81",
+      "day": "2026-11-15",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794745740000,
+      "displayLocal": "14:29",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "80ad1b744c2f9399",
+      "day": "2026-11-15",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794746340000,
+      "displayLocal": "14:39",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "38df8580dcef0889",
+      "day": "2026-11-15",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794754140000,
+      "displayLocal": "16:49",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "4032d0f3c661d402",
+      "day": "2026-11-15",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794754740000,
+      "displayLocal": "16:59",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "e145a431f9993659",
+      "day": "2026-11-15",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794759120000,
+      "displayLocal": "18:12",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "3f150895e51a3963",
+      "day": "2026-11-15",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794759720000,
+      "displayLocal": "18:22",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "30643afaa79ca5ac",
+      "day": "2026-11-16",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794797340000,
+      "displayLocal": "04:49",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "d068766104843c80",
+      "day": "2026-11-16",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794797940000,
+      "displayLocal": "04:59",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "94864c693151be83",
+      "day": "2026-11-16",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794821400000,
+      "displayLocal": "11:30",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "019214de8de5d61d",
+      "day": "2026-11-16",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794822000000,
+      "displayLocal": "11:40",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "56d0181cfedd05b8",
+      "day": "2026-11-16",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794832080000,
+      "displayLocal": "14:28",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "abf01b60e3c06f0e",
+      "day": "2026-11-16",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794832680000,
+      "displayLocal": "14:38",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "a858f5b976109840",
+      "day": "2026-11-16",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794840540000,
+      "displayLocal": "16:49",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "859beaff1cf257df",
+      "day": "2026-11-16",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794841140000,
+      "displayLocal": "16:59",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "921c41b7fb756e2e",
+      "day": "2026-11-16",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794845520000,
+      "displayLocal": "18:12",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "e27ad403e1a19ba7",
+      "day": "2026-11-16",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794846120000,
+      "displayLocal": "18:22",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "61a70d1303da474b",
+      "day": "2026-11-17",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794883740000,
+      "displayLocal": "04:49",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "bba24626a6463dae",
+      "day": "2026-11-17",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794884340000,
+      "displayLocal": "04:59",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "62a6c8b541ae4586",
+      "day": "2026-11-17",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794907860000,
+      "displayLocal": "11:31",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "813f706ac05c0f45",
+      "day": "2026-11-17",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794908460000,
+      "displayLocal": "11:41",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "c5bff6ed1faeb0f2",
+      "day": "2026-11-17",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794918480000,
+      "displayLocal": "14:28",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "8f60224a6d6f36d4",
+      "day": "2026-11-17",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794919080000,
+      "displayLocal": "14:38",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "43b2f81f2ebb6226",
+      "day": "2026-11-17",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794926940000,
+      "displayLocal": "16:49",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "6ef86e26db0780fd",
+      "day": "2026-11-17",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794927540000,
+      "displayLocal": "16:59",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "4382312cfb985054",
+      "day": "2026-11-17",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794931860000,
+      "displayLocal": "18:11",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "a979d482b602c714",
+      "day": "2026-11-17",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794932460000,
+      "displayLocal": "18:21",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "bbf6b5cbe82b8c59",
+      "day": "2026-11-18",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794970200000,
+      "displayLocal": "04:50",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "969342742dd8dedb",
+      "day": "2026-11-18",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794970800000,
+      "displayLocal": "05:00",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "f7cad8c64a5c1d1b",
+      "day": "2026-11-18",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1794994260000,
+      "displayLocal": "11:31",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "e6df0f3aa304ac0d",
+      "day": "2026-11-18",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1794994860000,
+      "displayLocal": "11:41",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "dc5731dbc8250fc2",
+      "day": "2026-11-18",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795004880000,
+      "displayLocal": "14:28",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "c2ecc94528888d42",
+      "day": "2026-11-18",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795005480000,
+      "displayLocal": "14:38",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "36a9759e71a21eeb",
+      "day": "2026-11-18",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795013280000,
+      "displayLocal": "16:48",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "b38810d0fc45c8c6",
+      "day": "2026-11-18",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795013880000,
+      "displayLocal": "16:58",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "c04753c6ed9dc7fa",
+      "day": "2026-11-18",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795018260000,
+      "displayLocal": "18:11",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "45a6c572fad757f5",
+      "day": "2026-11-18",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795018860000,
+      "displayLocal": "18:21",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "b01710a0695f1a88",
+      "day": "2026-11-18",
+      "kind": "HORIZON_WARNING",
+      "fireAtUtcMs": 1795018860000,
+      "displayLocal": "18:21",
+      "title": {
+        "ar": "جدول الأذان قرب يخلص",
+        "en": "Athan schedule ends soon"
+      },
+      "body": {
+        "ar": "افتح التطبيق علشان الأذان يفضل متجدول.",
+        "en": "Open Daily Muslim to keep the Athan scheduled."
+      },
+      "soundId": "notification_default",
+      "priority": 1
+    },
+    {
+      "id": "13cf377183f6c142",
+      "day": "2026-11-19",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795056660000,
+      "displayLocal": "04:51",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "51ba33726bb98d86",
+      "day": "2026-11-19",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795057260000,
+      "displayLocal": "05:01",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "24fea4874f22b493",
+      "day": "2026-11-19",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795080660000,
+      "displayLocal": "11:31",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "50f243d60e004e60",
+      "day": "2026-11-19",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795081260000,
+      "displayLocal": "11:41",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "5619cf18b498ae2c",
+      "day": "2026-11-19",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795091220000,
+      "displayLocal": "14:27",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "9e69d93c9b6df2db",
+      "day": "2026-11-19",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795091820000,
+      "displayLocal": "14:37",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "d806f868ce1f1a24",
+      "day": "2026-11-19",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795099680000,
+      "displayLocal": "16:48",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "e9c2f8789f9a7a89",
+      "day": "2026-11-19",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795100280000,
+      "displayLocal": "16:58",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "17ddcc36a2fc41f3",
+      "day": "2026-11-19",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795104660000,
+      "displayLocal": "18:11",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "054dfd004bb7705c",
+      "day": "2026-11-19",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795105260000,
+      "displayLocal": "18:21",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    },
+    {
+      "id": "d64da3e7367325f7",
+      "day": "2026-11-20",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795143060000,
+      "displayLocal": "04:51",
+      "title": {
+        "ar": "الفجر بعد 10 دقيقة",
+        "en": "Fajr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "en": "The Fajr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "FAJR"
+    },
+    {
+      "id": "feb87ca0914f0c8b",
+      "day": "2026-11-20",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795143660000,
+      "displayLocal": "05:01",
+      "title": {
+        "ar": "أذان الفجر",
+        "en": "Fajr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الفجر.",
+        "en": "It is time for Fajr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "FAJR"
+    },
+    {
+      "id": "a9ddcb8802f74b2c",
+      "day": "2026-11-20",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795167060000,
+      "displayLocal": "11:31",
+      "title": {
+        "ar": "الظهر بعد 10 دقيقة",
+        "en": "Dhuhr in 10 min"
+      },
+      "body": {
+        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "en": "The Dhuhr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "DHUHR"
+    },
+    {
+      "id": "c08d6bbb70f91dd5",
+      "day": "2026-11-20",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795167660000,
+      "displayLocal": "11:41",
+      "title": {
+        "ar": "أذان الظهر",
+        "en": "Dhuhr Athan"
+      },
+      "body": {
+        "ar": "جه وقت الظهر.",
+        "en": "It is time for Dhuhr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "DHUHR"
+    },
+    {
+      "id": "be427d0d7902c030",
+      "day": "2026-11-20",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795177620000,
+      "displayLocal": "14:27",
+      "title": {
+        "ar": "العصر بعد 10 دقيقة",
+        "en": "Asr in 10 min"
+      },
+      "body": {
+        "ar": "أذان العصر بعد 10 دقيقة.",
+        "en": "The Asr Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ASR"
+    },
+    {
+      "id": "ee17ee2671776c25",
+      "day": "2026-11-20",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795178220000,
+      "displayLocal": "14:37",
+      "title": {
+        "ar": "أذان العصر",
+        "en": "Asr Athan"
+      },
+      "body": {
+        "ar": "جه وقت العصر.",
+        "en": "It is time for Asr."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ASR"
+    },
+    {
+      "id": "2158d573c3487075",
+      "day": "2026-11-20",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795186020000,
+      "displayLocal": "16:47",
+      "title": {
+        "ar": "المغرب بعد 10 دقيقة",
+        "en": "Maghrib in 10 min"
+      },
+      "body": {
+        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "en": "The Maghrib Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "ae0cb1425920c79a",
+      "day": "2026-11-20",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795186620000,
+      "displayLocal": "16:57",
+      "title": {
+        "ar": "أذان المغرب",
+        "en": "Maghrib Athan"
+      },
+      "body": {
+        "ar": "جه وقت المغرب.",
+        "en": "It is time for Maghrib."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "MAGHRIB"
+    },
+    {
+      "id": "39b6e413aec358c0",
+      "day": "2026-11-20",
+      "kind": "PRE_REMINDER",
+      "fireAtUtcMs": 1795191060000,
+      "displayLocal": "18:11",
+      "title": {
+        "ar": "العشاء بعد 10 دقيقة",
+        "en": "Isha in 10 min"
+      },
+      "body": {
+        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "en": "The Isha Athan is in 10 minutes."
+      },
+      "soundId": "notification_default",
+      "priority": 3,
+      "event": "ISHA"
+    },
+    {
+      "id": "078c785b7ec947d0",
+      "day": "2026-11-20",
+      "kind": "ATHAN",
+      "fireAtUtcMs": 1795191660000,
+      "displayLocal": "18:21",
+      "title": {
+        "ar": "أذان العشاء",
+        "en": "Isha Athan"
+      },
+      "body": {
+        "ar": "جه وقت العشاء.",
+        "en": "It is time for Isha."
+      },
+      "soundId": "athan_makkah_v1",
+      "priority": 1,
+      "event": "ISHA"
+    }
+  ],
+  "policy": {
+    "locale": "ar",
+    "respectDnd": false,
+    "vibrate": true,
+    "fullAthanAndroid": true,
+    "iosClipSeconds": 29,
+    "preReminderMinutes": 10,
+    "snoozeMinutes": 5
+  }
+}

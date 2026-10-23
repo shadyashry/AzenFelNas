@@ -32,11 +32,16 @@ final class CalculateSchedule {
   static const ResolveProfile _resolveProfile = ResolveProfile();
   static const BuildHijriState _hijri = BuildHijriState();
 
-  /// The schedule of [resolved] with the user's Hijri [hijriOverrideDays].
+  /// Days a `SchedulePlan` is built from: the Android horizon (REQ-ALM-010).
+  static const int planDays = 30;
+
+  /// The schedule of [resolved] with the user's Hijri [hijriOverrideDays],
+  /// [dayCount] days long ([days] for Home, [planDays] for the plan).
   Result<Schedule, Failure> call(
     ResolvedContext resolved,
     RuntimeData data, {
     int hijriOverrideDays = 0,
+    int dayCount = days,
   }) {
     final place = resolved.context.place;
     final today = data.tzdb
@@ -61,7 +66,7 @@ final class CalculateSchedule {
       observer: observer,
       profile: chosen,
       from: today,
-      days: days,
+      days: dayCount,
       tzdb: data.tzdb,
       hijriFor: hijriFor,
     ).map(

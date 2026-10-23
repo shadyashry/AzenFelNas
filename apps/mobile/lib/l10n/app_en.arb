@@ -729,5 +729,69 @@
   "qiblaNeedsPlace": "Choose a place to see the Qibla.",
   "@qiblaNeedsPlace": {
     "description": "Qibla without a place."
+  },
+  "planAthanTitle": "{prayer} Athan",
+  "@planAthanTitle": {
+    "description": "Plan notification title of an Athan (§7.7).",
+    "placeholders": {
+      "prayer": {
+        "type": "String",
+        "example": "Fajr"
+      }
+    }
+  },
+  "planAthanBody": "It is time for {prayer}.",
+  "@planAthanBody": {
+    "description": "Plan notification body of an Athan.",
+    "placeholders": {
+      "prayer": {
+        "type": "String",
+        "example": "Fajr"
+      }
+    }
+  },
+  "planImsakTitle": "Imsak",
+  "@planImsakTitle": {
+    "description": "Plan notification title of the Imsak alert."
+  },
+  "planImsakBody": "It is Imsak time.",
+  "@planImsakBody": {
+    "description": "Plan notification body of the Imsak alert."
+  },
+  "planPreReminderTitle": "{prayer} in {minutes} min",
+  "@planPreReminderTitle": {
+    "description": "Plan pre-reminder title (REQ-ALM-042).",
+    "placeholders": {
+      "prayer": {
+        "type": "String",
+        "example": "Fajr"
+      },
+      "minutes": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "planPreReminderBody": "The {prayer} Athan is in {minutes} minutes.",
+  "@planPreReminderBody": {
+    "description": "Plan pre-reminder body.",
+    "placeholders": {
+      "prayer": {
+        "type": "String",
+        "example": "Fajr"
+      },
+      "minutes": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "planHorizonTitle": "Athan schedule ends soon",
+  "@planHorizonTitle": {
+    "description": "Horizon warning title (REQ-ALM-010)."
+  },
+  "planHorizonBody": "Open Daily Muslim to keep the Athan scheduled.",
+  "@planHorizonBody": {
+    "description": "Horizon warning body."
   }
 }

@@ -506,4 +506,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get qiblaNeedsPlace => 'Choose a place to see the Qibla.';
+
+  @override
+  String planAthanTitle(String prayer) {
+    return '$prayer Athan';
+  }
+
+  @override
+  String planAthanBody(String prayer) {
+    return 'It is time for $prayer.';
+  }
+
+  @override
+  String get planImsakTitle => 'Imsak';
+
+  @override
+  String get planImsakBody => 'It is Imsak time.';
+
+  @override
+  String planPreReminderTitle(String prayer, int minutes) {
+    return '$prayer in $minutes min';
+  }
+
+  @override
+  String planPreReminderBody(String prayer, int minutes) {
+    return 'The $prayer Athan is in $minutes minutes.';
+  }
+
+  @override
+  String get planHorizonTitle => 'Athan schedule ends soon';
+
+  @override
+  String get planHorizonBody =>
+      'Open Daily Muslim to keep the Athan scheduled.';
 }
