@@ -50,13 +50,16 @@ melos:
         flutter: true
         dirExists: test
     gen:
-      description: Code generation (freezed + json_serializable; pigeon from S20). Outputs are committed (§15 D22).
+      description: Code generation (freezed + json_serializable; pigeon is `gen:pigeon`). Outputs are committed (§15 D22).
       exec:
         command: dart run build_runner build
         concurrency: 1
         orderDependents: true
       packageFilters:
         dependsOn: build_runner
+    gen:pigeon:
+      description: Generate the pigeon platform contracts (Dart, Kotlin, Swift) from packages/dm_contracts/pigeons (§15 D83). Outputs are committed.
+      run: cd packages/dm_contracts && dart run pigeon --input pigeons/athan_scheduler_api.dart && dart format lib/src/pigeon pigeons
     ci:
       description: Everything CI runs for Dart (ci-dart workflow).
       steps:
