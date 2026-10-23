@@ -68,11 +68,20 @@ void main() {
     expect(parse('/calc/$id'), const CalculationRoute(id));
   });
 
+  test('REQ-SEC-010 the timeline and manual place are in-app only', () {
+    expect(parse('/timeline'), isA<TimelineRoute>());
+    expect(parse('/place'), isA<PlaceRoute>());
+    expect(parse('dailymuslim://app/timeline'), isNull);
+    expect(parse('dailymuslim://app/place'), isNull);
+  });
+
   test('every route parses back from its own location', () {
     for (final route in const <AppRoute>[
       HomeRoute(),
       SettingsRoute(),
       AttributionsRoute(),
+      TimelineRoute(),
+      PlaceRoute(),
       HealthRoute(),
       QiblaRoute(),
       CalculationRoute(id),

@@ -111,7 +111,6 @@ void main() {
 
   test('REQ-PKG-006 types without a reader in this build are refused', () {
     for (final type in [
-      PackageType.prayerProfiles,
       PackageType.hijri,
       PackageType.athanAudioManifest,
     ]) {
@@ -123,6 +122,22 @@ void main() {
     expect(
       const PackagePayloadChecks()(PackageType.tzdata, '2026e', 1, const [1]),
       isA<Err<void, PackageFailure>>(),
+    );
+  });
+
+  test('REQ-PKG-006 a prayer_profiles payload must parse as a valid profile '
+      'set (§15 D60)', () {
+    const checks = PackagePayloadChecks();
+    expect(
+      checks(PackageType.prayerProfiles, '2026.10.1', 1, const [1]),
+      isA<Err<void, PackageFailure>>(),
+    );
+    final bundled = File(
+      'assets/packages/prayer_profiles/2026.10.1/profiles.json',
+    ).readAsBytesSync();
+    expect(
+      checks(PackageType.prayerProfiles, '2026.10.1', 1, bundled),
+      const Result<void, PackageFailure>.ok(null),
     );
   });
 }

@@ -42,7 +42,7 @@ void main() {
     await pumpUntil(tester, find.byType(ListTile));
     await tester.tap(find.widgetWithText(ListTile, 'Cairo').first);
     await pumpUntil(tester, find.text('Your times are ready'));
-    await tester.tap(find.text('Show today\'s times'));
+    await tester.tap(find.text("Show today's times"));
     await pumpUntil(tester, find.byType(TimeRow));
 
     // Home: the manual place, the engine-default notice (the Egyptian seed
@@ -80,7 +80,7 @@ void main() {
     await pumpUntil(tester, find.text('Use approximate location'));
     await tester.tap(find.text('Use approximate location'));
     await pumpUntil(tester, find.text('Your times are ready'));
-    await tester.tap(find.text('Show today\'s times'));
+    await tester.tap(find.text("Show today's times"));
     await pumpUntil(tester, find.byType(TimeRow));
 
     expect(find.text('Approximate location'), findsOneWidget);
