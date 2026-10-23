@@ -1,8 +1,9 @@
+import 'package:daily_muslim/features/athan/application/athan_preferences.dart';
 import 'package:daily_muslim/features/athan/application/fit_slot_budget.dart';
 import 'package:daily_muslim/features/athan/application/plan_entry_id.dart';
 import 'package:daily_muslim/features/athan/application/plan_event_code.dart';
-import 'package:daily_muslim/features/athan/domain/athan_preferences.dart';
-import 'package:daily_muslim/features/athan/domain/plan_request.dart';
+import 'package:daily_muslim/features/athan/application/plan_request.dart';
+import 'package:daily_muslim/features/athan/domain/plan_copy.dart';
 import 'package:daily_muslim/features/athan/domain/plan_target.dart';
 import 'package:daily_muslim/features/athan/domain/plan_text_key.dart';
 import 'package:daily_muslim/features/athan/domain/plan_texts.dart';
@@ -147,8 +148,8 @@ final class BuildSchedulePlan {
       kind: kind,
       fireAtUtcMs: fireAtUtcMs,
       displayLocal: _local(request.zoneId, fireAtUtcMs),
-      title: _texts.title(key),
-      body: _texts.body(key),
+      title: _text(_texts.title(key)),
+      body: _text(_texts.body(key)),
       soundId: soundId,
       priority: priority,
       event: code,
@@ -170,8 +171,8 @@ final class BuildSchedulePlan {
       kind: ScheduleEntryKind.horizonWarning,
       fireAtUtcMs: fireAt,
       displayLocal: _local(request.zoneId, fireAt),
-      title: _texts.title(key),
-      body: _texts.body(key),
+      title: _text(_texts.title(key)),
+      body: _text(_texts.body(key)),
       soundId: notificationSoundId,
       priority: 1,
     );
@@ -215,6 +216,9 @@ final class BuildSchedulePlan {
         _tzdb.localDateTimeOf(zoneId, utcMs).millisecondOfDay ~/ _minuteMs;
     return '${_two(minutes ~/ 60)}:${_two(minutes % 60)}';
   }
+
+  static LocalizedText _text(PlanCopy copy) =>
+      LocalizedText(ar: copy.ar, en: copy.en);
 
   static String _two(int value) => value.toString().padLeft(2, '0');
 

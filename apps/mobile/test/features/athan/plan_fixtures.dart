@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:daily_muslim/features/athan/application/athan_preferences.dart';
 import 'package:daily_muslim/features/athan/application/build_schedule_plan.dart';
 import 'package:daily_muslim/features/athan/application/plan_context_id.dart';
+import 'package:daily_muslim/features/athan/application/plan_request.dart';
 import 'package:daily_muslim/features/athan/data/arb_plan_texts.dart';
-import 'package:daily_muslim/features/athan/domain/athan_preferences.dart';
-import 'package:daily_muslim/features/athan/domain/plan_request.dart';
 import 'package:daily_muslim/features/athan/domain/plan_target.dart';
 import 'package:daily_muslim/features/athan/domain/pre_reminder.dart';
 import 'package:daily_muslim/features/schedule/application/calculate_schedule.dart';

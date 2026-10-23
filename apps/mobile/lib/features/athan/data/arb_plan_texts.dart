@@ -1,7 +1,7 @@
+import 'package:daily_muslim/features/athan/domain/plan_copy.dart';
 import 'package:daily_muslim/features/athan/domain/plan_text_key.dart';
 import 'package:daily_muslim/features/athan/domain/plan_texts.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
 
@@ -18,14 +18,14 @@ final class ArbPlanTexts implements PlanTexts {
   final AppLocalizations _en;
 
   @override
-  LocalizedText title(PlanTextKey key) => LocalizedText(
+  PlanCopy title(PlanTextKey key) => PlanCopy(
     ar: _title(_ar, key),
     en: _title(_en, key),
   );
 
   @override
-  LocalizedText body(PlanTextKey key) =>
-      LocalizedText(ar: _body(_ar, key), en: _body(_en, key));
+  PlanCopy body(PlanTextKey key) =>
+      PlanCopy(ar: _body(_ar, key), en: _body(_en, key));
 
   static String _title(AppLocalizations l, PlanTextKey key) => switch (key) {
     AthanText(:final event) => l.planAthanTitle(_prayer(l, event)),

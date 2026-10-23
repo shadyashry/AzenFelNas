@@ -1,6 +1,6 @@
 import 'package:daily_muslim/features/athan/application/build_snapshot.dart';
 import 'package:daily_muslim/features/athan/application/plan_context_id.dart';
-import 'package:daily_muslim/features/athan/domain/snapshot_request.dart';
+import 'package:daily_muslim/features/athan/application/snapshot_request.dart';
 import 'package:daily_muslim/features/schedule/domain/observer_of.dart';
 import 'package:dm_contracts/dm_contracts.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -1,5 +1,5 @@
 import 'package:daily_muslim/features/athan/application/plan_event_code.dart';
-import 'package:daily_muslim/features/athan/domain/snapshot_request.dart';
+import 'package:daily_muslim/features/athan/application/snapshot_request.dart';
 import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_contracts/dm_contracts.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';

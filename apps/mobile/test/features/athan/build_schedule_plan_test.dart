@@ -1,4 +1,4 @@
-import 'package:daily_muslim/features/athan/domain/athan_preferences.dart';
+import 'package:daily_muslim/features/athan/application/athan_preferences.dart';
 import 'package:daily_muslim/features/athan/domain/plan_target.dart';
 import 'package:daily_muslim/features/athan/domain/pre_reminder.dart';
 import 'package:dm_contracts/dm_contracts.dart';

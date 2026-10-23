@@ -1,4 +1,4 @@
-import 'package:daily_muslim/features/athan/domain/athan_preferences.dart';
+import 'package:daily_muslim/features/athan/application/athan_preferences.dart';
 import 'package:daily_muslim/features/athan/domain/plan_target.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:meta/meta.dart';
