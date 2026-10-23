@@ -29,7 +29,8 @@ REQ-PKG-003 (done-test, load_runtime_data_test, parse_profile_set_payload_test),
 - **Release manager**: S27 must pass `--dart-define=DM_CHANNEL=production|beta`; APK grows ~12 MB from the bundled binaries.
 - **Product / Content**: next-prayer rule (Imsak, sunrise excluded), 24 h format, Arabic copy (Egyptian tone, draft). **Sharia**: seed profiles stay `DRAFT_UNVERIFIED`; `eg.egas.standard` starts 2026-11-01, so Cairo shows `engine.default` before then.
 - **Not done, carried**: `SyncPackages` on app open (+ connectivity plugin, `CheckClockIntegrity` from `serverDateUtcMs`), bundled fonts (D75), RTL/phase goldens for the new screens (REQ-UX-030), `hijri` package reader, Passport tap-through from rows (S18).
-- **Inherited CI blockers** from S15 (gen `orderDependents`, gitleaks false positive, `swiftlint` on macOS): unchanged.
+- **Inherited CI blockers** (seen on GitHub CI for this branch's head `a7b4f1f`; none caused by S17): `dart` gen step refuses the D68 cycle `geo_salah_core -> dm_civil_time` (`orderDependents: true`); `secrets` gitleaks false positive at `ci-lab.yml:47` (`bb0082b`; this slice's commits scan clean locally); `ios` runner lacks SwiftLint 0.65.1 (`command not found`); `android` `:app:checkDebugAarMetadata` fails because `permission_handler_android` (added S13) requires compileSdk ≥ 37 while `android/app/build.gradle.kts` uses `flutter.compileSdkVersion` (36). Proposed fix: `compileSdk = 37` (needs an Android SDK to verify; owner/Architect).
+- **Owner rule (2026-10-22)**: no PRs. Draft PR #6 was opened for this slice before the rule was seen; the owner may close it and review the branch directly.
 
 ## Inputs for S18 (Accuracy Passport + Qibla)
 `scheduleProvider` (`Schedule.days[*].calculationId`, `DayResult` provenance), `DayView.calculationId`, `CalculationRoute`/`/calc/:id` placeholder, `RuntimeData` (tzdb, profiles), `ObserverOf`, `HomePage` rows (`TimeRow.onTap` unused yet), `/qibla` placeholder.
