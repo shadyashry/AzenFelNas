@@ -22,6 +22,29 @@ import 'fake_location_access.dart';
 /// 2026-10-22T09:00:00Z.
 const harnessNowUtcMs = 1792659600000;
 
+/// A pigeon Athan API whose channel answers at once with "no handler", as
+/// a build without the native layer does; the real channel would wait for
+/// the engine outside the fake clock.
+AthanSchedulerApi noAthanHost() =>
+    AthanSchedulerApi(binaryMessenger: const _NoHostMessenger());
+
+final class _NoHostMessenger implements BinaryMessenger {
+  const new();
+
+  @override
+  Future<ByteData?> send(String channel, ByteData? message) => Future.value();
+
+  @override
+  void setMessageHandler(String channel, MessageHandler? handler) {}
+
+  @override
+  Future<void> handlePlatformMessage(
+    String channel,
+    ByteData? data,
+    PlatformMessageResponseCallback? callback,
+  ) async {}
+}
+
 /// Both databases in memory.
 OpenedDatabases memoryDatabases() => OpenedDatabases(
   dm: DmDatabase(NativeDatabase.memory()),
@@ -48,7 +71,7 @@ Widget harnessApp(
     locator: locator ?? FakeDeviceLocator(),
     locationAccess: locationAccess ?? FakeLocationAccess(),
     heading: heading ?? FakeHeadingSource(),
-    athan: AthanSchedulerApi(),
+    athan: noAthanHost(),
   ),
   child: DailyMuslimApp(initialLocation: initialLocation),
 );
