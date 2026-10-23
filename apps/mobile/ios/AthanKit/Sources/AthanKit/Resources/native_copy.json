@@ -1,0 +1,12 @@
+{
+  "en": {
+    "testTitle": "Athan test",
+    "testBody": "Did you hear it? Open Daily Muslim to answer.",
+    "stop": "Stop"
+  },
+  "ar": {
+    "testTitle": "تجربة الأذان",
+    "testBody": "سمعته؟ افتح Daily Muslim وقول لنا.",
+    "stop": "إيقاف"
+  }
+}

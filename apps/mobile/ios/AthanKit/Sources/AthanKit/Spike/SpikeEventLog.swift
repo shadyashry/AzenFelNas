@@ -3,15 +3,11 @@ import Foundation
 /// Appends `event_log.v1` lines to `<App Group>/plan/events.jsonl` (DESIGN.md §8.2), the file an App Intent can
 /// reach while the app's UI is not running.
 struct SpikeEventLog: Sendable {
-    static let appGroup = "group.app.dailymuslim.shared"
-
     let url: URL
 
     /// The App Group log, or `nil` when the entitlement is missing (the spike then cannot record receipts).
     static func shared() -> SpikeEventLog? {
-        guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup)
-        else { return nil }
-        return SpikeEventLog(url: container.appendingPathComponent("plan/events.jsonl"))
+        PlanDirectory.appGroup().map { SpikeEventLog(url: $0.appendingPathComponent(EventsStore.eventsFile)) }
     }
 
     func append(_ code: EventCode, _ attrs: EventAttrs, level: EventLevel = .info) {

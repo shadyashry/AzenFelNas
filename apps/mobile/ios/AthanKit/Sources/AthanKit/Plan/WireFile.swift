@@ -39,10 +39,18 @@ struct WireFile: Sendable {
 
 /// Where plan, snapshot and events live: the `plan/` directory of the App Group container (DESIGN.md §8.2).
 enum PlanDirectory {
-    /// The plan directory of the App Group `identifier`, or nil when the entitlement is missing.
-    static func appGroup(_ identifier: String) -> URL? {
-        FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: identifier)?
-            .appendingPathComponent("plan", isDirectory: true)
+    /// The App Group shared by Runner, App Intents and widgets (REQ-ALM-035).
+    static let sharedGroup = "group.app.dailymuslim.shared"
+
+    /// The plan directory of the App Group `identifier`, or nil when the entitlement is missing or the host has
+    /// no App Groups (the Linux test host).
+    static func appGroup(_ identifier: String = sharedGroup) -> URL? {
+        #if canImport(Darwin)
+            FileManager.default
+                .containerURL(forSecurityApplicationGroupIdentifier: identifier)?
+                .appendingPathComponent("plan", isDirectory: true)
+        #else
+            nil
+        #endif
     }
 }

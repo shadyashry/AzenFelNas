@@ -1,3 +1,4 @@
+#if canImport(UserNotifications)
 import Foundation
 import UserNotifications
 
@@ -25,3 +26,4 @@ enum SpikeNotificationBudget {
         center.removePendingNotificationRequests(withIdentifiers: ids)
     }
 }
+#endif

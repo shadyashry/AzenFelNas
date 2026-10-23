@@ -40,8 +40,10 @@ public enum S19Spike {
                 }
             #endif
         case "/budget":
-            let requested = int("requested", 70)
-            Task { try? await SpikeNotificationBudget.probe(requested: requested) }
+            #if canImport(UserNotifications)
+                let requested = int("requested", 70)
+                Task { try? await SpikeNotificationBudget.probe(requested: requested) }
+            #endif
         case "/answer":
             answer(query)
         case "/export":
