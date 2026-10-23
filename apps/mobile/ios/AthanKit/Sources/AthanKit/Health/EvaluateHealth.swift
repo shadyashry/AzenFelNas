@@ -13,7 +13,7 @@ struct EvaluateHealth: Sendable {
         let delivered = ProbeResult(
             .deliveryVerified,
             path == .alarmKit && AlarmKitEvidence.deliveryProven,
-            detail: path == .notification ? Self.unverifiable : nil
+            detail: path == .notification ? Self.unverifiable : nil,
         )
         let all = probes.filter { $0.name != .deliveryVerified } + [delivered]
         let gating = all.filter { $0.name.severity(on: path) != .informational }
@@ -29,10 +29,12 @@ struct EvaluateHealth: Sendable {
             }
         var reasons: [HealthReason] = []
         for probe in all where probe.positive == false {
-            if let reason = probe.name.reason, !reasons.contains(reason) { reasons.append(reason) }
+            if let reason = probe.name.reason, !reasons.contains(reason) {
+                reasons.append(reason)
+            }
         }
         return HealthReport(
-            state: state, reasons: reasons, probes: all, evaluatedAtUtcMs: evaluatedAtUtcMs, platformPath: path.label
+            state: state, reasons: reasons, probes: all, evaluatedAtUtcMs: evaluatedAtUtcMs, platformPath: path.label,
         )
     }
 

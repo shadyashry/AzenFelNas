@@ -2,3 +2,6 @@
 --swiftversion 6.2
 --indent 4
 --maxwidth 120
+# Test names stay `@Test("REQ-… behaviour")` display strings, as in Dart and Kotlin, so `req_index` and reviewers
+# read the same REQ citation in every language; the rule would rewrite them to raw identifiers (§15 D82).
+--disable swiftTestingTestCaseNames

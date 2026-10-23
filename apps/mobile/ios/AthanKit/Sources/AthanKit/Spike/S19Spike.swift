@@ -28,7 +28,7 @@ public enum S19Spike {
                             seconds: int("in", 120),
                             count: int("count", 1),
                             spacing: int("spacing", 60),
-                            sound: sound
+                            sound: sound,
                         )
                     }
                 }
@@ -69,7 +69,7 @@ public enum S19Spike {
         let heardMs = query["heard"].flatMap(Int64.init).map { $0 * 1000 }
         SpikeEventLog.shared()?.append(
             .testResult,
-            SpikeEventLog.attrs(entryId: query["entry"], reason: reason, durationMs: heardMs)
+            SpikeEventLog.attrs(entryId: query["entry"], reason: reason, durationMs: heardMs),
         )
     }
 }

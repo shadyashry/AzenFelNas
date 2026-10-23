@@ -32,7 +32,9 @@ struct RearmFromPlan: Sendable {
     private func syncNotifications(_ wanted: [NotificationRequest]) async -> [String] {
         let keep = Set(wanted.map(\.id))
         let stale = await notifications.pendingIds().filter { PlanIds.isPlanNotification($0) && !keep.contains($0) }
-        if !stale.isEmpty { await notifications.remove(ids: stale) }
+        if !stale.isEmpty {
+            await notifications.remove(ids: stale)
+        }
         let now = clock.nowUtcMs()
         var refused: [String] = []
         for request in wanted where await notifications.add(request, nowUtcMs: now) != .armed {
@@ -49,7 +51,9 @@ struct RearmFromPlan: Sendable {
         }
         var refused: [String] = []
         for alarm in wanted where !scheduled.contains(alarm.id) {
-            if await alarms.schedule(alarm) != .armed { refused.append(alarm.entryId) }
+            if await alarms.schedule(alarm) != .armed {
+                refused.append(alarm.entryId)
+            }
         }
         return refused
     }
@@ -60,7 +64,7 @@ struct RearmFromPlan: Sendable {
         case let .applied(_, armed, path):
             events.append(
                 .planApplied,
-                .of(generation: generation, state: path.label, reason: cause.label, count: armed)
+                .of(generation: generation, state: path.label, reason: cause.label, count: armed),
             )
         case let .partial(_, armed, refusedIds):
             events.append(.planApplied, .of(generation: generation, reason: cause.label, count: armed), level: .warn)
@@ -68,7 +72,7 @@ struct RearmFromPlan: Sendable {
                 events.append(
                     .alarmScheduled,
                     .of(code: .alarmScheduleFailed, generation: generation, entryId: id),
-                    level: .error
+                    level: .error,
                 )
             }
         case .noPlan:
@@ -77,7 +81,7 @@ struct RearmFromPlan: Sendable {
             events.append(
                 .planApplied,
                 .of(generation: offered, state: Self.staleState, reason: cause.label),
-                level: .warn
+                level: .warn,
             )
         case let .failed(code, detail):
             events.append(.planApplied, .of(code: code, state: detail, reason: cause.label), level: .error)

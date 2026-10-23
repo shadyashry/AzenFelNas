@@ -22,7 +22,7 @@ struct AthanClipCatalog: Sendable {
             manifest.sounds.compactMap { sound in
                 sound.iosClip.flatMap { $0.durationMs <= limit ? (sound.soundId, $0) : nil }
             },
-            uniquingKeysWith: { first, _ in first }
+            uniquingKeysWith: { first, _ in first },
         )
     }
 
@@ -32,7 +32,9 @@ struct AthanClipCatalog: Sendable {
     }
 
     /// Every listed clip by sound id.
-    var all: [String: AthanIosClip] { clips }
+    var all: [String: AthanIosClip] {
+        clips
+    }
 
     /// The `Library/Sounds/` file name of `soundId`'s clip.
     static func fileName(of soundId: String) -> String {
@@ -58,7 +60,7 @@ struct SoundLibrary: Sendable {
         FileManager.default.fileExists(atPath: url(of: soundId).path)
     }
 
-    /// Copies `source` to the clip of `soundId`, replacing it atomically (copy to a temporary name, then move).
+    /// Copies `source` to the clip of `soundId`, replacing it atomically (copy to a temporary name, then rename).
     func install(_ soundId: String, from source: URL) -> Result<Void, WireFileError> {
         let manager = FileManager.default
         let target = url(of: soundId)
@@ -67,10 +69,10 @@ struct SoundLibrary: Sendable {
             try manager.createDirectory(at: directory, withIntermediateDirectories: true)
             try? manager.removeItem(at: temporary)
             try manager.copyItem(at: source, to: temporary)
-            if manager.fileExists(atPath: target.path) {
-                _ = try manager.replaceItemAt(target, withItemAt: temporary)
-            } else {
-                try manager.moveItem(at: temporary, to: target)
+            // rename(2) replaces the target atomically, so a reader sees the old or the new clip.
+            guard rename(temporary.path, target.path) == 0 else {
+                try? manager.removeItem(at: temporary)
+                return .failure(WireFileError(reason: "install failed: rename"))
             }
             return .success(())
         } catch {

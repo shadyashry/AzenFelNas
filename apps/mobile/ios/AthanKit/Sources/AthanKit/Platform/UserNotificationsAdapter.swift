@@ -48,7 +48,7 @@
 
         func userNotificationCenter(
             _: UNUserNotificationCenter,
-            willPresent notification: UNNotification
+            willPresent notification: UNNotification,
         ) async -> UNNotificationPresentationOptions {
             receipts.presented(notification.request.identifier, .notificationPosted)
             return [.banner, .sound, .list]

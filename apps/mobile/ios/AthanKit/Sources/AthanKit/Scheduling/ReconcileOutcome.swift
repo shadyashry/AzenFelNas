@@ -23,5 +23,7 @@ enum ReconcileCause: String, Sendable, CaseIterable {
     /// The app came to the foreground (`appDidBecomeActive`); also how a reboot or an update is noticed.
     case appActive
 
-    var label: String { rawValue }
+    var label: String {
+        rawValue
+    }
 }

@@ -2,10 +2,6 @@
 import Foundation
 import Testing
 
-private func temporaryDirectory() -> URL {
-    FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
-}
-
 private func builtPlan(generation: Int) throws -> Data {
     let text = try String(contentsOf: fixtureURL("schedule_plan", "valid", "built_ios.json"), encoding: .utf8)
     let replaced = text.replacingOccurrences(of: "\"generation\": 1,", with: "\"generation\": \(generation),")

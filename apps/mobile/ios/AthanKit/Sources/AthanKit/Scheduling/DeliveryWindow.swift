@@ -35,7 +35,7 @@ struct DeliveryWindow: Sendable {
                         entryId: entry.id,
                         fireAtUtcMs: entry.fireAtUtcMs,
                         title: entry.title.text(in: locale),
-                        sound: sounds.sound(for: entry.soundId)
+                        sound: sounds.sound(for: entry.soundId),
                     )
                 }
             },
@@ -46,9 +46,9 @@ struct DeliveryWindow: Sendable {
                     title: entry.title.text(in: locale),
                     body: entry.body.text(in: locale),
                     sound: sounds.sound(for: entry.soundId),
-                    timeSensitive: entry.kind.isTimeSensitive
+                    timeSensitive: entry.kind.isTimeSensitive,
                 )
-            }
+            },
         )
     }
 

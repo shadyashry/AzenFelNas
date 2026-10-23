@@ -24,22 +24,22 @@ struct StartAthanTest: Sendable {
             await alarms.schedule(
                 AlarmRequest(
                     id: newId(), entryId: entryId, fireAtUtcMs: fireAt, title: copy.testTitle,
-                    sound: sounds.sound(for: soundId)
-                )
+                    sound: sounds.sound(for: soundId),
+                ),
             )
         case .notification:
             await notifications.add(
                 NotificationRequest(
                     id: entryId, fireAtUtcMs: fireAt, title: copy.testTitle, body: copy.testBody,
-                    sound: sounds.sound(for: soundId), timeSensitive: true
+                    sound: sounds.sound(for: soundId), timeSensitive: true,
                 ),
-                nowUtcMs: now
+                nowUtcMs: now,
             )
         }
         events.append(
             .testStarted,
             .of(entryId: entryId, state: path.label, durationMs: fireAt - now),
-            level: result == .armed ? .info : .error
+            level: result == .armed ? .info : .error,
         )
         return result
     }

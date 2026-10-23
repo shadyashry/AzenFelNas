@@ -70,11 +70,11 @@ extension EventAttrs {
         state: String? = nil,
         reason: String? = nil,
         durationMs: Int64? = nil,
-        count: Int? = nil
+        count: Int? = nil,
     ) -> EventAttrs {
         EventAttrs(
             code: code, generation: generation, entryId: entryId, packageType: nil, version: nil, state: state,
-            reason: reason, durationMs: durationMs, count: count, zoneId: nil, countryCode: nil
+            reason: reason, durationMs: durationMs, count: count, zoneId: nil, countryCode: nil,
         )
     }
 }

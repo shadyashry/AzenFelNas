@@ -13,8 +13,10 @@ enum PlanIds {
     static func alarmId(of entryId: String) -> UUID? {
         guard isPlanNotification(entryId) else { return nil }
         let hex = entryId + entryId
-        let parts = [hex.prefix(8), hex.dropFirst(8).prefix(4), hex.dropFirst(12).prefix(4),
-                     hex.dropFirst(16).prefix(4), hex.dropFirst(20)]
+        let parts = [
+            hex.prefix(8), hex.dropFirst(8).prefix(4), hex.dropFirst(12).prefix(4), hex.dropFirst(16).prefix(4),
+            hex.dropFirst(20),
+        ]
         return UUID(uuidString: parts.joined(separator: "-"))
     }
 

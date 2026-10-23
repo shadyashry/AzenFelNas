@@ -32,7 +32,13 @@ struct Receipts: Sendable {
 
 /// `AlarmKitPort` below iOS 26 and on hosts without AlarmKit: no alarms, every schedule refused.
 struct UnavailableAlarmKit: AlarmKitPort {
-    func scheduledIds() async -> Set<UUID> { [] }
-    func schedule(_: AlarmRequest) async -> ArmResult { .refused(reason: "alarmKitUnavailable") }
+    func scheduledIds() async -> Set<UUID> {
+        []
+    }
+
+    func schedule(_: AlarmRequest) async -> ArmResult {
+        .refused(reason: "alarmKitUnavailable")
+    }
+
     func cancel(id _: UUID) async {}
 }

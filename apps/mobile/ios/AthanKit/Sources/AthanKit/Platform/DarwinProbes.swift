@@ -27,19 +27,19 @@
     struct DarwinProbes: PlatformProbes {
         func probes(on _: DeliveryPath) async -> [ProbeResult] {
             let settings = await UNUserNotificationCenter.current().notificationSettings()
-            var results = [
+            var results = await [
                 ProbeResult(.notificationAuthorization, Self.delivers(settings.authorizationStatus)),
                 ProbeResult(.notificationSound, settings.soundSetting == .enabled),
                 ProbeResult(.silentSwitch, nil, detail: Self.noPublicApi),
                 ProbeResult(.focusStatus, nil, detail: Self.noPublicApi),
                 ProbeResult(.criticalAlerts, nil, detail: Self.notApplicable),
-                await ProbeResult(.backgroundRefreshStatus, Self.backgroundRefresh()),
+                ProbeResult(.backgroundRefreshStatus, Self.backgroundRefresh()),
             ]
             #if canImport(AlarmKit) && os(iOS)
                 if #available(iOS 26.0, *) {
                     results.insert(
                         ProbeResult(.alarmKitAuthorization, AlarmManager.shared.authorizationState == .authorized),
-                        at: 0
+                        at: 0,
                     )
                 }
             #endif
@@ -89,7 +89,9 @@
             let catalog = AthanClipCatalog(manifest: manifest, clipSeconds: plan?.policy.iosClipSeconds ?? 29)
             var alarms: any AlarmKitPort = UnavailableAlarmKit()
             #if canImport(AlarmKit) && os(iOS)
-                if #available(iOS 26.0, *) { alarms = AlarmKitAdapter(stopTitle: copy.stop) }
+                if #available(iOS 26.0, *) {
+                    alarms = AlarmKitAdapter(stopTitle: copy.stop)
+                }
             #endif
             return AthanGraph(
                 directory: directory,
@@ -99,7 +101,7 @@
                 platformProbes: DarwinProbes(),
                 sounds: InstalledClips(catalog: catalog, library: library),
                 copy: copy,
-                clock: SystemClock()
+                clock: SystemClock(),
             )
         }
     }

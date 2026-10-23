@@ -13,9 +13,9 @@ let package = Package(
         .target(
             name: "AthanKit",
             resources: [.process("Resources")],
-            swiftSettings: [.enableUpcomingFeature("ExistentialAny")]
+            swiftSettings: [.enableUpcomingFeature("ExistentialAny")],
         ),
         .testTarget(name: "AthanKitTests", dependencies: ["AthanKit"]),
     ],
-    swiftLanguageModes: [.v6]
+    swiftLanguageModes: [.v6],
 )

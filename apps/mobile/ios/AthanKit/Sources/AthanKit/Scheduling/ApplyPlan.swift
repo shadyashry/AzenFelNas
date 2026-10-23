@@ -39,7 +39,9 @@ struct CancelGenerationsBelow: Sendable {
     func callAsFunction(_ generation: Int) async {
         guard let plan = store.read(), plan.generation < generation else { return }
         let pending = await notifications.pendingIds().filter(PlanIds.isPlanNotification)
-        if !pending.isEmpty { await notifications.remove(ids: pending) }
+        if !pending.isEmpty {
+            await notifications.remove(ids: pending)
+        }
         for id in await alarms.scheduledIds() where PlanIds.entryId(ofAlarm: id) != nil {
             await alarms.cancel(id: id)
         }

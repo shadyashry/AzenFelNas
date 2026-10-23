@@ -37,18 +37,20 @@ struct SpikeEventLog: Sendable {
             .flatMap { entry in entry.attrs.durationMs.map { entry.utcMs + $0 } }
     }
 
-    static func nowMs() -> Int64 { Int64((Date().timeIntervalSince1970 * 1000).rounded()) }
+    static func nowMs() -> Int64 {
+        Int64((Date().timeIntervalSince1970 * 1000).rounded())
+    }
 
     static func attrs(
         entryId: String? = nil,
         state: String? = nil,
         reason: String? = nil,
         durationMs: Int64? = nil,
-        count: Int? = nil
+        count: Int? = nil,
     ) -> EventAttrs {
         EventAttrs(
             code: nil, generation: nil, entryId: entryId, packageType: nil, version: nil, state: state,
-            reason: reason, durationMs: durationMs, count: count, zoneId: nil, countryCode: nil
+            reason: reason, durationMs: durationMs, count: count, zoneId: nil, countryCode: nil,
         )
     }
 }

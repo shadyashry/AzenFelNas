@@ -24,7 +24,7 @@ struct AthanGraph: Sendable {
         sounds: any SoundCatalog,
         copy: NativeCopy,
         clock: any UtcClock,
-        newId: @escaping @Sendable () -> UUID = { UUID() }
+        newId: @escaping @Sendable () -> UUID = { UUID() },
     ) {
         let store = PlanStore(directory: directory)
         let events = EventsStore(directory: directory, clock: clock)
@@ -35,7 +35,7 @@ struct AthanGraph: Sendable {
             notifications: notifications,
             gate: gate,
             clock: clock,
-            events: events
+            events: events,
         )
         planStore = store
         self.events = events
@@ -49,7 +49,7 @@ struct AthanGraph: Sendable {
         cancelBelow = CancelGenerationsBelow(store: store, alarms: alarms, notifications: notifications)
         startTest = StartAthanTest(
             alarms: alarms, notifications: notifications, gate: gate, sounds: sounds, copy: copy, clock: clock,
-            events: events, newId: newId
+            events: events, newId: newId,
         )
     }
 }

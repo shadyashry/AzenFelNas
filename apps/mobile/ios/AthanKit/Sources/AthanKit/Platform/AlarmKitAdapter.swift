@@ -24,16 +24,16 @@
             let stop = AlarmButton(
                 text: LocalizedStringResource(String.LocalizationValue(stopTitle)),
                 textColor: .white,
-                systemImageName: "stop.circle"
+                systemImageName: "stop.circle",
             )
             let alert = AlarmPresentation.Alert(
                 title: LocalizedStringResource(String.LocalizationValue(alarm.title)),
-                stopButton: stop
+                stopButton: stop,
             )
             let attributes = AlarmAttributes<AthanAlarmMetadata>(
                 presentation: AlarmPresentation(alert: alert),
                 metadata: AthanAlarmMetadata(),
-                tintColor: .green
+                tintColor: .green,
             )
             let sound: AlertConfiguration.AlertSound = switch alarm.sound {
             case let .clip(fileName): .named(fileName)
@@ -44,7 +44,7 @@
                 attributes: attributes,
                 stopIntent: StopAthanAlarmIntent(alarmID: alarm.id.uuidString),
                 secondaryIntent: nil,
-                sound: sound
+                sound: sound,
             )
             do {
                 _ = try await AlarmManager.shared.schedule(id: alarm.id, configuration: configuration)
