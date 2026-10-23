@@ -414,9 +414,10 @@ interface AthanSchedulerApi {
   suspend fun startTest(testId: String, fireInSeconds: Long, soundId: String): Boolean
   /**
    * Drains `events.jsonl`: one `event_log.v1` JSON document per item,
-   * receipts and system events included (REQ-ALM-041).
+   * receipts and system events included (REQ-ALM-041). Async so native
+   * file I/O never runs on the platform thread (§17.3).
    */
-  fun drainEvents(): List<String>
+  suspend fun drainEvents(): List<String>
 
   companion object {
     /** The codec used by AthanSchedulerApi. */
@@ -509,12 +510,14 @@ interface AthanSchedulerApi {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.dm_contracts.AthanSchedulerApi.drainEvents$separatedMessageChannelSuffix", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
-            val wrapped: List<Any?> = try {
-              listOf(api.drainEvents())
-            } catch (exception: Throwable) {
-              AthanSchedulerApiPigeonUtils.wrapError(exception)
+            CoroutineScope(Dispatchers.Main).launch {
+              val wrapped: List<Any?> = try {
+                listOf(api.drainEvents())
+              } catch (exception: Throwable) {
+                AthanSchedulerApiPigeonUtils.wrapError(exception)
+              }
+              reply.reply(wrapped)
             }
-            reply.reply(wrapped)
           }
         } else {
           channel.setMessageHandler(null)

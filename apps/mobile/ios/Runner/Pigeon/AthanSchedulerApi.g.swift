@@ -390,8 +390,9 @@ protocol AthanSchedulerApi {
   /// the platform refused to arm it.
   func startTest(testId: String, fireInSeconds: Int64, soundId: String) async throws -> Bool
   /// Drains `events.jsonl`: one `event_log.v1` JSON document per item,
-  /// receipts and system events included (REQ-ALM-041).
-  func drainEvents() throws -> [String]
+  /// receipts and system events included (REQ-ALM-041). Async so native
+  /// file I/O never runs on the platform thread (§17.3).
+  func drainEvents() async throws -> [String]
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -475,15 +476,18 @@ class AthanSchedulerApiSetup {
       startTestChannel.setMessageHandler(nil)
     }
     /// Drains `events.jsonl`: one `event_log.v1` JSON document per item,
-    /// receipts and system events included (REQ-ALM-041).
+    /// receipts and system events included (REQ-ALM-041). Async so native
+    /// file I/O never runs on the platform thread (§17.3).
     let drainEventsChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.dm_contracts.AthanSchedulerApi.drainEvents\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       drainEventsChannel.setMessageHandler { _, reply in
-        do {
-          let result = try api.drainEvents()
-          reply(wrapResult(result))
-        } catch {
-          reply(wrapError(error))
+        Task { @MainActor in
+          do {
+            let result = try await api.drainEvents()
+            reply(wrapResult(result))
+          } catch {
+            reply(wrapError(error))
+          }
         }
       }
     } else {

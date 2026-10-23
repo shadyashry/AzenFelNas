@@ -84,6 +84,8 @@ abstract class AthanSchedulerApi {
   bool startTest(String testId, int fireInSeconds, String soundId);
 
   /// Drains `events.jsonl`: one `event_log.v1` JSON document per item,
-  /// receipts and system events included (REQ-ALM-041).
+  /// receipts and system events included (REQ-ALM-041). Async so native
+  /// file I/O never runs on the platform thread (§17.3).
+  @async
   List<String> drainEvents();
 }

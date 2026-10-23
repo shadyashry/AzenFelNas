@@ -49,4 +49,6 @@ flutter {
 dependencies {
     // Native Athan layer (DESIGN.md §8.1); its S19 spike sources stay in athan-core/src/debug (D79, D81).
     implementation(project(":athan-core"))
+    // Pigeon's Kotlin host runs @async calls as suspend functions (§15 D83).
+    implementation(libs.kotlinx.coroutines.android)
 }

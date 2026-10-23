@@ -401,7 +401,8 @@ class AthanSchedulerApi {
   }
 
   /// Drains `events.jsonl`: one `event_log.v1` JSON document per item,
-  /// receipts and system events included (REQ-ALM-041).
+  /// receipts and system events included (REQ-ALM-041). Async so native
+  /// file I/O never runs on the platform thread (§17.3).
   Future<List<String>> drainEvents() async {
     final pigeonVar_channelName =
         'dev.flutter.pigeon.dm_contracts.AthanSchedulerApi.drainEvents$pigeonVar_messageChannelSuffix';
