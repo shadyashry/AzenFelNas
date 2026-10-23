@@ -14,9 +14,11 @@ final class PlatformHealth {
   });
 
   /// No native layer answered: nothing is known.
-  const PlatformHealth.unavailable(this.evaluatedAtUtcMs)
-    : path = DeliveryPath.unavailable,
-      probes = const [];
+  factory unavailable(int evaluatedAtUtcMs) => PlatformHealth(
+    path: DeliveryPath.unavailable,
+    probes: const [],
+    evaluatedAtUtcMs: evaluatedAtUtcMs,
+  );
 
   /// The delivery path.
   final DeliveryPath path;

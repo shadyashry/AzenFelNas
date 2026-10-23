@@ -102,6 +102,7 @@ final class HomeContentView extends ConsumerWidget {
           title: Text(switch (content.health) {
             AthanReadinessUnknown() => l.homeHealthUnknown,
           }),
+          onTap: () => context.push(const HealthRoute().location),
         ),
         ListTile(
           leading: const Icon(Icons.view_week_outlined),

@@ -19,15 +19,11 @@ final class RecordAthanTestResult {
       code: EventCode.testResult,
       attrs: EventLogAttrs(
         entryId: result.testId,
-        state: result.heardByUser ? heardState : notHeardState,
+        state: result.heardByUser
+            ? AthanTestResult.heardState
+            : AthanTestResult.notHeardState,
         reason: result.presentedByOs == true ? 'presented' : 'noReceipt',
       ),
     ),
   );
-
-  /// `state` of a heard Test.
-  static const String heardState = 'heard';
-
-  /// `state` of a Test the user did not hear.
-  static const String notHeardState = 'notHeard';
 }

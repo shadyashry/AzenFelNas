@@ -62,6 +62,11 @@ final class SettingsPage extends ConsumerWidget {
             onChanged: (v) => write.write(AppSettings.reducedMotionOverride, v),
           ),
           ListTile(
+            title: Text(l.settingsAthan),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(const HealthRoute().location),
+          ),
+          ListTile(
             title: Text(l.settingsAttributions),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(const AttributionsRoute().location),

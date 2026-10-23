@@ -4,6 +4,7 @@ import 'package:daily_muslim/app/di.dart';
 import 'package:daily_muslim/features/shell/presentation/shell_providers.dart';
 import 'package:daily_muslim/features/storage/data/drift_event_log.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
+import 'package:dm_contracts/athan_scheduler_api.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:flutter/services.dart';
@@ -38,6 +39,7 @@ void main() {
       locator: FakeDeviceLocator(),
       locationAccess: FakeLocationAccess(),
       heading: FakeHeadingSource(),
+      athan: AthanSchedulerApi(),
     ),
   );
 

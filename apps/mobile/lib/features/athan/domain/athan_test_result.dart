@@ -12,6 +12,12 @@ final class AthanTestResult {
     required this.answeredAtUtcMs,
   });
 
+  /// `TEST_RESULT` `state` of a heard Test.
+  static const String heardState = 'heard';
+
+  /// `TEST_RESULT` `state` of a Test the user did not hear.
+  static const String notHeardState = 'notHeard';
+
   /// The Test id (16 hex digits).
   final String testId;
 

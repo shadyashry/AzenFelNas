@@ -1,5 +1,5 @@
-import 'package:daily_muslim/features/athan/application/read_last_test_heard.dart';
-import 'package:daily_muslim/features/athan/application/record_athan_test_result.dart';
+import 'package:daily_muslim/features/athan/domain/athan_test_result.dart';
+import 'package:daily_muslim/features/athan/domain/read_last_test_heard.dart';
 import 'package:dm_contracts/dm_contracts.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
@@ -16,8 +16,8 @@ final class EventLogLastTest implements ReadLastTestHeard {
     for (final e in entries.reversed) {
       if (e.code != EventCode.testResult) continue;
       return switch (e.attrs.state) {
-        RecordAthanTestResult.heardState => true,
-        RecordAthanTestResult.notHeardState => false,
+        AthanTestResult.heardState => true,
+        AthanTestResult.notHeardState => false,
         _ => null,
       };
     }

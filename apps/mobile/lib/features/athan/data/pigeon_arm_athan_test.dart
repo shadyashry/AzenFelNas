@@ -1,4 +1,4 @@
-import 'package:daily_muslim/features/athan/application/athan_platform_ports.dart';
+import 'package:daily_muslim/features/athan/domain/athan_platform_ports.dart';
 import 'package:dm_contracts/athan_scheduler_api.dart';
 import 'package:flutter/services.dart';
 

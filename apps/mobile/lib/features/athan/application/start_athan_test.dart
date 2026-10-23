@@ -1,4 +1,4 @@
-import 'package:daily_muslim/features/athan/application/athan_platform_ports.dart';
+import 'package:daily_muslim/features/athan/domain/athan_platform_ports.dart';
 import 'package:daily_muslim/features/athan/domain/athan_test_event.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 

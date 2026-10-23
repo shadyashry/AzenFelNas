@@ -67,9 +67,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attributionsOpenSource => 'Open-source licences';
 
   @override
-  String get healthTitle => 'Athan Health';
-
-  @override
   String get qiblaTitle => 'Qibla';
 
   @override
@@ -539,4 +536,130 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get planHorizonBody =>
       'Open Daily Muslim to keep the Athan scheduled.';
+
+  @override
+  String get athanTitle => 'Athan';
+
+  @override
+  String get settingsAthan => 'Athan';
+
+  @override
+  String get athanHealthTitle => 'Athan readiness';
+
+  @override
+  String get athanHealthEvaluating => 'Checking…';
+
+  @override
+  String get athanHealthReady => 'Ready: the Athan will sound';
+
+  @override
+  String get athanHealthLimited => 'Limited: the Athan may be late or quiet';
+
+  @override
+  String get athanHealthNotReady => 'Not ready: the Athan will not sound';
+
+  @override
+  String get athanHealthUnknown => 'Not available · the phone cannot tell';
+
+  @override
+  String get athanReasonNeedsNotificationPermission =>
+      'Allow notifications for Daily Muslim';
+
+  @override
+  String get athanReasonNeedsExactAlarmPermission =>
+      'Allow alarms and reminders';
+
+  @override
+  String get athanReasonNeedsAlarmKitAuthorization =>
+      'Allow alarms for Daily Muslim';
+
+  @override
+  String get athanReasonMutedChannel =>
+      'The Athan sound is muted in system settings';
+
+  @override
+  String get athanReasonBatteryRestricted =>
+      'The phone restricts Daily Muslim in the background';
+
+  @override
+  String get athanReasonStalePlan => 'Open the app to schedule the Athan';
+
+  @override
+  String get athanReasonHorizonEnding =>
+      'The Athan schedule ends soon; open the app';
+
+  @override
+  String get athanReasonFailedTest => 'You did not hear the last test';
+
+  @override
+  String get athanReasonClockSkew => 'The phone clock looks wrong';
+
+  @override
+  String get athanReasonNoSoundAsset => 'No Athan sound is installed';
+
+  @override
+  String get athanReasonInexactFallback => 'Alarms may be a few minutes late';
+
+  @override
+  String get athanReasonUnverifiableDelivery =>
+      'This phone cannot confirm the Athan played';
+
+  @override
+  String get athanReasonForceStoppedPreviously =>
+      'The app was force-stopped before; alarms were lost then';
+
+  @override
+  String get athanTestTitle => 'Athan test';
+
+  @override
+  String get athanTestStart => 'Play a test Athan in 60 seconds';
+
+  @override
+  String get athanTestNeedsSound => 'Choose an Athan sound first';
+
+  @override
+  String get athanTestFired => 'The test Athan should be playing now';
+
+  @override
+  String get athanTestAsk => 'Did you hear it?';
+
+  @override
+  String get athanTestYes => 'Yes';
+
+  @override
+  String get athanTestNo => 'No';
+
+  @override
+  String get athanTestHeard => 'Recorded: you heard the test';
+
+  @override
+  String get athanTestNotHeard => 'Recorded: you did not hear the test';
+
+  @override
+  String get athanTestNotArmed => 'The phone did not schedule the test';
+
+  @override
+  String get athanTestAgain => 'Test again';
+
+  @override
+  String get athanSound => 'Athan sound';
+
+  @override
+  String get athanNoSounds => 'No Athan sounds are installed yet';
+
+  @override
+  String get athanPreReminder => 'Reminder before the Athan';
+
+  @override
+  String get athanPreReminderOff => 'Off';
+
+  @override
+  String athanTestScheduled(int seconds) {
+    return 'Test Athan in $seconds s';
+  }
+
+  @override
+  String athanPreReminderMinutes(int minutes) {
+    return '$minutes min before';
+  }
 }

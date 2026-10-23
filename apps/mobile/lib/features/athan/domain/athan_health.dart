@@ -18,9 +18,6 @@ sealed class AthanHealth {
   @override
   int get hashCode => Object.hash(runtimeType, Object.hashAll(reasons));
 
-  @override
-  String toString() => '$runtimeType($reasons)';
-
   static bool _sameReasons(
     List<AthanHealthReason> a,
     List<AthanHealthReason> b,

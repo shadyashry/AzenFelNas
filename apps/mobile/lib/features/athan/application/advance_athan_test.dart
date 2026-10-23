@@ -17,45 +17,45 @@ final class AdvanceAthanTest {
   static const int askDelayMs = 10000;
 
   /// The state after [event] in [state].
-  AthanTestState call(AthanTestState state, AthanTestEvent event) =>
-      switch ((state, event)) {
-        (
-          AthanTestIdle() || AthanTestRecorded() || AthanTestNotArmed(),
-          TestArmed(:final testId, :final fireAtUtcMs, :final nowUtcMs),
-        ) =>
-          _scheduled(testId, fireAtUtcMs, nowUtcMs),
-        (
-          AthanTestIdle() || AthanTestRecorded() || AthanTestNotArmed(),
-          TestRefused(),
-        ) =>
-          const AthanTestNotArmed(),
-        (
-          AthanTestScheduled(:final testId, :final fireAtUtcMs),
-          ClockTicked(:final nowUtcMs),
-        ) =>
-          _scheduled(testId, fireAtUtcMs, nowUtcMs),
-        (
-          AthanTestFired(:final testId, :final fireAtUtcMs),
-          ClockTicked(:final nowUtcMs),
-        ) =>
-          nowUtcMs >= fireAtUtcMs + askDelayMs
-              ? AthanTestAskHeard(testId)
-              : state,
-        (
-          AthanTestFired(:final testId) || AthanTestAskHeard(:final testId),
-          HeardAnswered(:final heard, :final presentedByOs, :final nowUtcMs),
-        ) =>
-          AthanTestRecorded(
-            AthanTestResult(
-              testId: testId,
-              heardByUser: heard,
-              presentedByOs: presentedByOs,
-              answeredAtUtcMs: nowUtcMs,
-            ),
-          ),
-        (_, TestReset()) => const AthanTestIdle(),
-        _ => state,
-      };
+  AthanTestState call(AthanTestState state, AthanTestEvent event) => switch ((
+    state,
+    event,
+  )) {
+    (
+      AthanTestIdle() || AthanTestRecorded() || AthanTestNotArmed(),
+      TestArmed(:final testId, :final fireAtUtcMs, :final nowUtcMs),
+    ) =>
+      _scheduled(testId, fireAtUtcMs, nowUtcMs),
+    (
+      AthanTestIdle() || AthanTestRecorded() || AthanTestNotArmed(),
+      TestRefused(),
+    ) =>
+      const AthanTestNotArmed(),
+    (
+      AthanTestScheduled(:final testId, :final fireAtUtcMs),
+      ClockTicked(:final nowUtcMs),
+    ) =>
+      _scheduled(testId, fireAtUtcMs, nowUtcMs),
+    (
+      AthanTestFired(:final testId, :final fireAtUtcMs),
+      ClockTicked(:final nowUtcMs),
+    ) =>
+      nowUtcMs >= fireAtUtcMs + askDelayMs ? AthanTestAskHeard(testId) : state,
+    (
+      AthanTestFired(:final testId) || AthanTestAskHeard(:final testId),
+      HeardAnswered(:final heard, :final presentedByOs, :final nowUtcMs),
+    ) =>
+      AthanTestRecorded(
+        AthanTestResult(
+          testId: testId,
+          heardByUser: heard,
+          presentedByOs: presentedByOs,
+          answeredAtUtcMs: nowUtcMs,
+        ),
+      ),
+    (_, TestReset()) => const AthanTestIdle(),
+    _ => state,
+  };
 
   static AthanTestState _scheduled(String testId, int fireAt, int now) =>
       now >= fireAt

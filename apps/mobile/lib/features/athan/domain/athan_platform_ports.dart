@@ -1,5 +1,5 @@
+import 'package:daily_muslim/features/athan/domain/native_event.dart';
 import 'package:daily_muslim/features/athan/domain/platform_health.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 
 /// Reads the native probes (§7.8 `health()`). Never throws: a missing host
 /// is `PlatformHealth.unavailable`.
@@ -18,9 +18,12 @@ abstract interface class ArmAthanTest {
   });
 }
 
-/// Drains the native `events.jsonl` (§7.8 `drainEvents`, REQ-ALM-041).
+/// Drains the native `events.jsonl` into the event log (§7.8
+/// `drainEvents`, REQ-ALM-041); run on every start and before a Test answer
+/// is stored.
 abstract interface class DrainNativeEvents {
-  /// The valid `event_log.v1` entries since the last drain, oldest first;
-  /// empty when no host answered. Never throws; invalid lines are dropped.
-  Future<List<EventLogEntry>> call();
+  /// Appends every valid `event_log.v1` line to the event log and returns
+  /// them, oldest first; empty when no host answered. Never throws; invalid
+  /// lines are dropped.
+  Future<List<NativeEvent>> call();
 }

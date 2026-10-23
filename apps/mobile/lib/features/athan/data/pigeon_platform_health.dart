@@ -1,4 +1,4 @@
-import 'package:daily_muslim/features/athan/application/athan_platform_ports.dart';
+import 'package:daily_muslim/features/athan/domain/athan_platform_ports.dart';
 import 'package:daily_muslim/features/athan/domain/delivery_path.dart';
 import 'package:daily_muslim/features/athan/domain/health_probe.dart';
 import 'package:daily_muslim/features/athan/domain/platform_health.dart';

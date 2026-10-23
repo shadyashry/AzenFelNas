@@ -1,3 +1,4 @@
+import 'package:daily_muslim/features/athan/presentation/athan_page.dart';
 import 'package:daily_muslim/features/contexts/presentation/manual_place_page.dart';
 import 'package:daily_muslim/features/home/presentation/timeline_page.dart';
 import 'package:daily_muslim/features/onboarding/presentation/home_gate.dart';
@@ -7,8 +8,6 @@ import 'package:daily_muslim/features/settings/presentation/attributions_page.da
 import 'package:daily_muslim/features/settings/presentation/settings_page.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/domain/route_policy.dart';
-import 'package:daily_muslim/features/shell/presentation/placeholder_page.dart';
-import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,9 +45,7 @@ abstract final class AppRouter {
           ),
           GoRoute(
             path: 'health',
-            builder: (context, state) => PlaceholderPage(
-              title: AppLocalizations.of(context).healthTitle,
-            ),
+            builder: (context, state) => const AthanPage(),
           ),
           GoRoute(
             path: 'qibla',

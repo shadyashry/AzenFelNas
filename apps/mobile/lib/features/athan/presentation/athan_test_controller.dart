@@ -31,7 +31,7 @@ final class AthanTestController extends Notifier<AthanTestState> {
   /// Records the answer [heard] with the OS receipt evidence, then
   /// re-evaluates Health (a Test not heard is `failedTest`).
   Future<void> answer({required bool heard}) async {
-    final drained = await ref.read(drainAthanEventsProvider).call();
+    final drained = await ref.read(drainNativeEventsProvider).call();
     _apply(
       HeardAnswered(
         heard: heard,

@@ -212,12 +212,6 @@ abstract class AppLocalizations {
   /// **'Open-source licences'**
   String get attributionsOpenSource;
 
-  /// Athan Health screen title.
-  ///
-  /// In en, this message translates to:
-  /// **'Athan Health'**
-  String get healthTitle;
-
   /// Qibla screen title.
   ///
   /// In en, this message translates to:
@@ -1003,6 +997,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open Daily Muslim to keep the Athan scheduled.'**
   String get planHorizonBody;
+
+  /// Athan settings page title.
+  ///
+  /// In en, this message translates to:
+  /// **'Athan'**
+  String get athanTitle;
+
+  /// Settings entry to the Athan page.
+  ///
+  /// In en, this message translates to:
+  /// **'Athan'**
+  String get settingsAthan;
+
+  /// Athan Health section title.
+  ///
+  /// In en, this message translates to:
+  /// **'Athan readiness'**
+  String get athanHealthTitle;
+
+  /// Athan Health while probes run.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking…'**
+  String get athanHealthEvaluating;
+
+  /// Athan Health ready state.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready: the Athan will sound'**
+  String get athanHealthReady;
+
+  /// Athan Health limited state.
+  ///
+  /// In en, this message translates to:
+  /// **'Limited: the Athan may be late or quiet'**
+  String get athanHealthLimited;
+
+  /// Athan Health not-ready state.
+  ///
+  /// In en, this message translates to:
+  /// **'Not ready: the Athan will not sound'**
+  String get athanHealthNotReady;
+
+  /// Athan Health unknown state (§18.5 Unknown).
+  ///
+  /// In en, this message translates to:
+  /// **'Not available · the phone cannot tell'**
+  String get athanHealthUnknown;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow notifications for Daily Muslim'**
+  String get athanReasonNeedsNotificationPermission;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow alarms and reminders'**
+  String get athanReasonNeedsExactAlarmPermission;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow alarms for Daily Muslim'**
+  String get athanReasonNeedsAlarmKitAuthorization;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'The Athan sound is muted in system settings'**
+  String get athanReasonMutedChannel;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'The phone restricts Daily Muslim in the background'**
+  String get athanReasonBatteryRestricted;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the app to schedule the Athan'**
+  String get athanReasonStalePlan;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'The Athan schedule ends soon; open the app'**
+  String get athanReasonHorizonEnding;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'You did not hear the last test'**
+  String get athanReasonFailedTest;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'The phone clock looks wrong'**
+  String get athanReasonClockSkew;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'No Athan sound is installed'**
+  String get athanReasonNoSoundAsset;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarms may be a few minutes late'**
+  String get athanReasonInexactFallback;
+
+  /// Health reason.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone cannot confirm the Athan played'**
+  String get athanReasonUnverifiableDelivery;
+
+  /// Health reason (advisory).
+  ///
+  /// In en, this message translates to:
+  /// **'The app was force-stopped before; alarms were lost then'**
+  String get athanReasonForceStoppedPreviously;
+
+  /// Athan Test section title.
+  ///
+  /// In en, this message translates to:
+  /// **'Athan test'**
+  String get athanTestTitle;
+
+  /// Athan Test start button.
+  ///
+  /// In en, this message translates to:
+  /// **'Play a test Athan in 60 seconds'**
+  String get athanTestStart;
+
+  /// Athan Test disabled hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an Athan sound first'**
+  String get athanTestNeedsSound;
+
+  /// Athan Test fired state.
+  ///
+  /// In en, this message translates to:
+  /// **'The test Athan should be playing now'**
+  String get athanTestFired;
+
+  /// Athan Test question.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you hear it?'**
+  String get athanTestAsk;
+
+  /// Athan Test answer.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get athanTestYes;
+
+  /// Athan Test answer.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get athanTestNo;
+
+  /// Athan Test recorded, heard.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded: you heard the test'**
+  String get athanTestHeard;
+
+  /// Athan Test recorded, not heard.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded: you did not hear the test'**
+  String get athanTestNotHeard;
+
+  /// Athan Test refused by the platform.
+  ///
+  /// In en, this message translates to:
+  /// **'The phone did not schedule the test'**
+  String get athanTestNotArmed;
+
+  /// Athan Test reset button.
+  ///
+  /// In en, this message translates to:
+  /// **'Test again'**
+  String get athanTestAgain;
+
+  /// Sound choice title.
+  ///
+  /// In en, this message translates to:
+  /// **'Athan sound'**
+  String get athanSound;
+
+  /// Sound choice when the manifest is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No Athan sounds are installed yet'**
+  String get athanNoSounds;
+
+  /// Pre-reminder choice title (REQ-ALM-042).
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder before the Athan'**
+  String get athanPreReminder;
+
+  /// Pre-reminder off.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get athanPreReminderOff;
+
+  /// Athan Test countdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Athan in {seconds} s'**
+  String athanTestScheduled(int seconds);
+
+  /// Pre-reminder option.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min before'**
+  String athanPreReminderMinutes(int minutes);
 }
 
 class _AppLocalizationsDelegate

@@ -67,9 +67,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get attributionsOpenSource => 'تراخيص البرمجيات المفتوحة';
 
   @override
-  String get healthTitle => 'صحة الأذان';
-
-  @override
   String get qiblaTitle => 'القبلة';
 
   @override
@@ -538,4 +535,129 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get planHorizonBody => 'افتح التطبيق علشان الأذان يفضل متجدول.';
+
+  @override
+  String get athanTitle => 'الأذان';
+
+  @override
+  String get settingsAthan => 'الأذان';
+
+  @override
+  String get athanHealthTitle => 'جاهزية الأذان';
+
+  @override
+  String get athanHealthEvaluating => 'جارٍ الفحص…';
+
+  @override
+  String get athanHealthReady => 'جاهز: سيُرفع الأذان';
+
+  @override
+  String get athanHealthLimited => 'محدود: قد يتأخر الأذان أو يخفت';
+
+  @override
+  String get athanHealthNotReady => 'غير جاهز: لن يُرفع الأذان';
+
+  @override
+  String get athanHealthUnknown => 'غير متاح · لا يستطيع الهاتف التحديد';
+
+  @override
+  String get athanReasonNeedsNotificationPermission =>
+      'اسمح بالإشعارات لتطبيق Daily Muslim';
+
+  @override
+  String get athanReasonNeedsExactAlarmPermission =>
+      'اسمح بالمنبهات والتذكيرات';
+
+  @override
+  String get athanReasonNeedsAlarmKitAuthorization =>
+      'اسمح بالمنبهات لتطبيق Daily Muslim';
+
+  @override
+  String get athanReasonMutedChannel => 'صوت الأذان مكتوم في إعدادات النظام';
+
+  @override
+  String get athanReasonBatteryRestricted =>
+      'الهاتف يقيّد Daily Muslim في الخلفية';
+
+  @override
+  String get athanReasonStalePlan => 'افتح التطبيق لجدولة الأذان';
+
+  @override
+  String get athanReasonHorizonEnding =>
+      'جدول الأذان ينتهي قريبًا؛ افتح التطبيق';
+
+  @override
+  String get athanReasonFailedTest => 'لم تسمع الاختبار الأخير';
+
+  @override
+  String get athanReasonClockSkew => 'ساعة الهاتف تبدو غير صحيحة';
+
+  @override
+  String get athanReasonNoSoundAsset => 'لا يوجد صوت أذان مثبّت';
+
+  @override
+  String get athanReasonInexactFallback => 'قد تتأخر المنبهات بضع دقائق';
+
+  @override
+  String get athanReasonUnverifiableDelivery =>
+      'لا يستطيع هذا الهاتف التأكد من رفع الأذان';
+
+  @override
+  String get athanReasonForceStoppedPreviously =>
+      'أُوقف التطبيق قسرًا من قبل؛ فُقدت المنبهات حينها';
+
+  @override
+  String get athanTestTitle => 'اختبار الأذان';
+
+  @override
+  String get athanTestStart => 'شغّل أذانًا تجريبيًا بعد 60 ثانية';
+
+  @override
+  String get athanTestNeedsSound => 'اختر صوت الأذان أولًا';
+
+  @override
+  String get athanTestFired => 'يُفترض أن الأذان التجريبي يعمل الآن';
+
+  @override
+  String get athanTestAsk => 'هل سمعته؟';
+
+  @override
+  String get athanTestYes => 'نعم';
+
+  @override
+  String get athanTestNo => 'لا';
+
+  @override
+  String get athanTestHeard => 'سُجّل: سمعت الاختبار';
+
+  @override
+  String get athanTestNotHeard => 'سُجّل: لم تسمع الاختبار';
+
+  @override
+  String get athanTestNotArmed => 'لم يجدول الهاتف الاختبار';
+
+  @override
+  String get athanTestAgain => 'اختبر مرة أخرى';
+
+  @override
+  String get athanSound => 'صوت الأذان';
+
+  @override
+  String get athanNoSounds => 'لا توجد أصوات أذان مثبّتة بعد';
+
+  @override
+  String get athanPreReminder => 'تذكير قبل الأذان';
+
+  @override
+  String get athanPreReminderOff => 'إيقاف';
+
+  @override
+  String athanTestScheduled(int seconds) {
+    return 'الأذان التجريبي بعد $seconds ث';
+  }
+
+  @override
+  String athanPreReminderMinutes(int minutes) {
+    return 'قبل $minutes دقيقة';
+  }
 }

@@ -11,6 +11,7 @@ import 'package:daily_muslim/features/storage/data/database_files.dart';
 import 'package:daily_muslim/features/storage/data/method_channel_backup_exclusion.dart';
 import 'package:daily_muslim/features/storage/data/static_rules_backup_exclusion.dart';
 import 'package:daily_muslim/features/storage/domain/exclude_from_backup.dart';
+import 'package:dm_contracts/athan_scheduler_api.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -50,6 +51,7 @@ abstract final class Bootstrap {
               PermissionHandlerPlatform.instance,
             ),
             heading: const ChannelHeadingSource(),
+            athan: AthanSchedulerApi(),
           ),
           child: const DailyMuslimApp(),
         );

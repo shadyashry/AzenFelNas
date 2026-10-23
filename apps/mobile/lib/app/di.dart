@@ -1,6 +1,13 @@
 import 'dart:io';
 
 import 'package:daily_muslim/app/app_build.dart';
+import 'package:daily_muslim/features/athan/application/record_athan_test_result.dart';
+import 'package:daily_muslim/features/athan/data/asset_athan_sounds.dart';
+import 'package:daily_muslim/features/athan/data/event_log_last_test.dart';
+import 'package:daily_muslim/features/athan/data/pigeon_arm_athan_test.dart';
+import 'package:daily_muslim/features/athan/data/pigeon_drain_native_events.dart';
+import 'package:daily_muslim/features/athan/data/pigeon_platform_health.dart';
+import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/contexts/application/context_use_cases.dart';
 import 'package:daily_muslim/features/contexts/application/import_gazetteer.dart';
 import 'package:daily_muslim/features/contexts/application/locate_observer.dart';
@@ -38,6 +45,7 @@ import 'package:daily_muslim/features/shell/presentation/shell_providers.dart';
 import 'package:daily_muslim/features/storage/data/drift_event_log.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
 import 'package:dm_civil_time/dm_civil_time.dart';
+import 'package:dm_contracts/athan_scheduler_api.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:flutter/services.dart';
@@ -55,9 +63,11 @@ abstract final class AppBindings {
     required LocateDevice locator,
     required RequestLocationAccess locationAccess,
     required HeadingSource heading,
+    required AthanSchedulerApi athan,
   }) {
     final settings = DriftSettingsStore(databases.dm);
     final eventLog = DriftEventLog(databases.dm);
+    final drainNativeEvents = PigeonDrainNativeEvents(athan, eventLog.call);
     final catalog = DriftPackageCatalog(databases.dm);
     final blobs = IoPackageBlobStore(blobRoot);
     final bundledSeeds = AssetBundledSeeds(
@@ -87,6 +97,7 @@ abstract final class AppBindings {
         blobs: blobs,
       ),
       recordStart: EventLogAppEvents(eventLog.call),
+      drainNativeEvents: drainNativeEvents,
       clock: clock,
     );
     return [
@@ -121,6 +132,18 @@ abstract final class AppBindings {
       ),
       completeFirstRunProvider.overrideWithValue(CompleteFirstRun(settings)),
       headingSourceProvider.overrideWithValue(heading),
+      readPlatformHealthProvider.overrideWithValue(
+        PigeonPlatformHealth(athan, clock),
+      ),
+      armAthanTestProvider.overrideWithValue(PigeonArmAthanTest(athan)),
+      drainNativeEventsProvider.overrideWithValue(drainNativeEvents),
+      recordAthanTestResultProvider.overrideWithValue(
+        RecordAthanTestResult(eventLog.call),
+      ),
+      readLastTestHeardProvider.overrideWithValue(
+        EventLogLastTest(eventLog.entries),
+      ),
+      readAthanSoundsProvider.overrideWithValue(AssetAthanSounds(assets)),
     ];
   }
 

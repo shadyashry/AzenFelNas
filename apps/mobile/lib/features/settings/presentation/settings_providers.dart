@@ -45,3 +45,14 @@ final reducedMotionSettingProvider = StreamProvider<bool>(
 final attributionsProvider = FutureProvider<List<Attribution>>(
   (ref) => ref.watch(readAttributionsProvider).call(),
 );
+
+/// The chosen Athan sound id (null until the user picks one).
+final athanSoundSettingProvider = StreamProvider<String?>(
+  (ref) => ref.watch(watchSettingProvider).watch(AppSettings.soundId),
+);
+
+/// The pre-reminder in minutes (REQ-ALM-042).
+final preReminderSettingProvider = StreamProvider<int>(
+  (ref) =>
+      ref.watch(watchSettingProvider).watch(AppSettings.preReminderMinutes),
+);

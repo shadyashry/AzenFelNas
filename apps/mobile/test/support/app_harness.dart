@@ -7,6 +7,7 @@ import 'package:daily_muslim/features/qibla/domain/heading_source.dart';
 import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
 import 'package:daily_muslim/features/storage/data/places_database.dart';
+import 'package:dm_contracts/athan_scheduler_api.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/services.dart';
@@ -47,6 +48,7 @@ Widget harnessApp(
     locator: locator ?? FakeDeviceLocator(),
     locationAccess: locationAccess ?? FakeLocationAccess(),
     heading: heading ?? FakeHeadingSource(),
+    athan: AthanSchedulerApi(),
   ),
   child: DailyMuslimApp(initialLocation: initialLocation),
 );

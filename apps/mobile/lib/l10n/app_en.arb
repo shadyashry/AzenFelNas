@@ -76,10 +76,6 @@
   "@attributionsOpenSource": {
     "description": "Button: the licences of the software the app uses."
   },
-  "healthTitle": "Athan Health",
-  "@healthTitle": {
-    "description": "Athan Health screen title."
-  },
   "qiblaTitle": "Qibla",
   "@qiblaTitle": {
     "description": "Qibla screen title."
@@ -793,5 +789,169 @@
   "planHorizonBody": "Open Daily Muslim to keep the Athan scheduled.",
   "@planHorizonBody": {
     "description": "Horizon warning body."
+  },
+  "athanTitle": "Athan",
+  "@athanTitle": {
+    "description": "Athan settings page title."
+  },
+  "settingsAthan": "Athan",
+  "@settingsAthan": {
+    "description": "Settings entry to the Athan page."
+  },
+  "athanHealthTitle": "Athan readiness",
+  "@athanHealthTitle": {
+    "description": "Athan Health section title."
+  },
+  "athanHealthEvaluating": "Checking…",
+  "@athanHealthEvaluating": {
+    "description": "Athan Health while probes run."
+  },
+  "athanHealthReady": "Ready: the Athan will sound",
+  "@athanHealthReady": {
+    "description": "Athan Health ready state."
+  },
+  "athanHealthLimited": "Limited: the Athan may be late or quiet",
+  "@athanHealthLimited": {
+    "description": "Athan Health limited state."
+  },
+  "athanHealthNotReady": "Not ready: the Athan will not sound",
+  "@athanHealthNotReady": {
+    "description": "Athan Health not-ready state."
+  },
+  "athanHealthUnknown": "Not available · the phone cannot tell",
+  "@athanHealthUnknown": {
+    "description": "Athan Health unknown state (§18.5 Unknown)."
+  },
+  "athanReasonNeedsNotificationPermission": "Allow notifications for Daily Muslim",
+  "@athanReasonNeedsNotificationPermission": {
+    "description": "Health reason."
+  },
+  "athanReasonNeedsExactAlarmPermission": "Allow alarms and reminders",
+  "@athanReasonNeedsExactAlarmPermission": {
+    "description": "Health reason."
+  },
+  "athanReasonNeedsAlarmKitAuthorization": "Allow alarms for Daily Muslim",
+  "@athanReasonNeedsAlarmKitAuthorization": {
+    "description": "Health reason."
+  },
+  "athanReasonMutedChannel": "The Athan sound is muted in system settings",
+  "@athanReasonMutedChannel": {
+    "description": "Health reason."
+  },
+  "athanReasonBatteryRestricted": "The phone restricts Daily Muslim in the background",
+  "@athanReasonBatteryRestricted": {
+    "description": "Health reason."
+  },
+  "athanReasonStalePlan": "Open the app to schedule the Athan",
+  "@athanReasonStalePlan": {
+    "description": "Health reason."
+  },
+  "athanReasonHorizonEnding": "The Athan schedule ends soon; open the app",
+  "@athanReasonHorizonEnding": {
+    "description": "Health reason."
+  },
+  "athanReasonFailedTest": "You did not hear the last test",
+  "@athanReasonFailedTest": {
+    "description": "Health reason."
+  },
+  "athanReasonClockSkew": "The phone clock looks wrong",
+  "@athanReasonClockSkew": {
+    "description": "Health reason."
+  },
+  "athanReasonNoSoundAsset": "No Athan sound is installed",
+  "@athanReasonNoSoundAsset": {
+    "description": "Health reason."
+  },
+  "athanReasonInexactFallback": "Alarms may be a few minutes late",
+  "@athanReasonInexactFallback": {
+    "description": "Health reason."
+  },
+  "athanReasonUnverifiableDelivery": "This phone cannot confirm the Athan played",
+  "@athanReasonUnverifiableDelivery": {
+    "description": "Health reason."
+  },
+  "athanReasonForceStoppedPreviously": "The app was force-stopped before; alarms were lost then",
+  "@athanReasonForceStoppedPreviously": {
+    "description": "Health reason (advisory)."
+  },
+  "athanTestTitle": "Athan test",
+  "@athanTestTitle": {
+    "description": "Athan Test section title."
+  },
+  "athanTestStart": "Play a test Athan in 60 seconds",
+  "@athanTestStart": {
+    "description": "Athan Test start button."
+  },
+  "athanTestNeedsSound": "Choose an Athan sound first",
+  "@athanTestNeedsSound": {
+    "description": "Athan Test disabled hint."
+  },
+  "athanTestFired": "The test Athan should be playing now",
+  "@athanTestFired": {
+    "description": "Athan Test fired state."
+  },
+  "athanTestAsk": "Did you hear it?",
+  "@athanTestAsk": {
+    "description": "Athan Test question."
+  },
+  "athanTestYes": "Yes",
+  "@athanTestYes": {
+    "description": "Athan Test answer."
+  },
+  "athanTestNo": "No",
+  "@athanTestNo": {
+    "description": "Athan Test answer."
+  },
+  "athanTestHeard": "Recorded: you heard the test",
+  "@athanTestHeard": {
+    "description": "Athan Test recorded, heard."
+  },
+  "athanTestNotHeard": "Recorded: you did not hear the test",
+  "@athanTestNotHeard": {
+    "description": "Athan Test recorded, not heard."
+  },
+  "athanTestNotArmed": "The phone did not schedule the test",
+  "@athanTestNotArmed": {
+    "description": "Athan Test refused by the platform."
+  },
+  "athanTestAgain": "Test again",
+  "@athanTestAgain": {
+    "description": "Athan Test reset button."
+  },
+  "athanSound": "Athan sound",
+  "@athanSound": {
+    "description": "Sound choice title."
+  },
+  "athanNoSounds": "No Athan sounds are installed yet",
+  "@athanNoSounds": {
+    "description": "Sound choice when the manifest is empty."
+  },
+  "athanPreReminder": "Reminder before the Athan",
+  "@athanPreReminder": {
+    "description": "Pre-reminder choice title (REQ-ALM-042)."
+  },
+  "athanPreReminderOff": "Off",
+  "@athanPreReminderOff": {
+    "description": "Pre-reminder off."
+  },
+  "athanTestScheduled": "Test Athan in {seconds} s",
+  "@athanTestScheduled": {
+    "description": "Athan Test countdown.",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": "42"
+      }
+    }
+  },
+  "athanPreReminderMinutes": "{minutes} min before",
+  "@athanPreReminderMinutes": {
+    "description": "Pre-reminder option.",
+    "placeholders": {
+      "minutes": {
+        "type": "int",
+        "example": "10"
+      }
+    }
   }
 }

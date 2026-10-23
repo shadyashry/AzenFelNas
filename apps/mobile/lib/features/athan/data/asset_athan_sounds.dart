@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:daily_muslim/features/athan/application/read_athan_sounds.dart';
+import 'package:daily_muslim/features/athan/domain/read_athan_sounds.dart';
 import 'package:dm_contracts/dm_contracts.dart';
 import 'package:flutter/services.dart';
 
@@ -8,29 +8,25 @@ import 'package:flutter/services.dart';
 /// asset yet means no sounds (Content owes the recordings, §15 D83), which
 /// Health reports as `noSoundAsset`.
 final class AssetAthanSounds implements ReadAthanSounds {
-  /// The adapter reading [manifestKey] through [_load].
-  const new(this._load, {this.manifestKey = defaultKey});
+  /// The adapter reading [manifestKey] from [_bundle].
+  const new(this._bundle, {this.manifestKey = defaultKey});
 
   /// Where the manifest is bundled.
   static const String defaultKey = 'assets/athan/athan_audio_manifest.json';
 
-  final Future<String> Function(String key) _load;
+  final AssetBundle _bundle;
 
   /// The asset key of the manifest.
   final String manifestKey;
 
   @override
-  Future<List<AthanSound>> call() async {
-    final String text;
-    try {
-      text = await _load(manifestKey);
-    } on FlutterError {
-      return const [];
-    }
-    return switch (jsonDecode(text)) {
-      final Map<String, Object?> json => AthanAudioManifest.fromJson(
-        json,
-      ).sounds,
+  Future<List<String>> call() async {
+    final assets = await AssetManifest.loadFromAssetBundle(_bundle);
+    if (!assets.listAssets().contains(manifestKey)) return const [];
+    return switch (jsonDecode(await _bundle.loadString(manifestKey))) {
+      final Map<String, Object?> json => [
+        for (final s in AthanAudioManifest.fromJson(json).sounds) s.soundId,
+      ],
       _ => const [],
     };
   }

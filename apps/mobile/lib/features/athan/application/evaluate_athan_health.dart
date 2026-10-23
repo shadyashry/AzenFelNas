@@ -62,7 +62,9 @@ final class EvaluateAthanHealth {
       degrading.add(AthanHealthReason.failedTest);
     }
     if (blocking.isNotEmpty) {
-      return AthanHealthNotReady(_distinct([...blocking, ...degrading, ...advisory]));
+      return AthanHealthNotReady(
+        _distinct([...blocking, ...degrading, ...advisory]),
+      );
     }
     if (degraded) {
       return AthanHealthLimited(_distinct([...degrading, ...advisory]));
