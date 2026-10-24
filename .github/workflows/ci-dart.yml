@@ -36,6 +36,9 @@ jobs:
           fi
       - name: melos run ci (format, analyze, arch lint, REQ index, tests)
         run: dart run melos run ci
+      - name: Privacy gates (egress allow-list, AD_ID, event-log schema scan, privacy manifest; §12, §15 D84)
+        working-directory: apps/mobile
+        run: flutter test test/privacy test/features/settings test/features/storage/places_backup_exclusion_test.dart
 
   secrets:
     runs-on: ubuntu-24.04

@@ -37,6 +37,15 @@ jobs:
       - name: Build debug APK (generates the Gradle wrapper)
         working-directory: apps/mobile
         run: flutter build apk --debug
+      - name: Merged manifest grants no advertising identifier (§12 security gate, REQ-PRIV-001)
+        working-directory: apps/mobile
+        run: |
+          merged=$(find build/app/intermediates -path '*merged_manifest*' -name AndroidManifest.xml | head -1)
+          test -n "$merged" || { echo "::error::no merged manifest found"; exit 1; }
+          if grep -E 'permission\.(AD_ID|ACCESS_ADSERVICES_[A-Z_]+)"' "$merged" | grep -v 'tools:node="remove"'; then
+            echo "::error::$merged grants an advertising-identifier permission"
+            exit 1
+          fi
       - name: ktlint 1.8.0 and detekt 1.23.8 (pinned, checksum verified)
         working-directory: apps/mobile/android
         run: |
