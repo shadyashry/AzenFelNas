@@ -57,4 +57,3 @@ internal class AthanGraph(
     val refreshWidgets: RefreshWidgets = AppWidgetRefresh(appContext)
     val widgetRedraw: WidgetRedrawAlarm = WidgetRedrawAlarm(appContext)
 }
-

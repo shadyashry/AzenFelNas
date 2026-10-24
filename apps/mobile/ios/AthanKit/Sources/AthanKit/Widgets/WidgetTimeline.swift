@@ -25,11 +25,19 @@ struct WidgetTimeline: Sendable {
     /// of which is `.expired`; WidgetKit asks again after it.
     func entries(of snapshot: Snapshot?, from nowUtcMs: Int64) -> [WidgetEntry] {
         let instants = (snapshot?.items ?? []).map(\.displayedUtcMs).filter { $0 > nowUtcMs }
-        return ([nowUtcMs] + Set(instants).sorted()).map { WidgetEntry(atUtcMs: $0, content: content(of: snapshot, at: $0)) }
+        return ([nowUtcMs] + Set(instants).sorted()).map { WidgetEntry(
+            atUtcMs: $0,
+            content: content(of: snapshot, at: $0),
+        ) }
     }
 
     private static func row(_ item: SnapshotItem, passed: Bool) -> WidgetRow {
-        WidgetRow(event: event(item.event), displayedUtcMs: item.displayedUtcMs, displayLocal: item.displayLocal, passed: passed)
+        WidgetRow(
+            event: event(item.event),
+            displayedUtcMs: item.displayedUtcMs,
+            displayLocal: item.displayLocal,
+            passed: passed,
+        )
     }
 
     private static func event(_ event: PrayerEvent) -> WidgetEvent {

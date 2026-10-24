@@ -27,7 +27,10 @@ struct PrayerTimesProvider: TimelineProvider {
 
     private func entries() -> [PrayerTimesEntry] {
         let now = Int64(Date.now.timeIntervalSince1970 * 1000)
-        let entries = WidgetSnapshotSource.appGroup()?.entries(from: now) ?? [WidgetEntry(atUtcMs: now, content: .noSnapshot)]
+        let entries = WidgetSnapshotSource.appGroup()?.entries(from: now) ?? [WidgetEntry(
+            atUtcMs: now,
+            content: .noSnapshot,
+        )]
         return entries.map {
             PrayerTimesEntry(date: Date(timeIntervalSince1970: TimeInterval($0.atUtcMs) / 1000), content: $0.content)
         }

@@ -49,7 +49,10 @@ internal class ManifestRulesTest {
         (elements("receiver") + elements("service"))
             .filterNot { it.android("name") == WIDGET_RECEIVER }
             .forEach { assertEquals("true", it.android("directBootAware")) }
-        assertEquals("false", elements("receiver").single { it.android("name") == WIDGET_RECEIVER }.android("directBootAware"))
+        assertEquals(
+            "false",
+            elements("receiver").single { it.android("name") == WIDGET_RECEIVER }.android("directBootAware"),
+        )
     }
 
     @Test

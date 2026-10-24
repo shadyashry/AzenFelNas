@@ -18,21 +18,29 @@ internal class SelectWidgetContent {
         snapshot: Snapshot?,
         nowUtcMs: Long,
     ): WidgetContent {
-        if (snapshot == null) return WidgetContent.NoSnapshot
-        val items = snapshot.items.sortedBy { it.displayedUtcMs }
-        val next =
-            items.firstOrNull { it.event in PRAYERS && it.displayedUtcMs > nowUtcMs }
-                ?: return WidgetContent.Expired(snapshot.generatedAtUtcMs)
-        val rows =
-            items.filter { it.day == next.day }.map {
-                WidgetRow(it.event, it.displayedUtcMs, it.displayLocal, passed = it.displayedUtcMs <= nowUtcMs)
+        val items = snapshot?.items?.sortedBy { it.displayedUtcMs }.orEmpty()
+        val next = items.firstOrNull { it.event in PRAYERS && it.displayedUtcMs > nowUtcMs }
+        return when {
+            snapshot == null -> {
+                WidgetContent.NoSnapshot
             }
-        return WidgetContent.Showing(
-            day = next.day,
-            next = WidgetRow(next.event, next.displayedUtcMs, next.displayLocal, passed = false),
-            rows = rows,
-            refreshAtUtcMs = items.first { it.displayedUtcMs > nowUtcMs }.displayedUtcMs,
-        )
+
+            next == null -> {
+                WidgetContent.Expired(snapshot.generatedAtUtcMs)
+            }
+
+            else -> {
+                WidgetContent.Showing(
+                    day = next.day,
+                    next = WidgetRow(next.event, next.displayedUtcMs, next.displayLocal, passed = false),
+                    rows =
+                        items.filter { it.day == next.day }.map {
+                            WidgetRow(it.event, it.displayedUtcMs, it.displayLocal, it.displayedUtcMs <= nowUtcMs)
+                        },
+                    refreshAtUtcMs = items.first { it.displayedUtcMs > nowUtcMs }.displayedUtcMs,
+                )
+            }
+        }
     }
 
     private companion object {

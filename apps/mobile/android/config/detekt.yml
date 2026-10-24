@@ -6,3 +6,9 @@ complexity:
 style:
   MaxLineLength:
     maxLineLength: 120
+
+naming:
+  FunctionNaming:
+    # Compose (Glance) UI functions are nouns in PascalCase by convention (S28 widget, §15 D88).
+    ignoreAnnotated:
+      - Composable

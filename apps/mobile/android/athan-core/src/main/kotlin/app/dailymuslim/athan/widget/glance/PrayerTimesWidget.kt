@@ -60,7 +60,11 @@ private fun PrayerTimesBody(content: WidgetContent) {
 
         is WidgetContent.Showing -> {
             Text(
-                context.getString(R.string.widget_next, eventName(context, content.next.event), content.next.displayLocal),
+                context.getString(
+                    R.string.widget_next,
+                    eventName(context, content.next.event),
+                    content.next.displayLocal,
+                ),
                 style = TextStyle(fontWeight = FontWeight.Bold, color = GlanceTheme.colors.onSurface),
             )
             content.rows.forEach { TimeRow(it) }
