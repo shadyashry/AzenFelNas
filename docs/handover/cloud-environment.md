@@ -90,6 +90,33 @@ curl -fsSL -o /tmp/sf/sf.zip https://github.com/nicklockwood/SwiftFormat/release
 The repository is mounted whole because the tests find their fixtures by walking up to `DESIGN.md`; the named volume keeps `.build` out of the checkout. SwiftLint's SourceKit-only rule (`statement_position`) is skipped on Linux; macOS CI runs it.
 - **Python 3.15**: uv downloads it automatically on `uv sync`.
 
+## Terraform and an S3 test server (added S25)
+
+`registry.terraform.io` is denied, `releases.hashicorp.com` and GitHub release downloads are not, so the providers come from a local filesystem mirror:
+
+```bash
+mkdir -p /opt/sdk/tf /opt/sdk/tf-mirror/registry.terraform.io/hashicorp/google /opt/sdk/tf-mirror/registry.terraform.io/cloudflare/cloudflare
+curl -fsSL -o /tmp/tf.zip https://releases.hashicorp.com/terraform/1.16.5/terraform_1.16.5_linux_amd64.zip && unzip -oq /tmp/tf.zip -d /opt/sdk/tf
+curl -fsSL -o /opt/sdk/tf-mirror/registry.terraform.io/hashicorp/google/terraform-provider-google_8.6.0_linux_amd64.zip \
+  https://releases.hashicorp.com/terraform-provider-google/8.6.0/terraform-provider-google_8.6.0_linux_amd64.zip
+curl -fsSL -o /opt/sdk/tf-mirror/registry.terraform.io/cloudflare/cloudflare/terraform-provider-cloudflare_5.27.0_linux_amd64.zip \
+  -L https://github.com/cloudflare/terraform-provider-cloudflare/releases/download/v5.27.0/terraform-provider-cloudflare_5.27.0_linux_amd64.zip
+printf 'provider_installation {\n  filesystem_mirror {\n    path    = "/opt/sdk/tf-mirror"\n    include = ["registry.terraform.io/*/*"]\n  }\n}\n' > /root/.terraformrc
+(cd infra/terraform/distribution && /opt/sdk/tf/terraform init -backend=false -input=false -lockfile=readonly && /opt/sdk/tf/terraform validate)
+```
+
+The MinIO images are gone from Docker Hub and quay.io / dl.min.io are denied; SeaweedFS works (§15 D85). Start `dockerd` as in the Swift section, then:
+
+```bash
+mkdir -p /tmp/s3cfg && printf '%s' '{"identities":[{"name":"gsctl","credentials":[{"accessKey":"gsctltest","secretKey":"gsctltestsecret"}],"actions":["Admin","Read","Write","List"]}]}' > /tmp/s3cfg/s3.json
+docker run -d --name s3 -p 127.0.0.1:8333:8333 -v /tmp/s3cfg:/cfg chrislusf/seaweedfs:4.00 server -dir=/data \
+  -master.volumePreallocate=false -master.volumeSizeLimitMB=16 -volume.max=200 -s3 -s3.config=/cfg/s3.json   # without these flags each bucket preallocates 1 GB
+export GSCTL_S3_TEST_ENDPOINT=127.0.0.1:8333 GSCTL_S3_TEST_ACCESS_KEY_ID=gsctltest GSCTL_S3_TEST_SECRET_ACCESS_KEY=gsctltestsecret
+echo 's3.bucket.create -name dm-dist-e2e' | docker exec -i s3 weed shell
+GSCTL_E2E_BUCKET=s3://dm-dist-e2e DM_S3_ENDPOINT=127.0.0.1:8333 DM_S3_ACCESS_KEY_ID=gsctltest DM_S3_SECRET_ACCESS_KEY=gsctltestsecret \
+  DM_S3_INSECURE=1 tools/gsctl/scripts/lab-e2e.sh
+```
+
 ## Session hygiene
 
 - Heartbeat: push a WIP commit to the slice branch, or an empty commit to `automation/heartbeat` (the only branch that may be force-pushed), at least every 30 minutes.

@@ -23,6 +23,10 @@ Object storage + CDN; four metadata roles; monotonic `sequence`; signature envel
 - **Cross-language evidence:** both languages pass one set of JCS vectors (`tools/gsctl/testdata/jcs`). A dev channel that gsctl signed with the dev keys (`tools/gsctl/testdata/roundtrip`) verifies in Go and in Dart.
 - **Keys:** the dev key set and how gsctl loads private keys without them touching the repository are recorded in §15 D62. Production keys arrive with S25 (KMS) and S27 (root ceremony).
 
+## Live channels and promotion (slice S25, 2026-10-24)
+
+`release-package` pulls the live channel from R2 before signing, so sequences keep increasing on fresh runners (REQ-DIST-002); `promote-package` stages the reviewed targets sequence of the channel below unchanged; `refresh-timestamp` re-signs the timestamp daily. The app syncs on open with the dev root keys on `dev`/`lab`; `tools/gsctl/scripts/lab-e2e.sh` is the end-to-end done-test (§15 D85).
+
 ## Consequences
 
 - A client verifies root against its embedded keys, then timestamp → snapshot → targets. It accepts only sequences strictly after the ones it trusts; expiry is a warning only.
@@ -40,6 +44,8 @@ Object storage + CDN; four metadata roles; monotonic `sequence`; signature envel
 - `tools/gsctl/internal/domain/distribution/distribution_test.go`, `internal/app/publish_channel_test.go`, `internal/adapters/localbucket/localbucket_test.go`, `distribution_commands_test.go`: the bucket layout and cache policy, publish monotonicity and immutability, and the local CDN.
 - `tools/gsctl/main_test.go`: the CLI done-test (sign → verify, tampered metadata and package, sequence regression) and the committed vector.
 - `packages/dm_packages/test/tuf/go_round_trip_test.dart`: the Go-signed vector verifies in Dart, while tampering and sequence regressions fail.
+- `tools/gsctl/internal/app/pull_promote_test.go`, `internal/adapters/s3bucket/s3bucket_test.go`, `internal/adapters/kmskeys/kmskeys_test.go`: pull continues the live sequences, promotion keeps targets unchanged, the R2 adapter contract and cache policy, the KMS signer (S25).
+- `apps/mobile/test/features/packages/lab_sync_end_to_end_test.dart` via `tools/gsctl/scripts/lab-e2e.sh`: the app syncs a lab channel gsctl published (S25 done-test).
 - `tools/gsctl/internal/domain/jcs/jcs_test.go` and `packages/dm_core_types/test/canonical_json_test.dart`: the shared JCS vectors.
 
 ## Supersedes

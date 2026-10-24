@@ -20,6 +20,10 @@ Recorded in `DESIGN.md` §4; no further text in the index.
 
 Until S25 provisions R2 and the CDN, the distribution plane runs locally: `gsctl publish` writes channels into a bucket directory in the §9.1 layout with each object's Cache-Control, and `gsctl serve` serves it on loopback (§15 D65). The R2 adapter replaces the local bucket behind the same `ObjectStore` port. Layout, cache policy and publish rules carry over unchanged.
 
+## Infrastructure as code (slice S25, 2026-10-24)
+
+`infra/terraform/distribution` declares the R2 bucket `dm-dist` (location hint WEUR, a per-channel lock on `packages/`), the custom domain `cdn.dailymuslim.app` (r2.dev off), one cache rule that respects the Cache-Control `gsctl publish` stores, a GET/HEAD-only rule, and the Cloud KMS key ring with an Ed25519 targets key per beta/production, reachable only from the matching GitHub environment through workload identity federation. `ci-infra` runs `fmt` and `validate`; nothing is applied from CI. `gsctl` reaches R2 through `s3bucket` behind `ports.ObjectStore`, unchanged elsewhere (§15 D85).
+
 ## Consequences
 
 See the `DESIGN.md` sections referenced above.

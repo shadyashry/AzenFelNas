@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # The release-package job, run locally against the local distribution bucket (DESIGN.md §9.2, §15 D65):
 # build the profiles package, sign every role with the dev keys, verify, then publish into dist/<channel>.
-# S25 swaps the local bucket for R2; the steps stay the same.
+# release-package runs the same steps against R2 (GSCTL_BUCKET=s3://dm-dist with the DM_S3_* variables, §15 D85).
 #
 # Run from the repository root:
 #   tools/gsctl/scripts/local-release.sh <dev|lab> <version> <effective-from YYYY-MM-DD> "<note ar>" "<note en>"

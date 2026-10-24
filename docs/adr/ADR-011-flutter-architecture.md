@@ -58,6 +58,8 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Go | golangci-lint | 2.4 | **2.15.0** | `ci-go.yml` |
 | Go (first use) | sqlc · goose · zerolog · otel-go | 1.29 · 3.24 · 1.34 · 1.37 | **1.31.1 · 3.29.0 · 1.35.1 · 1.47.0** | `go.sum` with their first user |
 | Go | go.yaml.in/yaml/v3 | — | **3.0.5** (MIT + Apache-2.0; maintained successor of `gopkg.in/yaml.v3`, no transitive modules; `gsctl` reads `profiles/*.yaml`, added S09 — §15 D60) | `tools/gsctl/go.mod`, `go.sum` |
+| Go | github.com/minio/minio-go/v7 | — | **7.3.0** (Apache-2.0; transitive: klauspost/compress BSD-3 + MIT, klauspost/cpuid MIT, klauspost/crc32 BSD-3, minio/crc64nvme Apache-2.0, minio/md5-simd Apache-2.0, google/uuid BSD-3, rs/xid MIT, dustin/go-humanize MIT, cespare/xxhash MIT, zeebo/xxh3 BSD-2, tinylib/msgp MIT, philhofer/fwd MIT, gopkg.in/ini.v1 Apache-2.0, golang.org/x/{crypto,net,sys,text} BSD-3; the S3 client of `gsctl`'s R2 adapter, maintained, works against R2; 7.4.x was < 2 weeks old; added S25 — §15 D85) | `tools/gsctl/go.mod`, `go.sum` |
+| Infra | Terraform · cloudflare · google providers | — | **1.16.5 · 5.27.0 · 8.6.0** (BUSL-1.1 CLI used as a tool only, MPL-2.0 providers; exact pins + lock file; added S25 — §15 D85) | `infra/terraform/*/versions.tf`, `.terraform.lock.hcl`, `ci-infra.yml` |
 | Go | go-jsonschema | 0.20 | not adopted — evaluated at 0.24.1 in S02, see ADR-023 amendment / §15 D24 | — |
 | Python | Python · uv | 3.13 · 0.8 | **3.15.0 · 0.13.4** | `.python-version`, `.tool-versions`, `[tool.uv] required-version`, CI |
 | Python | ruff · mypy · pytest · hypothesis | 0.13 · 1.17 · — · 6 | **0.17.1 · 2.4.0 · 9.1.1 · 6.170.5** | `pyproject.toml`, `uv.lock` |
