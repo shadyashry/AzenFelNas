@@ -421,4 +421,28 @@ class AthanSchedulerApi {
     );
     return (pigeonVar_replyValue! as List<Object?>).cast<String>();
   }
+
+  /// Persists a `snapshot.v1` document beside the plan (§7.7, Appendix I)
+  /// and asks the platform to reload its widgets; false when the document
+  /// was refused or could not be written, and the previous snapshot stays.
+  Future<bool> writeSnapshot(String snapshotJson) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.dm_contracts.AthanSchedulerApi.writeSnapshot$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[snapshotJson],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return pigeonVar_replyValue! as bool;
+  }
 }

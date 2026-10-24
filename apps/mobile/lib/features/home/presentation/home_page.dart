@@ -1,3 +1,4 @@
+import 'package:daily_muslim/features/athan/presentation/widget_snapshot_providers.dart';
 import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
 import 'package:daily_muslim/features/home/domain/athan_readiness.dart';
 import 'package:daily_muslim/features/home/domain/place_view.dart';
@@ -25,6 +26,8 @@ final class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
+    // Keeps the widget snapshot following the schedule (REQ-WID-003).
+    ref.watch(widgetSnapshotProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(l.homeTitle),

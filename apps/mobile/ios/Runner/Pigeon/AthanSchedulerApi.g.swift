@@ -393,6 +393,10 @@ protocol AthanSchedulerApi {
   /// receipts and system events included (REQ-ALM-041). Async so native
   /// file I/O never runs on the platform thread (§17.3).
   func drainEvents() async throws -> [String]
+  /// Persists a `snapshot.v1` document beside the plan (§7.7, Appendix I)
+  /// and asks the platform to reload its widgets; false when the document
+  /// was refused or could not be written, and the previous snapshot stays.
+  func writeSnapshot(snapshotJson: String) async throws -> Bool
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -492,6 +496,26 @@ class AthanSchedulerApiSetup {
       }
     } else {
       drainEventsChannel.setMessageHandler(nil)
+    }
+    /// Persists a `snapshot.v1` document beside the plan (§7.7, Appendix I)
+    /// and asks the platform to reload its widgets; false when the document
+    /// was refused or could not be written, and the previous snapshot stays.
+    let writeSnapshotChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.dm_contracts.AthanSchedulerApi.writeSnapshot\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      writeSnapshotChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let snapshotJsonArg = args[0] as! String
+        Task { @MainActor in
+          do {
+            let result = try await api.writeSnapshot(snapshotJson: snapshotJsonArg)
+            reply(wrapResult(result))
+          } catch {
+            reply(wrapError(error))
+          }
+        }
+      }
+    } else {
+      writeSnapshotChannel.setMessageHandler(nil)
     }
   }
 }

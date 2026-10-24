@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "contextId": "ctx_1",
+  "zoneId": "Africa/Cairo",
+  "tzdbVersion": "2026e",
+  "generatedAtUtcMs": 1794347400000,
+  "locale": "en",
+  "items": [
+    {
+      "day": "2026-11-11",
+      "event": "FAJR",
+      "displayedUtcMs": 1794365280000,
+      "displayLocal": "04:48",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-11",
+      "event": "SUNRISE",
+      "displayedUtcMs": 1794370560000,
+      "displayLocal": "06:16",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-11",
+      "event": "DHUHR",
+      "displayedUtcMs": 1794390000000,
+      "displayLocal": "11:40",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-11",
+      "event": "ASR",
+      "displayedUtcMs": 1794400800000,
+      "displayLocal": "14:40",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-11",
+      "event": "MAGHRIB",
+      "displayedUtcMs": 1794409320000,
+      "displayLocal": "17:02",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-11",
+      "event": "ISHA",
+      "displayedUtcMs": 1794414060000,
+      "displayLocal": "18:21",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-12",
+      "event": "FAJR",
+      "displayedUtcMs": 1794451740000,
+      "displayLocal": "04:49",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-12",
+      "event": "SUNRISE",
+      "displayedUtcMs": 1794457020000,
+      "displayLocal": "06:17",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-12",
+      "event": "DHUHR",
+      "displayedUtcMs": 1794476400000,
+      "displayLocal": "11:40",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-12",
+      "event": "ASR",
+      "displayedUtcMs": 1794487200000,
+      "displayLocal": "14:40",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-12",
+      "event": "MAGHRIB",
+      "displayedUtcMs": 1794495660000,
+      "displayLocal": "17:01",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    },
+    {
+      "day": "2026-11-12",
+      "event": "ISHA",
+      "displayedUtcMs": 1794500460000,
+      "displayLocal": "18:21",
+      "confidence": {
+        "kind": "CALCULATED"
+      },
+      "dayOffset": 0
+    }
+  ],
+  "skyTimeline": [
+    {
+      "fromUtcMs": 1794347400000,
+      "phase": "night"
+    },
+    {
+      "fromUtcMs": 1794365700000,
+      "phase": "astronomicalDawn"
+    },
+    {
+      "fromUtcMs": 1794367500000,
+      "phase": "nauticalDawn"
+    },
+    {
+      "fromUtcMs": 1794369300000,
+      "phase": "civilDawn"
+    },
+    {
+      "fromUtcMs": 1794370800000,
+      "phase": "goldenMorning"
+    },
+    {
+      "fromUtcMs": 1794372900000,
+      "phase": "day"
+    },
+    {
+      "fromUtcMs": 1794407400000,
+      "phase": "goldenEvening"
+    },
+    {
+      "fromUtcMs": 1794409500000,
+      "phase": "civilDusk"
+    },
+    {
+      "fromUtcMs": 1794411000000,
+      "phase": "nauticalDusk"
+    },
+    {
+      "fromUtcMs": 1794412500000,
+      "phase": "astronomicalDusk"
+    },
+    {
+      "fromUtcMs": 1794414300000,
+      "phase": "night"
+    },
+    {
+      "fromUtcMs": 1794452400000,
+      "phase": "astronomicalDawn"
+    },
+    {
+      "fromUtcMs": 1794453900000,
+      "phase": "nauticalDawn"
+    },
+    {
+      "fromUtcMs": 1794455700000,
+      "phase": "civilDawn"
+    },
+    {
+      "fromUtcMs": 1794457200000,
+      "phase": "goldenMorning"
+    },
+    {
+      "fromUtcMs": 1794459300000,
+      "phase": "day"
+    },
+    {
+      "fromUtcMs": 1794493800000,
+      "phase": "goldenEvening"
+    },
+    {
+      "fromUtcMs": 1794495900000,
+      "phase": "civilDusk"
+    },
+    {
+      "fromUtcMs": 1794497400000,
+      "phase": "nauticalDusk"
+    },
+    {
+      "fromUtcMs": 1794498900000,
+      "phase": "astronomicalDusk"
+    },
+    {
+      "fromUtcMs": 1794500700000,
+      "phase": "night"
+    }
+  ],
+  "health": {
+    "state": "READY",
+    "reasonsCount": 0
+  }
+}

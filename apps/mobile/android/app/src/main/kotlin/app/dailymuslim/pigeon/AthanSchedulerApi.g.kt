@@ -418,6 +418,12 @@ interface AthanSchedulerApi {
    * file I/O never runs on the platform thread (§17.3).
    */
   suspend fun drainEvents(): List<String>
+  /**
+   * Persists a `snapshot.v1` document beside the plan (§7.7, Appendix I)
+   * and asks the platform to reload its widgets; false when the document
+   * was refused or could not be written, and the previous snapshot stays.
+   */
+  suspend fun writeSnapshot(snapshotJson: String): Boolean
 
   companion object {
     /** The codec used by AthanSchedulerApi. */
@@ -513,6 +519,25 @@ interface AthanSchedulerApi {
             CoroutineScope(Dispatchers.Main).launch {
               val wrapped: List<Any?> = try {
                 listOf(api.drainEvents())
+              } catch (exception: Throwable) {
+                AthanSchedulerApiPigeonUtils.wrapError(exception)
+              }
+              reply.reply(wrapped)
+            }
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.dm_contracts.AthanSchedulerApi.writeSnapshot$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val snapshotJsonArg = args[0] as String
+            CoroutineScope(Dispatchers.Main).launch {
+              val wrapped: List<Any?> = try {
+                listOf(api.writeSnapshot(snapshotJsonArg))
               } catch (exception: Throwable) {
                 AthanSchedulerApiPigeonUtils.wrapError(exception)
               }

@@ -1,0 +1,277 @@
+{
+  "description": "S28 widget content vectors (DESIGN.md §7.7, §15 D88). Each case: the content a widget shows from the snapshot at nowUtcMs. Rules: next = first FAJR/DHUHR/ASR/MAGHRIB/ISHA with displayedUtcMs > now; rows = every item of next.day in time order, passed when displayedUtcMs <= now; refreshAtUtcMs = the earliest displayedUtcMs > now; no next prayer = expired. Run by the Kotlin SelectWidgetContentTest and the Swift WidgetTimelineTests.",
+  "snapshot": "fixtures/snapshot/valid/REQ-WID-002_across_midnight.json",
+  "cases": [
+    {
+      "name": "23:50 on 10 Nov, when the snapshot was written: tomorrow's Fajr is next and its whole day is listed",
+      "nowUtcMs": 1794347400000,
+      "expect": {
+        "kind": "showing",
+        "day": "2026-11-11",
+        "nextEvent": "FAJR",
+        "nextUtcMs": 1794365280000,
+        "nextLocal": "04:48",
+        "refreshAtUtcMs": 1794365280000,
+        "rows": [
+          {
+            "event": "FAJR",
+            "displayLocal": "04:48",
+            "passed": false
+          },
+          {
+            "event": "SUNRISE",
+            "displayLocal": "06:16",
+            "passed": false
+          },
+          {
+            "event": "DHUHR",
+            "displayLocal": "11:40",
+            "passed": false
+          },
+          {
+            "event": "ASR",
+            "displayLocal": "14:40",
+            "passed": false
+          },
+          {
+            "event": "MAGHRIB",
+            "displayLocal": "17:02",
+            "passed": false
+          },
+          {
+            "event": "ISHA",
+            "displayLocal": "18:21",
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "clock behind the snapshot: same as at generation",
+      "nowUtcMs": 1794340000000,
+      "expect": {
+        "kind": "showing",
+        "day": "2026-11-11",
+        "nextEvent": "FAJR",
+        "nextUtcMs": 1794365280000,
+        "nextLocal": "04:48",
+        "refreshAtUtcMs": 1794365280000,
+        "rows": [
+          {
+            "event": "FAJR",
+            "displayLocal": "04:48",
+            "passed": false
+          },
+          {
+            "event": "SUNRISE",
+            "displayLocal": "06:16",
+            "passed": false
+          },
+          {
+            "event": "DHUHR",
+            "displayLocal": "11:40",
+            "passed": false
+          },
+          {
+            "event": "ASR",
+            "displayLocal": "14:40",
+            "passed": false
+          },
+          {
+            "event": "MAGHRIB",
+            "displayLocal": "17:02",
+            "passed": false
+          },
+          {
+            "event": "ISHA",
+            "displayLocal": "18:21",
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "exactly at Fajr on 11 Nov: Fajr has passed, Dhuhr is next, the widget refreshes at sunrise",
+      "nowUtcMs": 1794365280000,
+      "expect": {
+        "kind": "showing",
+        "day": "2026-11-11",
+        "nextEvent": "DHUHR",
+        "nextUtcMs": 1794390000000,
+        "nextLocal": "11:40",
+        "refreshAtUtcMs": 1794370560000,
+        "rows": [
+          {
+            "event": "FAJR",
+            "displayLocal": "04:48",
+            "passed": true
+          },
+          {
+            "event": "SUNRISE",
+            "displayLocal": "06:16",
+            "passed": false
+          },
+          {
+            "event": "DHUHR",
+            "displayLocal": "11:40",
+            "passed": false
+          },
+          {
+            "event": "ASR",
+            "displayLocal": "14:40",
+            "passed": false
+          },
+          {
+            "event": "MAGHRIB",
+            "displayLocal": "17:02",
+            "passed": false
+          },
+          {
+            "event": "ISHA",
+            "displayLocal": "18:21",
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "between sunrise and Dhuhr: sunrise is listed as passed but is never the next prayer",
+      "nowUtcMs": 1794380000000,
+      "expect": {
+        "kind": "showing",
+        "day": "2026-11-11",
+        "nextEvent": "DHUHR",
+        "nextUtcMs": 1794390000000,
+        "nextLocal": "11:40",
+        "refreshAtUtcMs": 1794390000000,
+        "rows": [
+          {
+            "event": "FAJR",
+            "displayLocal": "04:48",
+            "passed": true
+          },
+          {
+            "event": "SUNRISE",
+            "displayLocal": "06:16",
+            "passed": true
+          },
+          {
+            "event": "DHUHR",
+            "displayLocal": "11:40",
+            "passed": false
+          },
+          {
+            "event": "ASR",
+            "displayLocal": "14:40",
+            "passed": false
+          },
+          {
+            "event": "MAGHRIB",
+            "displayLocal": "17:02",
+            "passed": false
+          },
+          {
+            "event": "ISHA",
+            "displayLocal": "18:21",
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "a minute after Isha on 11 Nov: the list rolls to 12 Nov before local midnight",
+      "nowUtcMs": 1794414120000,
+      "expect": {
+        "kind": "showing",
+        "day": "2026-11-12",
+        "nextEvent": "FAJR",
+        "nextUtcMs": 1794451740000,
+        "nextLocal": "04:49",
+        "refreshAtUtcMs": 1794451740000,
+        "rows": [
+          {
+            "event": "FAJR",
+            "displayLocal": "04:49",
+            "passed": false
+          },
+          {
+            "event": "SUNRISE",
+            "displayLocal": "06:17",
+            "passed": false
+          },
+          {
+            "event": "DHUHR",
+            "displayLocal": "11:40",
+            "passed": false
+          },
+          {
+            "event": "ASR",
+            "displayLocal": "14:40",
+            "passed": false
+          },
+          {
+            "event": "MAGHRIB",
+            "displayLocal": "17:01",
+            "passed": false
+          },
+          {
+            "event": "ISHA",
+            "displayLocal": "18:21",
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "00:10 on 12 Nov: still 12 Nov, Fajr next",
+      "nowUtcMs": 1794435000000,
+      "expect": {
+        "kind": "showing",
+        "day": "2026-11-12",
+        "nextEvent": "FAJR",
+        "nextUtcMs": 1794451740000,
+        "nextLocal": "04:49",
+        "refreshAtUtcMs": 1794451740000,
+        "rows": [
+          {
+            "event": "FAJR",
+            "displayLocal": "04:49",
+            "passed": false
+          },
+          {
+            "event": "SUNRISE",
+            "displayLocal": "06:17",
+            "passed": false
+          },
+          {
+            "event": "DHUHR",
+            "displayLocal": "11:40",
+            "passed": false
+          },
+          {
+            "event": "ASR",
+            "displayLocal": "14:40",
+            "passed": false
+          },
+          {
+            "event": "MAGHRIB",
+            "displayLocal": "17:01",
+            "passed": false
+          },
+          {
+            "event": "ISHA",
+            "displayLocal": "18:21",
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "exactly at the last Isha: no prayer left, the widget asks for the app",
+      "nowUtcMs": 1794500460000,
+      "expect": {
+        "kind": "expired"
+      }
+    }
+  ]
+}

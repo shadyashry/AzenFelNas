@@ -88,4 +88,10 @@ abstract class AthanSchedulerApi {
   /// file I/O never runs on the platform thread (§17.3).
   @async
   List<String> drainEvents();
+
+  /// Persists a `snapshot.v1` document beside the plan (§7.7, Appendix I)
+  /// and asks the platform to reload its widgets; false when the document
+  /// was refused or could not be written, and the previous snapshot stays.
+  @async
+  bool writeSnapshot(String snapshotJson);
 }

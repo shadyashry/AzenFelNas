@@ -5,9 +5,11 @@ import 'package:daily_muslim/features/athan/application/record_athan_test_result
 import 'package:daily_muslim/features/athan/data/asset_athan_sounds.dart';
 import 'package:daily_muslim/features/athan/data/event_log_last_test.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_arm_athan_test.dart';
+import 'package:daily_muslim/features/athan/data/pigeon_write_widget_snapshot.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_drain_native_events.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_platform_health.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
+import 'package:daily_muslim/features/athan/presentation/widget_snapshot_providers.dart';
 import 'package:daily_muslim/features/contexts/application/context_use_cases.dart';
 import 'package:daily_muslim/features/contexts/application/import_gazetteer.dart';
 import 'package:daily_muslim/features/contexts/application/locate_observer.dart';
@@ -147,6 +149,9 @@ abstract final class AppBindings {
         PigeonPlatformHealth(athan, clock),
       ),
       armAthanTestProvider.overrideWithValue(PigeonArmAthanTest(athan)),
+      writeWidgetSnapshotProvider.overrideWithValue(
+        PigeonWriteWidgetSnapshot(athan),
+      ),
       drainNativeEventsProvider.overrideWithValue(drainNativeEvents),
       recordAthanTestResultProvider.overrideWithValue(
         RecordAthanTestResult(eventLog.call),
