@@ -1,6 +1,6 @@
+import 'package:daily_muslim/features/athan/application/apply_schedule_plan.dart';
 import 'package:daily_muslim/features/athan/application/plan_schedule.dart';
 import 'package:daily_muslim/features/athan/application/plan_subject.dart';
-import 'package:daily_muslim/features/athan/domain/athan_platform_ports.dart';
 import 'package:daily_muslim/features/athan/domain/plan_failure.dart';
 import 'package:daily_muslim/features/schedule/application/load_runtime_data.dart';
 import 'package:dm_contracts/dm_contracts.dart';

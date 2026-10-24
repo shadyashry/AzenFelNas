@@ -1,4 +1,4 @@
-import 'package:daily_muslim/features/athan/domain/athan_platform_ports.dart';
+import 'package:daily_muslim/features/athan/application/apply_schedule_plan.dart';
 import 'package:dm_contracts/dm_contracts.dart';
 
 /// The native plan store as the [ApplySchedulePlan] contract describes it

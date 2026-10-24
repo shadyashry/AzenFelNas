@@ -1,7 +1,7 @@
 // The ApplySchedulePlan contract (§7.8), run against the fake the rollback
 // drill uses; the Kotlin `PlanStoreTest` holds the native store to the same
 // rules (generation order, whole-document replace).
-import 'package:daily_muslim/features/athan/domain/athan_platform_ports.dart';
+import 'package:daily_muslim/features/athan/application/apply_schedule_plan.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'plan_fixtures.dart';
