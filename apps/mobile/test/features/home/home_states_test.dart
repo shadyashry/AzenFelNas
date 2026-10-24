@@ -49,7 +49,7 @@ final _day = DayView(
   ],
 );
 
-HomeContent _content() => HomeContent(
+HomeContent _content({SkyPhase phase = SkyPhase.day}) => HomeContent(
   day: _day,
   nextPrayer: const TimeRowView(
     event: PrayerEvent.asr,
@@ -59,7 +59,7 @@ HomeContent _content() => HomeContent(
     displayedUtcMs: harnessNowUtcMs + 65 * _minute,
   ),
   health: const AthanReadinessUnknown(),
-  sky: SkyTheme.forPhase(SkyPhase.day),
+  sky: SkyTheme.forPhase(phase),
   place: const PlaceView(kind: ContextKind.manual, label: 'Alexandria'),
 );
 
@@ -199,5 +199,41 @@ void main() {
       TimeRows.timeText(AppLocalizationsEn(), _row(PrayerEvent.imsak, null)),
       '—',
     );
+  });
+
+  // The S27 accessibility audit of the loaded Home (§18.6 beta exit); the
+  // routed first-run screens are test/app/accessibility_audit_test.dart.
+  group('REQ-UX-020 loaded Home meets the tap-target, label and contrast '
+      'guidelines', () {
+    for (final phase in SkyPhase.values) {
+      for (final locale in const [Locale('en'), Locale('ar')]) {
+        for (final scale in const [1.0, 2.0]) {
+          testWidgets('${phase.name}, ${locale.languageCode}, ${scale}x text', (
+            tester,
+          ) async {
+            final semantics = tester.ensureSemantics();
+            tester.platformDispatcher.textScaleFactorTestValue = scale;
+            addTearDown(tester.platformDispatcher.clearAllTestValues);
+            await _pump(
+              tester,
+              HomeReady(_content(phase: phase)),
+              locale: locale,
+            );
+
+            await expectLater(
+              tester,
+              meetsGuideline(androidTapTargetGuideline),
+            );
+            await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));
+            await expectLater(
+              tester,
+              meetsGuideline(labeledTapTargetGuideline),
+            );
+            await expectLater(tester, meetsGuideline(textContrastGuideline));
+            semantics.dispose();
+          });
+        }
+      }
+    }
   });
 }

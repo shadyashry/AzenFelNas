@@ -149,13 +149,16 @@ final class _PlaceBar extends StatelessWidget {
     };
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 8, 0),
-      child: Row(
+      // A Wrap, not a Row: at 200 % text the button moves under the chip
+      // instead of overflowing (REQ-UX-020, S27 accessibility audit).
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 8,
         children: [
-          Expanded(
-            child: Chip(
-              avatar: const Icon(Icons.place_outlined, size: 18),
-              label: Text(label, overflow: TextOverflow.ellipsis),
-            ),
+          Chip(
+            avatar: const Icon(Icons.place_outlined, size: 18),
+            label: Text(label, overflow: TextOverflow.ellipsis),
           ),
           TextButton(
             onPressed: () => context.push(const PlaceRoute().location),

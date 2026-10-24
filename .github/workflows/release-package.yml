@@ -30,6 +30,16 @@ on:
         description: Change note, English
         type: string
         required: true
+      priority:
+        description: normal, or urgent for a fix that must bypass the metered-network rule (REQ-PKG-004)
+        type: choice
+        options: [normal, urgent]
+        default: normal
+      rollback_of:
+        description: Bad version this release rolls back (REQ-DIST-002, docs/runbooks/package-rollback.md); empty otherwise
+        type: string
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -67,6 +77,8 @@ jobs:
           EFFECTIVE_FROM: ${{ inputs.effective_from }}
           NOTE_AR: ${{ inputs.note_ar }}
           NOTE_EN: ${{ inputs.note_en }}
+          PRIORITY: ${{ inputs.priority }}
+          ROLLBACK_OF: ${{ inputs.rollback_of }}
           DM_DEV_ROOT_KEY_1: ${{ secrets.DM_DEV_ROOT_KEY_1 }}
           DM_DEV_ROOT_KEY_2: ${{ secrets.DM_DEV_ROOT_KEY_2 }}
           DM_DEV_ROOT_KEY_3: ${{ secrets.DM_DEV_ROOT_KEY_3 }}
@@ -81,7 +93,8 @@ jobs:
           gsctl="$RUNNER_TEMP/gsctl"
           "$gsctl" pull -repo "$repo" -channel "$CHANNEL" -bucket s3://dm-dist
           "$gsctl" build -profiles profiles -channel "$CHANNEL" -repo "$repo" -version "$VERSION" \
-            -effective-from "$EFFECTIVE_FROM" -note-ar "$NOTE_AR" -note-en "$NOTE_EN"
+            -effective-from "$EFFECTIVE_FROM" -note-ar "$NOTE_AR" -note-en "$NOTE_EN" \
+            -priority "$PRIORITY" -rollback-of "$ROLLBACK_OF"
           # root is re-signed only on a first release or a key change; an unchanged root is not republished.
           test -f "$repo/metadata/root.json" || "$gsctl" sign -repo "$repo" -role root
           for role in targets snapshot timestamp; do
