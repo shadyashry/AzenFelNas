@@ -1,5 +1,10 @@
 package domain
 
+import (
+	"crypto/sha256"
+	"encoding/hex"
+)
+
 // Platform is the attesting platform.
 type Platform string
 
@@ -21,4 +26,11 @@ type Attestation struct {
 	// assertion of a key on a UTC day (iOS only).
 	KeyAttestation []byte
 	Binding        [32]byte
+}
+
+// RequestBinding is the digest an attestation commits to (§15 D86):
+// sha256(method "\n" path "\n" idempotencyKey "\n" hex(sha256(body))).
+func RequestBinding(method, path, idempotencyKey string, body []byte) [32]byte {
+	bodyHash := sha256.Sum256(body)
+	return sha256.Sum256([]byte(method + "\n" + path + "\n" + idempotencyKey + "\n" + hex.EncodeToString(bodyHash[:])))
 }

@@ -1,10 +1,13 @@
 package domain
 
 import (
+	"cmp"
 	"encoding/hex"
 	"fmt"
 	"io"
 	"math"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -78,4 +81,27 @@ func NewReceiptID(random io.Reader) (ReceiptID, error) {
 	b[8] = b[8]&0x3f | 0x80
 	h := hex.EncodeToString(b[:])
 	return ReceiptID(h[0:8] + "-" + h[8:12] + "-" + h[12:16] + "-" + h[16:20] + "-" + h[20:32]), nil
+}
+
+// CompareProfileVersions orders "YYYY.M.N" profile versions numerically
+// (prayer_profile.v1 `version`); malformed parts compare as zero.
+func CompareProfileVersions(a, b string) int {
+	pa, pb := strings.Split(a, "."), strings.Split(b, ".")
+	for i := range max(len(pa), len(pb)) {
+		if c := cmp.Compare(versionPart(pa, i), versionPart(pb, i)); c != 0 {
+			return c
+		}
+	}
+	return 0
+}
+
+func versionPart(parts []string, i int) int {
+	if i >= len(parts) {
+		return 0
+	}
+	n, err := strconv.Atoi(parts[i])
+	if err != nil {
+		return 0
+	}
+	return n
 }
