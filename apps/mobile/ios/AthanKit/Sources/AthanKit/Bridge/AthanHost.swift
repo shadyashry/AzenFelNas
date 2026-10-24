@@ -41,6 +41,11 @@ public struct AthanHost: Sendable {
             (try? encoder.encode(entry)).flatMap { String(bytes: $0, encoding: .utf8) }
         }
     }
+
+    /// Persists a `snapshot.v1` document and reloads the widgets; false when it was refused.
+    public func writeSnapshot(_ snapshotJson: String) -> Bool {
+        bridge.writeSnapshot(snapshotJson)
+    }
 }
 
 /// `AthanHealthReport` of §7.8 with labels in place of enums.

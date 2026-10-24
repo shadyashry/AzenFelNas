@@ -70,14 +70,12 @@ RuntimeData _withoutSaudi(RuntimeData data) => RuntimeData(
     const ParseProfileSetPayload()(
       utf8.encode(
         jsonEncode([
-          for (final profile
-              in jsonDecode(
-                    File(
-                      'assets/packages/prayer_profiles/2026.10.1/'
-                      'profiles.json',
-                    ).readAsStringSync(),
-                  )
-                  as List<Object?>)
+          for (final profile in jsonDecode(
+            File(
+              'assets/packages/prayer_profiles/2026.10.1/'
+              'profiles.json',
+            ).readAsStringSync(),
+          ) as List<Object?>)
             if (profile is Map<String, Object?> &&
                 profile['profileId'] != 'sa.ummalqura.standard')
               profile,

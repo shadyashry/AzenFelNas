@@ -10,4 +10,15 @@
     <string name="athan_action_snooze">تأجيل</string>
     <string name="athan_test_title">تجربة الأذان</string>
     <string name="athan_test_body">سمعته؟ افتح التطبيق وجاوب.</string>
+    <!-- S28 widget (§15 D88). -->
+    <string name="widget_description">مواعيد الصلاة النهارده</string>
+    <string name="widget_open_app">افتح التطبيق علشان المواعيد تتحدث</string>
+    <string name="widget_next">الجاية: %1$s %2$s</string>
+    <string name="widget_event_imsak">الإمساك</string>
+    <string name="widget_event_fajr">الفجر</string>
+    <string name="widget_event_sunrise">الشروق</string>
+    <string name="widget_event_dhuhr">الظهر</string>
+    <string name="widget_event_asr">العصر</string>
+    <string name="widget_event_maghrib">المغرب</string>
+    <string name="widget_event_isha">العشاء</string>
 </resources>

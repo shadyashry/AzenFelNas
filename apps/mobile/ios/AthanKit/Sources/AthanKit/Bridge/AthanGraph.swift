@@ -14,6 +14,8 @@ struct AthanGraph: Sendable {
     let applyPlan: ApplyPlan
     let cancelBelow: CancelGenerationsBelow
     let startTest: StartAthanTest
+    let snapshots: SnapshotStore
+    let widgets: any WidgetReloader
 
     init(
         directory: URL,
@@ -25,6 +27,7 @@ struct AthanGraph: Sendable {
         copy: NativeCopy,
         clock: any UtcClock,
         newId: @escaping @Sendable () -> UUID = { UUID() },
+        widgets: any WidgetReloader = NoWidgetReloader(),
     ) {
         let store = PlanStore(directory: directory)
         let events = EventsStore(directory: directory, clock: clock)
@@ -38,6 +41,8 @@ struct AthanGraph: Sendable {
             events: events,
         )
         planStore = store
+        snapshots = SnapshotStore(directory: directory)
+        self.widgets = widgets
         self.events = events
         self.clock = clock
         self.gate = gate

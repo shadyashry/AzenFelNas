@@ -681,4 +681,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get diagnosticsUnavailable => 'The report could not be prepared.';
+
+  @override
+  String homeFastingTitle(int day) {
+    return 'Ramadan $day';
+  }
+
+  @override
+  String homeFastingWindow(String begins, String ends) {
+    return 'Fast from $begins to $ends';
+  }
+
+  @override
+  String homeFastingImsak(String time) {
+    return 'Imsak $time';
+  }
+
+  @override
+  String get homeFastingUnknown =>
+      'Fajr or Maghrib has no time here today; follow your local authority.';
+
+  @override
+  String get homeHijriOverride => 'Hijri day';
+
+  @override
+  String get homeHijriOverrideApplied => 'Adjusted by you';
+
+  @override
+  String travelPrompt(String city) {
+    return 'You seem to be in $city. Switch schedule?';
+  }
+
+  @override
+  String get travelSwitch => 'Switch';
+
+  @override
+  String get travelNotNow => 'Not now';
 }

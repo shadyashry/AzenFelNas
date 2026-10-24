@@ -1,6 +1,8 @@
 import 'package:daily_muslim/features/home/application/build_day_views.dart';
+import 'package:daily_muslim/features/home/application/build_fasting_day.dart';
 import 'package:daily_muslim/features/home/domain/athan_readiness.dart';
 import 'package:daily_muslim/features/home/domain/day_view.dart';
+import 'package:daily_muslim/features/home/domain/fasting_day.dart';
 import 'package:daily_muslim/features/home/domain/place_view.dart';
 import 'package:daily_muslim/features/home/domain/time_row_view.dart';
 import 'package:daily_muslim/features/home/presentation/home_state.dart';
@@ -47,6 +49,22 @@ final timelineStateProvider = Provider<TimelineState>((ref) {
       Error.throwWithStackTrace(error, stackTrace);
     case AsyncLoading():
       return const TimelineLoading();
+  }
+});
+
+/// Home's Ramadan card (REQ-RAM-001): the fasting day of the shown
+/// schedule, or nothing while it loads or fails.
+final fastingDayProvider = Provider<FastingDay>((ref) {
+  switch (ref.watch(scheduleProvider)) {
+    case AsyncData(value: Ok(value: final loaded)):
+      final schedule = loaded.schedule;
+      return const BuildFastingDay()(
+        views: BuildDayViews(loaded.data.tzdb)(schedule.days, schedule.zoneId),
+        hijri: [for (final inputs in schedule.inputs) inputs.hijri],
+        nowUtcMs: ref.watch(clockProvider).nowUtcMs(),
+      );
+    case AsyncData() || AsyncError() || AsyncLoading():
+      return const NotFasting();
   }
 });
 

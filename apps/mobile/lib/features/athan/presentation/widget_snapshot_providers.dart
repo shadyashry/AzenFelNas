@@ -34,7 +34,7 @@ final FutureProvider<bool> widgetSnapshotProvider =
             ref.watch(writeWidgetSnapshotProvider),
             ref.watch(clockProvider),
           );
-          return refresh(
+          return await refresh(
             loaded.schedule,
             locale: snapshotLocaleOf(
               locale,

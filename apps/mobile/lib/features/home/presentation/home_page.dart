@@ -4,6 +4,7 @@ import 'package:daily_muslim/features/home/domain/athan_readiness.dart';
 import 'package:daily_muslim/features/home/domain/place_view.dart';
 import 'package:daily_muslim/features/home/domain/time_row_view.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
+import 'package:daily_muslim/features/home/presentation/fasting_card.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/home_state.dart';
 import 'package:daily_muslim/features/home/presentation/time_rows.dart';
@@ -11,6 +12,7 @@ import 'package:daily_muslim/features/schedule/presentation/schedule_providers.d
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
+import 'package:daily_muslim/features/travel/presentation/travel_banner.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
@@ -94,6 +96,8 @@ final class HomeContentView extends ConsumerWidget {
           reducedMotion: reducedMotion,
         ),
         _PlaceBar(place: content.place),
+        const TravelBanner(),
+        const FastingCard(),
         if (notice case final String text)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

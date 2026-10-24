@@ -977,5 +977,64 @@
   "diagnosticsUnavailable": "The report could not be prepared.",
   "@diagnosticsUnavailable": {
     "description": "Shown when assembling the report failed."
+  },
+  "homeFastingTitle": "Ramadan {day}",
+  "@homeFastingTitle": {
+    "description": "Home Ramadan card title (US-23).",
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "homeFastingWindow": "Fast from {begins} to {ends}",
+  "@homeFastingWindow": {
+    "description": "Home Ramadan card: Fajr to Maghrib, the profile's own times.",
+    "placeholders": {
+      "begins": {
+        "type": "String"
+      },
+      "ends": {
+        "type": "String"
+      }
+    }
+  },
+  "homeFastingImsak": "Imsak {time}",
+  "@homeFastingImsak": {
+    "description": "Home Ramadan card: Imsak when the profile has it.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "homeFastingUnknown": "Fajr or Maghrib has no time here today; follow your local authority.",
+  "@homeFastingUnknown": {
+    "description": "Home Ramadan card: polar day or night, no window is invented."
+  },
+  "homeHijriOverride": "Hijri day",
+  "@homeHijriOverride": {
+    "description": "Home Ramadan card: the ±1 day override control (ADR-016)."
+  },
+  "homeHijriOverrideApplied": "Adjusted by you",
+  "@homeHijriOverrideApplied": {
+    "description": "Home Ramadan card: the Hijri date includes the user's ±1 day override."
+  },
+  "travelPrompt": "You seem to be in {city}. Switch schedule?",
+  "@travelPrompt": {
+    "description": "Travel Mode prompt (US-22).",
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "travelSwitch": "Switch",
+  "@travelSwitch": {
+    "description": "Travel Mode: follow the device location."
+  },
+  "travelNotNow": "Not now",
+  "@travelNotNow": {
+    "description": "Travel Mode: keep the chosen place."
   }
 }

@@ -56,3 +56,8 @@ final preReminderSettingProvider = StreamProvider<int>(
   (ref) =>
       ref.watch(watchSettingProvider).watch(AppSettings.preReminderMinutes),
 );
+
+/// `hijriOverrideDays` (−1, 0 or +1; ADR-016).
+final hijriOverrideSettingProvider = StreamProvider<int>(
+  (ref) => ref.watch(watchSettingProvider).watch(AppSettings.hijriOverrideDays),
+);

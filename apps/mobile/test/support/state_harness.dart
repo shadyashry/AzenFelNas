@@ -1,4 +1,5 @@
 import 'package:daily_muslim/features/contexts/application/context_use_cases.dart';
+import 'package:daily_muslim/features/contexts/application/follow_device_location.dart';
 import 'package:daily_muslim/features/contexts/application/locate_observer.dart';
 import 'package:daily_muslim/features/contexts/application/locate_with_permission.dart';
 import 'package:daily_muslim/features/contexts/application/pin_place.dart';
@@ -13,6 +14,7 @@ import 'package:daily_muslim/features/schedule/presentation/schedule_providers.d
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/storage/data/places_database.dart';
+import 'package:daily_muslim/features/travel/application/handle_zone_change.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_core_types/dm_core_types.dart';
@@ -79,6 +81,8 @@ ContextUseCases fakeContextUseCases({
       resolvePlace: resolvePlace,
     ),
     search: SearchGazetteer(places),
+    travel: HandleZoneChange(contexts, locator, resolvePlace, clock),
+    follow: FollowDeviceLocation(locate),
   );
 }
 

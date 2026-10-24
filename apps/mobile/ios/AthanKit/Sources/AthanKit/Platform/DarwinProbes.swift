@@ -102,6 +102,7 @@
                 sounds: InstalledClips(catalog: catalog, library: library),
                 copy: copy,
                 clock: SystemClock(),
+                widgets: liveWidgetReloader(),
             )
         }
     }

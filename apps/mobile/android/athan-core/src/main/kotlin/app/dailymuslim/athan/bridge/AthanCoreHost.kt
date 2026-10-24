@@ -46,6 +46,9 @@ public class AthanCoreHost(
     /** Drains `events.jsonl` as `event_log.v1` JSON documents (REQ-ALM-041). */
     public fun drainEvents(): List<String> =
         bridge.drainEvents().map { wireJson.encodeToString(EventLogEntry.serializer(), it) }
+
+    /** Persists a `snapshot.v1` document and redraws the widgets; false when it was refused. */
+    public fun writeSnapshot(snapshotJson: String): Boolean = bridge.writeSnapshot(snapshotJson)
 }
 
 /** `AthanHealthReport` of §7.8 with labels in place of enums. */

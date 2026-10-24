@@ -11,4 +11,15 @@
     <string name="athan_action_snooze">Snooze</string>
     <string name="athan_test_title">Athan Test</string>
     <string name="athan_test_body">Did you hear it? Open the app to answer.</string>
+    <!-- S28 widget (§15 D88). -->
+    <string name="widget_description">Today\'s prayer times</string>
+    <string name="widget_open_app">Open Daily Muslim to update the times</string>
+    <string name="widget_next">Next: %1$s %2$s</string>
+    <string name="widget_event_imsak">Imsak</string>
+    <string name="widget_event_fajr">Fajr</string>
+    <string name="widget_event_sunrise">Sunrise</string>
+    <string name="widget_event_dhuhr">Dhuhr</string>
+    <string name="widget_event_asr">Asr</string>
+    <string name="widget_event_maghrib">Maghrib</string>
+    <string name="widget_event_isha">Isha</string>
 </resources>

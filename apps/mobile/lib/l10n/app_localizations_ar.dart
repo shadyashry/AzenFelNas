@@ -679,4 +679,40 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get diagnosticsUnavailable => 'ماقدرناش نجهّز التقرير.';
+
+  @override
+  String homeFastingTitle(int day) {
+    return 'رمضان $day';
+  }
+
+  @override
+  String homeFastingWindow(String begins, String ends) {
+    return 'الصيام من $begins لحد $ends';
+  }
+
+  @override
+  String homeFastingImsak(String time) {
+    return 'الإمساك $time';
+  }
+
+  @override
+  String get homeFastingUnknown =>
+      'الفجر أو المغرب مالهمش وقت هنا النهارده؛ اتبع الجهة المحلية.';
+
+  @override
+  String get homeHijriOverride => 'اليوم الهجري';
+
+  @override
+  String get homeHijriOverrideApplied => 'معدّل منك';
+
+  @override
+  String travelPrompt(String city) {
+    return 'شكلك في $city. نغيّر المواعيد؟';
+  }
+
+  @override
+  String get travelSwitch => 'غيّر';
+
+  @override
+  String get travelNotNow => 'مش دلوقتي';
 }

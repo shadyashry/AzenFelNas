@@ -44,6 +44,9 @@ internal class AthanSchedulerHost(
     ): Boolean = withContext(io) { core.startTest(testId, fireInSeconds.toInt(), soundId) }
 
     override suspend fun drainEvents(): List<String> = withContext(io) { core.drainEvents() }
+
+    override suspend fun writeSnapshot(snapshotJson: String): Boolean =
+        withContext(io) { core.writeSnapshot(snapshotJson) }
 }
 
 /** The Dart enum name of a pigeon enum constant (`NOT_READY` → `notReady`), as the Kotlin labels are written. */

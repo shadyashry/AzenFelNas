@@ -40,4 +40,12 @@ struct AthanBridge: Sendable {
     func drainEvents() -> [EventLogEntry] {
         graph.events.drain()
     }
+
+    /// Persists `snapshotJson` beside the plan when it is a `snapshot.v1` document and asks WidgetKit to reload
+    /// (DESIGN.md §7.7); false when it was refused or not written, and the previous snapshot stays.
+    func writeSnapshot(_ snapshotJson: String) -> Bool {
+        guard graph.snapshots.write(snapshotJSON: Data(snapshotJson.utf8)) == .written else { return false }
+        graph.widgets.reloadAll()
+        return true
+    }
 }

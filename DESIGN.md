@@ -1533,6 +1533,11 @@ S07 creates `eg.egas.standard`, `sa.ummalqura.standard`, `ae.awqaf.standard`, `e
 - `REQ-OPS-001` TZDB emergency package ≤ 48 h.
 - `REQ-OPS-002` Hijri confirmation ≤ 6 h.
 - `REQ-OPS-003` The SLOs of §19.1 are monitored with alerts.
+- `REQ-WID-001` Widgets draw only the persisted `Snapshot` and never calculate a time (added S28, §15 D88).
+- `REQ-WID-002` Widget content advances at every displayed time and across local midnight with no Dart isolate alive.
+- `REQ-WID-003` Every schedule change (profile or package update, context switch, new day, locale) rewrites the snapshot whole.
+- `REQ-TRV-001` Travel is detected on open from the platform's cached fix only (no background location) and a pinned or manual context changes only after the user confirms (added S28, §15 D88).
+- `REQ-RAM-001` In Ramadan Home shows the day's fasting window from the profile's own times with the Hijri confidence and the ±1 override; outside Ramadan it shows nothing (added S28, §15 D88).
 
 ## Appendix G — Sky phases and design tokens (`packages/dm_ui/tokens/sky.v1.json`)
 

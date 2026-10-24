@@ -193,5 +193,14 @@
   "diagnosticsIntro": "ده كل اللي في تقرير التشخيص. مكانك متقرّب لحوالي ١ كم، ومفيش أي حاجة بتعرّف عليك أو على الجهاز. مفيش حاجة بتتبعت: انسخه والصقه في رسالة للدعم لو حابب بس.",
   "diagnosticsCopy": "انسخ التقرير",
   "diagnosticsCopied": "اتنسخ التقرير",
-  "diagnosticsUnavailable": "ماقدرناش نجهّز التقرير."
+  "diagnosticsUnavailable": "ماقدرناش نجهّز التقرير.",
+  "homeFastingTitle": "رمضان {day}",
+  "homeFastingWindow": "الصيام من {begins} لحد {ends}",
+  "homeFastingImsak": "الإمساك {time}",
+  "homeFastingUnknown": "الفجر أو المغرب مالهمش وقت هنا النهارده؛ اتبع الجهة المحلية.",
+  "homeHijriOverride": "اليوم الهجري",
+  "homeHijriOverrideApplied": "معدّل منك",
+  "travelPrompt": "شكلك في {city}. نغيّر المواعيد؟",
+  "travelSwitch": "غيّر",
+  "travelNotNow": "مش دلوقتي"
 }

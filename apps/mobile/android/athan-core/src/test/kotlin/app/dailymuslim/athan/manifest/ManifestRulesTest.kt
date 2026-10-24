@@ -34,7 +34,7 @@ internal class ManifestRulesTest {
     fun `REQ-ALM-021 every receiver and the service are exported=false`() {
         val components = elements("receiver") + elements("service")
 
-        assertEquals(6, components.size)
+        assertEquals(7, components.size)
         components.forEach { assertEquals("false", it.android("exported"), it.android("name")) }
     }
 
@@ -44,7 +44,12 @@ internal class ManifestRulesTest {
 
         assertEquals("true", boot.android("directBootAware"))
         assertTrue("android.intent.action.BOOT_COMPLETED" in actionsOf(boot))
-        (elements("receiver") + elements("service")).forEach { assertEquals("true", it.android("directBootAware")) }
+        // Every Athan component runs before the first unlock; the widget receiver does not (§15 D88): Glance keeps
+        // its session state in credential-encrypted storage, and a widget redrawn after unlock loses no Athan.
+        (elements("receiver") + elements("service"))
+            .filterNot { it.android("name") == WIDGET_RECEIVER }
+            .forEach { assertEquals("true", it.android("directBootAware")) }
+        assertEquals("false", elements("receiver").single { it.android("name") == WIDGET_RECEIVER }.android("directBootAware"))
     }
 
     @Test
@@ -103,5 +108,6 @@ internal class ManifestRulesTest {
 
     private companion object {
         const val ANDROID_NS: String = "http://schemas.android.com/apk/res/android"
+        const val WIDGET_RECEIVER: String = "app.dailymuslim.athan.widget.glance.PrayerTimesWidgetReceiver"
     }
 }

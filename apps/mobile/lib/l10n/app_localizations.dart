@@ -1261,6 +1261,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The report could not be prepared.'**
   String get diagnosticsUnavailable;
+
+  /// Home Ramadan card title (US-23).
+  ///
+  /// In en, this message translates to:
+  /// **'Ramadan {day}'**
+  String homeFastingTitle(int day);
+
+  /// Home Ramadan card: Fajr to Maghrib, the profile's own times.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast from {begins} to {ends}'**
+  String homeFastingWindow(String begins, String ends);
+
+  /// Home Ramadan card: Imsak when the profile has it.
+  ///
+  /// In en, this message translates to:
+  /// **'Imsak {time}'**
+  String homeFastingImsak(String time);
+
+  /// Home Ramadan card: polar day or night, no window is invented.
+  ///
+  /// In en, this message translates to:
+  /// **'Fajr or Maghrib has no time here today; follow your local authority.'**
+  String get homeFastingUnknown;
+
+  /// Home Ramadan card: the ±1 day override control (ADR-016).
+  ///
+  /// In en, this message translates to:
+  /// **'Hijri day'**
+  String get homeHijriOverride;
+
+  /// Home Ramadan card: the Hijri date includes the user's ±1 day override.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjusted by you'**
+  String get homeHijriOverrideApplied;
+
+  /// Travel Mode prompt (US-22).
+  ///
+  /// In en, this message translates to:
+  /// **'You seem to be in {city}. Switch schedule?'**
+  String travelPrompt(String city);
+
+  /// Travel Mode: follow the device location.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch'**
+  String get travelSwitch;
+
+  /// Travel Mode: keep the chosen place.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get travelNotNow;
 }
 
 class _AppLocalizationsDelegate

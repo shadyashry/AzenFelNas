@@ -5,12 +5,13 @@ import 'package:daily_muslim/features/athan/application/record_athan_test_result
 import 'package:daily_muslim/features/athan/data/asset_athan_sounds.dart';
 import 'package:daily_muslim/features/athan/data/event_log_last_test.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_arm_athan_test.dart';
-import 'package:daily_muslim/features/athan/data/pigeon_write_widget_snapshot.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_drain_native_events.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_platform_health.dart';
+import 'package:daily_muslim/features/athan/data/pigeon_write_widget_snapshot.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/widget_snapshot_providers.dart';
 import 'package:daily_muslim/features/contexts/application/context_use_cases.dart';
+import 'package:daily_muslim/features/contexts/application/follow_device_location.dart';
 import 'package:daily_muslim/features/contexts/application/import_gazetteer.dart';
 import 'package:daily_muslim/features/contexts/application/locate_observer.dart';
 import 'package:daily_muslim/features/contexts/application/locate_with_permission.dart';
@@ -55,6 +56,7 @@ import 'package:daily_muslim/features/shell/presentation/shell_providers.dart';
 import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:daily_muslim/features/storage/data/drift_event_log.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
+import 'package:daily_muslim/features/travel/application/handle_zone_change.dart';
 import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_contracts/athan_scheduler_api.dart';
 import 'package:dm_contracts/dm_contracts.dart';
@@ -262,6 +264,8 @@ abstract final class AppBindings {
         resolvePlace: resolvePlace,
       ),
       search: SearchGazetteer(DriftGazetteerStore(databases.dm)),
+      travel: HandleZoneChange(contexts, locator, resolvePlace, clock),
+      follow: FollowDeviceLocation(locate),
     );
   }
 }

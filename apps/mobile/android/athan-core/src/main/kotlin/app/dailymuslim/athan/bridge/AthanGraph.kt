@@ -9,6 +9,7 @@ import app.dailymuslim.athan.notify.ChannelRegistry
 import app.dailymuslim.athan.plan.EventsStore
 import app.dailymuslim.athan.plan.PlanDirectory
 import app.dailymuslim.athan.plan.PlanStore
+import app.dailymuslim.athan.plan.SnapshotStore
 import app.dailymuslim.athan.playback.AthanAudio
 import app.dailymuslim.athan.receive.ChoosePresentation
 import app.dailymuslim.athan.receive.Receipts
@@ -18,6 +19,10 @@ import app.dailymuslim.athan.schedule.ArmingWindow
 import app.dailymuslim.athan.schedule.RearmFromPlan
 import app.dailymuslim.athan.schedule.UtcClock
 import app.dailymuslim.athan.selftest.StartAthanTest
+import app.dailymuslim.athan.widget.AppWidgetRefresh
+import app.dailymuslim.athan.widget.RefreshWidgets
+import app.dailymuslim.athan.widget.SelectWidgetContent
+import app.dailymuslim.athan.widget.WidgetRedrawAlarm
 import java.io.File
 
 /**
@@ -46,4 +51,10 @@ internal class AthanGraph(
     val startTest: StartAthanTest = StartAthanTest(alarms, alarms, clock, events)
     val probes: AndroidProbes = AndroidProbes(appContext, alarms, channels, PlanProbes(audio::isPresent))
     val evaluateHealth: EvaluateHealth = EvaluateHealth()
+
+    val snapshotStore: SnapshotStore = SnapshotStore(PlanDirectory.of(appContext))
+    val selectWidgetContent: SelectWidgetContent = SelectWidgetContent()
+    val refreshWidgets: RefreshWidgets = AppWidgetRefresh(appContext)
+    val widgetRedraw: WidgetRedrawAlarm = WidgetRedrawAlarm(appContext)
 }
+

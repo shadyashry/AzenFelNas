@@ -127,6 +127,7 @@ struct Rig {
     let directory = temporaryDirectory()
     let notifications = FakeNotifications()
     let alarms = FakeAlarmKit()
+    let widgets = CountingReloader()
     let graph: AthanGraph
 
     init(path: DeliveryPath, now: Int64, installed: Set<String> = ["athan_makkah_v1"], probes: [ProbeResult] = []) {
@@ -139,10 +140,26 @@ struct Rig {
             sounds: FakeSounds(installed: installed),
             copy: testCopy,
             clock: FixedClock(now: now),
+            widgets: widgets,
         )
     }
 
     var bridge: AthanBridge {
         AthanBridge(graph: graph)
+    }
+}
+
+/// Counts WidgetKit reload requests.
+final class CountingReloader: WidgetReloader, @unchecked Sendable {
+    private let lock = NSLock()
+    private var count = 0
+
+    /// Reloads requested so far.
+    var reloads: Int {
+        lock.withLock { count }
+    }
+
+    func reloadAll() {
+        lock.withLock { count += 1 }
     }
 }

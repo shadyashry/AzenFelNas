@@ -17,12 +17,11 @@ const _channel =
 
 Snapshot _fixture() => Snapshot.fromJson(
   jsonDecode(
-        File(
-          '../../schemas/fixtures/snapshot/valid/'
-          'REQ-WID-002_across_midnight.json',
-        ).readAsStringSync(),
-      )
-      as Map<String, Object?>,
+    File(
+      '../../schemas/fixtures/snapshot/valid/'
+      'REQ-WID-002_across_midnight.json',
+    ).readAsStringSync(),
+  ) as Map<String, Object?>,
 );
 
 void main() {
@@ -55,10 +54,11 @@ void main() {
         'answer is passed on', () async {
       Object? received;
       messenger.setMockMessageHandler(_channel, (message) async {
-        final args =
-            AthanSchedulerApi.pigeonChannelCodec.decodeMessage(message)
-                as List<Object?>;
-        received = args.single;
+        if (AthanSchedulerApi.pigeonChannelCodec.decodeMessage(message) case [
+          final Object? json,
+        ]) {
+          received = json;
+        }
         return AthanSchedulerApi.pigeonChannelCodec.encodeMessage(<Object?>[
           true,
         ]);

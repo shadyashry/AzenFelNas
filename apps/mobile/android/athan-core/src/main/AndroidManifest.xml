@@ -55,6 +55,20 @@
             </intent-filter>
         </receiver>
 
+        <!-- S28 prayer-times widget (§15 D88): draws the persisted Snapshot only; no directBootAware, because Glance
+             keeps its session in credential-encrypted storage. -->
+        <receiver
+            android:name="app.dailymuslim.athan.widget.glance.PrayerTimesWidgetReceiver"
+            android:directBootAware="false"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/prayer_times_widget_info" />
+        </receiver>
+
         <service
             android:name="app.dailymuslim.athan.playback.AthanForegroundService"
             android:directBootAware="true"

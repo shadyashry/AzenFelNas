@@ -46,6 +46,10 @@
       host.drainEvents()
     }
 
+    func writeSnapshot(snapshotJson: String) async throws -> Bool {
+      host.writeSnapshot(snapshotJson)
+    }
+
     private static func state(_ label: String) -> HealthState {
       switch label {
       case "ready": .ready

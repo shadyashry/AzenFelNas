@@ -2,6 +2,7 @@ package app.dailymuslim.athan.bridge
 
 import app.dailymuslim.athan.health.HealthReport
 import app.dailymuslim.athan.plan.EventLogEntry
+import app.dailymuslim.athan.plan.SnapshotWriteOutcome
 import app.dailymuslim.athan.schedule.AlarmTrigger
 import app.dailymuslim.athan.schedule.ArmResult
 import app.dailymuslim.athan.schedule.PathMode
@@ -43,4 +44,14 @@ internal class AthanBridge(
 
     /** Receipts and system events since the last drain (REQ-ALM-041); Dart drains on every start. */
     fun drainEvents(): List<EventLogEntry> = graph.events.drain()
+
+    /**
+     * Persists [snapshotJson] beside the plan when it is a `snapshot.v1` document and asks every placed widget to
+     * redraw (DESIGN.md §7.7); false when it was refused, and the previous snapshot stays.
+     */
+    fun writeSnapshot(snapshotJson: String): Boolean {
+        val written = graph.snapshotStore.write(snapshotJson) is SnapshotWriteOutcome.Written
+        if (written) graph.refreshWidgets.refresh()
+        return written
+    }
 }
