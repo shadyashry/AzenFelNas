@@ -121,3 +121,18 @@ GSCTL_E2E_BUCKET=s3://dm-dist-e2e DM_S3_ENDPOINT=127.0.0.1:8333 DM_S3_ACCESS_KEY
 
 - Heartbeat: push a WIP commit to the slice branch, or an empty commit to `automation/heartbeat` (the only branch that may be force-pushed), at least every 30 minutes.
 - In this environment the auto-mode classifier refused `git merge origin/slice/s09-gsctl-tuf` because the merge brought in a `CLAUDE.md` change that a peer session had requested (self-modification). An owner merges such updates, or approves the action in their own session.
+
+## Control plane: Postgres and sqlc (added S26)
+
+Docker Hub serves `postgres:16.15`; `apple.com` is denied (the App Attest root CA is owner-supplied, §15 D86). With `dockerd` running as in the Swift section:
+
+```bash
+source /root/dmenv.sh
+docker run -d --name pg -p 127.0.0.1:5432:5432 -e POSTGRES_USER=cp -e POSTGRES_PASSWORD=cptest -e POSTGRES_DB=cp postgres:16.15
+export DM_PG_TEST_URL='postgres://cp:cptest@127.0.0.1:5432/cp?sslmode=disable'
+(cd services/control-plane && go test -race ./...)          # Postgres contract + migrate/purge commands run
+(cd /tmp && GOBIN=/root/go/bin go install github.com/sqlc-dev/sqlc/cmd/sqlc@v1.31.1)   # cgo; ~2 min
+(cd services/control-plane/internal/adapters/postgres && sqlc generate && git diff --exit-code .)
+(cd infra/terraform/control-plane && /opt/sdk/tf/terraform init -backend=false -input=false -lockfile=readonly && /opt/sdk/tf/terraform validate)
+docker build -t control-plane services/control-plane       # distroless image; `docker run ... control-plane migrate|serve|purge`
+```

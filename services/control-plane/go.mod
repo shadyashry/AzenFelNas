@@ -5,7 +5,7 @@ go 1.27.3
 require (
 	github.com/fxamacker/cbor/v2 v2.9.6
 	github.com/jackc/pgx/v5 v5.11.0
-	github.com/pressly/goose/v3 v3.29.0
+	github.com/pressly/goose/v3 v3.28.0
 	github.com/rs/zerolog v1.35.1
 	github.com/santhosh-tekuri/jsonschema/v6 v6.0.3
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.72.0

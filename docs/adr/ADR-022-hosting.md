@@ -39,3 +39,8 @@ See the `DESIGN.md` sections referenced above.
 ## Supersedes
 
 —
+
+## Control plane (slice S26, 2026-10-24)
+
+`infra/terraform/control-plane` (validate only, like `distribution`): Cloud Run service `control-plane` (internal-LB ingress, 0–3 instances, OpenTelemetry collector sidecar), Cloud Run jobs `control-plane-migrate` and `control-plane-purge` (hourly via Cloud Scheduler), Cloud SQL `POSTGRES_16` in europe-west1 with PITR 7 d, Artifact Registry with immutable tags, Secret Manager for `DM_DATABASE_URL`, and a global external Application Load Balancer with a Google-managed certificate and a Cloud Armor throttle for `api.dailymuslim.app` (DNS-only record in Cloudflare). Control-plane logs live 24 h in a dedicated bucket. The deploy identity is a workload-identity binding on the existing `github` pool for the `control-plane` GitHub environment. Rationale and defaults: §15 D86.
+
