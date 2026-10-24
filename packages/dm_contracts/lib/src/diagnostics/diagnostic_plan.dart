@@ -29,6 +29,5 @@ abstract class DiagnosticPlan with _$DiagnosticPlan {
 
   /// Decodes [json]; throws `CheckedFromJsonException` when it does not
   /// have the schema's shape.
-  factory fromJson(Map<String, Object?> json) =>
-      _$DiagnosticPlanFromJson(json);
+  factory fromJson(Map<String, Object?> json) => _$DiagnosticPlanFromJson(json);
 }
