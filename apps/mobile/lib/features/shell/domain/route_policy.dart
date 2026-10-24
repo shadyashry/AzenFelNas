@@ -62,6 +62,7 @@ abstract final class RoutePolicy {
     [] => const HomeRoute(),
     ['settings'] => const SettingsRoute(),
     ['settings', 'attributions'] => const AttributionsRoute(),
+    ['settings', 'diagnostics'] => const DiagnosticsRoute(),
     ['timeline'] => const TimelineRoute(),
     ['place'] => const PlaceRoute(),
     ['health'] => const HealthRoute(),

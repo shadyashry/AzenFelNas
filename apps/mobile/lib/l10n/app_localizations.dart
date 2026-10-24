@@ -1225,6 +1225,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{minutes} min before'**
   String athanPreReminderMinutes(int minutes);
+
+  /// Settings row and screen title for the diagnostic export.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostics'**
+  String get settingsDiagnostics;
+
+  /// Diagnostics screen title.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostics'**
+  String get diagnosticsTitle;
+
+  /// Explains the bundle before the user copies it (REQ-PRIV-005).
+  ///
+  /// In en, this message translates to:
+  /// **'This is everything the diagnostic report contains. Your place is rounded to about 1 km and nothing identifies you or this device. Nothing is sent: copy it and paste it into a message to support only if you want to.'**
+  String get diagnosticsIntro;
+
+  /// Button that copies the shown diagnostic report to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy report'**
+  String get diagnosticsCopy;
+
+  /// Shown after the report was copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Report copied'**
+  String get diagnosticsCopied;
+
+  /// Shown when assembling the report failed.
+  ///
+  /// In en, this message translates to:
+  /// **'The report could not be prepared.'**
+  String get diagnosticsUnavailable;
 }
 
 class _AppLocalizationsDelegate

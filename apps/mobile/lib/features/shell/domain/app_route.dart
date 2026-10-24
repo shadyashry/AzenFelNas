@@ -38,6 +38,18 @@ final class SettingsRoute extends AppRoute {
   bool get linkable => false;
 }
 
+/// The redacted diagnostic report (REQ-PRIV-005, §15 D84).
+final class DiagnosticsRoute extends AppRoute {
+  /// The route.
+  const new();
+
+  @override
+  String get location => '/settings/diagnostics';
+
+  @override
+  bool get linkable => false;
+}
+
 /// Data and licence attributions (§10.4).
 final class AttributionsRoute extends AppRoute {
   /// The route.

@@ -187,5 +187,11 @@
   "athanPreReminder": "تذكير قبل الأذان",
   "athanPreReminderOff": "إيقاف",
   "athanTestScheduled": "الأذان التجريبي بعد {seconds} ث",
-  "athanPreReminderMinutes": "قبل {minutes} دقيقة"
+  "athanPreReminderMinutes": "قبل {minutes} دقيقة",
+  "settingsDiagnostics": "التشخيص",
+  "diagnosticsTitle": "التشخيص",
+  "diagnosticsIntro": "ده كل اللي في تقرير التشخيص. مكانك متقرّب لحوالي ١ كم، ومفيش أي حاجة بتعرّف عليك أو على الجهاز. مفيش حاجة بتتبعت: انسخه والصقه في رسالة للدعم لو حابب بس.",
+  "diagnosticsCopy": "انسخ التقرير",
+  "diagnosticsCopied": "اتنسخ التقرير",
+  "diagnosticsUnavailable": "ماقدرناش نجهّز التقرير."
 }

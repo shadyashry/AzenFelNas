@@ -953,5 +953,29 @@
         "example": "10"
       }
     }
+  },
+  "settingsDiagnostics": "Diagnostics",
+  "@settingsDiagnostics": {
+    "description": "Settings row and screen title for the diagnostic export."
+  },
+  "diagnosticsTitle": "Diagnostics",
+  "@diagnosticsTitle": {
+    "description": "Diagnostics screen title."
+  },
+  "diagnosticsIntro": "This is everything the diagnostic report contains. Your place is rounded to about 1 km and nothing identifies you or this device. Nothing is sent: copy it and paste it into a message to support only if you want to.",
+  "@diagnosticsIntro": {
+    "description": "Explains the bundle before the user copies it (REQ-PRIV-005)."
+  },
+  "diagnosticsCopy": "Copy report",
+  "@diagnosticsCopy": {
+    "description": "Button that copies the shown diagnostic report to the clipboard."
+  },
+  "diagnosticsCopied": "Report copied",
+  "@diagnosticsCopied": {
+    "description": "Shown after the report was copied."
+  },
+  "diagnosticsUnavailable": "The report could not be prepared.",
+  "@diagnosticsUnavailable": {
+    "description": "Shown when assembling the report failed."
   }
 }

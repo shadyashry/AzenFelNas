@@ -120,11 +120,17 @@ void main() {
     expect(parse('dailymuslim://app/place'), isNull);
   });
 
+  test('REQ-SEC-010 REQ-PRIV-005 the diagnostic report is in-app only', () {
+    expect(parse('/settings/diagnostics'), isA<DiagnosticsRoute>());
+    expect(parse('dailymuslim://app/settings/diagnostics'), isNull);
+  });
+
   test('every route parses back from its own location', () {
     for (final route in const <AppRoute>[
       HomeRoute(),
       SettingsRoute(),
       AttributionsRoute(),
+      DiagnosticsRoute(),
       TimelineRoute(),
       PlaceRoute(),
       HealthRoute(),

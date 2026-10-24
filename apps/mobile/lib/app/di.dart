@@ -36,8 +36,12 @@ import 'package:daily_muslim/features/schedule/application/calculate_schedule.da
 import 'package:daily_muslim/features/schedule/application/load_runtime_data.dart';
 import 'package:daily_muslim/features/schedule/domain/runtime_data.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
+import 'package:daily_muslim/features/settings/application/assemble_diagnostic_bundle.dart';
+import 'package:daily_muslim/features/settings/application/export_diagnostic_bundle.dart';
 import 'package:daily_muslim/features/settings/data/asset_attributions.dart';
+import 'package:daily_muslim/features/settings/data/clipboard_diagnostic_text.dart';
 import 'package:daily_muslim/features/settings/data/drift_settings_store.dart';
+import 'package:daily_muslim/features/settings/presentation/diagnostics_providers.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/application/start_app.dart';
 import 'package:daily_muslim/features/shell/data/event_log_app_events.dart';
@@ -46,6 +50,7 @@ import 'package:daily_muslim/features/storage/data/drift_event_log.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
 import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_contracts/athan_scheduler_api.dart';
+import 'package:dm_contracts/dm_contracts.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:flutter/services.dart';
@@ -144,6 +149,21 @@ abstract final class AppBindings {
         EventLogLastTest(eventLog.entries),
       ),
       readAthanSoundsProvider.overrideWithValue(AssetAthanSounds(assets)),
+      assembleDiagnosticBundleProvider.overrideWithValue(
+        AssembleDiagnosticBundle(
+          events: eventLog.entries,
+          platformHealth: PigeonPlatformHealth(athan, clock),
+          lastTestHeard: EventLogLastTest(eventLog.entries),
+          contexts: DriftLocationContextStore(databases.places),
+          activePackages: catalog.activeAll,
+          clock: clock,
+          os: DiagnosticOs.values.byName(Platform.operatingSystem),
+          appVersion: AppBuild.version,
+        ),
+      ),
+      exportDiagnosticBundleProvider.overrideWithValue(
+        const ExportDiagnosticBundle(ClipboardDiagnosticText()),
+      ),
     ];
   }
 

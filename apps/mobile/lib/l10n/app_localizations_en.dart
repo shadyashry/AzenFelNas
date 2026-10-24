@@ -662,4 +662,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String athanPreReminderMinutes(int minutes) {
     return '$minutes min before';
   }
+
+  @override
+  String get settingsDiagnostics => 'Diagnostics';
+
+  @override
+  String get diagnosticsTitle => 'Diagnostics';
+
+  @override
+  String get diagnosticsIntro =>
+      'This is everything the diagnostic report contains. Your place is rounded to about 1 km and nothing identifies you or this device. Nothing is sent: copy it and paste it into a message to support only if you want to.';
+
+  @override
+  String get diagnosticsCopy => 'Copy report';
+
+  @override
+  String get diagnosticsCopied => 'Report copied';
+
+  @override
+  String get diagnosticsUnavailable => 'The report could not be prepared.';
 }

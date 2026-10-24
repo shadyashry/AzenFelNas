@@ -5,6 +5,7 @@ import 'package:daily_muslim/features/onboarding/presentation/home_gate.dart';
 import 'package:daily_muslim/features/passport/presentation/passport_page.dart';
 import 'package:daily_muslim/features/qibla/presentation/qibla_page.dart';
 import 'package:daily_muslim/features/settings/presentation/attributions_page.dart';
+import 'package:daily_muslim/features/settings/presentation/diagnostics_page.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_page.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/domain/route_policy.dart';
@@ -32,6 +33,10 @@ abstract final class AppRouter {
               GoRoute(
                 path: 'attributions',
                 builder: (context, state) => const AttributionsPage(),
+              ),
+              GoRoute(
+                path: 'diagnostics',
+                builder: (context, state) => const DiagnosticsPage(),
               ),
             ],
           ),

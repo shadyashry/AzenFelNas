@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Settings (§18.4, static): language, digits, appearance, motion and the
-/// attributions. Each change is written at once (Appendix K).
+/// Settings (§18.4, static): language, digits, appearance, motion, the
+/// diagnostic report and the attributions. Each change is written at once
+/// (Appendix K).
 final class SettingsPage extends ConsumerWidget {
   /// The page.
   const new({super.key});
@@ -65,6 +66,11 @@ final class SettingsPage extends ConsumerWidget {
             title: Text(l.settingsAthan),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(const HealthRoute().location),
+          ),
+          ListTile(
+            title: Text(l.settingsDiagnostics),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(const DiagnosticsRoute().location),
           ),
           ListTile(
             title: Text(l.settingsAttributions),

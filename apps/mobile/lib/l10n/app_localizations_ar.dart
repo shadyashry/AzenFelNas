@@ -660,4 +660,23 @@ class AppLocalizationsAr extends AppLocalizations {
   String athanPreReminderMinutes(int minutes) {
     return 'قبل $minutes دقيقة';
   }
+
+  @override
+  String get settingsDiagnostics => 'التشخيص';
+
+  @override
+  String get diagnosticsTitle => 'التشخيص';
+
+  @override
+  String get diagnosticsIntro =>
+      'ده كل اللي في تقرير التشخيص. مكانك متقرّب لحوالي ١ كم، ومفيش أي حاجة بتعرّف عليك أو على الجهاز. مفيش حاجة بتتبعت: انسخه والصقه في رسالة للدعم لو حابب بس.';
+
+  @override
+  String get diagnosticsCopy => 'انسخ التقرير';
+
+  @override
+  String get diagnosticsCopied => 'اتنسخ التقرير';
+
+  @override
+  String get diagnosticsUnavailable => 'ماقدرناش نجهّز التقرير.';
 }
