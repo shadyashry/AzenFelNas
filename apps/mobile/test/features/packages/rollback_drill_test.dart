@@ -193,9 +193,10 @@ void main() {
     final bad = await armFromActive();
     expect(bad.entries, isNot(before.entries), reason: 'drill needs a change');
 
-    // Act: gsctl rollback re-publishes the seed payload under sequence 2.
+    // Act: release-package with rollback_of re-publishes the seed payload
+    // as a new version under a higher sequence (package-rollback.md).
     final seed = File(_profilesPath).readAsBytesSync();
-    await goLive(await stage(_seedVersion, seed), seed, 2);
+    await goLive(await stage('2026.10.3', seed), seed, 2);
     final restored = await armFromActive();
 
     // Assert

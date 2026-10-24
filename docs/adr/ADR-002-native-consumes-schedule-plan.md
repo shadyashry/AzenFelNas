@@ -31,3 +31,7 @@ See the `DESIGN.md` sections referenced above.
 ## Supersedes
 
 —
+
+## S27 note
+
+Dart hands a plan to native code through one consumer-defined port, `ApplySchedulePlan` (`apps/mobile/lib/features/athan/domain/athan_platform_ports.dart`). Its contract is the one `PlanStore` already enforces: the document is replaced whole and an older generation is refused. A package rollback builds the plan before the pointer flips (`RollBackAndReplan`, §15 D87). The pigeon adapter is owed with the native wiring.

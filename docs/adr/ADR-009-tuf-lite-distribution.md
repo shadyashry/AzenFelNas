@@ -51,3 +51,7 @@ Object storage + CDN; four metadata roles; monotonic `sequence`; signature envel
 ## Supersedes
 
 —
+
+## S27 note
+
+Rollback operations: `release-package` takes `rollback_of` and `priority`. A rollback is a new version with the good content under a higher sequence (`docs/runbooks/package-rollback.md`). Production keys come from the ceremony in `docs/release/key-ceremony.md`, which is owed to the owner.
