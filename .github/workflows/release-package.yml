@@ -1,8 +1,9 @@
-# Package release (DESIGN.md §9.2, ADR-009): gsctl build, sign every role, verify, publish lab then beta.
-# The job compiles, signs with the dev keys of the chosen channel's environment, verifies the result as a client
-# would and publishes it into a bucket directory in the §9.1 layout (gsctl publish, §15 D65), which it uploads as
-# an artifact. The R2 bucket and reading the live channel's metadata (for sequences that keep increasing across
-# runs) arrive with the distribution infrastructure in S25; until then the R2 step fails closed.
+# Package release (DESIGN.md §9.2, ADR-009, §15 D65/D85): pull the live channel from R2 (so sequences keep
+# increasing across runs), gsctl build, sign every role with the dev keys of the chosen channel's environment,
+# verify as a client would, publish to R2 (served at cdn.dailymuslim.app) and keep the signed repository as an
+# artifact. dev and lab only: beta and production are reached by promote-package once the S27 keys exist.
+# Environment secrets: DM_DEV_* keys, DM_S3_ACCESS_KEY_ID / DM_S3_SECRET_ACCESS_KEY (R2 token scoped to
+# dm-dist object read/write); environment variable DM_S3_ENDPOINT (terraform output s3_endpoint).
 name: release-package
 
 on:
@@ -59,7 +60,7 @@ jobs:
           cd packages/geo_salah_profiles && dart test
       - name: Build gsctl
         run: go build -o "$RUNNER_TEMP/gsctl" ./tools/gsctl
-      - name: Build, sign, verify and publish the channel into a bucket directory
+      - name: Pull, build, sign, verify and publish the channel to R2
         env:
           CHANNEL: ${{ inputs.channel }}
           VERSION: ${{ inputs.version }}
@@ -72,22 +73,24 @@ jobs:
           DM_DEV_TARGETS_KEY_1: ${{ secrets.DM_DEV_TARGETS_KEY_1 }}
           DM_DEV_SNAPSHOT_KEY_1: ${{ secrets.DM_DEV_SNAPSHOT_KEY_1 }}
           DM_DEV_TIMESTAMP_KEY_1: ${{ secrets.DM_DEV_TIMESTAMP_KEY_1 }}
+          DM_S3_ENDPOINT: ${{ vars.DM_S3_ENDPOINT }}
+          DM_S3_ACCESS_KEY_ID: ${{ secrets.DM_S3_ACCESS_KEY_ID }}
+          DM_S3_SECRET_ACCESS_KEY: ${{ secrets.DM_S3_SECRET_ACCESS_KEY }}
         run: |
           repo="$RUNNER_TEMP/channel/$CHANNEL"
-          "$RUNNER_TEMP/gsctl" build -profiles profiles -channel "$CHANNEL" -repo "$repo" -version "$VERSION" \
+          gsctl="$RUNNER_TEMP/gsctl"
+          "$gsctl" pull -repo "$repo" -channel "$CHANNEL" -bucket s3://dm-dist
+          "$gsctl" build -profiles profiles -channel "$CHANNEL" -repo "$repo" -version "$VERSION" \
             -effective-from "$EFFECTIVE_FROM" -note-ar "$NOTE_AR" -note-en "$NOTE_EN"
-          for role in root targets snapshot timestamp; do
-            "$RUNNER_TEMP/gsctl" sign -repo "$repo" -role "$role"
+          # root is re-signed only on a first release or a key change; an unchanged root is not republished.
+          test -f "$repo/metadata/root.json" || "$gsctl" sign -repo "$repo" -role root
+          for role in targets snapshot timestamp; do
+            "$gsctl" sign -repo "$repo" -role "$role"
           done
-          "$RUNNER_TEMP/gsctl" verify -repo "$repo"
-          "$RUNNER_TEMP/gsctl" publish -repo "$repo" -channel "$CHANNEL" -bucket "$RUNNER_TEMP/dist"
+          "$gsctl" verify -repo "$repo"
+          "$gsctl" publish -repo "$repo" -channel "$CHANNEL" -bucket s3://dm-dist
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: dist-${{ inputs.channel }}-${{ inputs.version }}
-          path: ${{ runner.temp }}/dist
-          include-hidden-files: true # the .cache-control sidecars
+          name: channel-${{ inputs.channel }}-${{ inputs.version }}
+          path: ${{ runner.temp }}/channel
           if-no-files-found: error
-      - name: Publish to R2
-        run: |
-          echo "::error::the R2 bucket arrives with slice S25 (distribution infra); the published bucket is in the artifact"
-          exit 1

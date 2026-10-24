@@ -1,0 +1,48 @@
+# Timestamp refresh (DESIGN.md §9.1: snapshot + timestamp automated, timestamp expiry 7 d; §15 D85).
+# Daily: pull each live channel from R2, re-sign timestamp only, publish (only timestamp.json changes).
+# A channel never published is skipped. Without this a channel turns FRESHNESS_UNVERIFIED after 7 d (REQ-PKG-002).
+name: refresh-timestamp
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        channel: [dev, lab]
+    environment: ${{ matrix.channel }}
+    concurrency:
+      group: release-package-${{ matrix.channel }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: 1.27.3
+          cache-dependency-path: tools/gsctl/go.mod
+      - name: Build gsctl
+        run: go build -o "$RUNNER_TEMP/gsctl" ./tools/gsctl
+      - name: Pull, sign timestamp, publish
+        env:
+          CHANNEL: ${{ matrix.channel }}
+          DM_DEV_TIMESTAMP_KEY_1: ${{ secrets.DM_DEV_TIMESTAMP_KEY_1 }}
+          DM_S3_ENDPOINT: ${{ vars.DM_S3_ENDPOINT }}
+          DM_S3_ACCESS_KEY_ID: ${{ secrets.DM_S3_ACCESS_KEY_ID }}
+          DM_S3_SECRET_ACCESS_KEY: ${{ secrets.DM_S3_SECRET_ACCESS_KEY }}
+        run: |
+          repo="$RUNNER_TEMP/channel/$CHANNEL"
+          gsctl="$RUNNER_TEMP/gsctl"
+          "$gsctl" pull -repo "$repo" -channel "$CHANNEL" -bucket s3://dm-dist | tee "$RUNNER_TEMP/pull.txt"
+          if grep -q 'never published' "$RUNNER_TEMP/pull.txt"; then exit 0; fi
+          "$gsctl" sign -repo "$repo" -role timestamp
+          "$gsctl" verify -repo "$repo"
+          "$gsctl" publish -repo "$repo" -channel "$CHANNEL" -bucket s3://dm-dist

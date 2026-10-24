@@ -43,6 +43,17 @@ jobs:
       - name: go vet
         working-directory: ${{ matrix.module }}
         run: go vet ./...
+      - name: S3 test server for the R2 adapter (SeaweedFS, §15 D85)
+        if: matrix.module == 'tools/gsctl'
+        run: |
+          mkdir -p "$RUNNER_TEMP/s3cfg"
+          printf '%s' '{"identities":[{"name":"gsctl","credentials":[{"accessKey":"gsctltest","secretKey":"gsctltestsecret"}],"actions":["Admin","Read","Write","List"]}]}' > "$RUNNER_TEMP/s3cfg/s3.json"
+          docker run -d --name s3 -p 127.0.0.1:8333:8333 -v "$RUNNER_TEMP/s3cfg:/cfg" chrislusf/seaweedfs:4.00 \
+            server -dir=/data -master.volumePreallocate=false -master.volumeSizeLimitMB=16 -volume.max=200 -s3 -s3.config=/cfg/s3.json
+          for _ in $(seq 60); do curl -s -o /dev/null http://127.0.0.1:8333/ && break; sleep 1; done
+          echo "GSCTL_S3_TEST_ENDPOINT=127.0.0.1:8333" >> "$GITHUB_ENV"
+          echo "GSCTL_S3_TEST_ACCESS_KEY_ID=gsctltest" >> "$GITHUB_ENV"
+          echo "GSCTL_S3_TEST_SECRET_ACCESS_KEY=gsctltestsecret" >> "$GITHUB_ENV"
       - name: go test -race
         working-directory: ${{ matrix.module }}
         run: go test -race ./...

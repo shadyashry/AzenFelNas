@@ -1,0 +1,43 @@
+# Infrastructure gate (S25, §15 D85): terraform fmt and validate for every root module under infra/terraform.
+# Nothing is planned or applied from CI; an owner applies with the state bucket's -backend-config.
+name: ci-infra
+
+on:
+  pull_request:
+    paths:
+      - infra/**
+      - .github/workflows/ci-infra.yml
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  terraform:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        module: [infra/terraform/distribution]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install Terraform 1.16.5 (checksum-verified)
+        run: |
+          cd "$RUNNER_TEMP"
+          curl -fsSLO https://releases.hashicorp.com/terraform/1.16.5/terraform_1.16.5_linux_amd64.zip
+          curl -fsSLO https://releases.hashicorp.com/terraform/1.16.5/terraform_1.16.5_SHA256SUMS
+          grep ' terraform_1.16.5_linux_amd64.zip$' terraform_1.16.5_SHA256SUMS | sha256sum -c -
+          unzip -q terraform_1.16.5_linux_amd64.zip -d "$RUNNER_TEMP/bin"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+      - name: terraform fmt
+        run: terraform fmt -check -recursive ${{ matrix.module }}
+      - name: terraform validate
+        working-directory: ${{ matrix.module }}
+        run: |
+          terraform init -backend=false -input=false -lockfile=readonly
+          terraform validate

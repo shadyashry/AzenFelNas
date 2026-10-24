@@ -43,3 +43,8 @@ Thumbs.db
 # Accuracy Lab: downloaded ephemeris cache and benchmark run outputs (DESIGN.md §15 D28)
 /lab/.cache/
 /lab/out/
+
+# Terraform working state (S25); the lock file is committed
+infra/**/.terraform/
+infra/**/*.tfstate*
+infra/**/*.tfplan
