@@ -59,9 +59,21 @@ jobs:
           echo "GSCTL_S3_TEST_ENDPOINT=127.0.0.1:8333" >> "$GITHUB_ENV"
           echo "GSCTL_S3_TEST_ACCESS_KEY_ID=gsctltest" >> "$GITHUB_ENV"
           echo "GSCTL_S3_TEST_SECRET_ACCESS_KEY=gsctltestsecret" >> "$GITHUB_ENV"
+      - name: Postgres 16 for the control-plane contract tests (§15 D86)
+        if: matrix.module == 'services/control-plane'
+        run: |
+          docker run -d --name pg -p 127.0.0.1:5432:5432 -e POSTGRES_USER=cp -e POSTGRES_PASSWORD=cptest -e POSTGRES_DB=cp postgres:16.15
+          for _ in $(seq 60); do docker exec pg pg_isready -U cp -q && break; sleep 1; done
+          echo "DM_PG_TEST_URL=postgres://cp:cptest@127.0.0.1:5432/cp?sslmode=disable" >> "$GITHUB_ENV"
       - name: go test -race
         working-directory: ${{ matrix.module }}
         run: go test -race ./...
+      - name: sqlc output is current
+        if: matrix.module == 'services/control-plane'
+        working-directory: services/control-plane
+        run: |
+          go generate ./internal/adapters/postgres ./internal/schema/validate
+          git diff --exit-code -- .
 
   lab-e2e:
     # S25 done-test (§13): gsctl releases lab twice (the second on a fresh runner after pull) into an S3 bucket,

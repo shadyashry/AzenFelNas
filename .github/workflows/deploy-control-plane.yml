@@ -1,5 +1,7 @@
-# Control-plane deploy (DESIGN.md §9.3, §26): build, goose migrations, Cloud Run.
-# The API arrives in slice S26; until then this workflow only proves the binary builds.
+# Control-plane deploy (DESIGN.md §9.3, §15 D86): test, build the image, run the goose migrations as a Cloud Run job,
+# roll the service, smoke-test api.dailymuslim.app. Credentials are short-lived (OIDC workload identity, REQ-SEC-030);
+# the `control-plane` environment holds the required reviewers and these variables:
+#   GCP_PROJECT_ID, GCP_WORKLOAD_IDENTITY_PROVIDER, GCP_DEPLOY_SERVICE_ACCOUNT (terraform output deploy_service_account).
 name: deploy-control-plane
 
 on:
@@ -9,11 +11,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+env:
+  REGION: europe-west1
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -22,7 +27,48 @@ jobs:
         with:
           go-version: 1.27.3
           cache-dependency-path: services/control-plane/go.mod
-      - name: Build control-plane
-        run: go build -o bin/api ./services/control-plane/cmd/api
-      - name: Deploy
-        run: echo "No deploy target before slice S26; build only."
+      - name: Postgres 16
+        run: |
+          docker run -d --name pg -p 127.0.0.1:5432:5432 -e POSTGRES_USER=cp -e POSTGRES_PASSWORD=cptest -e POSTGRES_DB=cp postgres:16.15
+          for _ in $(seq 60); do docker exec pg pg_isready -U cp -q && break; sleep 1; done
+      - name: go test -race
+        working-directory: services/control-plane
+        env:
+          DM_PG_TEST_URL: postgres://cp:cptest@127.0.0.1:5432/cp?sslmode=disable
+        run: go test -race ./...
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment: control-plane
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      IMAGE: europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/control-plane/api:${{ github.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
+      - name: Build and push the image
+        run: |
+          gcloud auth configure-docker "${REGION}-docker.pkg.dev" --quiet
+          docker build -t "$IMAGE" services/control-plane
+          docker push "$IMAGE"
+      - name: Migrate (goose, Cloud Run job)
+        run: |
+          gcloud run jobs update control-plane-migrate --region "$REGION" --image "$IMAGE" --quiet
+          gcloud run jobs execute control-plane-migrate --region "$REGION" --wait
+      - name: Point the purge job at the new image
+        run: gcloud run jobs update control-plane-purge --region "$REGION" --image "$IMAGE" --quiet
+      - name: Roll the service
+        run: gcloud run deploy control-plane --region "$REGION" --container api --image "$IMAGE" --quiet
+      - name: Smoke test
+        run: |
+          curl -fsS --retry 10 --retry-delay 6 --retry-all-errors https://api.dailymuslim.app/readyz
+          status=$(curl -s -o /dev/null -w '%{http_code}' https://api.dailymuslim.app/v1/unknown)
+          test "$status" = 404

@@ -1,0 +1,35 @@
+# OpenTelemetry collector sidecar (§9.3, §15 D86): receives OTLP/HTTP from the
+# API on localhost and exports traces to Cloud Trace and RED metrics to
+# Managed Service for Prometheus. No logs pass through it.
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: localhost:4318
+processors:
+  memory_limiter:
+    check_interval: 1s
+    limit_percentage: 65
+    spike_limit_percentage: 20
+  batch: {}
+  resourcedetection:
+    detectors: [env, gcp]
+    timeout: 2s
+    override: false
+exporters:
+  googlecloud: {}
+  googlemanagedprometheus: {}
+extensions:
+  health_check:
+    endpoint: localhost:13133
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, resourcedetection, batch]
+      exporters: [googlecloud]
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, resourcedetection, batch]
+      exporters: [googlemanagedprometheus]
