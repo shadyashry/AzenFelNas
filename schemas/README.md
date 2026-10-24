@@ -51,3 +51,7 @@ node schemas/tools/check_ksy.cjs            # kaitai-struct-compiler 0.11.0 comp
 ```
 
 `ci-schemas` runs all three. The round-trips run with each language's tests: `melos run ci` (Dart), `./gradlew :athan-core:testDebugUnitTest` (Kotlin), `swift test` in `apps/mobile/ios/AthanKit` (Swift), and `go test ./...` in each Go module.
+
+## Cross-language vectors
+
+`vectors/*.json` are behaviour vectors over valid fixtures, not schema fixtures: `vectors/widget_content.v1.json` (S28, DESIGN.md §15 D88) gives the widget content a snapshot yields at chosen instants, and the Kotlin `SelectWidgetContentTest` and the Swift `WidgetTimelineTests` both run it. `validate_fixtures.sh` does not read this directory; its snapshot is `fixtures/snapshot/valid/REQ-WID-002_across_midnight.json`, which it validates.

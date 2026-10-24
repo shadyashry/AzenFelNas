@@ -1,8 +1,5 @@
-import 'dart:convert';
-
-import 'package:daily_muslim/features/athan/application/write_widget_snapshot.dart';
+import 'package:daily_muslim/features/athan/domain/write_widget_snapshot.dart';
 import 'package:dm_contracts/athan_scheduler_api.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 import 'package:flutter/services.dart';
 
 /// [WriteWidgetSnapshot] over pigeon `AthanSchedulerApi.writeSnapshot`
@@ -14,9 +11,9 @@ final class PigeonWriteWidgetSnapshot implements WriteWidgetSnapshot {
   final AthanSchedulerApi _api;
 
   @override
-  Future<bool> call(Snapshot snapshot) async {
+  Future<bool> call(EncodedSnapshot snapshot) async {
     try {
-      return await _api.writeSnapshot(jsonEncode(snapshot.toJson()));
+      return await _api.writeSnapshot(snapshot.json);
     } on PlatformException {
       return false;
     }

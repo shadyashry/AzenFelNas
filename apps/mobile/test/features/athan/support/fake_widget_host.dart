@@ -1,4 +1,6 @@
-import 'package:daily_muslim/features/athan/application/write_widget_snapshot.dart';
+import 'dart:convert';
+
+import 'package:daily_muslim/features/athan/domain/write_widget_snapshot.dart';
 import 'package:dm_contracts/dm_contracts.dart';
 
 /// The native snapshot store as the [WriteWidgetSnapshot] contract
@@ -16,9 +18,14 @@ final class FakeWidgetHost implements WriteWidgetSnapshot {
   Snapshot? stored;
 
   @override
-  Future<bool> call(Snapshot snapshot) async {
+  Future<bool> call(EncodedSnapshot snapshot) async {
     if (!accepts) return false;
-    stored = snapshot;
+    stored = Snapshot.fromJson(
+      switch (jsonDecode(snapshot.json)) {
+        final Map<String, Object?> json => json,
+        _ => throw const FormatException('not a JSON object'),
+      },
+    );
     return true;
   }
 }

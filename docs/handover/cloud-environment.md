@@ -136,3 +136,40 @@ export DM_PG_TEST_URL='postgres://cp:cptest@127.0.0.1:5432/cp?sslmode=disable'
 (cd infra/terraform/control-plane && /opt/sdk/tf/terraform init -backend=false -input=false -lockfile=readonly && /opt/sdk/tf/terraform validate)
 docker build -t control-plane services/control-plane       # distroless image; `docker run ... control-plane migrate|serve|purge`
 ```
+
+## Kotlin without Gradle (added S28)
+
+`dl.google.com` stays denied, so Gradle cannot build `athan-core`. Maven Central throttles (HTTP 429, sometimes 404) — retry. This compiles every `athan-core` source except the Glance UI (`widget/glance/`, Gradle only) with `-Xexplicit-api=strict -Werror` and runs its JVM tests; S28: 84 passed.
+
+```bash
+mkdir -p /opt/sdk/kt /tmp/ktlibs /tmp/ktbuild/stub
+curl -fsSL -o /tmp/kc.zip https://github.com/JetBrains/kotlin/releases/download/v2.4.21/kotlin-compiler-2.4.21.zip && unzip -oq /tmp/kc.zip -d /opt/sdk/kt
+M=https://repo1.maven.org/maven2
+for a in org/jetbrains/kotlinx/kotlinx-serialization-json-jvm/1.9.0/kotlinx-serialization-json-jvm-1.9.0.jar \
+         org/jetbrains/kotlinx/kotlinx-serialization-core-jvm/1.9.0/kotlinx-serialization-core-jvm-1.9.0.jar \
+         org/junit/platform/junit-platform-console-standalone/1.13.4/junit-platform-console-standalone-1.13.4.jar \
+         org/robolectric/android-all/16-robolectric-13921718/android-all-16-robolectric-13921718.jar; do
+  until curl -fsSL -o /tmp/ktlibs/$(basename $a) $M/$a; do sleep 20; done
+done
+cd apps/mobile/android/athan-core/src
+# R stub: one Int per string/drawable name (compile-only; resources are not checked here)
+python3 - <<'PY'
+import re, glob
+names = sorted(set(re.findall(r'name="([a-z_]+)"', open('main/res/values/strings.xml').read())))
+drawables = sorted({m.split('.')[-1] for f in glob.glob('main/kotlin/**/*.kt', recursive=True) for m in re.findall(r'R\.drawable\.[a-z_]+', open(f).read())})
+body = ['package app.dailymuslim.athan', '', 'public object R {', '    public object string {']
+body += [f'        public const val {n}: Int = {0x7f0e0000 + i}' for i, n in enumerate(names)]
+body += ['    }', '    public object drawable {'] + [f'        public const val {n}: Int = {0x7f080000 + i}' for i, n in enumerate(drawables)] + ['    }', '}']
+open('/tmp/ktbuild/stub/R.kt', 'w').write('\n'.join(body) + '\n')
+PY
+B=/tmp/ktbuild K=/opt/sdk/kt/kotlinc L=/tmp/ktlibs
+CP=$L/android-all-16-robolectric-13921718.jar:$L/kotlinx-serialization-core-jvm-1.9.0.jar:$L/kotlinx-serialization-json-jvm-1.9.0.jar
+$K/bin/kotlinc -Xexplicit-api=strict -Werror -jvm-target 17 -Xplugin=$K/lib/kotlinx-serialization-compiler-plugin.jar \
+  -cp $CP -d $B/main $(find main/kotlin -name '*.kt' -not -path '*/widget/glance/*') $B/stub/R.kt
+$K/bin/kotlinc -Werror -jvm-target 17 -Xplugin=$K/lib/kotlinx-serialization-compiler-plugin.jar -Xfriend-paths=$B/main \
+  -cp $CP:$B/main:$L/junit-platform-console-standalone-1.13.4.jar -d $B/test $(find test/kotlin -name '*.kt')
+java -Ddm.repoRoot=$(cd ../../../../.. && pwd) -jar $L/junit-platform-console-standalone-1.13.4.jar execute \
+  -cp $B/main:$B/test:$CP:$K/lib/kotlin-stdlib.jar --scan-classpath $B/test --details=summary --disable-banner
+```
+
+ktlint 1.8.0 (`https://github.com/pinterest/ktlint/releases/download/1.8.0/ktlint`) and detekt 1.23.8 (the `ci-android.yml` jar and checksum) run as in CI from `apps/mobile/android`. Docker Hub also throttles (`429` on `swift:6.2-noble`): retry the pull every minute.

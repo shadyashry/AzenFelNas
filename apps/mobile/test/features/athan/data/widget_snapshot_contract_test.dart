@@ -1,13 +1,11 @@
 // The WriteWidgetSnapshot contract (§7.7, §7.8): never throws, a refusal
 // or a missing host is false. The Kotlin and Swift `SnapshotStore` tests hold
 // the native store to the same rules (validated, whole-document replace).
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:daily_muslim/features/athan/application/write_widget_snapshot.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_write_widget_snapshot.dart';
+import 'package:daily_muslim/features/athan/domain/write_widget_snapshot.dart';
 import 'package:dm_contracts/athan_scheduler_api.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../support/fake_widget_host.dart';
@@ -15,13 +13,10 @@ import '../support/fake_widget_host.dart';
 const _channel =
     'dev.flutter.pigeon.dm_contracts.AthanSchedulerApi.writeSnapshot';
 
-Snapshot _fixture() => Snapshot.fromJson(
-  jsonDecode(
-    File(
-      '../../schemas/fixtures/snapshot/valid/'
-      'REQ-WID-002_across_midnight.json',
-    ).readAsStringSync(),
-  ) as Map<String, Object?>,
+EncodedSnapshot _fixture() => EncodedSnapshot(
+  File(
+    '../../schemas/fixtures/snapshot/valid/REQ-WID-002_across_midnight.json',
+  ).readAsStringSync(),
 );
 
 void main() {
@@ -70,12 +65,7 @@ void main() {
       );
       final json = received;
       expect(json, isA<String>());
-      if (json is String) {
-        expect(
-          Snapshot.fromJson(jsonDecode(json) as Map<String, Object?>),
-          snapshot,
-        );
-      }
+      expect(json, snapshot.json);
     });
   });
 }

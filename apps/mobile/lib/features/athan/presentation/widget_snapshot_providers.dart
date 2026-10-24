@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:daily_muslim/features/athan/application/build_snapshot.dart';
 import 'package:daily_muslim/features/athan/application/refresh_widget_snapshot.dart';
-import 'package:daily_muslim/features/athan/application/write_widget_snapshot.dart';
 import 'package:daily_muslim/features/athan/domain/athan_health.dart';
+import 'package:daily_muslim/features/athan/domain/write_widget_snapshot.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';

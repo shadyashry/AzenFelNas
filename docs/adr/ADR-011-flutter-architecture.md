@@ -50,6 +50,7 @@ Exact versions pinned in S01 under the §5.4 rule: latest stable ≥ floor, neve
 | Android | detekt · ktlint | 1.23 · 1.5 | **1.23.8 · 1.8.0** (CLI jars, sha256-pinned in `ci-android`; wired S02) | `ci-android.yml`, `config/detekt.yml`, `.editorconfig` |
 | Android | JUnit · Robolectric | 5.13 · 4.15 | **JUnit Jupiter 6.1.3 · 4.17** | `libs.versions.toml` |
 | Android | kotlinx.serialization Gradle plugin · JUnit platform launcher | — | **2.4.21 · 6.1.3** (added S02) | `settings.gradle.kts`, `libs.versions.toml` |
+| Android | Glance appwidget (in use) · Kotlin Compose compiler plugin | — | **1.2.0 · 2.4.21** (Apache-2.0 both; `athan-core` widget, Compose runtime arrives transitively with Glance; added S28 — §15 D88) | `athan-core/build.gradle.kts`, `settings.gradle.kts`, `libs.versions.toml` |
 | Android | JDK | — | **Temurin 21.0.11** (no floor; current LTS on the dev machine — D18) | `.tool-versions`, CI |
 | iOS | Xcode / Swift | 26 / 6.2 | **26.3 / tools 6.2** (newest Xcode on `macos-15` — D18) | `ci-ios.yml`, `Package.swift` |
 | iOS | deployment target | 18.0 | **18.0** | `Package.swift` |

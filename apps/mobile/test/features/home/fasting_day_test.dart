@@ -44,7 +44,7 @@ int _at(Schedule schedule, int day, PrayerEvent event) =>
 
 void main() {
   group('REQ-RAM-001 Home Ramadan card', () {
-    test('in Ramadan the window runs from the day\'s own Fajr to its own '
+    test("in Ramadan the window runs from the day's own Fajr to its own "
         'Maghrib, with the Hijri confidence', () {
       final schedule = _schedule(_ramadanNoon);
       final card = _fasting(schedule, _ramadanNoon);
@@ -58,7 +58,7 @@ void main() {
       }
     });
 
-    test('after Maghrib the card shows the next day\'s fast', () {
+    test("after Maghrib the card shows the next day's fast", () {
       final schedule = _schedule(_ramadanNoon);
       final afterIftar = _at(schedule, 0, PrayerEvent.maghrib) + 60000;
       final card = _fasting(schedule, afterIftar);
@@ -71,7 +71,7 @@ void main() {
     });
 
     test('the ±1 override moves the Ramadan day and is labelled as the '
-        'user\'s', () {
+        "user's", () {
       final base = _fasting(_schedule(_ramadanNoon), _ramadanNoon);
       final shifted = _fasting(
         _schedule(_ramadanNoon, hijriOverrideDays: 1),

@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:daily_muslim/features/athan/application/build_snapshot.dart';
 import 'package:daily_muslim/features/athan/application/plan_context_id.dart';
 import 'package:daily_muslim/features/athan/application/snapshot_request.dart';
-import 'package:daily_muslim/features/athan/application/write_widget_snapshot.dart';
+import 'package:daily_muslim/features/athan/domain/write_widget_snapshot.dart';
 import 'package:daily_muslim/features/schedule/domain/observer_of.dart';
 import 'package:daily_muslim/features/schedule/domain/schedule.dart';
 import 'package:dm_contracts/dm_contracts.dart';
@@ -26,14 +28,18 @@ final class RefreshWidgetSnapshot {
     required PlanLocale locale,
     required SnapshotHealth health,
   }) => _write(
-    _build(
-      SnapshotRequest(
-        contextId: PlanContextId.of(schedule.context.context.id),
-        observer: ObserverOf.context(schedule.context),
-        days: schedule.days,
-        nowUtcMs: _clock.nowUtcMs(),
-        locale: locale,
-        health: health,
+    EncodedSnapshot(
+      jsonEncode(
+        _build(
+          SnapshotRequest(
+            contextId: PlanContextId.of(schedule.context.context.id),
+            observer: ObserverOf.context(schedule.context),
+            days: schedule.days,
+            nowUtcMs: _clock.nowUtcMs(),
+            locale: locale,
+            health: health,
+          ),
+        ).toJson(),
       ),
     ),
   );

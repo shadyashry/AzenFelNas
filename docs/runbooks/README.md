@@ -19,12 +19,15 @@ Each runbook names its trigger, its owner role, the exact commands and how to ve
 | `timestamp` expiring < 48 h | `refresh-timestamp.yml` re-signs daily; a failed run notifies through GitHub (owner: enable workflow failure e-mail) | package-rollback.md §Timestamp |
 | publish job failed | `release-package.yml` / `promote-package.yml` failure | package-rollback.md |
 | verification-canary signature mismatch | `gsctl verify` step in every release job; a scheduled canary is **open** (§15 D87) | key-compromise.md |
-| attestation failure rate > 20 % | **open**: log-based metric over the D86 access log (§15 D87) | key-compromise.md (attestation keys), control-plane-restore.md |
+| attestation failure rate > 20 % | `control-plane attestation failure rate above 20 %`: log-based metrics over the D86 access log (401 share of POSTs, 1 h, ≥ 20 writes) in `infra/terraform/control-plane/dashboard.tf` (S28, §15 D88) | key-compromise.md (attestation keys), control-plane-restore.md |
 | control plane 5xx > 1 % | `control-plane SLO burn rate` (99.5 % SLO, 1 h burn > 10×) in `infra/terraform/control-plane/observability.tf` | control-plane-restore.md |
 | `/readyz` failing | `control-plane /readyz failing` uptime alert | control-plane-restore.md |
-| Postgres disk > 80 % | **open** (§15 D87) | control-plane-restore.md |
+| Postgres disk > 80 % | `control-plane Postgres disk above 80 %` (`cloudsql.googleapis.com/database/disk/utilization` > 0.8 for 10 min) in `dashboard.tf` (S28) | control-plane-restore.md |
 | upstream IANA release detected | **open**: `git ls-remote https://github.com/eggert/tz` tag watch (§15 D87) | tzdb-emergency.md |
 | Hijri boundary within 3 days without confirmation | **open**: needs the `hijri` package type (no reader in this build, REQ-PKG-006) | hijri-announcement.md |
+
+## Ops dashboard (S28)
+`google_monitoring_dashboard.ops` ("Daily Muslim ops (V1)") in `infra/terraform/control-plane/dashboard.tf`: requests by response class, p95 latency, the 99.5 % SLO error budget, attestation failure share, Postgres disk, attested writes per hour and the `/readyz` check. Distribution alerts stay in the GitHub workflows above. Applied with the rest of the control plane (owner: `terraform apply`).
 
 ## On-call and drills
 - Weekly rotation across the mobile and backend leads in Ramadan ± 2 weeks and in release weeks; business hours otherwise (§19.4).
