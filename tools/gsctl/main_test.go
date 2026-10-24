@@ -187,5 +187,5 @@ func TestCLISignWithKMSNeedsItsVariables_REQ_SEC_030(t *testing.T) {
 	t.Parallel()
 	expect(t, gsctl(t, nil, "sign", "-repo", t.TempDir(), "-role", "targets", "-kms", "-key-dir", t.TempDir()), exitUsage, "exclude each other")
 	expect(t, gsctl(t, map[string]string{"DM_KMS_TARGETS_KEY_1": "projects/p/locations/l/keyRings/r/cryptoKeys/k/cryptoKeyVersions/1"},
-		"sign", "-repo", t.TempDir(), "-role", "root", "-kms"), exitFailed, "root has 0 of 2")
+		"sign", "-repo", t.TempDir(), "-role", "root", "-kms", "-keys", filepath.Join("keys", "dev")), exitFailed, "root has 0 of 2")
 }
