@@ -1,6 +1,7 @@
 package trust
 
 import (
+	"context"
 	"crypto/ed25519"
 	"crypto/sha256"
 	"encoding/hex"
@@ -56,8 +57,9 @@ func (k PublicKey) Equal(other PublicKey) bool { return k.id == other.id }
 type Signer interface {
 	// PublicKey is the key the signatures verify against.
 	PublicKey() PublicKey
-	// Sign returns the 64-byte Ed25519 signature of message.
-	Sign(message []byte) ([]byte, error)
+	// Sign returns the 64-byte Ed25519 signature of message; ctx bounds a
+	// remote signer (Cloud KMS, §15 D85).
+	Sign(ctx context.Context, message []byte) ([]byte, error)
 }
 
 // NamedKey is a public key with the name its files use ("root-1").

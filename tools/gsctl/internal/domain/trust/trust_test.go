@@ -2,6 +2,7 @@ package trust_test
 
 import (
 	"bytes"
+	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -58,7 +59,7 @@ func custom() tuf.TargetCustom {
 
 func signFile(t *testing.T, doc tuf.SignedVariant, signers []trust.Signer) []byte {
 	t.Helper()
-	m, err := trust.Sign(tuf.Signed{Variant: doc}, signers)
+	m, err := trust.Sign(context.Background(), tuf.Signed{Variant: doc}, signers)
 	if err != nil {
 		t.Fatal(err)
 	}

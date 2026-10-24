@@ -106,7 +106,7 @@ func KeyRingContract(t *testing.T, ks KeySet, newRing func(t *testing.T) ports.K
 			t.Fatal(err)
 		}
 		want := ks.Signers["targets-1"].PublicKey()
-		sig, err := s.Sign([]byte("m"))
+		sig, err := s.Sign(ctx, []byte("m"))
 		if err != nil || !s.PublicKey().Equal(want) || !want.Verify([]byte("m"), sig) {
 			t.Fatalf("signature does not verify: %v", err)
 		}

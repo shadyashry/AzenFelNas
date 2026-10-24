@@ -142,7 +142,7 @@ func previous[V tuf.SignedVariant](ctx context.Context, reader ports.MetadataRea
 
 // write signs doc and writes the role's file.
 func write(ctx context.Context, writer ports.MetadataWriter, role trust.RoleName, doc tuf.SignedVariant, signers []trust.Signer) (trust.Envelope, error) {
-	m, err := trust.Sign(tuf.Signed{Variant: doc}, signers)
+	m, err := trust.Sign(ctx, tuf.Signed{Variant: doc}, signers)
 	if err != nil {
 		return trust.Envelope{}, err
 	}

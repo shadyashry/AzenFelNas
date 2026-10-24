@@ -130,7 +130,7 @@ type signer struct {
 
 func (s signer) PublicKey() trust.PublicKey { return s.pub }
 
-func (s signer) Sign(message []byte) ([]byte, error) {
+func (s signer) Sign(_ context.Context, message []byte) ([]byte, error) {
 	sig, err := s.priv.Sign(nil, message, crypto.Hash(0))
 	if err != nil {
 		return nil, fmt.Errorf("ed25519 sign: %w", err)

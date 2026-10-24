@@ -2,6 +2,7 @@ package trust
 
 import (
 	"bytes"
+	"context"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
@@ -69,7 +70,7 @@ func (e Envelope) Sequence() int {
 // Sign signs signed with every signer and returns the envelope, one
 // signature per distinct key, sorted by keyId. Ed25519 over the JCS form of
 // signed (REQ-DIST-004).
-func Sign(signed tuf.Signed, signers []Signer) (tuf.Metadata, error) {
+func Sign(ctx context.Context, signed tuf.Signed, signers []Signer) (tuf.Metadata, error) {
 	canonical, err := jcs.Marshal(signed)
 	if err != nil {
 		return tuf.Metadata{}, fmt.Errorf("canonicalise signed: %w", err)
@@ -82,7 +83,7 @@ func Sign(signed tuf.Signed, signers []Signer) (tuf.Metadata, error) {
 			continue
 		}
 		seen[id] = true
-		sig, err := s.Sign(canonical)
+		sig, err := s.Sign(ctx, canonical)
 		if err != nil {
 			return tuf.Metadata{}, fmt.Errorf("sign with key %s: %w", id, err)
 		}

@@ -1,6 +1,7 @@
 package distribution_test
 
 import (
+	"context"
 	"errors"
 	"slices"
 	"testing"
@@ -36,7 +37,7 @@ func files(t *testing.T, ks testsupport.KeySet, rootVersion, seq int) map[trust.
 	t.Helper()
 	now := time.Date(2026, 10, 22, 0, 0, 0, 0, time.UTC)
 	sign := func(doc tuf.SignedVariant, role trust.RoleName) []byte {
-		m, err := trust.Sign(tuf.Signed{Variant: doc}, ks.SignersOf(role))
+		m, err := trust.Sign(context.Background(), tuf.Signed{Variant: doc}, ks.SignersOf(role))
 		if err != nil {
 			t.Fatal(err)
 		}

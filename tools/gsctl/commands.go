@@ -10,6 +10,7 @@ import (
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/changelist"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/fsrepo"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/keyfiles"
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/kmskeys"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/localbucket"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/pemkeys"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/s3bucket"
@@ -31,6 +32,8 @@ const (
 	// devKeyEnvPrefix names the CI secrets of the dev keys
 	// (tools/gsctl/keys/dev/README.md).
 	devKeyEnvPrefix = "DM_DEV_"
+	// kmsKeyEnvPrefix names the KMS key versions and access token of -kms.
+	kmsKeyEnvPrefix = "DM_KMS_"
 )
 
 func runValidate(ctx context.Context, args []string, e env) int {
@@ -157,6 +160,7 @@ func runSign(ctx context.Context, args []string, e env) int {
 	roleName := fs.String("role", "", "role to sign: root, targets, snapshot or timestamp")
 	keys := fs.String("keys", defaultKeys, "public key set: roles.json and <name>.pub.hex")
 	keyDir := fs.String("key-dir", "", "directory of <name>.pem private keys (gitignored); default: "+devKeyEnvPrefix+"<ROLE>_KEY_<N> variables")
+	kms := fs.Bool("kms", false, "sign with Cloud KMS key versions named by "+kmsKeyEnvPrefix+"<ROLE>_KEY_<N>, authorised by "+kmsKeyEnvPrefix+"ACCESS_TOKEN (§15 D85)")
 	sequence := fs.Int("sequence", 0, "sequence to sign (the version, for root); default previous + 1")
 	lifetime := fs.Duration("expires-in", 0, "lifetime; default root 8760h, targets 2160h, snapshot 720h, timestamp 168h (the maximum)")
 	if !parseFlags(fs, args, e, "repo", "role") {
@@ -167,7 +171,12 @@ func runSign(ctx context.Context, args []string, e env) int {
 		return usageError(e, fs.Name(), err)
 	}
 	var ring ports.KeyRing = pemkeys.Env{Prefix: devKeyEnvPrefix, Lookup: e.lookup}
-	if *keyDir != "" {
+	switch {
+	case *kms && *keyDir != "":
+		return usageError(e, fs.Name(), errors.New("-kms and -key-dir exclude each other"))
+	case *kms:
+		ring = kmskeys.Ring{Prefix: kmsKeyEnvPrefix, Lookup: e.lookup}
+	case *keyDir != "":
 		ring = pemkeys.Dir{Dir: *keyDir}
 	}
 	store := fsrepo.Repo{Dir: *repo}
@@ -228,6 +237,7 @@ var (
 	_ ports.ChangedPaths      = changelist.File{}
 	_ ports.ObjectStore       = localbucket.Bucket{}
 	_ ports.ObjectStore       = s3bucket.Bucket{}
+	_ ports.KeyRing           = kmskeys.Ring{}
 	_ ports.MetadataReader    = fsrepo.Repo{}
 	_ ports.MetadataWriter    = fsrepo.Repo{}
 	_ ports.PackageReader     = fsrepo.Repo{}

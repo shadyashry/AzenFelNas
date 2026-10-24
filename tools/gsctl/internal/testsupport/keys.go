@@ -4,6 +4,7 @@
 package testsupport
 
 import (
+	"context"
 	"crypto/ed25519"
 	"crypto/rand"
 	"crypto/x509"
@@ -133,7 +134,9 @@ type Signer struct {
 func (s Signer) PublicKey() trust.PublicKey { return s.Pub }
 
 // Sign implements trust.Signer.
-func (s Signer) Sign(message []byte) ([]byte, error) { return ed25519.Sign(s.Priv, message), nil }
+func (s Signer) Sign(_ context.Context, message []byte) ([]byte, error) {
+	return ed25519.Sign(s.Priv, message), nil
+}
 
 func writeJSON(t *testing.T, path string, v any) {
 	t.Helper()
