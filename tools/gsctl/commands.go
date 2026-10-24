@@ -12,6 +12,7 @@ import (
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/keyfiles"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/localbucket"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/pemkeys"
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/s3bucket"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/sysclock"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/yamlprofiles"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/app"
@@ -226,6 +227,7 @@ var (
 	_ ports.ProfileSource     = yamlprofiles.Source{}
 	_ ports.ChangedPaths      = changelist.File{}
 	_ ports.ObjectStore       = localbucket.Bucket{}
+	_ ports.ObjectStore       = s3bucket.Bucket{}
 	_ ports.MetadataReader    = fsrepo.Repo{}
 	_ ports.MetadataWriter    = fsrepo.Repo{}
 	_ ports.PackageReader     = fsrepo.Repo{}

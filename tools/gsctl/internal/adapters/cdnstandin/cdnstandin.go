@@ -1,7 +1,11 @@
-package localbucket
+// Package cdnstandin serves a distribution bucket read-only over HTTP, as
+// the CDN serves R2 (§9.1): `gsctl serve` puts it in front of the local
+// bucket or of an S3-compatible one (§15 D65, D85).
+package cdnstandin
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"net/http"
 	"strings"
@@ -10,12 +14,20 @@ import (
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/ports"
 )
 
-// Handler serves the bucket read-only, as the CDN serves R2 (§9.1): GET and
+// Store is what the stand-in reads: an object and the Cache-Control it was
+// stored with ("" when none). A key the store cannot address is
+// ports.ErrBadKey, an absent one ports.ErrNotFound; both answer 404.
+type Store interface {
+	GetObject(ctx context.Context, key string) ([]byte, error)
+	CacheControl(ctx context.Context, key string) (string, error)
+}
+
+// Handler serves store read-only, as the CDN serves R2 (§9.1): GET and
 // HEAD only, each object with its stored Cache-Control (REQ-DIST-005), JSON
 // metadata as application/json and packages as opaque bytes (never with a
 // Content-Encoding, so a client hashes exactly what was signed). There are
 // no directory listings and no request logging (REQ-DIST-006).
-func (b Bucket) Handler() http.Handler {
+func Handler(b Store) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet && r.Method != http.MethodHead {
 			w.Header().Set("Allow", "GET, HEAD")
@@ -25,7 +37,7 @@ func (b Bucket) Handler() http.Handler {
 		key := strings.TrimPrefix(r.URL.Path, "/")
 		data, err := b.GetObject(r.Context(), key)
 		switch {
-		case errors.Is(err, ports.ErrNotFound), errors.Is(err, ErrBadKey):
+		case errors.Is(err, ports.ErrNotFound), errors.Is(err, ports.ErrBadKey):
 			http.NotFound(w, r)
 			return
 		case err != nil:

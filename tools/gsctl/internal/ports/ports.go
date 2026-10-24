@@ -9,6 +9,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/distribution"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/profileset"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/trust"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/schema/tuf"
@@ -17,6 +18,10 @@ import (
 // ErrNotFound is wrapped by an adapter when the item asked for does not
 // exist (a role never signed, a key not provided).
 var ErrNotFound = errors.New("not found")
+
+// ErrBadKey is wrapped by a bucket adapter for an object key outside the
+// §9.1 layout (distribution.CheckKey).
+var ErrBadKey = distribution.ErrBadKey
 
 // ProfileSource lists the profile documents to compile, as JSON.
 type ProfileSource interface {
@@ -62,8 +67,8 @@ type StagedTargets interface {
 	ClearStaged(ctx context.Context, names []string) error
 }
 
-// ObjectStore is the distribution bucket (§9.1): a local directory now, R2
-// in S25 (§15 D65). GetObject returns ErrNotFound for an absent key;
+// ObjectStore is the distribution bucket (§9.1): a local directory
+// (localbucket) or R2 through its S3 API (s3bucket, §15 D65, D85). GetObject returns ErrNotFound for an absent key;
 // PutObject stores data with its Cache-Control and replaces an existing
 // object.
 type ObjectStore interface {

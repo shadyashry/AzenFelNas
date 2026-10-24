@@ -11,10 +11,13 @@ import (
 	"errors"
 	"fmt"
 	"io/fs"
+	"net/http"
 	"os"
 	"path"
 	"strings"
 
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/adapters/cdnstandin"
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/distribution"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/ports"
 )
 
@@ -27,7 +30,7 @@ const (
 
 // ErrBadKey is returned for a key that is not a relative slash path of
 // plain names.
-var ErrBadKey = errors.New("localbucket: bad object key")
+var ErrBadKey = ports.ErrBadKey
 
 // Bucket is a directory used as a bucket.
 type Bucket struct {
@@ -117,13 +120,11 @@ func writeAtomic(root *os.Root, name string, data []byte) error {
 // checkKey accepts relative slash paths of names that are not "." or "..",
 // do not start with a dot and hold no backslash.
 func checkKey(key string) error {
-	if key == "" || strings.ContainsAny(key, `\`) {
-		return fmt.Errorf("%w: %q", ErrBadKey, key)
-	}
-	for _, part := range strings.Split(key, "/") {
-		if part == "" || strings.HasPrefix(part, ".") {
-			return fmt.Errorf("%w: %q", ErrBadKey, key)
-		}
+	if err := distribution.CheckKey(key); err != nil {
+		return fmt.Errorf("localbucket: %w", err)
 	}
 	return nil
 }
+
+// Handler serves the bucket read-only through the CDN stand-in.
+func (b Bucket) Handler() http.Handler { return cdnstandin.Handler(b) }

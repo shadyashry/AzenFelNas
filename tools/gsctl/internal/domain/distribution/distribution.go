@@ -1,14 +1,17 @@
 // Package distribution holds the rules of the static distribution plane
 // (§9.1, ADR-009): object keys in the bucket, their cache policy
 // (REQ-DIST-005), and which metadata a publish may replace. Pure; the
-// bucket itself is a port (a local directory today, R2 in S25, §15 D65).
+// bucket itself is a port (a local directory or R2, §15 D65, D85).
 package distribution
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
+	"slices"
 	"strings"
 
+	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/profileset"
 	"github.com/samehamin/daily_muslim/tools/gsctl/internal/domain/trust"
 )
 
@@ -18,6 +21,24 @@ const (
 	CacheTimestamp = "public, max-age=300"
 	CacheMetadata  = "public, max-age=3600"
 )
+
+// ErrBadKey is returned for an object key outside the bucket layout.
+var ErrBadKey = errors.New("bad object key")
+
+// CheckKey accepts a relative slash path whose segments are non-empty and
+// do not start with a dot, and that holds no backslash, so a key never
+// reaches outside the bucket or a sidecar directory.
+func CheckKey(key string) error {
+	if key == "" || strings.ContainsAny(key, `\`) {
+		return fmt.Errorf("%w: %q", ErrBadKey, key)
+	}
+	for _, part := range strings.Split(key, "/") {
+		if part == "" || strings.HasPrefix(part, ".") {
+			return fmt.Errorf("%w: %q", ErrBadKey, key)
+		}
+	}
+	return nil
+}
 
 // MetadataKey is "{channel}/metadata/{role}.json".
 func MetadataKey(channel string, role trust.RoleName) string {
@@ -87,6 +108,21 @@ func checkNewer(role trust.RoleName, mine, theirs []byte) error {
 	}
 	if m.Sequence() <= t.Sequence() {
 		return fmt.Errorf("%w: %s %d is not after the published %d", trust.ErrSequenceRegression, role.FileName(), m.Sequence(), t.Sequence())
+	}
+	return nil
+}
+
+// ErrPromotion is returned for a promotion that skips or reverses the
+// channel order.
+var ErrPromotion = errors.New("promotion must go one channel up: dev → lab → beta → production")
+
+// CheckPromotion accepts a promotion to the channel directly above from
+// (§9.2: lab → beta → production, and dev → lab for the team).
+func CheckPromotion(from, to profileset.Channel) error {
+	order := []profileset.Channel{profileset.ChannelDev, profileset.ChannelLab, profileset.ChannelBeta, profileset.ChannelProduction}
+	i := slices.Index(order, from)
+	if i < 0 || i+1 >= len(order) || order[i+1] != to {
+		return fmt.Errorf("%w: %s → %s", ErrPromotion, from, to)
 	}
 	return nil
 }
