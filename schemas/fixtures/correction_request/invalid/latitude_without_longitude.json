@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "kind": "zone",
+  "payload": { "zoneId": "Africa/Cairo" },
+  "roundedLat": 30.04
+}

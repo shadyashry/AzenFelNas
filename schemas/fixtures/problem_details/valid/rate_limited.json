@@ -1,0 +1,7 @@
+{
+  "type": "/problems/rate-limited",
+  "title": "Too many corrections today",
+  "status": 429,
+  "detail": "The daily limit of corrections for this device has been reached; try again tomorrow.",
+  "traceId": "4bf92f3577b34da6a3ce929d0e0e4736"
+}

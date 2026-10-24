@@ -66,6 +66,27 @@ func RoundTrip[T any](t *testing.T, schema string) {
 	}
 }
 
+// InvalidFixtures returns the paths of schemas/fixtures/<schema>/invalid/*.json, sorted.
+func InvalidFixtures(t *testing.T, schema string) []string {
+	t.Helper()
+	files, err := filepath.Glob(filepath.Join(RepoRoot(t), "schemas", "fixtures", schema, "invalid", "*.json"))
+	if err != nil {
+		t.Fatalf("glob fixtures: %v", err)
+	}
+	slices.Sort(files)
+	return files
+}
+
+// RepoRoot returns the repository root (the nearest ancestor holding schemas/).
+func RepoRoot(t *testing.T) string {
+	t.Helper()
+	root, err := repoRoot()
+	if err != nil {
+		t.Fatal(err)
+	}
+	return root
+}
+
 // InvalidFixture returns the bytes of schemas/fixtures/<schema>/invalid/<name>.
 func InvalidFixture(t *testing.T, schema, name string) []byte {
 	t.Helper()

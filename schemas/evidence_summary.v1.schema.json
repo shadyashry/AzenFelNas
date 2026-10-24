@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/evidence_summary.v1.schema.json",
+  "title": "Evidence summary v1",
+  "description": "Response of GET /v1/evidence/profiles/{id} (DESIGN.md §9.3): the statistical agreement of one profile version with its published sources, plus links to them. Never raw authority tables: only per-event aggregates (§15 D86).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "profileId", "profileVersion", "generatedDay", "sources", "statistics"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "profileId": { "type": "string", "pattern": "^[a-z]{2}\\.[a-z0-9_]+\\.[a-z0-9_]+$|^engine\\.default$" },
+    "profileVersion": { "type": "string", "pattern": "^\\d{4}\\.\\d{1,2}\\.\\d+$" },
+    "generatedDay": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "url", "retrievedDay"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "url": { "type": "string", "format": "uri", "pattern": "^https://" },
+          "retrievedDay": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+        }
+      }
+    },
+    "statistics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["event", "sampleDays", "meanDeltaSeconds", "p95AbsDeltaSeconds", "maxAbsDeltaSeconds"],
+        "properties": {
+          "event": { "enum": ["IMSAK", "FAJR", "SUNRISE", "DHUHR", "ASR", "MAGHRIB", "ISHA"] },
+          "sampleDays": { "type": "integer", "minimum": 1 },
+          "meanDeltaSeconds": { "type": "number" },
+          "p95AbsDeltaSeconds": { "type": "number", "minimum": 0 },
+          "maxAbsDeltaSeconds": { "type": "number", "minimum": 0 }
+        }
+      }
+    }
+  }
+}

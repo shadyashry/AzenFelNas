@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/correction_request.v1.schema.json",
+  "title": "Correction request v1",
+  "description": "Body of POST /v1/feedback/corrections (DESIGN.md §9.3, §19.6): an explicit user correction with no identity (REQ-API-006). Coordinates are rounded to 2 decimals on the device; the server rejects more precision (REQ-PRIV-001, §15 D86). Unknown keys are rejected (REQ-API-005).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "payload"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "enum": ["zone", "profile", "hijri", "other"] },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "calculationId": { "type": "string", "pattern": "^[0-9a-f]{16,64}$" },
+        "profileId": { "type": "string", "pattern": "^[a-z]{2}\\.[a-z0-9_]+\\.[a-z0-9_]+$|^engine\\.default$" },
+        "zoneId": { "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+){0,2}$", "maxLength": 64 },
+        "event": { "enum": ["IMSAK", "FAJR", "SUNRISE", "DHUHR", "ASR", "MAGHRIB", "ISHA"] },
+        "localDay": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "expectedLocalTime": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" },
+        "hijriDate": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "note": { "type": "string", "minLength": 1, "maxLength": 500 }
+      }
+    },
+    "country": { "type": "string", "pattern": "^[A-Z]{2}$" },
+    "roundedLat": { "type": "number", "minimum": -90, "maximum": 90 },
+    "roundedLon": { "type": "number", "minimum": -180, "maximum": 180 }
+  },
+  "dependentRequired": {
+    "roundedLat": ["roundedLon"],
+    "roundedLon": ["roundedLat"]
+  }
+}

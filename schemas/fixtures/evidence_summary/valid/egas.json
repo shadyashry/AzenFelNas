@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "profileId": "eg.egas.national",
+  "profileVersion": "2026.1.0",
+  "generatedDay": "2026-10-20",
+  "sources": [
+    { "title": "Published monthly timetable (sample source)", "url": "https://example.org/timetable", "retrievedDay": "2026-10-01" }
+  ],
+  "statistics": [
+    { "event": "FAJR", "sampleDays": 30, "meanDeltaSeconds": -12.5, "p95AbsDeltaSeconds": 40, "maxAbsDeltaSeconds": 58 },
+    { "event": "ISHA", "sampleDays": 30, "meanDeltaSeconds": 3.1, "p95AbsDeltaSeconds": 22, "maxAbsDeltaSeconds": 31 }
+  ]
+}

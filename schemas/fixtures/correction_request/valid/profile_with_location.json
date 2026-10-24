@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "kind": "profile",
+  "payload": {
+    "calculationId": "3f9a0c1d2e4b5a6c",
+    "profileId": "eg.egas.national",
+    "event": "FAJR",
+    "localDay": "2026-10-24",
+    "expectedLocalTime": "04:41",
+    "note": "The mosque's Fajr is a few minutes later."
+  },
+  "country": "EG",
+  "roundedLat": 30.04,
+  "roundedLon": 31.24
+}

@@ -9,7 +9,10 @@ JSON Schema (draft 2020-12) is the contract for every JSON document that crosses
 | `snapshot.v1` | Appendix I | Dart `dm_contracts` · Kotlin `athan-core` · Swift `AthanKit` |
 | `event_log.v1` | Appendix J | Dart `dm_contracts` · Kotlin `athan-core` · Swift `AthanKit` |
 | `tuf_metadata.v1` | §9.1, Appendix C | Dart `dm_packages` · Go `tools/gsctl/internal/schema/tuf` |
-| `telemetry_aggregate.v1` | Appendix L | Dart `dm_contracts` · Go `services/control-plane/internal/schema/telemetry` |
+| `telemetry_aggregate.v1` | Appendix L | Dart `dm_contracts` · Go `services/control-plane/internal/schema/telemetry` (validated by the API since S26) |
+| `correction_request.v1`, `correction_receipt.v1` | §9.3 (`POST /v1/feedback/corrections`), §15 D86 | Go `services/control-plane/internal/schema/api` (S26) |
+| `problem_details.v1` | §9.3, RFC 9457 (every control-plane error) | Go `services/control-plane/internal/schema/api` (S26) |
+| `evidence_summary.v1` | §9.3 (`GET /v1/evidence/profiles/{id}`), §15 D86 | Go `services/control-plane/internal/schema/api` (S26) |
 | `calculation_trace.v1` | Appendix M, §6.4 ¶11 | Dart `geo_salah_core` · Python `lab` |
 | `bench_request.v1`, `bench_failure.v1` | §6.1, §9.4, §15 D29 (engine bench JSONL contract) | Python `lab` · Dart `geo_salah_core` bench CLI (S05, extended S06) |
 | `benchmark_cities.v1` | Appendix H, §15 D30 (`lab/benchmarks/cities.v1.json`) | Python `lab` |

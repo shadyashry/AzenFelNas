@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "profileId": "eg.egas.national",
+  "profileVersion": "2026.1.0",
+  "generatedDay": "2026-10-20",
+  "sources": [{ "title": "x", "url": "http://example.org/t", "retrievedDay": "2026-10-01" }],
+  "statistics": []
+}
