@@ -18,16 +18,19 @@ for schema in *.schema.json; do
   dir=fixtures/$name
   valid=("$dir"/valid/*.json)
   invalid=("$dir"/invalid/*.json)
+  # Cross-file "$ref"s (e.g. diagnostic_bundle -> event_log) resolve against the sibling schema's $id.
+  refs=()
+  for r in $(grep -o '"\$ref": "[a-z_]*\.v1\.schema\.json"' "$schema" | sed 's/.*: "//; s/"$//' | sort -u); do refs+=(-r "$r"); done
   if [ ${#valid[@]} -eq 0 ]; then
     echo "FAIL $schema: no valid fixtures in $dir/valid"; status=1; continue
   fi
-  $AJV compile "${OPTS[@]}" -s "$schema" >/dev/null || { echo "FAIL $schema: does not compile"; status=1; continue; }
+  $AJV compile "${OPTS[@]}" "${refs[@]}" -s "$schema" >/dev/null || { echo "FAIL $schema: does not compile"; status=1; continue; }
   for f in "${valid[@]}"; do
-    if $AJV validate "${OPTS[@]}" -s "$schema" -d "$f" >/dev/null 2>&1; then echo "ok   valid   $f"
-    else echo "FAIL valid   $f"; $AJV validate "${OPTS[@]}" -s "$schema" -d "$f" || true; status=1; fi
+    if $AJV validate "${OPTS[@]}" "${refs[@]}" -s "$schema" -d "$f" >/dev/null 2>&1; then echo "ok   valid   $f"
+    else echo "FAIL valid   $f"; $AJV validate "${OPTS[@]}" "${refs[@]}" -s "$schema" -d "$f" || true; status=1; fi
   done
   for f in "${invalid[@]}"; do
-    if $AJV validate "${OPTS[@]}" -s "$schema" -d "$f" >/dev/null 2>&1; then echo "FAIL invalid $f (was accepted)"; status=1
+    if $AJV validate "${OPTS[@]}" "${refs[@]}" -s "$schema" -d "$f" >/dev/null 2>&1; then echo "FAIL invalid $f (was accepted)"; status=1
     else echo "ok   invalid $f"; fi
   done
 done

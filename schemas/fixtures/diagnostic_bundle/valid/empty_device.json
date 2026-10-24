@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "createdUtcMs": 0,
+  "files": {
+    "events.jsonl": [],
+    "health.json": { "path": "unavailable", "state": "unknown", "reasons": [], "probes": [], "evaluatedAtUtcMs": 0 },
+    "plan_redacted.json": { "status": "notApplied" },
+    "packages.json": [],
+    "device.json": { "model": null, "os": "ios", "appVersion": "0.1.0" },
+    "context.json": null
+  }
+}

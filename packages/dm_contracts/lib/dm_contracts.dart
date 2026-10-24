@@ -2,12 +2,20 @@
 /// Swift (DESIGN.md §7.8).
 ///
 /// Flutter package. Holds the plan, snapshot, event-log, telemetry, gazetteer
-/// and audio-manifest wire models since S02; pigeon contracts arrive in S20.
+/// and audio-manifest wire models since S02; pigeon contracts arrive in S20;
+/// the diagnostic-bundle models in S24.
 library;
 
 export 'package:dm_contracts/src/audio/athan_audio_manifest.dart';
 export 'package:dm_contracts/src/audio/athan_ios_clip.dart';
 export 'package:dm_contracts/src/audio/athan_sound.dart';
+export 'package:dm_contracts/src/diagnostics/diagnostic_bundle.dart';
+export 'package:dm_contracts/src/diagnostics/diagnostic_context.dart';
+export 'package:dm_contracts/src/diagnostics/diagnostic_device.dart';
+export 'package:dm_contracts/src/diagnostics/diagnostic_files.dart';
+export 'package:dm_contracts/src/diagnostics/diagnostic_health.dart';
+export 'package:dm_contracts/src/diagnostics/diagnostic_package.dart';
+export 'package:dm_contracts/src/diagnostics/diagnostic_plan.dart';
 export 'package:dm_contracts/src/event_log/event_code_converter.dart';
 export 'package:dm_contracts/src/event_log/event_log_attrs.dart';
 export 'package:dm_contracts/src/event_log/event_log_entry.dart';

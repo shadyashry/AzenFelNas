@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "createdUtcMs": 1792800000000,
+  "files": {
+    "events.jsonl": [
+      {
+        "utcMs": 1792790000000,
+        "level": "INFO",
+        "code": "APP_START",
+        "attrs": {}
+      },
+      {
+        "utcMs": 1792790001000,
+        "level": "INFO",
+        "code": "PKG_ACTIVATED",
+        "attrs": {
+          "packageType": "gazetteer",
+          "version": "2026.10.1"
+        }
+      }
+    ],
+    "health.json": {
+      "path": "androidExact",
+      "state": "notReady",
+      "reasons": [
+        "stalePlan"
+      ],
+      "probes": [
+        {
+          "name": "exactAlarm",
+          "positive": true
+        },
+        {
+          "name": "planFresh",
+          "positive": false
+        },
+        {
+          "name": "channelAudible",
+          "positive": null
+        }
+      ],
+      "evaluatedAtUtcMs": 1792799999000
+    },
+    "plan_redacted.json": {
+      "status": "notApplied"
+    },
+    "packages.json": [
+      {
+        "type": "gazetteer",
+        "version": "2026.10.1",
+        "sequence": 3
+      }
+    ],
+    "device.json": {
+      "model": null,
+      "os": "android",
+      "appVersion": "0.1.0",
+      "deviceId": "a1b2c3"
+    },
+    "context.json": {
+      "kind": "manual",
+      "source": "gazetteer",
+      "latE2": 3120,
+      "lonE2": 2992,
+      "zoneId": "Africa/Cairo",
+      "countryCode": "EG"
+    }
+  }
+}

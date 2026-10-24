@@ -41,6 +41,31 @@ void main() {
     ],
     encode: (places) => [for (final place in places) place.toJson()],
   );
+  roundTripValidFixtures<DiagnosticBundle>(
+    'diagnostic_bundle',
+    decode: (json) => DiagnosticBundle.fromJson(asJsonObject(json)),
+    encode: (model) => model.toJson(),
+  );
+
+  for (final name in [
+    'REQ-PRIV-005_lat_key',
+    'REQ-PRIV-005_context_label',
+    'REQ-PRIV-001_device_identifier',
+    'REQ-PRIV-001_event_with_coordinate',
+  ]) {
+    test('$name: diagnostic_bundle model rejects the invalid fixture', () {
+      final json = jsonDecode(
+        File(
+          '../../schemas/fixtures/diagnostic_bundle/invalid/$name.json',
+        ).readAsStringSync(),
+      );
+
+      expect(
+        () => DiagnosticBundle.fromJson(asJsonObject(json)),
+        throwsA(isA<CheckedFromJsonException>()),
+      );
+    });
+  }
 
   test('schedule_plan model rejects the invalid fixture unknown_key.json', () {
     final json = jsonDecode(

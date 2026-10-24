@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dailymuslim.app/schemas/diagnostic_bundle.v1.schema.json",
+  "title": "Diagnostic bundle v1",
+  "description": "The user-initiated, redacted diagnostic bundle of DESIGN.md §7.2 (REQ-PRIV-005, §15 D84). One JSON document whose `files` members are named after the §7.2 zip entries. Coordinates exist only as whole hundredths of a degree (latE2/lonE2), so a coordinate with more than 2 decimals cannot be expressed (REQ-PRIV-001); no member holds an identifier.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "createdUtcMs", "files"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "createdUtcMs": { "type": "integer", "minimum": 0 },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["events.jsonl", "health.json", "plan_redacted.json", "packages.json", "device.json", "context.json"],
+      "properties": {
+        "events.jsonl": {
+          "description": "The event-log ring, oldest first; each item is one event_log.v1 line.",
+          "type": "array",
+          "items": { "$ref": "event_log.v1.schema.json" }
+        },
+        "health.json": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "state", "reasons", "probes", "evaluatedAtUtcMs"],
+          "properties": {
+            "path": { "enum": ["androidExact", "androidInexact", "iosAlarmKit", "iosNotification", "unavailable"] },
+            "state": { "enum": ["ready", "limited", "notReady", "unknown"] },
+            "reasons": { "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z]{1,64}$" } },
+            "probes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name", "positive"],
+                "properties": {
+                  "name": { "type": "string", "pattern": "^[A-Za-z_]{1,64}$" },
+                  "positive": { "type": ["boolean", "null"] }
+                }
+              }
+            },
+            "evaluatedAtUtcMs": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "plan_redacted.json": {
+          "description": "The applied SchedulePlan without texts or sounds; `notApplied` until a plan has been handed to the native layer.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status"],
+          "properties": {
+            "status": { "enum": ["notApplied", "applied"] },
+            "generation": { "type": "integer", "minimum": 0 },
+            "entryCount": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "packages.json": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "version", "sequence"],
+            "properties": {
+              "type": { "type": "string", "pattern": "^[a-z_]{1,32}$" },
+              "version": { "type": "string", "pattern": "^(\\d{4}\\.\\d{1,2}\\.\\d+|\\d{4}[a-z]|\\d+\\.\\d+\\.\\d+)$" },
+              "sequence": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "device.json": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["model", "os", "appVersion"],
+          "properties": {
+            "model": { "description": "Device model; null until a source exists (§15 D84).", "type": ["string", "null"], "pattern": "^[A-Za-z0-9 ._-]{1,64}$" },
+            "os": { "enum": ["android", "ios", "linux", "macos", "windows", "fuchsia"] },
+            "appVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" }
+          }
+        },
+        "context.json": {
+          "description": "The active location context at 0.01° (REQ-PRIV-005), without its label; null when there is none.",
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["kind", "source", "latE2", "lonE2", "zoneId", "countryCode"],
+          "properties": {
+            "kind": { "enum": ["current", "pinned", "manual"] },
+            "source": { "type": "string", "pattern": "^[a-z_]{1,32}$" },
+            "latE2": { "type": "integer", "minimum": -9000, "maximum": 9000 },
+            "lonE2": { "type": "integer", "minimum": -18000, "maximum": 18000 },
+            "zoneId": { "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$", "maxLength": 64 },
+            "countryCode": { "type": ["string", "null"], "pattern": "^[A-Z]{2}$" }
+          }
+        }
+      }
+    }
+  }
+}
