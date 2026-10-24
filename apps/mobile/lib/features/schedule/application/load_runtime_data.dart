@@ -14,6 +14,9 @@ import 'package:geo_salah_profiles/geo_salah_profiles.dart';
 /// (the bundled seeds of REQ-PKG-003 should have provided it); a profile set
 /// holding a profile not allowed on [_channel] is `PROFILE_INVALID`
 /// (Appendix E), so a release build never calculates with draft data.
+///
+/// A `candidate` file is read in place of its type's active one, so a
+/// rollback can be planned before its pointer flips (§19.4, §15 D87).
 final class LoadRuntimeData {
   /// Loads through the catalog and payload loader for [_channel].
   const new({
@@ -26,12 +29,13 @@ final class LoadRuntimeData {
   final LoadPackagePayload _load;
   final ReleaseChannel _channel;
 
-  /// The runtime data, or the first failure.
-  Future<Result<RuntimeData, Failure>> call() async {
-    final tzdata = await _payload(PackageType.tzdata);
-    final zones = await _payload(PackageType.tzPolygons);
-    final countries = await _payload(PackageType.countryPolygons);
-    final profiles = await _payload(PackageType.prayerProfiles);
+  /// The runtime data, or the first failure; [candidate] replaces the
+  /// active file of its type.
+  Future<Result<RuntimeData, Failure>> call({PackageFile? candidate}) async {
+    final tzdata = await _payload(PackageType.tzdata, candidate);
+    final zones = await _payload(PackageType.tzPolygons, candidate);
+    final countries = await _payload(PackageType.countryPolygons, candidate);
+    final profiles = await _payload(PackageType.prayerProfiles, candidate);
     switch ((tzdata, zones, countries, profiles)) {
       case (
         Ok(value: (final tzVersion, final tzBytes)),
@@ -95,7 +99,13 @@ final class LoadRuntimeData {
 
   Future<Result<(String, Uint8List), Failure>> _payload(
     PackageType type,
+    PackageFile? candidate,
   ) async {
+    if (candidate != null && candidate.type == type) {
+      return (await _load(candidate)).map(
+        (bytes) => (candidate.version, Uint8List.fromList(bytes)),
+      );
+    }
     final active = await _catalog.active(type);
     if (active == null) {
       return Err(PackageFailure.storage('no active ${type.wire} package'));
