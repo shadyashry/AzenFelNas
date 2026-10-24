@@ -1,6 +1,7 @@
 import 'package:daily_muslim/app/app_router.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
+import 'package:daily_muslim/features/shell/presentation/shell_providers.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ final class _DailyMuslimAppState extends ConsumerState<DailyMuslimApp> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(packageSyncProvider, (_, _) {});
     final locale = ref.watch(localeSettingProvider).value;
     final mode = ref.watch(themeModeSettingProvider).value;
     final status = locale == LocaleSetting.ar

@@ -14,6 +14,10 @@ final class HttpCdnChannel implements FetchChannel {
   new(String channel, this._client)
     : _base = Uri.https('cdn.dailymuslim.app', '/${_checked(channel)}/');
 
+  /// The [channel] on the CDN with this adapter's own [HttpClient], so no
+  /// other file opens a connection (REQ-PRIV-006).
+  new cdn(String channel) : this(channel, HttpClient());
+
   /// A plain-HTTP server on the loopback [port], for adapter tests only.
   @visibleForTesting
   new loopback(int port, String channel, this._client)

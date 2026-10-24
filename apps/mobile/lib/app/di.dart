@@ -25,8 +25,12 @@ import 'package:daily_muslim/features/onboarding/application/complete_first_run.
 import 'package:daily_muslim/features/onboarding/presentation/onboarding_controller.dart';
 import 'package:daily_muslim/features/packages/application/importing_apply_package.dart';
 import 'package:daily_muslim/features/packages/data/asset_bundled_seeds.dart';
+import 'package:daily_muslim/features/packages/data/assume_metered_network.dart';
+import 'package:daily_muslim/features/packages/data/dev_root_keys.dart';
 import 'package:daily_muslim/features/packages/data/drift_package_catalog.dart';
+import 'package:daily_muslim/features/packages/data/drift_package_trust_store.dart';
 import 'package:daily_muslim/features/packages/data/event_log_package_events.dart';
+import 'package:daily_muslim/features/packages/data/http_cdn_channel.dart';
 import 'package:daily_muslim/features/packages/data/io_gzip_inflate.dart';
 import 'package:daily_muslim/features/packages/data/io_package_blob_store.dart';
 import 'package:daily_muslim/features/packages/data/package_payload_checks.dart';
@@ -46,6 +50,7 @@ import 'package:daily_muslim/features/settings/presentation/settings_providers.d
 import 'package:daily_muslim/features/shell/application/start_app.dart';
 import 'package:daily_muslim/features/shell/data/event_log_app_events.dart';
 import 'package:daily_muslim/features/shell/presentation/shell_providers.dart';
+import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:daily_muslim/features/storage/data/drift_event_log.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
 import 'package:dm_civil_time/dm_civil_time.dart';
@@ -55,6 +60,7 @@ import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/misc.dart';
+import 'package:geo_salah_profiles/geo_salah_profiles.dart';
 
 /// The composition root (§7.1, §17.1 D): the only place adapters meet use
 /// cases. Tests pass their own assets, clock and in-memory databases.
@@ -84,17 +90,7 @@ abstract final class AppBindings {
         catalog: catalog,
         app: AppBuild.compat,
         checkPayload: const PackagePayloadChecks(),
-        activate: ActivateStaged(
-          read: catalog,
-          write: catalog,
-          apply: ImportingApplyPackage(
-            ImportGazetteer(
-              const JsonGazetteerPayloadDecoder(),
-              DriftGazetteerStore(databases.dm),
-            ),
-          ),
-          events: EventLogPackageEvents(eventLog.call),
-        ),
+        activate: _activate(databases.dm, eventLog),
       ),
       collectGarbage: CollectPackageGarbage(
         read: catalog,
@@ -112,6 +108,16 @@ abstract final class AppBindings {
         AssetAttributions(assets.loadString),
       ),
       startAppProvider.overrideWithValue(startApp),
+      syncPackagesProvider.overrideWithValue(switch (_embeddedRoot()) {
+        final root? => syncPackages(
+          db: databases.dm,
+          eventLog: eventLog,
+          blobRoot: blobRoot,
+          fetch: HttpCdnChannel.cdn(AppBuild.channel.name),
+          embeddedRoot: root,
+        ),
+        null => null,
+      }),
       clockProvider.overrideWithValue(clock),
       loadRuntimeDataProvider.overrideWithValue(
         LoadRuntimeData(
@@ -165,6 +171,59 @@ abstract final class AppBindings {
         const ExportDiagnosticBundle(ClipboardDiagnosticText()),
       ),
     ];
+  }
+
+  /// The package sync of §7.4 against [fetch]: the CDN in the app, a
+  /// loopback stand-in in the lab end-to-end test (§15 D85).
+  static SyncPackages syncPackages({
+    required DmDatabase db,
+    required DriftEventLog eventLog,
+    required Directory blobRoot,
+    required FetchChannel fetch,
+    required TrustedRoot embeddedRoot,
+  }) {
+    final catalog = DriftPackageCatalog(db);
+    return SyncPackages(
+      network: const AssumeMeteredNetwork(),
+      trust: DriftPackageTrustStore(db),
+      fetch: fetch,
+      verify: const VerifyMetadataChain(CryptographyEd25519()),
+      embeddedRoot: embeddedRoot,
+      catalog: catalog,
+      stage: StageTarget(
+        compatibility: CheckCompatibility(AppBuild.compat),
+        fetch: fetch,
+        inflate: const IoGzipInflate(),
+        checkPayload: const PackagePayloadChecks(),
+        blobs: IoPackageBlobStore(blobRoot),
+        catalog: catalog,
+      ),
+      activate: _activate(db, eventLog),
+      events: EventLogPackageEvents(eventLog.call),
+    );
+  }
+
+  /// The root keys this channel's binary embeds; none for beta and
+  /// production until the S27 ceremony keys exist.
+  static TrustedRoot? _embeddedRoot() => switch (AppBuild.channel) {
+    ReleaseChannel.dev ||
+    ReleaseChannel.lab => TrustedRoot.fromRootKeysJson(devRootKeysJson),
+    ReleaseChannel.beta || ReleaseChannel.production => null,
+  };
+
+  static ActivateStaged _activate(DmDatabase db, DriftEventLog eventLog) {
+    final catalog = DriftPackageCatalog(db);
+    return ActivateStaged(
+      read: catalog,
+      write: catalog,
+      apply: ImportingApplyPackage(
+        ImportGazetteer(
+          const JsonGazetteerPayloadDecoder(),
+          DriftGazetteerStore(db),
+        ),
+      ),
+      events: EventLogPackageEvents(eventLog.call),
+    );
   }
 
   static ContextUseCases _contextUseCases({

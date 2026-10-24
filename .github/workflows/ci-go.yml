@@ -12,6 +12,11 @@ on:
       - packages/geo_salah_core/bench/profiles/**
       - go.work
       - .golangci.yml
+      # the S25 lab end-to-end job runs the app's sync wiring (§15 D85).
+      - apps/mobile/lib/app/di.dart
+      - apps/mobile/lib/features/packages/**
+      - apps/mobile/test/features/packages/lab_sync_end_to_end_test.dart
+      - packages/dm_packages/**
       - .github/workflows/ci-go.yml
   push:
     branches: [main]
@@ -57,3 +62,39 @@ jobs:
       - name: go test -race
         working-directory: ${{ matrix.module }}
         run: go test -race ./...
+
+  lab-e2e:
+    # S25 done-test (§13): gsctl releases lab twice (the second on a fresh runner after pull) into an S3 bucket,
+    # gsctl serve fronts it, and the app's own sync wiring activates the newest profiles package.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: 1.27.3
+          cache-dependency-path: tools/gsctl/go.mod
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: 3.47.7
+          channel: stable
+          cache: true
+      - name: S3 test server with an empty bucket (SeaweedFS, §15 D85)
+        run: |
+          mkdir -p "$RUNNER_TEMP/s3cfg"
+          printf '%s' '{"identities":[{"name":"gsctl","credentials":[{"accessKey":"gsctltest","secretKey":"gsctltestsecret"}],"actions":["Admin","Read","Write","List"]}]}' > "$RUNNER_TEMP/s3cfg/s3.json"
+          docker run -d --name s3 -p 127.0.0.1:8333:8333 -v "$RUNNER_TEMP/s3cfg:/cfg" chrislusf/seaweedfs:4.00 \
+            server -dir=/data -master.volumePreallocate=false -master.volumeSizeLimitMB=16 -volume.max=200 -s3 -s3.config=/cfg/s3.json
+          for _ in $(seq 60); do curl -s -o /dev/null http://127.0.0.1:8333/ && break; sleep 1; done
+          sleep 5
+          echo 's3.bucket.create -name dm-dist-e2e' | docker exec -i s3 weed shell
+      - name: Lab end to end
+        env:
+          GSCTL_E2E_BUCKET: s3://dm-dist-e2e
+          DM_S3_ENDPOINT: 127.0.0.1:8333
+          DM_S3_ACCESS_KEY_ID: gsctltest
+          DM_S3_SECRET_ACCESS_KEY: gsctltestsecret
+          DM_S3_INSECURE: '1'
+        run: |
+          dart pub get
+          tools/gsctl/scripts/lab-e2e.sh
