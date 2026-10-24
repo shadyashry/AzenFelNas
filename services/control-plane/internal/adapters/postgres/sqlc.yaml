@@ -1,0 +1,22 @@
+# sqlc 1.31.1 (§15 D86): `go generate ./internal/adapters/postgres` regenerates db/; CI checks it is current.
+version: "2"
+sql:
+  - engine: postgresql
+    schema: migrations
+    queries: queries
+    gen:
+      go:
+        package: db
+        out: db
+        sql_package: pgx/v5
+        emit_methods_with_db_argument: false
+        overrides:
+          - db_type: uuid
+            go_type: string
+          - db_type: pg_catalog.numeric
+            go_type:
+              type: float64
+              pointer: true
+            nullable: true
+          - db_type: pg_catalog.numeric
+            go_type: float64
