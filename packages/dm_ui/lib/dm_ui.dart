@@ -38,6 +38,7 @@ export 'package:dm_ui/src/theme/dm_theme.dart';
 export 'package:dm_ui/src/tokens/dm_scales.dart';
 export 'package:dm_ui/src/tokens/hour_light.dart';
 export 'package:dm_ui/src/tokens/rawdah_palette.dart';
+export 'package:dm_ui/src/tokens/rawdah_scheme.dart';
 export 'package:dm_ui/src/tokens/sky_phase_tokens.dart';
 export 'package:dm_ui/src/tokens/sky_tokens.dart';
 export 'package:dm_ui/src/tokens/static_palette.dart';

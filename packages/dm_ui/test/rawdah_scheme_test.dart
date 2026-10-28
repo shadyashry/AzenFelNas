@@ -1,0 +1,67 @@
+import 'package:dm_ui/dm_ui.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  group('RawdahScheme (§15 D89)', () {
+    for (final (name, r) in [
+      ('pearl', RawdahScheme.light),
+      ('Nabawi Night', RawdahScheme.night),
+    ]) {
+      test('REQ-UX-010 $name text roles meet 4.5:1 on panel, ground and the '
+          'row wash', () {
+        for (final background in [r.panel, r.ground]) {
+          for (final text in [r.ink, r.inkMuted, r.primary, r.error]) {
+            expect(
+              WcagContrast.ratio(text, background),
+              greaterThanOrEqualTo(WcagContrast.textMinimum),
+            );
+          }
+        }
+        // The next prayer's name and time sit on the wash.
+        expect(
+          WcagContrast.ratio(r.primary, r.wash),
+          greaterThanOrEqualTo(WcagContrast.textMinimum),
+        );
+      });
+
+      test('REQ-UX-010 $name gold marks meet 3:1 on the panel', () {
+        expect(WcagContrast.ratio(r.accent, r.panel), greaterThanOrEqualTo(3));
+      });
+    }
+
+    testWidgets('the theme carries the scheme of its brightness', (
+      tester,
+    ) async {
+      late RawdahScheme light;
+      late RawdahScheme dark;
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: DmTheme.of(Brightness.light, StatusLocale.ar),
+          home: Builder(
+            builder: (context) {
+              light = RawdahScheme.of(context);
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: DmTheme.of(Brightness.dark, StatusLocale.ar),
+          home: Builder(
+            builder: (context) {
+              dark = RawdahScheme.of(context);
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+      // MaterialApp animates between themes; read the settled one.
+      await tester.pumpAndSettle();
+      expect(light.ground, RawdahScheme.light.ground);
+      expect(dark.ground, RawdahScheme.night.ground);
+      expect(dark.ink, RawdahScheme.night.ink);
+    });
+  });
+}

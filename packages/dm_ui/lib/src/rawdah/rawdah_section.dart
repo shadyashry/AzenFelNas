@@ -1,6 +1,7 @@
 import 'package:dm_ui/src/rawdah/ornament_paths.dart';
 import 'package:dm_ui/src/theme/dm_theme.dart';
 import 'package:dm_ui/src/tokens/rawdah_palette.dart';
+import 'package:dm_ui/src/tokens/rawdah_scheme.dart';
 import 'package:flutter/material.dart';
 
 /// A group of related rows on a content page (§15 D89): an Amiri heading
@@ -32,7 +33,6 @@ final class RawdahSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final light = theme.brightness == Brightness.light;
     final heading = title;
     final note = footnote;
     return Padding(
@@ -65,11 +65,11 @@ final class RawdahSection extends StatelessWidget {
             ),
           // A Material surface, so rows keep their ink ripples.
           Material(
-            color: light ? const Color(0xFFFFFEFA) : theme.colorScheme.surface,
+            color: RawdahScheme.of(context).panel,
             clipBehavior: Clip.antiAlias,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
-              side: const BorderSide(color: RawdahPalette.hairline),
+              side: BorderSide(color: RawdahScheme.of(context).hairline),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:dm_ui/src/rawdah/ornament_paths.dart';
 import 'package:dm_ui/src/theme/dm_theme.dart';
 import 'package:dm_ui/src/tokens/rawdah_palette.dart';
+import 'package:dm_ui/src/tokens/rawdah_scheme.dart';
 import 'package:flutter/widgets.dart';
 
 /// The Qibla as an eight-point star compass (§6.6, §15 D89): a gilded
@@ -47,6 +48,7 @@ final class QiblaDial extends StatelessWidget {
           headingDeg: headingDeg,
           aligned: aligned,
           cardinals: cardinals,
+          scheme: RawdahScheme.of(context),
         ),
       ),
     ),
@@ -59,12 +61,14 @@ final class _DialPainter extends CustomPainter {
     required this.headingDeg,
     required this.aligned,
     required this.cardinals,
+    required this.scheme,
   });
 
   final double bearingDeg;
   final double? headingDeg;
   final bool aligned;
   final (String, String, String, String) cardinals;
+  final RawdahScheme scheme;
 
   static double _rad(double deg) => deg * math.pi / 180;
 
@@ -77,7 +81,7 @@ final class _DialPainter extends CustomPainter {
       ..drawCircle(
         c,
         r,
-        Paint()..color = RawdahPalette.emerald.withValues(alpha: 0.06),
+        Paint()..color = scheme.primary.withValues(alpha: 0.06),
       )
       ..drawCircle(
         c,
@@ -108,10 +112,10 @@ final class _DialPainter extends CustomPainter {
 
   void _ticks(Canvas canvas, double r) {
     final minor = Paint()
-      ..color = RawdahPalette.goldDeep.withValues(alpha: 0.55)
+      ..color = scheme.accent.withValues(alpha: 0.55)
       ..strokeWidth = 1;
     final major = Paint()
-      ..color = RawdahPalette.goldDeep
+      ..color = scheme.accent
       ..strokeWidth = 1.6;
     for (var deg = 0; deg < 360; deg += 5) {
       final a = _rad(deg.toDouble());
@@ -137,7 +141,7 @@ final class _DialPainter extends CustomPainter {
             fontFamily: DmTheme.naskhFamily,
             fontSize: 17,
             fontWeight: deg == 0 ? FontWeight.w700 : FontWeight.w400,
-            color: deg == 0 ? RawdahPalette.carpetRed : RawdahPalette.emerald,
+            color: deg == 0 ? scheme.error : scheme.primary,
           ),
         ),
         textDirection: TextDirection.rtl,
@@ -156,7 +160,7 @@ final class _DialPainter extends CustomPainter {
     canvas
       ..drawPath(
         star,
-        Paint()..color = RawdahPalette.emerald.withValues(alpha: 0.08),
+        Paint()..color = scheme.primary.withValues(alpha: 0.08),
       )
       ..drawPath(
         star,
@@ -198,7 +202,7 @@ final class _DialPainter extends CustomPainter {
             colors: [RawdahPalette.goldDeep, RawdahPalette.goldLight],
           ).createShader(Rect.fromPoints(Offset.zero, tip)),
       )
-      ..drawCircle(Offset.zero, 7, Paint()..color = RawdahPalette.emerald)
+      ..drawCircle(Offset.zero, 7, Paint()..color = scheme.primary)
       ..drawCircle(Offset.zero, 3, Paint()..color = RawdahPalette.goldLight)
       ..save()
       ..translate(tip.dx, tip.dy)
@@ -228,8 +232,7 @@ final class _DialPainter extends CustomPainter {
         ..lineTo(top.dx - 8, top.dy - 4)
         ..lineTo(top.dx + 8, top.dy - 4)
         ..close(),
-      Paint()
-        ..color = aligned ? RawdahPalette.goldLight : RawdahPalette.emerald,
+      Paint()..color = aligned ? RawdahPalette.goldLight : scheme.primary,
     );
   }
 
@@ -238,5 +241,6 @@ final class _DialPainter extends CustomPainter {
       old.bearingDeg != bearingDeg ||
       old.headingDeg != headingDeg ||
       old.aligned != aligned ||
-      old.cardinals != cardinals;
+      old.cardinals != cardinals ||
+      old.scheme != scheme;
 }

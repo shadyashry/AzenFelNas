@@ -253,15 +253,16 @@ final class _EventCard extends StatelessWidget {
         if (time.flags.contains(flag)) flagText(l, flag),
     ];
     final text = Theme.of(context).textTheme;
+    final rawdah = RawdahScheme.of(context);
     // A gold-hairline panel per prayer; the one the user tapped is framed in
     // gilded gold on the Rawdah wash (§15 D89).
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 6, 16, 6),
       decoration: BoxDecoration(
-        color: focused ? RawdahPalette.sage : const Color(0xFFFFFEFA),
+        color: focused ? rawdah.wash : rawdah.panel,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: focused ? RawdahPalette.gold : RawdahPalette.hairline,
+          color: focused ? RawdahPalette.gold : rawdah.hairline,
           width: focused ? 2 : 1,
         ),
       ),

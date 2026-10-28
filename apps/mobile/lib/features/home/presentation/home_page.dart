@@ -30,7 +30,7 @@ final class HomePage extends ConsumerWidget {
     return Scaffold(
       extendBody: true,
       body: GirihBackdrop(
-        ground: RawdahPalette.pearl,
+        ground: RawdahScheme.of(context).ground,
         ink: RawdahPalette.gold,
         child: switch (ref.watch(homeStateProvider)) {
           HomeLoading() => const _Loading(),
@@ -133,10 +133,13 @@ final class _Link extends StatelessWidget {
   Widget build(BuildContext context) => ListTile(
     dense: true,
     contentPadding: const EdgeInsetsDirectional.symmetric(horizontal: 22),
-    leading: Icon(icon, color: RawdahPalette.goldDeep, size: 20),
+    leading: Icon(icon, color: RawdahScheme.of(context).accent, size: 20),
     title: Text(text, style: Theme.of(context).textTheme.bodyLarge),
     // chevron_right mirrors with the text direction (REQ-UX-030).
-    trailing: const Icon(Icons.chevron_right, color: RawdahPalette.goldDeep),
+    trailing: Icon(
+      Icons.chevron_right,
+      color: RawdahScheme.of(context).accent,
+    ),
     onTap: onTap,
   );
 }

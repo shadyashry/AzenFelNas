@@ -49,10 +49,16 @@ final class TimeRows extends StatelessWidget {
             minor:
                 row.event == PrayerEvent.sunrise ||
                 row.event == PrayerEvent.imsak,
+            // The hour's glow over the scheme's wash; half as much at night,
+            // where a bright band would glare (§15 D89).
             highlight: row.event == next
                 ? Color.alphaBlend(
-                    (light ?? HourLight.day).glow.withValues(alpha: 0.32),
-                    RawdahPalette.sage,
+                    (light ?? HourLight.day).glow.withValues(
+                      alpha: Theme.of(context).brightness == Brightness.dark
+                          ? 0.16
+                          : 0.32,
+                    ),
+                    RawdahScheme.of(context).wash,
                   )
                 : null,
             onTap: () => context.push(

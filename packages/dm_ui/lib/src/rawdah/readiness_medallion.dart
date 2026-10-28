@@ -4,6 +4,7 @@ import 'package:dm_ui/src/rawdah/medallion_tone.dart';
 import 'package:dm_ui/src/rawdah/rawdah_glyph.dart';
 import 'package:dm_ui/src/rawdah/rawdah_glyph_kind.dart';
 import 'package:dm_ui/src/tokens/rawdah_palette.dart';
+import 'package:dm_ui/src/tokens/rawdah_scheme.dart';
 import 'package:flutter/widgets.dart';
 
 /// A glyph in an emerald disc inside a gilded ring whose outer ring tells
@@ -35,7 +36,7 @@ final class ReadinessMedallion extends StatelessWidget {
     child: SizedBox.square(
       dimension: size,
       child: CustomPaint(
-        painter: _MedallionPainter(tone),
+        painter: _MedallionPainter(tone, RawdahScheme.of(context).error),
         child: Center(
           child: RawdahGlyph(
             kind: glyph,
@@ -49,9 +50,10 @@ final class ReadinessMedallion extends StatelessWidget {
 }
 
 final class _MedallionPainter extends CustomPainter {
-  const new(this.tone);
+  const new(this.tone, this.error);
 
   final MedallionTone? tone;
+  final Color error;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -116,7 +118,7 @@ final class _MedallionPainter extends CustomPainter {
           0,
           2 * math.pi,
           false,
-          stroke..color = RawdahPalette.carpetRed,
+          stroke..color = error,
         );
       case MedallionTone.unknown:
         final dot = Paint()..color = RawdahPalette.gold;
@@ -132,5 +134,6 @@ final class _MedallionPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_MedallionPainter old) => old.tone != tone;
+  bool shouldRepaint(_MedallionPainter old) =>
+      old.tone != tone || old.error != error;
 }

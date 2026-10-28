@@ -166,5 +166,36 @@ void main() {
         await disposeApp(tester, dbs);
       });
     }
+
+    testWidgets('capture $tag dark', (tester) async {
+      phone(tester);
+      tester.platformDispatcher.platformBrightnessTestValue = Brightness.dark;
+      addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+      final dbs = await _firstRun(tester, _moments['d_after_maghrib'] ?? 0);
+      await _shot(tester, '${tag}_dark_01_welcome');
+      await tester.tap(find.byType(FilledButton).first);
+      await pumpUntil(tester, find.byType(OutlinedButton));
+      await _shot(tester, '${tag}_dark_02_location');
+      await tester.tap(find.byType(FilledButton).first);
+      await pumpUntil(tester, find.byType(FilledButton));
+      await tester.pump(const Duration(milliseconds: 300));
+      await tester.tap(find.byType(FilledButton).first);
+      await pumpUntil(tester, find.byType(TimeRow));
+      await _shot(tester, '${tag}_dark_04_home');
+      await _go(tester, '/qibla', find.byType(Scaffold));
+      await _shot(tester, '${tag}_dark_06_qibla');
+      await _go(tester, '/health', find.byType(Scaffold));
+      await _shot(tester, '${tag}_dark_07_athan');
+      await _go(tester, '/settings', find.byType(Scaffold));
+      await _shot(tester, '${tag}_dark_08_settings');
+      await _go(tester, '/timeline', find.byType(TimeRow));
+      await _shot(tester, '${tag}_dark_05_timeline');
+      await _go(tester, '/', find.byType(TimeRow));
+      await tester.tap(find.byType(TimeRow).first);
+      await pumpUntil(tester, find.byType(Scaffold));
+      await tester.pump(const Duration(milliseconds: 500));
+      await _shot(tester, '${tag}_dark_10_passport');
+      await disposeApp(tester, dbs);
+    });
   }
 }

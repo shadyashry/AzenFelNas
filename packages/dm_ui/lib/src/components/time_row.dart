@@ -6,6 +6,7 @@ import 'package:dm_ui/src/rawdah/ornament_paths.dart';
 import 'package:dm_ui/src/theme/dm_theme.dart';
 import 'package:dm_ui/src/tokens/dm_scales.dart';
 import 'package:dm_ui/src/tokens/rawdah_palette.dart';
+import 'package:dm_ui/src/tokens/rawdah_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
 
@@ -92,8 +93,11 @@ final class TimeRow extends StatelessWidget {
               ),
               null => null,
             },
-            border: const Border(
-              bottom: BorderSide(color: RawdahPalette.hairline, width: 0.8),
+            border: Border(
+              bottom: BorderSide(
+                color: RawdahScheme.of(context).hairline,
+                width: 0.8,
+              ),
             ),
           ),
           child: ConstrainedBox(
