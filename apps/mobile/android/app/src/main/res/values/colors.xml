@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Pearl marble (RawdahPalette.pearl), the light launch background. -->
+    <color name="splash_background">#FBF9F3</color>
+</resources>

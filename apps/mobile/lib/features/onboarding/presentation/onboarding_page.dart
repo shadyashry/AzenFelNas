@@ -17,11 +17,24 @@ final class OnboardingPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final controller = ref.read(onboardingProvider.notifier);
+    final state = ref.watch(onboardingProvider);
+    // The welcome step carries the logo, which already says the name.
+    final welcome =
+        state is OnboardingStep && state.step == OnboardingStepKind.welcome;
     return Scaffold(
-      appBar: AppBar(title: Text(l.appTitle)),
+      appBar: welcome ? null : AppBar(title: Text(l.appTitle)),
       body: SafeArea(
-        child: switch (ref.watch(onboardingProvider)) {
+        child: switch (state) {
           OnboardingStep(step: OnboardingStepKind.welcome) => _Step(
+            hero: Semantics(
+              image: true,
+              label: l.appTitle,
+              child: Image.asset(
+                'assets/brand/logo.png',
+                width: 220,
+                excludeFromSemantics: true,
+              ),
+            ),
             title: l.onboardingWelcomeTitle,
             body: l.onboardingWelcomeBody,
             actions: [
@@ -96,8 +109,15 @@ final class OnboardingPage extends ConsumerWidget {
 }
 
 final class _Step extends StatelessWidget {
-  const new({required this.title, required this.body, required this.actions});
+  const new({
+    required this.title,
+    required this.body,
+    required this.actions,
+    this.hero,
+  });
 
+  /// The brand mark above the welcome title (§15 D89).
+  final Widget? hero;
   final String title;
   final String body;
   final List<Widget> actions;
@@ -108,6 +128,10 @@ final class _Step extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(24),
       children: [
+        if (hero case final Widget mark) ...[
+          Center(child: mark),
+          const SizedBox(height: 28),
+        ],
         Text(title, style: text.headlineSmall),
         const SizedBox(height: 12),
         Text(body, style: text.bodyLarge),

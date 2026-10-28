@@ -49,7 +49,18 @@ Future<void> _loadFonts() async {
 }
 
 Future<void> _shot(WidgetTester tester, String name) async {
+  // Images decode on the real event loop; let them land before capturing.
+  // skipOffstage: false, because an image is zero-sized until it decodes.
+  final images = find.byType(Image, skipOffstage: false).evaluate().toList();
+  for (final image in images) {
+    final provider = (image.widget as Image).image;
+    await tester.runAsync(() async {
+      await precacheImage(provider, image);
+      await Future<void>.delayed(const Duration(milliseconds: 300));
+    });
+  }
   await tester.pump(const Duration(milliseconds: 400));
+  await tester.pump();
   await expectLater(
     find.byType(MaterialApp).first,
     matchesGoldenFile('out/$name.png'),
