@@ -54,3 +54,4 @@ infra/**/*.tfplan
 /.impeccable/review/
 /.impeccable/mocks/
 /.impeccable/*.json
+/design/brand/out/

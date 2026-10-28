@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<!-- App icon, 1024 × 1024. ?fg renders the Android adaptive foreground:
+     transparent, artwork inside the central 66 % safe zone. -->
+<style>
+  @font-face { font-family:'Ruqaa'; src:url(fonts/ArefRuqaa-Bold.ttf); font-weight:700; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1024px; height:1024px; overflow:hidden; background:transparent; }
+  .stage { position:absolute; inset:0; transform-origin:512px 512px; }
+  body.fg .stage { transform:scale(.62); }
+  body.fg .full { display:none; }
+  svg { position:absolute; inset:0; }
+  .w { position:absolute; white-space:nowrap; line-height:1; padding:.55em .12em; font-family:'Ruqaa'; font-weight:700;
+       background:linear-gradient(180deg,#FBEFC4 0%,#E8C977 42%,#C29C4A 70%,#9C7731 100%);
+       -webkit-background-clip:text; background-clip:text; color:transparent;
+       filter:drop-shadow(0 3px 0 rgba(8,32,22,.55)); }
+</style>
+</head>
+<body>
+<svg class="full" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="bg" cx=".5" cy=".42" r=".75"><stop offset="0" stop-color="#23855C"/><stop offset=".6" stop-color="#145A3E"/><stop offset="1" stop-color="#0B3324"/></radialGradient>
+    <pattern id="girih" width="72" height="72" patternUnits="userSpaceOnUse"><g fill="none" stroke="#EAD596" stroke-width="1.2" opacity=".14"><rect x="21" y="21" width="30" height="30"/><rect x="21" y="21" width="30" height="30" transform="rotate(45 36 36)"/></g></pattern>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#girih)"/>
+</svg>
+<div class="stage">
+  <svg viewBox="0 0 1024 1024">
+    <defs>
+      <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6E7B3"/><stop offset=".35" stop-color="#D9B76A"/><stop offset=".65" stop-color="#A8823A"/><stop offset="1" stop-color="#EAD596"/></linearGradient>
+      <radialGradient id="niche" cx=".5" cy=".35" r=".8"><stop offset="0" stop-color="#2A9165"/><stop offset=".6" stop-color="#17603F"/><stop offset="1" stop-color="#0E3B2A"/></radialGradient>
+      <radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF1C2" stop-opacity=".6"/><stop offset="1" stop-color="#FFF1C2" stop-opacity="0"/></radialGradient>
+      <clipPath id="clip"><path d="M222 900 V470 C222 340 360 228 512 150 C664 228 802 340 802 470 V900 Z"/></clipPath>
+    </defs>
+    <path d="M222 900 V470 C222 340 360 228 512 150 C664 228 802 340 802 470 V900 Z" fill="url(#niche)"/>
+    <g clip-path="url(#clip)"><ellipse cx="512" cy="620" rx="330" ry="300" fill="url(#glow)" opacity=".7"/><ellipse cx="512" cy="300" rx="150" ry="120" fill="url(#glow)"/></g>
+    <path d="M198 912 V466 C198 326 345 206 512 122 C679 206 826 326 826 466 V912" fill="none" stroke="url(#gold)" stroke-width="22" stroke-linejoin="round"/>
+    <path d="M232 912 V472 C232 348 366 240 512 166 C658 240 792 348 792 472 V912" fill="none" stroke="#EAD596" stroke-width="3"/>
+    <line x1="170" y1="912" x2="854" y2="912" stroke="#C29C4A" stroke-width="16" stroke-linecap="round"/>
+    <g>
+      <line x1="512" y1="168" x2="512" y2="222" stroke="#C29C4A" stroke-width="5"/>
+      <circle cx="512" cy="270" r="88" fill="url(#glow)"/>
+      <path d="M476 222 h72 l-10 20 h-52 z" fill="url(#gold)"/>
+      <path d="M484 242 C458 268 452 290 472 312 L552 312 C572 290 566 268 540 242 Z" fill="#FBEFC4" stroke="#B8892E" stroke-width="3"/>
+      <rect x="490" y="312" width="44" height="11" rx="3" fill="url(#gold)"/>
+    </g>
+  </svg>
+  <div class="w" style="top:356px; right:356px; font-size:210px;">أَذِّنْ</div>
+  <div class="w" style="top:436px; left:252px; font-size:146px;">فِي</div>
+  <div class="w" style="top:462px; right:226px; font-size:236px;">النَّاسِ</div>
+</div>
+<script>if (location.search.includes('fg')) document.body.classList.add('fg'); if (location.search.includes('bg')) document.querySelector('.stage').style.display = 'none';</script>
+</body>
+</html>

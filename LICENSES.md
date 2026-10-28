@@ -22,6 +22,8 @@ Placeholder created in slice S01. This file is **generated per release** (`DESIG
 
 Amiri, IBM Plex Sans Arabic, Inter — SIL Open Font License 1.1; each licence sits beside its font files (`OFL-*.txt`).
 
+The brand mark's lettering is Aref Ruqaa (SIL OFL 1.1), rendered into the logo and icon rasters; the font and its licence are in `design/brand/fonts`.
+
 ## Software dependencies
 
 Generated from the SBOM per release.
