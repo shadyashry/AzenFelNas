@@ -18,3 +18,26 @@ dev_dependencies:
   dm_lints: 0.1.0
   flutter_test:
     sdk: flutter
+
+# Bundled OFL faces (§7.9, §15 D75 and D89): IBM Plex Sans Arabic and Inter for
+# interface text, Amiri (Naskh) for prayer names and times. Licences beside the
+# files in fonts/.
+flutter:
+  fonts:
+    - family: Amiri
+      fonts:
+        - asset: fonts/Amiri-Regular.ttf
+        - asset: fonts/Amiri-Bold.ttf
+          weight: 700
+    - family: IBM Plex Sans Arabic
+      fonts:
+        - asset: fonts/IBMPlexSansArabic-Regular.ttf
+        - asset: fonts/IBMPlexSansArabic-Medium.ttf
+          weight: 500
+        - asset: fonts/IBMPlexSansArabic-SemiBold.ttf
+          weight: 600
+        - asset: fonts/IBMPlexSansArabic-Bold.ttf
+          weight: 700
+    - family: Inter
+      fonts:
+        - asset: fonts/Inter-Variable.ttf

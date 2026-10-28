@@ -8,6 +8,10 @@ import 'package:geo_salah_core/geo_salah_core.dart';
 /// A time's confidence (§7.9, REQ-UX-040): a sealed [ConfidenceLabel] in,
 /// copy from `StatusCopy` only, and an icon per variant so the status never
 /// depends on colour alone (REQ-UX-020).
+///
+/// Set quietly (§15 D89): a small icon and label in the secondary ink of
+/// the surface, no box, so six rows of "Calculated" read as one calm
+/// column instead of six badges.
 final class ConfidenceChip extends StatelessWidget {
   /// Creates a chip.
   const new({
@@ -39,32 +43,18 @@ final class ConfidenceChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = StatusCopy.chip(label, locale, digits: digits);
-    final color = Theme.of(context).colorScheme.onSurface;
+    final style = Theme.of(context).textTheme.labelMedium;
+    final color = style?.color ?? Theme.of(context).colorScheme.onSurface;
     return Semantics(
       label: text,
       excludeSemantics: true,
-      child: Container(
-        padding: EdgeInsetsDirectional.symmetric(
-          horizontal: DmScales.space[1],
-          vertical: DmScales.space[0],
-        ),
-        decoration: BoxDecoration(
-          border: Border.all(color: color),
-          borderRadius: BorderRadius.circular(DmScales.radius[0]),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(iconOf(label), size: DmScales.label.size, color: color),
-            SizedBox(width: DmScales.space[0]),
-            Flexible(
-              child: Text(
-                text,
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-            ),
-          ],
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(iconOf(label), size: DmScales.label.size - 1, color: color),
+          SizedBox(width: DmScales.space[0]),
+          Flexible(child: Text(text, style: style)),
+        ],
       ),
     );
   }
