@@ -85,8 +85,36 @@ HomeContent homeContentOf(LoadedSchedule loaded, int nowUtcMs) {
     health: const AthanReadinessUnknown(),
     sky: SkyTheme.forPhase(solar.phase),
     place: PlaceView(kind: context.kind, label: context.place.label),
+    hijri: schedule.inputs.isEmpty
+        ? null
+        : schedule.inputs.first.hijri.dateAtDawn,
   );
 }
 
 TimeRowView _row(DayView day, NextPrayer next) =>
     day.rows.firstWhere((row) => row.event == next.time.event);
+
+/// The light of the current prayer interval (§15 D89): Home's field and
+/// the active navigation tab follow it; the day light while Home has no
+/// schedule.
+final hourLightProvider = Provider<HourLight>(
+  (ref) => switch (ref.watch(homeStateProvider)) {
+    HomeReady(:final content) || HomeNoProfile(:final content) =>
+      HourLight.before(content.nextPrayer?.event),
+    HomeLoading() ||
+    HomeNeedsLocation() ||
+    HomeNeedsAttention() ||
+    HomeError() => HourLight.day,
+  },
+);
+
+/// The Qibla bearing of the scheduled place, for the navigation needle;
+/// `null` until a schedule loads.
+final qiblaBearingProvider = Provider<double?>(
+  (ref) => switch (ref.watch(scheduleProvider)) {
+    AsyncData(value: Ok(value: final loaded)) => const CalculateQibla()(
+      ObserverOf.context(loaded.schedule.context),
+    ).bearingDeg,
+    AsyncData() || AsyncError() || AsyncLoading() => null,
+  },
+);

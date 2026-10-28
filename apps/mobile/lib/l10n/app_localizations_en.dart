@@ -10,7 +10,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Daily Muslim';
+  String get appTitle => 'Azen Fel Nas';
 
   @override
   String get homeTitle => 'Today';
@@ -717,4 +717,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get travelNotNow => 'Not now';
+
+  @override
+  String homeCountdownMinutes(String minutes) {
+    return 'in $minutes min';
+  }
+
+  @override
+  String homeCartouche(String prayer) {
+    return '$prayer';
+  }
+
+  @override
+  String homeHijriDate(String day, String monthName, String year) {
+    return '$day $monthName $year AH';
+  }
+
+  @override
+  String hijriMonthName(String month) {
+    String _temp0 = intl.Intl.selectLogic(
+      month,
+      {
+        '1': 'Muharram',
+        '2': 'Safar',
+        '3': 'Rabi al-Awwal',
+        '4': 'Rabi al-Thani',
+        '5': 'Jumada al-Ula',
+        '6': 'Jumada al-Akhirah',
+        '7': 'Rajab',
+        '8': 'Shaban',
+        '9': 'Ramadan',
+        '10': 'Shawwal',
+        '11': 'Dhu al-Qadah',
+        '12': 'Dhu al-Hijjah',
+        'other': '',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get navHome => 'Today';
+
+  @override
+  String get navQibla => 'Qibla';
+
+  @override
+  String get navAthan => 'Athan';
+
+  @override
+  String get navSettings => 'Settings';
+
+  @override
+  String get compassNorth => 'N';
+
+  @override
+  String get compassEast => 'E';
+
+  @override
+  String get compassSouth => 'S';
+
+  @override
+  String get compassWest => 'W';
+
+  @override
+  String qiblaDegrees(String degrees) {
+    return '$degrees°';
+  }
 }

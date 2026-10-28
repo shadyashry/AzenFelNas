@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// App name in the title bar and task switcher.
   ///
   /// In en, this message translates to:
-  /// **'Daily Muslim'**
+  /// **'Azen Fel Nas'**
   String get appTitle;
 
   /// Home screen title.
@@ -1315,6 +1315,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not now'**
   String get travelNotNow;
+
+  /// Home: time left to the next prayer, under an hour.
+  ///
+  /// In en, this message translates to:
+  /// **'in {minutes} min'**
+  String homeCountdownMinutes(String minutes);
+
+  /// Home: the next prayer, in the cartouche inside the arch.
+  ///
+  /// In en, this message translates to:
+  /// **'{prayer}'**
+  String homeCartouche(String prayer);
+
+  /// Home: the Hijri date in the header.
+  ///
+  /// In en, this message translates to:
+  /// **'{day} {monthName} {year} AH'**
+  String homeHijriDate(String day, String monthName, String year);
+
+  /// Name of Hijri month 1-12.
+  ///
+  /// In en, this message translates to:
+  /// **'{month, select, 1{Muharram} 2{Safar} 3{Rabi al-Awwal} 4{Rabi al-Thani} 5{Jumada al-Ula} 6{Jumada al-Akhirah} 7{Rajab} 8{Shaban} 9{Ramadan} 10{Shawwal} 11{Dhu al-Qadah} 12{Dhu al-Hijjah} other{}}'**
+  String hijriMonthName(String month);
+
+  /// Navigation bar: Home.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get navHome;
+
+  /// Navigation bar: Qibla.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla'**
+  String get navQibla;
+
+  /// Navigation bar: Athan.
+  ///
+  /// In en, this message translates to:
+  /// **'Athan'**
+  String get navAthan;
+
+  /// Navigation bar: Settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get navSettings;
+
+  /// Qibla dial: north.
+  ///
+  /// In en, this message translates to:
+  /// **'N'**
+  String get compassNorth;
+
+  /// Qibla dial: east.
+  ///
+  /// In en, this message translates to:
+  /// **'E'**
+  String get compassEast;
+
+  /// Qibla dial: south.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
+  String get compassSouth;
+
+  /// Qibla dial: west.
+  ///
+  /// In en, this message translates to:
+  /// **'W'**
+  String get compassWest;
+
+  /// Qibla: the bearing in large numerals.
+  ///
+  /// In en, this message translates to:
+  /// **'{degrees}°'**
+  String qiblaDegrees(String degrees);
 }
 
 class _AppLocalizationsDelegate

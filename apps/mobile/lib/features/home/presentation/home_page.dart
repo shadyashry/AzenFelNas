@@ -1,16 +1,13 @@
 import 'package:daily_muslim/features/athan/presentation/widget_snapshot_providers.dart';
-import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
 import 'package:daily_muslim/features/home/domain/athan_readiness.dart';
-import 'package:daily_muslim/features/home/domain/place_view.dart';
-import 'package:daily_muslim/features/home/domain/time_row_view.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/home/presentation/fasting_card.dart';
+import 'package:daily_muslim/features/home/presentation/home_hour_field.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/home_state.dart';
 import 'package:daily_muslim/features/home/presentation/time_rows.dart';
-import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
-import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
+import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
 import 'package:daily_muslim/features/travel/presentation/travel_banner.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
@@ -19,8 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Home (§7.2 `home`, §18.4): every [HomeState] is rendered by one
-/// exhaustive switch.
+/// Home (§7.2 `home`, §18.4, §15 D89): every [HomeState] is rendered by one
+/// exhaustive switch on the pearl girih ground, with the navigation bar.
 final class HomePage extends ConsumerWidget {
   /// The page.
   const new({super.key});
@@ -31,17 +28,10 @@ final class HomePage extends ConsumerWidget {
     // Keeps the widget snapshot following the schedule (REQ-WID-003).
     ref.watch(widgetSnapshotProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l.homeTitle),
-        actions: [
-          IconButton(
-            tooltip: l.settingsTitle,
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () => context.push(const SettingsRoute().location),
-          ),
-        ],
-      ),
-      body: SafeArea(
+      extendBody: true,
+      body: GirihBackdrop(
+        ground: RawdahPalette.pearl,
+        ink: RawdahPalette.gold,
         child: switch (ref.watch(homeStateProvider)) {
           HomeLoading() => const _Loading(),
           HomeReady(:final content) => HomeContentView(content: content),
@@ -50,22 +40,26 @@ final class HomePage extends ConsumerWidget {
             notice: l.homeNoProfile,
           ),
           HomeNeedsLocation() => const _NeedsLocation(),
-          HomeNeedsAttention(:final reasons) => ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              for (final reason in reasons) NeedsAttentionCard(reason),
-            ],
+          HomeNeedsAttention(:final reasons) => SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                for (final reason in reasons) NeedsAttentionCard(reason),
+              ],
+            ),
           ),
           HomeError(:final failure) => _Message(
             text: l.homeError(failure.code.wire),
           ),
         },
       ),
+      bottomNavigationBar: const AppTabBar(current: RawdahTab.home),
     );
   }
 }
 
-/// Today under the sky header, with the place, notices and actions.
+/// Today: the hour-light field with the mihrab, then notices, the prayer
+/// list and the way to Athan health and the coming days.
 final class HomeContentView extends ConsumerWidget {
   /// Shows [content], with [notice] above the times when given.
   const new({required this.content, this.notice, super.key});
@@ -80,101 +74,71 @@ final class HomeContentView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final style = DisplayStyle.of(context, ref);
-    final reducedMotion = switch (ref.watch(reducedMotionSettingProvider)) {
-      AsyncData(:final value) => value,
-      _ => false,
-    };
+    final light = ref.watch(hourLightProvider);
     final next = content.nextPrayer;
     return ListView(
+      padding: const EdgeInsets.only(bottom: 112),
       children: [
-        SkyHeader(
-          sky: content.sky,
-          title: next == null
-              ? l.homeNoNextPrayer
-              : l.homeNextPrayer(DisplayStyle.eventName(l, next.event)),
-          subtitle: next == null ? '' : _countdown(l, ref, next, style),
-          reducedMotion: reducedMotion,
-        ),
-        _PlaceBar(place: content.place),
+        HomeHourField(content: content, style: style, light: light),
         const TravelBanner(),
         const FastingCard(),
         if (notice case final String text)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Text(text),
+            padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.labelMedium,
+              textAlign: TextAlign.center,
+            ),
           ),
-        TimeRows(day: content.day, style: style),
-        ListTile(
-          leading: const Icon(Icons.notifications_none),
-          title: Text(switch (content.health) {
-            AthanReadinessUnknown() => l.homeHealthUnknown,
-          }),
-          onTap: () => context.push(const HealthRoute().location),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 14, 16, 6),
+          child: GoldDivider(),
         ),
-        ListTile(
-          leading: const Icon(Icons.view_week_outlined),
-          title: Text(l.timelineTitle),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: TimeRows(
+            day: content.day,
+            style: style,
+            next: next?.event,
+            light: light,
+          ),
+        ),
+        const SizedBox(height: 8),
+        _Link(
+          icon: Icons.notifications_none,
+          text: switch (content.health) {
+            AthanReadinessUnknown() => l.homeHealthUnknown,
+          },
+          onTap: () => context.go(AppTabBar.locationOf(RawdahTab.athan)),
+        ),
+        _Link(
+          icon: Icons.view_week_outlined,
+          text: l.timelineTitle,
           onTap: () => context.push(const TimelineRoute().location),
         ),
       ],
     );
   }
-
-  static String _countdown(
-    AppLocalizations l,
-    WidgetRef ref,
-    TimeRowView next,
-    DisplayStyle style,
-  ) {
-    final now = switch (ref.watch(nowUtcMsProvider)) {
-      AsyncData(:final value) => value,
-      _ => ref.watch(clockProvider).nowUtcMs(),
-    };
-    final remaining = (next.displayedUtcMs ?? now) - now;
-    final minutes = remaining <= 0 ? 0 : (remaining + 59999) ~/ 60000;
-    return style.digits.apply(
-      l.homeCountdown(
-        '${minutes ~/ 60}',
-        (minutes % 60).toString().padLeft(2, '0'),
-      ),
-    );
-  }
 }
 
-final class _PlaceBar extends StatelessWidget {
-  const new({required this.place});
+final class _Link extends StatelessWidget {
+  const new({required this.icon, required this.text, required this.onTap});
 
-  final PlaceView place;
+  final IconData icon;
+  final String text;
+  final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final label = switch (place.kind) {
-      ContextKind.current => l.homeCurrentPlace,
-      ContextKind.pinned => l.homePinnedPlace(place.label),
-      ContextKind.manual => l.homeManualPlace(place.label),
-    };
-    return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 8, 0),
-      // A Wrap, not a Row: at 200 % text the button moves under the chip
-      // instead of overflowing (REQ-UX-020, S27 accessibility audit).
-      child: Wrap(
-        alignment: WrapAlignment.spaceBetween,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        spacing: 8,
-        children: [
-          Chip(
-            avatar: const Icon(Icons.place_outlined, size: 18),
-            label: Text(label, overflow: TextOverflow.ellipsis),
-          ),
-          TextButton(
-            onPressed: () => context.push(const PlaceRoute().location),
-            child: Text(l.homeChangePlace),
-          ),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => ListTile(
+    dense: true,
+    contentPadding: const EdgeInsetsDirectional.symmetric(horizontal: 22),
+    leading: Icon(icon, color: RawdahPalette.goldDeep, size: 20),
+    title: Text(text, style: Theme.of(context).textTheme.bodyLarge),
+    // chevron_right mirrors with the text direction (REQ-UX-030).
+    trailing: const Icon(Icons.chevron_right, color: RawdahPalette.goldDeep),
+    onTap: onTap,
+  );
 }
 
 final class _NeedsLocation extends StatelessWidget {

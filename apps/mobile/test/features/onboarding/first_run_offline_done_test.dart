@@ -16,6 +16,10 @@ import '../contexts/support/fake_device_locator.dart';
 void main() {
   testWidgets('REQ-PKG-003 first run offline: location refused, Cairo chosen '
       'by search, Home shows today’s times with labels', (tester) async {
+    // A phone screen: Home's prayer list sits below the mihrab (§15 D89).
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 2.625;
+    addTearDown(tester.view.reset);
     final dbs = memoryDatabases();
     final access = FakeLocationAccess();
     final locator = FakeDeviceLocator();
@@ -57,7 +61,7 @@ void main() {
     );
     expect(find.byType(TimeRow), findsAtLeastNWidgets(6));
     expect(find.text('Calculated'), findsAtLeastNWidgets(6));
-    expect(find.textContaining('Next: '), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp('^Next: ')), findsOneWidget);
     final complete = await tester.runAsync(
       () => DriftSettingsStore(dbs.dm).read(AppSettings.onboardingComplete),
     );
@@ -68,6 +72,10 @@ void main() {
 
   testWidgets('REQ-PRIV-002 granted location stores the device context and '
       'reaches Home without a manual place', (tester) async {
+    // A phone screen: Home's prayer list sits below the mihrab (§15 D89).
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 2.625;
+    addTearDown(tester.view.reset);
     final dbs = memoryDatabases();
     final access = FakeLocationAccess(LocationAccess.granted);
     final locator = FakeDeviceLocator()

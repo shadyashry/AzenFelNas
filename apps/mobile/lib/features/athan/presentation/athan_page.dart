@@ -5,7 +5,9 @@ import 'package:daily_muslim/features/athan/presentation/athan_test_panel.dart';
 import 'package:daily_muslim/features/settings/domain/app_settings.dart';
 import 'package:daily_muslim/features/settings/presentation/choice_tile.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
+import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +26,11 @@ final class AthanPage extends ConsumerWidget {
     final ids = sounds;
     final chosen = ids.contains(soundId) ? soundId : null;
     return Scaffold(
-      appBar: AppBar(title: Text(l.athanTitle)),
+      appBar: AppBar(
+        title: Text(l.athanTitle),
+        automaticallyImplyLeading: false,
+      ),
+      bottomNavigationBar: const AppTabBar(current: RawdahTab.athan),
       body: ListView(
         padding: const EdgeInsetsDirectional.all(8),
         children: [

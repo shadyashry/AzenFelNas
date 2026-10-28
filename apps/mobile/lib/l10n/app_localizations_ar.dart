@@ -10,7 +10,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'المسلم اليومي';
+  String get appTitle => 'أذّن في الناس';
 
   @override
   String get homeTitle => 'النهارده';
@@ -217,7 +217,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String homeCountdown(String hours, String minutes) {
-    return 'بعد $hours س $minutes د';
+    return 'بعد $hours ساعة و$minutes دقيقة';
   }
 
   @override
@@ -715,4 +715,71 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get travelNotNow => 'مش دلوقتي';
+
+  @override
+  String homeCountdownMinutes(String minutes) {
+    return 'بعد $minutes دقيقة';
+  }
+
+  @override
+  String homeCartouche(String prayer) {
+    return 'صلاة $prayer';
+  }
+
+  @override
+  String homeHijriDate(String day, String monthName, String year) {
+    return '$day $monthName $year';
+  }
+
+  @override
+  String hijriMonthName(String month) {
+    String _temp0 = intl.Intl.selectLogic(
+      month,
+      {
+        '1': 'محرم',
+        '2': 'صفر',
+        '3': 'ربيع الأول',
+        '4': 'ربيع الآخر',
+        '5': 'جمادى الأولى',
+        '6': 'جمادى الآخرة',
+        '7': 'رجب',
+        '8': 'شعبان',
+        '9': 'رمضان',
+        '10': 'شوال',
+        '11': 'ذو القعدة',
+        '12': 'ذو الحجة',
+        'other': '',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get navHome => 'الرئيسية';
+
+  @override
+  String get navQibla => 'القبلة';
+
+  @override
+  String get navAthan => 'الأذان';
+
+  @override
+  String get navSettings => 'الإعدادات';
+
+  @override
+  String get compassNorth => 'ش';
+
+  @override
+  String get compassEast => 'ق';
+
+  @override
+  String get compassSouth => 'ج';
+
+  @override
+  String get compassWest => 'غ';
+
+  @override
+  String qiblaDegrees(String degrees) {
+    return '$degrees°';
+  }
 }

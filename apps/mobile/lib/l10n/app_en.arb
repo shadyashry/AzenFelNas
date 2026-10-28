@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "Daily Muslim",
+  "appTitle": "Azen Fel Nas",
   "@appTitle": {
     "description": "App name in the title bar and task switcher."
   },
@@ -1036,5 +1036,88 @@
   "travelNotNow": "Not now",
   "@travelNotNow": {
     "description": "Travel Mode: keep the chosen place."
+  },
+  "homeCountdownMinutes": "in {minutes} min",
+  "@homeCountdownMinutes": {
+    "description": "Home: time left to the next prayer, under an hour.",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "homeCartouche": "{prayer}",
+  "@homeCartouche": {
+    "description": "Home: the next prayer, in the cartouche inside the arch.",
+    "placeholders": {
+      "prayer": {
+        "type": "String"
+      }
+    }
+  },
+  "homeHijriDate": "{day} {monthName} {year} AH",
+  "@homeHijriDate": {
+    "description": "Home: the Hijri date in the header.",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "monthName": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "hijriMonthName": "{month, select, 1{Muharram} 2{Safar} 3{Rabi al-Awwal} 4{Rabi al-Thani} 5{Jumada al-Ula} 6{Jumada al-Akhirah} 7{Rajab} 8{Shaban} 9{Ramadan} 10{Shawwal} 11{Dhu al-Qadah} 12{Dhu al-Hijjah} other{}}",
+  "@hijriMonthName": {
+    "description": "Name of Hijri month 1-12.",
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "navHome": "Today",
+  "@navHome": {
+    "description": "Navigation bar: Home."
+  },
+  "navQibla": "Qibla",
+  "@navQibla": {
+    "description": "Navigation bar: Qibla."
+  },
+  "navAthan": "Athan",
+  "@navAthan": {
+    "description": "Navigation bar: Athan."
+  },
+  "navSettings": "Settings",
+  "@navSettings": {
+    "description": "Navigation bar: Settings."
+  },
+  "compassNorth": "N",
+  "@compassNorth": {
+    "description": "Qibla dial: north."
+  },
+  "compassEast": "E",
+  "@compassEast": {
+    "description": "Qibla dial: east."
+  },
+  "compassSouth": "S",
+  "@compassSouth": {
+    "description": "Qibla dial: south."
+  },
+  "compassWest": "W",
+  "@compassWest": {
+    "description": "Qibla dial: west."
+  },
+  "qiblaDegrees": "{degrees}°",
+  "@qiblaDegrees": {
+    "description": "Qibla: the bearing in large numerals.",
+    "placeholders": {
+      "degrees": {
+        "type": "String"
+      }
+    }
   }
 }

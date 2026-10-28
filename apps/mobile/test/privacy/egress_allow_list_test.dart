@@ -117,7 +117,8 @@ void main() {
   test('REQ-PRIV-006 only the CDN adapter opens network connections', () {
     final offenders = <String>[
       for (final file in _sources())
-        if (!_networkAdapters.contains(file.path) &&
+        // Forward slashes, so the allow-list also matches on Windows.
+        if (!_networkAdapters.contains(file.path.replaceAll(r'\', '/')) &&
             _codeLines(file).any(
               (line) => !_inert(line) && _networkApi.hasMatch(line),
             ))

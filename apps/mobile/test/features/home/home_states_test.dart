@@ -92,8 +92,9 @@ void main() {
     testWidgets('REQ-UX-001 ready shows the next prayer, the countdown, '
         'every row with its label and the place', (tester) async {
       await _pump(tester, HomeReady(_content()));
-      expect(find.text('Next: Asr'), findsOneWidget);
-      expect(find.text('in 1 h 05 min'), findsOneWidget);
+      // The next prayer reads as one node over the mihrab (§15 D89).
+      expect(find.bySemanticsLabel(RegExp('^Next: Asr')), findsOneWidget);
+      expect(find.text('in 1 h 5 min'), findsOneWidget);
       expect(find.byType(TimeRow), findsNWidgets(7));
       expect(find.text('Calculated'), findsNWidgets(6));
       expect(find.text('Not available'), findsOneWidget);
@@ -151,7 +152,8 @@ void main() {
       tester,
     ) async {
       await _pump(tester, HomeReady(_content()), locale: const Locale('ar'));
-      expect(find.text('١٥:٥٢'), findsOneWidget);
+      // In the niche and in its row.
+      expect(find.text('١٥:٥٢'), findsNWidgets(2));
     });
 
     testWidgets('REQ-DOM-040 the digits setting can keep Western digits in '
@@ -162,7 +164,8 @@ void main() {
         locale: const Locale('ar'),
         digits: DigitsSetting.western,
       );
-      expect(find.text('15:52'), findsOneWidget);
+      // In the niche and in its row.
+      expect(find.text('15:52'), findsNWidgets(2));
     });
   });
 

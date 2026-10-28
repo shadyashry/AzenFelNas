@@ -5,19 +5,32 @@ import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:go_router/go_router.dart';
 
 /// The rows of one [day], each with its confidence label (REQ-UX-001);
 /// tapping a row opens its Passport entry, `<calcId>#<event>` (US-05).
 final class TimeRows extends StatelessWidget {
-  /// The rows of [day] in [style].
-  const new({required this.day, required this.style, super.key});
+  /// The rows of [day] in [style]; [next] is washed in [light] (§15 D89).
+  const new({
+    required this.day,
+    required this.style,
+    this.next,
+    this.light,
+    super.key,
+  });
 
   /// The day.
   final DayView day;
 
   /// Locale and digits.
   final DisplayStyle style;
+
+  /// The next prayer, highlighted; `null` highlights none.
+  final PrayerEvent? next;
+
+  /// The hour light of the highlight.
+  final HourLight? light;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +45,16 @@ final class TimeRows extends StatelessWidget {
             label: row.confidence,
             locale: style.locale,
             digits: style.digits,
+            swatch: HourLight.swatchOf(row.event),
+            minor:
+                row.event == PrayerEvent.sunrise ||
+                row.event == PrayerEvent.imsak,
+            highlight: row.event == next
+                ? Color.alphaBlend(
+                    (light ?? HourLight.day).glow.withValues(alpha: 0.32),
+                    RawdahPalette.sage,
+                  )
+                : null,
             onTap: () => context.push(
               CalculationRoute(day.calculationId, event: row.event).location,
             ),

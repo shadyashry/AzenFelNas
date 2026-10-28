@@ -1,6 +1,6 @@
 {
   "@@locale": "ar",
-  "appTitle": "المسلم اليومي",
+  "appTitle": "أذّن في الناس",
   "homeTitle": "النهارده",
   "settingsTitle": "الإعدادات",
   "settingsLanguage": "اللغة",
@@ -62,7 +62,7 @@
   "placeCoordinatesInvalid": "خط العرض من -90 لـ 90، وخط الطول من -180 لـ 180.",
   "placeUse": "استخدم المكان ده",
   "homeNextPrayer": "الجاية: {prayer}",
-  "homeCountdown": "بعد {hours} س {minutes} د",
+  "homeCountdown": "بعد {hours} ساعة و{minutes} دقيقة",
   "homeNoNextPrayer": "مفيش صلاة تانية في الأيام الجاية",
   "homeNeedsLocation": "اختار المكان اللي عايز مواقيته.",
   "homeNoProfile": "مفيش ملف لجهة محلية هنا؛ بنستخدم الإعداد الافتراضي للمحرك.",
@@ -202,5 +202,18 @@
   "homeHijriOverrideApplied": "معدّل منك",
   "travelPrompt": "شكلك في {city}. نغيّر المواعيد؟",
   "travelSwitch": "غيّر",
-  "travelNotNow": "مش دلوقتي"
+  "travelNotNow": "مش دلوقتي",
+  "homeCountdownMinutes": "بعد {minutes} دقيقة",
+  "homeCartouche": "صلاة {prayer}",
+  "homeHijriDate": "{day} {monthName} {year}",
+  "hijriMonthName": "{month, select, 1{محرم} 2{صفر} 3{ربيع الأول} 4{ربيع الآخر} 5{جمادى الأولى} 6{جمادى الآخرة} 7{رجب} 8{شعبان} 9{رمضان} 10{شوال} 11{ذو القعدة} 12{ذو الحجة} other{}}",
+  "navHome": "الرئيسية",
+  "navQibla": "القبلة",
+  "navAthan": "الأذان",
+  "navSettings": "الإعدادات",
+  "compassNorth": "ش",
+  "compassEast": "ق",
+  "compassSouth": "ج",
+  "compassWest": "غ",
+  "qiblaDegrees": "{degrees}°"
 }

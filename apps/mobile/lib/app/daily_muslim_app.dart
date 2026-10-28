@@ -41,6 +41,7 @@ final class _DailyMuslimAppState extends ConsumerState<DailyMuslimApp> {
         ? StatusLocale.ar
         : StatusLocale.en;
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       routerConfig: _router,
       locale: switch (locale) {

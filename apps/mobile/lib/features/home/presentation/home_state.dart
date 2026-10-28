@@ -86,6 +86,7 @@ final class HomeContent {
     required this.health,
     required this.sky,
     required this.place,
+    this.hijri,
   });
 
   /// Today.
@@ -102,4 +103,8 @@ final class HomeContent {
 
   /// The place calculated for.
   final PlaceView place;
+
+  /// Today's Hijri date at dawn, for the header and its Moon (§15 D89);
+  /// `null` when the schedule carries none.
+  final HijriDate? hijri;
 }

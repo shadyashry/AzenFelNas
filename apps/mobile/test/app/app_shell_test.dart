@@ -44,9 +44,10 @@ void main() {
       await tester.runAsync(() => Future<void>.delayed(Duration.zero));
       await tester.pumpAndSettle();
 
-      expect(find.text('الإعدادات'), findsOneWidget);
+      // The page title and its navigation label.
+      expect(find.text('الإعدادات'), findsNWidgets(2));
       expect(
-        Directionality.of(tester.element(find.text('الإعدادات'))),
+        Directionality.of(tester.element(find.text('الإعدادات').first)),
         TextDirection.rtl,
       );
       final stored = await tester.runAsync(

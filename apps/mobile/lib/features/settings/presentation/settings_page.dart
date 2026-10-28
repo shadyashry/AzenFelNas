@@ -3,7 +3,9 @@ import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/settings/presentation/choice_tile.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
+import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +22,11 @@ final class SettingsPage extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final write = ref.watch(writeSettingProvider);
     return Scaffold(
-      appBar: AppBar(title: Text(l.settingsTitle)),
+      appBar: AppBar(
+        title: Text(l.settingsTitle),
+        automaticallyImplyLeading: false,
+      ),
+      bottomNavigationBar: const AppTabBar(current: RawdahTab.settings),
       body: ListView(
         children: [
           ChoiceTile(

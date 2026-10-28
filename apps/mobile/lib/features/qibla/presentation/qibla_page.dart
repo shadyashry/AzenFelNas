@@ -4,7 +4,9 @@ import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/qibla/domain/qibla_state.dart';
 import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
+import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,7 +21,11 @@ final class QiblaPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l.qiblaTitle)),
+      appBar: AppBar(
+        title: Text(l.qiblaTitle),
+        automaticallyImplyLeading: false,
+      ),
+      bottomNavigationBar: const AppTabBar(current: RawdahTab.qibla),
       body: switch (ref.watch(qiblaStateProvider)) {
         AsyncData(value: final QiblaState state) => QiblaView(state: state),
         AsyncData() || AsyncError() => Center(
@@ -75,29 +81,60 @@ final class QiblaView extends ConsumerWidget {
         ],
       },
     ];
+    final ready = switch (state) {
+      final QiblaReady r => r,
+      _ => null,
+    };
     return ListView(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.fromLTRB(28, 12, 28, 120),
       children: [
-        if (state case final QiblaReady ready)
-          Center(
+        Center(
+          child: ConstrainedBox(
+            // The dial leaves room for the bearing and the guidance below
+            // it on short screens.
+            constraints: BoxConstraints(
+              maxWidth: math.min(320, MediaQuery.sizeOf(context).height * 0.36),
+            ),
             child: Semantics(
-              label: _turn(l, ready, digits.apply),
-              child: SizedBox.square(
-                dimension: 240,
-                child: CustomPaint(
-                  painter: _DialPainter(
-                    turnRad: ready.turnDeg * math.pi / 180,
-                    color: Theme.of(context).colorScheme.primary,
-                    ring: Theme.of(context).colorScheme.outline,
-                  ),
+              label: ready == null
+                  ? lines.first
+                  : _turn(l, ready, digits.apply),
+              child: QiblaDial(
+                bearingDeg: qibla.bearingDeg,
+                headingDeg: ready?.headingDeg,
+                aligned: ready != null && ready.turnDeg.abs() < 3,
+                cardinals: (
+                  l.compassNorth,
+                  l.compassEast,
+                  l.compassSouth,
+                  l.compassWest,
                 ),
               ),
             ),
           ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          digits.apply(l.qiblaDegrees(qibla.bearingDeg.round().toString())),
+          textAlign: TextAlign.center,
+          style: DmTheme.naskh(
+            size: 46,
+            color: Theme.of(context).colorScheme.primary,
+            bold: true,
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: GoldDivider(),
+        ),
         for (final line in lines)
           Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: Text(line, textAlign: TextAlign.center),
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              line,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ),
       ],
     );
@@ -115,47 +152,4 @@ final class QiblaView extends ConsumerWidget {
       degrees > 0 ? l.qiblaRight : l.qiblaLeft,
     );
   }
-}
-
-/// A ring with an arrow rotated by the turn to the Qibla (0 = straight up,
-/// the way the phone points).
-final class _DialPainter extends CustomPainter {
-  const new({required this.turnRad, required this.color, required this.ring});
-
-  final double turnRad;
-  final Color color;
-  final Color ring;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = size.center(Offset.zero);
-    final radius = size.shortestSide / 2 - 4;
-    final arrow = Path()
-      ..moveTo(0, -radius + 8)
-      ..lineTo(14, -radius + 40)
-      ..lineTo(4, -radius + 40)
-      ..lineTo(4, radius * 0.4)
-      ..lineTo(-4, radius * 0.4)
-      ..lineTo(-4, -radius + 40)
-      ..lineTo(-14, -radius + 40)
-      ..close();
-    canvas
-      ..drawCircle(
-        center,
-        radius,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2
-          ..color = ring,
-      )
-      ..save()
-      ..translate(center.dx, center.dy)
-      ..rotate(turnRad)
-      ..drawPath(arrow, Paint()..color = color)
-      ..restore();
-  }
-
-  @override
-  bool shouldRepaint(_DialPainter old) =>
-      old.turnRad != turnRad || old.color != color || old.ring != ring;
 }
