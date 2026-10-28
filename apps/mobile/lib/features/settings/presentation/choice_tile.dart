@@ -29,9 +29,17 @@ final class ChoiceTile<T extends Object> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
-    title: Text(title),
+    title: Text(title, style: Theme.of(context).textTheme.labelMedium),
+    // The current choice reads as the row's value, in the primary ink; the
+    // panel's hairlines replace the dropdown's underline (§15 D89).
     subtitle: DropdownButton<T>(
       isExpanded: true,
+      underline: const SizedBox.shrink(),
+      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+        color: Theme.of(context).colorScheme.primary,
+        fontWeight: FontWeight.w600,
+      ),
+      iconEnabledColor: Theme.of(context).colorScheme.secondary,
       value: value,
       items: [
         for (final c in choices)

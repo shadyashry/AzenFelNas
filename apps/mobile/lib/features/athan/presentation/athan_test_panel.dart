@@ -1,6 +1,7 @@
 import 'package:daily_muslim/features/athan/domain/athan_test_state.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_test_controller.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,21 +43,18 @@ final class AthanTestPanel extends ConsumerWidget {
         ],
       },
     ];
-    return Card(
-      child: Padding(
-        padding: const EdgeInsetsDirectional.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 8,
-          children: [
-            Text(
-              l.athanTestTitle,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            ...body,
-          ],
+    return RawdahSection(
+      title: l.athanTestTitle,
+      children: [
+        Padding(
+          padding: const EdgeInsetsDirectional.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 10,
+            children: body,
+          ),
         ),
-      ),
+      ],
     );
   }
 }

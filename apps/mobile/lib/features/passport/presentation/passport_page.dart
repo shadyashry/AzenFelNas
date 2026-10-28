@@ -90,29 +90,57 @@ final class _Ready extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final inputs = entry.inputs;
     final p = entry.provenance;
-    final text = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final text = theme.textTheme;
     return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.only(bottom: 32),
       children: [
-        ListTile(
-          title: SelectableText(entry.calculationId, style: text.titleMedium),
-          subtitle: entry.origin == PassportOrigin.importedMatch
-              ? Text(l.passportImportMatch)
-              : null,
-          trailing: IconButton(
-            tooltip: l.passportCopyLink,
-            icon: const Icon(Icons.link),
-            onPressed: () async {
-              final messenger = ScaffoldMessenger.of(context);
-              await Clipboard.setData(
-                ClipboardData(text: entry.shareLink.toString()),
-              );
-              messenger.showSnackBar(
-                SnackBar(content: Text(l.passportLinkCopied)),
-              );
-            },
+        // The Calculation ID in a cartouche: the address of every minute on
+        // this page (P1, §15 D89).
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(16, 14, 8, 6),
+          child: Row(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Cartouche(
+                    fill: RawdahPalette.emerald,
+                    child: SelectableText(
+                      entry.calculationId,
+                      textDirection: TextDirection.ltr,
+                      style: const TextStyle(
+                        fontFamily: DmTheme.latinFamily,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.1,
+                        color: RawdahPalette.ivory,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              IconButton(
+                tooltip: l.passportCopyLink,
+                icon: Icon(Icons.link, color: theme.colorScheme.secondary),
+                onPressed: () async {
+                  final messenger = ScaffoldMessenger.of(context);
+                  await Clipboard.setData(
+                    ClipboardData(text: entry.shareLink.toString()),
+                  );
+                  messenger.showSnackBar(
+                    SnackBar(content: Text(l.passportLinkCopied)),
+                  );
+                },
+              ),
+            ],
           ),
         ),
+        if (entry.origin == PassportOrigin.importedMatch)
+          Text(
+            l.passportImportMatch,
+            textAlign: TextAlign.center,
+            style: text.labelMedium,
+          ),
         for (final event in entry.events)
           _EventCard(
             event: event,
@@ -165,21 +193,24 @@ final class _Section extends StatelessWidget {
   final DisplayStyle style;
 
   @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-      Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 4),
-        child: Text(title, style: Theme.of(context).textTheme.titleMedium),
-      ),
-      for (final (label, value) in rows)
-        ListTile(
-          dense: true,
-          title: Text(label),
-          subtitle: SelectableText(value, textDirection: TextDirection.ltr),
-        ),
-    ],
-  );
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    return RawdahSection(
+      title: title,
+      children: [
+        for (final (label, value) in rows)
+          ListTile(
+            dense: true,
+            title: Text(label, style: text.labelMedium),
+            subtitle: SelectableText(
+              value,
+              textDirection: TextDirection.ltr,
+              style: text.bodyLarge,
+            ),
+          ),
+      ],
+    );
+  }
 }
 
 final class _EventCard extends StatelessWidget {
@@ -215,46 +246,71 @@ final class _EventCard extends StatelessWidget {
           _kind(l, step.kind),
           style.digits.apply(_signedSeconds(step.deltaMs)),
         ),
-      if (event.sensitivitySeconds case final int s) l.passportSensitivity(s),
+      if (event.sensitivitySeconds case final int s)
+        style.digits.apply(l.passportSensitivity(s)),
       if (time.flags.isEmpty) l.passportNoFlags,
       for (final flag in ResultFlag.values)
         if (time.flags.contains(flag)) flagText(l, flag),
     ];
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      shape: focused
-          ? RoundedRectangleBorder(
-              side: BorderSide(color: scheme.primary, width: 2),
-              borderRadius: BorderRadius.circular(12),
-            )
-          : null,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    DisplayStyle.eventName(l, time.event),
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                ConfidenceChip(
-                  label: time.confidence,
-                  locale: style.locale,
-                  digits: style.digits,
-                ),
-              ],
-            ),
-            for (final line in lines)
-              Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Text(line),
-              ),
-          ],
+    final text = Theme.of(context).textTheme;
+    // A gold-hairline panel per prayer; the one the user tapped is framed in
+    // gilded gold on the Rawdah wash (§15 D89).
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 6, 16, 6),
+      decoration: BoxDecoration(
+        color: focused ? RawdahPalette.sage : const Color(0xFFFFFEFA),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: focused ? RawdahPalette.gold : RawdahPalette.hairline,
+          width: focused ? 2 : 1,
         ),
+      ),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 10,
+            children: [
+              Text(
+                DisplayStyle.eventName(l, time.event),
+                style: DmTheme.naskh(
+                  size: 22,
+                  color: scheme.primary,
+                  bold: true,
+                ),
+              ),
+              ConfidenceChip(
+                label: time.confidence,
+                locale: style.locale,
+                digits: style.digits,
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          for (final line in lines)
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(top: 7, end: 8),
+                    child: Transform.rotate(
+                      angle: 0.785,
+                      child: Container(
+                        width: 6,
+                        height: 6,
+                        color: RawdahPalette.gold,
+                      ),
+                    ),
+                  ),
+                  Expanded(child: Text(line, style: text.bodyLarge)),
+                ],
+              ),
+            ),
+        ],
       ),
     );
   }

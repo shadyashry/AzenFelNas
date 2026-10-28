@@ -1119,5 +1119,13 @@
         "type": "String"
       }
     }
+  },
+  "settingsDisplaySection": "Display",
+  "@settingsDisplaySection": {
+    "description": "Settings: heading of language, digits, theme and motion."
+  },
+  "settingsMoreSection": "More",
+  "@settingsMoreSection": {
+    "description": "Settings: heading of Athan, diagnostics and data sources."
   }
 }

@@ -215,5 +215,7 @@
   "compassEast": "ق",
   "compassSouth": "ج",
   "compassWest": "غ",
-  "qiblaDegrees": "{degrees}°"
+  "qiblaDegrees": "{degrees}°",
+  "settingsDisplaySection": "العرض",
+  "settingsMoreSection": "المزيد"
 }

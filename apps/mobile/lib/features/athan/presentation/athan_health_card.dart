@@ -3,6 +3,7 @@ import 'package:daily_muslim/features/athan/domain/athan_health_reason.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_copy.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,53 +19,99 @@ final class AthanHealthCard extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final health = ref.watch(athanHealthProvider);
     final (
-      IconData icon,
+      MedallionTone tone,
       String title,
       List<AthanHealthReason> reasons,
     ) = switch (health) {
       AsyncData(value: final AthanHealthReady h) => (
-        Icons.check_circle_outline,
+        MedallionTone.ready,
         l.athanHealthReady,
         h.reasons,
       ),
       AsyncData(value: final AthanHealthLimited h) => (
-        Icons.error_outline,
+        MedallionTone.limited,
         l.athanHealthLimited,
         h.reasons,
       ),
       AsyncData(value: final AthanHealthNotReady h) => (
-        Icons.notifications_off_outlined,
+        MedallionTone.notReady,
         l.athanHealthNotReady,
         h.reasons,
       ),
       AsyncData(value: final AthanHealthUnknown h) => (
-        Icons.help_outline,
+        MedallionTone.unknown,
         l.athanHealthUnknown,
         h.reasons,
       ),
-      AsyncError() => (Icons.help_outline, l.athanHealthUnknown, const []),
+      AsyncError() => (MedallionTone.unknown, l.athanHealthUnknown, const []),
       AsyncLoading() => (
-        Icons.hourglass_empty,
+        MedallionTone.unknown,
         l.athanHealthEvaluating,
         const [],
       ),
     };
-    return Card(
+    final theme = Theme.of(context);
+    // The medallion, then the state in words and its reasons (§15 D89).
+    return Padding(
+      padding: const EdgeInsets.only(top: 18),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ListTile(
-            leading: Icon(icon),
-            title: Text(l.athanHealthTitle),
-            subtitle: Text(title),
-            trailing: IconButton(
-              tooltip: l.athanHealthEvaluating,
-              icon: const Icon(Icons.refresh),
-              onPressed: () => ref.invalidate(athanHealthProvider),
+          // Wider than the medallion, so the refresh button stands clear of
+          // its ring.
+          SizedBox(
+            width: 236,
+            height: 136,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                ReadinessMedallion(glyph: RawdahGlyphKind.minaret, tone: tone),
+                PositionedDirectional(
+                  end: 0,
+                  bottom: 0,
+                  child: IconButton(
+                    tooltip: l.athanHealthEvaluating,
+                    icon: Icon(
+                      Icons.refresh,
+                      color: theme.colorScheme.secondary,
+                    ),
+                    onPressed: () => ref.invalidate(athanHealthProvider),
+                  ),
+                ),
+              ],
             ),
           ),
-          for (final reason in reasons)
-            ListTile(dense: true, title: Text(l.athanReason(reason))),
+          const SizedBox(height: 10),
+          Text(l.athanHealthTitle, style: theme.textTheme.labelMedium),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: DmTheme.naskh(
+                size: 22,
+                color: theme.colorScheme.primary,
+                bold: true,
+              ),
+            ),
+          ),
+          if (reasons.isNotEmpty)
+            RawdahSection(
+              children: [
+                for (final reason in reasons)
+                  ListTile(
+                    dense: true,
+                    leading: Icon(
+                      Icons.arrow_left,
+                      color: theme.colorScheme.secondary,
+                    ),
+                    minLeadingWidth: 12,
+                    title: Text(
+                      l.athanReason(reason),
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                  ),
+              ],
+            ),
         ],
       ),
     );

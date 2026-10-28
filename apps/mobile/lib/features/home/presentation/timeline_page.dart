@@ -3,6 +3,7 @@ import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/time_rows.dart';
 import 'package:daily_muslim/features/home/presentation/timeline_state.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,21 +21,19 @@ final class TimelinePage extends ConsumerWidget {
       body: switch (ref.watch(timelineStateProvider)) {
         TimelineLoading() => const Center(child: CircularProgressIndicator()),
         TimelineReady(:final days) => ListView(
+          padding: const EdgeInsets.only(bottom: 24),
           children: [
-            for (final day in days) ...[
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 4),
-                child: Text(
-                  style.digits.apply(
-                    MaterialLocalizations.of(context).formatFullDate(
-                      DateTime.utc(day.date.year, day.date.month, day.date.day),
-                    ),
+            // One illuminated section per day, the date as its heading
+            // (§15 D89).
+            for (final day in days)
+              RawdahSection(
+                title: style.digits.apply(
+                  MaterialLocalizations.of(context).formatFullDate(
+                    DateTime.utc(day.date.year, day.date.month, day.date.day),
                   ),
-                  style: Theme.of(context).textTheme.titleMedium,
                 ),
+                children: [TimeRows(day: day, style: style)],
               ),
-              TimeRows(day: day, style: style),
-            ],
           ],
         ),
         TimelineError(:final failure) => Center(

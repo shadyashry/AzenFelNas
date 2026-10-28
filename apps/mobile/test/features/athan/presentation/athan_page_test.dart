@@ -36,9 +36,18 @@ Widget _page({
   ],
 );
 
+/// A phone screen: the Athan page opens with its readiness medallion, so
+/// the sound settings sit below an 800 × 600 test window (§15 D89).
+void _phone(WidgetTester tester) {
+  tester.view.physicalSize = const Size(1080, 2400);
+  tester.view.devicePixelRatio = 2.625;
+  addTearDown(tester.view.reset);
+}
+
 void main() {
   testWidgets('REQ-ALM-003 not ready shows the state and every reason, and '
       'the Test needs a sound', (tester) async {
+    _phone(tester);
     await tester.pumpWidget(
       _page(
         platform: FakeAthanPlatform(
@@ -64,6 +73,7 @@ void main() {
   testWidgets('REQ-ALM-003 no native layer reads as unknown, never ready', (
     tester,
   ) async {
+    _phone(tester);
     await tester.pumpWidget(
       _page(platform: FakeAthanPlatform(), sounds: const []),
     );
@@ -75,6 +85,7 @@ void main() {
   testWidgets('REQ-ALM-040 tapping the Test arms it and shows the countdown', (
     tester,
   ) async {
+    _phone(tester);
     final platform = FakeAthanPlatform(report: androidReport());
     await tester.pumpWidget(
       _page(platform: platform, sounds: const ['makkah'], soundId: 'makkah'),
@@ -89,6 +100,7 @@ void main() {
 
   testWidgets('REQ-ALM-042 the pre-reminder offers only the allowed offsets '
       'and stores minutes', (tester) async {
+    _phone(tester);
     final writes = _Writes();
     await tester.pumpWidget(
       _page(platform: FakeAthanPlatform(), sounds: const [], writes: writes),
@@ -107,6 +119,7 @@ void main() {
   testWidgets('REQ-UX-030 the page lays out in Arabic (RTL) without overflow', (
     tester,
   ) async {
+    _phone(tester);
     await tester.pumpWidget(
       _page(
         platform: FakeAthanPlatform(report: androidReport()),

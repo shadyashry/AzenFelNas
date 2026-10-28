@@ -1393,6 +1393,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{degrees}°'**
   String qiblaDegrees(String degrees);
+
+  /// Settings: heading of language, digits, theme and motion.
+  ///
+  /// In en, this message translates to:
+  /// **'Display'**
+  String get settingsDisplaySection;
+
+  /// Settings: heading of Athan, diagnostics and data sources.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get settingsMoreSection;
 }
 
 class _AppLocalizationsDelegate

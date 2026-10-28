@@ -784,4 +784,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String qiblaDegrees(String degrees) {
     return '$degrees°';
   }
+
+  @override
+  String get settingsDisplaySection => 'Display';
+
+  @override
+  String get settingsMoreSection => 'More';
 }

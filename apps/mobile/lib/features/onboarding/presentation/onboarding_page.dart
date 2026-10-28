@@ -4,6 +4,7 @@ import 'package:daily_muslim/features/onboarding/presentation/onboarding_state.d
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,6 +46,11 @@ final class OnboardingPage extends ConsumerWidget {
             ],
           ),
           OnboardingStep(step: OnboardingStepKind.location) => _Step(
+            hero: const ReadinessMedallion(
+              glyph: RawdahGlyphKind.starCompass,
+              tone: null,
+              size: 120,
+            ),
             title: l.onboardingLocationTitle,
             body: l.onboardingLocationBody,
             actions: [
@@ -63,6 +69,11 @@ final class OnboardingPage extends ConsumerWidget {
           ),
           OnboardingStep(step: OnboardingStepKind.done, :final placeLabel) =>
             _Step(
+              hero: const ReadinessMedallion(
+                glyph: RawdahGlyphKind.mihrab,
+                tone: MedallionTone.ready,
+                size: 120,
+              ),
               title: l.onboardingDoneTitle,
               body: placeLabel.isEmpty
                   ? l.homeCurrentPlace
@@ -132,7 +143,14 @@ final class _Step extends StatelessWidget {
           Center(child: mark),
           const SizedBox(height: 28),
         ],
-        Text(title, style: text.headlineSmall),
+        Text(
+          title,
+          style: DmTheme.naskh(
+            size: 28,
+            color: Theme.of(context).colorScheme.primary,
+            bold: true,
+          ),
+        ),
         const SizedBox(height: 12),
         Text(body, style: text.bodyLarge),
         const SizedBox(height: 24),

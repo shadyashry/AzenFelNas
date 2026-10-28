@@ -32,35 +32,42 @@ final class AthanPage extends ConsumerWidget {
       ),
       bottomNavigationBar: const AppTabBar(current: RawdahTab.athan),
       body: ListView(
-        padding: const EdgeInsetsDirectional.all(8),
+        padding: const EdgeInsets.only(bottom: 112),
         children: [
           const AthanHealthCard(),
           AthanTestPanel(soundId: chosen),
-          if (ids.isEmpty)
-            ListTile(title: Text(l.athanSound), subtitle: Text(l.athanNoSounds))
-          else
-            ChoiceTile<String>(
-              title: l.athanSound,
-              value: chosen,
-              choices: ids,
-              label: (id) => id,
-              onChanged: (id) => write.write(AppSettings.soundId, id),
-            ),
-          ChoiceTile<PreReminder>(
-            title: l.athanPreReminder,
-            value: PreReminder.ofMinutes(
-              ref.watch(preReminderSettingProvider).value ?? 0,
-            ),
-            choices: PreReminder.values,
-            label: (p) => switch (p) {
-              PreReminder.off => l.athanPreReminderOff,
-              PreReminder.five ||
-              PreReminder.ten ||
-              PreReminder.fifteen ||
-              PreReminder.thirty => l.athanPreReminderMinutes(p.minutes),
-            },
-            onChanged: (p) =>
-                write.write(AppSettings.preReminderMinutes, p.minutes),
+          RawdahSection(
+            children: [
+              if (ids.isEmpty)
+                ListTile(
+                  title: Text(l.athanSound),
+                  subtitle: Text(l.athanNoSounds),
+                )
+              else
+                ChoiceTile<String>(
+                  title: l.athanSound,
+                  value: chosen,
+                  choices: ids,
+                  label: (id) => id,
+                  onChanged: (id) => write.write(AppSettings.soundId, id),
+                ),
+              ChoiceTile<PreReminder>(
+                title: l.athanPreReminder,
+                value: PreReminder.ofMinutes(
+                  ref.watch(preReminderSettingProvider).value ?? 0,
+                ),
+                choices: PreReminder.values,
+                label: (p) => switch (p) {
+                  PreReminder.off => l.athanPreReminderOff,
+                  PreReminder.five ||
+                  PreReminder.ten ||
+                  PreReminder.fifteen ||
+                  PreReminder.thirty => l.athanPreReminderMinutes(p.minutes),
+                },
+                onChanged: (p) =>
+                    write.write(AppSettings.preReminderMinutes, p.minutes),
+              ),
+            ],
           ),
         ],
       ),
