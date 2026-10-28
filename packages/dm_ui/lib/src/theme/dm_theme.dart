@@ -158,6 +158,25 @@ abstract final class DmTheme {
         thickness: 0.8,
       ),
       listTileTheme: ListTileThemeData(iconColor: p.secondary),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: brightness == Brightness.light
+            ? const Color(0xFFFFFEFA)
+            : p.surface,
+        prefixIconColor: p.secondary,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: RawdahPalette.hairline),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: RawdahPalette.hairline),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: p.primary, width: 1.6),
+        ),
+      ),
     );
   }
 }

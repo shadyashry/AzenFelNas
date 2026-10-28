@@ -6,15 +6,23 @@ import 'package:flutter/widgets.dart';
 /// a gilded rim on a translucent emerald fill. It grows with its text, so
 /// 200 % type widens it instead of clipping (REQ-UX-020).
 final class Cartouche extends StatelessWidget {
-  /// The cartouche around [child].
-  const new({required this.child, super.key});
+  /// The cartouche around [child], on [fill] (translucent emerald, made
+  /// for the hour-light field, by default).
+  const new({
+    required this.child,
+    this.fill = const Color(0x8C0A281C),
+    super.key,
+  });
 
   /// The title, usually Amiri on ivory.
   final Widget child;
 
+  /// The band's fill; pages on pearl pass solid emerald.
+  final Color fill;
+
   @override
   Widget build(BuildContext context) => CustomPaint(
-    painter: const _CartouchePainter(),
+    painter: _CartouchePainter(fill),
     child: Padding(
       padding: const EdgeInsets.fromLTRB(36, 4, 36, 8),
       child: child,
@@ -23,14 +31,16 @@ final class Cartouche extends StatelessWidget {
 }
 
 final class _CartouchePainter extends CustomPainter {
-  const new();
+  const new(this.fill);
+
+  final Color fill;
 
   @override
   void paint(Canvas canvas, Size size) {
     final outer = (Offset.zero & size).deflate(1.5);
     final path = OrnamentPaths.cartouche(outer);
     canvas
-      ..drawPath(path, Paint()..color = const Color(0x8C0A281C))
+      ..drawPath(path, Paint()..color = fill)
       ..drawPath(
         path,
         Paint()
@@ -48,5 +58,5 @@ final class _CartouchePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_CartouchePainter old) => false;
+  bool shouldRepaint(_CartouchePainter old) => old.fill != fill;
 }

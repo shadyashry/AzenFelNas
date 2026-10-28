@@ -1,7 +1,6 @@
-import 'dart:math' as math;
-
 import 'package:dm_ui/src/rawdah/athan_ring.dart';
-import 'package:dm_ui/src/rawdah/ornament_paths.dart';
+import 'package:dm_ui/src/rawdah/rawdah_glyph.dart';
+import 'package:dm_ui/src/rawdah/rawdah_glyph_kind.dart';
 import 'package:dm_ui/src/rawdah/rawdah_tab.dart';
 import 'package:dm_ui/src/rawdah/rawdah_tab_labels.dart';
 import 'package:dm_ui/src/tokens/dm_scales.dart';
@@ -134,16 +133,16 @@ final class _Destination extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox.square(
-                    dimension: 26,
-                    child: CustomPaint(
-                      painter: _IconPainter(
-                        tab: tab,
-                        color: color,
-                        qiblaBearingDeg: qiblaBearingDeg,
-                        athanRing: athanRing,
-                      ),
-                    ),
+                  RawdahGlyph(
+                    kind: switch (tab) {
+                      RawdahTab.home => RawdahGlyphKind.mihrab,
+                      RawdahTab.qibla => RawdahGlyphKind.starCompass,
+                      RawdahTab.athan => RawdahGlyphKind.minaret,
+                      RawdahTab.settings => RawdahGlyphKind.rosette,
+                    },
+                    color: color,
+                    qiblaBearingDeg: qiblaBearingDeg,
+                    athanRing: athanRing,
                   ),
                   const SizedBox(height: 3),
                   Text(
@@ -209,144 +208,4 @@ final class _HaloPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_HaloPainter old) => old.light != light;
-}
-
-/// The four authored icons on a 26 × 26 grid, one stroke weight.
-final class _IconPainter extends CustomPainter {
-  const new({
-    required this.tab,
-    required this.color,
-    required this.qiblaBearingDeg,
-    required this.athanRing,
-  });
-
-  final RawdahTab tab;
-  final Color color;
-  final double? qiblaBearingDeg;
-  final AthanRing athanRing;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas
-      ..save()
-      ..scale(size.width / 26);
-    final stroke = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.6
-      ..strokeJoin = StrokeJoin.round
-      ..strokeCap = StrokeCap.round
-      ..color = color;
-    switch (tab) {
-      case RawdahTab.home:
-        _mihrab(canvas, stroke);
-      case RawdahTab.qibla:
-        _compass(canvas, stroke);
-      case RawdahTab.athan:
-        _minaret(canvas, stroke);
-      case RawdahTab.settings:
-        _rosette(canvas, stroke);
-    }
-    canvas.restore();
-  }
-
-  void _mihrab(Canvas canvas, Paint stroke) {
-    canvas
-      ..drawPath(
-        Path()
-          ..moveTo(5, 24)
-          ..lineTo(5, 12)
-          ..cubicTo(5, 7.5, 9, 4.4, 13, 2.4)
-          ..cubicTo(17, 4.4, 21, 7.5, 21, 12)
-          ..lineTo(21, 24),
-        stroke,
-      )
-      ..drawLine(const Offset(13, 8.5), const Offset(13, 11.7), stroke)
-      ..drawPath(
-        Path()
-          ..moveTo(11, 11.7)
-          ..lineTo(15, 11.7)
-          ..lineTo(14.2, 14.7)
-          ..lineTo(11.8, 14.7)
-          ..close(),
-        Paint()..color = color,
-      );
-  }
-
-  void _compass(Canvas canvas, Paint stroke) {
-    const c = Offset(13, 13);
-    canvas.drawPath(OrnamentPaths.girihTile(c, 6.5), stroke..strokeWidth = 1.4);
-    final bearingDeg = qiblaBearingDeg;
-    if (bearingDeg == null) {
-      // No place yet: the star alone, never a needle pointing nowhere.
-      canvas.drawCircle(c, 1.4, Paint()..color = color);
-      return;
-    }
-    final bearing = bearingDeg * math.pi / 180;
-    final tip = c + Offset(math.sin(bearing), -math.cos(bearing)) * 9.5;
-    canvas
-      ..drawLine(
-        c,
-        tip,
-        Paint()
-          ..color = const Color(0xFFE9C46A)
-          ..strokeWidth = 2
-          ..strokeCap = StrokeCap.round,
-      )
-      ..drawRect(
-        Rect.fromCenter(center: tip, width: 3, height: 3),
-        Paint()..color = const Color(0xFFE9C46A),
-      )
-      ..drawCircle(c, 1.4, Paint()..color = color);
-  }
-
-  void _minaret(Canvas canvas, Paint stroke) {
-    canvas
-      ..drawPath(
-        Path()
-          ..moveTo(9.5, 23)
-          ..lineTo(9.5, 10.5)
-          ..lineTo(16.5, 10.5)
-          ..lineTo(16.5, 23),
-        stroke,
-      )
-      ..drawLine(const Offset(8, 10.5), const Offset(18, 10.5), stroke)
-      ..drawLine(const Offset(9.5, 15), const Offset(16.5, 15), stroke)
-      ..drawPath(
-        Path()
-          ..moveTo(10.5, 10.5)
-          ..cubicTo(10.5, 7, 11.7, 5.6, 13, 4.2)
-          ..cubicTo(14.3, 5.6, 15.5, 7, 15.5, 10.5),
-        stroke,
-      )
-      ..drawLine(const Offset(13, 4.2), const Offset(13, 2), stroke);
-    const ring = Offset(21.5, 4.5);
-    switch (athanRing) {
-      case AthanRing.unknown:
-        canvas.drawCircle(
-          ring,
-          2.6,
-          Paint()
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.4
-            ..color = RawdahPalette.gold,
-        );
-      case AthanRing.ready:
-        canvas.drawCircle(ring, 3, Paint()..color = RawdahPalette.goldLight);
-      case AthanRing.attention:
-        canvas.drawCircle(ring, 3, Paint()..color = const Color(0xFFE07A6A));
-    }
-  }
-
-  void _rosette(Canvas canvas, Paint stroke) {
-    canvas
-      ..drawPath(OrnamentPaths.star(const Offset(13, 13), 10.5), stroke)
-      ..drawCircle(const Offset(13, 13), 2.8, stroke);
-  }
-
-  @override
-  bool shouldRepaint(_IconPainter old) =>
-      old.tab != tab ||
-      old.color != color ||
-      old.qiblaBearingDeg != qiblaBearingDeg ||
-      old.athanRing != athanRing;
 }
