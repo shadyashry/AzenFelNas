@@ -18,9 +18,9 @@ Placeholder created in slice S01. This file is **generated per release** (`DESIG
 | JPL DE440s planetary ephemeris (`de440s.bsp`) | U.S. Government work (JPL/NASA) | fetched by URL with a sha256 pin; not redistributed (`DESIGN.md` §15 D28) |
 | MET Norway Sunrise API 3.0 values in `lab/tests/data/published_sun_events_2026.json` | NLOD 2.0 / CC BY 4.0 | attribution: "MET Norway" (`DESIGN.md` §15 D31) |
 
-## Fonts (planned, §7.9)
+## Fonts (bundled in `packages/dm_ui/fonts`, §7.9, §15 D89)
 
-IBM Plex Sans Arabic, Inter — SIL Open Font License 1.1.
+Amiri, IBM Plex Sans Arabic, Inter — SIL Open Font License 1.1; each licence sits beside its font files (`OFL-*.txt`).
 
 ## Software dependencies
 

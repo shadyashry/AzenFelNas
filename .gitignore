@@ -48,3 +48,9 @@ Thumbs.db
 infra/**/.terraform/
 infra/**/*.tfstate*
 infra/**/*.tfplan
+
+# Design review evidence (S29): screen captures and impeccable working files
+/apps/mobile/tool/screens/out/
+/.impeccable/review/
+/.impeccable/mocks/
+/.impeccable/*.json
