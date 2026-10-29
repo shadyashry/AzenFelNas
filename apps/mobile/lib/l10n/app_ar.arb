@@ -36,6 +36,8 @@
   "remediationGrantAlarmPermission": "اسمح بالمنبّهات والإشعارات علشان الأذان يشتغل في وقته.",
   "remediationOpenAthanHealth": "افتح صحة الأذان علشان تشوف التفاصيل.",
   "remediationCheckDeviceClock": "خلّي تاريخ ووقت الجهاز يتظبطوا أوتوماتيك.",
+  "remediationActionTurnOnLocation": "شغّل الموقع",
+  "remediationActionOpenSettings": "افتح الإعدادات",
   "onboardingWelcomeTitle": "مواقيت الصلاة حيث أنت",
   "onboardingWelcomeBody": "يشتغل من غير إنترنت ومن غير حساب. موقعك بيفضل على الموبايل ده.",
   "onboardingStart": "يلا نبدأ",

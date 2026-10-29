@@ -65,8 +65,8 @@
       "id": "a214d748c8d3d3a6",
       "day": "2026-10-22",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1792687080000,
-      "displayLocal": "19:38",
+      "fireAtUtcMs": 1792686900000,
+      "displayLocal": "19:35",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -83,8 +83,8 @@
       "id": "f8945e05066e74b1",
       "day": "2026-10-23",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1792723380000,
-      "displayLocal": "05:43",
+      "fireAtUtcMs": 1792722960000,
+      "displayLocal": "05:36",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -155,8 +155,8 @@
       "id": "6134bdccfa0e54a8",
       "day": "2026-10-23",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1792773420000,
-      "displayLocal": "19:37",
+      "fireAtUtcMs": 1792773240000,
+      "displayLocal": "19:34",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -173,8 +173,8 @@
       "id": "3603930f9f53d094",
       "day": "2026-10-24",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1792809780000,
-      "displayLocal": "05:43",
+      "fireAtUtcMs": 1792809360000,
+      "displayLocal": "05:36",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -245,8 +245,8 @@
       "id": "a9ff231f1c656a16",
       "day": "2026-10-24",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1792859760000,
-      "displayLocal": "19:36",
+      "fireAtUtcMs": 1792859640000,
+      "displayLocal": "19:34",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -263,8 +263,8 @@
       "id": "30e2c617ec630f53",
       "day": "2026-10-25",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1792896240000,
-      "displayLocal": "05:44",
+      "fireAtUtcMs": 1792895820000,
+      "displayLocal": "05:37",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -335,8 +335,8 @@
       "id": "5ceba5833c4cc8ec",
       "day": "2026-10-25",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1792946100000,
-      "displayLocal": "19:35",
+      "fireAtUtcMs": 1792945980000,
+      "displayLocal": "19:33",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -353,8 +353,8 @@
       "id": "7b3a60f2ce76c792",
       "day": "2026-10-26",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1792982640000,
-      "displayLocal": "05:44",
+      "fireAtUtcMs": 1792982220000,
+      "displayLocal": "05:37",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -425,8 +425,8 @@
       "id": "af6d5ef358ab4973",
       "day": "2026-10-26",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793032440000,
-      "displayLocal": "19:34",
+      "fireAtUtcMs": 1793032320000,
+      "displayLocal": "19:32",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -443,8 +443,8 @@
       "id": "27fac912a2beb20e",
       "day": "2026-10-27",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793069100000,
-      "displayLocal": "05:45",
+      "fireAtUtcMs": 1793068680000,
+      "displayLocal": "05:38",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -515,8 +515,8 @@
       "id": "a233bd25da1edd94",
       "day": "2026-10-27",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793118780000,
-      "displayLocal": "19:33",
+      "fireAtUtcMs": 1793118660000,
+      "displayLocal": "19:31",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -533,8 +533,8 @@
       "id": "a399d4c819d3cd6e",
       "day": "2026-10-28",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793155560000,
-      "displayLocal": "05:46",
+      "fireAtUtcMs": 1793155140000,
+      "displayLocal": "05:39",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -605,8 +605,8 @@
       "id": "351c7ecf888eb812",
       "day": "2026-10-28",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793205180000,
-      "displayLocal": "19:33",
+      "fireAtUtcMs": 1793205000000,
+      "displayLocal": "19:30",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -623,8 +623,8 @@
       "id": "8478caa18c41231d",
       "day": "2026-10-29",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793241960000,
-      "displayLocal": "05:46",
+      "fireAtUtcMs": 1793241540000,
+      "displayLocal": "05:39",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -695,8 +695,8 @@
       "id": "ee9df4e538466f04",
       "day": "2026-10-29",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793291520000,
-      "displayLocal": "19:32",
+      "fireAtUtcMs": 1793291340000,
+      "displayLocal": "19:29",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -713,8 +713,8 @@
       "id": "aaa06734728816ae",
       "day": "2026-10-30",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793328420000,
-      "displayLocal": "04:47",
+      "fireAtUtcMs": 1793328000000,
+      "displayLocal": "04:40",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -785,8 +785,8 @@
       "id": "bb833da692e5ac96",
       "day": "2026-10-30",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793377860000,
-      "displayLocal": "18:31",
+      "fireAtUtcMs": 1793377740000,
+      "displayLocal": "18:29",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -803,8 +803,8 @@
       "id": "de663ac40573e5e0",
       "day": "2026-10-31",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793414880000,
-      "displayLocal": "04:48",
+      "fireAtUtcMs": 1793414460000,
+      "displayLocal": "04:41",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -875,8 +875,8 @@
       "id": "35513258914e347b",
       "day": "2026-10-31",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793464200000,
-      "displayLocal": "18:30",
+      "fireAtUtcMs": 1793464080000,
+      "displayLocal": "18:28",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -893,8 +893,8 @@
       "id": "e542fe7868f45003",
       "day": "2026-11-01",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793501280000,
-      "displayLocal": "04:48",
+      "fireAtUtcMs": 1793500860000,
+      "displayLocal": "04:41",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -965,8 +965,8 @@
       "id": "eed26ff310b17d5a",
       "day": "2026-11-01",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793550600000,
-      "displayLocal": "18:30",
+      "fireAtUtcMs": 1793550420000,
+      "displayLocal": "18:27",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -983,8 +983,8 @@
       "id": "57f1fd44b23a0dd0",
       "day": "2026-11-02",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793587740000,
-      "displayLocal": "04:49",
+      "fireAtUtcMs": 1793587320000,
+      "displayLocal": "04:42",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"
@@ -1072,8 +1072,8 @@
       "id": "1df63ae9b35c8806",
       "day": "2026-11-02",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793636940000,
-      "displayLocal": "18:29",
+      "fireAtUtcMs": 1793636820000,
+      "displayLocal": "18:27",
       "title": {
         "ar": "أذان العشاء",
         "en": "Isha Athan"
@@ -1090,8 +1090,8 @@
       "id": "441d6ead999218a2",
       "day": "2026-11-03",
       "kind": "ATHAN",
-      "fireAtUtcMs": 1793674200000,
-      "displayLocal": "04:50",
+      "fireAtUtcMs": 1793673780000,
+      "displayLocal": "04:43",
       "title": {
         "ar": "أذان الفجر",
         "en": "Fajr Athan"

@@ -39,8 +39,8 @@
     {
       "day": "2026-10-22",
       "event": "ISHA",
-      "displayedUtcMs": 1792687080000,
-      "displayLocal": "19:38",
+      "displayedUtcMs": 1792686900000,
+      "displayLocal": "19:35",
       "confidence": {
         "kind": "CALCULATED"
       },
@@ -49,8 +49,8 @@
     {
       "day": "2026-10-23",
       "event": "FAJR",
-      "displayedUtcMs": 1792723380000,
-      "displayLocal": "05:43",
+      "displayedUtcMs": 1792722960000,
+      "displayLocal": "05:36",
       "confidence": {
         "kind": "CALCULATED"
       },
@@ -99,8 +99,8 @@
     {
       "day": "2026-10-23",
       "event": "ISHA",
-      "displayedUtcMs": 1792773420000,
-      "displayLocal": "19:37",
+      "displayedUtcMs": 1792773240000,
+      "displayLocal": "19:34",
       "confidence": {
         "kind": "CALCULATED"
       },
@@ -109,8 +109,8 @@
     {
       "day": "2026-10-24",
       "event": "FAJR",
-      "displayedUtcMs": 1792809780000,
-      "displayLocal": "05:43",
+      "displayedUtcMs": 1792809360000,
+      "displayLocal": "05:36",
       "confidence": {
         "kind": "CALCULATED"
       },

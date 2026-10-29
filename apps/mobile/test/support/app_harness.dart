@@ -6,6 +6,7 @@ import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
 import 'package:daily_muslim/features/contexts/domain/location_ports.dart';
 import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/qibla/domain/heading_source.dart';
+import 'package:daily_muslim/features/shell/domain/open_system_settings.dart';
 import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
 import 'package:daily_muslim/features/storage/data/places_database.dart';
@@ -21,6 +22,7 @@ import '../features/contexts/support/fake_device_locator.dart';
 import '../features/qibla/support/fake_heading_source.dart';
 import 'fake_athan_grant.dart';
 import 'fake_location_access.dart';
+import 'fake_system_settings.dart';
 
 /// 2026-10-22T09:00:00Z.
 const harnessNowUtcMs = 1792659600000;
@@ -65,6 +67,7 @@ Widget harnessApp(
   RequestLocationAccess? locationAccess,
   HeadingSource? heading,
   RequestAthanGrant? athanGrant,
+  OpenSystemSettings? systemSettings,
   Clock? clock,
 }) => ProviderScope(
   overrides: AppBindings.of(
@@ -77,6 +80,7 @@ Widget harnessApp(
     heading: heading ?? FakeHeadingSource(),
     athan: noAthanHost(),
     athanGrant: athanGrant ?? FakeAthanGrant(),
+    systemSettings: systemSettings ?? FakeSystemSettings(),
     runPayloadWork: runPayloadWorkInPlace,
   ),
   child: DailyMuslimApp(initialLocation: initialLocation),

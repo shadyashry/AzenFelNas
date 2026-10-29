@@ -102,7 +102,13 @@ final class QiblaView extends ConsumerWidget {
                   : _turn(l, ready, digits.apply),
               child: QiblaDial(
                 bearingDeg: qibla.bearingDeg,
-                headingDeg: ready?.headingDeg,
+                headingDeg: switch (state) {
+                  QiblaReady(:final headingDeg) ||
+                  QiblaCalibrating(:final double headingDeg) => headingDeg,
+                  QiblaCalibrating() ||
+                  QiblaNoHeading() ||
+                  QiblaNumericOnly() => null,
+                },
                 aligned: ready != null && ready.turnDeg.abs() < 3,
                 cardinals: (
                   l.compassNorth,

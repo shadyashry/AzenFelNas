@@ -6,7 +6,7 @@ profileId: ae.awqaf.standard
 schemaVersion: 1
 version: 2026.10.1
 status: DRAFT_UNVERIFIED
-effectiveFrom: "2026-11-01"                      # as the §6.5 example (§15 D50)
+effectiveFrom: "2026-10-01"                      # in effect for testing now (§15 D97); was the §6.5 example 2026-11-01
 effectiveTo: null
 scope:
   countries: [AE]

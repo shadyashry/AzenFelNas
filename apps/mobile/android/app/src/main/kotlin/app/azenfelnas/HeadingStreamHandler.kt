@@ -66,7 +66,9 @@ class HeadingStreamHandler(private val context: Context) :
     val heading =
         if (declinationDeg.isNaN()) null else ((magneticDeg + declinationDeg) % 360 + 360) % 360
     val estimated =
-        if (event.values.size > 4 && event.values[4] >= 0) {
+        // A zero estimate is "no estimate" on many phones (and the emulator), never a perfect compass
+        // (DESIGN.md §15 D97); the sensor status is used instead.
+        if (event.values.size > 4 && event.values[4] > 0) {
           Math.toDegrees(event.values[4].toDouble())
         } else {
           statusAccuracyDeg

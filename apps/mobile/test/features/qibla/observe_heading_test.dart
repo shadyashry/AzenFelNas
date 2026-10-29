@@ -48,6 +48,18 @@ void main() {
       expect(states[4], isA<QiblaCalibrating>());
     });
 
+    test('while calibrating the dial still follows the heading, so a coarse '
+        'phone compass never looks frozen (§15 D97)', () async {
+      final states = await _states([
+        const HeadingReading(trueHeadingDeg: 100, accuracyDeg: 35),
+        const HeadingReading(trueHeadingDeg: 140, accuracyDeg: null),
+        const HeadingReading(trueHeadingDeg: null, accuracyDeg: 3),
+      ]);
+      expect((states[1] as QiblaCalibrating).headingDeg, 100);
+      expect((states[2] as QiblaCalibrating).headingDeg, 140);
+      expect((states[3] as QiblaCalibrating).headingDeg, isNull);
+    });
+
     test('the turn is the signed shortest rotation to the bearing', () {
       final q = const CalculateQibla()(_cairo);
       QiblaReady at(double h) => QiblaReady(q, headingDeg: h, accuracyDeg: 5);

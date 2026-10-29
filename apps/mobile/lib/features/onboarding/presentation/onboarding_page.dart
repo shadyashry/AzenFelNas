@@ -1,6 +1,9 @@
 import 'package:daily_muslim/features/contexts/presentation/manual_place_view.dart';
 import 'package:daily_muslim/features/onboarding/presentation/onboarding_controller.dart';
 import 'package:daily_muslim/features/onboarding/presentation/onboarding_state.dart';
+import 'package:daily_muslim/features/settings/domain/app_settings.dart';
+import 'package:daily_muslim/features/settings/domain/setting_values.dart';
+import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
@@ -39,6 +42,7 @@ final class OnboardingPage extends ConsumerWidget {
             title: l.onboardingWelcomeTitle,
             body: l.onboardingWelcomeBody,
             actions: [
+              const LanguageChoice(),
               FilledButton(
                 onPressed: controller.start,
                 child: Text(l.onboardingStart),
@@ -106,7 +110,12 @@ final class OnboardingPage extends ConsumerWidget {
                 l.onboardingFailedTitle,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              NeedsAttentionCard(const DescribeFailure()(failure)),
+              // Back from the location settings the card opened, location
+              // is tried again (§15 D97).
+              NeedsAttentionCard(
+                const DescribeFailure()(failure),
+                onReturn: controller.useApproximateLocation,
+              ),
               FilledButton(
                 onPressed: controller.choosePlace,
                 child: Text(l.onboardingChoosePlace),
@@ -161,6 +170,36 @@ final class _Step extends StatelessWidget {
         for (final action in actions)
           Padding(padding: const EdgeInsets.only(bottom: 12), child: action),
       ],
+    );
+  }
+}
+
+/// The language of the app, chosen on the first screen (§15 D97): Arabic or
+/// English, starting from the device language; it is the Settings choice.
+final class LanguageChoice extends ConsumerWidget {
+  /// The choice.
+  const new({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final shown = Localizations.localeOf(context).languageCode == 'ar'
+        ? LocaleSetting.ar
+        : LocaleSetting.en;
+    return Semantics(
+      label: l.settingsLanguage,
+      child: SegmentedButton<LocaleSetting>(
+        segments: const [
+          // Each language is named in its own script.
+          ButtonSegment(value: LocaleSetting.ar, label: Text('العربية')),
+          ButtonSegment(value: LocaleSetting.en, label: Text('English')),
+        ],
+        selected: {shown},
+        showSelectedIcon: false,
+        onSelectionChanged: (choice) => ref
+            .read(writeSettingProvider)
+            .write(AppSettings.locale, choice.single),
+      ),
     );
   }
 }

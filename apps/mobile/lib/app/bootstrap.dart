@@ -8,6 +8,7 @@ import 'package:daily_muslim/features/contexts/data/geolocator_device_locator.da
 import 'package:daily_muslim/features/contexts/data/permission_handler_location_access.dart';
 import 'package:daily_muslim/features/qibla/data/channel_heading_source.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
+import 'package:daily_muslim/features/shell/data/geolocator_system_settings.dart';
 import 'package:daily_muslim/features/storage/data/database_files.dart';
 import 'package:daily_muslim/features/storage/data/method_channel_backup_exclusion.dart';
 import 'package:daily_muslim/features/storage/data/static_rules_backup_exclusion.dart';
@@ -57,6 +58,9 @@ abstract final class Bootstrap {
             ),
             heading: const ChannelHeadingSource(),
             athan: AthanSchedulerApi(),
+            systemSettings: GeolocatorSystemSettings(
+              GeolocatorPlatform.instance,
+            ),
             athanGrant: PermissionHandlerAthanGrant(
               PermissionHandlerPlatform.instance,
             ),

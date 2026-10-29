@@ -37,10 +37,8 @@ final class ObserveHeading {
         )
             when accuracy <= readyAccuracyDeg =>
           QiblaReady(qibla, headingDeg: heading, accuracyDeg: accuracy),
-        HeadingReading(:final accuracyDeg) => QiblaCalibrating(
-          qibla,
-          accuracyDeg,
-        ),
+        HeadingReading(:final trueHeadingDeg, :final accuracyDeg) =>
+          QiblaCalibrating(qibla, accuracyDeg, headingDeg: trueHeadingDeg),
       };
       if (event is HeadingUnavailable) return;
     }

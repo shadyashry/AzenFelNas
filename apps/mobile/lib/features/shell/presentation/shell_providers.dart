@@ -1,8 +1,14 @@
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/shell/application/start_app.dart';
+import 'package:daily_muslim/features/shell/domain/open_system_settings.dart';
 import 'package:daily_muslim/features/shell/domain/start_report.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+/// Opens system settings for a remediation (bound in `app/di.dart`).
+final openSystemSettingsProvider = Provider<OpenSystemSettings>(
+  (ref) => throw UnimplementedError('bound in app/di.dart'),
+);
 
 /// Bound in `app/di.dart`.
 final startAppProvider = Provider<StartApp>(

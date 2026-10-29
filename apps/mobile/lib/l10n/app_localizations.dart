@@ -314,6 +314,18 @@ abstract class AppLocalizations {
   /// **'Set the device\'s date and time to update automatically.'**
   String get remediationCheckDeviceClock;
 
+  /// Needs attention button that opens the device's location settings (§15 D97).
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on location'**
+  String get remediationActionTurnOnLocation;
+
+  /// Needs attention button that opens the app's settings for a blocked permission (§15 D97).
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get remediationActionOpenSettings;
+
   /// Onboarding welcome step title.
   ///
   /// In en, this message translates to:

@@ -39,7 +39,7 @@ import '../athan/plan_fixtures.dart';
 import '../athan/support/fake_plan_host.dart';
 
 /// 2026-11-10T12:00:00Z: inside the seed's country profiles' effective
-/// range (from 2026-11-01).
+/// range (from 2026-10-01, §15 D97).
 const int _now = 1794312000000;
 
 const String _seedVersion = '2026.10.1';

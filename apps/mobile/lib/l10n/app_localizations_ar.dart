@@ -128,6 +128,12 @@ class AppLocalizationsAr extends AppLocalizations {
       'خلّي تاريخ ووقت الجهاز يتظبطوا أوتوماتيك.';
 
   @override
+  String get remediationActionTurnOnLocation => 'شغّل الموقع';
+
+  @override
+  String get remediationActionOpenSettings => 'افتح الإعدادات';
+
+  @override
   String get onboardingWelcomeTitle => 'مواقيت الصلاة حيث أنت';
 
   @override

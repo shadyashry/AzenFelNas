@@ -61,6 +61,7 @@ import 'package:daily_muslim/features/settings/presentation/diagnostics_provider
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/application/start_app.dart';
 import 'package:daily_muslim/features/shell/data/event_log_app_events.dart';
+import 'package:daily_muslim/features/shell/domain/open_system_settings.dart';
 import 'package:daily_muslim/features/shell/presentation/shell_providers.dart';
 import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:daily_muslim/features/storage/data/drift_event_log.dart';
@@ -89,6 +90,7 @@ abstract final class AppBindings {
     required HeadingSource heading,
     required AthanSchedulerApi athan,
     required RequestAthanGrant athanGrant,
+    required OpenSystemSettings systemSettings,
     RunPayloadWork runPayloadWork = Isolate.run,
   }) {
     final settings = DriftSettingsStore(databases.dm);
@@ -124,6 +126,7 @@ abstract final class AppBindings {
         AssetAttributions(assets.loadString),
       ),
       startAppProvider.overrideWithValue(startApp),
+      openSystemSettingsProvider.overrideWithValue(systemSettings),
       syncPackagesProvider.overrideWithValue(switch (_embeddedRoot()) {
         final root? => syncPackages(
           db: databases.dm,

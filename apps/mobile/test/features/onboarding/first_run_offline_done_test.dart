@@ -49,15 +49,16 @@ void main() {
     await tester.tap(find.text("Show today's times"));
     await pumpUntil(tester, find.byType(TimeRow));
 
-    // Home: the manual place, the engine-default notice (the Egyptian seed
-    // profile starts on 2026-11-01) and every event with its label.
+    // Home: the manual place, no engine-default notice (the Egyptian seed
+    // profile is in effect from 2026-10-01, §15 D97) and every event with
+    // its label.
     expect(find.text('Manual place · Cairo'), findsOneWidget);
     expect(
       find.text(
         'There is no local authority profile here; the engine default is '
         'used.',
       ),
-      findsOneWidget,
+      findsNothing,
     );
     expect(find.byType(TimeRow), findsAtLeastNWidgets(6));
     expect(find.text('Calculated'), findsAtLeastNWidgets(6));

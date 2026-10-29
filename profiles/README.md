@@ -24,10 +24,10 @@ The Sharia board and the accuracy lead replace them through a profile-change PR 
 | all | `evidence.sources: []` | **Owed**: the official publications to verify must be retrieved and hashed (§15 D50); no URL or hash is invented |
 | `engine.default` | `ENGINE_DEFAULT`, scope `*`, Fajr/Isha `solarAltitude` 18°, Asr k = 1 | §6.5 |
 | `engine.default` | `effectiveFrom: 0001-01-01`, `maxAbsMinutes: 0` | **§15 D50 default**: the fallback covers the engine's whole domain; no offsets |
-| `eg.egas.standard` | Fajr 19.5°, Isha 17.5°, Asr k = 1, Dhuhr offset 0, `maxAbsMinutes: 3`, `GOVERNMENT`, `effectiveFrom: 2026-11-01`, `benchmarkSet: eg-2026-q4` | §6.5 (illustrative) |
+| `eg.egas.standard` | Fajr 19.5°, Isha 17.5°, Asr k = 1, Dhuhr offset 0, `maxAbsMinutes: 3`, `GOVERNMENT`, `effectiveFrom: 2026-10-01` (§15 D97), `benchmarkSet: eg-2026-q4` | §6.5 (illustrative) |
 | `sa.ummalqura.standard` | Isha `intervalAfter maghrib` 90 min; Ramadan Isha 120 min | §6.5 |
-| `sa.ummalqura.standard` | Fajr 18°, Asr k = 1, `GOVERNMENT`, `effectiveFrom: 2026-11-01`, `maxAbsMinutes: 0` | **§15 D50 default** |
-| `ae.awqaf.standard` | every rule value (Fajr/Isha 18°, Asr k = 1), `GOVERNMENT`, `effectiveFrom: 2026-11-01`, `maxAbsMinutes: 0` | **§15 D50 default**: DESIGN.md gives none |
+| `sa.ummalqura.standard` | Fajr 18°, Asr k = 1, `GOVERNMENT`, `effectiveFrom: 2026-10-01` (§15 D97), `maxAbsMinutes: 0` | **§15 D50 default** |
+| `ae.awqaf.standard` | every rule value (Fajr/Isha 18°, Asr k = 1), `GOVERNMENT`, `effectiveFrom: 2026-10-01` (§15 D97), `maxAbsMinutes: 0` | **§15 D50 default**: DESIGN.md gives none |
 
 ## Checks
 

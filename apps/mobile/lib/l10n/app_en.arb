@@ -150,6 +150,14 @@
   "@remediationCheckDeviceClock": {
     "description": "Remediation."
   },
+  "remediationActionTurnOnLocation": "Turn on location",
+  "@remediationActionTurnOnLocation": {
+    "description": "Needs attention button that opens the device's location settings (§15 D97)."
+  },
+  "remediationActionOpenSettings": "Open settings",
+  "@remediationActionOpenSettings": {
+    "description": "Needs attention button that opens the app's settings for a blocked permission (§15 D97)."
+  },
   "onboardingWelcomeTitle": "Prayer times for where you are",
   "@onboardingWelcomeTitle": {
     "description": "Onboarding welcome step title."

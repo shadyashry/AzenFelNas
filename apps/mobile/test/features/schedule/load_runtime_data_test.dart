@@ -20,6 +20,7 @@ import 'package:geo_salah_profiles/geo_salah_profiles.dart';
 import '../../support/app_harness.dart';
 import '../../support/fake_athan_grant.dart';
 import '../../support/fake_location_access.dart';
+import '../../support/fake_system_settings.dart';
 import '../contexts/support/fake_device_locator.dart';
 import '../qibla/support/fake_heading_source.dart';
 
@@ -65,6 +66,7 @@ void main() {
         heading: FakeHeadingSource(),
         athan: noAthanHost(),
         athanGrant: FakeAthanGrant(),
+        systemSettings: FakeSystemSettings(),
         runPayloadWork: runPayloadWorkInPlace,
       ),
     );

@@ -127,6 +127,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Set the device\'s date and time to update automatically.';
 
   @override
+  String get remediationActionTurnOnLocation => 'Turn on location';
+
+  @override
+  String get remediationActionOpenSettings => 'Open settings';
+
+  @override
   String get onboardingWelcomeTitle => 'Prayer times for where you are';
 
   @override

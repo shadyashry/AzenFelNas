@@ -15,13 +15,19 @@ final class QiblaNoHeading extends QiblaState {
 }
 
 /// The compass reports poor or unknown accuracy, or no true north yet:
-/// calibration guidance, no arrow.
+/// calibration guidance. With a heading the dial still turns with the phone
+/// (§15 D97): most phones report a coarse accuracy, and a dial that never
+/// moves reads as broken.
 final class QiblaCalibrating extends QiblaState {
-  /// [accuracyDeg] is `null` when unknown.
-  const new(super.qibla, this.accuracyDeg);
+  /// [accuracyDeg] is `null` when unknown; [headingDeg] when the compass
+  /// gives true north.
+  const new(super.qibla, this.accuracyDeg, {this.headingDeg});
 
   /// Estimated compass error, degrees, or `null`.
   final double? accuracyDeg;
+
+  /// Device heading from true north, degrees, or `null`.
+  final double? headingDeg;
 }
 
 /// A trustworthy sample: the arrow points to the Qibla.

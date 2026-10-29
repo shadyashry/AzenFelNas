@@ -41,12 +41,13 @@ void main() {
         _resolvedId(set, null, CivilDate(2027, 1, 15)),
         'engine.default',
       );
+      // The Egyptian seed is in effect from 2026-10-01 (§15 D97).
       expect(
-        _resolvedId(set, 'EG', CivilDate(2026, 10, 31)),
+        _resolvedId(set, 'EG', CivilDate(2026, 9, 30)),
         'engine.default',
       );
       expect(
-        _resolvedId(set, 'EG', CivilDate(2026, 11, 1)),
+        _resolvedId(set, 'EG', CivilDate(2026, 10, 1)),
         'eg.egas.standard',
       );
     });
