@@ -505,6 +505,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get qiblaNeedsPlace => 'Choose a place to see the Qibla.';
 
   @override
+  String get qiblaShadowTitle => 'Qibla by the Sun\'s shadow';
+
+  @override
+  String get qiblaShadowFootnote =>
+      'No compass needed: stand a stick, pole or plumb line upright. At these times its shadow lies on the Qibla line.';
+
+  @override
+  String get qiblaShadowToward =>
+      'Face the Sun. The Qibla runs from the tip of the shadow to the base of the stick.';
+
+  @override
+  String get qiblaShadowAway =>
+      'The Sun is behind you. The Qibla runs from the base of the stick along the shadow to its tip.';
+
+  @override
+  String qiblaShadowWindow(String start, String end) {
+    return 'Within 1° from $start to $end';
+  }
+
+  @override
+  String get qiblaShadowPassed => 'Passed';
+
+  @override
+  String get qiblaShadowHighSun =>
+      'Hard to use: the Sun is high, so the shadow is short.';
+
+  @override
+  String get qiblaShadowBriefWindow =>
+      'Hard to use: the window is under two minutes.';
+
+  @override
+  String qiblaShadowNextDay(String date) {
+    return 'None today. Next: $date';
+  }
+
+  @override
+  String get qiblaShadowNone =>
+      'The Sun does not line up with the Qibla here in the next 8 days.';
+
+  @override
   String planAthanTitle(String prayer) {
     return '$prayer Athan';
   }

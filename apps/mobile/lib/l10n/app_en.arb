@@ -726,6 +726,62 @@
   "@qiblaNeedsPlace": {
     "description": "Qibla without a place."
   },
+  "qiblaShadowTitle": "Qibla by the Sun's shadow",
+  "@qiblaShadowTitle": {
+    "description": "Heading of the sensor-free Qibla section (D91)."
+  },
+  "qiblaShadowFootnote": "No compass needed: stand a stick, pole or plumb line upright. At these times its shadow lies on the Qibla line.",
+  "@qiblaShadowFootnote": {
+    "description": "How to use the shadow times."
+  },
+  "qiblaShadowToward": "Face the Sun. The Qibla runs from the tip of the shadow to the base of the stick.",
+  "@qiblaShadowToward": {
+    "description": "Sun at the Qibla bearing."
+  },
+  "qiblaShadowAway": "The Sun is behind you. The Qibla runs from the base of the stick along the shadow to its tip.",
+  "@qiblaShadowAway": {
+    "description": "Sun opposite the Qibla bearing."
+  },
+  "qiblaShadowWindow": "Within 1° from {start} to {end}",
+  "@qiblaShadowWindow": {
+    "description": "Window of one alignment, local times.",
+    "placeholders": {
+      "start": {
+        "type": "String",
+        "example": "11:58"
+      },
+      "end": {
+        "type": "String",
+        "example": "12:06"
+      }
+    }
+  },
+  "qiblaShadowPassed": "Passed",
+  "@qiblaShadowPassed": {
+    "description": "The alignment's window has closed."
+  },
+  "qiblaShadowHighSun": "Hard to use: the Sun is high, so the shadow is short.",
+  "@qiblaShadowHighSun": {
+    "description": "Sun altitude 75\u00b0 or more."
+  },
+  "qiblaShadowBriefWindow": "Hard to use: the window is under two minutes.",
+  "@qiblaShadowBriefWindow": {
+    "description": "Window shorter than 2 min."
+  },
+  "qiblaShadowNextDay": "None today. Next: {date}",
+  "@qiblaShadowNextDay": {
+    "description": "No alignment today; the first day that has one.",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Friday, 30 October 2026"
+      }
+    }
+  },
+  "qiblaShadowNone": "The Sun does not line up with the Qibla here in the next 8 days.",
+  "@qiblaShadowNone": {
+    "description": "No alignment in the searched days."
+  },
   "planAthanTitle": "{prayer} Athan",
   "@planAthanTitle": {
     "description": "Plan notification title of an Athan (§7.7).",

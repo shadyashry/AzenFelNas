@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/qibla/domain/qibla_state.dart';
 import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
+import 'package:daily_muslim/features/qibla/presentation/shadow_times_section.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
@@ -136,6 +137,8 @@ final class QiblaView extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
+        // The Qibla without any sensor (§15 D91).
+        const ShadowTimesSection(),
       ],
     );
   }

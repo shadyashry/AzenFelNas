@@ -950,6 +950,66 @@ abstract class AppLocalizations {
   /// **'Choose a place to see the Qibla.'**
   String get qiblaNeedsPlace;
 
+  /// Heading of the sensor-free Qibla section (D91).
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla by the Sun\'s shadow'**
+  String get qiblaShadowTitle;
+
+  /// How to use the shadow times.
+  ///
+  /// In en, this message translates to:
+  /// **'No compass needed: stand a stick, pole or plumb line upright. At these times its shadow lies on the Qibla line.'**
+  String get qiblaShadowFootnote;
+
+  /// Sun at the Qibla bearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Face the Sun. The Qibla runs from the tip of the shadow to the base of the stick.'**
+  String get qiblaShadowToward;
+
+  /// Sun opposite the Qibla bearing.
+  ///
+  /// In en, this message translates to:
+  /// **'The Sun is behind you. The Qibla runs from the base of the stick along the shadow to its tip.'**
+  String get qiblaShadowAway;
+
+  /// Window of one alignment, local times.
+  ///
+  /// In en, this message translates to:
+  /// **'Within 1° from {start} to {end}'**
+  String qiblaShadowWindow(String start, String end);
+
+  /// The alignment's window has closed.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed'**
+  String get qiblaShadowPassed;
+
+  /// Sun altitude 75° or more.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard to use: the Sun is high, so the shadow is short.'**
+  String get qiblaShadowHighSun;
+
+  /// Window shorter than 2 min.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard to use: the window is under two minutes.'**
+  String get qiblaShadowBriefWindow;
+
+  /// No alignment today; the first day that has one.
+  ///
+  /// In en, this message translates to:
+  /// **'None today. Next: {date}'**
+  String qiblaShadowNextDay(String date);
+
+  /// No alignment in the searched days.
+  ///
+  /// In en, this message translates to:
+  /// **'The Sun does not line up with the Qibla here in the next 8 days.'**
+  String get qiblaShadowNone;
+
   /// Plan notification title of an Athan (§7.7).
   ///
   /// In en, this message translates to:

@@ -505,6 +505,44 @@ class AppLocalizationsAr extends AppLocalizations {
   String get qiblaNeedsPlace => 'اختار مكان علشان تشوف القبلة.';
 
   @override
+  String get qiblaShadowTitle => 'القبلة بظل الشمس';
+
+  @override
+  String get qiblaShadowFootnote =>
+      'من غير بوصلة: اركز عصاية أو خيط شاقول واقف. في الأوقات دي ضله بيبقى على خط القبلة.';
+
+  @override
+  String get qiblaShadowToward =>
+      'اتجه للشمس. القبلة من طرف الضل لحد رجل العصاية.';
+
+  @override
+  String get qiblaShadowAway =>
+      'الشمس وراك. القبلة من رجل العصاية على طول الضل لحد طرفه.';
+
+  @override
+  String qiblaShadowWindow(String start, String end) {
+    return 'في حدود درجة من $start لحد $end';
+  }
+
+  @override
+  String get qiblaShadowPassed => 'عدّى';
+
+  @override
+  String get qiblaShadowHighSun => 'صعب: الشمس عالية فالضل قصير.';
+
+  @override
+  String get qiblaShadowBriefWindow => 'صعب: الوقت أقل من دقيقتين.';
+
+  @override
+  String qiblaShadowNextDay(String date) {
+    return 'مفيش النهارده. أقرب يوم: $date';
+  }
+
+  @override
+  String get qiblaShadowNone =>
+      'الشمس مش هتيجي على خط القبلة هنا في الـ٨ أيام الجايين.';
+
+  @override
   String planAthanTitle(String prayer) {
     return 'أذان $prayer';
   }
