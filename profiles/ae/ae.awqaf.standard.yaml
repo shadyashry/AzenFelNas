@@ -1,7 +1,8 @@
 # ae.awqaf.standard: United Arab Emirates (DESIGN.md §6.5).
 # DRAFT_UNVERIFIED seed (Appendix E): illustrative until evidence and approvals exist; loads on dev/lab only.
-# DESIGN.md gives no rule value for this profile: every value below is the engine.default value, an
-# engineering default awaiting the Sharia board (§15 D50). Sources are in profiles/README.md.
+# Rule values are fitted to the published timetable of the General Authority of Islamic Affairs, Endowments and
+# Zakat (awqaf.gov.ae): 123 days of Abu Dhabi (Jan, Apr, Jul, Oct 2026), 92 % of the 738 times to the minute and
+# all within one minute (§15 D99). They reproduce the authority's table; the Sharia board still approves them.
 profileId: ae.awqaf.standard
 schemaVersion: 1
 version: 2026.10.1
@@ -19,25 +20,34 @@ referenceMode: EXACT_COORDINATE
 referencePoints: []
 rules:
   imsak: null
-  fajr: { type: solarAltitude, degrees: 18 }     # engine.default value (§15 D50)
+  fajr: { type: solarAltitude, degrees: 18.2 }   # fitted to the Awqaf table (§15 D99)
   sunrise: { type: horizon }
   dhuhr: { type: transit }
   asr: { type: shadowFactor, k: 1 }              # engine.default value (§15 D50)
   maghrib: { type: horizon }
-  isha: { type: solarAltitude, degrees: 18 }     # engine.default value (§15 D50)
+  isha: { type: solarAltitude, degrees: 18.2 }   # fitted to the Awqaf table (§15 D99)
 horizon:
   elevationPolicy: NONE
 highLatitude:
   chain: [anglePortion, { nearestLatitude: { latDeg: 48.5 } }]   # §6.5 illustration (§15 D50)
-rounding:
-  default: ceil
-  sunrise: floor
+rounding:                                        # fitted to the Awqaf table (§15 D99)
+  default: floor
+  fajr: nearest
+  maghrib: nearest
 adjustments:
-  perEventMinutes: {}
-  maxAbsMinutes: 0                               # no offsets (§15 D50)
+  perEventMinutes:                               # the authority's fixed minutes, fitted (§15 D99)
+    sunrise: -3
+    dhuhr: 3
+    asr: 1
+    maghrib: 3
+  maxAbsMinutes: 3
   ramadan: {}
 evidence:
-  sources: []                                    # owed (§15 D50)
+  sources:
+    - title: "Awqaf prayer times, Abu Dhabi (Musaffah), monthly tables Jan/Apr/Jul/Oct 2026"
+      url: "https://www.awqaf.gov.ae/prayer-times"
+      retrievedOn: "2026-10-29"
+      sha256: "2cf979fc133d37226a7f9fac5143d63d697f2b83dabc1e6a49978c74ff041c30"   # apps/mobile/test/fixtures/awqaf_musaffah_2026.csv
   benchmarkSet: ae-2026-q4
   holdoutReport: null
   benchmarkReportId: null
