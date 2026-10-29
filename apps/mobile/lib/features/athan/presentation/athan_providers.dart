@@ -1,5 +1,6 @@
 import 'package:daily_muslim/features/athan/application/evaluate_athan_health.dart';
 import 'package:daily_muslim/features/athan/application/record_athan_test_result.dart';
+import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
 import 'package:daily_muslim/features/athan/domain/athan_health.dart';
 import 'package:daily_muslim/features/athan/domain/athan_platform_ports.dart';
 import 'package:daily_muslim/features/athan/domain/read_athan_sounds.dart';
@@ -28,6 +29,11 @@ final recordAthanTestResultProvider = Provider<RecordAthanTestResult>(
 
 /// The latest Test answer (bound in `app/di.dart`).
 final readLastTestHeardProvider = Provider<ReadLastTestHeard>(
+  (ref) => throw UnimplementedError('bound in app/di.dart'),
+);
+
+/// Asks the user for an Athan permission (bound in `app/di.dart`).
+final requestAthanGrantProvider = Provider<RequestAthanGrant>(
   (ref) => throw UnimplementedError('bound in app/di.dart'),
 );
 

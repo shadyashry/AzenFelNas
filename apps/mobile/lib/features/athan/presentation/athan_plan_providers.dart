@@ -24,7 +24,8 @@ final applySchedulePlanProvider = Provider<ApplySchedulePlan>(
 /// The Athan armed for the active place (§15 D94): planned again and handed
 /// to the native host whenever the schedule, the place, the Athan choices,
 /// the bundled sounds or the locale change; true when the host stored the
-/// plan. Home and the Athan screen keep it alive, so it runs on every open.
+/// plan. Home and the Athan screen keep it alive, so it runs on every open;
+/// Athan Health is evaluated again once the host answered.
 final FutureProvider<bool> athanPlanProvider = FutureProvider.autoDispose<bool>(
   (ref) async {
     final loaded = await ref.watch(scheduleProvider.future);
@@ -61,6 +62,9 @@ final FutureProvider<bool> athanPlanProvider = FutureProvider.autoDispose<bool>(
           target: planTargetOf(defaultTargetPlatform),
           hijriOverrideDays: hijri,
         );
+        // Health read before the host held the plan reported it stale
+        // (§15 D95): evaluate it again now.
+        ref.invalidate(athanHealthProvider);
         return applied is Ok;
     }
   },

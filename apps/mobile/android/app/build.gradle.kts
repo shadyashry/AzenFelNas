@@ -1,8 +1,18 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// The Play upload key (DESIGN.md §20, §15 D95): `android/key.properties` (git-ignored) names the keystore and
+// its passwords. Without it, release builds are signed with the debug key: installable for testing, never
+// uploadable.
+val uploadKey =
+    rootProject.file("key.properties").takeIf { it.isFile }?.let { file ->
+        Properties().apply { file.inputStream().use { load(it) } }
+    }
 
 android {
     namespace = "app.azenfelnas"
@@ -28,10 +38,20 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (uploadKey != null) {
+            create("upload") {
+                storeFile = rootProject.file(uploadKey.getProperty("storeFile"))
+                storePassword = uploadKey.getProperty("storePassword")
+                keyAlias = uploadKey.getProperty("keyAlias")
+                keyPassword = uploadKey.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // Release signing (Play App Signing upload key) is configured in CI (DESIGN.md §20).
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName(if (uploadKey != null) "upload" else "debug")
         }
     }
 }

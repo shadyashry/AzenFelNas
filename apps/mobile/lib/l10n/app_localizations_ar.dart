@@ -634,7 +634,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get athanReasonNoSoundAsset => 'لا يوجد صوت أذان مثبّت';
 
   @override
-  String get athanReasonInexactFallback => 'قد تتأخر المنبهات بضع دقائق';
+  String get athanReasonInexactFallback =>
+      'بدون إذن «المنبهات والتذكيرات» قد يتأخر الأذان حتى ساعة';
 
   @override
   String get athanReasonUnverifiableDelivery =>
@@ -643,6 +644,12 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get athanReasonForceStoppedPreviously =>
       'أُوقف التطبيق قسرًا من قبل؛ فُقدت المنبهات حينها';
+
+  @override
+  String get athanGrantAllow => 'اسمح';
+
+  @override
+  String get athanGrantOpenSettings => 'افتح الإعدادات';
 
   @override
   String get athanTestTitle => 'اختبار الأذان';
@@ -682,6 +689,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get athanNoSounds => 'لا توجد أصوات أذان مثبّتة بعد';
+
+  @override
+  String get athanSoundTest => 'أذان تجريبي (ليس للإصدار)';
+
+  @override
+  String get athanPrayersTitle => 'الأذان في';
 
   @override
   String get athanPreReminder => 'تذكير قبل الأذان';

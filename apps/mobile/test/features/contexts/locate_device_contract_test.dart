@@ -164,4 +164,17 @@ void main() {
     expect(platform.settings?.accuracy, LocationAccuracy.low);
     expect(platform.settings?.timeLimit, GeolocatorDeviceLocator.fixTimeLimit);
   });
+
+  test('ADR-014 on Android the adapter reads LocationManager, never Google '
+      'Play services', () async {
+    final platform = _ScriptedPlatform(_Device.located);
+    await GeolocatorDeviceLocator(
+      platform,
+      androidLocationManager: true,
+    ).currentFix();
+    final settings = platform.settings;
+    expect(settings, isA<AndroidSettings>());
+    expect(settings is AndroidSettings && settings.forceLocationManager, true);
+    expect(settings?.accuracy, LocationAccuracy.low);
+  });
 }

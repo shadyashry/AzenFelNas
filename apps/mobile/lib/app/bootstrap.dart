@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:daily_muslim/app/daily_muslim_app.dart';
 import 'package:daily_muslim/app/di.dart';
 import 'package:daily_muslim/app/startup_failure_app.dart';
+import 'package:daily_muslim/features/athan/data/permission_handler_athan_grant.dart';
 import 'package:daily_muslim/features/contexts/data/geolocator_device_locator.dart';
 import 'package:daily_muslim/features/contexts/data/permission_handler_location_access.dart';
 import 'package:daily_muslim/features/qibla/data/channel_heading_source.dart';
@@ -46,12 +47,19 @@ abstract final class Bootstrap {
             assets: rootBundle,
             clock: const SystemClock(),
             blobRoot: Directory('${support.path}/packages'),
-            locator: GeolocatorDeviceLocator(GeolocatorPlatform.instance),
+            locator: GeolocatorDeviceLocator(
+              GeolocatorPlatform.instance,
+              androidLocationManager:
+                  defaultTargetPlatform == TargetPlatform.android,
+            ),
             locationAccess: PermissionHandlerLocationAccess(
               PermissionHandlerPlatform.instance,
             ),
             heading: const ChannelHeadingSource(),
             athan: AthanSchedulerApi(),
+            athanGrant: PermissionHandlerAthanGrant(
+              PermissionHandlerPlatform.instance,
+            ),
           ),
           child: const DailyMuslimApp(),
         );

@@ -2,6 +2,8 @@ import 'package:daily_muslim/features/athan/application/apply_athan_plan.dart';
 import 'package:daily_muslim/features/athan/application/athan_preferences.dart';
 import 'package:daily_muslim/features/athan/application/plan_schedule.dart';
 import 'package:daily_muslim/features/athan/data/arb_plan_texts.dart';
+import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
+import 'package:daily_muslim/features/athan/domain/athan_health_reason.dart';
 import 'package:daily_muslim/features/athan/domain/plan_failure.dart';
 import 'package:daily_muslim/features/athan/domain/plan_target.dart';
 import 'package:daily_muslim/features/athan/domain/pre_reminder.dart';
@@ -159,5 +161,51 @@ void main() {
       expect(prefs(15).preReminder, PreReminder.fifteen);
       expect(prefs(7).preReminder, PreReminder.off);
     });
+  });
+
+  group('Athan switches and grants (§15 D95)', () {
+    test('turning a prayer off makes the whole choice explicit; turning the '
+        'last one off stays off', () {
+      final noFajr = AthanPreferences.toggled(
+        const {},
+        PrayerEvent.fajr,
+        on: false,
+      );
+      expect(AthanPreferences.enabledOf(noFajr), {
+        PrayerEvent.dhuhr,
+        PrayerEvent.asr,
+        PrayerEvent.maghrib,
+        PrayerEvent.isha,
+      });
+      var none = noFajr;
+      for (final e in [
+        PrayerEvent.dhuhr,
+        PrayerEvent.asr,
+        PrayerEvent.maghrib,
+        PrayerEvent.isha,
+      ]) {
+        none = AthanPreferences.toggled(none, e, on: false);
+      }
+      expect(AthanPreferences.enabledOf(none), isEmpty);
+    });
+
+    test(
+      'REQ-ALM-026 a permission reason maps to its grant; others to none',
+      () {
+        expect(
+          AthanGrant.of(AthanHealthReason.needsNotificationPermission),
+          AthanGrant.notifications,
+        );
+        expect(
+          AthanGrant.of(AthanHealthReason.inexactFallback),
+          AthanGrant.exactAlarms,
+        );
+        expect(
+          AthanGrant.of(AthanHealthReason.batteryRestricted),
+          AthanGrant.appSettings,
+        );
+        expect(AthanGrant.of(AthanHealthReason.stalePlan), isNull);
+      },
+    );
   });
 }

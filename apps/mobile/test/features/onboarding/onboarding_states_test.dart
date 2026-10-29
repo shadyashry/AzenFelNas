@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
+import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/contexts/application/context_use_cases.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
@@ -19,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../support/app_harness.dart';
+import '../../support/fake_athan_grant.dart';
 import '../../support/fake_location_access.dart';
 import '../../support/runtime_fixtures.dart';
 import '../../support/state_harness.dart';
@@ -34,6 +37,7 @@ final class _Settings implements WriteSetting {
 
 void main() {
   late PlacesDatabase db;
+  late FakeAthanGrant grant;
   setUp(() => db = PlacesDatabase(NativeDatabase.memory()));
   tearDown(() => db.close());
 
@@ -43,6 +47,7 @@ void main() {
     Future<Result<ContextUseCases, Failure>>? useCases,
   }) async {
     final fakeAccess = FakeLocationAccess(access);
+    grant = FakeAthanGrant();
     final settings = _Settings();
     final locator = FakeDeviceLocator()
       ..current = Ok(cairoFix(fixUtcMs: harnessNowUtcMs));
@@ -62,6 +67,7 @@ void main() {
           completeFirstRunProvider.overrideWithValue(
             CompleteFirstRun(settings),
           ),
+          requestAthanGrantProvider.overrideWithValue(grant),
         ],
       ),
     );
@@ -126,8 +132,8 @@ void main() {
       expect(find.text('Try again'), findsOneWidget);
     });
 
-    testWidgets('step(done) after a granted fix; finishing completes the '
-        'first run', (tester) async {
+    testWidgets('REQ-ALM-026 step(done) after a granted fix; finishing asks '
+        'for notifications and completes the first run', (tester) async {
       final (_, settings) = await pump(tester, access: LocationAccess.granted);
       await toLocation(tester);
       await tester.tap(find.text('Use approximate location'));
@@ -139,6 +145,7 @@ void main() {
         await tester.pump();
       }
       expect(settings.written, {'onboardingComplete': true});
+      expect(grant.asked, [AthanGrant.notifications]);
     });
   });
 }

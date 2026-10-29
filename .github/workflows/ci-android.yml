@@ -46,6 +46,20 @@ jobs:
             echo "::error::$merged grants an advertising-identifier permission"
             exit 1
           fi
+      - name: Release APK builds and Room resolves to 2.7 or later (§15 D95)
+        # Room 2.2.5's keep rule omits the database constructor, so an R8 full-mode release crashed at start while
+        # every debug build ran; only the release build and the resolved version show it.
+        working-directory: apps/mobile
+        run: |
+          flutter build apk --release --dart-define=DM_CHANNEL=lab
+          deps=$(cd android && ./gradlew --no-daemon -q :app:dependencies --configuration releaseRuntimeClasspath)
+          lowest=$(echo "$deps" | grep -oE 'androidx\.room:room-runtime:[0-9.]+( -> [0-9.]+)?' \
+            | sed -E 's/.*[: ]([0-9.]+)$/\1/' | sort -uV | head -1)
+          test -n "$lowest" || { echo "::error::room-runtime not found in the release classpath"; exit 1; }
+          if [ "$(printf '%s\n' 2.7.0 "$lowest" | sort -V | head -1)" != 2.7.0 ]; then
+            echo "::error::room-runtime resolves to $lowest; the release build crashes at start below 2.7"
+            exit 1
+          fi
       - name: ktlint 1.8.0 and detekt 1.23.8 (pinned, checksum verified)
         working-directory: apps/mobile/android
         run: |

@@ -44,6 +44,10 @@ android {
 dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.glance.appwidget)
+    // Glance 1.2.0 brings WorkManager 2.7.1 and Room 2.2.5, whose keep rule omits the database constructor: the
+    // R8 full-mode release crashed at start (§15 D95). The catalog's WorkManager lifts Room to a version with
+    // correct rules.
+    runtimeOnly(libs.androidx.work.runtime)
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platform.launcher)
 }

@@ -762,7 +762,7 @@
   },
   "qiblaShadowHighSun": "Hard to use: the Sun is high, so the shadow is short.",
   "@qiblaShadowHighSun": {
-    "description": "Sun altitude 75\u00b0 or more."
+    "description": "Sun altitude 75° or more."
   },
   "qiblaShadowBriefWindow": "Hard to use: the window is under two minutes.",
   "@qiblaShadowBriefWindow": {
@@ -918,9 +918,9 @@
   "@athanReasonNoSoundAsset": {
     "description": "Health reason."
   },
-  "athanReasonInexactFallback": "Alarms may be a few minutes late",
+  "athanReasonInexactFallback": "Without “Alarms & reminders” the Athan may be up to an hour late",
   "@athanReasonInexactFallback": {
-    "description": "Health reason."
+    "description": "Health reason: Android's inexact fallback may deliver up to an hour late (§15 D95)."
   },
   "athanReasonUnverifiableDelivery": "This phone cannot confirm the Athan played",
   "@athanReasonUnverifiableDelivery": {
@@ -929,6 +929,14 @@
   "athanReasonForceStoppedPreviously": "The app was force-stopped before; alarms were lost then",
   "@athanReasonForceStoppedPreviously": {
     "description": "Health reason (advisory)."
+  },
+  "athanGrantAllow": "Allow",
+  "@athanGrantAllow": {
+    "description": "Athan Health button that shows the system permission prompt (§15 D95)."
+  },
+  "athanGrantOpenSettings": "Open settings",
+  "@athanGrantOpenSettings": {
+    "description": "Athan Health button that opens the app's system settings (§15 D95)."
   },
   "athanTestTitle": "Athan test",
   "@athanTestTitle": {
@@ -981,6 +989,14 @@
   "athanNoSounds": "No Athan sounds are installed yet",
   "@athanNoSounds": {
     "description": "Sound choice when the manifest is empty."
+  },
+  "athanSoundTest": "Test Athan (not for release)",
+  "@athanSoundTest": {
+    "description": "Name of a bundled test Athan sound on dev and lab builds (§15 D94, D95)."
+  },
+  "athanPrayersTitle": "Athan for",
+  "@athanPrayersTitle": {
+    "description": "Title of the per-prayer Athan switches (§15 D95)."
   },
   "athanPreReminder": "Reminder before the Athan",
   "@athanPreReminder": {

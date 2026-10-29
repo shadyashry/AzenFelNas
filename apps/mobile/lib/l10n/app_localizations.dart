@@ -1166,10 +1166,10 @@ abstract class AppLocalizations {
   /// **'No Athan sound is installed'**
   String get athanReasonNoSoundAsset;
 
-  /// Health reason.
+  /// Health reason: Android's inexact fallback may deliver up to an hour late (§15 D95).
   ///
   /// In en, this message translates to:
-  /// **'Alarms may be a few minutes late'**
+  /// **'Without “Alarms & reminders” the Athan may be up to an hour late'**
   String get athanReasonInexactFallback;
 
   /// Health reason.
@@ -1183,6 +1183,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The app was force-stopped before; alarms were lost then'**
   String get athanReasonForceStoppedPreviously;
+
+  /// Athan Health button that shows the system permission prompt (§15 D95).
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get athanGrantAllow;
+
+  /// Athan Health button that opens the app's system settings (§15 D95).
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get athanGrantOpenSettings;
 
   /// Athan Test section title.
   ///
@@ -1261,6 +1273,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No Athan sounds are installed yet'**
   String get athanNoSounds;
+
+  /// Name of a bundled test Athan sound on dev and lab builds (§15 D94, D95).
+  ///
+  /// In en, this message translates to:
+  /// **'Test Athan (not for release)'**
+  String get athanSoundTest;
+
+  /// Title of the per-prayer Athan switches (§15 D95).
+  ///
+  /// In en, this message translates to:
+  /// **'Athan for'**
+  String get athanPrayersTitle;
 
   /// Pre-reminder choice title (REQ-ALM-042).
   ///

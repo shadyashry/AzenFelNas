@@ -1,3 +1,5 @@
+import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
+import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/contexts/domain/resolved_context.dart';
 import 'package:daily_muslim/features/onboarding/application/complete_first_run.dart';
 import 'package:daily_muslim/features/onboarding/presentation/onboarding_state.dart';
@@ -39,8 +41,10 @@ final class OnboardingController extends Notifier<OnboardingState> {
   /// A place was pinned in the place step.
   void placePinned(ResolvedContext context) => state = _done(context);
 
-  /// Ends onboarding; Home takes over.
+  /// Ends onboarding; Home takes over. The Athan is on from here (§15 D94),
+  /// so the notification permission is asked for now (REQ-ALM-026).
   Future<void> finish() async {
+    await ref.read(requestAthanGrantProvider).call(AthanGrant.notifications);
     ref.invalidate(scheduleProvider);
     await ref.read(completeFirstRunProvider).call();
   }

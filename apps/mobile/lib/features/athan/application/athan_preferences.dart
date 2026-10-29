@@ -34,12 +34,7 @@ final class AthanPreferences {
     required int preReminderMinutes,
     required PlanLocale locale,
   }) => AthanPreferences(
-    enabled: enabled.isEmpty
-        ? defaultEvents
-        : {
-            for (final event in PrayerEvent.values)
-              if (enabled[event.name] ?? false) event,
-          },
+    enabled: enabledOf(enabled),
     soundId: switch (soundId) {
       final String id when sounds.contains(id) => id,
       _ => sounds.isEmpty ? deviceAlarmSoundId : sounds.first,
@@ -47,6 +42,30 @@ final class AthanPreferences {
     preReminder: PreReminder.ofMinutes(preReminderMinutes) ?? PreReminder.off,
     locale: locale,
   );
+
+  /// The events that alert under the stored `athanEnabled` map: the five
+  /// prayers until the user chooses, then only the events set true.
+  static Set<PrayerEvent> enabledOf(Map<String, bool> stored) => stored.isEmpty
+      ? defaultEvents
+      : {
+          for (final event in PrayerEvent.values)
+            if (stored[event.name] ?? false) event,
+        };
+
+  /// The `athanEnabled` map to store after the user turns [event] [on]: the
+  /// current choice made explicit for every event, with [event] changed, so
+  /// turning the last one off stays off (§15 D95).
+  static Map<String, bool> toggled(
+    Map<String, bool> stored,
+    PrayerEvent event, {
+    required bool on,
+  }) {
+    final current = enabledOf(stored);
+    return {
+      for (final e in PrayerEvent.values)
+        e.name: e == event ? on : current.contains(e),
+    };
+  }
 
   /// The events that alert until the user chooses: the five prayers.
   static const Set<PrayerEvent> defaultEvents = {

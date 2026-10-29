@@ -17,6 +17,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geo_salah_profiles/geo_salah_profiles.dart';
 
 import '../../support/app_harness.dart';
+import '../../support/fake_athan_grant.dart';
 import '../../support/fake_location_access.dart';
 import '../contexts/support/fake_device_locator.dart';
 import '../qibla/support/fake_heading_source.dart';
@@ -62,6 +63,7 @@ void main() {
         locationAccess: FakeLocationAccess(),
         heading: FakeHeadingSource(),
         athan: noAthanHost(),
+        athanGrant: FakeAthanGrant(),
       ),
     );
     await container.read(appStartProvider.future);

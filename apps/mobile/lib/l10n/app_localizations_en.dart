@@ -638,7 +638,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get athanReasonNoSoundAsset => 'No Athan sound is installed';
 
   @override
-  String get athanReasonInexactFallback => 'Alarms may be a few minutes late';
+  String get athanReasonInexactFallback =>
+      'Without “Alarms & reminders” the Athan may be up to an hour late';
 
   @override
   String get athanReasonUnverifiableDelivery =>
@@ -647,6 +648,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get athanReasonForceStoppedPreviously =>
       'The app was force-stopped before; alarms were lost then';
+
+  @override
+  String get athanGrantAllow => 'Allow';
+
+  @override
+  String get athanGrantOpenSettings => 'Open settings';
 
   @override
   String get athanTestTitle => 'Athan test';
@@ -686,6 +693,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get athanNoSounds => 'No Athan sounds are installed yet';
+
+  @override
+  String get athanSoundTest => 'Test Athan (not for release)';
+
+  @override
+  String get athanPrayersTitle => 'Athan for';
 
   @override
   String get athanPreReminder => 'Reminder before the Athan';

@@ -12,6 +12,7 @@ import 'package:daily_muslim/features/athan/data/pigeon_drain_native_events.dart
 import 'package:daily_muslim/features/athan/data/pigeon_platform_health.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_write_schedule_plan.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_write_widget_snapshot.dart';
+import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_plan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/widget_snapshot_providers.dart';
@@ -84,6 +85,7 @@ abstract final class AppBindings {
     required RequestLocationAccess locationAccess,
     required HeadingSource heading,
     required AthanSchedulerApi athan,
+    required RequestAthanGrant athanGrant,
   }) {
     final settings = DriftSettingsStore(databases.dm);
     final eventLog = DriftEventLog(databases.dm);
@@ -156,6 +158,7 @@ abstract final class AppBindings {
         PigeonPlatformHealth(athan, clock),
       ),
       armAthanTestProvider.overrideWithValue(PigeonArmAthanTest(athan)),
+      requestAthanGrantProvider.overrideWithValue(athanGrant),
       writeWidgetSnapshotProvider.overrideWithValue(
         PigeonWriteWidgetSnapshot(athan),
       ),

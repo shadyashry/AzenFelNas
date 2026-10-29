@@ -1,3 +1,4 @@
+import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
 import 'package:daily_muslim/features/athan/domain/athan_health.dart';
 import 'package:daily_muslim/features/athan/domain/athan_health_reason.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_copy.dart';
@@ -109,11 +110,33 @@ final class AthanHealthCard extends ConsumerWidget {
                       l.athanReason(reason),
                       style: theme.textTheme.bodyLarge,
                     ),
+                    trailing: switch (AthanGrant.of(reason)) {
+                      null => null,
+                      final grant => TextButton(
+                        onPressed: () => _grant(context, ref, grant),
+                        child: Text(switch (grant) {
+                          AthanGrant.notifications ||
+                          AthanGrant.exactAlarms => l.athanGrantAllow,
+                          AthanGrant.appSettings => l.athanGrantOpenSettings,
+                        }),
+                      ),
+                    },
                   ),
               ],
             ),
         ],
       ),
     );
+  }
+
+  /// Shows the system prompt for [grant], then evaluates Health again; a
+  /// granted exact-alarm permission re-arms natively (§15 D95).
+  static Future<void> _grant(
+    BuildContext context,
+    WidgetRef ref,
+    AthanGrant grant,
+  ) async {
+    await ref.read(requestAthanGrantProvider).call(grant);
+    if (context.mounted) ref.invalidate(athanHealthProvider);
   }
 }

@@ -1,4 +1,6 @@
+import 'package:daily_muslim/features/athan/domain/athan_health.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_plan_providers.dart';
+import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/widget_snapshot_providers.dart';
 import 'package:daily_muslim/features/home/domain/athan_readiness.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
@@ -111,8 +113,17 @@ final class HomeContentView extends ConsumerWidget {
         const SizedBox(height: 8),
         _Link(
           icon: Icons.notifications_none,
-          text: switch (content.health) {
-            AthanReadinessUnknown() => l.homeHealthUnknown,
+          // The evaluated Athan Health (§8.3, §15 D95), so a missing
+          // permission shows on Home too.
+          text: switch (ref.watch(athanHealthProvider)) {
+            AsyncData(value: AthanHealthReady()) => l.athanHealthReady,
+            AsyncData(value: AthanHealthLimited()) => l.athanHealthLimited,
+            AsyncData(value: AthanHealthNotReady()) => l.athanHealthNotReady,
+            AsyncData(value: AthanHealthUnknown()) ||
+            AsyncError() ||
+            AsyncLoading() => switch (content.health) {
+              AthanReadinessUnknown() => l.homeHealthUnknown,
+            },
           },
           onTap: () => context.go(AppTabBar.locationOf(RawdahTab.athan)),
         ),

@@ -1,3 +1,4 @@
+import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_page.dart';
 import 'package:daily_muslim/features/settings/domain/setting_key.dart';
 import 'package:daily_muslim/features/settings/domain/settings_ports.dart';
@@ -6,6 +7,7 @@ import 'package:dm_contracts/dm_contracts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../support/fake_athan_grant.dart';
 import '../../../support/state_harness.dart';
 import '../support/athan_overrides.dart';
 import '../support/fake_athan_platform.dart';
@@ -24,12 +26,20 @@ Widget _page({
   required List<String> sounds,
   String? soundId,
   _Writes? writes,
+  FakeAthanGrant? grant,
+  Map<String, bool> enabled = const {},
   Locale locale = const Locale('en'),
 }) => localizedApp(
   const AthanPage(),
   locale: locale,
   overrides: [
-    ...athanOverrides(platform, <EventLogEntry>[], sounds: sounds),
+    ...athanOverrides(
+      platform,
+      <EventLogEntry>[],
+      sounds: sounds,
+      grant: grant,
+    ),
+    athanEnabledSettingProvider.overrideWith((ref) => Stream.value(enabled)),
     writeSettingProvider.overrideWithValue(writes ?? _Writes()),
     athanSoundSettingProvider.overrideWith((ref) => Stream.value(soundId)),
     preReminderSettingProvider.overrideWith((ref) => Stream.value(0)),
@@ -65,6 +75,10 @@ void main() {
     expect(
       find.text('The Athan sound is muted in system settings'),
       findsOneWidget,
+    );
+    await tester.scrollUntilVisible(
+      find.text('No Athan sounds are installed yet'),
+      200,
     );
     expect(find.text('Choose an Athan sound first'), findsOneWidget);
     expect(find.text('No Athan sounds are installed yet'), findsOneWidget);
@@ -131,5 +145,70 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('جاهز: سيُرفع الأذان'), findsOneWidget);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('REQ-ALM-026 a missing permission offers its fix: Allow asks '
+      'the system, a muted channel opens settings', (tester) async {
+    _phone(tester);
+    final grant = FakeAthanGrant();
+    await tester.pumpWidget(
+      _page(
+        platform: FakeAthanPlatform(
+          report: androidReport({
+            'areNotificationsEnabled': false,
+            'channelImportance': false,
+          }),
+        ),
+        sounds: const [],
+        grant: grant,
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Allow'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Open settings'));
+    await tester.pumpAndSettle();
+    expect(grant.asked, [AthanGrant.notifications, AthanGrant.appSettings]);
+  });
+
+  testWidgets('the five prayers alert until the user chooses; a switch '
+      'stores the whole choice', (tester) async {
+    _phone(tester);
+    final writes = _Writes();
+    await tester.pumpWidget(
+      _page(platform: FakeAthanPlatform(), sounds: const [], writes: writes),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Isha'), 200);
+    final switches = find.byType(SwitchListTile);
+    expect(switches, findsNWidgets(5));
+    expect(
+      tester.widgetList<SwitchListTile>(switches).map((s) => s.value),
+      everyElement(isTrue),
+    );
+    await tester.tap(find.text('Fajr'));
+    await tester.pumpAndSettle();
+    expect(writes.writes['athanEnabled'], {
+      'imsak': false,
+      'fajr': false,
+      'sunrise': false,
+      'dhuhr': true,
+      'asr': true,
+      'maghrib': true,
+      'isha': true,
+    });
+  });
+
+  testWidgets('a bundled test sound is named as one', (tester) async {
+    _phone(tester);
+    await tester.pumpWidget(
+      _page(
+        platform: FakeAthanPlatform(report: androidReport()),
+        sounds: const ['test_cc0_adhan'],
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Test Athan (not for release)'), findsOneWidget);
+    expect(find.text('test_cc0_adhan'), findsNothing);
   });
 }
