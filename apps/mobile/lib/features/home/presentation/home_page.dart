@@ -1,3 +1,4 @@
+import 'package:daily_muslim/features/athan/presentation/athan_plan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/widget_snapshot_providers.dart';
 import 'package:daily_muslim/features/home/domain/athan_readiness.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
@@ -25,8 +26,11 @@ final class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    // Keeps the widget snapshot following the schedule (REQ-WID-003).
-    ref.watch(widgetSnapshotProvider);
+    // Keeps the widget snapshot following the schedule (REQ-WID-003) and
+    // arms the Athan on every open (§15 D94).
+    ref
+      ..watch(widgetSnapshotProvider)
+      ..watch(athanPlanProvider);
     return Scaffold(
       extendBody: true,
       body: GirihBackdrop(

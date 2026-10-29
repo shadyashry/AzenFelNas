@@ -1,5 +1,6 @@
 import 'package:daily_muslim/features/athan/domain/pre_reminder.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_health_card.dart';
+import 'package:daily_muslim/features/athan/presentation/athan_plan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_test_panel.dart';
 import 'package:daily_muslim/features/settings/domain/app_settings.dart';
@@ -24,7 +25,11 @@ final class AthanPage extends ConsumerWidget {
     final soundId = ref.watch(athanSoundSettingProvider).value;
     final sounds = ref.watch(athanSoundsProvider).value ?? const [];
     final ids = sounds;
-    final chosen = ids.contains(soundId) ? soundId : null;
+    // The sound that plays: the chosen one, else the first bundled one, as
+    // the plan does (§15 D94).
+    final chosen = ids.contains(soundId) ? soundId : ids.firstOrNull;
+    // A changed sound or reminder re-arms the Athan at once.
+    ref.watch(athanPlanProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(l.athanTitle),

@@ -19,6 +19,48 @@ final class AthanPreferences {
     required this.locale,
   });
 
+  /// The preferences of the stored settings (Appendix K), with the §15 D94
+  /// defaults for what the user has not chosen yet:
+  /// - [enabled] (`athanEnabled{event: bool}`, keyed by the event's Dart name):
+  ///   the five prayers when the user never chose, else the events set true;
+  /// - [soundId]: the chosen sound when it is still bundled, else the first
+  ///   bundled sound of [sounds], else [deviceAlarmSoundId] (no file, so the
+  ///   host plays the device alarm tone, §15 D79);
+  /// - [preReminderMinutes]: off unless it is an allowed value.
+  factory ofSettings({
+    required Map<String, bool> enabled,
+    required String? soundId,
+    required List<String> sounds,
+    required int preReminderMinutes,
+    required PlanLocale locale,
+  }) => AthanPreferences(
+    enabled: enabled.isEmpty
+        ? defaultEvents
+        : {
+            for (final event in PrayerEvent.values)
+              if (enabled[event.name] ?? false) event,
+          },
+    soundId: switch (soundId) {
+      final String id when sounds.contains(id) => id,
+      _ => sounds.isEmpty ? deviceAlarmSoundId : sounds.first,
+    },
+    preReminder: PreReminder.ofMinutes(preReminderMinutes) ?? PreReminder.off,
+    locale: locale,
+  );
+
+  /// The events that alert until the user chooses: the five prayers.
+  static const Set<PrayerEvent> defaultEvents = {
+    PrayerEvent.fajr,
+    PrayerEvent.dhuhr,
+    PrayerEvent.asr,
+    PrayerEvent.maghrib,
+    PrayerEvent.isha,
+  };
+
+  /// The sound id when no sound is bundled: the host finds no file for it
+  /// and plays the device alarm tone.
+  static const String deviceAlarmSoundId = 'device_alarm';
+
   /// Events that alert. Fajr…Isha give `ATHAN` entries, Imsak gives an
   /// `IMSAK` entry; Sunrise has no plan kind and is ignored (§15 D80).
   final Set<PrayerEvent> enabled;

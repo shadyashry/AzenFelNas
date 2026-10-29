@@ -3,7 +3,9 @@ package app.azenfelnas.athan.bridge
 import android.content.Context
 import app.azenfelnas.athan.plan.EventLogEntry
 import app.azenfelnas.athan.plan.wireJson
+import app.azenfelnas.athan.playback.BundledAudioInstaller
 import app.azenfelnas.athan.schedule.ArmResult
+import java.io.InputStream
 
 /**
  * The public face of `athan-core` for the app module's pigeon host (DESIGN.md §7.8, §15 D83): plain types only, so
@@ -12,7 +14,18 @@ import app.azenfelnas.athan.schedule.ArmResult
 public class AthanCoreHost(
     context: Context,
 ) {
-    private val bridge: AthanBridge = AthanBridge(AthanGraph(context))
+    private val graph: AthanGraph = AthanGraph(context)
+    private val bridge: AthanBridge = AthanBridge(graph)
+
+    /**
+     * Installs the app's bundled Athan sounds of the `athan_audio_manifest.v1` document [manifestJson] into
+     * device-protected storage (§15 D94), reading each file through [open] by its manifest path. Returns the ids now
+     * present; idempotent.
+     */
+    public fun installBundledAudio(
+        manifestJson: String,
+        open: (String) -> InputStream?,
+    ): List<String> = BundledAudioInstaller(graph.audio).install(manifestJson, open)
 
     /** Persists and arms a `schedule_plan.v1` document; the outcome is a `PLAN_APPLIED` event. */
     public fun reconcile(schedulePlanJson: String) {

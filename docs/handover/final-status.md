@@ -1,4 +1,4 @@
-# Final status: S01–S28 (DESIGN.md §13) and S29–S32
+# Final status: S01–S28 (DESIGN.md §13) and S29–S34
 
 Every slice is on its own branch, `origin/slice/sNN-*`, and since 2026-10-29 **every slice is merged into `main`** (`0a7a496`); the owner approved each merge in the session. From S18 on there are no PRs, per the owner rule of 2026-10-22 recorded in the S17 hand-over. "Automated" means the part of the done-test that Linux can run passed in that slice's session, as recorded in its hand-over. Nothing device-, store- or cloud-side was simulated or claimed.
 
@@ -29,6 +29,8 @@ Every slice is on its own branch, `origin/slice/sNN-*`, and since 2026-10-29 **e
 | S30 | `slice/s30-brand-rename` | — | Azen Fel Nas ids, hosts, scheme and copy (D90); `melos run ci`, Go tests and 168 schema fixtures green; native builds OWED |
 | S31 | `feat/qibla-sun-alignment`, `slice/s31-qibla-shadow-times` | — | sensor-free Qibla: engine `FindQiblaSunAlignments` (REQ-DOM-031) and the shadow times on the Qibla screen (D91); `melos run ci` green; on-device check OWED |
 | S32 | `slice/s32-android-build` | — | first Android compile (D92): compileSdk 37, debug-manifest fix; all Android CI steps green on Windows |
+| S33 | `slice/s33-athan-audio-licensing` | — | licensing plan for the classic Egyptian sheikhs (D93) |
+| S34 | `slice/s34-athan-plan-wiring` | — | daily Athan armed end to end: plan wiring, bundled audio install, defaults, CC0 test sound (D94); on-device ringing OWED |
 
 ## OWED, grouped by owner action
 - **Physical devices:**
@@ -63,7 +65,7 @@ Every slice is on its own branch, `origin/slice/sNN-*`, and since 2026-10-29 **e
   - The Ramadan window presentation (D88).
   - The ODbL publication of `tz_polygons` and the attribution review.
 - **Product, Content and Security:**
-  - Athan audio (D93): license the classic Egyptian sheikhs' recordings per `docs/release/athan-audio-licensing.md` (lawyer, National Media Authority, heirs, Sharia board); until then the alarm plays the device's alarm tone.
+  - Athan audio (D93): license the classic Egyptian sheikhs' recordings per `docs/release/athan-audio-licensing.md` (lawyer, National Media Authority, heirs, Sharia board); until then dev and lab builds play the CC0 test Athan (D94), and the test sound must leave before 1.0.0 (a test enforces it).
   - Review of the Arabic copy, including the S29 strings and the S31 shadow-time strings (Egyptian colloquial).
   - The travel prompt policy (D88).
   - The threat-model decisions: telemetry throttle, SBOM and the `note` field (S27).

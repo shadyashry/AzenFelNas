@@ -1,13 +1,18 @@
 import 'dart:io';
 
 import 'package:daily_muslim/app/app_build.dart';
+import 'package:daily_muslim/features/athan/application/plan_schedule.dart';
+import 'package:daily_muslim/features/athan/application/reconcile_schedule_plan.dart';
 import 'package:daily_muslim/features/athan/application/record_athan_test_result.dart';
+import 'package:daily_muslim/features/athan/data/arb_plan_texts.dart';
 import 'package:daily_muslim/features/athan/data/asset_athan_sounds.dart';
 import 'package:daily_muslim/features/athan/data/event_log_last_test.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_arm_athan_test.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_drain_native_events.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_platform_health.dart';
+import 'package:daily_muslim/features/athan/data/pigeon_write_schedule_plan.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_write_widget_snapshot.dart';
+import 'package:daily_muslim/features/athan/presentation/athan_plan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/widget_snapshot_providers.dart';
 import 'package:daily_muslim/features/contexts/application/context_use_cases.dart';
@@ -161,7 +166,22 @@ abstract final class AppBindings {
       readLastTestHeardProvider.overrideWithValue(
         EventLogLastTest(eventLog.entries),
       ),
-      readAthanSoundsProvider.overrideWithValue(AssetAthanSounds(assets)),
+      readAthanSoundsProvider.overrideWithValue(
+        AssetAthanSounds(
+          assets,
+          // The CC0 test Athan is offered on dev and lab only (§15 D94).
+          includeTestSounds: switch (AppBuild.channel) {
+            ReleaseChannel.dev || ReleaseChannel.lab => true,
+            ReleaseChannel.beta || ReleaseChannel.production => false,
+          },
+        ),
+      ),
+      planScheduleProvider.overrideWithValue(
+        PlanSchedule(clock, ArbPlanTexts()),
+      ),
+      applySchedulePlanProvider.overrideWithValue(
+        ReconcileSchedulePlan(PigeonWriteSchedulePlan(athan)),
+      ),
       assembleDiagnosticBundleProvider.overrideWithValue(
         AssembleDiagnosticBundle(
           events: eventLog.entries,

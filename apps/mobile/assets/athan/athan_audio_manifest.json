@@ -1,0 +1,11 @@
+{
+  "sounds": [
+    {
+      "soundId": "test_cc0_adhan",
+      "file": "athan/test_cc0_adhan.m4a",
+      "durationMs": 154018,
+      "licenceRef": "TEST-CC0 Wikimedia Commons File:Beautiful_adhan.ogg by Adam-synagda (2022-04-29); trimmed, -16 LUFS, AAC-LC 96 kbps",
+      "sha256": "e28ba758259997ef6670bb9a55edd84d1f44317b615ed79915e68cbe98ad7693"
+    }
+  ]
+}

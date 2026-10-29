@@ -4,7 +4,7 @@ import java.io.File
 
 /**
  * Where Athan audio lives: `<device-protected files>/athan/<soundId>.m4a` (DESIGN.md §8.1), copied there from the
- * bundled `assets/athan/` by the app (S22), so it plays before the first unlock.
+ * bundled `assets/athan/` by [BundledAudioInstaller] on every app start (§15 D94), so it plays before the first unlock.
  */
 internal class AthanAudio(
     private val directory: File,

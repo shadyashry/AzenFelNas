@@ -11,6 +11,12 @@ Placeholder created in slice S01. This file is **generated per release** (`DESIG
 | GeoNames `cities15000` + alternate names (`gazetteer`; read from the `geonamescache` 3.0.2 wheel from S12, §15 D72) | CC BY 4.0 | attribution ("Contains data from GeoNames, geonames.org, CC BY 4.0") on the attribution screen |
 | IANA tz database and `zic` (`tzdata`; release 2026e from S10, pinned in `data-pipelines/config/tzdata.v1.toml`) | Public domain | — |
 
+## Athan audio (bundled in `apps/mobile/assets/athan/`)
+
+| Source | Licence | Obligation |
+|---|---|---|
+| `test_cc0_adhan.m4a`: Wikimedia Commons `File:Beautiful_adhan.ogg` by Adam-synagda (own work, 2022-04-29), trimmed, normalised and re-encoded | CC0 1.0 | none; a **test sound**, offered on `dev` and `lab` only and removed before 1.0.0 (`DESIGN.md` §15 D94). Licensed recordings follow `docs/release/athan-audio-licensing.md` (D93) |
+
 ## Accuracy Lab (development only, not shipped in the app)
 
 | Source | Licence | Obligation |

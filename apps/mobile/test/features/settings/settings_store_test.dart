@@ -45,6 +45,7 @@ void main() {
         AppSettings.onboardingComplete,
         AppSettings.activeContextId,
         AppSettings.showSeconds,
+        AppSettings.athanPlanGeneration,
       ].map((k) => k.wire),
       AppSettings.wires,
     );

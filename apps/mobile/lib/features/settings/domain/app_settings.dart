@@ -111,6 +111,14 @@ abstract final class AppSettings {
     false,
   );
 
+  /// `athanPlanGeneration`: the generation of the last `SchedulePlan` the
+  /// native host stored; the next plan takes the one above it (§15 D94).
+  static const SettingKey<int> athanPlanGeneration = SettingKey(
+    'athanPlanGeneration',
+    CountCodec(),
+    0,
+  );
+
   /// The Appendix K key names, in order.
   static const List<String> wires = [
     'locale',
@@ -128,5 +136,6 @@ abstract final class AppSettings {
     'onboardingComplete',
     'activeContextId',
     'showSeconds',
+    'athanPlanGeneration',
   ];
 }

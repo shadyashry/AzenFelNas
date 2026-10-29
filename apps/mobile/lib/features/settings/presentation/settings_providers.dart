@@ -61,3 +61,8 @@ final preReminderSettingProvider = StreamProvider<int>(
 final hijriOverrideSettingProvider = StreamProvider<int>(
   (ref) => ref.watch(watchSettingProvider).watch(AppSettings.hijriOverrideDays),
 );
+
+/// `athanEnabled{event: bool}`; empty until the user chooses (§15 D94).
+final athanEnabledSettingProvider = StreamProvider<Map<String, bool>>(
+  (ref) => ref.watch(watchSettingProvider).watch(AppSettings.athanEnabled),
+);
