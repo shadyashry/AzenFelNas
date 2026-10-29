@@ -33,6 +33,7 @@ final class ManualPlaceView extends ConsumerWidget {
               prefixIcon: const Icon(Icons.search),
             ),
             textInputAction: TextInputAction.search,
+            onChanged: controller.queryChanged,
             onSubmitted: controller.search,
           ),
         ),
@@ -77,6 +78,27 @@ final class ManualPlaceView extends ConsumerWidget {
   }
 }
 
+/// A search hit's title (§15 D96): the name it is pinned under, and the
+/// spelling the query matched when that differs ("Mashhad (Alexandria)"),
+/// so the user sees why a place answered.
+String titleOf(GazetteerHit hit) => hit.displayName == hit.matchedName
+    ? hit.displayName
+    : '${hit.displayName} (${hit.matchedName})';
+
+/// The line under a search hit (§15 D96): a region code that is a name
+/// (`ENG`, `CA`) and the country; a numeric GeoNames code means nothing to a
+/// reader, so the rounded coordinates tell same-named places apart instead.
+String subtitleOf(GazetteerHit hit) {
+  String degrees(int e6) => (e6 / 1e6).toStringAsFixed(2);
+  final region = hit.admin1;
+  return [
+    if (region.isNotEmpty && int.tryParse(region) == null) region,
+    if (hit.country.isNotEmpty) hit.country,
+    if (region.isEmpty || int.tryParse(region) != null)
+      '${degrees(hit.point.latE6)}, ${degrees(hit.point.lonE6)}',
+  ].join(' · ');
+}
+
 final class _HitTile extends StatelessWidget {
   const new({required this.hit, required this.onTap});
 
@@ -85,10 +107,8 @@ final class _HitTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
-    title: Text(hit.matchedName),
-    subtitle: Text(
-      [hit.admin1, hit.country].where((s) => s.isNotEmpty).join(' · '),
-    ),
+    title: Text(titleOf(hit)),
+    subtitle: Text(subtitleOf(hit)),
     onTap: onTap,
   );
 }

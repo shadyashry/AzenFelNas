@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:daily_muslim/features/contexts/application/context_use_cases.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/contexts/domain/place_choice.dart';
@@ -12,11 +14,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// pinning a hit or typed coordinates as a manual context (`PinPlace`,
 /// REQ-PRIV-002).
 final class ManualPlaceController extends Notifier<ManualPlaceState> {
-  @override
-  ManualPlaceState build() => const ManualPlaceIdle();
+  /// The pause after a keystroke before the query is searched (§15 D96).
+  static const typingPause = Duration(milliseconds: 300);
 
-  /// Searches for [query]; a blank query returns to idle.
+  Timer? _typing;
+
+  /// The query whose results may be shown; an older search's results are
+  /// dropped.
+  String _latest = '';
+
+  @override
+  ManualPlaceState build() {
+    ref.onDispose(() => _typing?.cancel());
+    return const ManualPlaceIdle();
+  }
+
+  /// The search field changed: searches [query] once typing pauses.
+  void queryChanged(String query) {
+    _typing?.cancel();
+    _typing = Timer(typingPause, () => unawaited(search(query)));
+  }
+
+  /// Searches for [query] now; a blank query returns to idle.
   Future<void> search(String query) async {
+    _typing?.cancel();
+    _latest = query;
     if (query.trim().isEmpty) {
       state = const ManualPlaceIdle();
       return;
@@ -24,7 +46,9 @@ final class ManualPlaceController extends Notifier<ManualPlaceState> {
     state = const ManualPlaceSearching();
     final useCases = await _useCases();
     if (useCases == null) return;
-    state = switch (await useCases.search(query)) {
+    final found = await useCases.search(query);
+    if (query != _latest) return;
+    state = switch (found) {
       Ok(value: []) => const ManualPlaceEmpty(),
       Ok(:final value) => ManualPlaceResults(value),
       Err(:final failure) => ManualPlaceError(failure),

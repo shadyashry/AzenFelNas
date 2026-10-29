@@ -38,25 +38,28 @@ void main() {
     for (final file in Directory(
       '$_fixtures/valid',
     ).listSync().whereType<File>()) {
-      test('decodes valid/${file.uri.pathSegments.last}', () {
-        final result = decoder.decode(file.readAsBytesSync());
+      test('decodes valid/${file.uri.pathSegments.last}', () async {
+        final result = await decoder.decode(file.readAsBytesSync());
         expect(result, isA<Ok<Object?, GazetteerFailure>>());
       });
     }
     for (final file in Directory(
       '$_fixtures/invalid',
     ).listSync().whereType<File>()) {
-      test('REQ-PKG-001 refuses invalid/${file.uri.pathSegments.last}', () {
-        final result = decoder.decode(file.readAsBytesSync());
-        expect(
-          result,
-          isA<Err<Object?, GazetteerFailure>>().having(
-            (e) => e.failure.code,
-            'code',
-            FailureCode.pkgSigInvalid,
-          ),
-        );
-      });
+      test(
+        'REQ-PKG-001 refuses invalid/${file.uri.pathSegments.last}',
+        () async {
+          final result = await decoder.decode(file.readAsBytesSync());
+          expect(
+            result,
+            isA<Err<Object?, GazetteerFailure>>().having(
+              (e) => e.failure.code,
+              'code',
+              FailureCode.pkgSigInvalid,
+            ),
+          );
+        },
+      );
     }
 
     final invalid = <String, Object?>{
@@ -83,14 +86,17 @@ void main() {
       ],
     };
     for (final MapEntry(:key, :value) in invalid.entries) {
-      test('REQ-PKG-001 refuses $key', () {
+      test('REQ-PKG-001 refuses $key', () async {
         final bytes = value == null ? [0xFF, 0xFE] : _encode(value);
-        expect(decoder.decode(bytes), isA<Err<Object?, GazetteerFailure>>());
+        expect(
+          await decoder.decode(bytes),
+          isA<Err<Object?, GazetteerFailure>>(),
+        );
       });
     }
 
-    test('maps names, location and zone to the domain place', () {
-      final result = decoder.decode(_encode([_cairo()]));
+    test('maps names, location and zone to the domain place', () async {
+      final result = await decoder.decode(_encode([_cairo()]));
       final place = switch (result) {
         Ok(:final value) => value.single,
         Err(:final failure) => fail('$failure'),

@@ -386,6 +386,12 @@ abstract class AppLocalizations {
   /// **'Prayer times for {place}.'**
   String onboardingDoneBody(String place);
 
+  /// Onboarding done step: why the notification and alarm prompts follow (REQ-ALM-026, §15 D96).
+  ///
+  /// In en, this message translates to:
+  /// **'So the Athan sounds on time, the next screens ask to allow notifications and alarms.'**
+  String get onboardingAthanPermissions;
+
   /// Onboarding done button.
   ///
   /// In en, this message translates to:

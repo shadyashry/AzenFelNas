@@ -167,6 +167,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get onboardingAthanPermissions =>
+      'So the Athan sounds on time, the next screens ask to allow notifications and alarms.';
+
+  @override
   String get onboardingShowTimes => 'Show today\'s times';
 
   @override

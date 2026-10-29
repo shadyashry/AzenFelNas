@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:daily_muslim/app/di.dart';
+import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/shell/presentation/shell_providers.dart';
 import 'package:daily_muslim/features/storage/data/drift_event_log.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
@@ -41,6 +42,7 @@ void main() {
       heading: FakeHeadingSource(),
       athan: noAthanHost(),
       athanGrant: FakeAthanGrant(),
+      runPayloadWork: runPayloadWorkInPlace,
     ),
   );
 

@@ -7,6 +7,7 @@ import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_ports.dart';
 import 'package:daily_muslim/features/contexts/domain/resolved_context.dart';
 import 'package:daily_muslim/features/contexts/domain/search_key.dart';
+import 'package:daily_muslim/features/contexts/presentation/manual_place_controller.dart';
 import 'package:daily_muslim/features/contexts/presentation/manual_place_view.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/storage/data/places_database.dart';
@@ -104,6 +105,14 @@ void main() {
       expect(find.text('Alexandria · EG'), findsOneWidget);
     });
 
+    testWidgets('typing searches once the user pauses, without pressing '
+        'search (§15 D96)', (tester) async {
+      await pump(tester, answer: Ok([_alexandria]));
+      await tester.enterText(find.byKey(const Key('placeSearch')), 'Alex');
+      await tester.pump(ManualPlaceController.typingPause);
+      await pumpUntil(tester, find.widgetWithText(ListTile, 'Alexandria'));
+    });
+
     testWidgets('empty suggests another spelling or coordinates', (
       tester,
     ) async {
@@ -173,6 +182,47 @@ void main() {
       expect(place.zoneId, 'Africa/Cairo');
       expect(place.country, 'EG');
       expect(place.label, 'Home');
+    });
+  });
+
+  group('Search hit line (§15 D96)', () {
+    test('a region code that is a name is shown with the country', () {
+      expect(subtitleOf(_alexandria), 'Alexandria · EG');
+    });
+
+    test('a numeric region code gives way to the rounded coordinates', () {
+      final cairo = GazetteerHit(
+        id: 360630,
+        name: 'Cairo',
+        matchedName: 'Cairo',
+        exact: true,
+        country: 'EG',
+        admin1: '11',
+        point: GeoPointE6(30044420, 31235712),
+        population: 9606916,
+        zoneId: 'Africa/Cairo',
+      );
+      expect(subtitleOf(cairo), 'EG · 30.04, 31.24');
+    });
+
+    test('a Latin alternate spelling shows the primary name; an Arabic match '
+        'keeps its Arabic name', () {
+      GazetteerHit matched(String name) => GazetteerHit(
+        id: 361058,
+        name: 'Alexandria',
+        matchedName: name,
+        exact: false,
+        country: 'EG',
+        admin1: '06',
+        point: GeoPointE6(31200092, 29918739),
+        population: 3811516,
+        zoneId: 'Africa/Cairo',
+      );
+      expect(matched('Alexandreia').displayName, 'Alexandria');
+      expect(titleOf(matched('Alexandreia')), 'Alexandria (Alexandreia)');
+      expect(matched('الإسكندرية').displayName, 'الإسكندرية');
+      expect(titleOf(matched('الإسكندرية')), 'الإسكندرية');
+      expect(titleOf(_alexandria), 'Alexandria');
     });
   });
 }

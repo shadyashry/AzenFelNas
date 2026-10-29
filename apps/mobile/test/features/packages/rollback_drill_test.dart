@@ -24,6 +24,7 @@ import 'package:daily_muslim/features/packages/data/drift_package_catalog.dart';
 import 'package:daily_muslim/features/packages/data/io_gzip_inflate.dart';
 import 'package:daily_muslim/features/packages/data/io_package_blob_store.dart';
 import 'package:daily_muslim/features/packages/data/package_payload_checks.dart';
+import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/schedule/application/load_runtime_data.dart';
 import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:dm_contracts/dm_contracts.dart';
@@ -174,7 +175,7 @@ void main() {
       seeds: _seeds(),
       catalog: catalog,
       app: AppBuild.compat,
-      checkPayload: const PackagePayloadChecks(),
+      checkPayload: const PackagePayloadChecks(run: runPayloadWorkInPlace),
       activate: activate,
     )(nowUtcMs: _now);
     expect(report.failures, isEmpty);
@@ -306,5 +307,8 @@ LoadPackagePayload _loader(IoPackageBlobStore store) => LoadPackagePayload(
 );
 
 ImportingApplyPackage _apply(DmDatabase db) => ImportingApplyPackage(
-  ImportGazetteer(const JsonGazetteerPayloadDecoder(), DriftGazetteerStore(db)),
+  ImportGazetteer(
+    const JsonGazetteerPayloadDecoder(run: runPayloadWorkInPlace),
+    DriftGazetteerStore(db),
+  ),
 );

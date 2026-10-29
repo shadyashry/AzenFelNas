@@ -27,5 +27,8 @@ abstract interface class StoreGazetteer {
 /// Decodes a `gazetteer_package.v1` payload (port of `ImportGazetteer`).
 abstract interface class DecodeGazetteerPayload {
   /// The places of [payload] (UTF-8 JSON), or why it is not a valid payload.
-  Result<List<GazetteerPlace>, GazetteerFailure> decode(List<int> payload);
+  /// Asynchronous, so an adapter may decode off the UI isolate (§15 D96).
+  Future<Result<List<GazetteerPlace>, GazetteerFailure>> decode(
+    List<int> payload,
+  );
 }

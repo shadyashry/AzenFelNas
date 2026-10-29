@@ -59,22 +59,24 @@ final class StageTarget {
       case Err(:final failure):
         return Result.err(failure);
     }
-    final checked = _verifyFile(choice.name, target, dmpkg)
-        .flatMap(
-          (_) => _inflate(dmpkg, maxBytes: SyncPolicy.maxInflatedBytes),
-        )
-        .flatMap(
-          (payload) => _checkPayload(
-            choice.type,
-            choice.version,
-            target.custom.schemaVersion,
-            payload,
-          ).map((_) => payload),
-        );
+    final inflated = _verifyFile(choice.name, target, dmpkg).flatMap(
+      (_) => _inflate(dmpkg, maxBytes: SyncPolicy.maxInflatedBytes),
+    );
     final List<int> payload;
-    switch (checked) {
+    switch (inflated) {
       case Ok(:final value):
         payload = value;
+      case Err(:final failure):
+        return Result.err(failure);
+    }
+    switch (await _checkPayload(
+      choice.type,
+      choice.version,
+      target.custom.schemaVersion,
+      payload,
+    )) {
+      case Ok():
+        break;
       case Err(:final failure):
         return Result.err(failure);
     }

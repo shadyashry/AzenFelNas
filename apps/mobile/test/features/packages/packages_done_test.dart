@@ -14,6 +14,7 @@ import 'package:daily_muslim/features/packages/application/importing_apply_packa
 import 'package:daily_muslim/features/packages/data/asset_bundled_seeds.dart';
 import 'package:daily_muslim/features/packages/data/drift_package_catalog.dart';
 import 'package:daily_muslim/features/packages/data/package_payload_checks.dart';
+import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
@@ -44,13 +45,13 @@ void main() {
       seeds: AssetBundledSeeds((key) => File(key).readAsBytes()),
       catalog: catalog,
       app: AppBuild.compat,
-      checkPayload: const PackagePayloadChecks(),
+      checkPayload: const PackagePayloadChecks(run: runPayloadWorkInPlace),
       activate: ActivateStaged(
         read: catalog,
         write: catalog,
         apply: ImportingApplyPackage(
           ImportGazetteer(
-            const JsonGazetteerPayloadDecoder(),
+            const JsonGazetteerPayloadDecoder(run: runPayloadWorkInPlace),
             DriftGazetteerStore(db),
           ),
         ),
@@ -91,8 +92,8 @@ void main() {
   });
 
   test('REQ-PKG-001 a gazetteer payload that does not decode is refused '
-      'by the payload check', () {
-    final result = const PackagePayloadChecks()(
+      'by the payload check', () async {
+    final result = await const PackagePayloadChecks()(
       PackageType.gazetteer,
       '3.0.3',
       1,
@@ -109,34 +110,42 @@ void main() {
     );
   });
 
-  test('REQ-PKG-006 types without a reader in this build are refused', () {
-    for (final type in [
-      PackageType.hijri,
-      PackageType.athanAudioManifest,
-    ]) {
+  test(
+    'REQ-PKG-006 types without a reader in this build are refused',
+    () async {
+      for (final type in [
+        PackageType.hijri,
+        PackageType.athanAudioManifest,
+      ]) {
+        expect(
+          await const PackagePayloadChecks()(type, '1.0.0', 1, const [1]),
+          isA<Err<void, PackageFailure>>(),
+        );
+      }
       expect(
-        const PackagePayloadChecks()(type, '1.0.0', 1, const [1]),
+        await const PackagePayloadChecks()(
+          PackageType.tzdata,
+          '2026e',
+          1,
+          const [1],
+        ),
         isA<Err<void, PackageFailure>>(),
       );
-    }
-    expect(
-      const PackagePayloadChecks()(PackageType.tzdata, '2026e', 1, const [1]),
-      isA<Err<void, PackageFailure>>(),
-    );
-  });
+    },
+  );
 
   test('REQ-PKG-006 a prayer_profiles payload must parse as a valid profile '
-      'set (§15 D60)', () {
+      'set (§15 D60)', () async {
     const checks = PackagePayloadChecks();
     expect(
-      checks(PackageType.prayerProfiles, '2026.10.1', 1, const [1]),
+      await checks(PackageType.prayerProfiles, '2026.10.1', 1, const [1]),
       isA<Err<void, PackageFailure>>(),
     );
     final bundled = File(
       'assets/packages/prayer_profiles/2026.10.1/profiles.json',
     ).readAsBytesSync();
     expect(
-      checks(PackageType.prayerProfiles, '2026.10.1', 1, bundled),
+      await checks(PackageType.prayerProfiles, '2026.10.1', 1, bundled),
       const Result<void, PackageFailure>.ok(null),
     );
   });

@@ -26,6 +26,14 @@ final class GazetteerHit {
   /// The name whose search key matched the query (e.g. «القاهرة»).
   final String matchedName;
 
+  /// The name shown and pinned (§15 D96): the matched name when it is
+  /// Arabic, so an Arabic search keeps its Arabic name; otherwise the primary
+  /// [name], since a Latin query may match an alternate spelling
+  /// ("Alexandreia" for Alexandria).
+  String get displayName => _arabic.hasMatch(matchedName) ? matchedName : name;
+
+  static final _arabic = RegExp('[؀-ۿ]');
+
   /// Whether a search key of the place equals the query key, not only
   /// starts with it.
   final bool exact;

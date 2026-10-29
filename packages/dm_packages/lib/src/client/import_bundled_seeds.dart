@@ -1,4 +1,3 @@
-import 'package:crypto/crypto.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/src/client/activate_staged.dart';
 import 'package:dm_packages/src/client/active_package.dart';
@@ -9,6 +8,7 @@ import 'package:dm_packages/src/client/package_file_state.dart';
 import 'package:dm_packages/src/client/package_source.dart';
 import 'package:dm_packages/src/client/package_type.dart';
 import 'package:dm_packages/src/client/ports/check_payload.dart';
+import 'package:dm_packages/src/client/ports/hash_payload.dart';
 import 'package:dm_packages/src/client/ports/read_bundled_seeds.dart';
 import 'package:dm_packages/src/client/ports/read_package_catalog.dart';
 import 'package:dm_packages/src/client/seed_import_report.dart';
@@ -29,7 +29,10 @@ final class ImportBundledSeeds {
     required this._app,
     required this._checkPayload,
     required this._activate,
+    this._hash = const Sha256Payload(),
   });
+
+  final HashPayload _hash;
 
   final ReadBundledSeeds _seeds;
   final ReadPackageCatalog _catalog;
@@ -81,17 +84,17 @@ final class ImportBundledSeeds {
       case Err(:final failure):
         return Result.err(failure);
     }
-    if (sha256.convert(payload).toString() != seed.sha256) {
+    if (await _hash(payload) != seed.sha256) {
       return Result.err(
         PackageFailure.hashMismatch('$seed does not match its index'),
       );
     }
-    return _checkPayload(
+    return (await _checkPayload(
       seed.type,
       seed.version,
       seed.schemaVersion,
       payload,
-    ).map(
+    )).map(
       (_) => StagedPackage(
         file: PackageFile(
           type: seed.type,

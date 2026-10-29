@@ -42,9 +42,13 @@ final class OnboardingController extends Notifier<OnboardingState> {
   void placePinned(ResolvedContext context) => state = _done(context);
 
   /// Ends onboarding; Home takes over. The Athan is on from here (§15 D94),
-  /// so the notification permission is asked for now (REQ-ALM-026).
+  /// so the notification permission (REQ-ALM-026) and Android's exact alarms
+  /// (§15 D96; without them the Athan may be up to an hour late) are asked
+  /// for now. A permission already held shows nothing.
   Future<void> finish() async {
-    await ref.read(requestAthanGrantProvider).call(AthanGrant.notifications);
+    final grant = ref.read(requestAthanGrantProvider);
+    await grant(AthanGrant.notifications);
+    await grant(AthanGrant.exactAlarms);
     ref.invalidate(scheduleProvider);
     await ref.read(completeFirstRunProvider).call();
   }

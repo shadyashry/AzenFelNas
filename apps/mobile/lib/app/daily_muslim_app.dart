@@ -1,4 +1,5 @@
 import 'package:daily_muslim/app/app_router.dart';
+import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/presentation/shell_providers.dart';
@@ -26,8 +27,21 @@ final class _DailyMuslimAppState extends ConsumerState<DailyMuslimApp> {
     initialLocation: widget.initialLocation,
   );
 
+  /// Back from system settings (a permission, a muted channel), Athan Health
+  /// is evaluated again (§15 D96).
+  late final AppLifecycleListener _lifecycle;
+
+  @override
+  void initState() {
+    super.initState();
+    _lifecycle = AppLifecycleListener(
+      onResume: () => ref.invalidate(athanHealthProvider),
+    );
+  }
+
   @override
   void dispose() {
+    _lifecycle.dispose();
     _router.dispose();
     super.dispose();
   }

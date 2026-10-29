@@ -15,7 +15,7 @@ final class ImportGazetteer {
   /// number. A payload that does not decode stores nothing, and a failed
   /// write keeps the previous places (REQ-PKG-001).
   Future<Result<int, GazetteerFailure>> call(List<int> payload) async =>
-      switch (_decoder.decode(payload)) {
+      switch (await _decoder.decode(payload)) {
         Ok(:final value) => await _store.replaceAll(value),
         Err(:final failure) => Err(failure),
       };

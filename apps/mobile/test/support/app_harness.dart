@@ -4,6 +4,7 @@ import 'package:daily_muslim/app/daily_muslim_app.dart';
 import 'package:daily_muslim/app/di.dart';
 import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
 import 'package:daily_muslim/features/contexts/domain/location_ports.dart';
+import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/qibla/domain/heading_source.dart';
 import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
@@ -76,6 +77,7 @@ Widget harnessApp(
     heading: heading ?? FakeHeadingSource(),
     athan: noAthanHost(),
     athanGrant: athanGrant ?? FakeAthanGrant(),
+    runPayloadWork: runPayloadWorkInPlace,
   ),
   child: DailyMuslimApp(initialLocation: initialLocation),
 );
@@ -89,11 +91,13 @@ Future<void> disposeApp(WidgetTester tester, OpenedDatabases databases) async {
 }
 
 /// Pumps, letting database work finish on the real event loop between
-/// frames, until [finder] matches; fails after [attempts] rounds.
+/// frames, until [finder] matches; fails after [attempts] rounds. The
+/// budget covers the payload work the app runs on background isolates
+/// (§15 D96).
 Future<void> pumpUntil(
   WidgetTester tester,
   Finder finder, {
-  int attempts = 200,
+  int attempts = 1000,
 }) async {
   for (var i = 0; i < attempts; i++) {
     await tester.runAsync(

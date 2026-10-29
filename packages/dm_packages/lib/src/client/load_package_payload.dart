@@ -1,7 +1,7 @@
-import 'package:crypto/crypto.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/src/client/package_file.dart';
 import 'package:dm_packages/src/client/package_source.dart';
+import 'package:dm_packages/src/client/ports/hash_payload.dart';
 import 'package:dm_packages/src/client/ports/inflate_payload.dart';
 import 'package:dm_packages/src/client/ports/read_bundled_seeds.dart';
 import 'package:dm_packages/src/client/ports/store_package_blobs.dart';
@@ -17,9 +17,11 @@ final class LoadPackagePayload {
     required this._blobs,
     required this._inflate,
     required this._seeds,
+    this._hash = const Sha256Payload(),
   });
 
   final StorePackageBlobs _blobs;
+  final HashPayload _hash;
   final InflatePayload _inflate;
   final ReadBundledSeeds _seeds;
 
@@ -28,17 +30,13 @@ final class LoadPackagePayload {
   Future<Result<List<int>, PackageFailure>> call(PackageFile file) async {
     switch (file.source) {
       case PackageSource.downloaded:
-        return (await _blobs.read(file.path))
-            .flatMap((bytes) => _hashed(file, bytes))
-            .flatMap(
-              (dmpkg) => _inflate(dmpkg, maxBytes: SyncPolicy.maxInflatedBytes),
-            );
+        return (await _hashed(file, await _blobs.read(file.path))).flatMap(
+          (dmpkg) => _inflate(dmpkg, maxBytes: SyncPolicy.maxInflatedBytes),
+        );
       case PackageSource.bundled:
         for (final seed in await _seeds.seeds()) {
           if (seed.type == file.type && seed.version == file.version) {
-            return (await _seeds.payload(
-              seed,
-            )).flatMap((bytes) => _hashed(file, bytes));
+            return await _hashed(file, await _seeds.payload(seed));
           }
         }
         return Result.err(
@@ -47,12 +45,16 @@ final class LoadPackagePayload {
     }
   }
 
-  static Result<List<int>, PackageFailure> _hashed(
+  Future<Result<List<int>, PackageFailure>> _hashed(
     PackageFile file,
-    List<int> bytes,
-  ) => sha256.convert(bytes).toString() == file.sha256
-      ? Result.ok(bytes)
-      : Result.err(
-          PackageFailure.hashMismatch('$file changed since it was stored'),
-        );
+    Result<List<int>, PackageFailure> read,
+  ) async => switch (read) {
+    Err(:final failure) => Result.err(failure),
+    Ok(value: final bytes) =>
+      await _hash(bytes) == file.sha256
+          ? Result.ok(bytes)
+          : Result.err(
+              PackageFailure.hashMismatch('$file changed since it was stored'),
+            ),
+  };
 }

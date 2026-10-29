@@ -75,9 +75,13 @@ final class OnboardingPage extends ConsumerWidget {
                 size: 120,
               ),
               title: l.onboardingDoneTitle,
-              body: placeLabel.isEmpty
-                  ? l.homeCurrentPlace
-                  : l.onboardingDoneBody(placeLabel),
+              body: [
+                if (placeLabel.isEmpty)
+                  l.homeCurrentPlace
+                else
+                  l.onboardingDoneBody(placeLabel),
+                l.onboardingAthanPermissions,
+              ].join('\n\n'),
               actions: [
                 FilledButton(
                   onPressed: controller.finish,

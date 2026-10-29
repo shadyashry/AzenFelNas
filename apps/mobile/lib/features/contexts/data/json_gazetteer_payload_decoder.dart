@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:isolate';
+import 'dart:typed_data';
 
 import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_place.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_ports.dart';
+import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_contracts/dm_contracts.dart' as wire;
 import 'package:dm_core_types/dm_core_types.dart';
@@ -10,17 +13,30 @@ import 'package:json_annotation/json_annotation.dart';
 
 /// Decodes `gazetteer_package.v1` (§9.5) with the `dm_contracts` wire model
 /// and checks the constraints the model does not: ranges, patterns,
-/// non-empty names and unique ids.
+/// non-empty names and unique ids. [decode] runs through [RunPayloadWork],
+/// a background isolate by default: the bundled payload is 8 MB (§15 D96).
 final class JsonGazetteerPayloadDecoder implements DecodeGazetteerPayload {
-  /// The decoder.
-  const new();
+  /// The decoder over [_run].
+  const new({this._run = Isolate.run});
+
+  final RunPayloadWork _run;
 
   static final _country = RegExp(r'^[A-Z]{2}$');
   static final _zone = RegExp(r'^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$');
   static const _zoneMaxLength = 64;
 
   @override
-  Result<List<GazetteerPlace>, GazetteerFailure> decode(List<int> payload) {
+  Future<Result<List<GazetteerPlace>, GazetteerFailure>> decode(
+    List<int> payload,
+  ) {
+    final bytes = Uint8List.fromList(payload);
+    return _run(() => decodeNow(bytes));
+  }
+
+  /// [decode] on the calling isolate.
+  static Result<List<GazetteerPlace>, GazetteerFailure> decodeNow(
+    List<int> payload,
+  ) {
     final Object? document;
     try {
       document = jsonDecode(utf8.decode(payload));

@@ -133,7 +133,9 @@ void main() {
     });
 
     testWidgets('REQ-ALM-026 step(done) after a granted fix; finishing asks '
-        'for notifications and completes the first run', (tester) async {
+        'for notifications and exact alarms and completes the first run', (
+      tester,
+    ) async {
       final (_, settings) = await pump(tester, access: LocationAccess.granted);
       await toLocation(tester);
       await tester.tap(find.text('Use approximate location'));
@@ -145,7 +147,7 @@ void main() {
         await tester.pump();
       }
       expect(settings.written, {'onboardingComplete': true});
-      expect(grant.asked, [AthanGrant.notifications]);
+      expect(grant.asked, [AthanGrant.notifications, AthanGrant.exactAlarms]);
     });
   });
 }

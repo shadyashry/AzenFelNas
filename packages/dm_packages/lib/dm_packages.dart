@@ -27,6 +27,7 @@ export 'package:dm_packages/src/client/package_type.dart';
 export 'package:dm_packages/src/client/ports/apply_package.dart';
 export 'package:dm_packages/src/client/ports/check_payload.dart';
 export 'package:dm_packages/src/client/ports/fetch_channel.dart';
+export 'package:dm_packages/src/client/ports/hash_payload.dart';
 export 'package:dm_packages/src/client/ports/inflate_payload.dart';
 export 'package:dm_packages/src/client/ports/package_trust_store.dart';
 export 'package:dm_packages/src/client/ports/read_bundled_seeds.dart';

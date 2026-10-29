@@ -85,12 +85,12 @@ final class PrefixCheckPayload implements CheckPayload {
   const new();
 
   @override
-  Result<void, PackageFailure> call(
+  Future<Result<void, PackageFailure>> call(
     PackageType type,
     String version,
     int schemaVersion,
     List<int> payload,
-  ) => String.fromCharCodes(payload.take(7)) == 'INVALID'
+  ) async => String.fromCharCodes(payload.take(7)) == 'INVALID'
       ? const Result.err(PackageFailure.incompatible('payload refused'))
       : const Result.ok(null);
 }

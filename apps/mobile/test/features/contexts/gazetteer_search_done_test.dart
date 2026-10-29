@@ -5,6 +5,7 @@ import 'package:daily_muslim/features/contexts/application/search_gazetteer.dart
 import 'package:daily_muslim/features/contexts/data/drift_gazetteer_store.dart';
 import 'package:daily_muslim/features/contexts/data/json_gazetteer_payload_decoder.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
+import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/storage/data/dm_database.dart';
 import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_core_types/dm_core_types.dart';
@@ -27,7 +28,7 @@ void main() {
     db = DmDatabase(NativeDatabase.memory());
     final store = DriftGazetteerStore(db);
     final imported = await ImportGazetteer(
-      const JsonGazetteerPayloadDecoder(),
+      const JsonGazetteerPayloadDecoder(run: runPayloadWorkInPlace),
       store,
     )(File(_payload).readAsBytesSync());
     switch (imported) {
@@ -116,5 +117,8 @@ void main() {
       print('search medians µs: $medians');
       expect(medians.values.where((us) => us >= 50000), isEmpty);
     },
+    // A wall-clock bound on the host: `melos run test:perf` runs it alone,
+    // never beside the parallel suite (§15 D96).
+    tags: ['perf'],
   );
 }

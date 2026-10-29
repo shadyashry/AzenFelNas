@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:daily_muslim/app/app_build.dart';
 import 'package:daily_muslim/features/athan/application/plan_schedule.dart';
@@ -35,6 +36,7 @@ import 'package:daily_muslim/features/onboarding/presentation/onboarding_control
 import 'package:daily_muslim/features/packages/application/importing_apply_package.dart';
 import 'package:daily_muslim/features/packages/data/asset_bundled_seeds.dart';
 import 'package:daily_muslim/features/packages/data/assume_metered_network.dart';
+import 'package:daily_muslim/features/packages/data/background_hash_payload.dart';
 import 'package:daily_muslim/features/packages/data/dev_root_keys.dart';
 import 'package:daily_muslim/features/packages/data/drift_package_catalog.dart';
 import 'package:daily_muslim/features/packages/data/drift_package_trust_store.dart';
@@ -43,6 +45,7 @@ import 'package:daily_muslim/features/packages/data/http_cdn_channel.dart';
 import 'package:daily_muslim/features/packages/data/io_gzip_inflate.dart';
 import 'package:daily_muslim/features/packages/data/io_package_blob_store.dart';
 import 'package:daily_muslim/features/packages/data/package_payload_checks.dart';
+import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/qibla/domain/heading_source.dart';
 import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
 import 'package:daily_muslim/features/schedule/application/calculate_schedule.dart';
@@ -86,6 +89,7 @@ abstract final class AppBindings {
     required HeadingSource heading,
     required AthanSchedulerApi athan,
     required RequestAthanGrant athanGrant,
+    RunPayloadWork runPayloadWork = Isolate.run,
   }) {
     final settings = DriftSettingsStore(databases.dm);
     final eventLog = DriftEventLog(databases.dm);
@@ -100,8 +104,9 @@ abstract final class AppBindings {
         seeds: bundledSeeds,
         catalog: catalog,
         app: AppBuild.compat,
-        checkPayload: const PackagePayloadChecks(),
-        activate: _activate(databases.dm, eventLog),
+        checkPayload: PackagePayloadChecks(run: runPayloadWork),
+        activate: _activate(databases.dm, eventLog, runPayloadWork),
+        hash: BackgroundHashPayload(run: runPayloadWork),
       ),
       collectGarbage: CollectPackageGarbage(
         read: catalog,
@@ -126,6 +131,7 @@ abstract final class AppBindings {
           blobRoot: blobRoot,
           fetch: HttpCdnChannel.cdn(AppBuild.channel.name),
           embeddedRoot: root,
+          runPayloadWork: runPayloadWork,
         ),
         null => null,
       }),
@@ -137,6 +143,7 @@ abstract final class AppBindings {
             blobs: blobs,
             inflate: const IoGzipInflate(),
             seeds: bundledSeeds,
+            hash: BackgroundHashPayload(run: runPayloadWork),
           ),
           channel: AppBuild.channel,
         ),
@@ -211,6 +218,7 @@ abstract final class AppBindings {
     required Directory blobRoot,
     required FetchChannel fetch,
     required TrustedRoot embeddedRoot,
+    RunPayloadWork runPayloadWork = Isolate.run,
   }) {
     final catalog = DriftPackageCatalog(db);
     return SyncPackages(
@@ -224,11 +232,11 @@ abstract final class AppBindings {
         compatibility: CheckCompatibility(AppBuild.compat),
         fetch: fetch,
         inflate: const IoGzipInflate(),
-        checkPayload: const PackagePayloadChecks(),
+        checkPayload: PackagePayloadChecks(run: runPayloadWork),
         blobs: IoPackageBlobStore(blobRoot),
         catalog: catalog,
       ),
-      activate: _activate(db, eventLog),
+      activate: _activate(db, eventLog, runPayloadWork),
       events: EventLogPackageEvents(eventLog.call),
     );
   }
@@ -241,14 +249,18 @@ abstract final class AppBindings {
     ReleaseChannel.beta || ReleaseChannel.production => null,
   };
 
-  static ActivateStaged _activate(DmDatabase db, DriftEventLog eventLog) {
+  static ActivateStaged _activate(
+    DmDatabase db,
+    DriftEventLog eventLog,
+    RunPayloadWork run,
+  ) {
     final catalog = DriftPackageCatalog(db);
     return ActivateStaged(
       read: catalog,
       write: catalog,
       apply: ImportingApplyPackage(
         ImportGazetteer(
-          const JsonGazetteerPayloadDecoder(),
+          JsonGazetteerPayloadDecoder(run: run),
           DriftGazetteerStore(db),
         ),
       ),

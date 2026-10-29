@@ -5,6 +5,7 @@ import 'package:daily_muslim/features/packages/data/asset_bundled_seeds.dart';
 import 'package:daily_muslim/features/packages/data/drift_package_catalog.dart';
 import 'package:daily_muslim/features/packages/data/io_gzip_inflate.dart';
 import 'package:daily_muslim/features/packages/data/io_package_blob_store.dart';
+import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/schedule/application/load_runtime_data.dart';
 import 'package:daily_muslim/features/schedule/domain/runtime_data.dart';
 import 'package:daily_muslim/features/shell/presentation/shell_providers.dart';
@@ -64,6 +65,7 @@ void main() {
         heading: FakeHeadingSource(),
         athan: noAthanHost(),
         athanGrant: FakeAthanGrant(),
+        runPayloadWork: runPayloadWorkInPlace,
       ),
     );
     await container.read(appStartProvider.future);

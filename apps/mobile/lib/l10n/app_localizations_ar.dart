@@ -168,6 +168,10 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get onboardingAthanPermissions =>
+      'عشان الأذان يتسمع في وقته، الشاشات الجاية هتطلب السماح بالإشعارات والمنبهات.';
+
+  @override
   String get onboardingShowTimes => 'اعرض مواقيت النهارده';
 
   @override

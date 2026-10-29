@@ -54,7 +54,7 @@ final class PinPlace {
             horizontalAccuracyM: null,
             zoneId: hit.zoneId,
             country: hit.country,
-            label: hit.matchedName,
+            label: hit.displayName,
           ),
           ContextSource.gazetteer,
         )),

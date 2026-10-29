@@ -1,0 +1,3 @@
+tags:
+  # Host wall-clock benchmarks; `melos run test:perf` runs them alone (DESIGN.md §15 D96).
+  perf:

@@ -44,11 +44,16 @@ melos:
         flutter: false
         dirExists: test
     test:flutter:
-      description: Run tests of Flutter packages and the app.
-      exec: flutter test
+      description: Run tests of Flutter packages and the app; host benchmarks (tag perf) run alone in test:perf.
+      exec: flutter test --exclude-tags perf
       packageFilters:
         flutter: true
         dirExists: test
+    test:perf:
+      description: Host wall-clock benchmarks, one file at a time, never beside the parallel suite (§15 D96).
+      exec: flutter test --tags perf --concurrency 1
+      packageFilters:
+        scope: daily_muslim
     gen:
       description: Code generation (freezed + json_serializable; pigeon is `gen:pigeon`). Outputs are committed (§15 D22).
       exec:
@@ -69,3 +74,4 @@ melos:
         - lint:req
         - test:dart
         - test:flutter
+        - test:perf
