@@ -338,24 +338,6 @@ abstract class AppLocalizations {
   /// **'Works offline, without an account. Your location stays on this phone.'**
   String get onboardingWelcomeBody;
 
-  /// Onboarding welcome button.
-  ///
-  /// In en, this message translates to:
-  /// **'Get started'**
-  String get onboardingStart;
-
-  /// Onboarding location step title.
-  ///
-  /// In en, this message translates to:
-  /// **'Where are you?'**
-  String get onboardingLocationTitle;
-
-  /// Onboarding location step body.
-  ///
-  /// In en, this message translates to:
-  /// **'Approximate location is enough for today\'s times. You can choose a place instead.'**
-  String get onboardingLocationBody;
-
   /// Button: ask for approximate location.
   ///
   /// In en, this message translates to:
@@ -440,12 +422,6 @@ abstract class AppLocalizations {
   /// **'No place found. Try another spelling or enter coordinates.'**
   String get placeEmpty;
 
-  /// Manual place: search failed.
-  ///
-  /// In en, this message translates to:
-  /// **'The search did not work (code {code}).'**
-  String placeError(String code);
-
   /// Button: switch to coordinate entry.
   ///
   /// In en, this message translates to:
@@ -512,12 +488,6 @@ abstract class AppLocalizations {
   /// **'There is no local authority profile here; the engine default is used.'**
   String get homeNoProfile;
 
-  /// Home: calculation failed.
-  ///
-  /// In en, this message translates to:
-  /// **'Prayer times could not be worked out (code {code}).'**
-  String homeError(String code);
-
   /// Home: Athan readiness before Athan exists.
   ///
   /// In en, this message translates to:
@@ -553,12 +523,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next 7 days'**
   String get timelineTitle;
-
-  /// Day timeline: failed.
-  ///
-  /// In en, this message translates to:
-  /// **'The days could not be worked out (code {code}).'**
-  String timelineError(String code);
 
   /// Event name.
   ///
@@ -961,6 +925,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You are facing the Qibla.'**
   String get qiblaFacing;
+
+  /// Qibla hint under the compass (§15 D98).
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the phone flat, away from metal and magnets.'**
+  String get qiblaHoldFlat;
 
   /// Qibla without a place.
   ///

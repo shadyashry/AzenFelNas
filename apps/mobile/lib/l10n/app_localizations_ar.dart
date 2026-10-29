@@ -141,16 +141,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'يشتغل من غير إنترنت ومن غير حساب. موقعك بيفضل على الموبايل ده.';
 
   @override
-  String get onboardingStart => 'يلا نبدأ';
-
-  @override
-  String get onboardingLocationTitle => 'إنت فين؟';
-
-  @override
-  String get onboardingLocationBody =>
-      'الموقع التقريبي كفاية لمواقيت النهارده. وممكن تختار مكان بدل كده.';
-
-  @override
   String get onboardingUseLocation => 'استخدم الموقع التقريبي';
 
   @override
@@ -197,11 +187,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'مفيش مكان بالاسم ده. جرّب كتابة تانية أو دخّل الإحداثيات.';
 
   @override
-  String placeError(String code) {
-    return 'البحث ما اشتغلش (كود $code).';
-  }
-
-  @override
   String get placeEnterCoordinates => 'دخّل الإحداثيات';
 
   @override
@@ -241,11 +226,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'مفيش ملف لجهة محلية هنا؛ بنستخدم الإعداد الافتراضي للمحرك.';
 
   @override
-  String homeError(String code) {
-    return 'ما قدرناش نطلع المواقيت (كود $code).';
-  }
-
-  @override
   String get homeHealthUnknown => 'الأذان: لسه ما اتظبطش';
 
   @override
@@ -266,11 +246,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get timelineTitle => 'الأيام السبعة الجاية';
-
-  @override
-  String timelineError(String code) {
-    return 'ما قدرناش نطلع الأيام (كود $code).';
-  }
 
   @override
   String get prayerImsak => 'الإمساك';
@@ -510,6 +485,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get qiblaFacing => 'انت في اتجاه القبلة.';
+
+  @override
+  String get qiblaHoldFlat =>
+      'امسك الموبايل مفرود، وبعيد عن المعادن والمغناطيس.';
 
   @override
   String get qiblaNeedsPlace => 'اختار مكان علشان تشوف القبلة.';

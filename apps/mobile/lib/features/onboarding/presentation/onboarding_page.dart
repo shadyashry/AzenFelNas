@@ -5,7 +5,9 @@ import 'package:daily_muslim/features/settings/domain/app_settings.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
-import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
+import 'package:daily_muslim/features/shell/domain/needs_attention.dart';
+import 'package:daily_muslim/features/shell/presentation/remediation_action.dart';
+import 'package:daily_muslim/features/shell/presentation/remediation_copy.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
@@ -41,30 +43,19 @@ final class OnboardingPage extends ConsumerWidget {
             ),
             title: l.onboardingWelcomeTitle,
             body: l.onboardingWelcomeBody,
+            // One tap to the times: the place is asked for right here
+            // (§15 D98).
             actions: [
               const LanguageChoice(),
-              FilledButton(
-                onPressed: controller.start,
-                child: Text(l.onboardingStart),
-              ),
-            ],
-          ),
-          OnboardingStep(step: OnboardingStepKind.location) => _Step(
-            hero: const ReadinessMedallion(
-              glyph: RawdahGlyphKind.starCompass,
-              tone: null,
-              size: 120,
-            ),
-            title: l.onboardingLocationTitle,
-            body: l.onboardingLocationBody,
-            actions: [
-              FilledButton(
+              FilledButton.icon(
                 onPressed: controller.useApproximateLocation,
-                child: Text(l.onboardingUseLocation),
+                icon: const Icon(Icons.my_location),
+                label: Text(l.onboardingUseLocation),
               ),
-              OutlinedButton(
+              OutlinedButton.icon(
                 onPressed: controller.choosePlace,
-                child: Text(l.onboardingChoosePlace),
+                icon: const Icon(Icons.search),
+                label: Text(l.onboardingChoosePlace),
               ),
             ],
           ),
@@ -93,43 +84,72 @@ final class OnboardingPage extends ConsumerWidget {
                 ),
               ],
             ),
-          OnboardingResolving() => Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const CircularProgressIndicator(),
-                const SizedBox(height: 16),
-                Text(l.onboardingResolving),
-              ],
+          OnboardingResolving() => _Step(
+            hero: const ReadinessMedallion(
+              glyph: RawdahGlyphKind.starCompass,
+              tone: null,
+              size: 120,
             ),
+            title: l.onboardingResolving,
+            body: '',
+            actions: const [Center(child: CircularProgressIndicator())],
           ),
-          OnboardingFailed(:final failure) => ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              Text(
-                l.onboardingFailedTitle,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              // Back from the location settings the card opened, location
-              // is tried again (§15 D97).
-              NeedsAttentionCard(
-                const DescribeFailure()(failure),
-                onReturn: controller.useApproximateLocation,
-              ),
-              FilledButton(
-                onPressed: controller.choosePlace,
-                child: Text(l.onboardingChoosePlace),
-              ),
-              TextButton(
-                onPressed: controller.useApproximateLocation,
-                child: Text(l.onboardingTryAgain),
-              ),
-            ],
+          OnboardingFailed(:final failure) => _failed(
+            l,
+            controller,
+            const DescribeFailure()(failure),
           ),
         },
       ),
     );
   }
+}
+
+/// Location did not work: the same Rawdah step as the rest of the first run
+/// (§15 D98), the fix in words, its system-setting button when there is one
+/// (back from it, location is tried again, §15 D97), then a place or a retry.
+Widget _failed(
+  AppLocalizations l,
+  OnboardingController controller,
+  NeedsAttention notice,
+) {
+  final settings = RemediationAction.hasAction(notice.remediation);
+  final choosePlace = (
+    icon: const Icon(Icons.search),
+    label: Text(l.onboardingChoosePlace),
+  );
+  return _Step(
+    hero: const ReadinessMedallion(
+      glyph: RawdahGlyphKind.starCompass,
+      tone: MedallionTone.limited,
+      size: 120,
+    ),
+    title: l.onboardingFailedTitle,
+    body: RemediationCopy.of(l, notice.remediation),
+    titleTooltip: l.needsAttentionCode(notice.code.wire),
+    actions: [
+      if (settings) ...[
+        RemediationAction(
+          notice.remediation,
+          onReturn: controller.useApproximateLocation,
+        ),
+        OutlinedButton.icon(
+          onPressed: controller.choosePlace,
+          icon: choosePlace.icon,
+          label: choosePlace.label,
+        ),
+      ] else
+        FilledButton.icon(
+          onPressed: controller.choosePlace,
+          icon: choosePlace.icon,
+          label: choosePlace.label,
+        ),
+      TextButton(
+        onPressed: controller.useApproximateLocation,
+        child: Text(l.onboardingTryAgain),
+      ),
+    ],
+  );
 }
 
 final class _Step extends StatelessWidget {
@@ -138,7 +158,12 @@ final class _Step extends StatelessWidget {
     required this.body,
     required this.actions,
     this.hero,
+    this.titleTooltip,
   });
+
+  /// Support detail shown on a long press of the title (the failure code,
+  /// §15 D98).
+  final String? titleTooltip;
 
   /// The brand mark above the welcome title (§15 D89).
   final Widget? hero;
@@ -156,16 +181,22 @@ final class _Step extends StatelessWidget {
           Center(child: mark),
           const SizedBox(height: 28),
         ],
-        Text(
-          title,
-          style: DmTheme.naskh(
-            size: 28,
-            color: Theme.of(context).colorScheme.primary,
-            bold: true,
+        Tooltip(
+          message: titleTooltip ?? '',
+          triggerMode: titleTooltip == null
+              ? TooltipTriggerMode.manual
+              : TooltipTriggerMode.longPress,
+          child: Text(
+            title,
+            style: DmTheme.naskh(
+              size: 28,
+              color: Theme.of(context).colorScheme.primary,
+              bold: true,
+            ),
           ),
         ),
         const SizedBox(height: 12),
-        Text(body, style: text.bodyLarge),
+        if (body.isNotEmpty) Text(body, style: text.bodyLarge),
         const SizedBox(height: 24),
         for (final action in actions)
           Padding(padding: const EdgeInsets.only(bottom: 12), child: action),

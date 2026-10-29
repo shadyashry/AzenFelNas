@@ -19,6 +19,10 @@ abstract final class RawdahPalette {
   /// Soft Rawdah carpet green, for selection washes.
   static const Color sage = Color(0xFFE3EEE2);
 
+  /// Fluorescent green of the Qibla alignment line (§15 D98): a signal,
+  /// never text, always beside the words "You are facing the Qibla".
+  static const Color qiblaAligned = Color(0xFF39FF14);
+
   /// Pale illumination gold, highlights only.
   static const Color goldLight = Color(0xFFEAD596);
 

@@ -5,6 +5,7 @@ import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_ports.dart';
+import 'package:daily_muslim/features/contexts/domain/location_access.dart';
 import 'package:daily_muslim/features/contexts/domain/resolved_context.dart';
 import 'package:daily_muslim/features/contexts/domain/search_key.dart';
 import 'package:daily_muslim/features/contexts/presentation/manual_place_controller.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../support/app_harness.dart';
 import '../../support/fake_location_access.dart';
+import '../../support/runtime_fixtures.dart';
 import '../../support/state_harness.dart';
 import 'support/fake_device_locator.dart';
 
@@ -55,13 +57,15 @@ void main() {
     WidgetTester tester, {
     Result<List<GazetteerHit>, GazetteerFailure> answer = const Ok([]),
     Future<Result<ContextUseCases, Failure>>? useCases,
+    FakeLocationAccess? access,
+    FakeDeviceLocator? locator,
   }) async {
     final pinned = <ResolvedContext>[];
     final ready = fakeContextUseCases(
       db: db,
       places: _Places(answer),
-      access: FakeLocationAccess(),
-      locator: FakeDeviceLocator(),
+      access: access ?? FakeLocationAccess(),
+      locator: locator ?? FakeDeviceLocator(),
     );
     await tester.pumpWidget(
       localizedApp(
@@ -105,6 +109,23 @@ void main() {
       expect(find.text('Alexandria · EG'), findsOneWidget);
     });
 
+    testWidgets('"Use approximate location" sets the place in one tap '
+        '(§15 D98)', (tester) async {
+      final pinned = await pump(
+        tester,
+        access: FakeLocationAccess(LocationAccess.granted),
+        locator: FakeDeviceLocator()
+          ..current = Ok(cairoFix(fixUtcMs: harnessNowUtcMs)),
+      );
+      await tester.tap(find.byKey(const Key('placeLocateMe')));
+      for (var i = 0; i < 50 && pinned.isEmpty; i++) {
+        await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+        await tester.pump();
+      }
+      expect(pinned, hasLength(1));
+      expect(pinned.single.context.kind, ContextKind.current);
+    });
+
     testWidgets('typing searches once the user pauses, without pressing '
         'search (§15 D96)', (tester) async {
       await pump(tester, answer: Ok([_alexandria]));
@@ -121,13 +142,15 @@ void main() {
       await pumpUntil(tester, find.textContaining('No place found'));
     });
 
-    testWidgets('REQ-ERR-002 error names the failure code', (tester) async {
+    testWidgets('REQ-ERR-002 an error shows its fix; the code is kept for '
+        'support (§15 D98)', (tester) async {
       await pump(
         tester,
         answer: const Err(GazetteerFailure.storage('disk')),
       );
       await search(tester, 'Alex');
-      await pumpUntil(tester, find.textContaining('PKG_STORAGE'));
+      await pumpUntil(tester, find.byTooltip('Code PKG_STORAGE'));
+      expect(find.textContaining('PKG_STORAGE'), findsNothing);
     });
 
     testWidgets('coordinateEntry refuses out-of-range numbers', (

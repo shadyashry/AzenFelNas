@@ -102,7 +102,7 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.text('Needs attention'), findsOneWidget);
-      expect(find.text('Code DB_MIGRATION_FAILED'), findsOneWidget);
+      expect(find.byTooltip('Code DB_MIGRATION_FAILED'), findsOneWidget);
       expect(
         find.text('Install the latest version of the app.'),
         findsOneWidget,

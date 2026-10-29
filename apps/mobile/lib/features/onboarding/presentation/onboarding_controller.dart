@@ -17,9 +17,6 @@ final class OnboardingController extends Notifier<OnboardingState> {
   @override
   OnboardingState build() => const OnboardingStep(OnboardingStepKind.welcome);
 
-  /// Welcome → location.
-  void start() => state = const OnboardingStep(OnboardingStepKind.location);
-
   /// Asks for approximate location and resolves it; a refusal or no fix is
   /// [OnboardingFailed].
   Future<void> useApproximateLocation() async {

@@ -16,8 +16,10 @@ final class ObserveHeading {
   final HeadingSource _source;
 
   /// Largest compass error, degrees, at which the arrow is shown — a sensor
-  /// quality bar, not a religious tolerance (§15 D78).
-  static const double readyAccuracyDeg = 15;
+  /// quality bar, not a religious tolerance (§15 D78). 20° admits Android's
+  /// MEDIUM calibration status, the usual state of a working compass
+  /// (§15 D98).
+  static const double readyAccuracyDeg = 20;
 
   static const CalculateQibla _qibla = CalculateQibla();
 

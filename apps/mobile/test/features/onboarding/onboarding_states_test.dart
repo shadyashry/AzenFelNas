@@ -75,11 +75,6 @@ void main() {
     return (fakeAccess, settings);
   }
 
-  Future<void> toLocation(WidgetTester tester) async {
-    await tester.tap(find.text('Get started'));
-    await tester.pump();
-  }
-
   group('Onboarding UiState (§18.4) — every variant renders', () {
     testWidgets('step(welcome) explains offline use and asks for nothing', (
       tester,
@@ -89,11 +84,9 @@ void main() {
       expect(access.requests, 0);
     });
 
-    testWidgets('step(location) offers approximate location or a place', (
-      tester,
-    ) async {
+    testWidgets('the welcome step offers approximate location or a place, '
+        'one tap from the times (§15 D98)', (tester) async {
       final (access, _) = await pump(tester);
-      await toLocation(tester);
       expect(find.text('Use approximate location'), findsOneWidget);
       expect(find.text('Choose a place'), findsOneWidget);
       expect(access.requests, 0);
@@ -101,7 +94,6 @@ void main() {
 
     testWidgets('step(place) shows the manual place search', (tester) async {
       await pump(tester);
-      await toLocation(tester);
       await tester.tap(find.text('Choose a place'));
       await tester.pump();
       expect(find.byKey(const Key('placeSearch')), findsOneWidget);
@@ -114,20 +106,19 @@ void main() {
         tester,
         useCases: Completer<Result<ContextUseCases, Failure>>().future,
       );
-      await toLocation(tester);
       await tester.tap(find.text('Use approximate location'));
       await tester.pump();
       expect(find.text('Finding your place…'), findsOneWidget);
     });
 
-    testWidgets('REQ-ERR-002 failed shows the code and the manual-place '
-        'branch (§18.3)', (tester) async {
+    testWidgets('REQ-ERR-002 failed keeps the code for support (long press) '
+        'and offers the manual-place branch (§18.3, §15 D98)', (tester) async {
       final (access, _) = await pump(tester);
-      await toLocation(tester);
       await tester.tap(find.text('Use approximate location'));
       await pumpUntil(tester, find.text('Location is not available'));
       expect(access.requests, 1);
-      expect(find.textContaining('LOC_PERMISSION_DENIED'), findsOneWidget);
+      expect(find.textContaining('LOC_PERMISSION_DENIED'), findsNothing);
+      expect(find.byTooltip('Code LOC_PERMISSION_DENIED'), findsOneWidget);
       expect(find.text('Choose a place'), findsOneWidget);
       expect(find.text('Try again'), findsOneWidget);
     });
@@ -137,7 +128,6 @@ void main() {
       tester,
     ) async {
       final (_, settings) = await pump(tester, access: LocationAccess.granted);
-      await toLocation(tester);
       await tester.tap(find.text('Use approximate location'));
       await pumpUntil(tester, find.text('Your times are ready'));
       await tester.tap(find.text("Show today's times"));

@@ -58,7 +58,7 @@ void main() {
         tester,
         const TimelineError(PackageFailure.storage('no tzdata')),
       );
-      expect(find.textContaining('PKG_STORAGE'), findsOneWidget);
+      expect(find.byTooltip('Code PKG_STORAGE'), findsOneWidget);
     });
   });
 }

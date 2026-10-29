@@ -107,7 +107,37 @@ final class _DialPainter extends CustomPainter {
     _rosette(canvas, r);
     _needle(canvas, r);
     canvas.restore();
+    if (aligned) _alignedLine(canvas, c, r);
     if (headingDeg != null) _lamp(canvas, c, r);
+  }
+
+  /// The phone faces the Qibla (§15 D98): a glowing fluorescent line from
+  /// the centre to the top marker, over the needle, and a lit ring.
+  void _alignedLine(Canvas canvas, Offset c, double r) {
+    final top = c + Offset(0, -(r - 12));
+    final glow = Paint()
+      ..color = RawdahPalette.qiblaAligned.withValues(alpha: 0.45)
+      ..strokeWidth = 16
+      ..strokeCap = StrokeCap.round
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+    canvas
+      ..drawCircle(
+        c,
+        r,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 6
+          ..color = RawdahPalette.qiblaAligned,
+      )
+      ..drawLine(c, top, glow)
+      ..drawLine(
+        c,
+        top,
+        Paint()
+          ..color = RawdahPalette.qiblaAligned
+          ..strokeWidth = 6
+          ..strokeCap = StrokeCap.round,
+      );
   }
 
   void _ticks(Canvas canvas, double r) {
@@ -187,7 +217,7 @@ final class _DialPainter extends CustomPainter {
         tip,
         26,
         Paint()
-          ..color = RawdahPalette.goldLight.withValues(alpha: 0.55)
+          ..color = RawdahPalette.qiblaAligned.withValues(alpha: 0.55)
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12),
       );
     }
@@ -232,7 +262,7 @@ final class _DialPainter extends CustomPainter {
         ..lineTo(top.dx - 8, top.dy - 4)
         ..lineTo(top.dx + 8, top.dy - 4)
         ..close(),
-      Paint()..color = aligned ? RawdahPalette.goldLight : scheme.primary,
+      Paint()..color = aligned ? RawdahPalette.qiblaAligned : scheme.primary,
     );
   }
 

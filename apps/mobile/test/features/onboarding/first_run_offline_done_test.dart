@@ -28,15 +28,14 @@ void main() {
     );
     await pumpUntil(tester, find.text('Prayer times for where you are'));
 
-    // Welcome → location.
-    await tester.tap(find.text('Get started'));
+    // The welcome step asks for the place at once (§15 D98).
     await pumpUntil(tester, find.text('Use approximate location'));
 
     // Approximate location is refused (§18.3 denial branch).
     await tester.tap(find.text('Use approximate location'));
     await pumpUntil(tester, find.text('Location is not available'));
     expect(access.requests, 1);
-    expect(find.textContaining('LOC_PERMISSION_DENIED'), findsOneWidget);
+    expect(find.byTooltip('Code LOC_PERMISSION_DENIED'), findsOneWidget);
 
     // Manual place: offline gazetteer search.
     await tester.tap(find.text('Choose a place'));
@@ -84,8 +83,6 @@ void main() {
     await tester.pumpWidget(
       harnessApp(dbs, locator: locator, locationAccess: access),
     );
-    await pumpUntil(tester, find.text('Get started'));
-    await tester.tap(find.text('Get started'));
     await pumpUntil(tester, find.text('Use approximate location'));
     await tester.tap(find.text('Use approximate location'));
     await pumpUntil(tester, find.text('Your times are ready'));

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
@@ -9,6 +10,7 @@ import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,6 +23,16 @@ final class QiblaPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
+    // A firm tap the moment the phone lines up with the Qibla (§15 D98).
+    ref.listen(qiblaStateProvider, (previous, next) {
+      bool aligned(AsyncValue<QiblaState?>? value) => switch (value?.value) {
+        final QiblaReady ready => ready.aligned,
+        _ => false,
+      };
+      if (aligned(next) && !aligned(previous)) {
+        unawaited(HapticFeedback.heavyImpact());
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text(l.qiblaTitle),
@@ -65,20 +77,26 @@ final class QiblaView extends ConsumerWidget {
     final digits = DisplayStyle.of(context, ref).digits;
     final qibla = state.qibla;
     final km = (qibla.distanceM / 1000).round().toString();
+    // The one instruction the user follows, large under the dial (§15 D98).
+    final (String guidance, bool facing) = switch (state) {
+      QiblaNoHeading() => (l.qiblaNoHeading, false),
+      QiblaCalibrating() => (l.qiblaCalibrating, false),
+      QiblaNumericOnly() => (l.qiblaNumericOnly, false),
+      final QiblaReady ready => (_turn(l, ready, digits.apply), ready.aligned),
+    };
     final lines = <String>[
       l.qiblaBearing(digits.apply(qibla.bearingDeg.toStringAsFixed(1))),
       l.qiblaDistance(digits.apply(km)),
       ...switch (state) {
-        QiblaNoHeading() => [l.qiblaNoHeading],
+        QiblaNoHeading() || QiblaNumericOnly() => const <String>[],
         QiblaCalibrating(:final accuracyDeg) => [
-          l.qiblaCalibrating,
           if (accuracyDeg case final double a)
             l.qiblaAccuracy(digits.apply(a.round().toString())),
+          l.qiblaHoldFlat,
         ],
-        QiblaNumericOnly() => [l.qiblaNumericOnly],
         final QiblaReady ready => [
-          _turn(l, ready, digits.apply),
           l.qiblaAccuracy(digits.apply(ready.accuracyDeg.round().toString())),
+          l.qiblaHoldFlat,
         ],
       },
     ];
@@ -86,6 +104,7 @@ final class QiblaView extends ConsumerWidget {
       final QiblaReady r => r,
       _ => null,
     };
+    final scheme = Theme.of(context).colorScheme;
     return ListView(
       padding: const EdgeInsets.fromLTRB(28, 12, 28, 120),
       children: [
@@ -97,9 +116,7 @@ final class QiblaView extends ConsumerWidget {
               maxWidth: math.min(320, MediaQuery.sizeOf(context).height * 0.36),
             ),
             child: Semantics(
-              label: ready == null
-                  ? lines.first
-                  : _turn(l, ready, digits.apply),
+              label: guidance,
               child: QiblaDial(
                 bearingDeg: qibla.bearingDeg,
                 headingDeg: switch (state) {
@@ -109,7 +126,7 @@ final class QiblaView extends ConsumerWidget {
                   QiblaNoHeading() ||
                   QiblaNumericOnly() => null,
                 },
-                aligned: ready != null && ready.turnDeg.abs() < 3,
+                aligned: ready != null && ready.aligned,
                 cardinals: (
                   l.compassNorth,
                   l.compassEast,
@@ -120,15 +137,38 @@ final class QiblaView extends ConsumerWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (facing)
+              const Padding(
+                padding: EdgeInsetsDirectional.only(end: 8),
+                child: Icon(
+                  Icons.check_circle,
+                  color: RawdahPalette.emerald,
+                  size: 30,
+                ),
+              ),
+            Flexible(
+              child: Text(
+                guidance,
+                key: const Key('qiblaGuidance'),
+                textAlign: TextAlign.center,
+                style: DmTheme.naskh(
+                  size: facing ? 26 : 22,
+                  color: facing ? RawdahPalette.emerald : scheme.onSurface,
+                  bold: true,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
         Text(
           digits.apply(l.qiblaDegrees(qibla.bearingDeg.round().toString())),
           textAlign: TextAlign.center,
-          style: DmTheme.naskh(
-            size: 46,
-            color: Theme.of(context).colorScheme.primary,
-            bold: true,
-          ),
+          style: DmTheme.naskh(size: 40, color: scheme.primary, bold: true),
         ),
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 8),
@@ -154,8 +194,8 @@ final class QiblaView extends ConsumerWidget {
     QiblaReady ready,
     String Function(String) digits,
   ) {
+    if (ready.aligned) return l.qiblaFacing;
     final degrees = ready.turnDeg.round();
-    if (degrees == 0) return l.qiblaFacing;
     return l.qiblaTurn(
       digits(degrees.abs().toString()),
       degrees > 0 ? l.qiblaRight : l.qiblaLeft,

@@ -137,7 +137,7 @@ void main() {
         ]),
       );
       expect(find.byType(NeedsAttentionCard), findsOneWidget);
-      expect(find.textContaining('PKG_STORAGE'), findsOneWidget);
+      expect(find.byTooltip('Code PKG_STORAGE'), findsOneWidget);
     });
 
     testWidgets('REQ-ERR-002 error names the failure code', (tester) async {
@@ -145,7 +145,7 @@ void main() {
         tester,
         const HomeError(EngineFailure.orderingViolation('{}')),
       );
-      expect(find.textContaining('ENGINE_ORDERING'), findsOneWidget);
+      expect(find.byTooltip('Code ENGINE_ORDERING'), findsOneWidget);
     });
 
     testWidgets('REQ-DOM-040 Arabic shows Arabic-Indic digits by default', (

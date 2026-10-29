@@ -166,18 +166,6 @@
   "@onboardingWelcomeBody": {
     "description": "Onboarding welcome step body."
   },
-  "onboardingStart": "Get started",
-  "@onboardingStart": {
-    "description": "Onboarding welcome button."
-  },
-  "onboardingLocationTitle": "Where are you?",
-  "@onboardingLocationTitle": {
-    "description": "Onboarding location step title."
-  },
-  "onboardingLocationBody": "Approximate location is enough for today's times. You can choose a place instead.",
-  "@onboardingLocationBody": {
-    "description": "Onboarding location step body."
-  },
   "onboardingUseLocation": "Use approximate location",
   "@onboardingUseLocation": {
     "description": "Button: ask for approximate location."
@@ -240,16 +228,6 @@
   "@placeEmpty": {
     "description": "Manual place: no results."
   },
-  "placeError": "The search did not work (code {code}).",
-  "@placeError": {
-    "description": "Manual place: search failed.",
-    "placeholders": {
-      "code": {
-        "type": "String",
-        "example": "PKG_STORAGE"
-      }
-    }
-  },
   "placeEnterCoordinates": "Enter coordinates",
   "@placeEnterCoordinates": {
     "description": "Button: switch to coordinate entry."
@@ -310,16 +288,6 @@
   "@homeNoProfile": {
     "description": "Home: engine default profile used (US-06)."
   },
-  "homeError": "Prayer times could not be worked out (code {code}).",
-  "@homeError": {
-    "description": "Home: calculation failed.",
-    "placeholders": {
-      "code": {
-        "type": "String",
-        "example": "ENGINE_ORDERING"
-      }
-    }
-  },
   "homeHealthUnknown": "Athan: not set up yet",
   "@homeHealthUnknown": {
     "description": "Home: Athan readiness before Athan exists."
@@ -355,16 +323,6 @@
   "timelineTitle": "Next 7 days",
   "@timelineTitle": {
     "description": "Day timeline title and Home button."
-  },
-  "timelineError": "The days could not be worked out (code {code}).",
-  "@timelineError": {
-    "description": "Day timeline: failed.",
-    "placeholders": {
-      "code": {
-        "type": "String",
-        "example": "PKG_STORAGE"
-      }
-    }
   },
   "prayerImsak": "Imsak",
   "@prayerImsak": {
@@ -733,6 +691,10 @@
   "qiblaFacing": "You are facing the Qibla.",
   "@qiblaFacing": {
     "description": "Facing within tolerance."
+  },
+  "qiblaHoldFlat": "Hold the phone flat, away from metal and magnets.",
+  "@qiblaHoldFlat": {
+    "description": "Qibla hint under the compass (§15 D98)."
   },
   "qiblaNeedsPlace": "Choose a place to see the Qibla.",
   "@qiblaNeedsPlace": {

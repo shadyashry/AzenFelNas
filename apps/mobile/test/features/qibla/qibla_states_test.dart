@@ -3,6 +3,7 @@ import 'package:daily_muslim/features/qibla/domain/shadow_times.dart';
 import 'package:daily_muslim/features/qibla/presentation/qibla_page.dart';
 import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
 import 'package:dm_core_types/dm_core_types.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
@@ -51,6 +52,7 @@ void main() {
     ) async {
       await _pump(tester, QiblaCalibrating(_qibla, 40));
       expect(find.textContaining('figure-eight'), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('Compass accuracy ±40°'), 100);
       expect(find.text('Compass accuracy ±40°'), findsOneWidget);
       expect(find.bySemanticsLabel(RegExp('Turn')), findsNothing);
     });
@@ -65,6 +67,30 @@ void main() {
       expect(find.bySemanticsLabel('Turn 12° right'), findsWidgets);
       expect(find.text('Turn 12° right'), findsOneWidget);
       expect(find.text('Compass accuracy ±6°'), findsOneWidget);
+    });
+
+    testWidgets('within 3° of the bearing the user is told they face the '
+        'Qibla and the dial lights its green line (§15 D98)', (tester) async {
+      await _pump(
+        tester,
+        QiblaReady(
+          _qibla,
+          headingDeg: _qibla.bearingDeg - 2.5,
+          accuracyDeg: 10,
+        ),
+      );
+      expect(find.text('You are facing the Qibla.'), findsOneWidget);
+      expect(tester.widget<QiblaDial>(find.byType(QiblaDial)).aligned, isTrue);
+    });
+
+    testWidgets('beyond 3° the user is told which way to turn and the dial '
+        'stays unlit', (tester) async {
+      await _pump(
+        tester,
+        QiblaReady(_qibla, headingDeg: _qibla.bearingDeg - 4, accuracyDeg: 10),
+      );
+      expect(find.text('Turn 4° right'), findsOneWidget);
+      expect(tester.widget<QiblaDial>(find.byType(QiblaDial)).aligned, isFalse);
     });
 
     testWidgets('numericOnly explains and keeps the number', (tester) async {

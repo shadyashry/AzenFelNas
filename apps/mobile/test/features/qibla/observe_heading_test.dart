@@ -35,10 +35,11 @@ void main() {
       expect(states[3], isA<QiblaNumericOnly>());
     });
 
-    test('the arrow needs true north and accuracy within 15°', () async {
+    test('the arrow needs true north and accuracy within 20° (§15 D98: '
+        "Android's MEDIUM status)", () async {
       final states = await _states([
-        const HeadingReading(trueHeadingDeg: 100, accuracyDeg: 15),
-        const HeadingReading(trueHeadingDeg: 100, accuracyDeg: 15.5),
+        const HeadingReading(trueHeadingDeg: 100, accuracyDeg: 20),
+        const HeadingReading(trueHeadingDeg: 100, accuracyDeg: 20.5),
         const HeadingReading(trueHeadingDeg: 100, accuracyDeg: null),
         const HeadingReading(trueHeadingDeg: null, accuracyDeg: 3),
       ]);

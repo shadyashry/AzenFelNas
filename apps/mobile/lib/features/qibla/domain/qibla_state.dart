@@ -41,6 +41,14 @@ final class QiblaReady extends QiblaState {
   /// Estimated compass error, degrees.
   final double accuracyDeg;
 
+  /// Largest turn, degrees, at which the phone counts as facing the Qibla:
+  /// the green line and "You are facing the Qibla" (§15 D98). A display
+  /// tolerance for a hand-held phone, not a ruling on facing the direction.
+  static const double alignedToleranceDeg = 3;
+
+  /// Whether the phone faces the Qibla within [alignedToleranceDeg].
+  bool get aligned => turnDeg.abs() <= alignedToleranceDeg;
+
   /// Clockwise turn from the device heading to the Qibla, `(-180, 180]`.
   double get turnDeg {
     final d = (qibla.bearingDeg - headingDeg) % 360;

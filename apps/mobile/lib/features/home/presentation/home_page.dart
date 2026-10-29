@@ -9,6 +9,7 @@ import 'package:daily_muslim/features/home/presentation/home_hour_field.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/home_state.dart';
 import 'package:daily_muslim/features/home/presentation/time_rows.dart';
+import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
@@ -54,8 +55,13 @@ final class HomePage extends ConsumerWidget {
               ],
             ),
           ),
-          HomeError(:final failure) => _Message(
-            text: l.homeError(failure.code.wire),
+          // The same notice as everywhere else; the code is for support
+          // (§15 D98).
+          HomeError(:final failure) => SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [NeedsAttentionCard(const DescribeFailure()(failure))],
+            ),
           ),
         },
       ),
@@ -190,18 +196,4 @@ final class _Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       const Center(child: CircularProgressIndicator());
-}
-
-final class _Message extends StatelessWidget {
-  const new({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => Center(
-    child: Padding(
-      padding: const EdgeInsets.all(24),
-      child: Text(text, textAlign: TextAlign.center),
-    ),
-  );
 }

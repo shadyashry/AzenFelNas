@@ -2,6 +2,8 @@ import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/time_rows.dart';
 import 'package:daily_muslim/features/home/presentation/timeline_state.dart';
+import 'package:daily_muslim/features/shell/application/describe_failure.dart';
+import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
@@ -36,14 +38,11 @@ final class TimelinePage extends ConsumerWidget {
               ),
           ],
         ),
-        TimelineError(:final failure) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(
-              l.timelineError(failure.code.wire),
-              textAlign: TextAlign.center,
-            ),
-          ),
+        // The same notice as everywhere else; the code is for support
+        // (§15 D98).
+        TimelineError(:final failure) => ListView(
+          padding: const EdgeInsets.all(16),
+          children: [NeedsAttentionCard(const DescribeFailure()(failure))],
         ),
       },
     );

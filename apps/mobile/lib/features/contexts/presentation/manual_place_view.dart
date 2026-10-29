@@ -2,13 +2,17 @@ import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/contexts/domain/resolved_context.dart';
 import 'package:daily_muslim/features/contexts/presentation/manual_place_controller.dart';
 import 'package:daily_muslim/features/contexts/presentation/manual_place_state.dart';
+import 'package:daily_muslim/features/shell/application/describe_failure.dart';
+import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Search field and the exhaustive rendering of [ManualPlaceState]; calls
-/// [onPinned] with the new manual context. Used by the Manual place page and
-/// the onboarding `place` step.
+/// *Use my location*, the search field and the exhaustive rendering of
+/// [ManualPlaceState]; calls [onPinned] with the new context. Coordinates
+/// are an advanced link at the bottom: people know their city, not its
+/// coordinates (§15 D98). Used by the Manual place page and the onboarding
+/// `place` step.
 final class ManualPlaceView extends ConsumerWidget {
   /// The view.
   const new({required this.onPinned, super.key});
@@ -21,9 +25,23 @@ final class ManualPlaceView extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final controller = ref.read(manualPlaceProvider.notifier);
     final state = ref.watch(manualPlaceProvider);
+    Future<void> locateMe() async {
+      final located = await controller.locateMe();
+      if (located != null) onPinned(located);
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          child: FilledButton.icon(
+            key: const Key('placeLocateMe'),
+            onPressed: locateMe,
+            icon: const Icon(Icons.my_location),
+            label: Text(l.onboardingUseLocation),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.all(16),
           child: TextField(
@@ -60,15 +78,21 @@ final class ManualPlaceView extends ConsumerWidget {
               invalid: invalid,
               onPinned: onPinned,
             ),
-            ManualPlaceError(:final failure) => _Hint(
-              text: l.placeError(failure.code.wire),
+            ManualPlaceError(:final failure) => ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              children: [
+                NeedsAttentionCard(
+                  const DescribeFailure()(failure),
+                  onReturn: locateMe,
+                ),
+              ],
             ),
           },
         ),
         if (state is! ManualPlaceCoordinateEntry)
           Padding(
             padding: const EdgeInsets.all(16),
-            child: OutlinedButton(
+            child: TextButton(
               onPressed: controller.enterCoordinates,
               child: Text(l.placeEnterCoordinates),
             ),

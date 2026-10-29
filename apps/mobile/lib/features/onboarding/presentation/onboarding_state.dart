@@ -11,9 +11,6 @@ enum OnboardingStepKind {
   /// What the app is and that it works offline.
   welcome,
 
-  /// Approximate location or a manual place (§18.3).
-  location,
-
   /// Manual place search.
   place,
 

@@ -61,6 +61,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Report copied'), findsNothing);
-    expect(find.textContaining('DIAG_EXPORT_FAILED'), findsOneWidget);
+    expect(find.byTooltip('Code DIAG_EXPORT_FAILED'), findsOneWidget);
   });
 }

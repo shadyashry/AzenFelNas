@@ -55,6 +55,26 @@ final class ManualPlaceController extends Notifier<ManualPlaceState> {
     };
   }
 
+  /// The device's approximate location as the place (§15 D98): the one
+  /// tap for users who do not want to search; a failure stays on screen
+  /// with its fix.
+  Future<ResolvedContext?> locateMe() async {
+    _typing?.cancel();
+    _latest = '';
+    state = const ManualPlaceSearching();
+    final useCases = await _useCases();
+    if (useCases == null) return null;
+    switch (await useCases.locate()) {
+      case Ok(:final value):
+        ref.invalidate(scheduleProvider);
+        state = const ManualPlaceIdle();
+        return value;
+      case Err(:final failure):
+        state = ManualPlaceError(failure);
+        return null;
+    }
+  }
+
   /// Switches to coordinate entry.
   void enterCoordinates() => state = const ManualPlaceCoordinateEntry();
 

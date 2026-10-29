@@ -140,16 +140,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Works offline, without an account. Your location stays on this phone.';
 
   @override
-  String get onboardingStart => 'Get started';
-
-  @override
-  String get onboardingLocationTitle => 'Where are you?';
-
-  @override
-  String get onboardingLocationBody =>
-      'Approximate location is enough for today\'s times. You can choose a place instead.';
-
-  @override
   String get onboardingUseLocation => 'Use approximate location';
 
   @override
@@ -196,11 +186,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'No place found. Try another spelling or enter coordinates.';
 
   @override
-  String placeError(String code) {
-    return 'The search did not work (code $code).';
-  }
-
-  @override
   String get placeEnterCoordinates => 'Enter coordinates';
 
   @override
@@ -240,11 +225,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'There is no local authority profile here; the engine default is used.';
 
   @override
-  String homeError(String code) {
-    return 'Prayer times could not be worked out (code $code).';
-  }
-
-  @override
   String get homeHealthUnknown => 'Athan: not set up yet';
 
   @override
@@ -265,11 +245,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get timelineTitle => 'Next 7 days';
-
-  @override
-  String timelineError(String code) {
-    return 'The days could not be worked out (code $code).';
-  }
 
   @override
   String get prayerImsak => 'Imsak';
@@ -510,6 +485,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get qiblaFacing => 'You are facing the Qibla.';
+
+  @override
+  String get qiblaHoldFlat =>
+      'Hold the phone flat, away from metal and magnets.';
 
   @override
   String get qiblaNeedsPlace => 'Choose a place to see the Qibla.';
