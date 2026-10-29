@@ -23,6 +23,10 @@ Branch `slice/s09-gsctl-tuf`, cut from `main` at `ceb0a69` (S01–S08). Worktree
 7. `9b9c9c5 feat(gsctl)`: `check-change`, the §9.2 rule against changing an angle together with tz/coordinate data (§15 D64), wired into `profiles-gate` against the merge base. Also `keys/dev/set-ci-secrets.sh`.
 6. `fa224b1 docs`: §15 D59–D63; notes for ADR-008, ADR-009 and ADR-011 (dependency rows); `ci-go` paths; the `profiles-gate` compile stage; `release-package` build/sign/verify/artifact (still fails closed at publish); `ci-schemas` validates the signed vector; `tools/gsctl/README.md`.
 
+## After S09 (2026-10-22): new home and workflow
+- The project moved to `shadyashry/AzenFelNas`. Every branch was pushed there (16 branches, tips verified), and `samehamin/daily_muslim` is no longer pushed to.
+- S10 runs in its own cloud session. From S11 on, the cloud routine "AzenFelNas: one slice per session" starts one fresh session per slice every 2 hours. `CLAUDE.md` now has the workflow (heartbeat, stacked branches, owed items) and the token discipline every session follows.
+
 ## Done-test evidence (§13 S09)
 - **Sign → verify, Go → Dart:** `gsctl` built the seed profiles and signed all four roles with the **real dev keys** (root 3 of 3, threshold 2).
   - `packages/dm_packages/test/tuf/go_round_trip_test.dart` verifies that vector in Dart. Dart's `CanonicalJson` also reproduces the `profiles.json` payload byte for byte.

@@ -29,9 +29,25 @@ Read `DESIGN.md` (v1.1) first. It is the normative solution and engineering desi
 - Prefer boring technology; anything not in `DESIGN.md §4` is proposed as an ADR, never adopted silently.
 - Status copy (Calculated / Authority aligned / Verified / Estimated / Observed / Unknown / Expected) comes only from the shared constants in §18.5; prohibited-word tests guard it.
 
+## Autonomous cloud workflow (from S10, decided by the owner on 2026-10-22)
+- **Repository:** `shadyashry/AzenFelNas` is `origin`. `samehamin/daily_muslim` is the earlier home: never push there.
+- **One slice per cloud session.** The cloud routine "AzenFelNas: one slice per session" runs every 2 hours. Each run does exactly one slice and then stops: it finishes a half-done slice, or starts the next one in §13 order.
+- **Heartbeat:** while working, push a WIP commit to the slice branch, or an empty commit to `automation/heartbeat`, at least every 30 minutes. A run stands down when any `slice/*` or `automation/*` branch moved in the last 90 minutes.
+- **Branches and PRs:** branches are stacked (`slice/sNN-<name>` is cut from the previous slice's branch). Each slice gets one draft PR whose base is the previous slice's branch. Nothing is merged or pushed to `main`; the owner reviews and merges.
+- **No questions to the owner:** decide after brief, targeted research and record the decision as the next `DESIGN.md §15` row. Religious values stay data and are never chosen (§0.2 rule 1). Owner-only items are written as code plus a plan and listed as **owed** in the hand-over: devices, macOS/Xcode builds, cloud accounts, secrets, approvals, store, key ceremony.
+- **Hand-over:** every slice ends with a short `docs/handover/sNN-handover.md`. `docs/handover/cloud-environment.md` holds the toolchain setup script; run it as written.
+
+## Token discipline
+- Read `CLAUDE.md` and only the previous slice's hand-over, not every hand-over.
+- Never print `DESIGN.md` whole. Extract only what the slice needs with grep/sed: §0.2, the slice's §13 row, §17, the cited ADRs, sections and appendices, the REQ lines (`grep 'REQ-AREA'`), and §15 rows by number or keyword.
+- Read code through `rg` hits and `sed -n 'a,bp'` ranges, and don't re-read files you have already read or edited.
+- Keep tool output short: `tail -20`, or a `FAIL|error` grep. Write full logs to `/tmp`.
+- During development run only the affected package's tests. Run the full gates (`melos run ci`, Go `-race`, lab, schemas) once, at the end of the slice.
+- Keep hand-overs and PR descriptions short; evidence is test counts and gate results, not pasted logs.
+
 ## Repository map
 See `DESIGN.md §5.3`. Commands: `melos bootstrap`, `melos run ci`, `melos run gen` (pigeon + freezed + json codegen),
-`dart run geo_salah_core:bench` (engine benchmark, JSONL in/out), `uv run lab benchmark` (accuracy lab), `go run ./tools/gsctl` (package build/sign/publish/promote).
+`dart run geo_salah_core:bench` (engine benchmark, JSONL in/out), `uv run lab benchmark` (accuracy lab), `go run ./tools/gsctl` (validate, check-change, build, sign, verify, publish and serve; promote arrives in S25).
 
 ## Commit attribution
 End commit messages with:
