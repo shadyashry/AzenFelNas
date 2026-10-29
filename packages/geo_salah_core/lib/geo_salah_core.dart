@@ -14,7 +14,7 @@
 /// Ramadan rule replacement and the high-latitude chain with typed
 /// fallbacks (§6.4 ¶6–¶7); since S15 `ComputeSolarState` and the Appendix G
 /// `SkyPhase` bands for the Sky theme; since S18 `CalculateQibla` (Karney
-/// geodesic, §6.6). The astronomical core (`src/astro`, `src/solver`), the rule
+/// geodesic, §6.6); since D91 the sensor-free `FindQiblaSunAlignments`. The astronomical core (`src/astro`, `src/solver`), the rule
 /// solvers and policies (`src/rules`, `src/policy`) and the lab bench
 /// (`src/bench`, `bin/bench.dart`) stay internal.
 library;
@@ -24,6 +24,7 @@ export 'package:geo_salah_core/src/api/calculate_qibla.dart';
 export 'package:geo_salah_core/src/api/calculate_range.dart';
 export 'package:geo_salah_core/src/api/compute_solar_state.dart';
 export 'package:geo_salah_core/src/api/engine_version.dart';
+export 'package:geo_salah_core/src/api/find_qibla_sun_alignments.dart';
 export 'package:geo_salah_core/src/model/adjustment_kind.dart';
 export 'package:geo_salah_core/src/model/adjustment_step.dart';
 export 'package:geo_salah_core/src/model/authority_type.dart';
@@ -49,6 +50,8 @@ export 'package:geo_salah_core/src/model/prayer_time.dart';
 export 'package:geo_salah_core/src/model/profile_status.dart';
 export 'package:geo_salah_core/src/model/provenance.dart';
 export 'package:geo_salah_core/src/model/qibla_result.dart';
+export 'package:geo_salah_core/src/model/qibla_sun_alignment.dart';
+export 'package:geo_salah_core/src/model/qibla_sun_alignment_kind.dart';
 export 'package:geo_salah_core/src/model/reference_mode.dart';
 export 'package:geo_salah_core/src/model/reference_point.dart';
 export 'package:geo_salah_core/src/model/result_flag.dart';
