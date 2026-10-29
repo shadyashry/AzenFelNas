@@ -1,4 +1,4 @@
-# api.dailymuslim.app: global external Application Load Balancer with a
+# api.azenfelnas.app: global external Application Load Balancer with a
 # Google-managed certificate in front of Cloud Run (§15 D86). Load-balancer
 # request logging stays off, so no client address is kept (REQ-PRIV-001).
 resource "google_compute_global_address" "api" {

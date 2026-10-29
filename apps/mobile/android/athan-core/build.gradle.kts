@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "app.dailymuslim.athan"
+    namespace = "app.azenfelnas.athan"
     buildFeatures {
         compose = true
     }

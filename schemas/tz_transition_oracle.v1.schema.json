@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/tz_transition_oracle.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/tz_transition_oracle.v1.schema.json",
   "title": "TZ transition oracle v1",
   "description": "Independent reference for the DST transition suite (DESIGN.md §13 S10, §15 D66-D67): for each benchmark-corpus zone, the UTC offset changes in [fromYear-01-01, toYear+1-01-01) and, for every civil day within windowDays of a transition's local date, the conversions CPython zoneinfo computes from the same zic output the tzdata package is encoded from. Written by `dm-pipelines tzdata build`; read by dm_civil_time's tests. Instants are UTC epoch milliseconds; offsets are seconds, local = UTC + offset.",
   "type": "object",

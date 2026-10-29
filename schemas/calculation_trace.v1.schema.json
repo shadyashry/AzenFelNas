@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/calculation_trace.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/calculation_trace.v1.schema.json",
   "title": "Calculation trace v1",
   "description": "Serialised DayResult + Provenance with per-event detail and the inputs object of §6.4 ¶11; used by the Passport renderer, the deep-link import and lab discrepancy reports (DESIGN.md Appendix M). Provenance's adjustment trace is carried per event (times[].adjustmentTrace).",
   "type": "object",

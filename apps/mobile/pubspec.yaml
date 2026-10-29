@@ -1,5 +1,5 @@
 name: daily_muslim
-description: "Daily Muslim — offline-first prayer times, Athan and Qibla for iOS and Android (DESIGN.md §7)."
+description: "Azen Fel Nas — offline-first prayer times, Athan and Qibla for iOS and Android (DESIGN.md §7)."
 publish_to: none
 version: 0.1.0+1
 resolution: workspace

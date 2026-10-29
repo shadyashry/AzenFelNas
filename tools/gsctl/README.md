@@ -1,6 +1,6 @@
 # gsctl
 
-Builds, signs and verifies Daily Muslim's signed data packages (`DESIGN.md` §9.1–§9.2, Appendix C, ADR-008, ADR-009). Slice S09 delivers `validate`, `check-change`, `build`, `sign`, `verify`, and `publish` / `serve` against a local bucket (§15 D65). S10 adds `build -type tzdata` (§15 D69). S25 adds R2 (`-bucket s3://…`), `pull`, `promote` and the Cloud KMS signer (`sign -kms`) (§15 D85).
+Builds, signs and verifies Azen Fel Nas's signed data packages (`DESIGN.md` §9.1–§9.2, Appendix C, ADR-008, ADR-009). Slice S09 delivers `validate`, `check-change`, `build`, `sign`, `verify`, and `publish` / `serve` against a local bucket (§15 D65). S10 adds `build -type tzdata` (§15 D69). S25 adds R2 (`-bucket s3://…`), `pull`, `promote` and the Cloud KMS signer (`sign -kms`) (§15 D85).
 
 Run it from the repository root (`go.work`):
 

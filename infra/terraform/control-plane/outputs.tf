@@ -1,5 +1,5 @@
 output "api_address" {
-  description = "Global IP of api.dailymuslim.app."
+  description = "Global IP of api.azenfelnas.app."
   value       = google_compute_global_address.api.address
 }
 

@@ -1,5 +1,5 @@
 name: dm_core_types
-description: "Result, Failure, Clock, CivilDate and the Appendix J failure and event codes shared by every Daily Muslim package (DESIGN.md §5.2, §6.2)."
+description: "Result, Failure, Clock, CivilDate and the Appendix J failure and event codes shared by every Azen Fel Nas package (DESIGN.md §5.2, §6.2)."
 version: 0.1.0
 publish_to: none
 resolution: workspace

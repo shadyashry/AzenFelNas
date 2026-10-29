@@ -13,7 +13,7 @@
     <string name="athan_test_body">Did you hear it? Open the app to answer.</string>
     <!-- S28 widget (§15 D88). -->
     <string name="widget_description">Today\'s prayer times</string>
-    <string name="widget_open_app">Open Daily Muslim to update the times</string>
+    <string name="widget_open_app">Open Azen Fel Nas to update the times</string>
     <string name="widget_next">Next: %1$s %2$s</string>
     <string name="widget_event_imsak">Imsak</string>
     <string name="widget_event_fajr">Fajr</string>

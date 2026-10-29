@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/discrepancy_report.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/discrepancy_report.v1.schema.json",
   "title": "Discrepancy report v1",
   "description": "Output of `lab benchmark` (DESIGN.md §9.4): the engine's raw instants compared with the lab reference under the ADR-019 tolerance. Entries carry the §6.7 discrepancy fields; an UNKNOWN entry above tolerance blocks promotion.",
   "type": "object",

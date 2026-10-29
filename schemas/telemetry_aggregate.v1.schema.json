@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/telemetry_aggregate.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/telemetry_aggregate.v1.schema.json",
   "title": "Telemetry aggregate v1",
   "description": "Opt-in daily aggregate counters (DESIGN.md Appendix L, §9.6): no ids, no coordinates, no timestamps finer than a day (REQ-PRIV-001). Unknown keys are rejected (REQ-API-005).",
   "type": "object",

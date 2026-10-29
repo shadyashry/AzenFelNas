@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/evidence_summary.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/evidence_summary.v1.schema.json",
   "title": "Evidence summary v1",
   "description": "Response of GET /v1/evidence/profiles/{id} (DESIGN.md §9.3): the statistical agreement of one profile version with its published sources, plus links to them. Never raw authority tables: only per-event aggregates (§15 D86).",
   "type": "object",

@@ -995,7 +995,7 @@ abstract class AppLocalizations {
   /// Horizon warning body.
   ///
   /// In en, this message translates to:
-  /// **'Open Daily Muslim to keep the Athan scheduled.'**
+  /// **'Open Azen Fel Nas to keep the Athan scheduled.'**
   String get planHorizonBody;
 
   /// Athan settings page title.
@@ -1049,7 +1049,7 @@ abstract class AppLocalizations {
   /// Health reason.
   ///
   /// In en, this message translates to:
-  /// **'Allow notifications for Daily Muslim'**
+  /// **'Allow notifications for Azen Fel Nas'**
   String get athanReasonNeedsNotificationPermission;
 
   /// Health reason.
@@ -1061,7 +1061,7 @@ abstract class AppLocalizations {
   /// Health reason.
   ///
   /// In en, this message translates to:
-  /// **'Allow alarms for Daily Muslim'**
+  /// **'Allow alarms for Azen Fel Nas'**
   String get athanReasonNeedsAlarmKitAuthorization;
 
   /// Health reason.
@@ -1073,7 +1073,7 @@ abstract class AppLocalizations {
   /// Health reason.
   ///
   /// In en, this message translates to:
-  /// **'The phone restricts Daily Muslim in the background'**
+  /// **'The phone restricts Azen Fel Nas in the background'**
   String get athanReasonBatteryRestricted;
 
   /// Health reason.

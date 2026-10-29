@@ -4,7 +4,7 @@
 # Layout details beyond §9.5 are recorded in DESIGN.md §15 D23.
 meta:
   id: country_polygons_v1
-  title: Daily Muslim country polygon index v1
+  title: Azen Fel Nas country polygon index v1
   file-extension: bin
   endian: le
   encoding: UTF-8

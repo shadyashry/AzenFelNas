@@ -6,7 +6,7 @@ import 'package:dm_packages/dm_packages.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// The only hosts the app may contact (REQ-PRIV-006, ADR-017).
-const _allowedHosts = {'cdn.dailymuslim.app', 'api.dailymuslim.app'};
+const _allowedHosts = {'cdn.azenfelnas.app', 'api.azenfelnas.app'};
 
 /// Shipped source trees, relative to `apps/mobile/` (tests excluded).
 const _sourceRoots = [
@@ -167,7 +167,7 @@ void main() {
     expect(runtime.where(banned.hasMatch), isEmpty);
   });
 
-  test('REQ-PRIV-006 the CDN channel connects to cdn.dailymuslim.app over '
+  test('REQ-PRIV-006 the CDN channel connects to cdn.azenfelnas.app over '
       'HTTPS and nowhere else', () async {
     final attempts = <Uri>[];
     final client = HttpClient()
@@ -188,7 +188,7 @@ void main() {
     expect(attempts, hasLength(2));
     for (final uri in attempts) {
       expect(uri.scheme, 'https');
-      expect(uri.host, 'cdn.dailymuslim.app');
+      expect(uri.host, 'cdn.azenfelnas.app');
     }
     client.close(force: true);
   });

@@ -11,7 +11,7 @@ void main() {
 
   group('deep links are allow-listed (REQ-SEC-010)', () {
     test('the three linkable routes open, in both link forms', () {
-      for (final prefix in ['dailymuslim://app', 'dailymuslim://']) {
+      for (final prefix in ['azenfelnas://app', 'azenfelnas://']) {
         expect(parse('$prefix/calc/$id'), const CalculationRoute(id));
         expect(parse('$prefix/health'), isA<HealthRoute>());
         expect(parse('$prefix/qibla'), isA<QiblaRoute>());
@@ -19,15 +19,15 @@ void main() {
     });
 
     test('a link cannot name an in-app-only route', () {
-      expect(parse('dailymuslim://app/settings'), isNull);
-      expect(parse('dailymuslim://app/settings/attributions'), isNull);
-      expect(parse('dailymuslim://app/'), isNull);
+      expect(parse('azenfelnas://app/settings'), isNull);
+      expect(parse('azenfelnas://app/settings/attributions'), isNull);
+      expect(parse('azenfelnas://app/'), isNull);
     });
 
     test('other schemes and hosts are refused', () {
-      expect(parse('https://dailymuslim.app/calc/$id'), isNull);
+      expect(parse('https://azenfelnas.app/calc/$id'), isNull);
       expect(parse('http://app/health'), isNull);
-      expect(parse('dailymuslim://evil/health'), isNull);
+      expect(parse('azenfelnas://evil/health'), isNull);
       expect(parse('//app/health'), isNull);
     });
 
@@ -39,7 +39,7 @@ void main() {
         'GS-ABCDEFGHIJKLMN01',
         'XX-ABCDEFGHIJKLMNOP',
       ]) {
-        expect(parse('dailymuslim://app/calc/$bad'), isNull, reason: bad);
+        expect(parse('azenfelnas://app/calc/$bad'), isNull, reason: bad);
         expect(parse('/calc/$bad'), isNull, reason: bad);
       }
     });
@@ -48,11 +48,11 @@ void main() {
       'unknown paths, extra segments, queries and fragments are refused',
       () {
         for (final bad in [
-          'dailymuslim://app/settings/locale',
-          'dailymuslim://app/health/x',
-          'dailymuslim://app/calc',
-          'dailymuslim://app/health?set=1',
-          'dailymuslim://app/qibla#x',
+          'azenfelnas://app/settings/locale',
+          'azenfelnas://app/health/x',
+          'azenfelnas://app/calc',
+          'azenfelnas://app/health?set=1',
+          'azenfelnas://app/qibla#x',
           '/athan/test',
           '/health?x=1',
         ]) {
@@ -65,11 +65,11 @@ void main() {
   group('Calculation links carry an event and inputs (§6.4 ¶11)', () {
     test('REQ-SEC-010 <calcId>#<event> and ?i= open the Passport', () {
       expect(
-        parse('dailymuslim://app/calc/$id#asr'),
+        parse('azenfelnas://app/calc/$id#asr'),
         const CalculationRoute(id, event: PrayerEvent.asr),
       );
       expect(
-        parse('dailymuslim://app/calc/$id?i=eyJhIjoxfQ#fajr'),
+        parse('azenfelnas://app/calc/$id?i=eyJhIjoxfQ#fajr'),
         const CalculationRoute(
           id,
           event: PrayerEvent.fajr,
@@ -85,14 +85,14 @@ void main() {
     test('REQ-SEC-010 any other query or fragment on a Calculation link is '
         'refused', () {
       for (final bad in [
-        'dailymuslim://app/calc/$id#noon',
-        'dailymuslim://app/calc/$id?x=1',
-        'dailymuslim://app/calc/$id?i=a&i=b',
-        'dailymuslim://app/calc/$id?i=a&x=b',
-        'dailymuslim://app/calc/$id?i=a+b',
-        'dailymuslim://app/calc/$id?i=${'A' * 2049}',
-        'dailymuslim://app/calc/$id/asr#fajr',
-        'dailymuslim://app/calc/$id/noon',
+        'azenfelnas://app/calc/$id#noon',
+        'azenfelnas://app/calc/$id?x=1',
+        'azenfelnas://app/calc/$id?i=a&i=b',
+        'azenfelnas://app/calc/$id?i=a&x=b',
+        'azenfelnas://app/calc/$id?i=a+b',
+        'azenfelnas://app/calc/$id?i=${'A' * 2049}',
+        'azenfelnas://app/calc/$id/asr#fajr',
+        'azenfelnas://app/calc/$id/noon',
       ]) {
         expect(parse(bad), isNull, reason: bad);
       }
@@ -100,7 +100,7 @@ void main() {
 
     test('a link with a fragment is rewritten to the in-app event path', () {
       expect(
-        AppRouter.redirect(Uri.parse('dailymuslim://app/calc/$id#dhuhr')),
+        AppRouter.redirect(Uri.parse('azenfelnas://app/calc/$id#dhuhr')),
         '/calc/$id/dhuhr',
       );
     });
@@ -116,13 +116,13 @@ void main() {
   test('REQ-SEC-010 the timeline and manual place are in-app only', () {
     expect(parse('/timeline'), isA<TimelineRoute>());
     expect(parse('/place'), isA<PlaceRoute>());
-    expect(parse('dailymuslim://app/timeline'), isNull);
-    expect(parse('dailymuslim://app/place'), isNull);
+    expect(parse('azenfelnas://app/timeline'), isNull);
+    expect(parse('azenfelnas://app/place'), isNull);
   });
 
   test('REQ-SEC-010 REQ-PRIV-005 the diagnostic report is in-app only', () {
     expect(parse('/settings/diagnostics'), isA<DiagnosticsRoute>());
-    expect(parse('dailymuslim://app/settings/diagnostics'), isNull);
+    expect(parse('azenfelnas://app/settings/diagnostics'), isNull);
   });
 
   test('every route parses back from its own location', () {
@@ -151,7 +151,7 @@ void main() {
 
     test('a valid link is rewritten to its in-app location', () {
       expect(
-        AppRouter.redirect(Uri.parse('dailymuslim://app/calc/$id')),
+        AppRouter.redirect(Uri.parse('azenfelnas://app/calc/$id')),
         '/calc/$id',
       );
     });

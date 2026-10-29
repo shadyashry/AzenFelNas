@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/event_log.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/event_log.v1.schema.json",
   "title": "Event log entry v1",
   "description": "One on-device event: a line of the native events.jsonl and a row of the drift event_log table (DESIGN.md Appendix J, §9.6). attrs is a closed allow-list, so no lat/lon key can exist, and no value pattern admits a decimal coordinate (REQ-PRIV-001).",
   "type": "object",

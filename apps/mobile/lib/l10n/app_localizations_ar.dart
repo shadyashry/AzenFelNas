@@ -562,7 +562,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get athanReasonNeedsNotificationPermission =>
-      'اسمح بالإشعارات لتطبيق Daily Muslim';
+      'اسمح بالإشعارات لتطبيق أذّن في الناس';
 
   @override
   String get athanReasonNeedsExactAlarmPermission =>
@@ -570,14 +570,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get athanReasonNeedsAlarmKitAuthorization =>
-      'اسمح بالمنبهات لتطبيق Daily Muslim';
+      'اسمح بالمنبهات لتطبيق أذّن في الناس';
 
   @override
   String get athanReasonMutedChannel => 'صوت الأذان مكتوم في إعدادات النظام';
 
   @override
   String get athanReasonBatteryRestricted =>
-      'الهاتف يقيّد Daily Muslim في الخلفية';
+      'الهاتف يقيّد أذّن في الناس في الخلفية';
 
   @override
   String get athanReasonStalePlan => 'افتح التطبيق لجدولة الأذان';

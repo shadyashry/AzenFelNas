@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/athan_audio_manifest.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/athan_audio_manifest.v1.schema.json",
   "title": "Athan audio manifest v1",
   "description": "Bundled Athan sounds: AAC-LC 96 kbps .m4a at -16 LUFS under assets/athan/ (DESIGN.md §9.5, §10.4). iOS notification and AlarmKit sounds are a sound's optional `iosClip`: a .caf of at most 29 s (REQ-ALM-034, ADR-013) that AthanKit copies to Library/Sounds/<soundId>.caf; cutting at phrase boundaries is checked by the audio pipeline, not here.",
   "type": "object",

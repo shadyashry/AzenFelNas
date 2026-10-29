@@ -10,7 +10,7 @@ Status: **DRAFT for the Privacy and Legal owners**; nothing here has been filed.
 | Prayer times, Hijri date, Qibla | computed on the device | No |
 | Settings, event log (Appendix J, no coordinates by schema) | `dm.sqlite` | No |
 | Diagnostic report (redacted, 0.01°, no identifiers; REQ-PRIV-005) | assembled on demand, shown in full | Only if the user copies it and pastes it somewhere themselves; the app sends nothing. |
-| Package sync | HTTPS GET to `cdn.dailymuslim.app` only (REQ-PRIV-006), no cookies or identifiers | The request itself (IP address seen by the CDN; CDN logs keep no IP > 24 h, ADR-017). |
+| Package sync | HTTPS GET to `cdn.azenfelnas.app` only (REQ-PRIV-006), no cookies or identifiers | The request itself (IP address seen by the CDN; CDN logs keep no IP > 24 h, ADR-017). |
 | Aggregate telemetry (Appendix L) | off in beta (D11); opt-in only later | When opted in: daily aggregate counts with no identifier (REQ-PRIV-001). |
 | Attestation (REQ-PRIV-007, later slices) | — | `sha256(attestationKeyId + dailySalt)`, retained ≤ 24 h. |
 

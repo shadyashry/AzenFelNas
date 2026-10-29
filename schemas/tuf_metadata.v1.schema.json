@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/tuf_metadata.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/tuf_metadata.v1.schema.json",
   "title": "TUF-lite metadata v1",
   "description": "Signed envelope of every distribution metadata file: root, targets, snapshot, timestamp (DESIGN.md §9.1, Appendix C, ADR-009). Signatures are Ed25519 over the JCS (RFC 8785) canonical JSON of `signed` (REQ-DIST-004); verification is not expressible here.",
   "type": "object",

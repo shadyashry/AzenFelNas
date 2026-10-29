@@ -9,7 +9,7 @@ sealed class AppRoute {
   /// The in-app location, e.g. `/calc/GS-…`.
   String get location;
 
-  /// Whether a `dailymuslim://` link from outside the app may open it
+  /// Whether a `azenfelnas://` link from outside the app may open it
   /// (§7.1 allow-list: `/calc/<id>`, `/health`, `/qibla`).
   bool get linkable;
 }

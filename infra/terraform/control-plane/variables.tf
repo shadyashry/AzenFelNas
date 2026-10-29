@@ -10,18 +10,18 @@ variable "gcp_region" {
 }
 
 variable "cloudflare_zone_id" {
-  description = "Zone id of dailymuslim.app."
+  description = "Zone id of azenfelnas.app."
   type        = string
 }
 
 variable "api_hostname" {
   description = "The only control-plane host the app contacts (ADR-017)."
   type        = string
-  default     = "api.dailymuslim.app"
+  default     = "api.azenfelnas.app"
 
   validation {
-    condition     = var.api_hostname == "api.dailymuslim.app"
-    error_message = "The app's egress allow-list names api.dailymuslim.app only."
+    condition     = var.api_hostname == "api.azenfelnas.app"
+    error_message = "The app's egress allow-list names api.azenfelnas.app only."
   }
 }
 
@@ -68,7 +68,7 @@ variable "db_password_version" {
 variable "android_package" {
   description = "Android application id checked in Play Integrity verdicts."
   type        = string
-  default     = "app.dailymuslim"
+  default     = "app.azenfelnas"
 }
 
 variable "android_cert_sha256" {

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSAlarmKitUsageDescription</key>
-	<string>Daily Muslim uses alarms to play the Athan at prayer time.</string>
+	<string>Azen Fel Nas uses alarms to play the Athan at prayer time.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Daily Muslim uses your approximate location to find your time zone and calculate prayer times. It is never sent anywhere.</string>
+	<string>Azen Fel Nas uses your approximate location to find your time zone and calculate prayer times. It is never sent anywhere.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -34,10 +34,10 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>app.dailymuslim.links</string>
+			<string>app.azenfelnas.links</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>dailymuslim</string>
+				<string>azenfelnas</string>
 			</array>
 		</dict>
 	</array>

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/benchmark_cities.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/benchmark_cities.v1.schema.json",
   "title": "Benchmark cities v1",
   "description": "The Accuracy Lab benchmark city file lab/benchmarks/cities.v1.json (DESIGN.md Appendix H, §9.4): the cities and the rule that selects their benchmark dates. Civil and astronomical data only; no religious parameter (§0.2 rule 1).",
   "type": "object",

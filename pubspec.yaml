@@ -1,4 +1,4 @@
-# Daily Muslim monorepo root: pub workspace + melos configuration (DESIGN.md §5.3).
+# Azen Fel Nas monorepo root: pub workspace + melos configuration (DESIGN.md §5.3).
 # melos ≥ 7 reads its configuration from the `melos:` key here; there is no melos.yaml (§15 D15).
 name: daily_muslim_workspace
 publish_to: none

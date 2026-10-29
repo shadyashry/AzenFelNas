@@ -16,7 +16,7 @@ Read `DESIGN.md` (v1.1) first. It is the normative solution and engineering desi
 - Golden corpus changes go in a separate PR labelled `golden-update` with the numeric diff and the cause.
 - Store UTC epoch-ms + `zoneId` + `tzdbVersion`; derive local time with the app's pinned TZDB, never the OS one.
 - Native alarm code reads `SchedulePlan` only and must work with no Dart isolate alive.
-- No raw coordinates or persistent identifiers in logs, telemetry or diagnostics. No `AD_ID` permission. Only `cdn.dailymuslim.app` and `api.dailymuslim.app` may be contacted.
+- No raw coordinates or persistent identifiers in logs, telemetry or diagnostics. No `AD_ID` permission. Only `cdn.azenfelnas.app` and `api.azenfelnas.app` may be contacted.
 - Confidence labels are the sealed `ConfidenceLabel` type with the fixed mapping in §6.2. `Unknown` beats an invented value.
 - New dependency ⇒ license check + one line in `DESIGN.md §4` or a new `docs/adr/` file.
 - Code quality bar is `DESIGN.md §17`: SOLID as the concrete rules in §17.1 (one use case per class, sealed types + exhaustive switch for variation, narrow consumer-defined ports, wiring only in the composition root), strict typing per language (§17.2–§17.6: no `dynamic`/`!`/`!!`/force-unwrap/`Any`; strict analyzer and lint configs in CI), tests named by behaviour and `REQ` with fakes only at ports (§17.7). Review your own PR against the checklist in §17.8 before proposing it.

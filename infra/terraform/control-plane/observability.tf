@@ -34,7 +34,7 @@ resource "google_monitoring_notification_channel" "email" {
 }
 
 resource "google_monitoring_uptime_check_config" "readyz" {
-  display_name = "api.dailymuslim.app /readyz"
+  display_name = "api.azenfelnas.app /readyz"
   timeout      = "10s"
   period       = "60s"
 

@@ -27,7 +27,7 @@ Each runbook names its trigger, its owner role, the exact commands and how to ve
 | Hijri boundary within 3 days without confirmation | **open**: needs the `hijri` package type (no reader in this build, REQ-PKG-006) | hijri-announcement.md |
 
 ## Ops dashboard (S28)
-`google_monitoring_dashboard.ops` ("Daily Muslim ops (V1)") in `infra/terraform/control-plane/dashboard.tf`: requests by response class, p95 latency, the 99.5 % SLO error budget, attestation failure share, Postgres disk, attested writes per hour and the `/readyz` check. Distribution alerts stay in the GitHub workflows above. Applied with the rest of the control plane (owner: `terraform apply`).
+`google_monitoring_dashboard.ops` ("Azen Fel Nas ops (V1)") in `infra/terraform/control-plane/dashboard.tf`: requests by response class, p95 latency, the 99.5 % SLO error budget, attestation failure share, Postgres disk, attested writes per hour and the `/readyz` check. Distribution alerts stay in the GitHub workflows above. Applied with the rest of the control plane (owner: `terraform apply`).
 
 ## On-call and drills
 - Weekly rotation across the mobile and backend leads in Ramadan ± 2 weeks and in release weeks; business hours otherwise (§19.4).

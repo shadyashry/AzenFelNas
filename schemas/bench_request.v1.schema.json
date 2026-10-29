@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/bench_request.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/bench_request.v1.schema.json",
   "title": "Bench request v1",
   "description": "One stdin line of the engine bench `dart run geo_salah_core:bench` (DESIGN.md §6.1, §9.4): {observer, profileId, day, hijri}. The bench answers every request line, in order, with exactly one stdout line: a calculation_trace.v1 document or a bench_failure.v1 document (§15 D29).",
   "type": "object",

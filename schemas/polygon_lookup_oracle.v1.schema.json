@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/polygon_lookup_oracle.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/polygon_lookup_oracle.v1.schema.json",
   "title": "Polygon lookup oracle v1",
   "description": "Independent reference for the S11 done-test (DESIGN.md §13 S11, §15 D70-D71): seeded random points and the answers shapely computes on the unsimplified source geometry of a `tz_polygons` or `country_polygons` payload. Written by `dm-pipelines polygons build`; read by dm_civil_time's tests. Coordinates are integer micro-degrees, the same integers the Dart reader is given. Distances are metres in the local equirectangular projection of §15 D71 on a sphere of radius earthRadiusM, and are given only up to distanceLimitM (null beyond).",
   "type": "object",

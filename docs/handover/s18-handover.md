@@ -13,7 +13,7 @@ Branch `slice/s18-passport-qibla`, cut from `slice/s17-onboarding-home` at `b744
 - **l10n**: 59 new keys, en + ar (Egyptian tone, draft).
 
 ## Evidence (this session, Linux)
-- **Done-test** `apps/mobile/test/features/passport/passport_done_test.dart` (4/4): `dailymuslim://app/calc/<id>#asr` resolves to the entry; a shared link recomputes on a device without that schedule and matches; a link this device does not reproduce shows the import-mismatch message; an unknown ID is not found. **Qibla golden vectors**: `packages/geo_salah_core/test/api/calculate_qibla_test.dart` 5/5, every vector within 1e-9° and 1 µm of GeographicLib.
+- **Done-test** `apps/mobile/test/features/passport/passport_done_test.dart` (4/4): `azenfelnas://app/calc/<id>#asr` resolves to the entry; a shared link recomputes on a device without that schedule and matches; a link this device does not reproduce shows the import-mismatch message; an unknown ID is not found. **Qibla golden vectors**: `packages/geo_salah_core/test/api/calculate_qibla_test.dart` 5/5, every vector within 1e-9° and 1 µm of GeographicLib.
 - Every new `UiState` variant has a widget test: `passport_states_test.dart` (loading, ready, ready RTL, 3 × importMismatch, notFound), `qibla_states_test.dart` (4 variants + no place). `HeadingSource` contract suite runs against the fake and the channel adapter (`heading_source_contract_test.dart`).
 - `dart run melos run ci` **SUCCESS** (final tree): format, analyze (`--fatal-infos`), arch_lint 0 violations (577 files), req_index 0 problems (1382 files); tests: app 278 (237 before), `geo_salah_core` 326 (321 before), other packages unchanged.
 - Go, lab, schemas, data pipelines not touched → not run. No Android SDK / Xcode / Kotlin / Swift toolchain here: the native heading code is unbuilt.
@@ -26,7 +26,7 @@ REQ-DOM-030 (golden vectors, Cairo/Jakarta, bearing range, every Qibla state car
 - No new dependency (GeographicLib is ported code, recorded in `LICENSES.md`).
 
 ## Owed / open
-- **Device (owner)**: Qibla on a physical Android and iPhone: heading vs a known landmark bearing, true-north conversion, calibration overlay, accuracy mapping (the 10/20/35° status mapping and the 15° bar are engineering defaults, D78); Android build of `HeadingStreamHandler.kt` (also blocked by the inherited `compileSdk` issue below); iOS build and SwiftLint of `AppDelegate.swift`. Passport deep links from outside the app (`dailymuslim://app/calc/…?i=…#asr`) on both platforms.
+- **Device (owner)**: Qibla on a physical Android and iPhone: heading vs a known landmark bearing, true-north conversion, calibration overlay, accuracy mapping (the 10/20/35° status mapping and the 15° bar are engineering defaults, D78); Android build of `HeadingStreamHandler.kt` (also blocked by the inherited `compileSdk` issue below); iOS build and SwiftLint of `AppDelegate.swift`. Passport deep links from outside the app (`azenfelnas://app/calc/…?i=…#asr`) on both platforms.
 - **Privacy**: confirm that a user-copied link with 6-decimal coordinates is acceptable under REQ-PRIV-001 (D78), or choose a notice / manual-only links.
 - **Product / Content**: Passport and Qibla copy (en, ar draft), 15° readiness bar, whether to add a share sheet (`share_plus`, needs an ADR-011 line).
 - **Sharia board**: none decided here; the Qibla screen shows a geodesic bearing only (no "facing" tolerance beyond whole-degree display rounding).

@@ -9,7 +9,7 @@ Stub generated in slice S01 from the `DESIGN.md` §4 index entry. Long-form cont
 
 ## Decision
 
-Places in a separate `places.sqlite` excluded from backup; country-level packages; CDN logs without IP retention > 24 h; diagnostics round coordinates to 0.01°; CI egress allow-list test (`cdn.dailymuslim.app`, `api.dailymuslim.app` only); no crash SDK by default.
+Places in a separate `places.sqlite` excluded from backup; country-level packages; CDN logs without IP retention > 24 h; diagnostics round coordinates to 0.01°; CI egress allow-list test (`cdn.azenfelnas.app`, `api.azenfelnas.app` only); no crash SDK by default.
 
 ## Trade-offs
 

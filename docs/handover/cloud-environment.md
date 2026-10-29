@@ -157,7 +157,7 @@ python3 - <<'PY'
 import re, glob
 names = sorted(set(re.findall(r'name="([a-z_]+)"', open('main/res/values/strings.xml').read())))
 drawables = sorted({m.split('.')[-1] for f in glob.glob('main/kotlin/**/*.kt', recursive=True) for m in re.findall(r'R\.drawable\.[a-z_]+', open(f).read())})
-body = ['package app.dailymuslim.athan', '', 'public object R {', '    public object string {']
+body = ['package app.azenfelnas.athan', '', 'public object R {', '    public object string {']
 body += [f'        public const val {n}: Int = {0x7f0e0000 + i}' for i, n in enumerate(names)]
 body += ['    }', '    public object drawable {'] + [f'        public const val {n}: Int = {0x7f080000 + i}' for i, n in enumerate(drawables)] + ['    }', '}']
 open('/tmp/ktbuild/stub/R.kt', 'w').write('\n'.join(body) + '\n')

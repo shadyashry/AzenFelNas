@@ -8,8 +8,8 @@ import 'package:pigeon/pigeon.dart';
 @ConfigurePigeon(
   PigeonOptions(
     dartOut: 'lib/src/pigeon/athan_scheduler_api.g.dart',
-    kotlinOut: '../../apps/mobile/android/app/src/main/kotlin/app/dailymuslim/pigeon/AthanSchedulerApi.g.kt',
-    kotlinOptions: KotlinOptions(package: 'app.dailymuslim.pigeon'),
+    kotlinOut: '../../apps/mobile/android/app/src/main/kotlin/app/azenfelnas/pigeon/AthanSchedulerApi.g.kt',
+    kotlinOptions: KotlinOptions(package: 'app.azenfelnas.pigeon'),
     swiftOut: '../../apps/mobile/ios/Runner/Pigeon/AthanSchedulerApi.g.swift',
   ),
 )

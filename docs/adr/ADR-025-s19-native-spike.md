@@ -16,7 +16,7 @@ ADR-012 and ADR-013 defer four questions to S19: does an exact alarm reliably st
 | Verdict evaluator `EvaluateSpikeRun` (go / no-go / insufficient evidence per path) | `apps/mobile/lib/features/delivery_spike/application/` | 14 tests |
 | Verdict CLI | `apps/mobile/tool/spike_verdict.dart` | run on a sample |
 | Android spike: `setAlarmClock` → `SpikeAlarmReceiver` → `SpikePlaybackService` (FGS `mediaPlayback`, `USAGE_ALARM`), inexact fallback notification, direct-boot re-arm, adb entry `SpikeActivity` | `apps/mobile/android/athan-core/src/debug/` (debug builds only; app takes `debugImplementation(project(":athan-core"))`) | ktlint 1.8.0 + detekt 1.23.8 clean; **not compiled** (no Android SDK in the session) |
-| iOS spike: AlarmKit `.fixed(Date)` with bundled sound, `alerting` observer, Stop `LiveActivityIntent` receipt, 64-budget probe, URL entry `dailymuslim://spike/...` | `apps/mobile/ios/AthanKit/Sources/AthanKit/Spike/`, `Runner/SceneDelegate.swift` (behind `DEBUG && canImport(AthanKit)`), `NSAlarmKitUsageDescription` in `Info.plist` | SwiftLint 0.65.1 `--strict` clean (syntax rules); **not compiled** (no Xcode) |
+| iOS spike: AlarmKit `.fixed(Date)` with bundled sound, `alerting` observer, Stop `LiveActivityIntent` receipt, 64-budget probe, URL entry `azenfelnas://spike/...` | `apps/mobile/ios/AthanKit/Sources/AthanKit/Spike/`, `Runner/SceneDelegate.swift` (behind `DEBUG && canImport(AthanKit)`), `NSAlarmKitUsageDescription` in `Info.plist` | SwiftLint 0.65.1 `--strict` clean (syntax rules); **not compiled** (no Xcode) |
 
 Receipts land where the product will put them (§8.1/§8.2): Android `<device-protected files>/plan/events.jsonl`, iOS `<App Group>/plan/events.jsonl`, so S20/S21 reuse the store and Dart drains them (REQ-ALM-041).
 
@@ -45,8 +45,8 @@ A path is **GO** when every required scenario has ≥ 3 judged entries and every
 
 **Devices.** Android: a Pixel on Android 16 (stock), a Samsung on One UI 8, one aggressive-OEM device (Xiaomi HyperOS or Oppo ColorOS), and one API 26–30 device. iOS: an iPhone on iOS 26.x (AlarmKit, long audio, budget) and one on iOS 18.x (budget). Record model and OS build per log file.
 
-**Android.** Build `flutter run --debug`. Optional long clip: `adb push athan.ogg /data/local/tmp/` then `adb shell run-as app.dailymuslim sh -c 'mkdir -p /data/user_de/0/app.dailymuslim/files/athan && cp /data/local/tmp/athan.ogg /data/user_de/0/app.dailymuslim/files/athan/spike.ogg'`. Schedule with
-`adb shell am start -n app.dailymuslim/app.dailymuslim.athan.spike.SpikeActivity --es cmd schedule --es scenario <s> --ei inSeconds <n> --ei count 3 --ei spacingSeconds 600`.
+**Android.** Build `flutter run --debug`. Optional long clip: `adb push athan.ogg /data/local/tmp/` then `adb shell run-as app.azenfelnas sh -c 'mkdir -p /data/user_de/0/app.azenfelnas/files/athan && cp /data/local/tmp/athan.ogg /data/user_de/0/app.azenfelnas/files/athan/spike.ogg'`. Schedule with
+`adb shell am start -n app.azenfelnas/app.azenfelnas.athan.spike.SpikeActivity --es cmd schedule --es scenario <s> --ei inSeconds <n> --ei count 3 --ei spacingSeconds 600`.
 
 | Scenario | Set-up after scheduling |
 |---|---|
@@ -57,12 +57,12 @@ A path is **GO** when every required scenario has ≥ 3 judged entries and every
 | reboot_locked | `adb reboot`, do **not** unlock before the trigger (direct boot) |
 | battery_saver | `adb shell settings put global low_power 1` |
 | dnd_alarms | Do Not Disturb on, alarms allowed |
-| exact_revoked | `adb shell appops set app.dailymuslim SCHEDULE_EXACT_ALARM deny` (or Settings › Alarms & reminders off) before scheduling |
+| exact_revoked | `adb shell appops set app.azenfelnas SCHEDULE_EXACT_ALARM deny` (or Settings › Alarms & reminders off) before scheduling |
 
-Answer per entry: `--es cmd heard|not_heard --es entryId <id>`. Pull: `adb shell run-as app.dailymuslim cat /data/user_de/0/app.dailymuslim/files/plan/events.jsonl > <device>.jsonl`.
+Answer per entry: `--es cmd heard|not_heard --es entryId <id>`. Pull: `adb shell run-as app.azenfelnas cat /data/user_de/0/app.azenfelnas/files/plan/events.jsonl > <device>.jsonl`.
 
-**iOS.** In Xcode: add `apps/mobile/ios/AthanKit` as a local package to the Runner target, add the App Group `group.app.dailymuslim.shared` capability, add a long sound (≥ 3 min `.caf`) to the Runner bundle. Run a debug build on the device; open URLs from Safari or Notes:
-`dailymuslim://spike/schedule?scenario=<s>&in=<seconds>&count=3&spacing=600&sound=<file>` · `dailymuslim://spike/observe` (foreground scenario) · `dailymuslim://spike/answer?reason=heard|not_heard|long_audio_full|long_audio_cut&entry=<id>&heard=<seconds>` (time the long clip with a stopwatch) · `dailymuslim://spike/budget?requested=70` · `dailymuslim://spike/export`, then Xcode › Devices › Download Container › `Documents/spike-events.jsonl`.
+**iOS.** In Xcode: add `apps/mobile/ios/AthanKit` as a local package to the Runner target, add the App Group `group.app.azenfelnas.shared` capability, add a long sound (≥ 3 min `.caf`) to the Runner bundle. Run a debug build on the device; open URLs from Safari or Notes:
+`azenfelnas://spike/schedule?scenario=<s>&in=<seconds>&count=3&spacing=600&sound=<file>` · `azenfelnas://spike/observe` (foreground scenario) · `azenfelnas://spike/answer?reason=heard|not_heard|long_audio_full|long_audio_cut&entry=<id>&heard=<seconds>` (time the long clip with a stopwatch) · `azenfelnas://spike/budget?requested=70` · `azenfelnas://spike/export`, then Xcode › Devices › Download Container › `Documents/spike-events.jsonl`.
 Scenarios: foreground, locked_killed (lock and swipe the app away), reboot (restart before the trigger), silent_switch (ring/silent switch or Action button on silent), focus (a Focus that silences all apps).
 
 **Verdict.** `cd apps/mobile && dart run tool/spike_verdict.dart <device>.jsonl...` prints one line per path and exits 0 only if all five are GO. Paste the output below and change this ADR's status.

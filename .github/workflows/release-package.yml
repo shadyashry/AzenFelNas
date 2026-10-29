@@ -1,6 +1,6 @@
 # Package release (DESIGN.md §9.2, ADR-009, §15 D65/D85): pull the live channel from R2 (so sequences keep
 # increasing across runs), gsctl build, sign every role with the dev keys of the chosen channel's environment,
-# verify as a client would, publish to R2 (served at cdn.dailymuslim.app) and keep the signed repository as an
+# verify as a client would, publish to R2 (served at cdn.azenfelnas.app) and keep the signed repository as an
 # artifact. dev and lab only: beta and production are reached by promote-package once the S27 keys exist.
 # Environment secrets: DM_DEV_* keys, DM_S3_ACCESS_KEY_ID / DM_S3_SECRET_ACCESS_KEY (R2 token scoped to
 # dm-dist object read/write); environment variable DM_S3_ENDPOINT (terraform output s3_endpoint).

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/diagnostic_bundle.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/diagnostic_bundle.v1.schema.json",
   "title": "Diagnostic bundle v1",
   "description": "The user-initiated, redacted diagnostic bundle of DESIGN.md §7.2 (REQ-PRIV-005, §15 D84). One JSON document whose `files` members are named after the §7.2 zip entries. Coordinates exist only as whole hundredths of a degree (latE2/lonE2), so a coordinate with more than 2 decimals cannot be expressed (REQ-PRIV-001); no member holds an identifier.",
   "type": "object",

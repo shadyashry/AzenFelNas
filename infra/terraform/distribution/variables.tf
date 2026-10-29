@@ -4,18 +4,18 @@ variable "cloudflare_account_id" {
 }
 
 variable "cloudflare_zone_id" {
-  description = "Zone id of dailymuslim.app."
+  description = "Zone id of azenfelnas.app."
   type        = string
 }
 
 variable "cdn_hostname" {
   description = "The only distribution host the app contacts (ADR-017, REQ-PRIV-006)."
   type        = string
-  default     = "cdn.dailymuslim.app"
+  default     = "cdn.azenfelnas.app"
 
   validation {
-    condition     = var.cdn_hostname == "cdn.dailymuslim.app"
-    error_message = "The app's egress allow-list names cdn.dailymuslim.app only."
+    condition     = var.cdn_hostname == "cdn.azenfelnas.app"
+    error_message = "The app's egress allow-list names cdn.azenfelnas.app only."
   }
 }
 

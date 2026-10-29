@@ -2,11 +2,11 @@
 
 ## Reporting a vulnerability
 
-Email **security@dailymuslim.app**. Please do not open a public issue.
+Email **security@azenfelnas.app**. Please do not open a public issue.
 
 We follow a **90-day coordinated disclosure** window (`DESIGN.md` §25): we acknowledge within 5 working days, agree a fix timeline with you, and publish an advisory when a fix ships or at day 90, whichever comes first.
 
-In scope: the mobile apps, the package distribution plane (`cdn.dailymuslim.app`), the control plane (`api.dailymuslim.app`), `gsctl` and this repository's CI.
+In scope: the mobile apps, the package distribution plane (`cdn.azenfelnas.app`), the control plane (`api.azenfelnas.app`), `gsctl` and this repository's CI.
 
 ## Handling rules for contributors
 

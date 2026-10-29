@@ -8,7 +8,7 @@ Branch `slice/s16-app-shell`, cut from `slice/s15-dm-ui` at `687fd4c`. Draft PR 
 - **Settings**: every Appendix K key as a typed `SettingKey<T>`, `DriftSettingsStore` (`ReadSetting`/`WatchSetting`/`WriteSetting`), Settings page (language, digits, appearance, reduce motion), Attributions page (`assets/legal/attributions.v1.json` + `showLicensePage`).
 - **Shell**: `AppRoute` + `RoutePolicy` (deep-link allow-list), go_router with validating `redirect`, `DescribeFailure` (27 codes → 11 remediations), `NeedsAttentionCard`, `StartupFailureApp`, `StartApp` (`APP_START`, bundled seeds, package GC), placeholder pages for Home/Health/Qibla/Passport.
 - **Composition root**: `app/di.dart` (`AppBindings.of`), `app/bootstrap.dart`, `main.dart`; Riverpod 3 plain providers.
-- **l10n**: `l10n.yaml`, `lib/l10n/app_{en,ar}.arb` + generated Dart; Android `dailymuslim` intent filter, iOS `CFBundleURLTypes`.
+- **l10n**: `l10n.yaml`, `lib/l10n/app_{en,ar}.arb` + generated Dart; Android `azenfelnas` intent filter, iOS `CFBundleURLTypes`.
 - New dependencies (licences checked, ADR-011 table): flutter_riverpod 3.4.3, go_router 18.1.1, drift_flutter 0.3.1, path_provider 2.1.6, intl 0.20.3 + flutter_localizations, dm_ui (workspace), sqlite3 3.7.1 (dev, already transitive).
 
 ## Evidence (this session, Linux)
@@ -29,8 +29,8 @@ Branch `slice/s16-app-shell`, cut from `slice/s15-dm-ui` at `687fd4c`. Draft PR 
 - **ADR-011** long form: dependency rows for S16.
 
 ## Owed / open
-- **Device (owner)**: Android `adb shell bmgr backupnow` + `adb restore`/D2D check that `files/places/` is absent; iOS backup listing / `URLResourceValues` read-back on a device; deep links `dailymuslim://app/calc/GS-…`, `/health`, `/qibla` on both platforms (does the platform deliver the host?); `flutter build apk` / iOS build (Android SDK and Xcode are not on Linux).
-- **Product**: setting defaults (`themeMode=sky`, digits per language), remediation mapping and copy, the share-link format `dailymuslim://app/…` (S18 Passport). **Content**: Arabic ARB copy (Egyptian tone, draft). **Legal**: attribution notices and where the ODbL-produced database is published.
+- **Device (owner)**: Android `adb shell bmgr backupnow` + `adb restore`/D2D check that `files/places/` is absent; iOS backup listing / `URLResourceValues` read-back on a device; deep links `azenfelnas://app/calc/GS-…`, `/health`, `/qibla` on both platforms (does the platform deliver the host?); `flutter build apk` / iOS build (Android SDK and Xcode are not on Linux).
+- **Product**: setting defaults (`themeMode=sky`, digits per language), remediation mapping and copy, the share-link format `azenfelnas://app/…` (S18 Passport). **Content**: Arabic ARB copy (Egyptian tone, draft). **Legal**: attribution notices and where the ODbL-produced database is published.
 - **S17**: wire `SyncPackages` on app open (needs `ReadNetworkKind` + a connectivity plugin with licence check, `TrustedRoot.fromRootKeysJson` with dev keys on dev/lab, `HttpCdnChannel`), feed `SyncReport.serverDateUtcMs` to `CheckClockIntegrity`; bind `EventLogContextEvents` and the contexts stores to `PlacesDatabase` in `app/di.dart` (`GeolocatorPlatform.instance`, `PermissionHandlerPlatform.instance`); runtime readers via `LoadPackagePayload`; Home on `appStartProvider`; sky header via `ComputeSolarState` → `SkyTheme`; digits setting → `DigitStyle`; reduced-motion override; bundle the fonts (D75).
 - **Retention (REQ-DATA-001)**: the purge job (`lastRetentionRunUtcMs`) belongs with the tables it purges (S18/S20).
 - **Inherited CI blockers** from S15 (gen `orderDependents`, gitleaks false positive, `swiftlint` on the macOS runner): unchanged, owner/Architect.

@@ -9,8 +9,8 @@ At least three: a Pixel on Android 16 (reference), a Samsung on One UI 7+ (aggre
 ## Setup per device
 
 ```bash
-PKG=app.dailymuslim
-SUITE="adb shell am start -n $PKG/app.dailymuslim.athan.suite.AthanSuiteActivity"
+PKG=app.azenfelnas
+SUITE="adb shell am start -n $PKG/app.azenfelnas.athan.suite.AthanSuiteActivity"
 EXCH=/sdcard/Android/data/$PKG/files
 
 # A real plan whose instants start 5 minutes from now: the S20 Cairo fixture shifted in time

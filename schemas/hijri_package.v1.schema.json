@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/hijri_package.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/hijri_package.v1.schema.json",
   "title": "Hijri package payload v1",
   "description": "Per-country Hijri month starts (DESIGN.md §9.5, ADR-016). Confirmed months carry their official source; expected months have none.",
   "type": "object",

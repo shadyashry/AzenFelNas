@@ -5,14 +5,14 @@ import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:meta/meta.dart';
 
-/// [FetchChannel] over HTTPS to `cdn.dailymuslim.app` only (§0.2, §9.1),
+/// [FetchChannel] over HTTPS to `cdn.azenfelnas.app` only (§0.2, §9.1),
 /// with `dart:io`'s [HttpClient]: no cookies, no identifiers, a 30 s limit
 /// per request and the body cut at the caller's limit.
 final class HttpCdnChannel implements FetchChannel {
   /// The [channel] (`dev`, `lab`, `beta` or `production`) on the CDN.
   /// Throws [ArgumentError] for another channel.
   new(String channel, this._client)
-    : _base = Uri.https('cdn.dailymuslim.app', '/${_checked(channel)}/');
+    : _base = Uri.https('cdn.azenfelnas.app', '/${_checked(channel)}/');
 
   /// The [channel] on the CDN with this adapter's own [HttpClient], so no
   /// other file opens a connection (REQ-PRIV-006).

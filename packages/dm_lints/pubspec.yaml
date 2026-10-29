@@ -1,5 +1,5 @@
 name: dm_lints
-description: "Shared strict analysis options plus the architecture lint and REQ-index check of the Daily Muslim monorepo."
+description: "Shared strict analysis options plus the architecture lint and REQ-index check of the Azen Fel Nas monorepo."
 version: 0.1.0
 publish_to: none
 resolution: workspace

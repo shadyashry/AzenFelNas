@@ -1,6 +1,6 @@
 // The prayer-times widget extension (DESIGN.md §7.7, §15 D88). It draws the timeline AthanKit builds from the
 // snapshot in the App Group container and never calculates a time (REQ-WID-001). The Xcode target (bundle id
-// app.dailymuslim.PrayerTimesWidget, App Group group.app.dailymuslim.shared, iOS 18) is added on macOS (S28 OWED).
+// app.azenfelnas.PrayerTimesWidget, App Group group.app.azenfelnas.shared, iOS 18) is added on macOS (S28 OWED).
 import AthanKit
 import SwiftUI
 import WidgetKit

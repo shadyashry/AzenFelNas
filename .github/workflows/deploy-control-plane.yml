@@ -1,5 +1,5 @@
 # Control-plane deploy (DESIGN.md §9.3, §15 D86): test, build the image, run the goose migrations as a Cloud Run job,
-# roll the service, smoke-test api.dailymuslim.app. Credentials are short-lived (OIDC workload identity, REQ-SEC-030);
+# roll the service, smoke-test api.azenfelnas.app. Credentials are short-lived (OIDC workload identity, REQ-SEC-030);
 # the `control-plane` environment holds the required reviewers and these variables:
 #   GCP_PROJECT_ID, GCP_WORKLOAD_IDENTITY_PROVIDER, GCP_DEPLOY_SERVICE_ACCOUNT (terraform output deploy_service_account).
 name: deploy-control-plane
@@ -69,6 +69,6 @@ jobs:
         run: gcloud run deploy control-plane --region "$REGION" --container api --image "$IMAGE" --quiet
       - name: Smoke test
         run: |
-          curl -fsS --retry 10 --retry-delay 6 --retry-all-errors https://api.dailymuslim.app/readyz
-          status=$(curl -s -o /dev/null -w '%{http_code}' https://api.dailymuslim.app/v1/unknown)
+          curl -fsS --retry 10 --retry-delay 6 --retry-all-errors https://api.azenfelnas.app/readyz
+          status=$(curl -s -o /dev/null -w '%{http_code}' https://api.azenfelnas.app/v1/unknown)
           test "$status" = 404

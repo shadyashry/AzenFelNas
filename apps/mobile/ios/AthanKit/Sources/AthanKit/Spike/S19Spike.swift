@@ -3,16 +3,16 @@ import Foundation
 /// Debug-only URL entry point of the S19 spike (plan: `docs/adr/ADR-025-s19-native-spike.md`), opened from
 /// Safari or Notes on the device:
 ///
-/// - `dailymuslim://spike/schedule?scenario=locked_killed&in=120&count=1&spacing=60&sound=spike_long.caf`
-/// - `dailymuslim://spike/answer?reason=heard|not_heard|long_audio_full|long_audio_cut&entry=<id>&heard=<s>`
-/// - `dailymuslim://spike/budget?requested=70`
-/// - `dailymuslim://spike/observe` (records `alarmkit_alerting` while the app stays open)
-/// - `dailymuslim://spike/export` (copies the App Group log to `Documents/spike-events.jsonl` for Xcode's
+/// - `azenfelnas://spike/schedule?scenario=locked_killed&in=120&count=1&spacing=60&sound=spike_long.caf`
+/// - `azenfelnas://spike/answer?reason=heard|not_heard|long_audio_full|long_audio_cut&entry=<id>&heard=<s>`
+/// - `azenfelnas://spike/budget?requested=70`
+/// - `azenfelnas://spike/observe` (records `alarmkit_alerting` while the app stays open)
+/// - `azenfelnas://spike/export` (copies the App Group log to `Documents/spike-events.jsonl` for Xcode's
 ///   Download Container)
 public enum S19Spike {
     /// Handles [url] when it is a spike URL; `false` lets the app route it normally.
     public static func handle(url: URL) -> Bool {
-        guard url.scheme == "dailymuslim", url.host == "spike" else { return false }
+        guard url.scheme == "azenfelnas", url.host == "spike" else { return false }
         let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []
         let query = Dictionary(items.map { ($0.name, $0.value ?? "") }, uniquingKeysWith: { _, last in last })
         let int = { (key: String, fallback: Int) in query[key].flatMap(Int.init) ?? fallback }

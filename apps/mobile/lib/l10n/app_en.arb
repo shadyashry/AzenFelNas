@@ -786,7 +786,7 @@
   "@planHorizonTitle": {
     "description": "Horizon warning title (REQ-ALM-010)."
   },
-  "planHorizonBody": "Open Daily Muslim to keep the Athan scheduled.",
+  "planHorizonBody": "Open Azen Fel Nas to keep the Athan scheduled.",
   "@planHorizonBody": {
     "description": "Horizon warning body."
   },
@@ -822,7 +822,7 @@
   "@athanHealthUnknown": {
     "description": "Athan Health unknown state (§18.5 Unknown)."
   },
-  "athanReasonNeedsNotificationPermission": "Allow notifications for Daily Muslim",
+  "athanReasonNeedsNotificationPermission": "Allow notifications for Azen Fel Nas",
   "@athanReasonNeedsNotificationPermission": {
     "description": "Health reason."
   },
@@ -830,7 +830,7 @@
   "@athanReasonNeedsExactAlarmPermission": {
     "description": "Health reason."
   },
-  "athanReasonNeedsAlarmKitAuthorization": "Allow alarms for Daily Muslim",
+  "athanReasonNeedsAlarmKitAuthorization": "Allow alarms for Azen Fel Nas",
   "@athanReasonNeedsAlarmKitAuthorization": {
     "description": "Health reason."
   },
@@ -838,7 +838,7 @@
   "@athanReasonMutedChannel": {
     "description": "Health reason."
   },
-  "athanReasonBatteryRestricted": "The phone restricts Daily Muslim in the background",
+  "athanReasonBatteryRestricted": "The phone restricts Azen Fel Nas in the background",
   "@athanReasonBatteryRestricted": {
     "description": "Health reason."
   },

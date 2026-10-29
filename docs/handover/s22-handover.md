@@ -30,7 +30,7 @@ REQ-ALM-002, REQ-ALM-003, REQ-ALM-030, REQ-ALM-031 (incl. a source scan for cale
 ## Owed / open
 - **Owner, macOS:** link AthanKit into Runner (local package reference), wire `AthanGraph.live` / receipts / re-arm triggers in `AppDelegate`, run `swift test` + `flutter build ios` (`ci-ios`; S17 noted the runner lacks SwiftLint 0.65.1). Steps: `docs/test-plans/s22-ios-athan-device-suite.md`.
 - **Owner, devices:** the 14-scenario suite (iOS 26 AlarmKit, iOS 18 notifications, silent switch, Focus, budget, TZ/time change, reboot, Test) and the ADR-025 run; then flip `AlarmKitEvidence.deliveryProven` only with receipts.
-- **Owner, App Store Connect:** App Group + time-sensitive capability on `app.dailymuslim`; early internal TestFlight build (not submitted).
+- **Owner, App Store Connect:** App Group + time-sensitive capability on `app.azenfelnas`; early internal TestFlight build (not submitted).
 - **Product / Content:** Test/Stop copy (en/ar drafts), which kinds are time-sensitive, foreground presentation, no Snooze on iOS. **Privacy:** review the privacy manifest (no collected types declared).
 - **S23:** pigeon contract + host over `AthanBridge`; ship `assets/athan/athan_audio_manifest.json` and `.caf` clips; consider Dart `FitSlotBudget` at 63 to match the native Test slot; Dart Health must mirror D82 severities; `BGAppRefreshTask` decision.
 

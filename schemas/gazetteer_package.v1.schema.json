@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/gazetteer_package.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/gazetteer_package.v1.schema.json",
   "title": "Gazetteer package payload v1",
   "description": "Offline place search entries from GeoNames cities15000 with Arabic/English alternate names (DESIGN.md §9.5, ADR-015); imported into drift at activation.",
   "type": "array",

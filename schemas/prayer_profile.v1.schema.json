@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/prayer_profile.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/prayer_profile.v1.schema.json",
   "type": "object",
   "additionalProperties": false,
   "required": [

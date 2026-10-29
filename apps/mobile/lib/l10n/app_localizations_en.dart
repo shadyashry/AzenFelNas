@@ -535,7 +535,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get planHorizonBody =>
-      'Open Daily Muslim to keep the Athan scheduled.';
+      'Open Azen Fel Nas to keep the Athan scheduled.';
 
   @override
   String get athanTitle => 'Athan';
@@ -563,7 +563,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get athanReasonNeedsNotificationPermission =>
-      'Allow notifications for Daily Muslim';
+      'Allow notifications for Azen Fel Nas';
 
   @override
   String get athanReasonNeedsExactAlarmPermission =>
@@ -571,7 +571,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get athanReasonNeedsAlarmKitAuthorization =>
-      'Allow alarms for Daily Muslim';
+      'Allow alarms for Azen Fel Nas';
 
   @override
   String get athanReasonMutedChannel =>
@@ -579,7 +579,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get athanReasonBatteryRestricted =>
-      'The phone restricts Daily Muslim in the background';
+      'The phone restricts Azen Fel Nas in the background';
 
   @override
   String get athanReasonStalePlan => 'Open the app to schedule the Athan';

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/lab_reference.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/lab_reference.v1.schema.json",
   "title": "Lab reference day v1",
   "description": "One line of the Accuracy Lab reference JSONL (DESIGN.md §9.4, ADR-019): Skyfield + JPL de440s.bsp instants of the astronomical events of one benchmark city on one prayer day (ADR-004 culmination segment), with the ADR-019 time tolerance of each.",
   "type": "object",

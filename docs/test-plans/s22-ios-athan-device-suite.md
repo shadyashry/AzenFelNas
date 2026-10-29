@@ -6,7 +6,7 @@ The S22 done-test (`DESIGN.md` §13): a device suite that includes the silent sw
 
 1. Link AthanKit into Runner: Xcode → Runner project → Package Dependencies → *Add Local…* → `apps/mobile/ios/AthanKit`, add the `AthanKit` library to the Runner target. Commit the `project.pbxproj` change.
 2. In `AppDelegate.swift`: build `AthanGraph.live(assets:)` once with an `AssetSource` over `FlutterDartProject.lookupKey(forAsset:)`, run `InstallClips` when Athan is on, set `NotificationReceipts` as `UNUserNotificationCenter.current().delegate`, start `AlarmKitAdapter.observe` on iOS 26, and call `AthanBridge.rearm(.appActive)` on `sceneDidBecomeActive`, `.timeChanged` on `significantTimeChangeNotification` and `.timezoneChanged` on `NSSystemTimeZoneDidChange`. (The pigeon host that exposes `AthanBridge` to Dart is S23's.)
-3. Signing: enable the App Group `group.app.dailymuslim.shared` and *Time Sensitive Notifications* for `app.dailymuslim` in the developer portal; `Runner.entitlements` already lists both.
+3. Signing: enable the App Group `group.app.azenfelnas.shared` and *Time Sensitive Notifications* for `app.azenfelnas` in the developer portal; `Runner.entitlements` already lists both.
 4. `swift test` in `apps/mobile/ios/AthanKit` on macOS (also compiles `Platform/` and `Spike/`, which Linux cannot), then `flutter build ios --simulator --debug` (`ci-ios`).
 5. Clips: until S23 ships `assets/athan/athan_audio_manifest.json` and the `.caf` clips, use a hand-made manifest with one ≤ 29 s `.caf` (`afconvert -f caff -d ima4 in.m4a out.caf`) for the suite.
 

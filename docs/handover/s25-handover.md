@@ -10,7 +10,7 @@ Branch `slice/s25-distribution-infra`, cut from `slice/s24-privacy-hardening` at
   - `promote -from -to -sequence N` stages the reviewed targets unchanged (dev→lab until S27).
   - `kmskeys` and `sign -kms` sign through the Cloud KMS REST API with an OIDC token. `Signer.Sign` now takes a context.
 - **infra/terraform/distribution** (validate only):
-  - R2 `dm-dist` with a lock on packages and the custom domain `cdn.dailymuslim.app`.
+  - R2 `dm-dist` with a lock on packages and the custom domain `cdn.azenfelnas.app`.
   - A cache rule that respects the stored Cache-Control, a GET/HEAD-only rule, and no Logpush.
   - A KMS Ed25519 targets key per beta/production, with workload-identity signers bound to their GitHub environment.
 - **Workflows:**
@@ -65,4 +65,4 @@ REQ-DIST-002, REQ-DIST-003, REQ-DIST-004 (KMS), REQ-DIST-005 (R2 cache policy), 
 ## Inputs for S26 (control plane)
 - Same Terraform conventions: `infra/terraform/<module>`, exact pins, `ci-infra` matrix entry, GCS backend prefix, validate only.
 - The workload identity pool `github` already exists; reuse it for the deploy service account, with a condition on `assertion.environment`.
-- Region europe-west1; `api.dailymuslim.app` is the only other allowed host.
+- Region europe-west1; `api.azenfelnas.app` is the only other allowed host.

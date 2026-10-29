@@ -97,7 +97,7 @@ void main() {
     final dart = EventLogEntry.fromJson(fixture).attrs.toJson().keys.toSet();
     final kotlin = _fields(
       File(
-        'android/athan-core/src/main/kotlin/app/dailymuslim/athan/plan/'
+        'android/athan-core/src/main/kotlin/app/azenfelnas/athan/plan/'
         'EventLogEntry.kt',
       ).readAsStringSync(),
       'data class EventAttrs(',

@@ -61,7 +61,7 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.text('Not ready: the Athan will not sound'), findsOneWidget);
-    expect(find.text('Allow notifications for Daily Muslim'), findsOneWidget);
+    expect(find.text('Allow notifications for Azen Fel Nas'), findsOneWidget);
     expect(
       find.text('The Athan sound is muted in system settings'),
       findsOneWidget,

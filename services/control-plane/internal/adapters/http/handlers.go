@@ -147,10 +147,10 @@ func methodNotAllowed(allow string) http.HandlerFunc {
 func (h handlers) writeError(w http.ResponseWriter, r *http.Request, err error) {
 	switch {
 	case errors.Is(err, domain.ErrAttestationRequired):
-		w.Header().Set("WWW-Authenticate", `DM-Attest realm="api.dailymuslim.app"`)
+		w.Header().Set("WWW-Authenticate", `DM-Attest realm="api.azenfelnas.app"`)
 		writeProblem(w, r, problemAttestationRequired, "")
 	case errors.Is(err, domain.ErrAttestationInvalid):
-		w.Header().Set("WWW-Authenticate", `DM-Attest realm="api.dailymuslim.app"`)
+		w.Header().Set("WWW-Authenticate", `DM-Attest realm="api.azenfelnas.app"`)
 		writeProblem(w, r, problemAttestationInvalid, "")
 	case errors.Is(err, domain.ErrRateLimited):
 		now := h.clock.Now().UTC()

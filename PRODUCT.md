@@ -34,14 +34,14 @@ Used several times a day in short glances: before leaving home, at work, in the 
 - **Screens (`DESIGN.md` §18.4):** Onboarding, Home, Day timeline, Accuracy Passport, Athan settings, Athan Health, Athan Test, Qibla, Manual place, Packages and change notes, Settings / Privacy / Attributions. V1 adds widgets and Travel Mode.
 - **Built in Flutter.** One shared design on Android and iOS; only native behaviours differ (permission dialogs, back gesture, alarm surfaces, widgets). Android is the primary launch platform; iOS ships the same design.
 - **Every `UiState` variant in §18.4 is kept.** Status copy (Calculated, Authority aligned, Verified, Estimated, Observed, Unknown, Expected) comes only from the shared §18.5 constants, and prohibited-word tests guard it.
-- **Hard limits:** no religious value in code; no network host other than `cdn.dailymuslim.app` and `api.dailymuslim.app`; no raw coordinates in logs.
+- **Hard limits:** no religious value in code; no network host other than `cdn.azenfelnas.app` and `api.azenfelnas.app`; no raw coordinates in logs.
 - **Open decisions (not decided):**
-  - Brand: whether the domain and bundle identifiers follow the new name. Today the display name changes, while hosts and identifiers stay `dailymuslim.app`.
+  - Brand: whether the domain and bundle identifiers follow the new name. Today the display name changes, while hosts and identifiers stay `azenfelnas.app`.
   - Arabic copy review; the copy is a draft in Egyptian tone.
   - Sharia approval of every profile; the seeds stay `DRAFT_UNVERIFIED`.
 
 ## Brand Commitments
-- **Name:** Azen Fel Nas, Arabic أذّن في الناس ("proclaim to the people", Quran 22:27). It replaces "Daily Muslim" as the name users see.
+- **Name:** Azen Fel Nas, Arabic أذّن في الناس ("proclaim to the people", Quran 22:27). It replaces "أذّن في الناس" as the name users see.
 - **Voice:** calm, precise and honest. Say "Unknown" with a reason rather than invent a value, and never overclaim accuracy or alarm reliability.
 - **Typefaces already chosen** (`DESIGN.md` §7.9): IBM Plex Sans Arabic and Inter.
 

@@ -9,7 +9,7 @@ final class MethodChannelBackupExclusion implements ExcludeFromBackup {
   const new([this.channel = const MethodChannel(channelName)]);
 
   /// The channel name shared with the Swift side.
-  static const channelName = 'app.dailymuslim/backup_exclusion';
+  static const channelName = 'app.azenfelnas/backup_exclusion';
 
   /// The method name shared with the Swift side.
   static const method = 'excludeFromBackup';

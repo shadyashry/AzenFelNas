@@ -16,7 +16,7 @@ Branch `slice/s14-packages-client`, cut from `slice/s13-contexts` at `960f284`. 
 - **App (`apps/mobile/lib/features/packages/`)**:
   - `PackagesDatabase`, a drift database with `active_packages`, `package_files` and `package_trust`.
   - `DriftPackageCatalog` and `DriftPackageTrustStore`.
-  - `IoPackageBlobStore`, `IoGzipInflate`, and `HttpCdnChannel` (`cdn.dailymuslim.app` only, `dart:io`).
+  - `IoPackageBlobStore`, `IoGzipInflate`, and `HttpCdnChannel` (`cdn.azenfelnas.app` only, `dart:io`).
   - `AssetBundledSeeds`, which reads `assets/packages/seeds.json`. The gazetteer 3.0.2 asset is now declared in the pubspec.
   - `PackagePayloadChecks` and `EventLogPackageEvents`.
   - `application/ImportingApplyPackage`, which runs the gazetteer import on activation.
@@ -64,7 +64,7 @@ Branch `slice/s14-packages-client`, cut from `slice/s13-contexts` at `960f284`. 
 - **Bundled seeds for the other six types (REQ-PKG-003)** belong to the slices that ship them. Add an entry to `seeds.json` and a reader to `PackagePayloadChecks`. `prayer_profiles` also needs a seed policy, because seed profiles are `DRAFT_UNVERIFIED` and load on dev/lab only (§0.2 rule 1).
 - **gsctl**: refuse a target whose `effectiveFrom` precedes the one it supersedes within the same type (D74). This is a Release manager and Architect item.
 - **Product**: should `effectiveFrom` follow the user's local date instead of the UTC date (D74)? This needs a Sharia/Product review if religious releases depend on it.
-- **Device (owner)**: on a physical device, check a real HTTPS fetch from `cdn.dailymuslim.app` once S25/S26 exist, and the large-payload deferral on cellular. Neither is possible here.
+- **Device (owner)**: on a physical device, check a real HTTPS fetch from `cdn.azenfelnas.app` once S25/S26 exist, and the large-payload deferral on cellular. Neither is possible here.
 
 ## Inputs for S15 (`dm_ui`: tokens (Appendix G), SkyTheme, components, RTL/a11y goldens)
 - Appendix G (`packages/dm_ui/tokens/sky.v1.json`) and the existing `packages/dm_ui` skeleton. S14 adds no UI. The "data last verified N days ago" copy (US-17) can read `ChannelTrust.lastVerifiedUtcMs` once S16 wires it.

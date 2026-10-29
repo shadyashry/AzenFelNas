@@ -26,8 +26,8 @@ var now = time.Date(2026, 10, 24, 9, 30, 0, 0, time.UTC)
 
 func payload(hash string, at time.Time, verdict string, device ...string) map[string]any {
 	return map[string]any{"tokenPayloadExternal": map[string]any{
-		"requestDetails":  map[string]any{"requestPackageName": "app.dailymuslim", "requestHash": hash, "timestampMillis": fmt.Sprint(at.UnixMilli())},
-		"appIntegrity":    map[string]any{"appRecognitionVerdict": verdict, "packageName": "app.dailymuslim", "certificateSha256Digest": []string{"cert-a"}},
+		"requestDetails":  map[string]any{"requestPackageName": "app.azenfelnas", "requestHash": hash, "timestampMillis": fmt.Sprint(at.UnixMilli())},
+		"appIntegrity":    map[string]any{"appRecognitionVerdict": verdict, "packageName": "app.azenfelnas", "certificateSha256Digest": []string{"cert-a"}},
 		"deviceIntegrity": map[string]any{"deviceRecognitionVerdict": device},
 	}}
 }
@@ -54,7 +54,7 @@ func TestREQAPI004PlayIntegrityVerdicts(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				if r.URL.Path != "/app.dailymuslim:decodeIntegrityToken" || r.Header.Get("Authorization") != "Bearer access" {
+				if r.URL.Path != "/app.azenfelnas:decodeIntegrityToken" || r.Header.Get("Authorization") != "Bearer access" {
 					t.Errorf("request %s %q", r.URL.Path, r.Header.Get("Authorization"))
 				}
 				var in map[string]string
@@ -66,7 +66,7 @@ func TestREQAPI004PlayIntegrityVerdicts(t *testing.T) {
 			}))
 			defer srv.Close()
 			v := attest.PlayIntegrity{
-				PackageName: "app.dailymuslim", CertSHA256: tc.certs, Tokens: staticTokens{},
+				PackageName: "app.azenfelnas", CertSHA256: tc.certs, Tokens: staticTokens{},
 				Client: srv.Client(), Clock: fixedClock{now}, Endpoint: srv.URL + "/",
 			}
 			err := v.Verify(context.Background(), att, domain.Pseudonym{})

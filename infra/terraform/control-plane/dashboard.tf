@@ -78,7 +78,7 @@ resource "google_monitoring_alert_policy" "postgres_disk" {
 
 resource "google_monitoring_dashboard" "ops" {
   dashboard_json = jsonencode({
-    displayName = "Daily Muslim ops (V1)"
+    displayName = "Azen Fel Nas ops (V1)"
     mosaicLayout = {
       columns = 12
       tiles = [

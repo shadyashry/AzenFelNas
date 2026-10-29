@@ -57,7 +57,7 @@ void main() {
         inputs: schedule.inputs[2],
         event: PrayerEvent.fajr,
       );
-      expect(link.scheme, 'dailymuslim');
+      expect(link.scheme, 'azenfelnas');
       expect(link.path, '/calc/${day.calculationId}');
       expect(link.fragment, 'fajr');
       expect(link.queryParametersAll.keys, ['i']);

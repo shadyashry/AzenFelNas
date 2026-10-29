@@ -26,7 +26,7 @@ import UIKit
 /// `MethodChannelBackupExclusion` in Dart calls it for `Application Support/places/`
 /// on every start. Moves to pigeon with the other platform APIs in S20 (§15 D76).
 enum BackupExclusionChannel {
-  static let name = "app.dailymuslim/backup_exclusion"
+  static let name = "app.azenfelnas/backup_exclusion"
   static let method = "excludeFromBackup"
 
   static func register(messenger: FlutterBinaryMessenger) {

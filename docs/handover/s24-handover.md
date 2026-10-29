@@ -28,5 +28,5 @@ REQ-PRIV-001, REQ-PRIV-005, REQ-PRIV-006, REQ-ALM-036, REQ-ERR-002 (export failu
 - Still open from S23: no `ApplyAthanPlan` (Health stays `notReady(stalePlan)`; `plan_redacted.json` = `notApplied`).
 
 ## Inputs for S25 (distribution infra)
-- Only `cdn.dailymuslim.app` (and `api.dailymuslim.app`) may appear in shipped code; the egress test fails on any other host. Channel paths: `HttpCdnChannel` `/<channel>/metadata/<role>.json`, `/<channel>/packages/<type>/<version>/<sha256>.dmpkg`.
+- Only `cdn.azenfelnas.app` (and `api.azenfelnas.app`) may appear in shipped code; the egress test fails on any other host. Channel paths: `HttpCdnChannel` `/<channel>/metadata/<role>.json`, `/<channel>/packages/<type>/<version>/<sha256>.dmpkg`.
 - CDN logs must keep no IP > 24 h (ADR-017); the Data safety draft relies on it.

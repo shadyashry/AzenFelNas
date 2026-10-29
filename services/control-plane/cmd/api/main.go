@@ -1,4 +1,4 @@
-// Command api is the composition root of the Daily Muslim control plane
+// Command api is the composition root of the Azen Fel Nas control plane
 // (DESIGN.md §9.3, ADR-010): the only place that wires adapters to ports.
 //
 //	api serve    serve /v1 on DM_HTTP_ADDR (default :$PORT)

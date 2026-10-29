@@ -17,7 +17,7 @@ Nothing here has been run on a device or simulator. The Dart and Linux Swift res
 |---|---|---|---|
 | U0 | No plan yet | Fresh install (plan wiring open, D83) | "Not ready" with "Open the app to schedule the Athan" |
 | U1 | Health, all granted (after the plan wiring lands) | Fresh install, grant notifications (+ exact alarms on Android, AlarmKit on iOS 26), open `/health` | Android: "Ready" or "Limited" with reasons; iOS 18: "Limited · This phone cannot confirm the Athan played"; iOS 26: "Limited" until ADR-025 GO |
-| U2 | Health, notifications denied | Deny notifications, open `/health` | "Not ready" with "Allow notifications for Daily Muslim" |
+| U2 | Health, notifications denied | Deny notifications, open `/health` | "Not ready" with "Allow notifications for Azen Fel Nas" |
 | U3 | Test heard | Pick a sound, tap the Test, lock the phone | Athan at +60 s (± 2 s on the exact/AlarmKit path); question after ≥ 10 s; "Yes" ⇒ "Recorded: you heard the test"; `TEST_RESULT state=heard` in diagnostics |
 | U4 | Test not heard | Silent mode / muted channel, run the Test, answer "No" | Health becomes "Limited" with "You did not hear the last test" |
 | U5 | Receipt evidence | Run U3 with the app killed after arming (Android) | after reopening and answering, `TEST_RESULT reason=presented` |

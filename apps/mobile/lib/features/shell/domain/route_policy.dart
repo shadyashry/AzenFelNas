@@ -2,9 +2,9 @@ import 'package:daily_muslim/features/shell/domain/app_route.dart';
 
 /// Validates every location before navigation (REQ-SEC-010, §15 D76).
 ///
-/// * A `dailymuslim://` link names a [AppRoute.linkable] route, written
-///   `dailymuslim://app/<path>` (the host `app` keeps the path intact
-///   whether or not the platform drops the host) or `dailymuslim:///<path>`.
+/// * A `azenfelnas://` link names a [AppRoute.linkable] route, written
+///   `azenfelnas://app/<path>` (the host `app` keeps the path intact
+///   whether or not the platform drops the host) or `azenfelnas:///<path>`.
 /// * A location without a scheme (in-app navigation, or a link whose scheme
 ///   the platform stripped) names any route; none of them changes state.
 /// * Only a Calculation route takes extras (§6.4 ¶11, §15 D78): a fragment
@@ -15,7 +15,7 @@ import 'package:daily_muslim/features/shell/domain/app_route.dart';
 ///   Calculation ID, any other query or fragment — is rejected (`null`).
 abstract final class RoutePolicy {
   /// The custom scheme (§7.1; HTTPS links are deferred to V1).
-  static const scheme = 'dailymuslim';
+  static const scheme = 'azenfelnas';
 
   /// The host of a canonical link.
   static const host = 'app';

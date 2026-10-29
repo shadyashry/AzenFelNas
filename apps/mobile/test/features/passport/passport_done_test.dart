@@ -65,7 +65,7 @@ void main() {
   ) async {
     await open(
       tester,
-      'dailymuslim://app/calc/${day.calculationId}#asr',
+      'azenfelnas://app/calc/${day.calculationId}#asr',
       local: schedule,
     );
     expect(find.text(day.calculationId), findsOneWidget);

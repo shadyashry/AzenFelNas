@@ -5,7 +5,7 @@ import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:meta/meta.dart';
 
 /// The shared form of a Calculation ID (§6.4 ¶11, US-09):
-/// `dailymuslim://app/calc/<calcId>?i=<base64url(inputs JSON)>#<event>`.
+/// `azenfelnas://app/calc/<calcId>?i=<base64url(inputs JSON)>#<event>`.
 ///
 /// The inputs are the `calculation_trace.v1` `inputs` object as RFC 8785
 /// canonical JSON, base64url without padding (§15 D78). They hold only what
@@ -18,7 +18,7 @@ abstract final class CalculationLink {
     required CalculationInputs inputs,
     PrayerEvent? event,
   }) => Uri(
-    scheme: 'dailymuslim',
+    scheme: 'azenfelnas',
     host: 'app',
     path: '/calc/$calculationId',
     query: 'i=${encode(inputs)}',

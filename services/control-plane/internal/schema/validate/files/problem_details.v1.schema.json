@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/problem_details.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/problem_details.v1.schema.json",
   "title": "Problem details v1",
   "description": "Every control-plane error body (DESIGN.md §9.3): RFC 9457 problem details, served as application/problem+json, with the W3C trace id of the request (REQ-API-001). `type` is a relative URI under /problems/ (§15 D86).",
   "type": "object",

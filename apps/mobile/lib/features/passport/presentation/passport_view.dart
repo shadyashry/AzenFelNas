@@ -122,7 +122,7 @@ final class PassportView {
   /// Every event, the focused one first.
   final List<PassportEventView> events;
 
-  /// `dailymuslim://app/calc/<id>?i=…#<event>`.
+  /// `azenfelnas://app/calc/<id>?i=…#<event>`.
   final Uri shareLink;
 
   /// The addressed event, or `null`.

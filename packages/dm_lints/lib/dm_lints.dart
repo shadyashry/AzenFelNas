@@ -1,4 +1,4 @@
-/// Repository checks of the Daily Muslim monorepo (DESIGN.md §12, §17.2).
+/// Repository checks of the Azen Fel Nas monorepo (DESIGN.md §12, §17.2).
 ///
 /// The analysis options live next to this library as
 /// `package:dm_lints/analysis_options.yaml` and `package:dm_lints/pure.yaml`.

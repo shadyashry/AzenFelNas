@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/snapshot.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/snapshot.v1.schema.json",
   "title": "Snapshot v1",
   "description": "Next 48 h of displayed times, labels and the sky-phase timeline, written alongside the SchedulePlan; widgets never recalculate (DESIGN.md §7.7, Appendix I).",
   "type": "object",

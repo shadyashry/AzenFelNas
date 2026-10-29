@@ -43,7 +43,7 @@ Branch `slice/s28-v1`, cut from `slice/s27-beta-readiness` at `0a454c2`. No PR, 
 
 ## OWED (owner)
 - **Android:** a Gradle build compiles `widget/glance/` for the first time. Then add the widget to a launcher; check the midnight and post-prayer redraws and that the app redraws it after a profile update.
-- **macOS:** add the `PrayerTimesWidget` extension target (App Group `group.app.dailymuslim.shared`, iOS 18), embed it in Runner, then build and place the widget.
+- **macOS:** add the `PrayerTimesWidget` extension target (App Group `group.app.azenfelnas.shared`, iOS 18), embed it in Runner, then build and place the widget.
 - **Sharia board:** Fajr → Maghrib as the fast, with Imsak as a marker, per launch country (D88).
 - **Product / Content:** the travel prompt policy (6 h fix age, session dismissal) and the Arabic copy.
 - **Cloud:** `terraform apply` for the dashboard and alerts. Check the PromQL alert in the console.

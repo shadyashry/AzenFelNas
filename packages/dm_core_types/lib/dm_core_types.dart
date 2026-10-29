@@ -1,4 +1,4 @@
-/// Types shared by every Daily Muslim package (DESIGN.md §5.2, §6.2):
+/// Types shared by every Azen Fel Nas package (DESIGN.md §5.2, §6.2):
 /// `Result`, `Failure`, `Clock`, `CivilDate`, the RFC 8785 `CanonicalJson`
 /// and the Appendix J `FailureCode` and `EventCode` enums.
 ///

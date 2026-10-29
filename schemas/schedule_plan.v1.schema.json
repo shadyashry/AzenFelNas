@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/schedule_plan.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/schedule_plan.v1.schema.json",
   "title": "SchedulePlan v1",
   "description": "Precomputed, native-readable alarm plan: the only input of native Athan scheduling (DESIGN.md §7.7, Appendix B, ADR-002). Semantic rule not expressible here, checked by the plan builder (S20): horizonEndUtcMs >= max(entries[].fireAtUtcMs).",
   "type": "object",

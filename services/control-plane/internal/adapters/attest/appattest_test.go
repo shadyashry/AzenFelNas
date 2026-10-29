@@ -22,7 +22,7 @@ import (
 	"github.com/samehamin/daily_muslim/services/control-plane/internal/domain"
 )
 
-const appID = "TEAMID1234.app.dailymuslim"
+const appID = "TEAMID1234.app.azenfelnas"
 
 // device simulates an iPhone's App Attest key under a test CA standing in
 // for Apple's (the real root is owner-supplied configuration, §15 D86).

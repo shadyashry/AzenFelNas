@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dailymuslim.app/schemas/bench_failure.v1.schema.json",
+  "$id": "https://azenfelnas.app/schemas/bench_failure.v1.schema.json",
   "title": "Bench failure v1",
   "description": "The stdout line the engine bench writes when a bench_request.v1 line yields a typed failure instead of a DayResult (DESIGN.md §6.1, §6.2 EngineFailure, Appendix J). It answers the request line at the same position.",
   "type": "object",
