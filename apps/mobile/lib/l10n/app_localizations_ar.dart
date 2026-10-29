@@ -540,7 +540,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get qiblaShadowNone =>
-      'الشمس مش هتيجي على خط القبلة هنا في الـ٨ أيام الجايين.';
+      'الشمس مش هتيجي على خط القبلة هنا في التمن أيام الجايين.';
 
   @override
   String planAthanTitle(String prayer) {

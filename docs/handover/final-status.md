@@ -1,4 +1,4 @@
-# Final status: S01–S28 (DESIGN.md §13) and S29–S31
+# Final status: S01–S28 (DESIGN.md §13) and S29–S32
 
 Every slice is on its own branch, `origin/slice/sNN-*`, and since 2026-10-29 **every slice is merged into `main`** (`0a7a496`); the owner approved each merge in the session. From S18 on there are no PRs, per the owner rule of 2026-10-22 recorded in the S17 hand-over. "Automated" means the part of the done-test that Linux can run passed in that slice's session, as recorded in its hand-over. Nothing device-, store- or cloud-side was simulated or claimed.
 
@@ -28,6 +28,7 @@ Every slice is on its own branch, `origin/slice/sNN-*`, and since 2026-10-29 **e
 | S29 | `slice/s29-screen-design` | — | Rawdah Garden screens, brand mark, Nabawi Night dark mode (D89); `melos run ci` green, contrast suite in both schemes; device look OWED |
 | S30 | `slice/s30-brand-rename` | — | Azen Fel Nas ids, hosts, scheme and copy (D90); `melos run ci`, Go tests and 168 schema fixtures green; native builds OWED |
 | S31 | `feat/qibla-sun-alignment`, `slice/s31-qibla-shadow-times` | — | sensor-free Qibla: engine `FindQiblaSunAlignments` (REQ-DOM-031) and the shadow times on the Qibla screen (D91); `melos run ci` green; on-device check OWED |
+| S32 | `slice/s32-android-build` | — | first Android compile (D92): compileSdk 37, debug-manifest fix; all Android CI steps green on Windows |
 
 ## OWED, grouped by owner action
 - **Physical devices:**
@@ -40,7 +41,7 @@ Every slice is on its own branch, `origin/slice/sNN-*`, and since 2026-10-29 **e
   - The S28 widgets on a launcher and home screen.
   - REQ-PERF-001 on a Galaxy A50.
   - The S29 screens, dark mode, launcher icon and splash, and the S31 compass and shadow times, on a real phone.
-- **Android build (blocked here by `dl.google.com`):** `./gradlew :athan-core:testDebugUnitTest :app:assembleDebug lint`. This is the first compile of the Glance UI (S28), the first run of the merged-manifest `AD_ID` CI step (S24) and the first build of the Kotlin sources moved to `app/azenfelnas` (S30).
+- **Android build:** done in S32 on Windows (D92): athan-core 84 unit tests, `flutter build apk --debug`, the merged-manifest `AD_ID` check, ktlint, detekt and lint all pass. A release build with the upload key is still owed.
 - **macOS / Xcode:**
   - Link AthanKit into Runner and wire `AppDelegate` (S22/S23).
   - Add the `PrayerTimesWidget` extension target (S28).

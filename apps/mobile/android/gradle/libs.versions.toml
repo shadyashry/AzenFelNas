@@ -10,7 +10,7 @@ detekt = "1.23.8"
 ktlint = "1.8.0"
 junit-jupiter = "6.1.3"
 robolectric = "4.17"
-compile-sdk = "36"
+compile-sdk = "37"
 target-sdk = "36"
 min-sdk = "26"
 

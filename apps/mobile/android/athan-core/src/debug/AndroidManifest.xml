@@ -8,7 +8,9 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application>
-        <!-- adb entry point: am start -n app.azenfelnas/app.azenfelnas.athan.spike.SpikeActivity --es cmd schedule ... -->
+        <!-- adb entry point: am start -n app.azenfelnas/app.azenfelnas.athan.spike.SpikeActivity with the
+             string extra cmd=schedule (adb's "es" option; ADR-025 has the full commands). XML comments
+             may not contain a double hyphen, so the option is spelled out here. -->
         <activity
             android:name="app.azenfelnas.athan.spike.SpikeActivity"
             android:exported="true"
