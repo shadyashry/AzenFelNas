@@ -63,6 +63,7 @@ Every slice is on its own branch, `origin/slice/sNN-*`, and since 2026-10-29 **e
   - The Ramadan window presentation (D88).
   - The ODbL publication of `tz_polygons` and the attribution review.
 - **Product, Content and Security:**
+  - Athan audio (D93): license the classic Egyptian sheikhs' recordings per `docs/release/athan-audio-licensing.md` (lawyer, National Media Authority, heirs, Sharia board); until then the alarm plays the device's alarm tone.
   - Review of the Arabic copy, including the S29 strings and the S31 shadow-time strings (Egyptian colloquial).
   - The travel prompt policy (D88).
   - The threat-model decisions: telemetry throttle, SBOM and the `note` field (S27).
