@@ -13,7 +13,7 @@
       "version": "2026.10.1",
       "schemaVersion": 1,
       "payload": "prayer_profiles/2026.10.1/profiles.json",
-      "sha256": "861f66efd702adaf84c084a1954305a8a67a2b7ff9cbdafd1195f68946739cf6"
+      "sha256": "d27cd6d4563b9c3489424aae69a19b084809e37f27672c1a6486e27de99dedcb"
     },
     {
       "type": "tzdata",
