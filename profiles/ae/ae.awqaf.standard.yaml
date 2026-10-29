@@ -1,8 +1,9 @@
 # ae.awqaf.standard: United Arab Emirates (DESIGN.md §6.5).
 # DRAFT_UNVERIFIED seed (Appendix E): illustrative until evidence and approvals exist; loads on dev/lab only.
 # Rule values are fitted to the published timetable of the General Authority of Islamic Affairs, Endowments and
-# Zakat (awqaf.gov.ae): 123 days of Abu Dhabi (Jan, Apr, Jul, Oct 2026), 92 % of the 738 times to the minute and
-# all within one minute (§15 D99). They reproduce the authority's table; the Sharia board still approves them.
+# Zakat (awqaf.gov.ae): 123 days of Abu Dhabi (Jan, Apr, Jul, Oct 2026), 93 % of the 738 times to the minute and
+# all within one minute, with entries rounded up and Maghrib never before the authority's (§15 D99). They
+# reproduce the authority's table; the Sharia board still approves them.
 profileId: ae.awqaf.standard
 schemaVersion: 1
 version: 2026.10.1
@@ -20,26 +21,26 @@ referenceMode: EXACT_COORDINATE
 referencePoints: []
 rules:
   imsak: null
-  fajr: { type: solarAltitude, degrees: 18.2 }   # fitted to the Awqaf table (§15 D99)
+  fajr: { type: solarAltitude, degrees: 18.1 }   # fitted to the Awqaf table (§15 D99)
   sunrise: { type: horizon }
   dhuhr: { type: transit }
   asr: { type: shadowFactor, k: 1 }              # engine.default value (§15 D50)
-  maghrib: { type: horizon }
+  maghrib: { type: horizon, refractionArcmin: 40 }   # fitted: never before the Awqaf Maghrib (§15 D99)
   isha: { type: solarAltitude, degrees: 18.2 }   # fitted to the Awqaf table (§15 D99)
 horizon:
   elevationPolicy: NONE
 highLatitude:
   chain: [anglePortion, { nearestLatitude: { latDeg: 48.5 } }]   # §6.5 illustration (§15 D50)
-rounding:                                        # fitted to the Awqaf table (§15 D99)
-  default: floor
-  fajr: nearest
-  maghrib: nearest
+rounding:                                        # entries never shown before they enter (§6.4, ADR-005)
+  default: ceil
+  sunrise: floor
 adjustments:
   perEventMinutes:                               # the authority's fixed minutes, fitted (§15 D99)
+    fajr: -1
     sunrise: -3
-    dhuhr: 3
-    asr: 1
-    maghrib: 3
+    dhuhr: 2
+    maghrib: 2
+    isha: -1
   maxAbsMinutes: 3
   ramadan: {}
 evidence:

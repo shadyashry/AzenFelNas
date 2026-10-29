@@ -117,6 +117,30 @@ func TestApprovedProfileNeedsBothApprovalsAndAHoldoutReport_REQ_GOV_001(t *testi
 	}
 }
 
+func TestNearestRoundingOfAnEntryNeedsARoundingApproval_AppendixA(t *testing.T) {
+	t.Parallel()
+	nearest := func(scope []any) profileset.Document {
+		v := base(t)
+		v["rounding"] = map[string]any{"default": "ceil", "sunrise": "nearest", "maghrib": "nearest"}
+		if scope != nil {
+			v["approvals"] = map[string]any{
+				"religious": map[string]any{"reviewer": "r", "qualification": "q", "date": "2026-10-01", "scope": scope},
+				"accuracy":  nil,
+			}
+		}
+		return doc(t, "engine/engine.default.yaml", v)
+	}
+	if _, err := profileset.Compile([]profileset.Document{nearest(nil)}, profileset.ChannelDev); !errors.Is(err, profileset.ErrInvalid) {
+		t.Fatalf("nearest Maghrib without approval: err = %v, want ErrInvalid", err)
+	}
+	if _, err := profileset.Compile([]profileset.Document{nearest([]any{"rules"})}, profileset.ChannelDev); !errors.Is(err, profileset.ErrInvalid) {
+		t.Fatalf("nearest Maghrib approved for rules only: err = %v, want ErrInvalid", err)
+	}
+	if _, err := profileset.Compile([]profileset.Document{nearest([]any{"rules", "rounding"})}, profileset.ChannelDev); err != nil {
+		t.Fatalf("nearest Maghrib with a rounding approval: %v", err)
+	}
+}
+
 func TestCompileListsEveryProblem(t *testing.T) {
 	t.Parallel()
 	unknownKey := base(t)

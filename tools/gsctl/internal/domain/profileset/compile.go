@@ -183,8 +183,9 @@ func checkDocument(doc Document, channel Channel) (profile.PrayerProfile, []stri
 }
 
 // governance applies the signing gates: APPROVED needs both approvals and a
-// holdout report (Appendix A, REQ-GOV-001), and beta/production refuse
-// DRAFT_UNVERIFIED and CANDIDATE (Appendix E).
+// holdout report (Appendix A, REQ-GOV-001), beta/production refuse
+// DRAFT_UNVERIFIED and CANDIDATE (Appendix E), and nearest rounding of an
+// entry needs a rounding approval (Appendix A).
 func governance(p profile.PrayerProfile, channel Channel) []string {
 	var msgs []string
 	switch p.Status {
@@ -198,7 +199,27 @@ func governance(p profile.PrayerProfile, channel Channel) []string {
 		}
 	case profile.StatusRetired:
 	}
+	if nearestOnEntry(p) && !religiousScopeHas(p, "rounding") {
+		msgs = append(msgs, `nearest rounding of an entry event needs "rounding" in approvals.religious.scope`)
+	}
 	return msgs
+}
+
+// nearestOnEntry reports nearest rounding on any event but Sunrise (the
+// default included): it can show an entry before it has entered, so it
+// needs a religious approval of rounding (§6.4, Appendix A, ADR-005). The
+// app's ParsePrayerProfile applies the same rule (§15 D99).
+func nearestOnEntry(p profile.PrayerProfile) bool {
+	for event, mode := range p.Rounding {
+		if mode == profile.RoundingNearest && event != "sunrise" {
+			return true
+		}
+	}
+	return false
+}
+
+func religiousScopeHas(p profile.PrayerProfile, item string) bool {
+	return p.Approvals.Religious != nil && slices.Contains(p.Approvals.Religious.Scope, item)
 }
 
 // expectedPath is profiles/<iso2|engine>/<profileId>.yaml (profiles/README.md).
