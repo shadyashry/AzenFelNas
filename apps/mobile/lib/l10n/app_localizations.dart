@@ -476,7 +476,7 @@ abstract class AppLocalizations {
   /// **'Available offline'**
   String get homeQuranOffline;
 
-  /// Home: Continue Quran names the surah by its number in English (no transliterated names are bundled).
+  /// Home: Continue Quran names a surah by its number only if it has no English name (a guard; all 114 have one).
   ///
   /// In en, this message translates to:
   /// **'Surah {number}'**
@@ -1739,7 +1739,7 @@ abstract class AppLocalizations {
   /// Juz metadata attribution.
   ///
   /// In en, this message translates to:
-  /// **'Juz boundaries: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex\'s text.'**
+  /// **'Juz boundaries and the check of the English surah names: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex\'s text.'**
   String get quranJuzAttribution;
 
   /// Current Mushaf page.

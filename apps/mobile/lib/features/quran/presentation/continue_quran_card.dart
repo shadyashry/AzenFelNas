@@ -1,6 +1,7 @@
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
+import 'package:daily_muslim/features/quran/domain/surah_names.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_format.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
@@ -13,8 +14,8 @@ import 'package:go_router/go_router.dart';
 /// Home's "Continue Quran" (§15 D108, D109): the surah and page the reader
 /// was last left on, with a gold resume action that opens the reader there
 /// (it restores its last page). Arabic names the surah as its Mushaf header
-/// does, without the word «سورة» and with every mark kept; English names
-/// it by number (no transliterated names are bundled). Shown only when
+/// does, without the word «سورة» and with every mark kept; English by its
+/// English name (`SurahNames`, §15 D110). Shown only when
 /// there is a saved page and the downloaded Quran is readable; "Available
 /// offline" only when the package checked complete (`QuranReady`). Nothing
 /// of the Mushaf page itself is drawn here.
@@ -41,9 +42,9 @@ final class ContinueQuranCard extends ConsumerWidget {
     final surah = switch ((sura, style.locale)) {
       (null, _) => null,
       (final SuraEntry s, StatusLocale.ar) => _nameOf(s.header),
-      (final SuraEntry s, StatusLocale.en) => l.homeSurahNumber(
-        QuranFormat.number(s.number, style),
-      ),
+      (final SuraEntry s, StatusLocale.en) =>
+        SurahNames.englishOf(s.number) ??
+            l.homeSurahNumber(QuranFormat.number(s.number, style)),
     };
     final title = [?surah, l.quranPage(QuranFormat.number(page, style))];
     final offline = status is QuranReady;

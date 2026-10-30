@@ -266,7 +266,7 @@
   },
   "homeSurahNumber": "Surah {number}",
   "@homeSurahNumber": {
-    "description": "Home: Continue Quran names the surah by its number in English (no transliterated names are bundled).",
+    "description": "Home: Continue Quran names a surah by its number only if it has no English name (a guard; all 114 have one).",
     "placeholders": {
       "number": {
         "type": "String",
@@ -1411,7 +1411,7 @@
   "@quranAttribution": {
     "description": "Quran source attribution; no endorsement claim."
   },
-  "quranJuzAttribution": "Juz boundaries: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex's text.",
+  "quranJuzAttribution": "Juz boundaries and the check of the English surah names: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex's text.",
   "@quranJuzAttribution": {
     "description": "Juz metadata attribution."
   },

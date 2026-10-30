@@ -996,7 +996,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranJuzAttribution =>
-      'Juz boundaries: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex\'s text.';
+      'Juz boundaries and the check of the English surah names: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex\'s text.';
 
   @override
   String quranPage(String page) {

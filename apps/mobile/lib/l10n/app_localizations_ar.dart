@@ -987,7 +987,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranJuzAttribution =>
-      'بدايات الأجزاء: بيانات Tanzil.net (CC BY 3.0)، متراجعة على نص المجمع.';
+      'بدايات الأجزاء ومراجعة أسماء السور بالإنجليزية: بيانات Tanzil.net (CC BY 3.0)، متراجعة على نص المجمع.';
 
   @override
   String quranPage(String page) {

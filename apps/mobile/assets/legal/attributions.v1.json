@@ -41,7 +41,7 @@
       "package": "quran",
       "name": "Tanzil.net Quran metadata",
       "licence": "CC-BY-3.0",
-      "notice": "Juz boundaries from the Tanzil Quran metadata (tanzil.net), CC BY 3.0, checked against the Complex's text."
+      "notice": "Juz boundaries from the Tanzil Quran metadata (tanzil.net), CC BY 3.0, checked against the Complex's text; the English surah names were checked against its transliterated names."
     }
   ]
 }

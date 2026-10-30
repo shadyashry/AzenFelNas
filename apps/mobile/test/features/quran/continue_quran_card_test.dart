@@ -77,7 +77,7 @@ void main() {
         'says Available offline only for a checked package', (tester) async {
       await _pump(tester, status: const QuranReady(_installed), page: 300);
       expect(find.text('Continue Quran'), findsOneWidget);
-      expect(find.text('Surah 18 · Page 300'), findsOneWidget);
+      expect(find.text('Al-Kahf · Page 300'), findsOneWidget);
       expect(find.text('Available offline'), findsOneWidget);
       expect(find.text('Resume'), findsOneWidget);
     });
@@ -89,7 +89,7 @@ void main() {
         status: const QuranInstalling(current: _installed),
         page: 293,
       );
-      expect(find.text('Surah 18 · Page 293'), findsOneWidget);
+      expect(find.text('Al-Kahf · Page 293'), findsOneWidget);
       expect(find.text('Available offline'), findsNothing);
     });
 
