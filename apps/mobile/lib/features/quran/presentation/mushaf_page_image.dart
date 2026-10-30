@@ -64,7 +64,6 @@ final class MushafPageImage extends StatelessWidget {
           image: ResizeImage(FileImage(File(path)), width: width),
           fit: BoxFit.fill,
           gaplessPlayback: true,
-          filterQuality: FilterQuality.medium,
           excludeFromSemantics: true,
           errorBuilder: (context, error, stack) => ColoredBox(
             color: Theme.of(context).colorScheme.surface,

@@ -1,4 +1,4 @@
-import 'package:dm_contracts/dm_contracts.dart';
+import 'package:daily_muslim/features/quran/domain/quran_manifest.dart';
 import 'package:meta/meta.dart';
 
 /// A download in progress: its directory, its pinned manifest, the files
@@ -17,7 +17,7 @@ final class StagedQuran {
   final String directory;
 
   /// The pinned manifest.
-  final QuranPackageManifest manifest;
+  final QuranManifest manifest;
 
   /// Paths whose size and SHA-256 were checked.
   final Set<String> verified;

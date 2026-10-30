@@ -119,7 +119,8 @@ final class _Highlights extends ConsumerWidget {
           ),
           title: Text(highlightPages(l, h, style)),
           subtitle: Text(
-            '${_suraOf(suras, h.firstPage)} · ${highlightColorName(l, h.color)}',
+            '${_suraOf(suras, h.firstPage)} · '
+            '${highlightColorName(l, h.color)}',
             style: TextStyle(fontFamily: font ? QuranFont.family : null),
           ),
           trailing: IconButton(

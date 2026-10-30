@@ -275,6 +275,7 @@ final class DrawBar extends ConsumerWidget {
     final controller = ref.read(readerProvider.notifier);
     if (draft == null) return const SizedBox.shrink();
     final count = draft.regions.length;
+    final boxes = QuranFormat.number(count, style);
     return Material(
       color: Theme.of(context).colorScheme.surface,
       child: Padding(
@@ -315,7 +316,8 @@ final class DrawBar extends ConsumerWidget {
                   FilledButton(
                     onPressed: count == 0 ? null : controller.saveDraft,
                     child: Text(
-                      '${l.quranHighlightSave} · ${l.quranHighlightBoxes(QuranFormat.number(count, style))}',
+                      '${l.quranHighlightSave} · '
+                      '${l.quranHighlightBoxes(count, boxes)}',
                     ),
                   ),
                   const Spacer(),

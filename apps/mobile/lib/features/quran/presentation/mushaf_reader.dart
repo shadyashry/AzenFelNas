@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:daily_muslim/features/quran/domain/highlight.dart';
@@ -54,10 +55,9 @@ final class _MushafReaderState extends ConsumerState<MushafReader> {
           Expanded(
             child: _Surface(installed: widget.installed, viewport: _viewport),
           ),
-          if (chrome)
-            state.draft == null
-                ? ReaderBottomBar(viewport: _viewport)
-                : DrawBar(viewport: _viewport),
+          if (chrome && state.draft == null)
+            ReaderBottomBar(viewport: _viewport),
+          if (chrome && state.draft != null) DrawBar(viewport: _viewport),
         ],
       ),
     );
@@ -80,7 +80,7 @@ final class _Surface extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final state = ref.watch(readerProvider);
     final controller = ref.read(readerProvider.notifier);
-    final layout = QuranEditionPin.layout;
+    const layout = QuranEditionPin.layout;
     final image = installed.manifest.pageImage;
     final aspect = image.width / image.height;
     final regions = _regionsByPage(
@@ -141,7 +141,7 @@ final class _Surface extends ConsumerWidget {
                 ? _highlightAt(ref.read(highlightsProvider).value, page, p)
                 : null;
             if (tapped != null) {
-              showHighlightSheet(context, tapped);
+              unawaited(showHighlightSheet(context, tapped));
             } else if (state.draft == null) {
               controller.toggleChrome();
             }
@@ -153,12 +153,13 @@ final class _Surface extends ConsumerWidget {
 
   /// Page and page-relative point of [point] on [item].
   static (int, Offset) _pageAt(bool spreads, int item, Offset point) {
-    final layout = QuranEditionPin.layout;
+    const layout = QuranEditionPin.layout;
     if (!spreads) return (item + 1, point);
     final pages = layout.pagesOf(item);
     // The right half is the right (odd) page.
-    if (point.dx >= 0.5)
+    if (point.dx >= 0.5) {
       return (pages.right, Offset((point.dx - 0.5) * 2, point.dy));
+    }
     return (pages.left ?? pages.right, Offset(point.dx * 2, point.dy));
   }
 
@@ -222,10 +223,12 @@ final class _Surface extends ConsumerWidget {
       if (!context.mounted) return;
       for (final n in [page + 1, page - 1, page + 2]) {
         if (n < 1 || n > pageCount) continue;
-        precacheImage(
-          ResizeImage(FileImage(File(installed.pagePath(n))), width: width),
-          context,
-          onError: (_, _) {},
+        unawaited(
+          precacheImage(
+            ResizeImage(FileImage(File(installed.pagePath(n))), width: width),
+            context,
+            onError: (_, _) {},
+          ),
         );
       }
     });

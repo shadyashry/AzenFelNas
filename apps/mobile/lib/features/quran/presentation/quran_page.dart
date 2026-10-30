@@ -20,18 +20,20 @@ final class QuranPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final status = ref.watch(quranPackageProvider);
-    final chrome = switch (status) {
-      QuranReady() => ref.watch(readerProvider.select((s) => s.chromeVisible)),
-      _ => true,
-    };
+    // During an update the installed package stays readable.
+    final readable = readablePackage(status);
+    final chrome =
+        readable == null ||
+        ref.watch(readerProvider.select((s) => s.chromeVisible));
     return Scaffold(
-      appBar: status is QuranReady
+      appBar: readable != null
           ? null
           : AppBar(title: Text(l.quranTitle), automaticallyImplyLeading: false),
       bottomNavigationBar: chrome
           ? const AppTabBar(current: RawdahTab.quran)
           : null,
       body: switch (status) {
+        _ when readable != null => MushafReader(installed: readable),
         QuranReady(:final installed) => MushafReader(installed: installed),
         QuranChecking() => _Waiting(label: l.quranChecking),
         QuranNotInstalled() ||

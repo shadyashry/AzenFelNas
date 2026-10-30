@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// The app's navigation bar (§7.2, §15 D89, D106) on the five destinations:
-/// Home, Quran, Qibla, Athan and Settings, each a top-level location. The active
-/// tab takes the hour light and the Qibla needle the place's real bearing.
+/// The app's navigation bar (§7.2, §15 D89, D106) on the five
+/// destinations: Home, Quran, Qibla, Athan and Settings, each a top-level
+/// location. The active tab takes the hour light and the Qibla needle the
+/// place's real bearing.
 final class AppTabBar extends ConsumerWidget {
   /// The bar with [current] selected.
   const new({required this.current, super.key});

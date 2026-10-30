@@ -941,7 +941,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranFailIntegrity =>
-      'A file did not match the official copy and was discarded. Try again.';
+      'A file failed its integrity check and was discarded. Try again.';
 
   @override
   String get quranFailStorage =>
@@ -959,8 +959,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quranDamagedTitle => 'Some Quran files are missing or damaged';
 
   @override
-  String quranDamagedBody(String count) {
-    return '$count files need to be downloaded again. Reading is paused until they are repaired.';
+  String quranDamagedBody(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$shown files need to be downloaded again.',
+      one: 'One file needs to be downloaded again.',
+    );
+    return '$_temp0 Reading is paused until they are repaired.';
   }
 
   @override
@@ -975,7 +981,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranAttribution =>
-      'Mushaf pages and text: King Fahd Glorious Quran Printing Complex, Madinah Mushaf (Hafs), digital edition 1441, used under the Complex\'s published usage terms. The app is not endorsed or certified by the Complex.';
+      'Mushaf pages and text: King Fahd Glorious Quran Printing Complex, Madinah Mushaf (Hafs), digital edition 1441, used under the Complex\'s published usage terms. The app is not published or endorsed by the Complex.';
 
   @override
   String get quranJuzAttribution =>
@@ -1073,8 +1079,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quranSearchEmpty => 'No verse matches.';
 
   @override
-  String quranSearchCount(String count) {
-    return '$count verses';
+  String quranSearchCount(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$shown verses',
+      one: 'One verse',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1127,8 +1139,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quranHighlightCancel => 'Cancel';
 
   @override
-  String quranHighlightBoxes(String count) {
-    return '$count boxes';
+  String quranHighlightBoxes(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$shown boxes',
+      one: 'one box',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1182,8 +1200,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String quranVerified(String count) {
-    return 'All $count files match the official copy.';
+  String quranVerified(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'All $shown files passed the integrity check.',
+      one: 'The file passed the integrity check.',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1224,4 +1248,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranShowControls => 'Show controls';
+
+  @override
+  String get quranUpdate => 'Download update';
+
+  @override
+  String get quranUpdateBody =>
+      'A newer copy of the Quran package is available. The one on this device stays readable until the new one is downloaded and checked.';
 }

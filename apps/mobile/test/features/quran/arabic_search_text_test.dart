@@ -1,0 +1,43 @@
+import 'package:daily_muslim/features/quran/domain/arabic_search_text.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  String fold(String s) => ArabicSearchText.normalize(s);
+
+  test('REQ-QRN-040: the Uthmani and the everyday spelling fold alike', () {
+    expect(fold('ٱلصَّلَوٰةَ'), fold('الصلاة'));
+    expect(fold('ٱلۡكِتَٰبُ'), fold('الكتاب'));
+    expect(fold('ٱلرَّحۡمَٰنِ'), fold('الرحمن'));
+    expect(fold('يَٰٓأَيُّهَا'), fold('يا أيها'));
+    expect(fold('ءَامَنُواْ'), fold('آمنوا'));
+    expect(fold('ٱلنَّبِيِّـۧنَ'), fold('النبيين'));
+  });
+
+  test('REQ-QRN-040: diacritics, Quranic marks and verse numbers are '
+      'ignored', () {
+    expect(fold('بِسۡمِ ٱللَّهِ'), fold('بسم الله'));
+    expect(fold('۞ وَٱلۡمُحۡصَنَٰتُ'), fold('والمحصنات'));
+    expect(fold('عَلِيمًا ۝٢٤'), fold('عليما'));
+    expect(fold('   '), isEmpty);
+  });
+
+  test('REQ-QRN-040: the match maps back onto the published text', () {
+    const text = 'ٱلۡحَمۡدُ لِلَّهِ رَبِّ ٱلۡعَٰلَمِينَ';
+    final folded = ArabicSearchText.fold(text);
+    final query = fold('رب');
+    final at = folded.text.indexOf(query);
+
+    final range = folded.sourceRange(text, at, at + query.length);
+
+    expect(text.substring(range.start, range.end), 'رَبِّ');
+  });
+
+  test('REQ-QRN-040: folding never changes the text it was given', () {
+    const text = 'ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ';
+    final copy = String.fromCharCodes(text.codeUnits);
+
+    ArabicSearchText.fold(text);
+
+    expect(text, copy);
+  });
+}

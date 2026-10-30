@@ -1,16 +1,14 @@
-import 'dart:convert';
-
-import 'package:crypto/crypto.dart';
 import 'package:daily_muslim/features/quran/domain/build_search_index.dart';
 import 'package:daily_muslim/features/quran/domain/download_cancel.dart';
 import 'package:daily_muslim/features/quran/domain/download_progress.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
+import 'package:daily_muslim/features/quran/domain/quran_manifest.dart';
+import 'package:daily_muslim/features/quran/domain/quran_manifest_file.dart';
 import 'package:daily_muslim/features/quran/domain/quran_origin.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_disk.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
 import 'package:daily_muslim/features/quran/domain/staged_quran.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
 /// Downloads, verifies and installs the pinned Quran package (§15 D106,
@@ -29,18 +27,26 @@ import 'package:dm_core_types/dm_core_types.dart';
 /// Until that rename an existing package stays active and readable, and a
 /// failure at any step keeps what was verified for the next attempt.
 final class DownloadQuranPackage {
-  /// The use case over its ports.
+  /// The use case over its ports. `accept` decides whether downloaded
+  /// manifest bytes are the pinned manifest (`QuranManifestCodec.acceptPinned`
+  /// in the app);
+  /// `extraBytes` is the free space needed beyond the files (the search
+  /// index and a margin).
   const new({
     required this._disk,
     required this._origin,
     required this._freeSpace,
     required this._buildIndex,
+    required this._accept,
+    this._extraBytes = QuranEditionPin.searchIndexBytes + safetyMarginBytes,
   });
 
   final QuranPackageDisk _disk;
   final QuranOrigin _origin;
   final ReadFreeSpace _freeSpace;
   final BuildSearchIndex _buildIndex;
+  final QuranManifest? Function(List<int> bytes) _accept;
+  final int _extraBytes;
 
   /// Space kept free beyond the package and its index.
   static const int safetyMarginBytes = 16 * 1024 * 1024;
@@ -48,49 +54,56 @@ final class DownloadQuranPackage {
   /// The statuses of one attempt; the last is [QuranReady], [QuranPaused]
   /// (resumable) or [QuranNotInstalled].
   Stream<QuranPackageStatus> call(DownloadCancel cancel) async* {
+    // An installed package stays readable during an update.
+    final current = await _disk.active();
     var staged = await _disk.staging();
     if (staged == null) {
-      yield const QuranDownloading(
-        DownloadProgress(
+      yield QuranDownloading(
+        const DownloadProgress(
           doneBytes: 0,
           totalBytes: QuranEditionPin.downloadBytes,
           doneFiles: 0,
           totalFiles: 0,
         ),
+        current: current,
       );
       switch (await _startStaging()) {
         case Err(:final failure):
-          yield QuranNotInstalled(failure: failure);
+          yield current == null
+              ? QuranNotInstalled(failure: failure)
+              : QuranReady(current, updateAvailable: true);
           return;
         case Ok(:final value):
           staged = value;
       }
     }
     final progress = _Progress(staged);
+    QuranPaused paused(QuranFailure failure) =>
+        QuranPaused(progress.snapshot, failure: failure, current: current);
     if (await _checkSpace(staged) case final QuranFailure failure) {
-      yield QuranPaused(progress.snapshot, failure: failure);
+      yield paused(failure);
       return;
     }
-    yield QuranDownloading(progress.snapshot);
+    yield QuranDownloading(progress.snapshot, current: current);
     for (final file in staged.manifest.files) {
       if (staged.verified.contains(file.path)) continue;
       final failure = await _fetchFile(staged, file, progress, cancel);
       if (failure != null) {
-        yield QuranPaused(progress.snapshot, failure: failure);
+        yield paused(failure);
         return;
       }
-      yield QuranDownloading(progress.snapshot);
+      yield QuranDownloading(progress.snapshot, current: current);
     }
-    yield const QuranInstalling();
+    yield QuranInstalling(current: current);
     if (await _buildIndex(staged.directory) case Err(:final failure)) {
-      yield QuranPaused(progress.snapshot, failure: failure);
+      yield paused(failure);
       return;
     }
     switch (await _disk.activate(staged)) {
       case Ok(:final value):
         yield QuranReady(value);
       case Err(:final failure):
-        yield QuranPaused(progress.snapshot, failure: failure);
+        yield paused(failure);
     }
   }
 
@@ -102,60 +115,16 @@ final class DownloadQuranPackage {
       case Err(:final failure):
         return Result.err(failure);
       case Ok(value: final bytes):
-        final manifest = acceptManifest(bytes);
+        final manifest = _accept(bytes);
         if (manifest == null) {
           return const Result.err(QuranIntegrityFailed('manifest.json'));
         }
-        return _disk.startStaging(bytes, manifest);
+        return await _disk.startStaging(bytes, manifest);
     }
   }
-
-  /// [bytes] decoded when they are the pinned manifest of the pinned
-  /// package: every page present once and every path inside the package.
-  static QuranPackageManifest? acceptManifest(List<int> bytes) {
-    if (bytes.length != QuranEditionPin.manifestBytes ||
-        sha256.convert(bytes).toString() != QuranEditionPin.manifestSha256) {
-      return null;
-    }
-    final QuranPackageManifest manifest;
-    try {
-      manifest = switch (jsonDecode(utf8.decode(bytes))) {
-        final Map<String, Object?> json => QuranPackageManifest.fromJson(json),
-        _ => throw const FormatException('not an object'),
-      };
-    } on FormatException {
-      return null;
-    }
-    final paths = manifest.files.map((f) => f.path).toSet();
-    final pages = QuranEditionPin.layout.pageCount;
-    final ok =
-        manifest.packageId == QuranEditionPin.packageId &&
-        manifest.version == QuranEditionPin.version &&
-        manifest.layoutId == QuranEditionPin.layoutId &&
-        manifest.edition.pageCount == pages &&
-        paths.length == manifest.files.length &&
-        paths.every(_safePath.hasMatch) &&
-        paths.contains('quran.sqlite') &&
-        [
-          for (var p = 1; p <= pages; p++)
-            manifest.pageImage.pathPattern.replaceFirst(
-              '{page:03}',
-              p.toString().padLeft(3, '0'),
-            ),
-        ].every(paths.contains);
-    return ok ? manifest : null;
-  }
-
-  static final _safePath = RegExp(
-    r'^[a-z0-9][a-z0-9_.-]*(/[a-z0-9_-][a-z0-9_.-]*)*$',
-  );
 
   Future<QuranFailure?> _checkSpace(StagedQuran staged) async {
-    final needed =
-        staged.totalBytes -
-        staged.doneBytes +
-        QuranEditionPin.searchIndexBytes +
-        safetyMarginBytes;
+    final needed = staged.totalBytes - staged.doneBytes + _extraBytes;
     final available = await _freeSpace(staged.directory);
     if (available != null && available < needed) {
       return QuranNoSpace(neededBytes: needed, availableBytes: available);
@@ -165,7 +134,7 @@ final class DownloadQuranPackage {
 
   Future<QuranFailure?> _fetchFile(
     StagedQuran staged,
-    QuranPackageFile file,
+    QuranManifestFile file,
     _Progress progress,
     DownloadCancel cancel,
   ) async {
@@ -184,7 +153,7 @@ final class DownloadQuranPackage {
         case Ok():
           progress.fileDone(file);
           return null;
-        case Err(failure: final QuranIntegrityFailed failure):
+        case Err(:final QuranIntegrityFailed failure):
           progress.fileDiscarded(file);
           if (attempt == 1) return failure;
         case Err(:final failure):
@@ -212,13 +181,13 @@ final class _Progress {
 
   void add(int bytes) => _bytes += bytes;
 
-  void fileDone(QuranPackageFile file) {
+  void fileDone(QuranManifestFile file) {
     _files++;
     _partial.remove(file.path);
   }
 
   /// A file failed its check: its bytes no longer count.
-  void fileDiscarded(QuranPackageFile file) {
+  void fileDiscarded(QuranManifestFile file) {
     _bytes -= file.bytes;
     _partial.remove(file.path);
   }

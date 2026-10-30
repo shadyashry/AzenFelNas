@@ -24,18 +24,17 @@ final class MushafViewportController extends ChangeNotifier {
   /// The controller.
   new();
 
-  void Function(ViewportCommand command)? _handler;
   double _scale = 1;
 
   /// The viewport's current zoom (1 = fit).
   double get scale => _scale;
 
   /// Sends [command]; ignored when no viewport is mounted.
-  void send(ViewportCommand command) => _handler?.call(command);
+  void send(ViewportCommand command) => handler?.call(command);
 
-  /// Called by the viewport when it mounts or unmounts.
-  void attach(void Function(ViewportCommand command)? handler) =>
-      _handler = handler;
+  /// The mounted viewport's command handler: set when it mounts, cleared
+  /// when it unmounts.
+  void Function(ViewportCommand command)? handler;
 
   /// Called by the viewport when its zoom changes.
   void reportScale(double scale) {

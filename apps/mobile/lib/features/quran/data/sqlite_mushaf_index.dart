@@ -22,13 +22,13 @@ final class SqliteMushafIndex implements ReadMushafIndex {
     final open = _db;
     if (open != null) return Result.ok(open);
     try {
-      final db = sqlite3.open(
-        '$directory/quran.sqlite',
-        mode: OpenMode.readOnly,
-      );
-      db.execute('ATTACH DATABASE ? AS s', [
-        '$directory/${SqliteSearchIndex.fileName}',
-      ]);
+      final db =
+          sqlite3.open(
+            '$directory/quran.sqlite',
+            mode: OpenMode.readOnly,
+          )..execute('ATTACH DATABASE ? AS s', [
+            '$directory/${SqliteSearchIndex.fileName}',
+          ]);
       _db = db;
       return Result.ok(db);
     } on SqliteException {

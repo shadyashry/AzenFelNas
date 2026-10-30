@@ -24,6 +24,16 @@ Placeholder created in slice S01. This file is **generated per release** (`DESIG
 | JPL DE440s planetary ephemeris (`de440s.bsp`) | U.S. Government work (JPL/NASA) | fetched by URL with a sha256 pin; not redistributed (`DESIGN.md` §15 D28) |
 | MET Norway Sunrise API 3.0 values in `lab/tests/data/published_sun_events_2026.json` | NLOD 2.0 / CC BY 4.0 | attribution: "MET Norway" (`DESIGN.md` §15 D31) |
 
+## Offline Quran package (downloaded after install, not bundled; DESIGN.md §15 D106)
+
+| Source | Licence | Obligation |
+|---|---|---|
+| Madinah Mushaf, riwayat Hafs, digital edition 1441, King Fahd Glorious Quran Printing Complex (`dm.qurancomplex.gov.sa/Download/1441-AI-hafs.zip`, sha256 `280c5d71…2d9eef`, as published by the Complex); rendered unchanged to lossless WebP | KFGQPC usage rights (`dm.qurancomplex.gov.sa/rights/`): free use in software inside and outside Saudi Arabia | attribute the Complex; never imply endorsement; written confirmation for redistribution from our CDN is **owed** (Legal) |
+| KFGQPC Hafs Uthmanic script v3.0 (`fonts.qurancomplex.gov.sa/fonts/KFGQPC-Hafs-V30.zip`): the font file and the text of its Word file (verses, page and line breaks) | font EULA in the font's name table: use, copy, distribute; no modification, no sale | ship the font byte for byte; confirmation that the text may feed a search index is **owed** (Legal) |
+| Tanzil.net Quran metadata (`quran-data.xml`), juz starts only | CC BY 3.0 | attribution |
+
+Build tools only (not shipped): pypdfium2 5.14.0 (Apache-2.0 / BSD-3-Clause; PDFium BSD-3-Clause) and Pillow 13.0.0 (MIT-CMU) in `data-pipelines`.
+
 ## Fonts (bundled in `packages/dm_ui/fonts`, §7.9, §15 D89)
 
 Amiri, IBM Plex Sans Arabic, Inter — SIL Open Font License 1.1; each licence sits beside its font files (`OFL-*.txt`).

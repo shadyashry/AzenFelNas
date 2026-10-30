@@ -88,6 +88,11 @@ void main() {
       expect(find.text('GeoNames'), findsOneWidget);
       expect(find.textContaining('CC BY 4.0'), findsWidgets);
       expect(find.text('timezone-boundary-builder'), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('Open-source licences'), 200);
+      expect(
+        find.textContaining('King Fahd Glorious Quran Printing Complex'),
+        findsWidgets,
+      );
       expect(find.text('Open-source licences'), findsOneWidget);
     },
   );

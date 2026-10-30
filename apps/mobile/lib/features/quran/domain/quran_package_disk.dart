@@ -1,7 +1,8 @@
 import 'package:daily_muslim/features/quran/domain/installed_quran.dart';
 import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
+import 'package:daily_muslim/features/quran/domain/quran_manifest.dart';
+import 'package:daily_muslim/features/quran/domain/quran_manifest_file.dart';
 import 'package:daily_muslim/features/quran/domain/staged_quran.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
 /// The Quran package on this device's persistent app storage (§15 D106):
@@ -31,7 +32,7 @@ abstract interface class QuranPackageDisk {
   /// against the pin) and its decoded [manifest]; replaces an older one.
   Future<Result<StagedQuran, QuranFailure>> startStaging(
     List<int> manifestBytes,
-    QuranPackageManifest manifest,
+    QuranManifest manifest,
   );
 
   /// Path of the partial download of package file [path] in [directory].
@@ -42,7 +43,7 @@ abstract interface class QuranPackageDisk {
   /// otherwise deletes it and fails with [QuranIntegrityFailed].
   Future<Result<void, QuranFailure>> commitFile(
     String directory,
-    QuranPackageFile file,
+    QuranManifestFile file,
   );
 
   /// Deletes [path] and its partial download from [directory], so a repair

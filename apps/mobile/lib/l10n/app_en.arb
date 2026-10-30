@@ -1344,7 +1344,7 @@
   "@quranFailSpaceFull": {
     "description": "Quran download failure: disk full while writing."
   },
-  "quranFailIntegrity": "A file did not match the official copy and was discarded. Try again.",
+  "quranFailIntegrity": "A file failed its integrity check and was discarded. Try again.",
   "@quranFailIntegrity": {
     "description": "Quran download failure: hash mismatch."
   },
@@ -1364,11 +1364,14 @@
   "@quranDamagedTitle": {
     "description": "Quran package damaged: title."
   },
-  "quranDamagedBody": "{count} files need to be downloaded again. Reading is paused until they are repaired.",
+  "quranDamagedBody": "{count, plural, =1{One file needs to be downloaded again.} other{{shown} files need to be downloaded again.}} Reading is paused until they are repaired.",
   "@quranDamagedBody": {
     "description": "Quran package damaged: body.",
     "placeholders": {
       "count": {
+        "type": "int"
+      },
+      "shown": {
         "type": "String",
         "example": "3"
       }
@@ -1386,7 +1389,7 @@
   "@quranUninstallNote": {
     "description": "What removes the offline Quran."
   },
-  "quranAttribution": "Mushaf pages and text: King Fahd Glorious Quran Printing Complex, Madinah Mushaf (Hafs), digital edition 1441, used under the Complex's published usage terms. The app is not endorsed or certified by the Complex.",
+  "quranAttribution": "Mushaf pages and text: King Fahd Glorious Quran Printing Complex, Madinah Mushaf (Hafs), digital edition 1441, used under the Complex's published usage terms. The app is not published or endorsed by the Complex.",
   "@quranAttribution": {
     "description": "Quran source attribution; no endorsement claim."
   },
@@ -1542,13 +1545,16 @@
   "@quranSearchEmpty": {
     "description": "Search: no results."
   },
-  "quranSearchCount": "{count} verses",
+  "quranSearchCount": "{count, plural, =1{One verse} other{{shown} verses}}",
   "@quranSearchCount": {
     "description": "Search: number of matching verses.",
     "placeholders": {
       "count": {
+        "type": "int"
+      },
+      "shown": {
         "type": "String",
-        "example": "12"
+        "example": "3"
       }
     }
   },
@@ -1628,13 +1634,16 @@
   "@quranHighlightCancel": {
     "description": "Button: leave drawing mode without saving."
   },
-  "quranHighlightBoxes": "{count} boxes",
+  "quranHighlightBoxes": "{count, plural, =1{one box} other{{shown} boxes}}",
   "@quranHighlightBoxes": {
     "description": "Number of boxes in the highlight being drawn.",
     "placeholders": {
       "count": {
+        "type": "int"
+      },
+      "shown": {
         "type": "String",
-        "example": "2"
+        "example": "3"
       }
     }
   },
@@ -1730,13 +1739,16 @@
       }
     }
   },
-  "quranVerified": "All {count} files match the official copy.",
+  "quranVerified": "{count, plural, =1{The file passed the integrity check.} other{All {shown} files passed the integrity check.}}",
   "@quranVerified": {
     "description": "Verification passed.",
     "placeholders": {
       "count": {
+        "type": "int"
+      },
+      "shown": {
         "type": "String",
-        "example": "606"
+        "example": "3"
       }
     }
   },
@@ -1795,5 +1807,13 @@
   "quranShowControls": "Show controls",
   "@quranShowControls": {
     "description": "Button shown while controls are hidden."
+  },
+  "quranUpdate": "Download update",
+  "quranUpdateBody": "A newer copy of the Quran package is available. The one on this device stays readable until the new one is downloaded and checked.",
+  "@quranUpdate": {
+    "description": "Button: download a newer Quran package."
+  },
+  "@quranUpdateBody": {
+    "description": "A newer Quran package is pinned by this build."
   }
 }

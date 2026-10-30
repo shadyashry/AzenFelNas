@@ -28,7 +28,7 @@ final class QuranSearchPage extends ConsumerWidget {
         title: TextField(
           autofocus: true,
           textInputAction: TextInputAction.search,
-          onChanged: ref.read(_queryProvider.notifier).set,
+          onChanged: (v) => ref.read(_queryProvider.notifier).value = v,
           decoration: InputDecoration(
             hintText: l.quranSearchHint,
             border: InputBorder.none,
@@ -52,7 +52,9 @@ final class _Query extends Notifier<String> {
   @override
   String build() => '';
 
-  void set(String value) => state = value;
+  String get value => state;
+
+  set value(String value) => state = value;
 }
 
 final FutureProvider<SearchResults?> _resultsProvider =
@@ -96,6 +98,7 @@ final class _Results extends ConsumerWidget {
                           QuranFormat.number(results.total, style),
                         )
                       : l.quranSearchCount(
+                          results.total,
                           QuranFormat.number(results.total, style),
                         ),
                 ),

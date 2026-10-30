@@ -23,6 +23,5 @@ abstract class QuranPageImage with _$QuranPageImage {
 
   /// Decodes [json]; throws `CheckedFromJsonException` when it does not
   /// have the schema's shape.
-  factory fromJson(Map<String, Object?> json) =>
-      _$QuranPageImageFromJson(json);
+  factory fromJson(Map<String, Object?> json) => _$QuranPageImageFromJson(json);
 }

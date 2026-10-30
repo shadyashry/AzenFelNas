@@ -7,8 +7,10 @@ import 'package:meta/meta.dart';
 /// tatweel and every alef and hamza seat, maps teh marbuta to heh, alef
 /// maksura to yeh and waw/yeh with hamza to waw/yeh, reads the small
 /// high yeh as yeh, and drops the spaces: the Uthmani text joins words a
-/// reader types apart (`يَٰٓأَيُّهَا` for `يا أيها`). Dropping the alef lets the Uthmani spelling
-/// (`ٱلصَّلَوٰةَ`, `ٱلۡكِتَٰبُ`) meet the everyday spelling a reader types
+/// reader types apart (`يَٰٓأَيُّهَا` for `يا أيها`). Dropping the alef
+/// lets the Uthmani spelling
+/// (`ٱلصَّلَوٰةَ`, `ٱلۡكِتَٰبُ`) meet the everyday spelling a reader
+/// types
 /// (`الصلاة`, `الكتاب`); the price is that a few words with and without an
 /// alef meet too (`قال` and `قل`), which the result context makes visible.
 ///

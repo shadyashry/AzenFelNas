@@ -1661,7 +1661,7 @@ abstract class AppLocalizations {
   /// Quran download failure: hash mismatch.
   ///
   /// In en, this message translates to:
-  /// **'A file did not match the official copy and was discarded. Try again.'**
+  /// **'A file failed its integrity check and was discarded. Try again.'**
   String get quranFailIntegrity;
 
   /// Quran download failure: storage error.
@@ -1691,8 +1691,8 @@ abstract class AppLocalizations {
   /// Quran package damaged: body.
   ///
   /// In en, this message translates to:
-  /// **'{count} files need to be downloaded again. Reading is paused until they are repaired.'**
-  String quranDamagedBody(String count);
+  /// **'{count, plural, =1{One file needs to be downloaded again.} other{{shown} files need to be downloaded again.}} Reading is paused until they are repaired.'**
+  String quranDamagedBody(int count, String shown);
 
   /// Button: download damaged Quran files again.
   ///
@@ -1715,7 +1715,7 @@ abstract class AppLocalizations {
   /// Quran source attribution; no endorsement claim.
   ///
   /// In en, this message translates to:
-  /// **'Mushaf pages and text: King Fahd Glorious Quran Printing Complex, Madinah Mushaf (Hafs), digital edition 1441, used under the Complex\'s published usage terms. The app is not endorsed or certified by the Complex.'**
+  /// **'Mushaf pages and text: King Fahd Glorious Quran Printing Complex, Madinah Mushaf (Hafs), digital edition 1441, used under the Complex\'s published usage terms. The app is not published or endorsed by the Complex.'**
   String get quranAttribution;
 
   /// Juz metadata attribution.
@@ -1883,8 +1883,8 @@ abstract class AppLocalizations {
   /// Search: number of matching verses.
   ///
   /// In en, this message translates to:
-  /// **'{count} verses'**
-  String quranSearchCount(String count);
+  /// **'{count, plural, =1{One verse} other{{shown} verses}}'**
+  String quranSearchCount(int count, String shown);
 
   /// Search: result list truncated.
   ///
@@ -1973,8 +1973,8 @@ abstract class AppLocalizations {
   /// Number of boxes in the highlight being drawn.
   ///
   /// In en, this message translates to:
-  /// **'{count} boxes'**
-  String quranHighlightBoxes(String count);
+  /// **'{count, plural, =1{one box} other{{shown} boxes}}'**
+  String quranHighlightBoxes(int count, String shown);
 
   /// A highlight spanning pages.
   ///
@@ -2063,8 +2063,8 @@ abstract class AppLocalizations {
   /// Verification passed.
   ///
   /// In en, this message translates to:
-  /// **'All {count} files match the official copy.'**
-  String quranVerified(String count);
+  /// **'{count, plural, =1{The file passed the integrity check.} other{All {shown} files passed the integrity check.}}'**
+  String quranVerified(int count, String shown);
 
   /// Button: delete the Quran package.
   ///
@@ -2131,6 +2131,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show controls'**
   String get quranShowControls;
+
+  /// Button: download a newer Quran package.
+  ///
+  /// In en, this message translates to:
+  /// **'Download update'**
+  String get quranUpdate;
+
+  /// A newer Quran package is pinned by this build.
+  ///
+  /// In en, this message translates to:
+  /// **'A newer copy of the Quran package is available. The one on this device stays readable until the new one is downloaded and checked.'**
+  String get quranUpdateBody;
 }
 
 class _AppLocalizationsDelegate

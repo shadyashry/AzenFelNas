@@ -50,7 +50,9 @@ final class _Filter extends Notifier<String> {
   @override
   String build() => '';
 
-  void set(String value) => state = value;
+  String get value => state;
+
+  set value(String value) => state = value;
 }
 
 final class _Suras extends ConsumerWidget {
@@ -69,7 +71,7 @@ final class _Suras extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
           child: TextField(
-            onChanged: ref.read(_filterProvider.notifier).set,
+            onChanged: (v) => ref.read(_filterProvider.notifier).value = v,
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.search),
               hintText: l.quranFilterSurahs,

@@ -111,15 +111,15 @@ final class _MushafViewportState extends State<MushafViewport> {
     super.initState();
     _current = widget.item;
     _pages = PageController(initialPage: widget.item);
-    widget.controller.attach(_command);
+    widget.controller.handler = _command;
   }
 
   @override
   void didUpdateWidget(MushafViewport old) {
     super.didUpdateWidget(old);
     if (old.controller != widget.controller) {
-      old.controller.attach(null);
-      widget.controller.attach(_command);
+      old.controller.handler = null;
+      widget.controller.handler = _command;
     }
     if (old.itemCount != widget.itemCount) {
       _pages.dispose();
@@ -135,7 +135,7 @@ final class _MushafViewportState extends State<MushafViewport> {
 
   @override
   void dispose() {
-    widget.controller.attach(null);
+    widget.controller.handler = null;
     _pages.dispose();
     super.dispose();
   }

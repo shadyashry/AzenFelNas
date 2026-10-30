@@ -28,39 +28,64 @@ final class QuranNotInstalled extends QuranPackageStatus {
 
 /// Downloading and verifying files.
 final class QuranDownloading extends QuranPackageStatus {
-  /// The status at [progress].
-  const new(this.progress);
+  /// The status at [progress]; [current] is the package still readable
+  /// during an update.
+  const new(this.progress, {this.current});
 
   /// Progress so far.
   final DownloadProgress progress;
+
+  /// The active package, if any.
+  final InstalledQuran? current;
 }
 
 /// A partial download is kept and can be resumed.
 final class QuranPaused extends QuranPackageStatus {
-  /// The status at [progress], stopped by [failure].
-  const new(this.progress, {this.failure});
+  /// The status at [progress], stopped by [failure]; [current] is the
+  /// package still readable during an update.
+  const new(this.progress, {this.failure, this.current});
 
   /// Progress kept on disk.
   final DownloadProgress progress;
 
   /// Why it stopped (`null` when the app was closed).
   final QuranFailure? failure;
+
+  /// The active package, if any.
+  final InstalledQuran? current;
 }
 
 /// All files verified; building the local search index and activating.
 final class QuranInstalling extends QuranPackageStatus {
-  /// The status.
-  const new();
+  /// The status; [current] is the package still readable meanwhile.
+  const new({this.current});
+
+  /// The active package, if any.
+  final InstalledQuran? current;
 }
 
 /// Verified and active: everything works offline.
 final class QuranReady extends QuranPackageStatus {
-  /// The status of [installed].
-  const new(this.installed);
+  /// The status of [installed]; [updateAvailable] when this build pins a
+  /// newer package.
+  const new(this.installed, {this.updateAvailable = false});
 
   /// The active package.
   final InstalledQuran installed;
+
+  /// Whether a newer package can be downloaded (the current one stays
+  /// readable until it is ready).
+  final bool updateAvailable;
 }
+
+/// The package the reader can show during [status], if any.
+InstalledQuran? readablePackage(QuranPackageStatus status) => switch (status) {
+  QuranReady(:final installed) => installed,
+  QuranDownloading(:final current) ||
+  QuranPaused(:final current) ||
+  QuranInstalling(:final current) => current,
+  QuranChecking() || QuranNotInstalled() || QuranDamaged() => null,
+};
 
 /// The active package has missing or damaged files; reading is blocked
 /// until they are repaired.

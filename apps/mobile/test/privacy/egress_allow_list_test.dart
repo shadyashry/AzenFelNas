@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:daily_muslim/features/packages/data/http_cdn_channel.dart';
+import 'package:daily_muslim/features/quran/data/http_quran_origin.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -40,8 +41,12 @@ const _sourceExtensions = {
   '.json',
 };
 
-/// Files allowed to open a network connection: the one CDN adapter.
-const _networkAdapters = {'lib/features/packages/data/http_cdn_channel.dart'};
+/// Files allowed to open a network connection: the two CDN adapters (data
+/// packages, and the offline Quran download of §15 D106).
+const _networkAdapters = {
+  'lib/features/packages/data/http_cdn_channel.dart',
+  'lib/features/quran/data/http_quran_origin.dart',
+};
 
 /// APIs that open a connection, in Dart, Kotlin/Java and Swift.
 final _networkApi = RegExp(
@@ -183,6 +188,37 @@ void main() {
       '2026.10.1',
       'ab' * 32,
       maxBytes: 1024,
+    );
+
+    expect(attempts, hasLength(2));
+    for (final uri in attempts) {
+      expect(uri.scheme, 'https');
+      expect(uri.host, 'cdn.azenfelnas.app');
+    }
+    client.close(force: true);
+  });
+
+  test('REQ-PRIV-006 the Quran download connects to cdn.azenfelnas.app over '
+      'HTTPS and nowhere else', () async {
+    final attempts = <Uri>[];
+    final client = HttpClient()
+      ..connectionFactory = (uri, proxyHost, proxyPort) {
+        attempts.add(uri);
+        throw const SocketException('egress blocked in tests');
+      };
+    final origin = HttpQuranOrigin.cdnWith(
+      'production',
+      'quran/hafs-madinah-1441/1441.1/',
+      client,
+    );
+
+    await origin.manifest(maxBytes: 1024);
+    await origin.download(
+      'pages/001.webp',
+      '${Directory.systemTemp.path}/egress_test.part',
+      totalBytes: 10,
+      onBytes: (_) {},
+      cancelled: () => false,
     );
 
     expect(attempts, hasLength(2));

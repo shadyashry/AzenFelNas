@@ -24,6 +24,24 @@
       "name": "IANA tz database",
       "licence": "public-domain",
       "notice": "Time zone rules from the IANA tz database (public domain)."
+    },
+    {
+      "package": "quran",
+      "name": "King Fahd Glorious Quran Printing Complex — Madinah Mushaf (Hafs), digital edition 1441",
+      "licence": "KFGQPC usage rights",
+      "notice": "Mushaf pages: the digital Madinah Mushaf (riwayat Hafs ʿan ʿĀṣim, 1441 edition) of the King Fahd Glorious Quran Printing Complex, dm.qurancomplex.gov.sa, rendered unchanged from the Complex's vector files and used under the usage rights it publishes (dm.qurancomplex.gov.sa/rights). Downloaded separately; not bundled. The app is not published or endorsed by the Complex."
+    },
+    {
+      "package": "quran",
+      "name": "King Fahd Glorious Quran Printing Complex — Hafs Uthmanic script v3.0",
+      "licence": "KFGQPC font EULA",
+      "notice": "Verse text, page and line mapping and the KFGQPC Hafs font from the Complex's Hafs v3.0 package (fonts.qurancomplex.gov.sa). The font is distributed unmodified under the licence embedded in it, which allows use, copying and distribution and forbids modification and sale."
+    },
+    {
+      "package": "quran",
+      "name": "Tanzil.net Quran metadata",
+      "licence": "CC-BY-3.0",
+      "notice": "Juz boundaries from the Tanzil Quran metadata (tanzil.net), CC BY 3.0, checked against the Complex's text."
     }
   ]
 }

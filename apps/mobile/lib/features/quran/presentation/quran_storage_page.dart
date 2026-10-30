@@ -24,7 +24,7 @@ final class QuranStoragePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l.quranStorage)),
       body: switch (status) {
-        QuranReady() => const _Installed(),
+        QuranReady(updateAvailable: false) => const _Installed(),
         _ => QuranDownloadView(status: status),
       },
     );
@@ -78,7 +78,7 @@ final class _Installed extends ConsumerWidget {
               title: Text(l.quranReadyOffline),
               subtitle: Text(
                 l.quranEdition(
-                  style.digits.apply(manifest.edition.printEdition),
+                  style.digits.apply(manifest.printEdition),
                   style.digits.apply(manifest.version),
                 ),
               ),
@@ -117,6 +117,7 @@ final class _Installed extends ConsumerWidget {
                     SnackBar(
                       content: Text(
                         l.quranVerified(
+                          manifest.files.length,
                           QuranFormat.number(manifest.files.length, style),
                         ),
                       ),
@@ -138,7 +139,8 @@ final class _Installed extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            '${l.quranUninstallNote}\n\n${l.quranAttribution}\n${l.quranJuzAttribution}',
+            '${l.quranUninstallNote}\n\n'
+            '${l.quranAttribution}\n${l.quranJuzAttribution}',
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ),

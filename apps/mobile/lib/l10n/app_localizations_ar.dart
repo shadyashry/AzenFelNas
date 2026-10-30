@@ -934,8 +934,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'مساحة الجهاز خلصت. فضّي شوية مساحة وجرّب تاني.';
 
   @override
-  String get quranFailIntegrity =>
-      'ملف ماطابقش النسخة الرسمية واتمسح. جرّب تاني.';
+  String get quranFailIntegrity => 'ملف ماعداش فحص السلامة واتمسح. جرّب تاني.';
 
   @override
   String get quranFailStorage => 'التطبيق مقدرش يكتب على التخزين. جرّب تاني.';
@@ -950,8 +949,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quranDamagedTitle => 'في ملفات من المصحف ناقصة أو بايظة';
 
   @override
-  String quranDamagedBody(String count) {
-    return '$count ملف محتاجين يتنزّلوا تاني. القراءة واقفة لحد ما يتصلّحوا.';
+  String quranDamagedBody(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$shown ملف محتاجين يتنزّلوا تاني.',
+      two: 'ملفين محتاجين يتنزّلوا تاني.',
+      one: 'ملف واحد محتاج يتنزّل تاني.',
+    );
+    return '$_temp0 القراءة واقفة لحد ما يتصلّحوا.';
   }
 
   @override
@@ -966,7 +972,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranAttribution =>
-      'صفحات المصحف ونصّه: مجمع الملك فهد لطباعة المصحف الشريف، مصحف المدينة النبوية برواية حفص، الإصدار الرقمي ١٤٤١، مستخدمين حسب حقوق الاستخدام اللي نشرها المجمع. التطبيق مش معتمد ولا موثّق من المجمع.';
+      'صفحات المصحف ونصّه: مجمع الملك فهد لطباعة المصحف الشريف، مصحف المدينة النبوية برواية حفص، الإصدار الرقمي ١٤٤١، مستخدمين حسب حقوق الاستخدام اللي نشرها المجمع. التطبيق مش صادر عن المجمع ولا معتمد منه.';
 
   @override
   String get quranJuzAttribution =>
@@ -1064,8 +1070,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quranSearchEmpty => 'مفيش آية فيها الكلام ده.';
 
   @override
-  String quranSearchCount(String count) {
-    return '$count آية';
+  String quranSearchCount(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$shown آية',
+      two: 'آيتين',
+      one: 'آية واحدة',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1117,8 +1130,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quranHighlightCancel => 'إلغاء';
 
   @override
-  String quranHighlightBoxes(String count) {
-    return '$count مربع';
+  String quranHighlightBoxes(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$shown مربع',
+      two: 'مربعين',
+      one: 'مربع واحد',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1172,8 +1192,14 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String quranVerified(String count) {
-    return 'كل الـ $count ملف مطابقين للنسخة الرسمية.';
+  String quranVerified(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'كل الـ $shown ملف عدّوا فحص السلامة.',
+      one: 'الملف عدّى فحص السلامة.',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1213,4 +1239,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranShowControls => 'اعرض الأزرار';
+
+  @override
+  String get quranUpdate => 'نزّل التحديث';
+
+  @override
+  String get quranUpdateBody =>
+      'في نسخة أحدث من حزمة المصحف. النسخة اللي على جهازك هتفضل شغّالة لحد ما الجديدة تتنزّل وتتراجع.';
 }

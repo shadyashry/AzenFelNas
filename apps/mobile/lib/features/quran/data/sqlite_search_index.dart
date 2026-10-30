@@ -22,7 +22,7 @@ final class SqliteSearchIndex implements BuildSearchIndex {
   final Future<bool> Function(bool Function() work) run;
 
   /// The index file name.
-  static const fileName = searchIndexFileName;
+  static const String fileName = searchIndexFileName;
 
   /// Bumped whenever [ArabicSearchText] folds differently.
   static const foldVersion = '2';
@@ -72,7 +72,8 @@ final class SqliteSearchIndex implements BuildSearchIndex {
         db
           ..execute('CREATE TABLE meta(key TEXT PRIMARY KEY, value TEXT)')
           ..execute(
-            "CREATE VIRTUAL TABLE verse_fts USING fts5(norm, tokenize='trigram')",
+            'CREATE VIRTUAL TABLE verse_fts '
+            "USING fts5(norm, tokenize='trigram')",
           )
           ..execute('BEGIN');
         final insert = db.prepare(

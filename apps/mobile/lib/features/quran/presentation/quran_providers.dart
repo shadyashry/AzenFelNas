@@ -2,6 +2,7 @@ import 'package:daily_muslim/features/quran/domain/build_search_index.dart';
 import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
+import 'package:daily_muslim/features/quran/domain/quran_manifest.dart';
 import 'package:daily_muslim/features/quran/domain/quran_notes.dart';
 import 'package:daily_muslim/features/quran/domain/quran_origin.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_disk.dart';
@@ -19,6 +20,12 @@ final quranPackageDiskProvider = Provider<QuranPackageDisk>(
 
 /// The CDN, bound in `app/di.dart`; only the download uses it.
 final quranOriginProvider = Provider<QuranOrigin>(
+  (ref) => throw UnimplementedError('bound in app/di.dart'),
+);
+
+/// Accepts the downloaded manifest when it is the pinned one, bound in
+/// `app/di.dart`.
+final acceptManifestProvider = Provider<QuranManifest? Function(List<int>)>(
   (ref) => throw UnimplementedError('bound in app/di.dart'),
 );
 
@@ -72,9 +79,9 @@ quranPackageProvider =
 
 /// The index of the active package; `null` until it is ready.
 final Provider<ReadMushafIndex?> mushafIndexProvider = Provider((ref) {
-  final status = ref.watch(quranPackageProvider);
-  if (status is! QuranReady) return null;
-  final index = ref.read(openMushafIndexProvider)(status.installed.directory);
+  final installed = readablePackage(ref.watch(quranPackageProvider));
+  if (installed == null) return null;
+  final index = ref.read(openMushafIndexProvider)(installed.directory);
   ref.onDispose(index.close);
   return index;
 });
@@ -118,7 +125,7 @@ final StreamProvider<List<Highlight>> highlightsProvider = StreamProvider(
 
 /// Whether the package's KFGQPC font is registered (once per package).
 final FutureProvider<bool> quranFontProvider = FutureProvider((ref) async {
-  final status = ref.watch(quranPackageProvider);
-  if (status is! QuranReady) return false;
-  return QuranFont.load(status.installed);
+  final installed = readablePackage(ref.watch(quranPackageProvider));
+  if (installed == null) return false;
+  return await QuranFont.load(installed);
 });

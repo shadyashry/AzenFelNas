@@ -53,10 +53,12 @@ import 'package:daily_muslim/features/packages/data/io_package_blob_store.dart';
 import 'package:daily_muslim/features/packages/data/package_payload_checks.dart';
 import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/qibla/domain/heading_source.dart';
+import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
 import 'package:daily_muslim/features/quran/data/channel_free_space.dart';
 import 'package:daily_muslim/features/quran/data/drift_quran_notes.dart';
 import 'package:daily_muslim/features/quran/data/http_quran_origin.dart';
 import 'package:daily_muslim/features/quran/data/io_quran_package_disk.dart';
+import 'package:daily_muslim/features/quran/data/quran_manifest_codec.dart';
 import 'package:daily_muslim/features/quran/data/quran_notes_database.dart';
 import 'package:daily_muslim/features/quran/data/sqlite_mushaf_index.dart';
 import 'package:daily_muslim/features/quran/data/sqlite_search_index.dart';
@@ -64,7 +66,6 @@ import 'package:daily_muslim/features/quran/domain/build_search_index.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:daily_muslim/features/quran/domain/quran_origin.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
-import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
 import 'package:daily_muslim/features/schedule/application/calculate_schedule.dart';
 import 'package:daily_muslim/features/schedule/application/load_runtime_data.dart';
 import 'package:daily_muslim/features/schedule/domain/runtime_data.dart';
@@ -257,6 +258,7 @@ abstract final class AppBindings {
       ),
     ),
     quranOriginProvider.overrideWithValue(_quranOrigin()),
+    acceptManifestProvider.overrideWithValue(QuranManifestCodec.acceptPinned),
     readFreeSpaceProvider.overrideWithValue(freeSpace),
     buildSearchIndexProvider.overrideWithValue(const SqliteSearchIndex()),
     searchIndexIsCurrentProvider.overrideWithValue(SqliteSearchIndex.isCurrent),

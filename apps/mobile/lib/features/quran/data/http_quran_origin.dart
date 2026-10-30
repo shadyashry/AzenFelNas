@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
 import 'package:daily_muslim/features/quran/domain/quran_origin.dart';
 import 'package:dm_core_types/dm_core_types.dart';
+import 'package:meta/meta.dart';
 
 /// [QuranOrigin] over HTTPS to `cdn.azenfelnas.app` only (§0.2, §15 D106),
 /// with its own [HttpClient]: no cookies, no identifiers, no redirects, a
@@ -16,6 +17,14 @@ final class HttpQuranOrigin implements QuranOrigin {
     : this._(
         Uri.https('cdn.azenfelnas.app', '/${_checked(channel)}/$packagePath'),
         HttpClient(),
+      );
+
+  /// `cdn` with the given [client], so a test can watch its connections.
+  @visibleForTesting
+  new cdnWith(String channel, String packagePath, HttpClient client)
+    : this._(
+        Uri.https('cdn.azenfelnas.app', '/${_checked(channel)}/$packagePath'),
+        client,
       );
 
   /// A plain-HTTP server on the loopback [port], for adapter tests and the
@@ -117,7 +126,7 @@ final class HttpQuranOrigin implements QuranOrigin {
     final request = await _client.getUrl(_base.resolve(path)).timeout(timeout);
     request.followRedirects = false;
     if (from > 0) request.headers.set(HttpHeaders.rangeHeader, 'bytes=$from-');
-    return request.close().timeout(timeout);
+    return await request.close().timeout(timeout);
   }
 
   static String _checked(String channel) => switch (channel) {

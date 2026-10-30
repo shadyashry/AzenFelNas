@@ -131,12 +131,16 @@ final class _StatusPanel extends StatelessWidget {
       QuranDamaged(:final badFiles, :final failure) => (
         [
           l.quranDamagedTitle,
-          l.quranDamagedBody(QuranFormat.number(badFiles.length, style)),
+          l.quranDamagedBody(
+            badFiles.length,
+            QuranFormat.number(badFiles.length, style),
+          ),
           if (failure != null) describe(failure),
         ].join('\n'),
         null,
         false,
       ),
+      QuranReady(updateAvailable: true) => (l.quranUpdateBody, null, false),
       QuranNotInstalled() || QuranChecking() || QuranReady() => (
         null,
         null,
@@ -176,6 +180,11 @@ final class _Action extends StatelessWidget {
         onPressed: controller.cancel,
         icon: const Icon(Icons.stop_circle_outlined),
         label: Text(l.quranCancel),
+      ),
+      QuranReady(updateAvailable: true) => FilledButton.icon(
+        onPressed: controller.download,
+        icon: const Icon(Icons.system_update_alt),
+        label: Text(l.quranUpdate),
       ),
       QuranInstalling() ||
       QuranChecking() ||

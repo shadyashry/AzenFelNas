@@ -3,7 +3,7 @@
 // `dm-pipelines quran build` wrote; CI has no copy of the package.
 import 'dart:io';
 
-import 'package:daily_muslim/features/quran/application/download_quran_package.dart';
+import 'package:daily_muslim/features/quran/data/quran_manifest_codec.dart';
 import 'package:daily_muslim/features/quran/data/sqlite_mushaf_index.dart';
 import 'package:daily_muslim/features/quran/data/sqlite_search_index.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
@@ -41,7 +41,7 @@ void main() {
   test('REQ-QRN-011: the built manifest is the pinned one', () {
     final bytes = File('$source/manifest.json').readAsBytesSync();
 
-    final manifest = DownloadQuranPackage.acceptManifest(bytes);
+    final manifest = QuranManifestCodec.acceptPinned(bytes);
 
     expect(manifest, isNotNull);
     expect(manifest?.files, hasLength(606));
@@ -52,6 +52,7 @@ void main() {
     final built = SqliteSearchIndex.buildSync(dir.path);
 
     final size = File('${dir.path}/search.sqlite').lengthSync();
+    // The measured size is the pin; printing it helps re-pin after a change.
     // ignore: avoid_print
     print('search.sqlite: $size bytes');
     expect(built, isTrue);
@@ -74,14 +75,18 @@ void main() {
     ]);
   }, skip: skip);
 
-  test('REQ-QRN-040: a phrase typed without diacritics opens its verse', () async {
-    final results = await search('الله لا إله إلا هو الحي القيوم');
+  test(
+    'REQ-QRN-040: a phrase typed without diacritics opens its verse',
+    () async {
+      final results = await search('الله لا إله إلا هو الحي القيوم');
 
-    final kursi = results.hits.where((h) => h.sura == 2 && h.aya == 255);
-    expect(kursi, hasLength(1));
-    expect(kursi.single.page, 42);
-    expect(kursi.single.matchEnd, greaterThan(kursi.single.matchStart));
-  }, skip: skip);
+      final kursi = results.hits.where((h) => h.sura == 2 && h.aya == 255);
+      expect(kursi, hasLength(1));
+      expect(kursi.single.page, 42);
+      expect(kursi.single.matchEnd, greaterThan(kursi.single.matchStart));
+    },
+    skip: skip,
+  );
 
   test('REQ-QRN-040: everyday spelling finds the Uthmani spelling', () async {
     final salah = await search('الصلاة');
@@ -94,13 +99,17 @@ void main() {
     expect(book.hits.any((h) => h.sura == 2 && h.aya == 2), isTrue);
   }, skip: skip);
 
-  test('REQ-QRN-040: the first and last verses are found on their pages', () async {
-    final first = await search('الحمد لله رب العالمين');
-    final last = await search('من الجنة والناس');
+  test(
+    'REQ-QRN-040: the first and last verses are found on their pages',
+    () async {
+      final first = await search('الحمد لله رب العالمين');
+      final last = await search('من الجنة والناس');
 
-    expect(first.hits.first.page, 1);
-    expect(last.hits.any((h) => h.sura == 114 && h.page == 604), isTrue);
-  }, skip: skip);
+      expect(first.hits.first.page, 1);
+      expect(last.hits.any((h) => h.sura == 114 && h.page == 604), isTrue);
+    },
+    skip: skip,
+  );
 }
 
 extension<T> on Result<T, Object> {

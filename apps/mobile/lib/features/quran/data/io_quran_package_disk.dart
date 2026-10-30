@@ -2,16 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
+import 'package:daily_muslim/features/quran/data/quran_manifest_codec.dart';
 import 'package:daily_muslim/features/quran/domain/installed_quran.dart';
 import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
+import 'package:daily_muslim/features/quran/domain/quran_manifest.dart';
+import 'package:daily_muslim/features/quran/domain/quran_manifest_file.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_disk.dart';
 import 'package:daily_muslim/features/quran/domain/staged_quran.dart';
-import 'package:dm_contracts/dm_contracts.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
 /// [QuranPackageDisk] under `<app support>/quran` (§15 D106):
 ///
-/// ```
+/// ```text
 /// active.json                          pointer: packageId, version
 /// packages/<packageId>/<version>/      the active package (+ search.sqlite)
 /// staging/<packageId>-<version>/       a download: files, *.part, .verified
@@ -53,14 +55,18 @@ final class IoQuranPackageDisk implements QuranPackageDisk {
       final pointer = _jsonObject(await _pointer.readAsString());
       final id = pointer['packageId'];
       final version = pointer['version'];
-      if (id is! String || version is! String) return null;
+      final sha = pointer['manifestSha256'];
+      if (id is! String || version is! String || sha is! String) return null;
       final dir = _packageDir(id, version);
       _recoverInterruptedSwap(dir);
-      final manifest = await _readManifest(dir);
+      // The package activated by this or an earlier build stays readable
+      // even when this build pins a newer one, until that one is ready.
+      final manifest = await _readManifest(dir, sha);
       if (manifest == null) return null;
       return InstalledQuran(
         directory: dir.path,
         manifest: manifest,
+        manifestSha256: sha,
         installedBytes: _sizeOf(dir),
       );
     } on FileSystemException {
@@ -100,9 +106,9 @@ final class IoQuranPackageDisk implements QuranPackageDisk {
     final staging = Directory('${root.path}/staging');
     if (!staging.existsSync()) return null;
     for (final dir in staging.listSync().whereType<Directory>()) {
-      final manifest = await _readManifest(dir);
+      final manifest = await _readManifest(dir, pinnedManifestSha256);
       if (manifest == null) continue;
-      return _staged(dir, manifest);
+      return await _staged(dir, manifest);
     }
     return null;
   }
@@ -110,7 +116,7 @@ final class IoQuranPackageDisk implements QuranPackageDisk {
   @override
   Future<Result<StagedQuran, QuranFailure>> startStaging(
     List<int> manifestBytes,
-    QuranPackageManifest manifest,
+    QuranManifest manifest,
   ) => _guard(() async {
     final staging = Directory('${root.path}/staging');
     if (staging.existsSync()) await staging.delete(recursive: true);
@@ -118,13 +124,13 @@ final class IoQuranPackageDisk implements QuranPackageDisk {
     await dir.create(recursive: true);
     await File('${dir.path}/$_manifest')
         .writeAsBytes(manifestBytes, flush: true);
-    return _staged(dir, manifest);
+    return await _staged(dir, manifest);
   });
 
   @override
   Future<Result<void, QuranFailure>> commitFile(
     String directory,
-    QuranPackageFile file,
+    QuranManifestFile file,
   ) => _guard(() async {
     final part = File(partPath(directory, file.path));
     if (!_hasSize(part, file.bytes) || await _sha256(part) != file.sha256) {
@@ -161,10 +167,11 @@ final class IoQuranPackageDisk implements QuranPackageDisk {
         final ledger = File('${target.path}/$_ledger');
         if (ledger.existsSync()) await ledger.delete();
         await _writePointer(manifest.packageId, manifest.version);
-        await _deleteOthers(target);
+        await _deleteOthers(manifest.packageId, manifest.version);
         return InstalledQuran(
           directory: target.path,
           manifest: manifest,
+          manifestSha256: pinnedManifestSha256,
           installedBytes: _sizeOf(target),
         );
       });
@@ -180,7 +187,7 @@ final class IoQuranPackageDisk implements QuranPackageDisk {
 
   Future<StagedQuran> _staged(
     Directory dir,
-    QuranPackageManifest manifest,
+    QuranManifest manifest,
   ) async {
     final ledger = File('${dir.path}/$_ledger');
     final listed = ledger.existsSync()
@@ -205,12 +212,15 @@ final class IoQuranPackageDisk implements QuranPackageDisk {
     );
   }
 
-  Future<QuranPackageManifest?> _readManifest(Directory dir) async {
+  Future<QuranManifest?> _readManifest(
+    Directory dir,
+    String expectedSha256,
+  ) async {
     final file = File('${dir.path}/$_manifest');
     if (!file.existsSync()) return null;
     final bytes = await file.readAsBytes();
-    if (sha256.convert(bytes).toString() != pinnedManifestSha256) return null;
-    return QuranPackageManifest.fromJson(_jsonObject(utf8.decode(bytes)));
+    if (sha256.convert(bytes).toString() != expectedSha256) return null;
+    return QuranManifestCodec.decode(bytes);
   }
 
   /// A crash between the two renames of [activate] leaves the previous
@@ -225,20 +235,37 @@ final class IoQuranPackageDisk implements QuranPackageDisk {
   Future<void> _writePointer(String id, String version) async {
     final tmp = File('${_pointer.path}.tmp');
     await tmp.writeAsString(
-      jsonEncode({'packageId': id, 'version': version}),
+      jsonEncode({
+        'packageId': id,
+        'version': version,
+        'manifestSha256': pinnedManifestSha256,
+      }),
       flush: true,
     );
     await tmp.rename(_pointer.path);
   }
 
-  Future<void> _deleteOthers(Directory keep) async {
+  /// Deletes every package directory but [id]/[version], and the staging
+  /// parent left empty by the rename. Compared by name: listed paths may
+  /// use another separator than the ones the app built.
+  Future<void> _deleteOthers(String id, String version) async {
     final packages = Directory('${root.path}/packages');
-    for (final id in packages.listSync().whereType<Directory>()) {
-      for (final version in id.listSync().whereType<Directory>()) {
-        if (version.path != keep.path) await version.delete(recursive: true);
+    for (final idDir in packages.listSync().whereType<Directory>()) {
+      for (final versionDir in idDir.listSync().whereType<Directory>()) {
+        if (_name(idDir) != id || _name(versionDir) != version) {
+          await versionDir.delete(recursive: true);
+        }
       }
+      if (idDir.listSync().isEmpty) await idDir.delete();
+    }
+    final staging = Directory('${root.path}/staging');
+    if (staging.existsSync() && staging.listSync().isEmpty) {
+      await staging.delete();
     }
   }
+
+  static String _name(FileSystemEntity e) =>
+      e.uri.pathSegments.lastWhere((s) => s.isNotEmpty);
 
   static bool _hasSize(File file, int bytes) =>
       file.existsSync() && file.lengthSync() == bytes;

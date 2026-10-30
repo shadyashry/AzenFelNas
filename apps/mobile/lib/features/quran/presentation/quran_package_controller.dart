@@ -45,6 +45,7 @@ final class QuranPackageController extends Notifier<QuranPackageStatus> {
         origin: ref.read(quranOriginProvider),
         freeSpace: ref.read(readFreeSpaceProvider),
         buildIndex: ref.read(buildSearchIndexProvider),
+        accept: ref.read(acceptManifestProvider),
       ),
     );
   }
