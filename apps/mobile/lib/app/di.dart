@@ -57,6 +57,7 @@ import 'package:daily_muslim/features/packages/data/io_gzip_inflate.dart';
 import 'package:daily_muslim/features/packages/data/io_package_blob_store.dart';
 import 'package:daily_muslim/features/packages/data/package_payload_checks.dart';
 import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
+import 'package:daily_muslim/features/qibla/data/channel_vibrate_once.dart';
 import 'package:daily_muslim/features/qibla/domain/heading_source.dart';
 import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
 import 'package:daily_muslim/features/quran/data/bundled_quran_origin.dart';
@@ -206,6 +207,7 @@ abstract final class AppBindings {
       ),
       completeFirstRunProvider.overrideWithValue(CompleteFirstRun(settings)),
       headingSourceProvider.overrideWithValue(heading),
+      vibrateOnceProvider.overrideWithValue(const ChannelVibrateOnce()),
       readPlatformHealthProvider.overrideWithValue(
         PigeonPlatformHealth(athan, clock),
       ),
@@ -327,6 +329,7 @@ abstract final class AppBindings {
       }),
       voiceAudioHostProvider.overrideWithValue(audio),
       voicePreviewProvider.overrideWithValue(audio),
+      athanPlaybackProvider.overrideWithValue(audio),
     ];
   }
 

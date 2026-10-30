@@ -759,6 +759,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get athanVoiceStop => 'Stop';
 
   @override
+  String get athanPlayingNow => 'The Athan is playing';
+
+  @override
+  String get athanStopNow => 'Stop';
+
+  @override
   String get athanVoiceRemove => 'Remove from phone';
 
   @override

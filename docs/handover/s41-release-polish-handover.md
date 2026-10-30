@@ -57,3 +57,10 @@ Branch `slice/s41-ux-polish` (equal to `main` at `281640f` when the pass began).
   prepared from the app in about 30 s and opened at page 1; the plan's 145 Athan entries use `mirza_isha_2013`; the Test
   played on `USAGE_ALARM` in the foreground service and Stop ended it. Tests: app 679 passed (one 50 ms timing test
   failed under load and passed alone), analyze clean.
+
+## Stopping the Athan and the Qibla vibration (D118, 0.2.0+4)
+- The Athan could not be stopped once its notification was swiped away (Android 14+). Now: swipe-away stops it, a gold
+  Stop bar shows above the tabs while it plays, and volume, headset and power buttons stop it.
+- Qibla: one 1 s vibration when the phone lines up, again only after turning clearly away.
+- Emulator evidence: each stop path ended playback (dumpsys audio); Kotlin 96/96, app tests for Athan, shell and Qibla
+  191 passed. Owed: physical phones (volume-key routing, screen-on timing), the Qibla vibration on a real compass.

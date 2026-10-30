@@ -1,6 +1,7 @@
 package app.azenfelnas.athan.bridge
 
 import android.content.Context
+import app.azenfelnas.athan.playback.AthanForegroundService
 import app.azenfelnas.athan.playback.BundledAudioInstaller
 import app.azenfelnas.athan.playback.PreviewPlayer
 import java.io.File
@@ -11,7 +12,7 @@ import java.io.File
  * caller runs them off the main thread.
  */
 public class AthanVoiceHost(
-    context: Context,
+    private val context: Context,
 ) {
     private val installer: BundledAudioInstaller = BundledAudioInstaller(AthanGraph(context).audio)
 
@@ -37,5 +38,18 @@ public class AthanVoiceHost(
     /** Stops the preview, if any. */
     public fun stopPreview() {
         PreviewPlayer.gate.stop()
+    }
+
+    /** Whether an Athan is playing now (§15 D118). */
+    public fun athanPlaying(): Boolean = PreviewPlayer.gate.isAthanPlaying()
+
+    /** Ends the Athan playing now, if any: the app's own Stop (§15 D118, REQ-ALM-043). */
+    public fun stopAthan() {
+        AthanForegroundService.stop(context)
+    }
+
+    /** Tells [listener] each time an Athan starts or ends, on the thread that changed it; null stops telling. */
+    public fun watchAthan(listener: ((Boolean) -> Unit)?) {
+        PreviewPlayer.gate.watchAthan(listener)
     }
 }

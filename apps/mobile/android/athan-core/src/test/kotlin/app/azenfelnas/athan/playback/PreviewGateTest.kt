@@ -96,4 +96,20 @@ internal class PreviewGateTest {
         assertFalse(PreviewGate(player::play).start(File(dir, "gone.m4a")) {})
         assertTrue(player.playing.isEmpty())
     }
+
+    @Test
+    fun `REQ-ALM-043 the gate reports an Athan starting and ending once each`() {
+        val gate = PreviewGate(FakePlayer()::play)
+        val seen = mutableListOf<Boolean>()
+        gate.watchAthan { seen += it }
+
+        gate.athanStarted()
+        gate.athanStarted()
+        assertTrue(gate.isAthanPlaying())
+        gate.athanEnded()
+        gate.athanEnded()
+
+        assertFalse(gate.isAthanPlaying())
+        assertEquals(listOf(true, false), seen)
+    }
 }

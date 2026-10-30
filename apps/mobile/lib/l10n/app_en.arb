@@ -1070,6 +1070,14 @@
   "@athanVoiceStop": {
     "description": "Stops the preview."
   },
+  "athanPlayingNow": "The Athan is playing",
+  "@athanPlayingNow": {
+    "description": "Bar above the tabs while an Athan plays."
+  },
+  "athanStopNow": "Stop",
+  "@athanStopNow": {
+    "description": "Button in that bar: stops the Athan playing now."
+  },
   "athanVoiceRemove": "Remove from phone",
   "@athanVoiceRemove": {
     "description": "Deletes a downloaded voice."

@@ -4,6 +4,7 @@ import 'package:daily_muslim/features/athan/application/athan_sound_options.dart
 import 'package:daily_muslim/features/athan/application/check_voices.dart';
 import 'package:daily_muslim/features/athan/application/download_voice.dart';
 import 'package:daily_muslim/features/athan/application/remove_voice.dart';
+import 'package:daily_muslim/features/athan/domain/athan_playback.dart';
 import 'package:daily_muslim/features/athan/domain/athan_voice.dart';
 import 'package:daily_muslim/features/athan/domain/voice_download_status.dart';
 import 'package:daily_muslim/features/athan/domain/voice_ports.dart';
@@ -36,6 +37,32 @@ final voiceAudioHostProvider = Provider<VoiceAudioHost>(
 final voicePreviewProvider = Provider<VoicePreview>(
   (ref) => throw UnimplementedError('bound in app/di.dart'),
 );
+
+/// The Athan playing now, bound in `app/di.dart`; none until bound
+/// (§15 D118).
+final athanPlaybackProvider = Provider<AthanPlayback>(
+  (ref) => const _NoPlayback(),
+);
+
+/// Whether an Athan is playing now: asked once, then followed.
+final StreamProvider<bool> athanPlayingProvider = StreamProvider((ref) async* {
+  final playback = ref.watch(athanPlaybackProvider);
+  yield await playback.athanPlaying();
+  yield* playback.athanChanges;
+});
+
+final class _NoPlayback implements AthanPlayback {
+  const new();
+
+  @override
+  Future<bool> athanPlaying() async => false;
+
+  @override
+  Future<void> stopAthan() async {}
+
+  @override
+  Stream<bool> get athanChanges => const Stream.empty();
+}
 
 /// The downloadable voices this build offers (§15 D111).
 final FutureProvider<List<AthanVoice>> voiceCatalogProvider =

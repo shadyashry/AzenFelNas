@@ -21,6 +21,7 @@ internal class PreviewGate(
     private var current: PreviewPlayback? = null
     private var onEnded: (() -> Unit)? = null
     private var athanPlaying: Boolean = false
+    private var onAthanChanged: ((Boolean) -> Unit)? = null
 
     /** Starts [file] in place of any other preview; false while an Athan plays or when [file] cannot play. */
     @Synchronized
@@ -46,16 +47,30 @@ internal class PreviewGate(
     /** An Athan is about to play: the preview ends and none starts until [athanEnded]. */
     @Synchronized
     fun athanStarted() {
+        val changed = !athanPlaying
         athanPlaying = true
         val notify = onEnded
         releaseCurrent()
         notify?.invoke()
+        if (changed) onAthanChanged?.invoke(true)
     }
 
     /** The Athan stopped. */
     @Synchronized
     fun athanEnded() {
+        val changed = athanPlaying
         athanPlaying = false
+        if (changed) onAthanChanged?.invoke(false)
+    }
+
+    /** Whether an Athan is playing in this process (§15 D118). */
+    @Synchronized
+    fun isAthanPlaying(): Boolean = athanPlaying
+
+    /** Tells [listener] each time an Athan starts or ends; null stops telling (§15 D118). */
+    @Synchronized
+    fun watchAthan(listener: ((Boolean) -> Unit)?) {
+        onAthanChanged = listener
     }
 
     /** Whether a preview is playing. */

@@ -1406,6 +1406,18 @@ abstract class AppLocalizations {
   /// **'Stop'**
   String get athanVoiceStop;
 
+  /// Bar above the tabs while an Athan plays.
+  ///
+  /// In en, this message translates to:
+  /// **'The Athan is playing'**
+  String get athanPlayingNow;
+
+  /// Button in that bar: stops the Athan playing now.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get athanStopNow;
+
   /// Deletes a downloaded voice.
   ///
   /// In en, this message translates to:

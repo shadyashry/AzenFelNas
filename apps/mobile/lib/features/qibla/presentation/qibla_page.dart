@@ -11,7 +11,6 @@ import 'package:daily_muslim/features/shell/presentation/scroll_insets.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,17 +20,17 @@ final class QiblaPage extends ConsumerWidget {
   /// Creates the page.
   const new({super.key});
 
+  /// How long the phone vibrates when it lines up with the Qibla.
+  static const Duration lineUpBuzz = Duration(seconds: 1);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    // A firm tap the moment the phone lines up with the Qibla (§15 D98).
+    // One second of vibration the moment the phone lines up with the Qibla,
+    // once per line-up (§15 D98, D118).
     ref.listen(qiblaStateProvider, (previous, next) {
-      bool aligned(AsyncValue<QiblaState?>? value) => switch (value?.value) {
-        final QiblaReady ready => ready.aligned,
-        _ => false,
-      };
-      if (aligned(next) && !aligned(previous)) {
-        unawaited(HapticFeedback.heavyImpact());
+      if (ref.read(qiblaBuzzArmedProvider.notifier).next(next.value)) {
+        unawaited(ref.read(vibrateOnceProvider)(QiblaPage.lineUpBuzz));
       }
     });
     return Scaffold(

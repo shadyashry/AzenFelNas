@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.LocaleList
 import android.os.Looper
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import app.azenfelnas.athan.bridge.AthanCoreHost
 import app.azenfelnas.athan.bridge.AthanVoiceHost
 import app.azenfelnas.pigeon.AthanSchedulerApi
@@ -57,6 +60,16 @@ class MainActivity : FlutterActivity() {
         result.notImplemented()
       }
     }
+    // One vibration of the given length: the Qibla lining up (DESIGN.md section 15 D118).
+    MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dm/vibrate").setMethodCallHandler { call, result ->
+      val ms = (call.arguments as? Number)?.toLong()
+      if (call.method == "once" && ms != null) {
+        vibrateOnce(ms)
+        result.success(null)
+      } else {
+        result.notImplemented()
+      }
+    }
     val core = AthanCoreHost(applicationContext)
     AthanSchedulerApi.setUp(
       flutterEngine.dartExecutor.binaryMessenger,
@@ -64,6 +77,17 @@ class MainActivity : FlutterActivity() {
     )
     Thread({ installBundledAudio(core) }, "athan-audio-install").start()
     registerVoiceAudio(flutterEngine, AthanVoiceHost(applicationContext).also { voices = it })
+  }
+
+  private fun vibrateOnce(ms: Long) {
+    val vibrator =
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        getSystemService(VibratorManager::class.java)?.defaultVibrator
+      } else {
+        @Suppress("DEPRECATION")
+        getSystemService(Vibrator::class.java)
+      }
+    vibrator?.vibrate(VibrationEffect.createOneShot(ms, VibrationEffect.DEFAULT_AMPLITUDE))
   }
 
   /** Sets the per-app language to [tag] (empty: the phone's), only when it changes; Android 13+. */
@@ -76,6 +100,7 @@ class MainActivity : FlutterActivity() {
 
   /** A preview never outlives the screen that started it (DESIGN.md section 15 D111). */
   override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
+    voices?.watchAthan(null)
     voices?.stopPreview()
     super.cleanUpFlutterEngine(flutterEngine)
   }
@@ -83,6 +108,7 @@ class MainActivity : FlutterActivity() {
   /**
    * `dm/athan_audio` (DESIGN.md section 15 D111): downloaded voices are copied off the main thread to where the alarm
    * service plays them; previews start and stop on the main thread, and the end of one is reported back to Dart.
+   * An Athan playing is reported too, and the app can stop it (DESIGN.md section 15 D118).
    */
   private fun registerVoiceAudio(
     flutterEngine: FlutterEngine,
@@ -90,6 +116,7 @@ class MainActivity : FlutterActivity() {
   ) {
     val channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dm/athan_audio")
     val main = Handler(Looper.getMainLooper())
+    voices.watchAthan { playing -> main.post { channel.invokeMethod("athanChanged", playing) } }
     channel.setMethodCallHandler { call, result ->
       val soundId = call.argument<String>("soundId")
       val path = call.argument<String>("path")
@@ -119,6 +146,11 @@ class MainActivity : FlutterActivity() {
           )
         "stopPreview" -> {
           voices.stopPreview()
+          result.success(true)
+        }
+        "athanPlaying" -> result.success(voices.athanPlaying())
+        "stopAthan" -> {
+          voices.stopAthan()
           result.success(true)
         }
         else -> result.notImplemented()

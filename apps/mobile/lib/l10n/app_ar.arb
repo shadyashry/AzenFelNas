@@ -218,6 +218,8 @@
   "athanVoiceRetry": "جرّب تاني",
   "athanVoicePreview": "اسمع",
   "athanVoiceStop": "إيقاف",
+  "athanPlayingNow": "الأذان يُرفع الآن",
+  "athanStopNow": "إيقاف",
   "athanVoiceRemove": "امسحه من الموبايل",
   "athanVoiceSelected": "مختار",
   "athanVoiceFailOffline": "مفيش نت. جرّب تاني لما تتوصل، واللي اتحمّل محفوظ.",

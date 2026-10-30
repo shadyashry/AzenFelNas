@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:daily_muslim/features/athan/domain/athan_playback.dart';
 import 'package:daily_muslim/features/athan/domain/voice_ports.dart';
 import 'package:flutter/services.dart';
 
@@ -7,13 +8,20 @@ import 'package:flutter/services.dart';
 /// (§15 D111). Android copies a verified voice to the device-protected
 /// `athan/<soundId>.m4a` the alarm service plays (§15 D94) and previews
 /// files on the alarm stream through athan-core's `PreviewPlayer`, which an
-/// Athan stops and which never starts over one. Without a handler (iOS
-/// until AthanKit takes downloaded voices) nothing installs or plays.
-final class ChannelVoiceAudio implements VoiceAudioHost, VoicePreview {
+/// Athan stops and which never starts over one. It also reports the Athan
+/// playing now and stops it (§15 D118). Without a handler (iOS until
+/// AthanKit takes downloaded voices) nothing installs, plays or stops.
+final class ChannelVoiceAudio
+    implements VoiceAudioHost, VoicePreview, AthanPlayback {
   /// The adapter on [_channel].
   new([this._channel = const MethodChannel(channelName)]) {
     _channel.setMethodCallHandler((call) async {
-      if (call.method == 'previewEnded') _ended.add(null);
+      switch (call) {
+        case MethodCall(method: 'previewEnded'):
+          _ended.add(null);
+        case MethodCall(method: 'athanChanged', arguments: final bool playing):
+          _athan.add(playing);
+      }
     });
   }
 
@@ -22,6 +30,7 @@ final class ChannelVoiceAudio implements VoiceAudioHost, VoicePreview {
 
   final MethodChannel _channel;
   final StreamController<void> _ended = StreamController<void>.broadcast();
+  final StreamController<bool> _athan = StreamController<bool>.broadcast();
 
   @override
   Future<bool> install(String soundId, String path, String sha256) =>
@@ -39,6 +48,15 @@ final class ChannelVoiceAudio implements VoiceAudioHost, VoicePreview {
 
   @override
   Stream<void> get ended => _ended.stream;
+
+  @override
+  Future<bool> athanPlaying() => _bool('athanPlaying', null);
+
+  @override
+  Future<void> stopAthan() => _bool('stopAthan', null);
+
+  @override
+  Stream<bool> get athanChanges => _athan.stream;
 
   Future<bool> _bool(String method, Object? arguments) async {
     try {

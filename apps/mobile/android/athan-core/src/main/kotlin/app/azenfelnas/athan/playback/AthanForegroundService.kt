@@ -2,11 +2,16 @@ package app.azenfelnas.athan.playback
 
 import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ServiceInfo
 import android.media.MediaPlayer
 import android.media.RingtoneManager
+import android.media.VolumeProvider
+import android.media.session.MediaSession
+import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Build
 import android.os.IBinder
@@ -29,12 +34,17 @@ import app.azenfelnas.athan.schedule.RequestCode
  * `USAGE_ALARM`, started from the exact-alarm background-start exemption (ADR-012, S19). Audio is
  * `<device-protected files>/athan/<soundId>.m4a`, else the default alarm sound with an `AUDIO_ASSET_MISSING`
  * receipt. Stop ends it; Snooze re-arms the entry once, `policy.snoozeMinutes` later (REQ-ALM-042). A voice
- * preview never plays over it: starting ends any preview and none starts until it finishes (§15 D111).
+ * preview never plays over it: starting ends any preview and none starts until it finishes (§15 D111). Swiping the
+ * notification away also ends it, and the app can end it with [stop] (§15 D118, REQ-ALM-043). So does any physical
+ * button: a volume key or a headset button reaches the playback's remote-volume [MediaSession], and the power button
+ * turns the screen on or off ([BUTTON_GRACE_MS] after the start, so a screen lit for the alert does not count).
  */
 public class AthanForegroundService : Service() {
     private var player: MediaPlayer? = null
     private var alarmId: String? = null
     private var startedAtMs: Long = 0L
+    private var session: MediaSession? = null
+    private var screen: BroadcastReceiver? = null
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -81,6 +91,7 @@ public class AthanForegroundService : Service() {
         }
         graph.receipts.presented(playback.alarmId, ReceiptStage.FGS_STARTED)
         player?.release()
+        listenForButtons(graph)
         alarmId = playback.alarmId
         player =
             MediaPlayer().apply {
@@ -101,6 +112,65 @@ public class AthanForegroundService : Service() {
                 }
                 prepareAsync()
             }
+    }
+
+    /** Any physical button stops the Athan (§15 D118, REQ-ALM-043). */
+    private fun listenForButtons(graph: AthanGraph) {
+        releaseButtons()
+        val armedAtMs = graph.clock.nowUtcMs() + BUTTON_GRACE_MS
+        session =
+            MediaSession(this, SESSION_TAG).apply {
+                setPlaybackToRemote(
+                    object : VolumeProvider(VOLUME_CONTROL_RELATIVE, 1, 1) {
+                        override fun onAdjustVolume(direction: Int) {
+                            finish(graph, ReceiptStage.USER_STOP)
+                        }
+                    },
+                )
+                setCallback(
+                    object : MediaSession.Callback() {
+                        override fun onMediaButtonEvent(mediaButtonIntent: Intent): Boolean {
+                            finish(graph, ReceiptStage.USER_STOP)
+                            return true
+                        }
+                    },
+                )
+                setPlaybackState(
+                    PlaybackState
+                        .Builder()
+                        .setState(PlaybackState.STATE_PLAYING, 0L, 1f)
+                        .setActions(PlaybackState.ACTION_STOP or PlaybackState.ACTION_PLAY_PAUSE)
+                        .build(),
+                )
+                isActive = true
+            }
+        val receiver =
+            object : BroadcastReceiver() {
+                override fun onReceive(
+                    context: Context,
+                    intent: Intent,
+                ) {
+                    if (graph.clock.nowUtcMs() >= armedAtMs) finish(graph, ReceiptStage.USER_STOP)
+                }
+            }
+        val filter =
+            IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_OFF)
+                addAction(Intent.ACTION_SCREEN_ON)
+            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
+        } else {
+            registerReceiver(receiver, filter)
+        }
+        screen = receiver
+    }
+
+    private fun releaseButtons() {
+        session?.release()
+        session = null
+        screen?.let { unregisterReceiver(it) }
+        screen = null
     }
 
     private fun audioUri(
@@ -135,6 +205,7 @@ public class AthanForegroundService : Service() {
         stage: ReceiptStage,
     ) {
         alarmId?.let { graph.receipts.dismissed(it, stage, graph.clock.nowUtcMs() - startedAtMs) }
+        releaseButtons()
         player?.release()
         player = null
         alarmId = null
@@ -144,6 +215,7 @@ public class AthanForegroundService : Service() {
     }
 
     override fun onDestroy() {
+        releaseButtons()
         player?.release()
         player = null
         PreviewPlayer.gate.athanEnded()
@@ -164,6 +236,10 @@ public class AthanForegroundService : Service() {
         private const val EXTRA_FALLBACK_KIND = "app.azenfelnas.athan.FALLBACK_KIND"
         private const val EXTRA_FALLBACK_SOUND = "app.azenfelnas.athan.FALLBACK_SOUND"
         private const val MS_PER_MINUTE: Long = 60_000L
+        private const val SESSION_TAG = "athan"
+
+        /** Screen changes this soon after the start are the alert lighting the screen, not the user. */
+        private const val BUTTON_GRACE_MS: Long = 2_000L
         private const val FGS_DENIED_EXCEPTION = "ForegroundServiceStartNotAllowedException"
 
         /**
@@ -197,6 +273,12 @@ public class AthanForegroundService : Service() {
             )
             graph.notifications.post(playback.fallback)
             graph.receipts.presented(playback.alarmId, ReceiptStage.NOTIFICATION_POSTED)
+        }
+
+        /** Ends the Athan playing now, if any; the app's own Stop (§15 D118). */
+        internal fun stop(context: Context) {
+            if (!PreviewPlayer.gate.isAthanPlaying()) return
+            context.startService(Intent(context, AthanForegroundService::class.java).setAction(ACTION_STOP))
         }
 
         internal fun stopIntent(

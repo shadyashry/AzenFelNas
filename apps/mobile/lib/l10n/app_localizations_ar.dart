@@ -782,6 +782,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get athanVoiceStop => 'إيقاف';
 
   @override
+  String get athanPlayingNow => 'الأذان يُرفع الآن';
+
+  @override
+  String get athanStopNow => 'إيقاف';
+
+  @override
   String get athanVoiceRemove => 'امسحه من الموبايل';
 
   @override

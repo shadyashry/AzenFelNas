@@ -41,7 +41,10 @@ internal class AlertNotifications(
         manager.notify(RequestCode.of(notify.alarmId), notification)
     }
 
-    /** The ongoing notification of the playback service, with Stop and, once, Snooze (REQ-ALM-042). */
+    /**
+     * The ongoing notification of the playback service, with Stop and, once, Snooze (REQ-ALM-042). Android 14+ lets
+     * the user swipe it away; that stops the Athan too, so it never plays on with nothing left to stop it (REQ-ALM-043).
+     */
     fun playback(playback: Presentation.Playback): Notification {
         val text = playback.text ?: testText()
         val sound = if (playback.vibrate) ChannelSpec.VIBRATE else ChannelSpec.SILENT
@@ -54,6 +57,7 @@ internal class AlertNotifications(
                 .setCategory(Notification.CATEGORY_ALARM)
                 .setOngoing(true)
                 .setContentIntent(openApp(playback.alarmId))
+                .setDeleteIntent(AthanForegroundService.stopIntent(context, playback.alarmId))
                 .addAction(
                     action(R.string.athan_action_stop, AthanForegroundService.stopIntent(context, playback.alarmId)),
                 )
