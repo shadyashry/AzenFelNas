@@ -653,7 +653,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get athanTestTitle => 'Athan test';
 
   @override
-  String get athanTestStart => 'Play a test Athan in 60 seconds';
+  String get athanTestStart => 'Play a test Athan in 10 seconds';
 
   @override
   String get athanTestNeedsSound => 'Choose an Athan sound first';

@@ -31,12 +31,9 @@ final class AthanPage extends ConsumerWidget {
     final options = ref.watch(athanSoundOptionsProvider).value;
     final stored = ref.watch(athanEnabledSettingProvider).value ?? const {};
     final enabled = AthanPreferences.enabledOf(stored);
-    // The Test plays the sound the plan plays (§15 D94, D111); with only the
-    // device tone there is no recording to test.
-    final chosen = switch (options?.athanSound(soundId)) {
-      AthanPreferences.deviceAlarmSoundId || null => null,
-      final String id => id,
-    };
+    // The Test plays the sound the plan plays (§15 D94, D111), the phone's
+    // alarm tone included (§15 D113).
+    final chosen = options?.athanSound(soundId);
     // A changed sound or reminder re-arms the Athan at once.
     ref.watch(athanPlanProvider);
     return Scaffold(

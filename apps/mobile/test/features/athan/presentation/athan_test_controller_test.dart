@@ -41,7 +41,7 @@ void main() {
       await test.start('makkah');
       expect(
         container.read(athanTestProvider),
-        isA<AthanTestScheduled>().having((s) => s.secondsLeft, 'left', 60),
+        isA<AthanTestScheduled>().having((s) => s.secondsLeft, 'left', 10),
       );
       final testId = platform.armedTests.single;
 

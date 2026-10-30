@@ -1211,7 +1211,7 @@ abstract class AppLocalizations {
   /// Athan Test start button.
   ///
   /// In en, this message translates to:
-  /// **'Play a test Athan in 60 seconds'**
+  /// **'Play a test Athan in 10 seconds'**
   String get athanTestStart;
 
   /// Athan Test disabled hint.

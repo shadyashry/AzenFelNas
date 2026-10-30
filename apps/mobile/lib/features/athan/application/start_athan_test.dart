@@ -12,7 +12,7 @@ final class StartAthanTest {
   final Clock _clock;
 
   /// Seconds from the tap to the Test Athan (§8.3).
-  static const int fireInSeconds = 60;
+  static const int fireInSeconds = 10;
 
   /// Arms a Test playing [soundId]; the id is the 16-hex start instant.
   Future<AthanTestEvent> call({required String soundId}) async {

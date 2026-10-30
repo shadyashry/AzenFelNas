@@ -922,7 +922,7 @@
   "@athanTestTitle": {
     "description": "Athan Test section title."
   },
-  "athanTestStart": "Play a test Athan in 60 seconds",
+  "athanTestStart": "Play a test Athan in 10 seconds",
   "@athanTestStart": {
     "description": "Athan Test start button."
   },

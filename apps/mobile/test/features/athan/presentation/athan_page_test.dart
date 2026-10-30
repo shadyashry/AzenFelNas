@@ -78,9 +78,11 @@ void main() {
       findsOneWidget,
     );
     await tester.scrollUntilVisible(find.text('Fajr Athan voice'), 200);
-    expect(find.text('Choose an Athan sound first'), findsOneWidget);
-    // With nothing on the phone the device tone plays (§15 D79, D111).
+    // With nothing on the phone the device tone plays (§15 D79, D111), and
+    // the Test can ring it (§15 D113).
     expect(find.text('Phone alarm tone'), findsOneWidget);
+    expect(find.text('Play a test Athan in 10 seconds'), findsOneWidget);
+    expect(find.text('Choose an Athan sound first'), findsNothing);
   });
 
   testWidgets('REQ-ALM-003 no native layer reads as unknown, never ready', (
@@ -105,9 +107,9 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.text('Ready: the Athan will sound'), findsOneWidget);
-    await tester.tap(find.text('Play a test Athan in 60 seconds'));
+    await tester.tap(find.text('Play a test Athan in 10 seconds'));
     await tester.pumpAndSettle();
-    expect(find.text('Test Athan in 60 s'), findsOneWidget);
+    expect(find.text('Test Athan in 10 s'), findsOneWidget);
     expect(platform.armedTests, hasLength(1));
   });
 

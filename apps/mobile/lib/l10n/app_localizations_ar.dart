@@ -649,7 +649,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get athanTestTitle => 'اختبار الأذان';
 
   @override
-  String get athanTestStart => 'شغّل أذانًا تجريبيًا بعد 60 ثانية';
+  String get athanTestStart => 'شغّل أذانًا تجريبيًا بعد ١٠ ثواني';
 
   @override
   String get athanTestNeedsSound => 'اختر صوت الأذان أولًا';

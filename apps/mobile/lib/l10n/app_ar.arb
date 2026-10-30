@@ -185,7 +185,7 @@
   "athanGrantAllow": "اسمح",
   "athanGrantOpenSettings": "افتح الإعدادات",
   "athanTestTitle": "اختبار الأذان",
-  "athanTestStart": "شغّل أذانًا تجريبيًا بعد 60 ثانية",
+  "athanTestStart": "شغّل أذانًا تجريبيًا بعد ١٠ ثواني",
   "athanTestNeedsSound": "اختر صوت الأذان أولًا",
   "athanTestFired": "يُفترض أن الأذان التجريبي يعمل الآن",
   "athanTestAsk": "هل سمعته؟",
