@@ -144,6 +144,7 @@ class BuildQuran:
         (out / MANIFEST).write_text(
             manifest.model_dump_json(by_alias=True, exclude_none=True, indent=2) + "\n",
             encoding="utf-8",
+            newline="",
         )
         self._build_manifest(config, out, text_bytes, pages)
         return manifest
@@ -230,5 +231,7 @@ class BuildQuran:
             ],
         )
         (out / BUILD_MANIFEST).write_text(
-            manifest.model_dump_json(exclude_none=True, indent=2) + "\n", encoding="utf-8"
+            manifest.model_dump_json(exclude_none=True, indent=2) + "\n",
+            encoding="utf-8",
+            newline="",
         )
