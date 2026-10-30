@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// (KFGQPC text and font), filterable by name or number, and the 30 juz;
 /// a tap opens the first page. With [currentSura] the surah list opens
 /// scrolled to that surah and marks it; with [currentJuz] the juz list
-/// opens instead, scrolled to that juz (§15 D111).
+/// opens instead, scrolled to that juz (§15 D113).
 Future<void> showQuranIndexSheet(
   BuildContext context, {
   int? currentSura,
@@ -189,7 +189,7 @@ final class _SurasState extends ConsumerState<_Suras> {
   }
 }
 
-/// The 30 juz, each with the surahs inside it (§15 D111); opened from the
+/// The 30 juz, each with the surahs inside it (§15 D113); opened from the
 /// juz in the reader's title it is scrolled to that juz and marks it.
 final class _Juz extends ConsumerStatefulWidget {
   const new({required this.current});
@@ -273,7 +273,7 @@ final class _JuzState extends ConsumerState<_Juz> {
 }
 
 /// Opens the first verse of a surah or juz with its lines outlined
-/// (§15 D111), or [page] when the package cannot place it.
+/// (§15 D113), or [page] when the package cannot place it.
 void _open(BuildContext context, WidgetRef ref, int sura, int aya, int page) {
   unawaited(
     ref

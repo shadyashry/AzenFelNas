@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 /// or control over it. The only overlays are the reader's own highlights,
 /// drawn translucent (multiply) so every letter and mark stays readable,
 /// and for a moment the outline of a verse just opened ([marks], §15
-/// D111); with both empty the page is untouched.
+/// D113); with both empty the page is untouched.
 ///
 /// The image is decoded no larger than shown (rounded up to 256 px steps
 /// and never above the source), so a small phone never holds a full-size

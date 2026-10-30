@@ -962,17 +962,150 @@
   "@athanTestAgain": {
     "description": "Athan Test reset button."
   },
-  "athanSound": "Athan sound",
-  "@athanSound": {
-    "description": "Sound choice title."
-  },
-  "athanNoSounds": "No Athan sounds are installed yet",
-  "@athanNoSounds": {
-    "description": "Sound choice when the manifest is empty."
-  },
   "athanSoundTest": "Test Athan (not for release)",
   "@athanSoundTest": {
     "description": "Name of a bundled test Athan sound on dev and lab builds (§15 D94, D95)."
+  },
+  "athanVoice": "Athan voice",
+  "@athanVoice": {
+    "description": "Title of the Athan voice choice (§15 D111)."
+  },
+  "athanFajrVoice": "Fajr Athan voice",
+  "@athanFajrVoice": {
+    "description": "Title of the Fajr voice choice (REQ-ALM-052)."
+  },
+  "athanVoiceSameAsAthan": "Same as the Athan voice",
+  "@athanVoiceSameAsAthan": {
+    "description": "Fajr choice that follows the Athan voice."
+  },
+  "athanVoiceDevice": "Phone alarm tone",
+  "@athanVoiceDevice": {
+    "description": "The device alarm tone as a voice choice (§15 D79)."
+  },
+  "athanVoiceDeviceNote": "Always on the phone, no download",
+  "@athanVoiceDeviceNote": {
+    "description": "Under the alarm tone choice."
+  },
+  "athanVoiceUnavailable": "A voice that is no longer offered",
+  "@athanVoiceUnavailable": {
+    "description": "Name of a chosen sound this build no longer has."
+  },
+  "athanVoiceMissing": "{missing} is not on this phone any more, so {fallback} plays instead. Download it again to bring it back.",
+  "@athanVoiceMissing": {
+    "description": "Shown when the chosen voice's file is gone (REQ-ALM-053).",
+    "placeholders": {
+      "missing": {
+        "type": "String"
+      },
+      "fallback": {
+        "type": "String"
+      }
+    }
+  },
+  "athanVoicesDownloadable": "Voices to download",
+  "@athanVoicesDownloadable": {
+    "description": "Heading of the downloadable voices."
+  },
+  "athanVoicesOffline": "A downloaded voice plays from the phone itself: the Athan and the preview need no internet.",
+  "@athanVoicesOffline": {
+    "description": "Footnote of the voice choices (REQ-ALM-054)."
+  },
+  "athanVoicesPlatformNote": "On Android the whole Athan plays until it ends or you tap Stop. Downloaded voices are not on iPhone yet.",
+  "@athanVoicesPlatformNote": {
+    "description": "Platform limits of downloaded voices (§15 D111)."
+  },
+  "athanVoicesNone": "No voices to download yet.",
+  "@athanVoicesNone": {
+    "description": "When the catalog offers nothing on this build."
+  },
+  "athanVoiceKindFajr": "Fajr Athan",
+  "@athanVoiceKindFajr": {
+    "description": "A voice the source names a Fajr Athan."
+  },
+  "athanVoiceKindAthan": "Athan",
+  "@athanVoiceKindAthan": {
+    "description": "A voice for every prayer."
+  },
+  "athanVoiceReviewPending": "Not yet listened to in full: for testing only",
+  "@athanVoiceReviewPending": {
+    "description": "A voice whose listening review is pending (dev and lab only, REQ-ALM-050)."
+  },
+  "athanVoiceCredit": "{licence} · {creator}",
+  "@athanVoiceCredit": {
+    "description": "Licence and the creator the source names; opens the licences page.",
+    "placeholders": {
+      "licence": {
+        "type": "String"
+      },
+      "creator": {
+        "type": "String"
+      }
+    }
+  },
+  "athanVoiceOnPhone": "On this phone",
+  "@athanVoiceOnPhone": {
+    "description": "A downloaded voice."
+  },
+  "athanVoiceDownload": "Download",
+  "@athanVoiceDownload": {
+    "description": "Starts a voice download."
+  },
+  "athanVoiceDownloading": "Downloading",
+  "@athanVoiceDownloading": {
+    "description": "Progress bar label."
+  },
+  "athanVoiceCancel": "Stop download",
+  "@athanVoiceCancel": {
+    "description": "Cancels a voice download; the bytes are kept."
+  },
+  "athanVoiceRetry": "Try again",
+  "@athanVoiceRetry": {
+    "description": "Retries a failed voice download."
+  },
+  "athanVoicePreview": "Listen",
+  "@athanVoicePreview": {
+    "description": "Plays a downloaded voice."
+  },
+  "athanVoiceStop": "Stop",
+  "@athanVoiceStop": {
+    "description": "Stops the preview."
+  },
+  "athanVoiceRemove": "Remove from phone",
+  "@athanVoiceRemove": {
+    "description": "Deletes a downloaded voice."
+  },
+  "athanVoiceSelected": "Selected",
+  "@athanVoiceSelected": {
+    "description": "Screen reader label of the chosen voice."
+  },
+  "athanVoiceFailOffline": "No internet. Try again when you are connected; what downloaded is kept.",
+  "@athanVoiceFailOffline": {
+    "description": "Voice download failed offline."
+  },
+  "athanVoiceFailServer": "The voice could not be downloaded right now. Try again later.",
+  "@athanVoiceFailServer": {
+    "description": "The CDN refused the voice."
+  },
+  "athanVoiceFailSpace": "Not enough space on the phone: {size} needed.",
+  "@athanVoiceFailSpace": {
+    "description": "Not enough free space.",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "athanVoiceFailIntegrity": "The download arrived damaged and was deleted. Try again.",
+  "@athanVoiceFailIntegrity": {
+    "description": "Size or SHA-256 mismatch (REQ-ALM-051)."
+  },
+  "athanVoiceFailStorage": "The voice could not be saved on this phone.",
+  "@athanVoiceFailStorage": {
+    "description": "Write, rename or alarm-player copy failed."
+  },
+  "athanVoiceFailCancelled": "Download stopped; it continues where it left off.",
+  "@athanVoiceFailCancelled": {
+    "description": "After Stop download."
   },
   "athanPrayersTitle": "Athan for",
   "@athanPrayersTitle": {

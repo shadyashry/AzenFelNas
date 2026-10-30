@@ -46,6 +46,7 @@ void main() {
         AppSettings.activeContextId,
         AppSettings.showSeconds,
         AppSettings.athanPlanGeneration,
+        AppSettings.fajrSoundId,
       ].map((k) => k.wire),
       AppSettings.wires,
     );

@@ -4,17 +4,20 @@ import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:meta/meta.dart';
 
 /// The user's Athan choices that shape a plan (US-10, Appendix K): which
-/// events alert, the Athan sound, the pre-reminder and the plan locale.
+/// events alert, the Athan sound, the Fajr sound, the pre-reminder and the
+/// plan locale.
 ///
 /// Nothing here is a religious value (§0.2 rule 1): every field is the
 /// user's own choice, and an empty [enabled] set yields a plan that holds
 /// only its horizon warning.
 @immutable
 final class AthanPreferences {
-  /// Preferences with [enabled] events alerting with [soundId].
+  /// Preferences with [enabled] events alerting with [soundId], Fajr with
+  /// [fajrSoundId].
   const new({
     required this.enabled,
     required this.soundId,
+    required this.fajrSoundId,
     required this.preReminder,
     required this.locale,
   });
@@ -23,9 +26,15 @@ final class AthanPreferences {
   /// defaults for what the user has not chosen yet:
   /// - [enabled] (`athanEnabled{event: bool}`, keyed by the event's Dart name):
   ///   the five prayers when the user never chose, else the events set true;
-  /// - [soundId]: the chosen sound when it is still bundled, else the first
-  ///   bundled sound of [sounds], else [deviceAlarmSoundId] (no file, so the
-  ///   host plays the device alarm tone, §15 D79);
+  /// - [soundId]: the chosen sound while it is on the phone ([sounds]: the
+  ///   bundled sounds, then the downloaded standard voices); until the user
+  ///   chooses, the first of [sounds]; else [deviceAlarmSoundId] (no file,
+  ///   so the host plays the device alarm tone, §15 D79). A chosen sound
+  ///   that is gone falls back to the device tone, never to another
+  ///   recording, and the Athan page says so (§15 D111, REQ-ALM-053);
+  /// - [fajrSoundId]: the chosen Fajr sound while it is on the phone
+  ///   ([fajrSounds]: [sounds] and the downloaded Fajr voices), else the
+  ///   Athan sound above (REQ-ALM-052);
   /// - [preReminderMinutes]: off unless it is an allowed value.
   factory ofSettings({
     required Map<String, bool> enabled,
@@ -33,15 +42,44 @@ final class AthanPreferences {
     required List<String> sounds,
     required int preReminderMinutes,
     required PlanLocale locale,
-  }) => AthanPreferences(
-    enabled: enabledOf(enabled),
-    soundId: switch (soundId) {
-      final String id when sounds.contains(id) => id,
-      _ => sounds.isEmpty ? deviceAlarmSoundId : sounds.first,
-    },
-    preReminder: PreReminder.ofMinutes(preReminderMinutes) ?? PreReminder.off,
-    locale: locale,
-  );
+    String? fajrSoundId,
+    List<String> fajrSounds = const [],
+  }) {
+    final athan = effectiveSound(soundId, sounds);
+    return AthanPreferences(
+      enabled: enabledOf(enabled),
+      soundId: athan,
+      fajrSoundId: effectiveFajrSound(
+        fajrSoundId,
+        [...sounds, ...fajrSounds],
+        athan: athan,
+      ),
+      preReminder: PreReminder.ofMinutes(preReminderMinutes) ?? PreReminder.off,
+      locale: locale,
+    );
+  }
+
+  /// The Athan sound that plays for the stored [chosen] id when [sounds] are
+  /// on the phone (see [AthanPreferences.ofSettings]).
+  static String effectiveSound(String? chosen, List<String> sounds) =>
+      switch (chosen) {
+        null => sounds.firstOrNull ?? deviceAlarmSoundId,
+        deviceAlarmSoundId => deviceAlarmSoundId,
+        final String id when sounds.contains(id) => id,
+        _ => deviceAlarmSoundId,
+      };
+
+  /// The Fajr sound that plays for the stored [chosen] id when [sounds] are
+  /// on the phone: the chosen one, else the Athan sound [athan].
+  static String effectiveFajrSound(
+    String? chosen,
+    List<String> sounds, {
+    required String athan,
+  }) => switch (chosen) {
+    deviceAlarmSoundId => deviceAlarmSoundId,
+    final String id when sounds.contains(id) => id,
+    _ => athan,
+  };
 
   /// The events that alert under the stored `athanEnabled` map: the five
   /// prayers until the user chooses, then only the events set true.
@@ -84,8 +122,12 @@ final class AthanPreferences {
   /// `IMSAK` entry; Sunrise has no plan kind and is ignored (§15 D80).
   final Set<PrayerEvent> enabled;
 
-  /// Sound of `ATHAN` entries (`^[a-z0-9_]+$`, the audio manifest id).
+  /// Sound of `ATHAN` entries but Fajr's (`^[a-z0-9_]+$`, the audio
+  /// manifest or voice catalog id).
   final String soundId;
+
+  /// Sound of the Fajr `ATHAN` entry.
+  final String fajrSoundId;
 
   /// The global pre-reminder (REQ-ALM-042).
   final PreReminder preReminder;

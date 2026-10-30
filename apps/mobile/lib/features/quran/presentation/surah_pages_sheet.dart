@@ -14,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// The pages of the surah being read, as small images of the official
 /// pages in Mushaf order (right to left), with a slider along them
-/// (§15 D111). It opens on [page], marked; a tap opens a page.
+/// (§15 D113). It opens on [page], marked; a tap opens a page.
 /// [onGoToPage] offers typing any page number instead.
 Future<void> showSurahPagesSheet(
   BuildContext context, {

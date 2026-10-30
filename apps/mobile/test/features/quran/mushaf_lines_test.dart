@@ -4,7 +4,7 @@ import 'package:daily_muslim/features/quran/domain/verse_place.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Line geometry of the pinned Mushaf (§15 D111)', () {
+  group('Line geometry of the pinned Mushaf (§15 D113)', () {
     test('it belongs to the pinned layout', () {
       expect(MushafLines.layoutId, QuranEditionPin.layoutId);
     });
@@ -68,7 +68,7 @@ void main() {
     });
   });
 
-  group('A verse place (§15 D111)', () {
+  group('A verse place (§15 D113)', () {
     const kahf1 = VersePlace(
       sura: 18,
       aya: 1,

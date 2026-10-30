@@ -17,10 +17,12 @@ import 'package:geo_salah_core/geo_salah_core.dart';
 import '../../support/app_harness.dart';
 import '../../support/runtime_fixtures.dart';
 
-/// Every event, a 10-minute pre-reminder, Arabic first.
+/// Every event, a 10-minute pre-reminder, Arabic first; Fajr follows the
+/// Athan sound (the committed plan fixtures).
 const AthanPreferences allEvents = AthanPreferences(
   enabled: {...PrayerEvent.values},
   soundId: 'athan_makkah_v1',
+  fajrSoundId: 'athan_makkah_v1',
   preReminder: PreReminder.ten,
   locale: PlanLocale.ar,
 );

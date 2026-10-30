@@ -1,0 +1,83 @@
+# Pinned sources of the downloadable Athan voices (DESIGN.md §9.5, §15 D111, D112).
+# `dm-pipelines athan-voices fetch` refuses (and deletes) bytes that do not match a sha256 below, and
+# `dm-pipelines athan-voices build` refuses a source that does not, and output whose sha256 differs
+# from `expectSha256` (a different ffmpeg can encode different bytes: rebuild, listen, re-pin here
+# and in the app's `assets/athan/voice_catalog.json`).
+#
+# Processing is restricted to what the licence and the owner allow (§15 D111): the audio stream is
+# copied out of its container unchanged (the "original"), then only the room tone before the first
+# phrase is trimmed and one fixed gain brings it to -16 LUFS integrated; it is encoded AAC-LC to
+# .m4a at the source's own sample rate, the format the native player already plays. No splicing,
+# pitch or tempo change, fades, denoising or limiting.
+#
+# Excluded candidates and why are recorded in docs/release/athan-voices/README.md, not here. The
+# first voice (Malmö, Fajr) was removed after the owner's listening review (§15 D112).
+
+[[voice]]
+soundId = "mirza_isha_2013"
+designation = "standard"
+review = "pending"
+version = 1
+expectSha256 = "70e6681289d6076f8efa016d51d1335430937293c2ddfd430a4fd7f600ba4859"
+ffmpeg = "9.0.2-full_build-www.gyan.dev"
+
+[voice.source]
+page = "https://archive.org/details/IshaAzanByMoazzambegMirza07092013"
+url = "https://archive.org/download/IshaAzanByMoazzambegMirza07092013/Isha%20Azan%20by%20Moazzambeg%20Mirza%20%2807-09-2013%29.mp3"
+# archive.org publishes the sha1 (8b53beed93650d369ab0ae07dcf4001fefe4b9c3); the sha256 is of the same bytes.
+sha256 = "ba756b8edf29ff0ac7f145e3edad2b3380fdc3c8b386f01eff10e6e9f270470b"
+retrieved = "2026-10-30"
+# The item says the Athan was called by Moazzambeg Mirza at Muhammadi Masjid (Jamiyat Ahle Hadees),
+# Sarkhej, Ahmedabad; the same account publishes his own paintings under the same mark.
+creator = "Moazzambeg Mirza (the muezzin, who published it himself)"
+origin = "https://archive.org/details/IshaAzanByMoazzambegMirza07092013"
+uploader = "Moazzam Mirza (Internet Archive, 2013-10-20)"
+recorded = "2013-09-07"
+licence = "CC-PDM-1.0"
+licenceUrl = "https://creativecommons.org/publicdomain/mark/1.0/"
+licenceReview = "https://archive.org/search?query=creator%3A%28Moazzam+Mirza%29"
+originalExtension = "mp3"
+
+[voice.processing]
+# 0–12.8 s is room tone (about -46 dB) with two faint handling sounds (≤ -25 dB; the phrases peak
+# at -16 dB) before the first phrase at 13.3 s; nothing after it is removed.
+trimStartSeconds = 12.8
+# Integrated loudness of the kept audio is -13.8 LUFS; -2.2 dB brings it to -16.0 LUFS.
+gainDb = -2.2
+targetLufs = -16.0
+bitrateKbps = 96
+sampleRate = 44100
+
+[[voice]]
+soundId = "icr_friday_2024"
+designation = "standard"
+review = "pending"
+version = 1
+expectSha256 = "37727d79972cb3e7698d4b8b8a5f792d56b219149d425b2bb3f5524d301936d1"
+ffmpeg = "9.0.2-full_build-www.gyan.dev"
+
+[voice.source]
+page = "https://archive.org/details/icr-friday-prayer-1st-adhan-17th-may-2024-9th-dhul-qadah-1445-by-asim-javed"
+url = "https://archive.org/download/icr-friday-prayer-1st-adhan-17th-may-2024-9th-dhul-qadah-1445-by-asim-javed/ICR_Friday_Prayer_1st_Adhan_17th_May_2024_9th_Dhul_Qadah_1445_by_Asim_Javed.wav"
+# archive.org publishes the sha1 (0d251a22a12ad47999032426c4846ce78c8db542); the sha256 is of the same bytes.
+sha256 = "c0b18b25b1af6f4cb09503465c73b63f784178d2bea9c8856c469b012abd839f"
+retrieved = "2026-10-30"
+# "Called by: Asim Javed"; the same account publishes the centre's Friday khutbahs and prayers
+# (348 items, CC0), so the muezzin is also the publisher.
+creator = "Asim Javed (the muezzin, who published it himself)"
+origin = "https://archive.org/details/icr-friday-prayer-1st-adhan-17th-may-2024-9th-dhul-qadah-1445-by-asim-javed"
+uploader = "Asim Javed (Internet Archive, 2024-05-18)"
+recorded = "2024-05-17"
+licence = "CC0-1.0"
+licenceUrl = "https://creativecommons.org/publicdomain/zero/1.0/"
+licenceReview = "https://archive.org/search?query=creator%3A%28%22Asim+Javed%22%29"
+originalExtension = "wav"
+
+[voice.processing]
+# The first phrase starts 0.1 s into the file: nothing to trim.
+trimStartSeconds = 0.0
+# Integrated loudness is -11.5 LUFS; -4.5 dB brings it to -16.0 LUFS.
+gainDb = -4.5
+targetLufs = -16.0
+bitrateKbps = 96
+sampleRate = 44100

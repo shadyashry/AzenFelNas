@@ -70,7 +70,7 @@ abstract final class ArabicSearchText {
   static String normalize(String source) => fold(source).text;
 
   /// A search query folded. Text quoted in ornate parentheses (`﴿…﴾`, the
-  /// form *Copy ayah* writes, §15 D111) is searched by what is inside them,
+  /// form *Copy ayah* writes, §15 D113) is searched by what is inside them,
   /// so a pasted ayah finds itself without its reference.
   static String query(String source) {
     final open = source.indexOf(_ornateOpen);

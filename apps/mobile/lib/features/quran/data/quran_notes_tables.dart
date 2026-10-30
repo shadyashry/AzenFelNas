@@ -99,7 +99,7 @@ class QuranReaderPrefs extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-/// Whole-verse highlights per page layout (§15 D111, schema version 2): one
+/// Whole-verse highlights per page layout (§15 D113, schema version 2): one
 /// per verse.
 @DataClassName('QuranAyahHighlightRow')
 class QuranAyahHighlights extends Table {

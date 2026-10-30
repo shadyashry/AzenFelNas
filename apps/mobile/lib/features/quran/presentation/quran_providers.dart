@@ -163,7 +163,7 @@ final Provider<QuranPackageStatus> quranStatusProvider = Provider(
 );
 
 /// Where verses stand in the active package; `null` until it is ready
-/// (§15 D111).
+/// (§15 D113).
 final Provider<ReadVersePlaces?> versePlacesProvider = Provider((ref) {
   final installed = readablePackage(ref.watch(quranPackageProvider));
   if (installed == null) return null;
@@ -188,7 +188,7 @@ final FutureProviderFamily<List<VersePlace>, int> versesOnPageProvider =
     });
 
 /// The pages surah `sura` is on: its header page to the page of its last
-/// verse (§15 D111). Without verse places the next surah's header page
+/// verse (§15 D113). Without verse places the next surah's header page
 /// bounds it; `null` for an unknown surah.
 final FutureProviderFamily<({int first, int last})?, int> surahPagesProvider =
     FutureProvider.family<({int first, int last})?, int>((ref, sura) async {
@@ -222,7 +222,7 @@ final StreamProvider<List<AyahHighlight>> ayahHighlightsProvider =
     );
 
 /// The verse highlights as bands over the lines each verse is on, by page
-/// (§15 D111). Only the measured layout has line geometry.
+/// (§15 D113). Only the measured layout has line geometry.
 final FutureProvider<Map<int, List<(HighlightRegion, HighlightColor)>>>
 ayahRegionsProvider = FutureProvider((ref) async {
   final highlights =

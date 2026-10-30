@@ -115,7 +115,7 @@ void main() {
   });
 
   test('REQ-QRN-052 a verse highlight is kept per verse, recoloured in '
-      'place and removed (§15 D111)', () async {
+      'place and removed (§15 D113)', () async {
     await notes.setAyahHighlight(
       layout,
       2,

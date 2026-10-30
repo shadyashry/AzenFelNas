@@ -683,13 +683,111 @@ class AppLocalizationsEn extends AppLocalizations {
   String get athanTestAgain => 'Test again';
 
   @override
-  String get athanSound => 'Athan sound';
-
-  @override
-  String get athanNoSounds => 'No Athan sounds are installed yet';
-
-  @override
   String get athanSoundTest => 'Test Athan (not for release)';
+
+  @override
+  String get athanVoice => 'Athan voice';
+
+  @override
+  String get athanFajrVoice => 'Fajr Athan voice';
+
+  @override
+  String get athanVoiceSameAsAthan => 'Same as the Athan voice';
+
+  @override
+  String get athanVoiceDevice => 'Phone alarm tone';
+
+  @override
+  String get athanVoiceDeviceNote => 'Always on the phone, no download';
+
+  @override
+  String get athanVoiceUnavailable => 'A voice that is no longer offered';
+
+  @override
+  String athanVoiceMissing(String missing, String fallback) {
+    return '$missing is not on this phone any more, so $fallback plays instead. Download it again to bring it back.';
+  }
+
+  @override
+  String get athanVoicesDownloadable => 'Voices to download';
+
+  @override
+  String get athanVoicesOffline =>
+      'A downloaded voice plays from the phone itself: the Athan and the preview need no internet.';
+
+  @override
+  String get athanVoicesPlatformNote =>
+      'On Android the whole Athan plays until it ends or you tap Stop. Downloaded voices are not on iPhone yet.';
+
+  @override
+  String get athanVoicesNone => 'No voices to download yet.';
+
+  @override
+  String get athanVoiceKindFajr => 'Fajr Athan';
+
+  @override
+  String get athanVoiceKindAthan => 'Athan';
+
+  @override
+  String get athanVoiceReviewPending =>
+      'Not yet listened to in full: for testing only';
+
+  @override
+  String athanVoiceCredit(String licence, String creator) {
+    return '$licence · $creator';
+  }
+
+  @override
+  String get athanVoiceOnPhone => 'On this phone';
+
+  @override
+  String get athanVoiceDownload => 'Download';
+
+  @override
+  String get athanVoiceDownloading => 'Downloading';
+
+  @override
+  String get athanVoiceCancel => 'Stop download';
+
+  @override
+  String get athanVoiceRetry => 'Try again';
+
+  @override
+  String get athanVoicePreview => 'Listen';
+
+  @override
+  String get athanVoiceStop => 'Stop';
+
+  @override
+  String get athanVoiceRemove => 'Remove from phone';
+
+  @override
+  String get athanVoiceSelected => 'Selected';
+
+  @override
+  String get athanVoiceFailOffline =>
+      'No internet. Try again when you are connected; what downloaded is kept.';
+
+  @override
+  String get athanVoiceFailServer =>
+      'The voice could not be downloaded right now. Try again later.';
+
+  @override
+  String athanVoiceFailSpace(String size) {
+    return 'Not enough space on the phone: $size needed.';
+  }
+
+  @override
+  String get athanVoiceFailIntegrity =>
+      'The download arrived damaged and was deleted. Try again.';
+
+  @override
+  String get athanVoiceFailStorage =>
+      'The voice could not be saved on this phone.';
+
+  @override
+  String get athanVoiceFailCancelled =>
+      'Download stopped; it continues where it left off.';
 
   @override
   String get athanPrayersTitle => 'Athan for';

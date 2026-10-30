@@ -157,7 +157,7 @@ final class _Surface extends ConsumerWidget {
               unawaited(showHighlightSheet(context, tapped));
               return;
             }
-            // A tap on a highlighted verse opens it (§15 D111).
+            // A tap on a highlighted verse opens it (§15 D113).
             final verses = reading && _onAyahHighlight(ayahRegions, page, p)
                 ? await _versesAt(ref, page, p, highlightedOnly: true)
                 : const <VersePlace>[];

@@ -1,4 +1,4 @@
-# S44 hand-over: verse features from the downloaded Quran data (DESIGN.md §15 D111)
+# S44 hand-over: verse features from the downloaded Quran data (DESIGN.md §15 D113)
 
 Branch `slice/s44-quran-ayah`, cut from `slice/s41-ux-polish` at `50637e5` (S42's reader is merged there).
 

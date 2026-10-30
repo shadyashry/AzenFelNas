@@ -1,7 +1,7 @@
 import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:meta/meta.dart';
 
-/// A highlight of one whole verse (§15 D111): the verse, not an area, is
+/// A highlight of one whole verse (§15 D113): the verse, not an area, is
 /// what is kept, so it is drawn over the lines the package places that
 /// verse on and listed by its reference. Stored against a page layout.
 @immutable
@@ -50,7 +50,7 @@ final class AyahHighlight {
 }
 
 /// Verse highlights of one page layout, stored apart from the package
-/// (§15 D111): at most one per verse.
+/// (§15 D113): at most one per verse.
 abstract interface class AyahHighlightStore {
   /// The verse highlights of [layoutId] in Mushaf order; emits on every
   /// change.

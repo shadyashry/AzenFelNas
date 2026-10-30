@@ -20,7 +20,7 @@ abstract final class QuranFormat {
   static String number(int n, DisplayStyle style) =>
       style.digits.apply(n.toString());
 
-  /// The name of surah [sura] for [style]'s language (§15 D110, D111):
+  /// The name of surah [sura] for [style]'s language (§15 D110, D113):
   /// Arabic as its Mushaf header gives it, without the word «سورة» and with
   /// every mark kept; English its English name.
   static String surahName(SuraEntry sura, DisplayStyle style) =>

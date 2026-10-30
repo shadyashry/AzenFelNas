@@ -1,7 +1,7 @@
 import 'package:daily_muslim/features/quran/domain/highlight.dart';
 
 /// Where each numbered line sits on the page images of the pinned edition
-/// `kfgqpc-hafs-1441-604` (§15 D111), in page-relative units (0..1 of the
+/// `kfgqpc-hafs-1441-604` (§15 D113), in page-relative units (0..1 of the
 /// image's width and height). Measured once from the package's own page
 /// images, which are never changed: on pages 3–604 the 15 lines are evenly
 /// spaced (line 1 centred at 0.15609, pitch 0.04912; over 20 sampled pages

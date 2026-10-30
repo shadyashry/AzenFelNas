@@ -161,7 +161,7 @@ void main() {
   );
 
   test('REQ-QRN-023 every verse sits on lines the geometry knows, and '
-      'every page line holds a verse or a surah title (§15 D111)', () async {
+      'every page line holds a verse or a surah title (§15 D113)', () async {
     // The search index is attached on open; build it once for this test.
     SqliteSearchIndex.buildSync(dir.path);
     final covered = <(int, int)>{};
@@ -191,7 +191,7 @@ void main() {
   }, skip: skip);
 
   test('REQ-QRN-023 al-Kahf opens on page 293: its first verse on line '
-      '12 (§15 D111)', () async {
+      '12 (§15 D113)', () async {
     final place = switch (await index.verse(18, 1)) {
       Ok(:final value) => value,
       Err(:final failure) => throw StateError('$failure'),

@@ -42,6 +42,7 @@ Widget _page({
     athanEnabledSettingProvider.overrideWith((ref) => Stream.value(enabled)),
     writeSettingProvider.overrideWithValue(writes ?? _Writes()),
     athanSoundSettingProvider.overrideWith((ref) => Stream.value(soundId)),
+    fajrSoundSettingProvider.overrideWith((ref) => Stream.value(null)),
     preReminderSettingProvider.overrideWith((ref) => Stream.value(0)),
   ],
 );
@@ -76,12 +77,10 @@ void main() {
       find.text('The Athan sound is muted in system settings'),
       findsOneWidget,
     );
-    await tester.scrollUntilVisible(
-      find.text('No Athan sounds are installed yet'),
-      200,
-    );
+    await tester.scrollUntilVisible(find.text('Fajr Athan voice'), 200);
     expect(find.text('Choose an Athan sound first'), findsOneWidget);
-    expect(find.text('No Athan sounds are installed yet'), findsOneWidget);
+    // With nothing on the phone the device tone plays (§15 D79, D111).
+    expect(find.text('Phone alarm tone'), findsOneWidget);
   });
 
   testWidgets('REQ-ALM-003 no native layer reads as unknown, never ready', (

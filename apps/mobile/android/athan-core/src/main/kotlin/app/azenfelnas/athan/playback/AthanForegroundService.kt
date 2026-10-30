@@ -28,7 +28,8 @@ import app.azenfelnas.athan.schedule.RequestCode
  * Full Athan playback (REQ-ALM-023): a `mediaPlayback` foreground service playing on the alarm stream with
  * `USAGE_ALARM`, started from the exact-alarm background-start exemption (ADR-012, S19). Audio is
  * `<device-protected files>/athan/<soundId>.m4a`, else the default alarm sound with an `AUDIO_ASSET_MISSING`
- * receipt. Stop ends it; Snooze re-arms the entry once, `policy.snoozeMinutes` later (REQ-ALM-042).
+ * receipt. Stop ends it; Snooze re-arms the entry once, `policy.snoozeMinutes` later (REQ-ALM-042). A voice
+ * preview never plays over it: starting ends any preview and none starts until it finishes (§15 D111).
  */
 public class AthanForegroundService : Service() {
     private var player: MediaPlayer? = null
@@ -64,6 +65,7 @@ public class AthanForegroundService : Service() {
         graph: AthanGraph,
         playback: Presentation.Playback,
     ) {
+        PreviewPlayer.gate.athanStarted()
         val notification = graph.notifications.playback(playback)
         val id = RequestCode.of(playback.alarmId)
         try {
@@ -136,6 +138,7 @@ public class AthanForegroundService : Service() {
         player?.release()
         player = null
         alarmId = null
+        PreviewPlayer.gate.athanEnded()
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
@@ -143,6 +146,7 @@ public class AthanForegroundService : Service() {
     override fun onDestroy() {
         player?.release()
         player = null
+        PreviewPlayer.gate.athanEnded()
         super.onDestroy()
     }
 

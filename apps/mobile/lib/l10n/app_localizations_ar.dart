@@ -679,13 +679,107 @@ class AppLocalizationsAr extends AppLocalizations {
   String get athanTestAgain => 'اختبر مرة أخرى';
 
   @override
-  String get athanSound => 'صوت الأذان';
-
-  @override
-  String get athanNoSounds => 'لا توجد أصوات أذان مثبّتة بعد';
-
-  @override
   String get athanSoundTest => 'أذان تجريبي (ليس للإصدار)';
+
+  @override
+  String get athanVoice => 'صوت الأذان';
+
+  @override
+  String get athanFajrVoice => 'صوت أذان الفجر';
+
+  @override
+  String get athanVoiceSameAsAthan => 'نفس صوت الأذان';
+
+  @override
+  String get athanVoiceDevice => 'نغمة منبّه الموبايل';
+
+  @override
+  String get athanVoiceDeviceNote => 'موجودة على الموبايل دايمًا، من غير تحميل';
+
+  @override
+  String get athanVoiceUnavailable => 'صوت مبقاش متاح';
+
+  @override
+  String athanVoiceMissing(String missing, String fallback) {
+    return '$missing مبقاش على الموبايل، فهيشتغل $fallback بداله. نزّله تاني عشان يرجع.';
+  }
+
+  @override
+  String get athanVoicesDownloadable => 'أصوات للتحميل';
+
+  @override
+  String get athanVoicesOffline =>
+      'الصوت اللي بتنزّله بيشتغل من الموبايل نفسه: الأذان والتجربة مش محتاجين نت.';
+
+  @override
+  String get athanVoicesPlatformNote =>
+      'على أندرويد الأذان بيشتغل كامل لحد ما يخلص أو تدوس إيقاف. الأصوات المتحمّلة لسه مش متاحة على آيفون.';
+
+  @override
+  String get athanVoicesNone => 'مفيش أصوات للتحميل لسه.';
+
+  @override
+  String get athanVoiceKindFajr => 'أذان الفجر';
+
+  @override
+  String get athanVoiceKindAthan => 'أذان';
+
+  @override
+  String get athanVoiceReviewPending => 'لسه محدش سمعه كله: للتجربة بس';
+
+  @override
+  String athanVoiceCredit(String licence, String creator) {
+    return '$licence · $creator';
+  }
+
+  @override
+  String get athanVoiceOnPhone => 'على الموبايل';
+
+  @override
+  String get athanVoiceDownload => 'تحميل';
+
+  @override
+  String get athanVoiceDownloading => 'بيتحمّل';
+
+  @override
+  String get athanVoiceCancel => 'وقّف التحميل';
+
+  @override
+  String get athanVoiceRetry => 'جرّب تاني';
+
+  @override
+  String get athanVoicePreview => 'اسمع';
+
+  @override
+  String get athanVoiceStop => 'إيقاف';
+
+  @override
+  String get athanVoiceRemove => 'امسحه من الموبايل';
+
+  @override
+  String get athanVoiceSelected => 'مختار';
+
+  @override
+  String get athanVoiceFailOffline =>
+      'مفيش نت. جرّب تاني لما تتوصل، واللي اتحمّل محفوظ.';
+
+  @override
+  String get athanVoiceFailServer =>
+      'مقدرناش نحمّل الصوت دلوقتي. جرّب كمان شوية.';
+
+  @override
+  String athanVoiceFailSpace(String size) {
+    return 'مفيش مساحة كفاية على الموبايل: محتاج $size.';
+  }
+
+  @override
+  String get athanVoiceFailIntegrity => 'التحميل وصل بايظ واتمسح. جرّب تاني.';
+
+  @override
+  String get athanVoiceFailStorage => 'مقدرناش نحفظ الصوت على الموبايل.';
+
+  @override
+  String get athanVoiceFailCancelled => 'التحميل وقف، وهيكمّل من مكانه.';
 
   @override
   String get athanPrayersTitle => 'الأذان في';

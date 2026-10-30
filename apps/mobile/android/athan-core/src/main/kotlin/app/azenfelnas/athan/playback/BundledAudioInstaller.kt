@@ -47,6 +47,23 @@ internal class BundledAudioInstaller(
         return manifest.sounds.filter { install(it, open) }.map { it.soundId }
     }
 
+    /**
+     * Installs a downloaded voice (§15 D111): copies [source] to `<soundId>.m4a` when its sha256 is [sha256], the
+     * same way as a bundled sound. False for an unsafe id, a missing source or a checksum mismatch; never throws for
+     * those.
+     */
+    fun installFile(
+        soundId: String,
+        source: File,
+        sha256: String,
+    ): Boolean =
+        SHA256.matches(sha256) &&
+            install(BundledSound(soundId, source.name, sha256)) { if (source.isFile) source.inputStream() else null }
+
+    /** Deletes the copy of [soundId]; true when none is left. */
+    fun remove(soundId: String): Boolean =
+        SOUND_ID.matches(soundId) && audio.fileOf(soundId).let { !it.exists() || it.delete() }
+
     private fun install(
         sound: BundledSound,
         open: (String) -> InputStream?,
@@ -89,6 +106,9 @@ internal class BundledAudioInstaller(
     private companion object {
         /** The manifest's `soundId` pattern; it also keeps the file name inside the directory. */
         val SOUND_ID: Regex = Regex("^[a-z0-9_]+$")
+
+        /** A lowercase hex SHA-256. */
+        val SHA256: Regex = Regex("^[a-f0-9]{64}$")
 
         fun sha256Of(file: File): String {
             val digest = MessageDigest.getInstance("SHA-256")

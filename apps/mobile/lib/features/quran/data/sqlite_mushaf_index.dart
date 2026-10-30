@@ -10,7 +10,7 @@ import 'package:sqlite3/sqlite3.dart';
 
 /// [ReadMushafIndex] and [ReadVersePlaces] over the package's
 /// `quran.sqlite` with the local `search.sqlite` attached, both read-only
-/// (§15 D107, D111). Queries are small and indexed, so they run on the
+/// (§15 D107, D113). Queries are small and indexed, so they run on the
 /// calling isolate.
 final class SqliteMushafIndex implements ReadMushafIndex, ReadVersePlaces {
   /// The index of the package in [directory].

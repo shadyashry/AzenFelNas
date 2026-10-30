@@ -28,7 +28,7 @@ final class JuzSurah {
   int get hashCode => Object.hash(sura, aya, page);
 }
 
-/// The surahs of every juz, in Mushaf order (§15 D111). A juz holds the
+/// The surahs of every juz, in Mushaf order (§15 D113). A juz holds the
 /// surah its first verse is in, then every surah that starts before the
 /// next juz does; a surah that the next juz starts inside at verse 1 is
 /// left to that juz. Built from the package's `juz` and `sura` tables only.

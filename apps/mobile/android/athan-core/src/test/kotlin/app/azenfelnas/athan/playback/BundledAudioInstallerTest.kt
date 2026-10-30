@@ -116,4 +116,24 @@ internal class BundledAudioInstallerTest {
         )
         assertTrue(installer.install("not json", bundle()).isEmpty())
     }
+
+    @Test
+    fun `REQ-ALM-051 a downloaded voice is installed only when it matches its sha256 and can be removed`(
+        @TempDir dir: File,
+    ) {
+        val audio = AthanAudio(File(dir, "athan"))
+        val installer = BundledAudioInstaller(audio)
+        val download = File(dir, "malmo.m4a").apply { writeBytes(fajr) }
+
+        assertFalse(installer.installFile("malmo", download, hex(athan)))
+        assertFalse(audio.isPresent("malmo"))
+        assertFalse(installer.installFile("../malmo", download, hex(fajr)))
+        assertFalse(installer.installFile("malmo", File(dir, "gone.m4a"), hex(fajr)))
+
+        assertTrue(installer.installFile("malmo", download, hex(fajr)))
+        assertArrayEquals(fajr, audio.fileOf("malmo").readBytes())
+        assertTrue(installer.remove("malmo"))
+        assertFalse(audio.isPresent("malmo"))
+        assertTrue(installer.remove("malmo"))
+    }
 }
