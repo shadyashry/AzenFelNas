@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('The opening intro (§15 D100, D101, D106)', () {
+  group('The opening intro (§15 D112)', () {
     Future<List<String>> pump(
       WidgetTester tester, {
       bool still = false,
+      bool brief = false,
       ValueListenable<bool>? ready,
     }) async {
       final taps = <String>[];
@@ -25,6 +26,7 @@ void main() {
             valueListenable: ready ?? ValueNotifier(true),
             builder: (context, isReady, _) => BrandIntro(
               ready: isReady,
+              brief: brief,
               child: child ?? const SizedBox.shrink(),
             ),
           ),
@@ -48,51 +50,89 @@ void main() {
       }
     }
 
-    /// Past the decode wait, the first frame and the motion: the logo
-    /// settled. The test binding never reports a rasterized frame, so the
-    /// motion starts at its fallback.
-    Duration settled() => BrandIntro.decodeWait * 2 + BrandIntro.motionDuration;
+    /// The test binding never decodes the asset or reports a rasterized
+    /// frame, so the motion starts at the decode wait's fallback.
+    const begun = BrandIntro.decodeWait;
 
-    /// Past the settled logo and its fade into the app, with a frame or two
-    /// of headroom for each animation's start.
+    /// Past the motion: the logo at rest.
+    Duration settled() => begun + BrandIntro.motionDuration;
+
+    /// Past the rest and the crossfade into the app, with a frame or two of
+    /// headroom for each animation's start.
     Duration gone() => settled() + BrandIntro.exitDuration * 2;
 
-    testWidgets('opens on the launch screen picture, the logo at its launch '
-        'size, then opens out to fill the screen', (tester) async {
+    /// The logo's own opacity, nearest the image.
+    double logoOpacity(WidgetTester tester) => tester
+        .widget<Opacity>(
+          find
+              .ancestor(of: find.byType(Image), matching: find.byType(Opacity))
+              .first,
+        )
+        .opacity;
+
+    Size screenOf(WidgetTester tester) =>
+        tester.view.physicalSize / tester.view.devicePixelRatio;
+
+    testWidgets('opens on the bare launch ground, then fades the logo in '
+        'from 97 to 100 % at its resting place', (tester) async {
       await pump(tester, ready: ValueNotifier(false));
       expect(find.byType(Image), findsOneWidget);
       final image = tester.widget<Image>(find.byType(Image));
       expect((image.image as AssetImage).assetName, BrandIntro.asset);
+      expect(logoOpacity(tester), 0);
+      final rest = BrandIntro.logoRectIn(screenOf(tester), EdgeInsets.zero);
       final first = tester.getRect(find.byType(Image));
-      final screen = tester.view.physicalSize / tester.view.devicePixelRatio;
-      // Centred on the whole screen at the launch size, as natively.
-      expect(first.center, Offset(screen.width / 2, screen.height / 2));
-      expect(first.width, moreOrLessEquals(BrandIntro.launchSide));
-      await play(tester, settled());
-      final last = tester.getRect(find.byType(Image));
-      expect(last.center, first.center);
-      expect(last.width, moreOrLessEquals(BrandIntro.fullSideIn(screen)));
+      expect(first.center, offsetMoreOrLessEquals(rest.center));
+      expect(first.width, moreOrLessEquals(rest.width * 0.97));
+      // Part way through the fade-in: part visible and growing.
+      await play(tester, begun + const Duration(milliseconds: 350));
+      expect(logoOpacity(tester), inExclusiveRange(0, 1));
+      expect(
+        tester.getRect(find.byType(Image)).width,
+        inExclusiveRange(rest.width * 0.97, rest.width),
+      );
+      await play(tester, BrandIntro.motionDuration);
+      expect(logoOpacity(tester), 1);
+      expect(tester.getRect(find.byType(Image)), rectMoreOrLessEquals(rest));
     });
 
-    testWidgets('on a phone in portrait the settled logo spans the full '
-        'width; in landscape it leaves room below', (tester) async {
+    testWidgets('the light plays once: at rest nothing moves', (tester) async {
+      await pump(tester, ready: ValueNotifier(false));
+      await play(tester, settled());
+      expect(tester.binding.hasScheduledFrame, isFalse);
+      final rest = tester.getRect(find.byType(Image));
+      await play(tester, const Duration(milliseconds: 800));
+      expect(tester.getRect(find.byType(Image)), rectMoreOrLessEquals(rest));
+    });
+
+    testWidgets('the logo stays square, with margins, inside the safe area '
+        'on a small phone and in landscape', (tester) async {
+      const safe = EdgeInsets.only(top: 24, bottom: 48);
       tester.view
-        ..physicalSize = const Size(1080, 2340)
-        ..devicePixelRatio = 2.625;
+        ..physicalSize = const Size(640, 1136)
+        ..devicePixelRatio = 2
+        ..padding = FakeViewPadding(top: safe.top * 2, bottom: safe.bottom * 2);
       addTearDown(tester.view.reset);
       await pump(tester, ready: ValueNotifier(false));
       await play(tester, settled());
-      final portrait = tester.view.physicalSize / tester.view.devicePixelRatio;
-      expect(
-        tester.getRect(find.byType(Image)).width,
-        moreOrLessEquals(portrait.width),
-      );
-      tester.view.physicalSize = const Size(2340, 1080);
+      void fits() {
+        final area = safe.deflateRect(Offset.zero & screenOf(tester));
+        final logo = tester.getRect(find.byType(Image));
+        expect(logo.width, moreOrLessEquals(logo.height));
+        expect(logo.left, greaterThan(area.left + 16));
+        expect(logo.right, lessThan(area.right - 16));
+        expect(logo.top, greaterThan(area.top));
+        expect(logo.bottom, lessThan(area.bottom));
+      }
+
+      fits();
+      tester.view.physicalSize = const Size(1136, 640);
       await tester.pump();
-      final landscape = tester.view.physicalSize / tester.view.devicePixelRatio;
-      final rect = tester.getRect(find.byType(Image));
-      expect(rect.height, lessThan(landscape.height));
-      expect(rect.center.dy, moreOrLessEquals(landscape.height / 2));
+      fits();
+      expect(
+        tester.getRect(find.byType(Image)).height,
+        lessThanOrEqualTo((320 - safe.vertical) * 0.62 + 1e-9),
+      );
     });
 
     testWidgets('shows the logo over the app, then leaves the app alone', (
@@ -105,13 +145,15 @@ void main() {
       expect(find.text('App'), findsOneWidget);
     });
 
-    testWidgets('from the launch picture to the app takes under the design '
-        'target of 2 seconds when the app is ready', (tester) async {
+    testWidgets('the crossfade into a ready app ends about 1.95 s after the '
+        'fade-in starts', (tester) async {
       await pump(tester);
-      // Up to the motion's start: the launch picture still on screen.
-      await play(tester, BrandIntro.decodeWait * 2);
+      await play(tester, settled());
       expect(find.byType(Image), findsOneWidget);
-      await play(tester, const Duration(milliseconds: 1900));
+      await play(
+        tester,
+        BrandIntro.exitDuration + const Duration(milliseconds: 100),
+      );
       expect(find.byType(Image), findsNothing);
     });
 
@@ -134,7 +176,7 @@ void main() {
       final rest = tester.getRect(find.byType(Image));
       await play(tester, BrandIntro.loadingAfter);
       expect(find.byType(LinearProgressIndicator), findsOneWidget);
-      expect(tester.getRect(find.byType(Image)), rest);
+      expect(tester.getRect(find.byType(Image)), rectMoreOrLessEquals(rest));
     });
 
     testWidgets('it waits at most the longest hold', (tester) async {
@@ -151,18 +193,19 @@ void main() {
       await tester.pump();
       await tester.tap(find.text('App'), warnIfMissed: false);
       expect(taps, isEmpty);
-      await play(tester, BrandIntro.quickExitDuration * 2);
+      await play(tester, BrandIntro.briefFade * 2);
       expect(find.byType(Image), findsNothing);
       await tester.tap(find.text('App'));
       expect(taps, ['app']);
+      // The skipped fade-in does not start once the intro has gone.
+      await play(tester, begun);
+      expect(find.byType(Image), findsNothing);
     });
 
     testWidgets('a screen reader reaches the app with the first frame', (
       tester,
     ) async {
       await pump(tester);
-      // The first frame waits at most for the logo to decode.
-      await tester.pump(BrandIntro.decodeWait);
       expect(find.bySemanticsLabel('App'), findsOneWidget);
       await play(tester, gone());
     });
@@ -183,18 +226,38 @@ void main() {
       expect(find.text('typed'), findsOneWidget);
     });
 
-    testWidgets('with reduced motion the logo stays still, then a short '
-        'fade', (tester) async {
-      final ready = ValueNotifier(false);
-      await pump(tester, still: true, ready: ready);
-      final first = tester.getRect(find.byType(Image));
-      await play(tester, settled());
-      expect(tester.getRect(find.byType(Image)), first);
-      expect(first.width, moreOrLessEquals(BrandIntro.launchSide));
-      ready.value = true;
-      await play(tester, BrandIntro.quickExitDuration);
-      expect(find.byType(Image), findsNothing);
-    });
+    for (final (name, still, brief) in const [
+      ('with reduced motion', true, false),
+      ('when the launch opened a link', false, true),
+    ]) {
+      testWidgets('$name the logo stays at its size, with a short fade in '
+          'and out and no light', (tester) async {
+        final ready = ValueNotifier(false);
+        await pump(tester, still: still, brief: brief, ready: ready);
+        final rest = BrandIntro.logoRectIn(screenOf(tester), EdgeInsets.zero);
+        expect(tester.getRect(find.byType(Image)), rectMoreOrLessEquals(rest));
+        await play(tester, begun + BrandIntro.briefFade);
+        expect(logoOpacity(tester), 1);
+        expect(tester.getRect(find.byType(Image)), rectMoreOrLessEquals(rest));
+        expect(
+          find.descendant(
+            of: find
+                .ancestor(
+                  of: find.byType(Image),
+                  matching: find.byType(Stack),
+                )
+                .first,
+            matching: find.byType(CustomPaint),
+          ),
+          findsNothing,
+        );
+        await play(tester, BrandIntro.briefRest);
+        expect(tester.binding.hasScheduledFrame, isFalse);
+        ready.value = true;
+        await play(tester, BrandIntro.briefFade * 2);
+        expect(find.byType(Image), findsNothing);
+      });
+    }
 
     testWidgets('a resume does not replay it', (tester) async {
       await pump(tester);

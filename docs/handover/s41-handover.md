@@ -11,7 +11,8 @@ Branch `slice/s41-ux-polish`, cut from `slice/s40-uae-seed`.
 - **Header (D101):** the place's name in a chip (the device location named after its city), no "pinned/manual/approximate" words, no underlined link; plainer no-profile notice.
 - **Theme names (D101):** "Dynamic (changes with prayer times)" / «ديناميكي (يتغيّر مع أوقات الصلاة)», «داكن», «حسب الجهاز».
 - **Opening (D101):** full-screen animated mihrab (arch draws, lamp lights, mark rises, light sweep), held until the first screen is ready, tap to skip.
+- **Opening (D112, replaces D101/D106's):** to the owner's motion reference: the native launch is the logo's green only; the approved logo fades in (97 → 100 %), a glow at the lantern, then the sunrise, a light along the horizon line, then a 450 ms crossfade into the real first screen (about 1.95 s once the logo is on screen). Reduced motion and link launches: still logo, 180 ms fades. Verified on the Android 16 emulator: cold launch, resume, deep link, Remove animations, airplane mode, a 720×1280 screen. 15 intro widget tests.
 
 ## Owed
-- Phone check: the opening animation's smoothness on a cold start (the emulator drops frames), the welcome screen in both languages, the zone suggestion with location off, the scroll ends on every tab with 3-button and gesture navigation.
+- Phone check: the opening (D112) on a real cold start (frame rate, since the emulator drops frames; how long the plain green shows before the logo), Android 8–11's launch window, the welcome screen in both languages, the zone suggestion with location off, the scroll ends on every tab with 3-button and gesture navigation.
 - iOS: the `dm/device_zone` channel and the launch colour are written but not built (needs a Mac).

@@ -4,10 +4,11 @@
 
 Run from apps/mobile. `logo_source.png` is the owner's flattened logo and the
 only source: it is only resized and placed, never redrawn or recoloured. The
-launch images and the adaptive foreground fade the outermost plain-green
-margin (no gold lies within 50 px of the source's edges) into the launch
-ground, so no square edge shows; the gold, the lettering and its marks are
-untouched.
+intro's logo and the adaptive foreground fade the outermost plain-green
+margin (no gold lies within 50 px of the source's edges) into the ground, so
+no square edge shows; the gold, the lettering and its marks are untouched.
+The native launch screens show the ground only (§15 D112): the intro fades
+the logo in.
 """
 
 from __future__ import annotations
@@ -21,19 +22,20 @@ HERE = Path(__file__).resolve().parent
 APP = HERE.parent.parent
 SOURCE = HERE / "logo_source.png"
 
-# The launch ground: the median of the source's outer 24 px band, so the
+# The ground: the median of the source's outer 24 px band, so the
 # faded edge meets the background it fades into.
 GROUND = (0x02, 0x2E, 0x23)
 
-# How far in from the source's edge the fade reaches, in source pixels.
-FEATHER_PX = 44
+# How far in from the source's edge the fade reaches, in source pixels:
+# (left, top, right, bottom).
+FEATHER_PX = (44, 44, 44, 44)
 
-# The logo on the native launch screens, in dp / pt. The in-app intro starts
-# at this size and settles at 180 (BrandIntro.side); 175 = 97 % of 180.
-LAUNCH_DP = 175
-
-# Android 12+ splash icon: a 288 dp canvas whose centre 192 dp circle shows.
-SPLASH_CANVAS_DP = 288
+# The intro's wider fade (§15 D112): the logo's own green is lighter than the
+# ground near its top and sides, so a narrow fade left a faint square. Each
+# side stops short of the nearest gold: the pillar feet 154 px from the left
+# and 158 from the right, their bases 150 from the bottom, the arch apex 70
+# from the top.
+INTRO_FEATHER_PX = (120, 60, 120, 130)
 
 # Adaptive launcher icon: a 108 dp canvas; any mask shows its centre 66 dp
 # circle. The logo's farthest gold (the pillar feet) lies 0.537 of the
@@ -44,9 +46,8 @@ ADAPTIVE_LOGO_DP = 60
 # In-app logo (Image.asset 'assets/brand/logo.png'), 1x side in logical px.
 IN_APP_1X = 220
 
-# The intro's logo ('assets/brand/logo_launch.png'): the launch screens'
-# faded pixels, large enough to fill a phone's width; 3x is the source's own
-# 1254 px, never upscaled.
+# The intro's logo ('assets/brand/logo_launch.png'): the faded pixels, large
+# enough for a phone's width; 3x is the source's own 1254 px, never upscaled.
 INTRO_1X = 418
 
 ANDROID_DENSITIES = {"mdpi": 1.0, "hdpi": 1.5, "xhdpi": 2.0, "xxhdpi": 3.0, "xxxhdpi": 4.0}
@@ -58,14 +59,21 @@ def smoothstep(x: float) -> float:
     return x * x * (3 - 2 * x)
 
 
-def feathered(logo: Image.Image) -> Image.Image:
-    """The logo with its outer plain margin faded to transparent."""
+def feathered(logo: Image.Image, feather: tuple[int, int, int, int]) -> Image.Image:
+    """The logo with its outer plain margin faded to transparent, [feather]
+    source pixels in from the (left, top, right, bottom) edges."""
     size = logo.width
-    ramp = [round(255 * smoothstep(min(i, size - 1 - i) / FEATHER_PX)) for i in range(size)]
+    left, top, right, bottom = feather
+
+    def ramp(near: int, far: int) -> list[int]:
+        return [round(255 * smoothstep(min(i / near, (size - 1 - i) / far))) for i in range(size)]
+
     horizontal = Image.new("L", (size, 1))
-    horizontal.putdata(ramp)
+    horizontal.putdata(ramp(left, right))
     horizontal = horizontal.resize((size, size), Image.NEAREST)
-    vertical = horizontal.transpose(Image.Transpose.ROTATE_90)
+    vertical = Image.new("L", (1, size))
+    vertical.putdata(ramp(top, bottom))
+    vertical = vertical.resize((size, size), Image.NEAREST)
     out = logo.convert("RGBA")
     out.putalpha(ImageChops.multiply(horizontal, vertical))
     return out
@@ -93,23 +101,17 @@ def main() -> int:
     if logo.width != logo.height:
         print("logo_source.png must be square", file=sys.stderr)
         return 1
-    soft = feathered(logo)
+    soft = feathered(logo, FEATHER_PX)
+    intro = feathered(logo, INTRO_FEATHER_PX)
 
-    # In-app: the logo itself, and the intro's copy of the launch picture.
+    # In-app: the logo itself, and the intro's faded copy.
     brand = APP / "assets" / "brand"
     for scale, folder in ((1, brand), (2, brand / "2.0x"), (3, brand / "3.0x")):
         save(resized(logo, IN_APP_1X * scale), folder / "logo.png")
-        save(resized(soft, INTRO_1X * scale), folder / "logo_launch.png")
+        save(resized(intro, INTRO_1X * scale), folder / "logo_launch.png")
 
     res = APP / "android" / "app" / "src" / "main" / "res"
     for name, density in ANDROID_DENSITIES.items():
-        # Android 8–11 launch window: the faded logo at its dp size.
-        save(resized(soft, round(LAUNCH_DP * density)), res / f"drawable-{name}" / "splash_logo.png")
-        # Android 12+ splash icon.
-        save(
-            placed(soft, round(SPLASH_CANVAS_DP * density), round(LAUNCH_DP * density)),
-            res / f"drawable-{name}" / "splash_icon.png",
-        )
         # Launcher: adaptive layers and the legacy square.
         canvas = round(ADAPTIVE_CANVAS_DP * density)
         save(Image.new("RGB", (canvas, canvas), GROUND), res / f"mipmap-{name}" / "ic_launcher_background.png")
@@ -126,8 +128,6 @@ def main() -> int:
         with Image.open(icon) as old:
             side = old.width
         save(resized(logo, side), icon)
-    for scale, suffix in ((1, ""), (2, "@2x"), (3, "@3x")):
-        save(resized(soft, LAUNCH_DP * scale), ios / "LaunchImage.imageset" / f"LaunchImage{suffix}.png")
 
     if "--previews" in sys.argv:
         previews(logo, soft, Path(sys.argv[sys.argv.index("--previews") + 1]))
@@ -135,12 +135,11 @@ def main() -> int:
 
 
 def previews(logo: Image.Image, soft: Image.Image, out: Path) -> None:
-    """Mask previews: adaptive circle / squircle / rounded square / teardrop,
-    the Android 12 splash circle and the iOS rounded square, each also with
-    its safe zone drawn in red."""
+    """Mask previews: adaptive circle / squircle / rounded square / teardrop
+    and the iOS rounded square, each also with its safe zone drawn in red."""
     scale = 4
     tile = ADAPTIVE_CANVAS_DP * scale
-    sheet = Image.new("RGB", (tile * 6 + 70, tile * 2 + 30), (235, 235, 235))
+    sheet = Image.new("RGB", (tile * 5 + 60, tile * 2 + 30), (235, 235, 235))
 
     def adaptive() -> Image.Image:
         base = Image.new("RGBA", (tile, tile), GROUND + (255,))
@@ -177,12 +176,6 @@ def previews(logo: Image.Image, soft: Image.Image, out: Path) -> None:
         icon = Image.new("RGBA", (tile, tile), (0, 0, 0, 0))
         icon.paste(adaptive(), (0, 0), mask(kind))
         shots.append((icon, 33))
-    splash = Image.new("RGBA", (tile, tile), GROUND + (255,))
-    splash_icon = placed(soft, tile, round(LAUNCH_DP / SPLASH_CANVAS_DP * tile))
-    circle = Image.new("L", (tile, tile), 0)
-    ImageDraw.Draw(circle).ellipse((tile / 6, tile / 6, tile * 5 / 6, tile * 5 / 6), fill=255)
-    splash.paste(splash_icon, (0, 0), ImageChops.multiply(circle, splash_icon.getchannel("A")))
-    shots.append((splash, 96 / SPLASH_CANVAS_DP * ADAPTIVE_CANVAS_DP))
     ios_icon = Image.new("RGBA", (tile, tile), (0, 0, 0, 0))
     ios_mask = Image.new("L", (tile, tile), 0)
     ImageDraw.Draw(ios_mask).rounded_rectangle((0, 0, tile - 1, tile - 1), radius=round(tile * 0.2237), fill=255)

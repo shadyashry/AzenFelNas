@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Launch window, Android 8-11 (DESIGN.md section 15 D106): the approved logo at
-     175 dp, its plain edge faded into the logo's own green; the in-app intro opens
-     on the same picture. -->
+<!-- Launch window, Android 8-11 (DESIGN.md section 15 D112): the logo's own green
+     only; the in-app intro opens on the same ground and fades the logo in. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/splash_background" />
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/splash_logo" />
-    </item>
 </layer-list>

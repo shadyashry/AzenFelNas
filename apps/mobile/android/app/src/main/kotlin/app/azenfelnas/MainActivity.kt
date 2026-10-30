@@ -21,8 +21,8 @@ class MainActivity : FlutterActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    // Android 12+ keeps its splash until Flutter's first frame, which is the same picture (DESIGN.md section 15
-    // D106); its default exit fades the logo out first, so the splash goes at once instead.
+    // Android 12+ keeps its splash, the bare ground, until Flutter's first frame, which is the same ground
+    // (DESIGN.md section 15 D112); the splash goes at once rather than through its default exit fade.
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
       splashScreen.setOnExitAnimationListener { it.remove() }
     }
