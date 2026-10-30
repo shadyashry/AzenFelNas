@@ -122,10 +122,10 @@ final class HomeHourField extends ConsumerWidget {
   }
 }
 
-/// The place, by its name only (the city a device fix is in, §15 D101),
-/// opening the place screen; then the Athan and Settings shortcuts at the
-/// end. The words "pinned", "manual" and "approximate" are for the
-/// diagnostics, not for the header.
+/// The place, by its name only (the city a device fix is in, §15 D101; a
+/// chosen place in the reader's language, D104), opening the place screen;
+/// then the Athan and Settings shortcuts at the end. The words "pinned",
+/// "manual" and "approximate" are for the diagnostics, not for the header.
 final class _Header extends ConsumerWidget {
   const new({required this.content});
 
@@ -137,10 +137,11 @@ final class _Header extends ConsumerWidget {
     final place = content.place;
     final language = Localizations.localeOf(context).languageCode;
     final current = place.kind == ContextKind.current;
-    final name = current
-        ? ref.watch(currentPlaceNameProvider).value?.nameIn(language) ??
-              l.homeCurrentPlace
-        : place.label;
+    // In the reader's language when the gazetteer knows the place (§15
+    // D104); a typed name as typed.
+    final name =
+        ref.watch(placeNameProvider).value?.nameIn(language) ??
+        (current ? l.homeCurrentPlace : place.label);
     return Row(
       children: [
         Flexible(
@@ -345,14 +346,23 @@ final class _AthanPill extends StatelessWidget {
   }
 }
 
-/// The artwork under a green veil: deepest at the reading start behind the
-/// text, light over the architecture at the end, and closing to deep green
-/// at the bottom where the strip rises, so ivory text keeps its contrast.
-/// The hour light tints the veil faintly.
+/// The whole artwork, never zoomed: it spans the hero's width at its own
+/// proportions and stands on the hero's bottom edge; above it the sky
+/// continues in the artwork's own top colours, and the seam fades. Over it
+/// a green veil, deepest at the reading start behind the text and at the
+/// bottom where the strip rises, so ivory text keeps its contrast. The hour
+/// light tints the sky faintly.
 final class _Artwork extends StatelessWidget {
   const new({required this.light});
 
   final HourLight light;
+
+  /// The artwork's proportions (1536 × 1024).
+  static const double _aspect = 1536 / 1024;
+
+  /// The sky along the artwork's top edge, left and right (sampled).
+  static const Color _skyLeft = Color(0xFF0D3427);
+  static const Color _skyRight = Color(0xFF224B36);
 
   @override
   Widget build(BuildContext context) {
@@ -363,24 +373,53 @@ final class _Artwork extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            HomeHourField.artwork,
-            fit: BoxFit.cover,
-            alignment: Alignment.centerRight,
-            gaplessPlayback: true,
+          // The sky is the picture's own, so it does not mirror.
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [_skyLeft, _skyRight]),
+            ),
           ),
           ColoredBox(color: light.top.withValues(alpha: 0.10)),
+          // Full width at its own proportions, on the bottom edge; on a
+          // wide, short hero its top is cut, never its sides.
+          LayoutBuilder(
+            builder: (context, box) => Stack(
+              children: [
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  height: box.maxWidth / _aspect,
+                  child: ShaderMask(
+                    // Fades the artwork's top edge into the sky above it.
+                    shaderCallback: (rect) => const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0x00000000), Color(0xFF000000)],
+                      stops: [0, 0.12],
+                    ).createShader(rect),
+                    blendMode: BlendMode.dstIn,
+                    child: Image.asset(
+                      HomeHourField.artwork,
+                      fit: BoxFit.cover,
+                      gaplessPlayback: true,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: rtl ? Alignment.centerRight : Alignment.centerLeft,
                 end: rtl ? Alignment.centerLeft : Alignment.centerRight,
                 colors: [
-                  RawdahPalette.forest.withValues(alpha: 0.92),
-                  RawdahPalette.forest.withValues(alpha: 0.55),
+                  RawdahPalette.forest.withValues(alpha: 0.85),
+                  RawdahPalette.forest.withValues(alpha: 0.35),
                   RawdahPalette.forest.withValues(alpha: 0),
                 ],
-                stops: const [0, 0.45, 0.8],
+                stops: const [0, 0.4, 0.7],
               ),
             ),
           ),
@@ -390,12 +429,10 @@ final class _Artwork extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  RawdahPalette.emeraldDeep.withValues(alpha: 0.55),
                   RawdahPalette.emeraldDeep.withValues(alpha: 0),
-                  RawdahPalette.emeraldDeep.withValues(alpha: 0),
-                  RawdahPalette.emeraldDeep.withValues(alpha: 0.9),
+                  RawdahPalette.emeraldDeep.withValues(alpha: 0.85),
                 ],
-                stops: const [0, 0.22, 0.7, 1],
+                stops: const [0.78, 1],
               ),
             ),
           ),

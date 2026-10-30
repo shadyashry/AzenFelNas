@@ -35,19 +35,25 @@ final homeStateProvider = Provider<HomeState>((ref) {
   }
 });
 
-/// The place the device location is in, for Home's header (§15 D101):
-/// `null` for a chosen place, while loading, or when no place is near.
-final currentPlaceNameProvider = FutureProvider<GazetteerHit?>((ref) async {
+/// The gazetteer place Home's header names (§15 D101, D104): the place the
+/// device location is in, or the place a chosen place's label names, so the
+/// header reads in the reader's language; `null` while loading, when no
+/// place is near, or for a name the user typed.
+final placeNameProvider = FutureProvider<GazetteerHit?>((ref) async {
   final loaded = switch (ref.watch(scheduleProvider)) {
     AsyncData(value: Ok(:final value)) => value,
     AsyncData() || AsyncError() || AsyncLoading() => null,
   };
   final context = loaded?.schedule.context.context;
-  if (context == null || context.kind != ContextKind.current) return null;
+  if (context == null) return null;
   return switch (await ref.watch(contextUseCasesProvider.future)) {
-    Ok(value: final useCases) => await useCases.nameNearest(
-      context.place.point,
-    ),
+    Ok(value: final useCases) => switch (context.kind) {
+      ContextKind.current => await useCases.nameNearest(context.place.point),
+      ContextKind.pinned || ContextKind.manual => await useCases.nameStored(
+        context.place.point,
+        context.place.label,
+      ),
+    },
     Err() => null,
   };
 });

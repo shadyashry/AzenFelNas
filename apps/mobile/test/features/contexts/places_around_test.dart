@@ -1,4 +1,5 @@
 import 'package:daily_muslim/features/contexts/application/name_nearest_place.dart';
+import 'package:daily_muslim/features/contexts/application/name_stored_place.dart';
 import 'package:daily_muslim/features/contexts/application/suggest_places.dart';
 import 'package:daily_muslim/features/contexts/data/drift_gazetteer_store.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
@@ -66,6 +67,33 @@ void main() {
         ),
         away,
       );
+    });
+
+    group('a chosen place reads in the reader language (§15 D104)', () {
+      final cairo = GeoPointE6(30062630, 31249670);
+
+      test('a place picked as «القاهرة» reads Cairo in English', () async {
+        final hit = await NameStoredPlace(store)(cairo, 'القاهرة');
+        expect(hit?.nameIn('en'), 'Cairo');
+      });
+
+      test('a place picked as Cairo reads «القاهرة» in Arabic', () async {
+        final hit = await NameStoredPlace(store)(cairo, 'Cairo');
+        expect(hit?.nameIn('ar'), 'القاهرة');
+      });
+
+      test(
+        'an alternate Arabic name at the place itself is recognised',
+        () async {
+          final hit = await NameStoredPlace(store)(cairo, 'قاهره');
+          expect(hit?.id, 360630);
+        },
+      );
+
+      test('a name the user typed is not replaced', () async {
+        expect(await NameStoredPlace(store)(cairo, 'Home'), isNull);
+        expect(await NameStoredPlace(store)(cairo, '  '), isNull);
+      });
     });
 
     test('a fix far from every place has no name', () async {
