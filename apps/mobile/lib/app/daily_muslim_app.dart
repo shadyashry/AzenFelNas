@@ -22,7 +22,7 @@ final class DailyMuslimApp extends ConsumerStatefulWidget {
   /// Where the router starts.
   final String initialLocation;
 
-  /// Whether the opening intro plays (§15 D112); app tests that drive the
+  /// Whether the opening intro plays (§15 D113); app tests that drive the
   /// screens leave it out, `brand_intro_test.dart` covers it.
   final bool intro;
 
@@ -40,7 +40,7 @@ final class _DailyMuslimAppState extends ConsumerState<DailyMuslimApp> {
   late final AppLifecycleListener _lifecycle;
 
   /// Whether the launch opened a link, so the intro is the short one and
-  /// the linked page comes quickly (§15 D112).
+  /// the linked page comes quickly (§15 D113).
   late final bool _linked =
       WidgetsBinding.instance.platformDispatcher.defaultRouteName !=
       Navigator.defaultRouteName;

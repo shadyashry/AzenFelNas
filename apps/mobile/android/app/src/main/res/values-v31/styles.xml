@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Android 12+ draws its own splash: the logo's own green with no icon, as
-         the in-app intro opens before it fades the logo in (DESIGN.md section 15 D112). -->
+         the in-app intro opens before it fades the logo in (DESIGN.md section 15 D113). -->
     <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">@drawable/launch_background</item>
         <item name="android:windowSplashScreenBackground">@color/splash_background</item>

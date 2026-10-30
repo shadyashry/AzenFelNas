@@ -5,7 +5,7 @@ import 'dart:ui' as ui;
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 
-/// The opening moment (§15 D112), over the whole screen. The native launch
+/// The opening moment (§15 D113), over the whole screen. The native launch
 /// screen is the logo's own green with nothing on it, and so is the intro's
 /// first frame. Once the logo is decoded and that frame is on screen, the
 /// approved logo fades in while it settles from 97 to 100 % (0–780 ms); a

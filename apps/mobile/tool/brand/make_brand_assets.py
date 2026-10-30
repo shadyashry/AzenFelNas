@@ -7,7 +7,7 @@ only source: it is only resized and placed, never redrawn or recoloured. The
 intro's logo and the adaptive foreground fade the outermost plain-green
 margin (no gold lies within 50 px of the source's edges) into the ground, so
 no square edge shows; the gold, the lettering and its marks are untouched.
-The native launch screens show the ground only (§15 D112): the intro fades
+The native launch screens show the ground only (§15 D113): the intro fades
 the logo in.
 """
 
@@ -30,7 +30,7 @@ GROUND = (0x02, 0x2E, 0x23)
 # (left, top, right, bottom).
 FEATHER_PX = (44, 44, 44, 44)
 
-# The intro's wider fade (§15 D112): the logo's own green is lighter than the
+# The intro's wider fade (§15 D113): the logo's own green is lighter than the
 # ground near its top and sides, so a narrow fade left a faint square. Each
 # side stops short of the nearest gold: the pillar feet 154 px from the left
 # and 158 from the right, their bases 150 from the bottom, the arch apex 70
