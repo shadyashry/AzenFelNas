@@ -7,10 +7,15 @@ sealed class ManualPlaceState {
   const new();
 }
 
-/// Nothing searched yet.
+/// Nothing searched yet: the places of the phone's time zone are offered
+/// to tap (§15 D100).
 final class ManualPlaceIdle extends ManualPlaceState {
-  /// The state.
-  const new();
+  /// The state offering [suggestions].
+  const new({this.suggestions = const []});
+
+  /// Places to tap, largest first; empty while loading or when the zone is
+  /// unknown.
+  final List<GazetteerHit> suggestions;
 }
 
 /// A search is running.

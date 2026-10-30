@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Pearl marble (RawdahPalette.pearl), the light launch background. -->
-    <color name="splash_background">#FBF9F3</color>
+    <!-- Deep emerald (RawdahPalette.emeraldDeep): the launch screen is the brand's night arch
+         in both modes, the colour the in-app intro opens on (DESIGN.md section 15 D100). -->
+    <color name="splash_background">#0E3B2A</color>
 </resources>

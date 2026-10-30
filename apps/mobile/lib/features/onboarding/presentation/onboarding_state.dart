@@ -1,3 +1,4 @@
+import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
 /// Onboarding (§18.4): `step(welcome|location|place|done)`, `resolving`,
@@ -27,7 +28,8 @@ final class OnboardingStep extends OnboardingState {
   /// The step.
   final OnboardingStepKind step;
 
-  /// The chosen place's name (empty for the device location).
+  /// The place's name: the chosen place, or the place nearest the device
+  /// location (§15 D100); empty when no place is near.
   final String placeLabel;
 }
 
@@ -38,11 +40,15 @@ final class OnboardingResolving extends OnboardingState {
 }
 
 /// Location failed; the user may retry or choose a place (§18.3 denial
-/// branch).
+/// branch), or take the largest place of the phone's time zone with one tap
+/// (§15 D100).
 final class OnboardingFailed extends OnboardingState {
   /// The state.
-  const new(this.failure);
+  const new(this.failure, {this.suggestion});
 
   /// Why.
   final Failure failure;
+
+  /// The place the phone's time zone suggests, or `null` when it names none.
+  final GazetteerHit? suggestion;
 }

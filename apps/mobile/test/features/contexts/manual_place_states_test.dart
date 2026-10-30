@@ -59,6 +59,8 @@ void main() {
     Future<Result<ContextUseCases, Failure>>? useCases,
     FakeLocationAccess? access,
     FakeDeviceLocator? locator,
+    FindPlacesAround around = const NoPlacesAround(),
+    String? zone,
   }) async {
     final pinned = <ResolvedContext>[];
     final ready = fakeContextUseCases(
@@ -66,6 +68,8 @@ void main() {
       places: _Places(answer),
       access: access ?? FakeLocationAccess(),
       locator: locator ?? FakeDeviceLocator(),
+      around: around,
+      deviceZone: FakeDeviceZone(zone),
     );
     await tester.pumpWidget(
       localizedApp(
@@ -92,6 +96,23 @@ void main() {
       expect(find.text('Search the offline list of cities.'), findsOneWidget);
     });
 
+    testWidgets('idle offers the cities of the phone time zone; one tap '
+        'pins a city (§15 D100)', (tester) async {
+      final pinned = await pump(
+        tester,
+        around: FakePlacesAround(zone: 'Africa/Cairo', inZone: [_alexandria]),
+        zone: 'Africa/Cairo',
+      );
+      await pumpUntil(tester, find.text('Cities in your time zone'));
+      await tester.tap(find.widgetWithText(ListTile, 'Alexandria'));
+      for (var i = 0; i < 100 && pinned.isEmpty; i++) {
+        await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+        await tester.pump();
+      }
+      expect(pinned.single.context.place.label, 'Alexandria');
+      expect(pinned.single.context.kind, ContextKind.manual);
+    });
+
     testWidgets('searching shows progress', (tester) async {
       await pump(
         tester,
@@ -106,7 +127,7 @@ void main() {
       await pump(tester, answer: Ok([_alexandria]));
       await search(tester, 'Alex');
       await pumpUntil(tester, find.widgetWithText(ListTile, 'Alexandria'));
-      expect(find.text('Alexandria · EG'), findsOneWidget);
+      expect(find.text('Alexandria · 🇪🇬 EG'), findsOneWidget);
     });
 
     testWidgets('"Use approximate location" sets the place in one tap '
@@ -210,10 +231,11 @@ void main() {
 
   group('Search hit line (§15 D96)', () {
     test('a region code that is a name is shown with the country', () {
-      expect(subtitleOf(_alexandria), 'Alexandria · EG');
+      expect(subtitleOf(_alexandria), 'Alexandria · 🇪🇬 EG');
     });
 
-    test('a numeric region code gives way to the rounded coordinates', () {
+    test('a numeric region code and the coordinates are not shown; the '
+        'country is its flag and code (§15 D100)', () {
       final cairo = GazetteerHit(
         id: 360630,
         name: 'Cairo',
@@ -225,7 +247,7 @@ void main() {
         population: 9606916,
         zoneId: 'Africa/Cairo',
       );
-      expect(subtitleOf(cairo), 'EG · 30.04, 31.24');
+      expect(subtitleOf(cairo), '🇪🇬 EG');
     });
 
     test('a Latin alternate spelling shows the primary name; an Arabic match '

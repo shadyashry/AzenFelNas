@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
@@ -12,7 +13,8 @@ import 'package:drift/drift.dart';
 
 /// The gazetteer on drift: `gazetteer` rows plus one `gazetteer_names` row per
 /// distinct search key of a place (§7.3, §15 D72).
-final class DriftGazetteerStore implements FindGazetteerPlaces, StoreGazetteer {
+final class DriftGazetteerStore
+    implements FindGazetteerPlaces, FindPlacesAround, StoreGazetteer {
   /// The store over [_db].
   const new(this._db);
 
@@ -51,7 +53,8 @@ final class DriftGazetteerStore implements FindGazetteerPlaces, StoreGazetteer {
           .customSelect(
             'SELECT g.id, g.name, g.country, g.admin1, g.lat, g.lon, '
             'g.population, g.zone_id, MIN(n.name) AS matched, '
-            'MAX(n.search_key = ?1) AS exact '
+            'MAX(n.search_key = ?1) AS exact, '
+            r"json_extract(g.alt_names_json, '$.ar[0]') AS ar "
             'FROM gazetteer_names n JOIN gazetteer g ON g.id = n.place_id '
             'WHERE n.search_key >= ?1 AND n.search_key < ?2 '
             'GROUP BY g.id '
@@ -71,10 +74,93 @@ final class DriftGazetteerStore implements FindGazetteerPlaces, StoreGazetteer {
     }
   }
 
+  @override
+  Future<Result<GazetteerHit?, GazetteerFailure>> nearest(
+    GeoPointE6 point, {
+    required double withinKm,
+  }) async {
+    final lat = point.latE6 / 1e6;
+    final lon = point.lonE6 / 1e6;
+    // A box around the point narrows the rows; the great-circle distance
+    // picks among them.
+    final dLat = withinKm / _kmPerDegree;
+    final dLon = withinKm / (_kmPerDegree * max(cos(lat * pi / 180), 0.01));
+    try {
+      final rows = await _places(
+        'WHERE g.lat BETWEEN ?1 AND ?2 AND g.lon BETWEEN ?3 AND ?4',
+        [lat - dLat, lat + dLat, lon - dLon, lon + dLon],
+      );
+      GazetteerHit? best;
+      var bestKm = withinKm;
+      for (final hit in rows) {
+        final km = _distanceKm(lat, lon, hit.point);
+        if (km <= bestKm) {
+          best = hit;
+          bestKm = km;
+        }
+      }
+      return Ok(best);
+    } on Exception catch (error) {
+      return Err(GazetteerFailure.storage('$error'));
+    }
+  }
+
+  @override
+  Future<Result<List<GazetteerHit>, GazetteerFailure>> largestIn(
+    String zoneId, {
+    required int limit,
+  }) async {
+    try {
+      return Ok(
+        await _places(
+          'WHERE g.zone_id = ?1 ORDER BY g.population DESC, g.id LIMIT ?2',
+          [zoneId, limit],
+        ),
+      );
+    } on Exception catch (error) {
+      return Err(GazetteerFailure.storage('$error'));
+    }
+  }
+
+  Future<List<GazetteerHit>> _places(String where, List<Object> args) async {
+    final rows = await _db
+        .customSelect(
+          'SELECT g.id, g.name, g.country, g.admin1, g.lat, g.lon, '
+          'g.population, g.zone_id, g.name AS matched, 0 AS exact, '
+          r"json_extract(g.alt_names_json, '$.ar[0]') AS ar "
+          'FROM gazetteer g $where',
+          variables: [
+            for (final arg in args)
+              switch (arg) {
+                final int i => Variable.withInt(i),
+                final double d => Variable.withReal(d),
+                _ => Variable.withString('$arg'),
+              },
+          ],
+          readsFrom: {_db.gazetteer},
+        )
+        .get();
+    return [for (final row in rows) _hit(row)];
+  }
+
+  static const _kmPerDegree = 111.195;
+
+  /// Haversine distance on the mean Earth radius.
+  static double _distanceKm(double lat, double lon, GeoPointE6 to) {
+    double rad(double deg) => deg * pi / 180;
+    final dLat = rad(to.latE6 / 1e6 - lat);
+    final dLon = rad(to.lonE6 / 1e6 - lon);
+    final a =
+        pow(sin(dLat / 2), 2) +
+        cos(rad(lat)) * cos(rad(to.latE6 / 1e6)) * pow(sin(dLon / 2), 2);
+    return 2 * 6371.0088 * asin(min(1, sqrt(a)));
+  }
+
   static GazetteerHit _hit(QueryRow row) => GazetteerHit(
     id: row.read<int>('id'),
     name: row.read<String>('name'),
     matchedName: row.read<String>('matched'),
+    arabicName: row.readNullable<String>('ar') ?? '',
     exact: row.read<int>('exact') == 1,
     country: row.read<String>('country'),
     admin1: row.read<String>('admin1'),

@@ -1,9 +1,15 @@
+import 'dart:ui';
+
 import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
+import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
+import 'package:daily_muslim/features/contexts/domain/place_choice.dart';
 import 'package:daily_muslim/features/contexts/domain/resolved_context.dart';
 import 'package:daily_muslim/features/onboarding/application/complete_first_run.dart';
 import 'package:daily_muslim/features/onboarding/presentation/onboarding_state.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
+import 'package:daily_muslim/features/settings/domain/setting_values.dart';
+import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,22 +24,63 @@ final class OnboardingController extends Notifier<OnboardingState> {
   OnboardingState build() => const OnboardingStep(OnboardingStepKind.welcome);
 
   /// Asks for approximate location and resolves it; a refusal or no fix is
-  /// [OnboardingFailed].
+  /// [OnboardingFailed]. A fix is named after the place nearest it; a
+  /// failure offers the largest place of the phone's time zone (§15 D100).
   Future<void> useApproximateLocation() async {
     state = const OnboardingResolving();
     switch (await ref.read(contextUseCasesProvider.future)) {
       case Err(:final failure):
         state = OnboardingFailed(failure);
       case Ok(value: final useCases):
-        state = switch (await useCases.locate()) {
+        switch (await useCases.locate()) {
+          case Ok(:final value):
+            final near = await useCases.nameNearest(value.context.place.point);
+            state = _done(value, name: near?.nameIn(_language));
+          case Err(:final failure):
+            final suggested = await useCases.suggest();
+            state = OnboardingFailed(
+              failure,
+              suggestion: suggested.firstOrNull?.namedIn(_language),
+            );
+        }
+    }
+  }
+
+  /// Pins [place], the time zone's suggestion (§15 D100).
+  Future<void> useSuggestion(GazetteerHit place) async {
+    final failed = state;
+    state = const OnboardingResolving();
+    switch (await ref.read(contextUseCasesProvider.future)) {
+      case Err(:final failure):
+        state = OnboardingFailed(failure);
+      case Ok(value: final useCases):
+        state = switch (await useCases.pin(GazetteerChoice(place))) {
           Ok(:final value) => _done(value),
-          Err(:final failure) => OnboardingFailed(failure),
+          Err(:final failure) => switch (failed) {
+            OnboardingFailed(:final suggestion) => OnboardingFailed(
+              failure,
+              suggestion: suggestion,
+            ),
+            _ => OnboardingFailed(failure),
+          },
         };
     }
   }
 
+  /// The language of the app's text: the stored choice, else the device's.
+  String get _language => switch (ref.read(localeSettingProvider).value) {
+    LocaleSetting.ar => 'ar',
+    LocaleSetting.en => 'en',
+    LocaleSetting.system || null =>
+      PlatformDispatcher.instance.locale.languageCode == 'ar' ? 'ar' : 'en',
+  };
+
   /// → manual place search.
   void choosePlace() => state = const OnboardingStep(OnboardingStepKind.place);
+
+  /// Back from the place search to the welcome step.
+  void backToWelcome() =>
+      state = const OnboardingStep(OnboardingStepKind.welcome);
 
   /// A place was pinned in the place step.
   void placePinned(ResolvedContext context) => state = _done(context);
@@ -50,10 +97,11 @@ final class OnboardingController extends Notifier<OnboardingState> {
     await ref.read(completeFirstRunProvider).call();
   }
 
-  static OnboardingState _done(ResolvedContext context) => OnboardingStep(
-    OnboardingStepKind.done,
-    placeLabel: context.context.place.label,
-  );
+  static OnboardingState _done(ResolvedContext context, {String? name}) =>
+      OnboardingStep(
+        OnboardingStepKind.done,
+        placeLabel: name ?? context.context.place.label,
+      );
 }
 
 /// The onboarding flow's state.

@@ -131,16 +131,61 @@ abstract final class DmTheme {
           textStyle: buttonText,
         ),
       ),
+      // Anything switched on is green, in both modes (§15 D100).
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith(
           (states) => states.contains(WidgetState.selected)
               ? RawdahPalette.ivory
-              : r.accent,
+              : r.inkMuted,
         ),
         trackColor: WidgetStateProperty.resolveWith(
-          (states) => states.contains(WidgetState.selected) ? action : r.wash,
+          (states) => states.contains(WidgetState.selected)
+              ? RawdahPalette.enabled
+              : r.wash,
         ),
-        trackOutlineColor: const WidgetStatePropertyAll(RawdahPalette.gold),
+        trackOutlineColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? RawdahPalette.enabled
+              : r.inkMuted,
+        ),
+        thumbIcon: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? const Icon(Icons.check, color: RawdahPalette.enabled)
+              : null,
+        ),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? RawdahPalette.enabled
+              : Colors.transparent,
+        ),
+        checkColor: const WidgetStatePropertyAll(RawdahPalette.ivory),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? RawdahPalette.enabled
+              : r.inkMuted,
+        ),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? RawdahPalette.enabled
+                : r.panel,
+          ),
+          foregroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? RawdahPalette.ivory
+                : r.ink,
+          ),
+          side: const WidgetStatePropertyAll(
+            BorderSide(color: RawdahPalette.gold),
+          ),
+          textStyle: WidgetStatePropertyAll(buttonText),
+        ),
       ),
       dividerTheme: DividerThemeData(color: r.hairline, thickness: 0.8),
       listTileTheme: ListTileThemeData(iconColor: r.accent),

@@ -5,6 +5,7 @@ import 'package:daily_muslim/features/passport/presentation/passport_providers.d
 import 'package:daily_muslim/features/passport/presentation/passport_state.dart';
 import 'package:daily_muslim/features/passport/presentation/passport_view.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
+import 'package:daily_muslim/features/shell/presentation/scroll_insets.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +68,7 @@ final class _Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView(
-    padding: const EdgeInsets.all(24),
+    padding: scrollInsets(context, horizontal: 24, top: 24),
     children: [
       Text(title, style: Theme.of(context).textTheme.titleLarge),
       for (final line in lines)
@@ -93,7 +94,7 @@ final class _Ready extends StatelessWidget {
     final theme = Theme.of(context);
     final text = theme.textTheme;
     return ListView(
-      padding: const EdgeInsets.only(bottom: 32),
+      padding: scrollInsets(context, bottom: 32),
       children: [
         // The Calculation ID in a cartouche: the address of every minute on
         // this page (P1, §15 D89).

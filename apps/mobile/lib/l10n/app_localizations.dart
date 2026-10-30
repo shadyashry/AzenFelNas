@@ -263,7 +263,7 @@ abstract class AppLocalizations {
   /// Remediation.
   ///
   /// In en, this message translates to:
-  /// **'Choose your place from the list or enter its coordinates.'**
+  /// **'Choose your city from the list.'**
   String get remediationChooseManualPlace;
 
   /// Remediation.
@@ -419,7 +419,7 @@ abstract class AppLocalizations {
   /// Manual place: no results.
   ///
   /// In en, this message translates to:
-  /// **'No place found. Try another spelling or enter coordinates.'**
+  /// **'No place found. Try another spelling.'**
   String get placeEmpty;
 
   /// Button: switch to coordinate entry.
@@ -1477,6 +1477,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More'**
   String get settingsMoreSection;
+
+  /// Onboarding: title of the place step.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your city'**
+  String get onboardingChooseCity;
+
+  /// Onboarding welcome: main button; detects the place from the device location.
+  ///
+  /// In en, this message translates to:
+  /// **'Find my location'**
+  String get onboardingDetect;
+
+  /// Onboarding welcome: secondary link to the city list.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ll choose my city'**
+  String get onboardingChooseCityMyself;
+
+  /// Onboarding: under 'Finding your place'.
+  ///
+  /// In en, this message translates to:
+  /// **'This takes a few seconds.'**
+  String get onboardingResolvingBody;
+
+  /// Onboarding failure: the city suggested by the device time zone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone\'s time zone suggests {place}.'**
+  String onboardingSuggestion(String place);
+
+  /// Onboarding failure: button pinning the suggested city.
+  ///
+  /// In en, this message translates to:
+  /// **'Use {place}'**
+  String onboardingUseSuggestion(String place);
+
+  /// Onboarding failure: link to the city list.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose another city'**
+  String get onboardingOtherCity;
+
+  /// Onboarding welcome feature.
+  ///
+  /// In en, this message translates to:
+  /// **'Works offline'**
+  String get onboardingFeatureOffline;
+
+  /// Onboarding welcome feature.
+  ///
+  /// In en, this message translates to:
+  /// **'Athan on time'**
+  String get onboardingFeatureAthan;
+
+  /// Onboarding welcome feature.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla compass'**
+  String get onboardingFeatureQibla;
+
+  /// Place search: heading of the cities suggested before typing.
+  ///
+  /// In en, this message translates to:
+  /// **'Cities in your time zone'**
+  String get placeSuggestions;
 }
 
 class _AppLocalizationsDelegate

@@ -4,6 +4,7 @@ import 'package:daily_muslim/features/home/presentation/time_rows.dart';
 import 'package:daily_muslim/features/home/presentation/timeline_state.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
+import 'package:daily_muslim/features/shell/presentation/scroll_insets.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ final class TimelinePage extends ConsumerWidget {
       body: switch (ref.watch(timelineStateProvider)) {
         TimelineLoading() => const Center(child: CircularProgressIndicator()),
         TimelineReady(:final days) => ListView(
-          padding: const EdgeInsets.only(bottom: 24),
+          padding: scrollInsets(context),
           children: [
             // One illuminated section per day, the date as its heading
             // (§15 D89).
@@ -41,7 +42,7 @@ final class TimelinePage extends ConsumerWidget {
         // The same notice as everywhere else; the code is for support
         // (§15 D98).
         TimelineError(:final failure) => ListView(
-          padding: const EdgeInsets.all(16),
+          padding: scrollInsets(context, horizontal: 16, top: 16, bottom: 16),
           children: [NeedsAttentionCard(const DescribeFailure()(failure))],
         ),
       },

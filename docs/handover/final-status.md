@@ -1,4 +1,4 @@
-# Final status: S01–S28 (DESIGN.md §13) and S29–S40
+# Final status: S01–S28 (DESIGN.md §13) and S29–S41
 
 Every slice is on its own branch, `origin/slice/sNN-*`, and since 2026-10-29 **every slice is merged into `main`** (`0a7a496`); the owner approved each merge in the session. From S18 on there are no PRs, per the owner rule of 2026-10-22 recorded in the S17 hand-over. "Automated" means the part of the done-test that Linux can run passed in that slice's session, as recorded in its hand-over. Nothing device-, store- or cloud-side was simulated or claimed.
 
@@ -36,6 +36,7 @@ Every slice is on its own branch, `origin/slice/sNN-*`, and since 2026-10-29 **e
 | S37 | `slice/s37-phone-feedback` | — | first phone feedback (D97): language choice on the welcome screen, *Turn on location* button with retry, Egyptian profile in effect (Cairo within 1 min of the published times), live Qibla dial on coarse compasses |
 | S38 | `slice/s38-ux-compass` | — | owner review (D98): no codes on screen, Rawdah-styled notices, one-tap place on the welcome screen, *Use my location* on the place screen, compass with rotation/tilt compensation, smoothing, green alignment line and haptic |
 | S39–S40 | `slice/s39-uae-profile`, `slice/s40-uae-seed` | — | UAE profile fitted to 123 days of the Awqaf table (D99): 93 % to the minute, all within one minute; Go gate checks entry rounding |
+| S41 | `slice/s41-ux-polish` | — | owner review 2 (D100): emerald splash and intro, a welcome screen that does not move, the place found from location or the phone's time zone, green for on, no content under the bars |
 
 ## OWED, grouped by owner action
 - **Physical devices:**

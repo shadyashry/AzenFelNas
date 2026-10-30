@@ -11,13 +11,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// once when the user comes back from the screen the button opened.
 final class RemediationAction extends ConsumerStatefulWidget {
   /// The action for [remediation].
-  const new(this.remediation, {this.onReturn, super.key});
+  const new(
+    this.remediation, {
+    this.onReturn,
+    this.secondary = false,
+    super.key,
+  });
 
   /// What the user can do.
   final Remediation remediation;
 
   /// Called once the user is back from the settings the button opened.
   final VoidCallback? onReturn;
+
+  /// Drawn as an outlined button, beside a filled main action.
+  final bool secondary;
 
   /// Whether [remediation] has a button.
   static bool hasAction(Remediation remediation) =>
@@ -72,24 +80,27 @@ final class _RemediationActionState extends ConsumerState<RemediationAction> {
     final l = AppLocalizations.of(context);
     final open = RemediationAction._action(widget.remediation);
     if (open == null) return const SizedBox.shrink();
-    return FilledButton(
-      onPressed: () async {
-        _awaitingReturn = true;
-        await open(ref.read(openSystemSettingsProvider));
-      },
-      child: Text(switch (widget.remediation) {
-        Remediation.turnOnLocationServices => l.remediationActionTurnOnLocation,
-        Remediation.grantLocationPermission ||
-        Remediation.chooseManualPlace ||
-        Remediation.waitForDataUpdate ||
-        Remediation.retryWhenOnline ||
-        Remediation.freeUpStorage ||
-        Remediation.tryAgain ||
-        Remediation.updateApp ||
-        Remediation.grantAlarmPermission ||
-        Remediation.openAthanHealth ||
-        Remediation.checkDeviceClock => l.remediationActionOpenSettings,
-      }),
-    );
+    Future<void> onPressed() async {
+      _awaitingReturn = true;
+      await open(ref.read(openSystemSettingsProvider));
+    }
+
+    final label = Text(switch (widget.remediation) {
+      Remediation.turnOnLocationServices => l.remediationActionTurnOnLocation,
+      Remediation.grantLocationPermission ||
+      Remediation.chooseManualPlace ||
+      Remediation.waitForDataUpdate ||
+      Remediation.retryWhenOnline ||
+      Remediation.freeUpStorage ||
+      Remediation.tryAgain ||
+      Remediation.updateApp ||
+      Remediation.grantAlarmPermission ||
+      Remediation.openAthanHealth ||
+      Remediation.checkDeviceClock => l.remediationActionOpenSettings,
+    });
+    const icon = Icon(Icons.settings_outlined);
+    return widget.secondary
+        ? OutlinedButton.icon(onPressed: onPressed, icon: icon, label: label)
+        : FilledButton.icon(onPressed: onPressed, icon: icon, label: label);
   }
 }

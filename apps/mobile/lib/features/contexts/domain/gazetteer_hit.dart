@@ -15,6 +15,7 @@ final class GazetteerHit {
     required this.point,
     required this.population,
     required this.zoneId,
+    this.arabicName = '',
   });
 
   /// GeoNames id.
@@ -33,6 +34,30 @@ final class GazetteerHit {
   String get displayName => _arabic.hasMatch(matchedName) ? matchedName : name;
 
   static final _arabic = RegExp('[؀-ۿ]');
+
+  /// The place's first Arabic name in the gazetteer; empty when it has none.
+  final String arabicName;
+
+  /// The name a reader of [languageCode] knows the place by, for a place
+  /// shown without a query (a suggestion, the place nearest a fix; §15
+  /// D100): [arabicName] for Arabic when there is one, else [name].
+  String nameIn(String languageCode) =>
+      languageCode == 'ar' && arabicName.isNotEmpty ? arabicName : name;
+
+  /// This place as if it were found by [nameIn] for [languageCode], so it is
+  /// shown and pinned under that name ([displayName]).
+  GazetteerHit namedIn(String languageCode) => GazetteerHit(
+    id: id,
+    name: name,
+    matchedName: nameIn(languageCode),
+    exact: exact,
+    country: country,
+    admin1: admin1,
+    point: point,
+    population: population,
+    zoneId: zoneId,
+    arabicName: arabicName,
+  );
 
   /// Whether a search key of the place equals the query key, not only
   /// starts with it.
@@ -64,7 +89,8 @@ final class GazetteerHit {
       other.admin1 == admin1 &&
       other.point == point &&
       other.population == population &&
-      other.zoneId == zoneId;
+      other.zoneId == zoneId &&
+      other.arabicName == arabicName;
 
   @override
   int get hashCode => Object.hash(
@@ -77,6 +103,7 @@ final class GazetteerHit {
     point,
     population,
     zoneId,
+    arabicName,
   );
 
   @override

@@ -6,6 +6,7 @@ import 'package:daily_muslim/features/settings/data/drift_settings_store.dart';
 import 'package:daily_muslim/features/settings/domain/app_settings.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
+import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/features/storage/data/opened_databases.dart';
 import 'package:daily_muslim/features/storage/domain/storage_failure.dart';
 import 'package:flutter/material.dart';
@@ -114,4 +115,38 @@ void main() {
     final pubspec = File('pubspec.yaml').readAsStringSync();
     expect(pubspec, contains('\nversion: ${AppBuild.version}+'));
   });
+
+  // The app is drawn edge to edge: the last row of a tab page must scroll
+  // clear of the floating tab bar and the system navigation bar (§15 D100).
+  for (final (location, lastRow) in [
+    ('/settings', 'Data sources and licences'),
+    ('/health', 'Isha'),
+  ]) {
+    testWidgets('REQ-UX-020 the last row of $location scrolls clear of the '
+        'tab bar (§15 D100)', (tester) async {
+      tester.view.physicalSize = const Size(1080, 1920);
+      tester.view.devicePixelRatio = 2.625;
+      tester.view.padding = const FakeViewPadding(bottom: 126);
+      addTearDown(tester.view.reset);
+      final dbs = memoryDatabases();
+      await tester.pumpWidget(harnessApp(dbs, initialLocation: location));
+      // Bounded frames: a page may keep scheduling frames.
+      Future<void> frames() async {
+        for (var i = 0; i < 40; i++) {
+          await tester.runAsync(
+            () => Future<void>.delayed(const Duration(milliseconds: 5)),
+          );
+          await tester.pump(const Duration(milliseconds: 50));
+        }
+      }
+
+      await frames();
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -3000));
+      await frames();
+      final row = tester.getRect(find.text(lastRow).last);
+      final bar = tester.getRect(find.byType(AppTabBar));
+      expect(row.bottom, lessThanOrEqualTo(bar.top));
+      await disposeApp(tester, dbs);
+    });
+  }
 }

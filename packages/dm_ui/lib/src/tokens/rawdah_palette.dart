@@ -23,6 +23,11 @@ abstract final class RawdahPalette {
   /// never text, always beside the words "You are facing the Qibla".
   static const Color qiblaAligned = Color(0xFF39FF14);
 
+  /// The green of anything switched on (§15 D100): a switch's track, a
+  /// ticked box, the chosen segment. Ivory on it reads at 4.6:1; it stands
+  /// 3.2:1 off the night panel.
+  static const Color enabled = Color(0xFF1A7F4E);
+
   /// Pale illumination gold, highlights only.
   static const Color goldLight = Color(0xFFEAD596);
 

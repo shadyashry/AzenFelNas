@@ -19,6 +19,24 @@ import UIKit
     if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "DmHeading") {
       HeadingStreamHandler.register(messenger: registrar.messenger())
     }
+    if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "DmDeviceZone") {
+      DeviceZoneChannel.register(messenger: registrar.messenger())
+    }
+  }
+}
+
+/// The phone's time zone (`ChannelDeviceZone` in Dart): names the user's region with no
+/// permission, for the first-run place suggestions (DESIGN.md §15 D100).
+enum DeviceZoneChannel {
+  static func register(messenger: FlutterBinaryMessenger) {
+    FlutterMethodChannel(name: "dm/device_zone", binaryMessenger: messenger)
+      .setMethodCallHandler { call, result in
+        guard call.method == "zoneId" else {
+          result(FlutterMethodNotImplemented)
+          return
+        }
+        result(TimeZone.current.identifier)
+      }
   }
 }
 

@@ -2,12 +2,17 @@ import 'package:daily_muslim/features/contexts/application/context_use_cases.dar
 import 'package:daily_muslim/features/contexts/application/follow_device_location.dart';
 import 'package:daily_muslim/features/contexts/application/locate_observer.dart';
 import 'package:daily_muslim/features/contexts/application/locate_with_permission.dart';
+import 'package:daily_muslim/features/contexts/application/name_nearest_place.dart';
 import 'package:daily_muslim/features/contexts/application/pin_place.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_observer_context.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_place.dart';
 import 'package:daily_muslim/features/contexts/application/search_gazetteer.dart';
+import 'package:daily_muslim/features/contexts/application/suggest_places.dart';
 import 'package:daily_muslim/features/contexts/data/drift_location_context_store.dart';
 import 'package:daily_muslim/features/contexts/domain/context_changed.dart';
+import 'package:daily_muslim/features/contexts/domain/device_zone.dart';
+import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
+import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_ports.dart';
 import 'package:daily_muslim/features/contexts/domain/location_ports.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
@@ -55,6 +60,8 @@ ContextUseCases fakeContextUseCases({
   required FindGazetteerPlaces places,
   required RequestLocationAccess access,
   required LocateDevice locator,
+  FindPlacesAround around = const NoPlacesAround(),
+  ReadDeviceZone deviceZone = const FakeDeviceZone(null),
 }) {
   final data = bundledRuntimeData();
   final clock = FixedClock(harnessNowUtcMs);
@@ -83,6 +90,8 @@ ContextUseCases fakeContextUseCases({
     search: SearchGazetteer(places),
     travel: HandleZoneChange(contexts, locator, resolvePlace, clock),
     follow: FollowDeviceLocation(locate),
+    suggest: SuggestPlaces(deviceZone, around),
+    nameNearest: NameNearestPlace(around),
   );
 }
 
@@ -91,4 +100,61 @@ final class _NoEvents implements RecordContextEvent {
 
   @override
   Future<void> record(ContextChanged event) async {}
+}
+
+/// No place is near anything and no zone has places.
+final class NoPlacesAround implements FindPlacesAround {
+  /// The fake.
+  const new();
+
+  @override
+  Future<Result<GazetteerHit?, GazetteerFailure>> nearest(
+    GeoPointE6 point, {
+    required double withinKm,
+  }) async => const Ok(null);
+
+  @override
+  Future<Result<List<GazetteerHit>, GazetteerFailure>> largestIn(
+    String zoneId, {
+    required int limit,
+  }) async => const Ok([]);
+}
+
+/// Places around fixed answers: [near] for any point, [inZone] for [zone].
+final class FakePlacesAround implements FindPlacesAround {
+  /// The fake.
+  const new({this.near, this.zone = '', this.inZone = const []});
+
+  /// The nearest place to any point.
+  final GazetteerHit? near;
+
+  /// The zone that has [inZone].
+  final String zone;
+
+  /// The places of [zone].
+  final List<GazetteerHit> inZone;
+
+  @override
+  Future<Result<GazetteerHit?, GazetteerFailure>> nearest(
+    GeoPointE6 point, {
+    required double withinKm,
+  }) async => Ok(near);
+
+  @override
+  Future<Result<List<GazetteerHit>, GazetteerFailure>> largestIn(
+    String zoneId, {
+    required int limit,
+  }) async => Ok(zoneId == zone ? inZone.take(limit).toList() : const []);
+}
+
+/// A phone set to [id].
+final class FakeDeviceZone implements ReadDeviceZone {
+  /// The fake.
+  const new(this.id);
+
+  /// The zone id, or `null` when the platform does not say.
+  final String? id;
+
+  @override
+  Future<String?> zoneId() async => id;
 }

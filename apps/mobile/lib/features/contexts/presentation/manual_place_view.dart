@@ -4,6 +4,7 @@ import 'package:daily_muslim/features/contexts/presentation/manual_place_control
 import 'package:daily_muslim/features/contexts/presentation/manual_place_state.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
+import 'package:daily_muslim/features/shell/presentation/scroll_insets.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,7 +58,36 @@ final class ManualPlaceView extends ConsumerWidget {
         ),
         Expanded(
           child: switch (state) {
-            ManualPlaceIdle() => _Hint(text: l.placeIdle),
+            ManualPlaceIdle(suggestions: []) => _Hint(text: l.placeIdle),
+            // One tap for most users: the cities of the phone's time zone
+            // (§15 D100).
+            ManualPlaceIdle(:final suggestions) => ListView(
+              padding: const EdgeInsets.only(bottom: 8),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                  child: Text(
+                    l.placeSuggestions,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
+                ),
+                for (final hit in suggestions.map(
+                  (h) => h.namedIn(
+                    Localizations.localeOf(context).languageCode,
+                  ),
+                ))
+                  _HitTile(
+                    hit: hit,
+                    title: hit.displayName,
+                    onTap: () async {
+                      final pinned = await controller.pickHit(hit);
+                      if (pinned != null) onPinned(pinned);
+                    },
+                  ),
+              ],
+            ),
             ManualPlaceSearching() => const Center(
               child: CircularProgressIndicator(),
             ),
@@ -66,6 +96,7 @@ final class ManualPlaceView extends ConsumerWidget {
                 for (final hit in hits)
                   _HitTile(
                     hit: hit,
+                    title: titleOf(hit),
                     onTap: () async {
                       final pinned = await controller.pickHit(hit);
                       if (pinned != null) onPinned(pinned);
@@ -91,7 +122,7 @@ final class ManualPlaceView extends ConsumerWidget {
         ),
         if (state is! ManualPlaceCoordinateEntry)
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: scrollInsets(context, horizontal: 16, top: 8, bottom: 8),
             child: TextButton(
               onPressed: controller.enterCoordinates,
               child: Text(l.placeEnterCoordinates),
@@ -109,30 +140,40 @@ String titleOf(GazetteerHit hit) => hit.displayName == hit.matchedName
     ? hit.displayName
     : '${hit.displayName} (${hit.matchedName})';
 
-/// The line under a search hit (§15 D96): a region code that is a name
-/// (`ENG`, `CA`) and the country; a numeric GeoNames code means nothing to a
-/// reader, so the rounded coordinates tell same-named places apart instead.
+/// The line under a place (§15 D96, D100): a region code that is a name
+/// (`ENG`, `CA`), then the country's flag and code. A numeric GeoNames code
+/// and coordinates mean nothing to a reader, so neither is shown.
 String subtitleOf(GazetteerHit hit) {
-  String degrees(int e6) => (e6 / 1e6).toStringAsFixed(2);
   final region = hit.admin1;
   return [
     if (region.isNotEmpty && int.tryParse(region) == null) region,
-    if (hit.country.isNotEmpty) hit.country,
-    if (region.isEmpty || int.tryParse(region) != null)
-      '${degrees(hit.point.latE6)}, ${degrees(hit.point.lonE6)}',
+    if (hit.country.isNotEmpty) '${flagOf(hit.country)} ${hit.country}',
   ].join(' · ');
 }
 
+/// The flag of an ISO 3166-1 alpha-2 [country] as regional indicator
+/// symbols; empty for anything else.
+String flagOf(String country) {
+  final code = country.toUpperCase();
+  if (!RegExp(r'^[A-Z]{2}$').hasMatch(code)) return '';
+  return String.fromCharCodes([
+    for (final unit in code.codeUnits) 0x1F1E6 + unit - 0x41,
+  ]);
+}
+
 final class _HitTile extends StatelessWidget {
-  const new({required this.hit, required this.onTap});
+  const new({required this.hit, required this.title, required this.onTap});
 
   final GazetteerHit hit;
+  final String title;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) => ListTile(
-    title: Text(titleOf(hit)),
+    leading: const Icon(Icons.location_city_outlined),
+    title: Text(title),
     subtitle: Text(subtitleOf(hit)),
+    trailing: const Icon(Icons.chevron_right),
     onTap: onTap,
   );
 }
@@ -185,7 +226,7 @@ final class _CoordinateFormState extends ConsumerState<CoordinateForm> {
       decimal: true,
     );
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: scrollInsets(context, horizontal: 16, top: 16, bottom: 16),
       children: [
         TextField(
           key: const Key('placeLatitude'),

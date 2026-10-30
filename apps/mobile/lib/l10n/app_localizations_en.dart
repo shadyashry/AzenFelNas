@@ -95,8 +95,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Turn on location in the device settings, or choose a place yourself.';
 
   @override
-  String get remediationChooseManualPlace =>
-      'Choose your place from the list or enter its coordinates.';
+  String get remediationChooseManualPlace => 'Choose your city from the list.';
 
   @override
   String get remediationWaitForDataUpdate =>
@@ -182,8 +181,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get placeSearching => 'Searching…';
 
   @override
-  String get placeEmpty =>
-      'No place found. Try another spelling or enter coordinates.';
+  String get placeEmpty => 'No place found. Try another spelling.';
 
   @override
   String get placeEnterCoordinates => 'Enter coordinates';
@@ -832,4 +830,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsMoreSection => 'More';
+
+  @override
+  String get onboardingChooseCity => 'Choose your city';
+
+  @override
+  String get onboardingDetect => 'Find my location';
+
+  @override
+  String get onboardingChooseCityMyself => 'I\'ll choose my city';
+
+  @override
+  String get onboardingResolvingBody => 'This takes a few seconds.';
+
+  @override
+  String onboardingSuggestion(String place) {
+    return 'Your phone\'s time zone suggests $place.';
+  }
+
+  @override
+  String onboardingUseSuggestion(String place) {
+    return 'Use $place';
+  }
+
+  @override
+  String get onboardingOtherCity => 'Choose another city';
+
+  @override
+  String get onboardingFeatureOffline => 'Works offline';
+
+  @override
+  String get onboardingFeatureAthan => 'Athan on time';
+
+  @override
+  String get onboardingFeatureQibla => 'Qibla compass';
+
+  @override
+  String get placeSuggestions => 'Cities in your time zone';
 }

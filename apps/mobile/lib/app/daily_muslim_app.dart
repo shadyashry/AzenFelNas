@@ -2,6 +2,7 @@ import 'package:daily_muslim/app/app_router.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
+import 'package:daily_muslim/features/shell/presentation/brand_intro.dart';
 import 'package:daily_muslim/features/shell/presentation/shell_providers.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
@@ -58,6 +59,9 @@ final class _DailyMuslimAppState extends ConsumerState<DailyMuslimApp> {
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       routerConfig: _router,
+      // The launch screen's emerald continues into the app (§15 D100).
+      builder: (context, child) =>
+          BrandIntro(child: child ?? const SizedBox.shrink()),
       locale: switch (locale) {
         LocaleSetting.ar => const Locale('ar'),
         LocaleSetting.en => const Locale('en'),

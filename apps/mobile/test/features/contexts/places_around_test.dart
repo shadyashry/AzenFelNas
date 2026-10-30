@@ -1,0 +1,92 @@
+import 'package:daily_muslim/features/contexts/application/name_nearest_place.dart';
+import 'package:daily_muslim/features/contexts/application/suggest_places.dart';
+import 'package:daily_muslim/features/contexts/data/drift_gazetteer_store.dart';
+import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
+import 'package:daily_muslim/features/contexts/presentation/manual_place_view.dart';
+import 'package:daily_muslim/features/storage/data/dm_database.dart';
+import 'package:dm_civil_time/dm_civil_time.dart';
+import 'package:dm_core_types/dm_core_types.dart';
+import 'package:drift/native.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import '../../support/state_harness.dart';
+import 'support/places.dart';
+
+void main() {
+  late DmDatabase db;
+  late DriftGazetteerStore store;
+  setUp(() async {
+    db = DmDatabase(NativeDatabase.memory());
+    store = DriftGazetteerStore(db);
+    expect(await store.replaceAll(samplePlaces), isA<Ok<int, Object>>());
+  });
+  tearDown(() => db.close());
+
+  group('Places around a point or a zone (§15 D100)', () {
+    test(
+      'a fix in Cairo is named Cairo, in Arabic for Arabic readers',
+      () async {
+        final hit = await NameNearestPlace(
+          store,
+        )(GeoPointE6.fromDegrees(30.0444, 31.2357));
+        expect(hit?.id, 360630);
+        expect(hit?.nameIn('en'), 'Cairo');
+        expect(hit?.nameIn('ar'), 'القاهرة');
+      },
+    );
+
+    test('a fix far from every place has no name', () async {
+      expect(
+        await NameNearestPlace(store)(GeoPointE6.fromDegrees(0, -30)),
+        isNull,
+      );
+    });
+
+    test('the phone time zone suggests its places, largest first', () async {
+      final suggested = await SuggestPlaces(
+        const FakeDeviceZone('Asia/Riyadh'),
+        store,
+      )();
+      expect([for (final h in suggested) h.name], ['Mecca']);
+      expect(suggested.single.nameIn('ar'), 'مكة المكرمة');
+    });
+
+    test('an unknown zone or none suggests nothing', () async {
+      expect(
+        await SuggestPlaces(const FakeDeviceZone('Pacific/Nowhere'), store)(),
+        isEmpty,
+      );
+      expect(await SuggestPlaces(const FakeDeviceZone(null), store)(), isEmpty);
+    });
+
+    test('a suggestion is pinned under the reader’s name for it', () async {
+      final mecca = (await SuggestPlaces(
+        const FakeDeviceZone('Asia/Riyadh'),
+        store,
+      )()).single;
+      expect(mecca.namedIn('ar').displayName, 'مكة المكرمة');
+      expect(mecca.namedIn('en').displayName, 'Mecca');
+    });
+
+    test('a place with no Arabic name keeps its own in Arabic', () {
+      final hit = GazetteerHit(
+        id: 1,
+        name: 'Cairo Montenotte',
+        matchedName: 'Cairo Montenotte',
+        exact: false,
+        country: 'IT',
+        admin1: '08',
+        point: GeoPointE6(44398000, 8276000),
+        population: 13000,
+        zoneId: 'Europe/Rome',
+      );
+      expect(hit.nameIn('ar'), 'Cairo Montenotte');
+    });
+
+    test('a country shows as its flag; anything else as nothing', () {
+      expect(flagOf('EG'), '🇪🇬');
+      expect(flagOf('ae'), '🇦🇪');
+      expect(flagOf('E1'), '');
+    });
+  });
+}

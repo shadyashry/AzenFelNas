@@ -2,6 +2,7 @@ import 'package:daily_muslim/features/settings/presentation/diagnostics_provider
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/domain/needs_attention.dart';
 import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
+import 'package:daily_muslim/features/shell/presentation/scroll_insets.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ final class _DiagnosticsPageState extends ConsumerState<DiagnosticsPage> {
       appBar: AppBar(title: Text(l.diagnosticsTitle)),
       body: switch (text) {
         AsyncData(:final value) => ListView(
-          padding: const EdgeInsets.all(16),
+          padding: scrollInsets(context, horizontal: 16, top: 16, bottom: 16),
           children: [
             Text(l.diagnosticsIntro),
             const SizedBox(height: 12),

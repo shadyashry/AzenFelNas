@@ -7,6 +7,7 @@ import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
 import 'package:daily_muslim/features/qibla/presentation/shadow_times_section.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
+import 'package:daily_muslim/features/shell/presentation/scroll_insets.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ final class QiblaPage extends ConsumerWidget {
       }
     });
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         title: Text(l.qiblaTitle),
         automaticallyImplyLeading: false,
@@ -106,7 +108,7 @@ final class QiblaView extends ConsumerWidget {
     };
     final scheme = Theme.of(context).colorScheme;
     return ListView(
-      padding: const EdgeInsets.fromLTRB(28, 12, 28, 120),
+      padding: scrollInsets(context, horizontal: 28, top: 12),
       children: [
         Center(
           child: ConstrainedBox(

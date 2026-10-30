@@ -23,10 +23,27 @@ final class ManualPlaceController extends Notifier<ManualPlaceState> {
   /// dropped.
   String _latest = '';
 
+  /// The places of the phone's time zone, once loaded (§15 D100).
+  List<GazetteerHit> _suggestions = const [];
+
   @override
   ManualPlaceState build() {
     ref.onDispose(() => _typing?.cancel());
+    unawaited(_suggest());
     return const ManualPlaceIdle();
+  }
+
+  /// Loads the suggestions; a failure only leaves the list empty.
+  Future<void> _suggest() async {
+    final useCases = switch (await ref.read(contextUseCasesProvider.future)) {
+      Ok(:final value) => value,
+      Err() => null,
+    };
+    if (useCases == null || !ref.mounted) return;
+    _suggestions = await useCases.suggest();
+    if (ref.mounted && state is ManualPlaceIdle) {
+      state = ManualPlaceIdle(suggestions: _suggestions);
+    }
   }
 
   /// The search field changed: searches [query] once typing pauses.
@@ -40,7 +57,7 @@ final class ManualPlaceController extends Notifier<ManualPlaceState> {
     _typing?.cancel();
     _latest = query;
     if (query.trim().isEmpty) {
-      state = const ManualPlaceIdle();
+      state = ManualPlaceIdle(suggestions: _suggestions);
       return;
     }
     state = const ManualPlaceSearching();
@@ -67,7 +84,7 @@ final class ManualPlaceController extends Notifier<ManualPlaceState> {
     switch (await useCases.locate()) {
       case Ok(:final value):
         ref.invalidate(scheduleProvider);
-        state = const ManualPlaceIdle();
+        state = ManualPlaceIdle(suggestions: _suggestions);
         return value;
       case Err(:final failure):
         state = ManualPlaceError(failure);

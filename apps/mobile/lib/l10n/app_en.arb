@@ -114,7 +114,7 @@
   "@remediationTurnOnLocationServices": {
     "description": "Remediation."
   },
-  "remediationChooseManualPlace": "Choose your place from the list or enter its coordinates.",
+  "remediationChooseManualPlace": "Choose your city from the list.",
   "@remediationChooseManualPlace": {
     "description": "Remediation."
   },
@@ -224,7 +224,7 @@
   "@placeSearching": {
     "description": "Manual place: search running."
   },
-  "placeEmpty": "No place found. Try another spelling or enter coordinates.",
+  "placeEmpty": "No place found. Try another spelling.",
   "@placeEmpty": {
     "description": "Manual place: no results."
   },
@@ -1173,5 +1173,61 @@
   "settingsMoreSection": "More",
   "@settingsMoreSection": {
     "description": "Settings: heading of Athan, diagnostics and data sources."
+  },
+  "onboardingChooseCity": "Choose your city",
+  "@onboardingChooseCity": {
+    "description": "Onboarding: title of the place step."
+  },
+  "onboardingDetect": "Find my location",
+  "@onboardingDetect": {
+    "description": "Onboarding welcome: main button; detects the place from the device location."
+  },
+  "onboardingChooseCityMyself": "I'll choose my city",
+  "@onboardingChooseCityMyself": {
+    "description": "Onboarding welcome: secondary link to the city list."
+  },
+  "onboardingResolvingBody": "This takes a few seconds.",
+  "@onboardingResolvingBody": {
+    "description": "Onboarding: under 'Finding your place'."
+  },
+  "onboardingSuggestion": "Your phone's time zone suggests {place}.",
+  "@onboardingSuggestion": {
+    "description": "Onboarding failure: the city suggested by the device time zone.",
+    "placeholders": {
+      "place": {
+        "type": "String",
+        "example": "Cairo"
+      }
+    }
+  },
+  "onboardingUseSuggestion": "Use {place}",
+  "@onboardingUseSuggestion": {
+    "description": "Onboarding failure: button pinning the suggested city.",
+    "placeholders": {
+      "place": {
+        "type": "String",
+        "example": "Cairo"
+      }
+    }
+  },
+  "onboardingOtherCity": "Choose another city",
+  "@onboardingOtherCity": {
+    "description": "Onboarding failure: link to the city list."
+  },
+  "onboardingFeatureOffline": "Works offline",
+  "@onboardingFeatureOffline": {
+    "description": "Onboarding welcome feature."
+  },
+  "onboardingFeatureAthan": "Athan on time",
+  "@onboardingFeatureAthan": {
+    "description": "Onboarding welcome feature."
+  },
+  "onboardingFeatureQibla": "Qibla compass",
+  "@onboardingFeatureQibla": {
+    "description": "Onboarding welcome feature."
+  },
+  "placeSuggestions": "Cities in your time zone",
+  "@placeSuggestions": {
+    "description": "Place search: heading of the cities suggested before typing."
   }
 }

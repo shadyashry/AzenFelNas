@@ -5,13 +5,19 @@ import app.azenfelnas.pigeon.AthanSchedulerApi
 import io.flutter.FlutterInjector
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.Dispatchers
 import java.io.FileNotFoundException
+import java.util.TimeZone
 
 class MainActivity : FlutterActivity() {
   override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
     super.configureFlutterEngine(flutterEngine)
     HeadingStreamHandler.register(flutterEngine.dartExecutor.binaryMessenger, applicationContext)
+    // The phone's time zone names the user's region with no permission (DESIGN.md section 15 D100).
+    MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dm/device_zone").setMethodCallHandler { call, result ->
+      if (call.method == "zoneId") result.success(TimeZone.getDefault().id) else result.notImplemented()
+    }
     val core = AthanCoreHost(applicationContext)
     AthanSchedulerApi.setUp(
       flutterEngine.dartExecutor.binaryMessenger,

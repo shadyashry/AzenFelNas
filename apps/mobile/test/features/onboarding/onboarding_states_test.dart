@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/contexts/application/context_use_cases.dart';
+import 'package:daily_muslim/features/contexts/domain/device_zone.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_ports.dart';
@@ -15,6 +16,7 @@ import 'package:daily_muslim/features/schedule/presentation/schedule_providers.d
 import 'package:daily_muslim/features/settings/domain/setting_key.dart';
 import 'package:daily_muslim/features/settings/domain/settings_ports.dart';
 import 'package:daily_muslim/features/storage/data/places_database.dart';
+import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,9 @@ void main() {
     WidgetTester tester, {
     LocationAccess access = LocationAccess.denied,
     Future<Result<ContextUseCases, Failure>>? useCases,
+    FindPlacesAround around = const NoPlacesAround(),
+    ReadDeviceZone zone = const FakeDeviceZone(null),
+    Locale locale = const Locale('en'),
   }) async {
     final fakeAccess = FakeLocationAccess(access);
     grant = FakeAthanGrant();
@@ -56,6 +61,8 @@ void main() {
       places: _NoPlaces(),
       access: fakeAccess,
       locator: locator,
+      around: around,
+      deviceZone: zone,
     );
     await tester.pumpWidget(
       localizedApp(
@@ -69,6 +76,7 @@ void main() {
           ),
           requestAthanGrantProvider.overrideWithValue(grant),
         ],
+        locale: locale,
       ),
     );
     await tester.pump();
@@ -84,17 +92,17 @@ void main() {
       expect(access.requests, 0);
     });
 
-    testWidgets('the welcome step offers approximate location or a place, '
-        'one tap from the times (§15 D98)', (tester) async {
+    testWidgets('the welcome step finds the place in one tap, or lets the '
+        'user choose a city (§15 D98, D100)', (tester) async {
       final (access, _) = await pump(tester);
-      expect(find.text('Use approximate location'), findsOneWidget);
-      expect(find.text('Choose a place'), findsOneWidget);
+      expect(find.text('Find my location'), findsOneWidget);
+      expect(find.text("I'll choose my city"), findsOneWidget);
       expect(access.requests, 0);
     });
 
     testWidgets('step(place) shows the manual place search', (tester) async {
       await pump(tester);
-      await tester.tap(find.text('Choose a place'));
+      await tester.tap(find.text("I'll choose my city"));
       await tester.pump();
       expect(find.byKey(const Key('placeSearch')), findsOneWidget);
     });
@@ -106,7 +114,7 @@ void main() {
         tester,
         useCases: Completer<Result<ContextUseCases, Failure>>().future,
       );
-      await tester.tap(find.text('Use approximate location'));
+      await tester.tap(find.text('Find my location'));
       await tester.pump();
       expect(find.text('Finding your place…'), findsOneWidget);
     });
@@ -114,12 +122,12 @@ void main() {
     testWidgets('REQ-ERR-002 failed keeps the code for support (long press) '
         'and offers the manual-place branch (§18.3, §15 D98)', (tester) async {
       final (access, _) = await pump(tester);
-      await tester.tap(find.text('Use approximate location'));
+      await tester.tap(find.text('Find my location'));
       await pumpUntil(tester, find.text('Location is not available'));
       expect(access.requests, 1);
       expect(find.textContaining('LOC_PERMISSION_DENIED'), findsNothing);
       expect(find.byTooltip('Code LOC_PERMISSION_DENIED'), findsOneWidget);
-      expect(find.text('Choose a place'), findsOneWidget);
+      expect(find.text('Choose another city'), findsOneWidget);
       expect(find.text('Try again'), findsOneWidget);
     });
 
@@ -128,7 +136,7 @@ void main() {
       tester,
     ) async {
       final (_, settings) = await pump(tester, access: LocationAccess.granted);
-      await tester.tap(find.text('Use approximate location'));
+      await tester.tap(find.text('Find my location'));
       await pumpUntil(tester, find.text('Your times are ready'));
       await tester.tap(find.text("Show today's times"));
       await pumpUntil(tester, find.text('Your times are ready'));
@@ -138,6 +146,77 @@ void main() {
       }
       expect(settings.written, {'onboardingComplete': true});
       expect(grant.asked, [AthanGrant.notifications, AthanGrant.exactAlarms]);
+    });
+  });
+
+  group('Finding the place without asking for it (§15 D100)', () {
+    final cairo = GazetteerHit(
+      id: 360630,
+      name: 'Cairo',
+      matchedName: 'Cairo',
+      exact: false,
+      country: 'EG',
+      admin1: '11',
+      point: GeoPointE6(30062630, 31249670),
+      population: 9606916,
+      zoneId: 'Africa/Cairo',
+      arabicName: 'القاهرة',
+    );
+
+    testWidgets('a granted fix is named after the place it is in', (
+      tester,
+    ) async {
+      await pump(
+        tester,
+        access: LocationAccess.granted,
+        around: FakePlacesAround(near: cairo),
+      );
+      await tester.tap(find.text('Find my location'));
+      await pumpUntil(tester, find.text('Your times are ready'));
+      expect(find.text('Prayer times for Cairo.'), findsOneWidget);
+    });
+
+    testWidgets('when location fails, the phone time zone offers its city '
+        'and one tap uses it', (tester) async {
+      await pump(
+        tester,
+        around: FakePlacesAround(zone: 'Africa/Cairo', inZone: [cairo]),
+        zone: const FakeDeviceZone('Africa/Cairo'),
+      );
+      await tester.tap(find.text('Find my location'));
+      await pumpUntil(tester, find.text('Location is not available'));
+      expect(
+        find.text("Your phone's time zone suggests Cairo."),
+        findsOneWidget,
+      );
+      await tester.tap(find.byKey(const Key('onboardingUseSuggestion')));
+      await pumpUntil(tester, find.text('Your times are ready'));
+      expect(find.text('Prayer times for Cairo.'), findsOneWidget);
+    });
+
+    testWidgets('with no zone city the failure offers the city list first', (
+      tester,
+    ) async {
+      await pump(tester);
+      await tester.tap(find.text('Find my location'));
+      await pumpUntil(tester, find.text('Location is not available'));
+      expect(find.byKey(const Key('onboardingUseSuggestion')), findsNothing);
+      expect(find.text('Choose another city'), findsOneWidget);
+    });
+
+    testWidgets('the language choice and the welcome buttons stand in the '
+        'same place in English and Arabic', (tester) async {
+      Future<(Rect, Rect)> layout(Locale locale) async {
+        await pump(tester, locale: locale);
+        return (
+          tester.getRect(find.byType(LanguageChoice)),
+          tester.getRect(find.byKey(const Key('onboardingDetect'))),
+        );
+      }
+
+      final english = await layout(const Locale('en'));
+      final arabic = await layout(const Locale('ar'));
+      expect(arabic, english);
     });
   });
 }

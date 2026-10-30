@@ -13,6 +13,7 @@ import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
+import 'package:daily_muslim/features/shell/presentation/scroll_insets.dart';
 import 'package:daily_muslim/features/travel/presentation/travel_banner.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
@@ -89,7 +90,7 @@ final class HomeContentView extends ConsumerWidget {
     final light = ref.watch(hourLightProvider);
     final next = content.nextPrayer;
     return ListView(
-      padding: const EdgeInsets.only(bottom: 112),
+      padding: scrollInsets(context),
       children: [
         HomeHourField(content: content, style: style, light: light),
         const TravelBanner(),

@@ -9,6 +9,7 @@ import 'package:daily_muslim/features/settings/domain/app_settings.dart';
 import 'package:daily_muslim/features/settings/presentation/choice_tile.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
+import 'package:daily_muslim/features/shell/presentation/scroll_insets.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
@@ -35,64 +36,68 @@ final class AthanPage extends ConsumerWidget {
     // A changed sound or reminder re-arms the Athan at once.
     ref.watch(athanPlanProvider);
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         title: Text(l.athanTitle),
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: const AppTabBar(current: RawdahTab.athan),
-      body: ListView(
-        padding: const EdgeInsets.only(bottom: 112),
-        children: [
-          const AthanHealthCard(),
-          AthanTestPanel(soundId: chosen),
-          RawdahSection(
-            children: [
-              if (ids.isEmpty)
-                ListTile(
-                  title: Text(l.athanSound),
-                  subtitle: Text(l.athanNoSounds),
-                )
-              else
-                ChoiceTile<String>(
-                  title: l.athanSound,
-                  value: chosen,
-                  choices: ids,
-                  label: (id) => soundLabel(l, id),
-                  onChanged: (id) => write.write(AppSettings.soundId, id),
-                ),
-              ChoiceTile<PreReminder>(
-                title: l.athanPreReminder,
-                value: PreReminder.ofMinutes(
-                  ref.watch(preReminderSettingProvider).value ?? 0,
-                ),
-                choices: PreReminder.values,
-                label: (p) => switch (p) {
-                  PreReminder.off => l.athanPreReminderOff,
-                  PreReminder.five ||
-                  PreReminder.ten ||
-                  PreReminder.fifteen ||
-                  PreReminder.thirty => l.athanPreReminderMinutes(p.minutes),
-                },
-                onChanged: (p) =>
-                    write.write(AppSettings.preReminderMinutes, p.minutes),
-              ),
-            ],
-          ),
-          RawdahSection(
-            title: l.athanPrayersTitle,
-            children: [
-              for (final event in AthanPreferences.defaultEvents)
-                SwitchListTile(
-                  title: Text(DisplayStyle.eventName(l, event)),
-                  value: enabled.contains(event),
-                  onChanged: (on) => write.write(
-                    AppSettings.athanEnabled,
-                    AthanPreferences.toggled(stored, event, on: on),
+      // Measured under the Scaffold, so the inset includes the tab bar.
+      body: Builder(
+        builder: (context) => ListView(
+          padding: scrollInsets(context),
+          children: [
+            const AthanHealthCard(),
+            AthanTestPanel(soundId: chosen),
+            RawdahSection(
+              children: [
+                if (ids.isEmpty)
+                  ListTile(
+                    title: Text(l.athanSound),
+                    subtitle: Text(l.athanNoSounds),
+                  )
+                else
+                  ChoiceTile<String>(
+                    title: l.athanSound,
+                    value: chosen,
+                    choices: ids,
+                    label: (id) => soundLabel(l, id),
+                    onChanged: (id) => write.write(AppSettings.soundId, id),
                   ),
+                ChoiceTile<PreReminder>(
+                  title: l.athanPreReminder,
+                  value: PreReminder.ofMinutes(
+                    ref.watch(preReminderSettingProvider).value ?? 0,
+                  ),
+                  choices: PreReminder.values,
+                  label: (p) => switch (p) {
+                    PreReminder.off => l.athanPreReminderOff,
+                    PreReminder.five ||
+                    PreReminder.ten ||
+                    PreReminder.fifteen ||
+                    PreReminder.thirty => l.athanPreReminderMinutes(p.minutes),
+                  },
+                  onChanged: (p) =>
+                      write.write(AppSettings.preReminderMinutes, p.minutes),
                 ),
-            ],
-          ),
-        ],
+              ],
+            ),
+            RawdahSection(
+              title: l.athanPrayersTitle,
+              children: [
+                for (final event in AthanPreferences.defaultEvents)
+                  SwitchListTile(
+                    title: Text(DisplayStyle.eventName(l, event)),
+                    value: enabled.contains(event),
+                    onChanged: (on) => write.write(
+                      AppSettings.athanEnabled,
+                      AthanPreferences.toggled(stored, event, on: on),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

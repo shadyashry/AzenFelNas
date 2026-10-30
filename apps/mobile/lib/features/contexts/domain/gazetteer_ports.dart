@@ -2,6 +2,7 @@ import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_place.dart';
 import 'package:daily_muslim/features/contexts/domain/search_key.dart';
+import 'package:dm_civil_time/dm_civil_time.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
 /// Finds places by search-key prefix (port of `SearchGazetteer`).
@@ -31,4 +32,21 @@ abstract interface class DecodeGazetteerPayload {
   Future<Result<List<GazetteerPlace>, GazetteerFailure>> decode(
     List<int> payload,
   );
+}
+
+/// Places around a point or in a zone (port of `NameNearestPlace` and
+/// `SuggestPlaces`, §15 D100): a fix gets a name and a first-run user a
+/// list to tap instead of a search.
+abstract interface class FindPlacesAround {
+  /// The place nearest [point] within [withinKm], or `null` when none is.
+  Future<Result<GazetteerHit?, GazetteerFailure>> nearest(
+    GeoPointE6 point, {
+    required double withinKm,
+  });
+
+  /// At most [limit] places in [zoneId], largest population first.
+  Future<Result<List<GazetteerHit>, GazetteerFailure>> largestIn(
+    String zoneId, {
+    required int limit,
+  });
 }

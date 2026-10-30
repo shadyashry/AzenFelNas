@@ -22,14 +22,18 @@ import 'package:daily_muslim/features/contexts/application/follow_device_locatio
 import 'package:daily_muslim/features/contexts/application/import_gazetteer.dart';
 import 'package:daily_muslim/features/contexts/application/locate_observer.dart';
 import 'package:daily_muslim/features/contexts/application/locate_with_permission.dart';
+import 'package:daily_muslim/features/contexts/application/name_nearest_place.dart';
 import 'package:daily_muslim/features/contexts/application/pin_place.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_observer_context.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_place.dart';
 import 'package:daily_muslim/features/contexts/application/search_gazetteer.dart';
+import 'package:daily_muslim/features/contexts/application/suggest_places.dart';
+import 'package:daily_muslim/features/contexts/data/channel_device_zone.dart';
 import 'package:daily_muslim/features/contexts/data/drift_gazetteer_store.dart';
 import 'package:daily_muslim/features/contexts/data/drift_location_context_store.dart';
 import 'package:daily_muslim/features/contexts/data/event_log_context_events.dart';
 import 'package:daily_muslim/features/contexts/data/json_gazetteer_payload_decoder.dart';
+import 'package:daily_muslim/features/contexts/domain/device_zone.dart';
 import 'package:daily_muslim/features/contexts/domain/location_ports.dart';
 import 'package:daily_muslim/features/onboarding/application/complete_first_run.dart';
 import 'package:daily_muslim/features/onboarding/presentation/onboarding_controller.dart';
@@ -91,6 +95,7 @@ abstract final class AppBindings {
     required AthanSchedulerApi athan,
     required RequestAthanGrant athanGrant,
     required OpenSystemSettings systemSettings,
+    ReadDeviceZone deviceZone = const ChannelDeviceZone(),
     RunPayloadWork runPayloadWork = Isolate.run,
   }) {
     final settings = DriftSettingsStore(databases.dm);
@@ -160,6 +165,7 @@ abstract final class AppBindings {
           locator: locator,
           locationAccess: locationAccess,
           eventLog: eventLog,
+          deviceZone: deviceZone,
         ),
       ),
       completeFirstRunProvider.overrideWithValue(CompleteFirstRun(settings)),
@@ -278,8 +284,10 @@ abstract final class AppBindings {
     required LocateDevice locator,
     required RequestLocationAccess locationAccess,
     required DriftEventLog eventLog,
+    required ReadDeviceZone deviceZone,
   }) {
     final contexts = DriftLocationContextStore(databases.places);
+    final gazetteer = DriftGazetteerStore(databases.dm);
     final resolvePlace = ResolvePlace(
       ResolveZone(data.zones),
       ResolveCountry(data.countries),
@@ -301,9 +309,11 @@ abstract final class AppBindings {
         write: contexts,
         resolvePlace: resolvePlace,
       ),
-      search: SearchGazetteer(DriftGazetteerStore(databases.dm)),
+      search: SearchGazetteer(gazetteer),
       travel: HandleZoneChange(contexts, locator, resolvePlace, clock),
       follow: FollowDeviceLocation(locate),
+      suggest: SuggestPlaces(deviceZone, gazetteer),
+      nameNearest: NameNearestPlace(gazetteer),
     );
   }
 }

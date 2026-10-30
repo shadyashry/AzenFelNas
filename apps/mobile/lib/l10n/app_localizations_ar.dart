@@ -95,8 +95,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'شغّل الموقع من إعدادات الجهاز، أو اختار مكانك بنفسك.';
 
   @override
-  String get remediationChooseManualPlace =>
-      'اختار مكانك من القائمة أو اكتب الإحداثيات.';
+  String get remediationChooseManualPlace => 'اختار مدينتك من القائمة.';
 
   @override
   String get remediationWaitForDataUpdate =>
@@ -183,8 +182,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get placeSearching => 'بندوّر…';
 
   @override
-  String get placeEmpty =>
-      'مفيش مكان بالاسم ده. جرّب كتابة تانية أو دخّل الإحداثيات.';
+  String get placeEmpty => 'مفيش مكان بالاسم ده. جرّب كتابة تانية.';
 
   @override
   String get placeEnterCoordinates => 'دخّل الإحداثيات';
@@ -828,4 +826,41 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsMoreSection => 'المزيد';
+
+  @override
+  String get onboardingChooseCity => 'اختار مدينتك';
+
+  @override
+  String get onboardingDetect => 'حدّد مكاني';
+
+  @override
+  String get onboardingChooseCityMyself => 'هختار مدينتي بنفسي';
+
+  @override
+  String get onboardingResolvingBody => 'ثواني ونحدّد مكانك.';
+
+  @override
+  String onboardingSuggestion(String place) {
+    return 'توقيت موبايلك بيقول إنك غالبًا في $place.';
+  }
+
+  @override
+  String onboardingUseSuggestion(String place) {
+    return 'استخدم $place';
+  }
+
+  @override
+  String get onboardingOtherCity => 'اختار مدينة تانية';
+
+  @override
+  String get onboardingFeatureOffline => 'من غير نت';
+
+  @override
+  String get onboardingFeatureAthan => 'الأذان في وقته';
+
+  @override
+  String get onboardingFeatureQibla => 'بوصلة القبلة';
+
+  @override
+  String get placeSuggestions => 'مدن في نفس توقيتك';
 }

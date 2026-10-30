@@ -64,4 +64,39 @@ void main() {
       expect(dark.ink, RawdahScheme.night.ink);
     });
   });
+
+  group('Switched on is green (§15 D100)', () {
+    for (final brightness in Brightness.values) {
+      test('REQ-UX-010 a switch, a box and a segment that are on are green '
+          'with ivory on top (${brightness.name})', () {
+        final theme = DmTheme.of(brightness, StatusLocale.en);
+        const on = {WidgetState.selected};
+        expect(
+          theme.switchTheme.trackColor?.resolve(on),
+          RawdahPalette.enabled,
+        );
+        expect(
+          theme.checkboxTheme.fillColor?.resolve(on),
+          RawdahPalette.enabled,
+        );
+        expect(
+          theme.segmentedButtonTheme.style?.backgroundColor?.resolve(on),
+          RawdahPalette.enabled,
+        );
+        expect(
+          WcagContrast.ratio(RawdahPalette.ivory, RawdahPalette.enabled),
+          greaterThanOrEqualTo(WcagContrast.textMinimum),
+        );
+      });
+    }
+
+    test('REQ-UX-010 the green stands 3:1 off both grounds', () {
+      for (final r in [RawdahScheme.light, RawdahScheme.night]) {
+        expect(
+          WcagContrast.ratio(RawdahPalette.enabled, r.panel),
+          greaterThanOrEqualTo(3),
+        );
+      }
+    });
+  });
 }
