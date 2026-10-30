@@ -1,8 +1,10 @@
 package app.azenfelnas
 
+import android.app.LocaleManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.LocaleList
 import android.os.Looper
 import app.azenfelnas.athan.bridge.AthanCoreHost
 import app.azenfelnas.athan.bridge.AthanVoiceHost
@@ -44,6 +46,17 @@ class MainActivity : FlutterActivity() {
         result.notImplemented()
       }
     }
+    // The app's language for text drawn without Dart: Athan actions, channels, the Test, the widget
+    // (DESIGN.md section 15 D116). Android 13+ only; older versions keep the phone's language.
+    MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dm/app_language").setMethodCallHandler { call, result ->
+      val tag = call.arguments as? String
+      if (call.method == "setLocales" && tag != null) {
+        applyAppLanguage(tag)
+        result.success(null)
+      } else {
+        result.notImplemented()
+      }
+    }
     val core = AthanCoreHost(applicationContext)
     AthanSchedulerApi.setUp(
       flutterEngine.dartExecutor.binaryMessenger,
@@ -51,6 +64,14 @@ class MainActivity : FlutterActivity() {
     )
     Thread({ installBundledAudio(core) }, "athan-audio-install").start()
     registerVoiceAudio(flutterEngine, AthanVoiceHost(applicationContext).also { voices = it })
+  }
+
+  /** Sets the per-app language to [tag] (empty: the phone's), only when it changes; Android 13+. */
+  private fun applyAppLanguage(tag: String) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+    val manager = getSystemService(LocaleManager::class.java) ?: return
+    val locales = if (tag.isEmpty()) LocaleList.getEmptyLocaleList() else LocaleList.forLanguageTags(tag)
+    if (manager.applicationLocales != locales) manager.applicationLocales = locales
   }
 
   /** A preview never outlives the screen that started it (DESIGN.md section 15 D111). */

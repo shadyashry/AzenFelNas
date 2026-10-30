@@ -1,4 +1,5 @@
 import 'package:daily_muslim/features/settings/domain/app_settings.dart';
+import 'package:daily_muslim/features/settings/domain/apply_app_language.dart';
 import 'package:daily_muslim/features/settings/domain/attribution.dart';
 import 'package:daily_muslim/features/settings/domain/read_attributions.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
@@ -17,6 +18,11 @@ final writeSettingProvider = Provider<WriteSetting>(
 
 /// Bound in `app/di.dart`.
 final readAttributionsProvider = Provider<ReadAttributions>(
+  (ref) => throw UnimplementedError('bound in app/di.dart'),
+);
+
+/// Hands the interface language to the platform (bound in `app/di.dart`).
+final applyAppLanguageProvider = Provider<ApplyAppLanguage>(
   (ref) => throw UnimplementedError('bound in app/di.dart'),
 );
 

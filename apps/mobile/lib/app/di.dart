@@ -78,8 +78,10 @@ import 'package:daily_muslim/features/schedule/presentation/schedule_providers.d
 import 'package:daily_muslim/features/settings/application/assemble_diagnostic_bundle.dart';
 import 'package:daily_muslim/features/settings/application/export_diagnostic_bundle.dart';
 import 'package:daily_muslim/features/settings/data/asset_attributions.dart';
+import 'package:daily_muslim/features/settings/data/channel_app_language.dart';
 import 'package:daily_muslim/features/settings/data/clipboard_diagnostic_text.dart';
 import 'package:daily_muslim/features/settings/data/drift_settings_store.dart';
+import 'package:daily_muslim/features/settings/domain/apply_app_language.dart';
 import 'package:daily_muslim/features/settings/presentation/diagnostics_providers.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/application/start_app.dart';
@@ -120,6 +122,7 @@ abstract final class AppBindings {
     QuranNotesDatabase? quranNotes,
     ReadFreeSpace freeSpace = const ChannelFreeSpace(),
     ChannelVoiceAudio? voiceAudio,
+    ApplyAppLanguage appLanguage = const ChannelAppLanguage(),
   }) {
     final settings = DriftSettingsStore(databases.dm);
     final eventLog = DriftEventLog(databases.dm);
@@ -157,6 +160,7 @@ abstract final class AppBindings {
       ),
       watchSettingProvider.overrideWithValue(settings),
       writeSettingProvider.overrideWithValue(settings),
+      applyAppLanguageProvider.overrideWithValue(appLanguage),
       readAttributionsProvider.overrideWithValue(
         AssetAttributions(assets.loadString),
       ),

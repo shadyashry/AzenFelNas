@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:daily_muslim/app/app_router.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
@@ -51,6 +53,12 @@ final class _DailyMuslimAppState extends ConsumerState<DailyMuslimApp> {
     _lifecycle = AppLifecycleListener(
       onResume: () => ref.invalidate(athanHealthProvider),
     );
+    // Native text follows the app's language, not only the phone's (§15 D116).
+    ref.listenManual(localeSettingProvider, (_, next) {
+      if (next case AsyncData(:final value)) {
+        unawaited(ref.read(applyAppLanguageProvider)(value));
+      }
+    }, fireImmediately: true);
   }
 
   @override
