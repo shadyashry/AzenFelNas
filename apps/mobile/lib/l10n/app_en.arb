@@ -252,18 +252,6 @@
   "@placeUse": {
     "description": "Coordinate entry: save button."
   },
-  "homeNextPrayerLabel": "Next prayer",
-  "@homeNextPrayerLabel": {
-    "description": "Home hero: small label above the next prayer's name."
-  },
-  "homeAthanOn": "Athan on",
-  "@homeAthanOn": {
-    "description": "Home hero: the next prayer's Athan is switched on; opens the Athan tab."
-  },
-  "homeAthanOff": "Athan off",
-  "@homeAthanOff": {
-    "description": "Home hero: the next prayer's Athan is switched off; opens the Athan tab."
-  },
   "homeNextPrayer": "Next: {prayer}",
   "@homeNextPrayer": {
     "description": "Home: next prayer line.",

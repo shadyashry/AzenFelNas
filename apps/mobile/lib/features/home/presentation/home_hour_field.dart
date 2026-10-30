@@ -1,12 +1,13 @@
-import 'package:daily_muslim/features/athan/application/athan_preferences.dart';
+import 'dart:math' as math;
+
 import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
+import 'package:daily_muslim/features/home/domain/prayer_timeline.dart';
 import 'package:daily_muslim/features/home/domain/time_row_view.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/home_state.dart';
 import 'package:daily_muslim/features/home/presentation/time_rows.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
-import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
@@ -15,13 +16,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Home's hero (§15 D89, D102, D103): the Madinah artwork under a green
-/// veil that is deepest at the reading start, the place with the Athan and
-/// Settings shortcuts, the Hijri date, then the next prayer stacked at the
-/// start: a spaced label, its name large in Naskh, the time left, its time,
-/// and whether its Athan is on. The day's five prayers follow in
-/// `PrayerStrip`, which rises over the hero's lower edge. One semantics node
-/// reads the next prayer, its time and the time left (REQ-UX-020).
+/// Home's hero, the Horizon composition (§15 D105): on the forest-green
+/// field with the Madinah artwork at its foot, the place and Settings, the
+/// day's five prayers as a thin gold arc, and under it, centred, the next
+/// prayer's name, its time and the time left — the strongest text on the
+/// screen. The hero takes a share of a portrait screen's height, never
+/// less than its content, so the cream section shows below it on an
+/// ordinary phone. One semantics node reads the next prayer, its time and
+/// the time left (REQ-UX-020).
 final class HomeHourField extends ConsumerWidget {
   /// The hero for [content] in [light].
   const new({
@@ -37,14 +39,17 @@ final class HomeHourField extends ConsumerWidget {
   /// Locale and digits.
   final DisplayStyle style;
 
-  /// The hour light: a faint tint over the veil.
+  /// The hour light: a faint tint over the sky.
   final HourLight light;
 
   /// The bundled artwork (§15 D102), decorative and offline.
   static const String artwork = 'assets/art/madinah_hero.webp';
 
-  /// The room left under the hero for the strip that rises over it.
-  static const double stripRoom = 64;
+  /// How far the cream section rises over the hero's foot.
+  static const double sheetOverlap = 28;
+
+  /// The hero's share of a portrait screen's height.
+  static const double _portraitShare = 0.6;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,11 +59,48 @@ final class HomeHourField extends ConsumerWidget {
       _ => ref.watch(clockProvider).nowUtcMs(),
     };
     final next = content.nextPrayer;
-    return DecoratedBox(
-      decoration: const BoxDecoration(color: RawdahPalette.emeraldDeep),
+    final timeline = PrayerTimeline.of(
+      rows: content.day.rows,
+      nextPrayer: next,
+      nowUtcMs: now,
+    );
+    final screen = MediaQuery.sizeOf(context);
+    // Portrait: a share of the height, the arc over the next prayer.
+    // Landscape: as tall as the content, the next prayer at the start and
+    // the arc beside it, so nothing falls under the navigation bar.
+    final landscape = screen.width > screen.height;
+    final minHeight = landscape ? 0.0 : screen.height * _portraitShare;
+    final arc = PrayerArc(
+      labels: [
+        for (final event in PrayerTimeline.events)
+          DisplayStyle.eventName(l, event),
+      ],
+      next: timeline.next,
+      progress: timeline.progress,
+      labelStyle: TextStyle(
+        fontFamily: DmTheme.naskhFamily,
+        fontSize: 14,
+        color: RawdahPalette.ivory.withValues(alpha: 0.9),
+      ),
+    );
+    final nextPrayer = next == null
+        ? Text(
+            l.homeNoNextPrayer,
+            textAlign: TextAlign.center,
+            style: DmTheme.naskh(size: 22, color: RawdahPalette.ivory),
+          )
+        : _NextPrayer(
+            name: DisplayStyle.eventName(l, next.event),
+            time: style.digits.apply(TimeRows.timeText(l, next)),
+            countdown: _countdown(l, next, now),
+          );
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: minHeight),
       child: Stack(
         children: [
-          Positioned.fill(child: _Artwork(light: light)),
+          Positioned.fill(
+            child: _Artwork(light: light, compact: landscape),
+          ),
           SafeArea(
             bottom: false,
             child: Padding(
@@ -66,42 +108,47 @@ final class HomeHourField extends ConsumerWidget {
                 DmScales.gutter,
                 4,
                 DmScales.gutter,
-                stripRoom + 8,
+                sheetOverlap + 16,
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _Header(content: content),
                   if (content.hijri case final hijri?)
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(start: 4),
-                      child: _Hijri(
-                        day: hijri.day,
-                        text: style.digits.apply(
-                          l.homeHijriDate(
-                            '${hijri.day}',
-                            l.hijriMonthName('${hijri.month}'),
-                            '${hijri.year}',
-                          ),
+                    _Hijri(
+                      day: hijri.day,
+                      text: style.digits.apply(
+                        l.homeHijriDate(
+                          '${hijri.day}',
+                          l.hijriMonthName('${hijri.month}'),
+                          '${hijri.year}',
                         ),
                       ),
                     ),
-                  const SizedBox(height: 22),
-                  if (next != null)
-                    _NextPrayer(
-                      next: next,
-                      name: DisplayStyle.eventName(l, next.event),
-                      time: style.digits.apply(TimeRows.timeText(l, next)),
-                      countdown: _countdown(l, next, now),
+                  SizedBox(height: landscape ? 4 : 12),
+                  if (landscape)
+                    Row(
+                      children: [
+                        Expanded(child: nextPrayer),
+                        const SizedBox(width: DmScales.gutter),
+                        Expanded(
+                          child: Center(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                maxWidth: 420,
+                              ),
+                              child: arc,
+                            ),
+                          ),
+                        ),
+                      ],
                     )
-                  else
-                    Text(
-                      l.homeNoNextPrayer,
-                      style: DmTheme.naskh(
-                        size: 22,
-                        color: RawdahPalette.ivory,
-                      ),
+                  else ...[
+                    SizedBox(
+                      width: math.min(screen.width - 2 * DmScales.gutter, 460),
+                      child: arc,
                     ),
+                    nextPrayer,
+                  ],
                 ],
               ),
             ),
@@ -124,8 +171,8 @@ final class HomeHourField extends ConsumerWidget {
 
 /// The place, by its name only (the city a device fix is in, §15 D101; a
 /// chosen place in the reader's language, D104), opening the place screen;
-/// then the Athan and Settings shortcuts at the end. The words "pinned",
-/// "manual" and "approximate" are for the diagnostics, not for the header.
+/// Settings at the end. The words "pinned", "manual" and "approximate" are
+/// for the diagnostics, not for the header.
 final class _Header extends ConsumerWidget {
   const new({required this.content});
 
@@ -144,87 +191,66 @@ final class _Header extends ConsumerWidget {
         (current ? l.homeCurrentPlace : place.label);
     return Row(
       children: [
-        Flexible(
-          child: Semantics(
-            button: true,
-            label: l.homePlaceChip(name),
-            excludeSemantics: true,
-            child: InkWell(
-              onTap: () => context.push(const PlaceRoute().location),
-              customBorder: const StadiumBorder(),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 48),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 8, 4),
-                  // Wraps, never overflows, at 200 % text (REQ-UX-020).
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Icon(
-                        current ? Icons.near_me : Icons.place,
-                        size: DmScales.iconLarge,
-                        color: RawdahPalette.goldLight,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        name,
-                        style: DmTheme.naskh(
-                          size: 22,
+        Expanded(
+          child: Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Semantics(
+              button: true,
+              label: l.homePlaceChip(name),
+              excludeSemantics: true,
+              child: InkWell(
+                onTap: () => context.push(const PlaceRoute().location),
+                customBorder: const StadiumBorder(),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: 48),
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(2, 4, 8, 4),
+                    // Wraps, never overflows, at 200 % text (REQ-UX-020).
+                    child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Icon(
+                          current ? Icons.near_me : Icons.place,
+                          size: DmScales.iconLarge,
+                          color: RawdahPalette.gold,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          name,
+                          style: DmTheme.naskh(
+                            size: 20,
+                            color: RawdahPalette.ivory,
+                          ).copyWith(height: 1.2),
+                        ),
+                        const SizedBox(width: 2),
+                        const Icon(
+                          Icons.expand_more,
+                          size: DmScales.iconMedium,
                           color: RawdahPalette.ivory,
-                          bold: true,
-                        ).copyWith(height: 1.2),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(
-                        Icons.expand_more,
-                        size: DmScales.iconLarge,
-                        color: RawdahPalette.ivory,
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
         ),
-        const Spacer(),
-        _Shortcut(
-          icon: Icons.notifications,
-          label: l.navAthan,
-          onTap: () => context.go(AppTabBar.locationOf(RawdahTab.athan)),
-        ),
-        const SizedBox(width: 8),
-        _Shortcut(
-          icon: Icons.settings_outlined,
-          label: l.navSettings,
-          onTap: () => context.go(AppTabBar.locationOf(RawdahTab.settings)),
+        IconButton(
+          onPressed: () => context.go(AppTabBar.locationOf(RawdahTab.settings)),
+          tooltip: l.navSettings,
+          icon: const Icon(
+            Icons.settings_outlined,
+            size: DmScales.iconLarge,
+            color: RawdahPalette.ivory,
+          ),
         ),
       ],
     );
   }
 }
 
-/// A gold icon button to an existing tab.
-final class _Shortcut extends StatelessWidget {
-  const new({required this.icon, required this.label, required this.onTap});
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => IconButton(
-    onPressed: onTap,
-    tooltip: label,
-    // A soft green backing keeps the gold readable over lit architecture.
-    style: IconButton.styleFrom(
-      backgroundColor: RawdahPalette.emeraldDeep.withValues(alpha: 0.45),
-    ),
-    icon: Icon(icon, size: DmScales.iconLarge, color: RawdahPalette.goldLight),
-  );
-}
-
-/// The Hijri date with its Moon, quiet under the place.
+/// The Hijri date with its Moon, quiet under the header.
 final class _Hijri extends StatelessWidget {
   const new({required this.day, required this.text});
 
@@ -233,6 +259,7 @@ final class _Hijri extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Wrap(
+    alignment: WrapAlignment.center,
     crossAxisAlignment: WrapCrossAlignment.center,
     children: [
       MoonPhaseGlyph(hijriDay: day),
@@ -245,117 +272,90 @@ final class _Hijri extends StatelessWidget {
   );
 }
 
-/// The next prayer stacked at the start: a spaced label, the name, the
-/// time left, the time, and its Athan pill.
-final class _NextPrayer extends ConsumerWidget {
-  const new({
-    required this.next,
-    required this.name,
-    required this.time,
-    required this.countdown,
-  });
+/// The next prayer, centred under the arc: its name, its time large with
+/// any "+1" set smaller, and the time left.
+final class _NextPrayer extends StatelessWidget {
+  const new({required this.name, required this.time, required this.countdown});
 
-  final TimeRowView next;
   final String name;
   final String time;
   final String countdown;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l = AppLocalizations.of(context);
-    final arabic = Localizations.localeOf(context).languageCode == 'ar';
-    final athanOn = AthanPreferences.enabledOf(
-      ref.watch(athanEnabledSettingProvider).value ?? const {},
-    ).contains(next.event);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Semantics(
-          container: true,
-          label: [l.homeNextPrayer(name), time, countdown].join(', '),
-          excludeSemantics: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                arabic
-                    ? l.homeNextPrayerLabel
-                    : l.homeNextPrayerLabel.toUpperCase(),
-                style: TextStyle(
-                  color: RawdahPalette.ivory,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: arabic ? 0 : 3.2,
-                ),
-              ),
-              Text(
-                name,
-                style: DmTheme.naskh(
-                  size: 64,
-                  color: RawdahPalette.ivory,
-                  bold: true,
-                ).copyWith(height: 1.15),
-              ),
-              Text(
-                countdown,
-                style: DmTheme.naskh(size: 24, color: RawdahPalette.ivory),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                time,
-                style: DmTheme.naskh(
-                  size: 52,
-                  color: RawdahPalette.ivory,
-                  bold: true,
-                ).copyWith(height: 1.15),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 14),
-        _AthanPill(on: athanOn),
-      ],
-    );
-  }
-}
-
-/// Whether the next prayer's Athan is on, from the user's Athan choices
-/// (US-10); opens the Athan tab. The icon and the words say it, not the
-/// colour alone.
-final class _AthanPill extends StatelessWidget {
-  const new({required this.on});
-
-  final bool on;
-
-  @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return OutlinedButton.icon(
-      onPressed: () => context.go(AppTabBar.locationOf(RawdahTab.athan)),
-      style: OutlinedButton.styleFrom(
-        foregroundColor: RawdahPalette.goldLight,
-        backgroundColor: RawdahPalette.emeraldDeep.withValues(alpha: 0.35),
-        side: const BorderSide(color: RawdahPalette.gold, width: 1.4),
-        minimumSize: const Size(48, 48),
-        padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 20, 8),
-        textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+    final cut = time.indexOf(' ');
+    final (clock, suffix) = cut < 0
+        ? (time, '')
+        : (time.substring(0, cut), time.substring(cut));
+    return Semantics(
+      container: true,
+      label: [l.homeNextPrayer(name), time, countdown].join(', '),
+      excludeSemantics: true,
+      // A soft green shadow lifts the ivory off lit architecture.
+      child: DefaultTextStyle.merge(
+        style: const TextStyle(
+          shadows: [Shadow(color: Color(0xB3062E25), blurRadius: 14)],
+        ),
+        child: Column(
+          children: [
+            Text(
+              name,
+              textAlign: TextAlign.center,
+              style: DmTheme.naskh(
+                size: 34,
+                color: RawdahPalette.ivory,
+                bold: true,
+              ).copyWith(height: 1.2),
+            ),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: clock),
+                  if (suffix.isNotEmpty)
+                    TextSpan(
+                      text: suffix,
+                      style: DmTheme.naskh(
+                        size: 30,
+                        color: RawdahPalette.ivory,
+                      ),
+                    ),
+                ],
+              ),
+              textAlign: TextAlign.center,
+              style: DmTheme.naskh(
+                size: 68,
+                color: RawdahPalette.ivory,
+                bold: true,
+              ).copyWith(height: 1.1),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              countdown,
+              textAlign: TextAlign.center,
+              style: DmTheme.naskh(size: 22, color: RawdahPalette.ivory),
+            ),
+          ],
+        ),
       ),
-      icon: Icon(on ? Icons.volume_up : Icons.volume_off, size: 22),
-      label: Text(on ? l.homeAthanOn : l.homeAthanOff),
     );
   }
 }
 
-/// The whole artwork, never zoomed: it spans the hero's width at its own
-/// proportions and stands on the hero's bottom edge; above it the sky
-/// continues in the artwork's own top colours, and the seam fades. Over it
-/// a green veil, deepest at the reading start behind the text and at the
-/// bottom where the strip rises, so ivory text keeps its contrast. The hour
-/// light tints the sky faintly.
+/// The artwork at the hero's foot, never stretched: at least the full
+/// width at its own proportions, taller on a tall hero so the dome and
+/// minarets stand large, cropped from the quiet sky and palms at the left
+/// rather than from the building. Above it the sky continues in the
+/// artwork's own top colours and the seam fades. A green veil keeps the
+/// arc and text readable at the top and closes at the foot where the cream
+/// rises. The hour light tints the sky faintly.
 final class _Artwork extends StatelessWidget {
-  const new({required this.light});
+  const new({required this.light, required this.compact});
 
   final HourLight light;
+
+  /// A short, wide hero, where text crosses the building: an even veil.
+  final bool compact;
 
   /// The artwork's proportions (1536 × 1024).
   static const double _aspect = 1536 / 1024;
@@ -365,79 +365,74 @@ final class _Artwork extends StatelessWidget {
   static const Color _skyRight = Color(0xFF224B36);
 
   @override
-  Widget build(BuildContext context) {
-    // Resolved here: a directional gradient on a box decoration is painted
-    // without the text direction and would stay on the left in Arabic.
-    final rtl = Directionality.of(context) == TextDirection.rtl;
-    return ExcludeSemantics(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // The sky is the picture's own, so it does not mirror.
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [_skyLeft, _skyRight]),
+  Widget build(BuildContext context) => ExcludeSemantics(
+    child: LayoutBuilder(
+      builder: (context, box) {
+        // The picture fills at least the width and 60 % of the hero's
+        // height; it is anchored on the right, where the building stands,
+        // so any crop takes sky and palms, not the dome.
+        final height = math.max(box.maxWidth / _aspect, box.maxHeight * 0.6);
+        return Stack(
+          children: [
+            // The sky is the picture's own, so it does not mirror.
+            const Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [_skyLeft, _skyRight]),
+                ),
+              ),
             ),
-          ),
-          ColoredBox(color: light.top.withValues(alpha: 0.10)),
-          // Full width at its own proportions, on the bottom edge; on a
-          // wide, short hero its top is cut, never its sides.
-          LayoutBuilder(
-            builder: (context, box) => Stack(
-              children: [
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  height: box.maxWidth / _aspect,
-                  child: ShaderMask(
-                    // Fades the artwork's top edge into the sky above it.
-                    shaderCallback: (rect) => const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0x00000000), Color(0xFF000000)],
-                      stops: [0, 0.12],
-                    ).createShader(rect),
-                    blendMode: BlendMode.dstIn,
-                    child: Image.asset(
-                      HomeHourField.artwork,
-                      fit: BoxFit.cover,
-                      gaplessPlayback: true,
-                    ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              width: height * _aspect,
+              height: height,
+              child: ShaderMask(
+                // Fades the artwork's top edge into the sky above it.
+                shaderCallback: (rect) => const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0x00000000), Color(0xFF000000)],
+                  stops: [0, 0.14],
+                ).createShader(rect),
+                blendMode: BlendMode.dstIn,
+                child: Image.asset(
+                  HomeHourField.artwork,
+                  fit: BoxFit.fill,
+                  gaplessPlayback: true,
+                ),
+              ),
+            ),
+            Positioned.fill(
+              child: ColoredBox(color: light.top.withValues(alpha: 0.08)),
+            ),
+            if (compact)
+              Positioned.fill(
+                child: ColoredBox(
+                  color: RawdahPalette.emeraldDeep.withValues(alpha: 0.5),
+                ),
+              ),
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      RawdahPalette.emeraldDeep.withValues(alpha: 0.55),
+                      RawdahPalette.emeraldDeep.withValues(alpha: 0.4),
+                      RawdahPalette.emeraldDeep.withValues(alpha: 0.3),
+                      RawdahPalette.emeraldDeep.withValues(alpha: 0),
+                      RawdahPalette.emeraldDeep.withValues(alpha: 0.55),
+                    ],
+                    stops: const [0, 0.35, 0.62, 0.82, 1],
                   ),
                 ),
-              ],
-            ),
-          ),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: rtl ? Alignment.centerRight : Alignment.centerLeft,
-                end: rtl ? Alignment.centerLeft : Alignment.centerRight,
-                colors: [
-                  RawdahPalette.forest.withValues(alpha: 0.85),
-                  RawdahPalette.forest.withValues(alpha: 0.35),
-                  RawdahPalette.forest.withValues(alpha: 0),
-                ],
-                stops: const [0, 0.4, 0.7],
               ),
             ),
-          ),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  RawdahPalette.emeraldDeep.withValues(alpha: 0),
-                  RawdahPalette.emeraldDeep.withValues(alpha: 0.85),
-                ],
-                stops: const [0.78, 1],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        );
+      },
+    ),
+  );
 }

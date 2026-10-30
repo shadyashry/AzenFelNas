@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:go_router/go_router.dart';
 
-/// The day's five prayers side by side on a deep-green band (§15 D103),
-/// laid over the hero's lower edge. The next prayer is framed in gold and
-/// set bold (not colour alone). Each cell reads "prayer, time, confidence"
+/// The day's five prayers side by side on cream (§15 D103, D105), the
+/// next one on a pale-gold tile with a gold edge and set bold (not colour
+/// alone). Each cell reads "prayer, time, confidence"
 /// and opens its Passport entry, like the full list below (US-05,
 /// REQ-UX-001); at large text a cell scales its words down to its width
 /// rather than clipping them (REQ-UX-020).
@@ -43,51 +43,43 @@ final class PrayerStrip extends StatelessWidget {
       for (final event in events)
         ...day.rows.where((row) => row.event == event),
     ];
-    final divider = RawdahPalette.gold.withValues(alpha: 0.25);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: RawdahPalette.forest,
-        borderRadius: BorderRadius.circular(DmScales.radiusCard),
-        border: Border.all(color: RawdahPalette.gold.withValues(alpha: 0.35)),
-        boxShadow: DmElevation.raised,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: IntrinsicHeight(
-          child: Row(
-            children: [
-              for (final (i, row) in rows.indexed) ...[
-                if (i > 0)
-                  VerticalDivider(
-                    width: 1,
-                    thickness: 1,
-                    indent: 14,
-                    endIndent: 14,
-                    color: row.event == next || rows[i - 1].event == next
-                        ? Colors.transparent
-                        : divider,
+    final divider = RawdahScheme.of(context).hairline;
+    return Padding(
+      padding: const EdgeInsets.all(2),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            for (final (i, row) in rows.indexed) ...[
+              if (i > 0)
+                VerticalDivider(
+                  width: 1,
+                  thickness: 1,
+                  indent: 14,
+                  endIndent: 14,
+                  color: row.event == next || rows[i - 1].event == next
+                      ? Colors.transparent
+                      : divider,
+                ),
+              Expanded(
+                child: _Cell(
+                  name: DisplayStyle.eventName(l, row.event),
+                  time: style.digits.apply(TimeRows.timeText(l, row)),
+                  chip: StatusCopy.chip(
+                    row.confidence,
+                    style.locale,
+                    digits: style.digits,
                   ),
-                Expanded(
-                  child: _Cell(
-                    name: DisplayStyle.eventName(l, row.event),
-                    time: style.digits.apply(TimeRows.timeText(l, row)),
-                    chip: StatusCopy.chip(
-                      row.confidence,
-                      style.locale,
-                      digits: style.digits,
-                    ),
-                    isNext: row.event == next,
-                    onTap: () => context.push(
-                      CalculationRoute(
-                        day.calculationId,
-                        event: row.event,
-                      ).location,
-                    ),
+                  isNext: row.event == next,
+                  onTap: () => context.push(
+                    CalculationRoute(
+                      day.calculationId,
+                      event: row.event,
+                    ).location,
                   ),
                 ),
-              ],
+              ),
             ],
-          ),
+          ],
         ),
       ),
     );
@@ -111,7 +103,15 @@ final class _Cell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isNext ? RawdahPalette.goldLight : RawdahPalette.ivory;
+    final r = RawdahScheme.of(context);
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    // Light gold under dark ink by day (12:1); a deep gold wash at night.
+    final tile = dark
+        ? RawdahPalette.gold.withValues(alpha: 0.22)
+        : Color.alphaBlend(
+            RawdahPalette.goldLight.withValues(alpha: 0.5),
+            r.panel,
+          );
     return Semantics(
       label: '$name, $time, $chip',
       button: true,
@@ -119,11 +119,11 @@ final class _Cell extends StatelessWidget {
       excludeSemantics: true,
       onTap: onTap,
       child: Material(
-        color: Colors.transparent,
+        color: isNext ? tile : Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(DmScales.radiusControl),
           side: isNext
-              ? const BorderSide(color: RawdahPalette.goldLight, width: 1.6)
+              ? const BorderSide(color: RawdahPalette.gold)
               : BorderSide.none,
         ),
         clipBehavior: Clip.antiAlias,
@@ -141,16 +141,16 @@ final class _Cell extends StatelessWidget {
                     Text(
                       name,
                       style: DmTheme.naskh(
-                        size: 17,
-                        color: isNext ? color : RawdahPalette.ivoryMuted,
+                        size: 16,
+                        color: isNext ? r.ink : r.inkMuted,
                         bold: isNext,
                       ).copyWith(height: 1.3),
                     ),
                     Text(
                       time,
                       style: DmTheme.naskh(
-                        size: 24,
-                        color: color,
+                        size: 22,
+                        color: r.ink,
                         bold: isNext,
                       ).copyWith(height: 1.2),
                     ),

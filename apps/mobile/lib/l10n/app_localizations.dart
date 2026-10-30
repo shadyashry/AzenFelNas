@@ -458,24 +458,6 @@ abstract class AppLocalizations {
   /// **'Use this place'**
   String get placeUse;
 
-  /// Home hero: small label above the next prayer's name.
-  ///
-  /// In en, this message translates to:
-  /// **'Next prayer'**
-  String get homeNextPrayerLabel;
-
-  /// Home hero: the next prayer's Athan is switched on; opens the Athan tab.
-  ///
-  /// In en, this message translates to:
-  /// **'Athan on'**
-  String get homeAthanOn;
-
-  /// Home hero: the next prayer's Athan is switched off; opens the Athan tab.
-  ///
-  /// In en, this message translates to:
-  /// **'Athan off'**
-  String get homeAthanOff;
-
   /// Home: next prayer line.
   ///
   /// In en, this message translates to:

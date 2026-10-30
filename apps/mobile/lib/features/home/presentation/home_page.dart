@@ -71,9 +71,10 @@ final class HomePage extends ConsumerWidget {
   }
 }
 
-/// Today: the hero, the five-prayer strip rising over its lower edge, then
-/// on cream the full list with every time's confidence, notices, and the
-/// way to Athan health and the coming days (§15 D103).
+/// Today, the Horizon composition (§15 D105): the hero, then a cream sheet
+/// rising over its foot with the five-prayer schedule, notices, the way to
+/// Athan health and the coming days, and the full list with every time's
+/// confidence.
 final class HomeContentView extends ConsumerWidget {
   /// Shows [content], with [notice] above the times when given.
   const new({required this.content, this.notice, super.key});
@@ -101,86 +102,94 @@ final class HomeContentView extends ConsumerWidget {
         padding: scrollInsets(context),
         children: [
           HomeHourField(content: content, style: style, light: light),
-          // Everything below rises over the hero's lower edge; the room
-          // this leaves at the end is only extra scroll space.
+          // The cream sheet rises over the hero's foot; the room this
+          // leaves at the end is only extra scroll space.
           Transform.translate(
-            offset: const Offset(0, -HomeHourField.stripRoom),
-            child: _Reading(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: DmScales.gutter,
-                    ),
-                    child: PrayerStrip(
-                      day: content.day,
-                      style: style,
-                      next: next?.event,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(
-                      20,
-                      22,
-                      20,
-                      8,
-                    ),
-                    child: Text(
-                      l.homeTitle,
-                      style: DmTheme.naskh(
-                        size: 26,
-                        color: RawdahScheme.of(context).primary,
-                        bold: true,
-                      ).copyWith(height: 1.2),
-                    ),
-                  ),
-                  _Panel(
-                    child: TimeRows(
-                      day: content.day,
-                      style: style,
-                      next: next?.event,
-                      light: light,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const TravelBanner(),
-                  const FastingCard(),
-                  if (notice case final String text)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
-                      child: Text(
-                        text,
-                        style: Theme.of(context).textTheme.labelMedium,
-                        textAlign: TextAlign.center,
+            offset: const Offset(0, -HomeHourField.sheetOverlap),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: RawdahScheme.of(context).ground,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(DmScales.radiusSheet),
+                ),
+              ),
+              child: _Reading(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 18),
+                    _Panel(
+                      child: PrayerStrip(
+                        day: content.day,
+                        style: style,
+                        next: next?.event,
                       ),
                     ),
-                  _Link(
-                    icon: Icons.notifications_none,
-                    // The evaluated Athan Health (§8.3, §15 D95), so a
-                    // missing permission shows on Home too.
-                    text: switch (ref.watch(athanHealthProvider)) {
-                      AsyncData(value: AthanHealthReady()) =>
-                        l.athanHealthReady,
-                      AsyncData(value: AthanHealthLimited()) =>
-                        l.athanHealthLimited,
-                      AsyncData(value: AthanHealthNotReady()) =>
-                        l.athanHealthNotReady,
-                      AsyncData(value: AthanHealthUnknown()) ||
-                      AsyncError() ||
-                      AsyncLoading() => switch (content.health) {
-                        AthanReadinessUnknown() => l.homeHealthUnknown,
+                    const SizedBox(height: 6),
+                    const TravelBanner(),
+                    const FastingCard(),
+                    if (notice case final String text)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+                        child: Text(
+                          text,
+                          style: Theme.of(context).textTheme.labelMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    _Link(
+                      icon: Icons.notifications_none,
+                      // The evaluated Athan Health (§8.3, §15 D95), so a
+                      // missing permission shows on Home too.
+                      text: switch (ref.watch(athanHealthProvider)) {
+                        AsyncData(value: AthanHealthReady()) =>
+                          l.athanHealthReady,
+                        AsyncData(value: AthanHealthLimited()) =>
+                          l.athanHealthLimited,
+                        AsyncData(value: AthanHealthNotReady()) =>
+                          l.athanHealthNotReady,
+                        AsyncData(value: AthanHealthUnknown()) ||
+                        AsyncError() ||
+                        AsyncLoading() => switch (content.health) {
+                          AthanReadinessUnknown() => l.homeHealthUnknown,
+                        },
                       },
-                    },
-                    onTap: () =>
-                        context.go(AppTabBar.locationOf(RawdahTab.athan)),
-                  ),
-                  _Link(
-                    icon: Icons.view_week_outlined,
-                    text: l.timelineTitle,
-                    onTap: () => context.push(const TimelineRoute().location),
-                  ),
-                ],
+                      onTap: () =>
+                          context.go(AppTabBar.locationOf(RawdahTab.athan)),
+                    ),
+                    _Link(
+                      icon: Icons.view_week_outlined,
+                      text: l.timelineTitle,
+                      onTap: () => context.push(const TimelineRoute().location),
+                    ),
+                    // Every time with its confidence, Imsak and Sunrise
+                    // too (US-05, REQ-UX-001): quieter than the strip.
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                        20,
+                        18,
+                        20,
+                        8,
+                      ),
+                      child: Text(
+                        l.homeTitle,
+                        style: DmTheme.naskh(
+                          size: 22,
+                          color: RawdahScheme.of(context).primary,
+                          bold: true,
+                        ).copyWith(height: 1.2),
+                      ),
+                    ),
+                    _Panel(
+                      child: TimeRows(
+                        day: content.day,
+                        style: style,
+                        next: next?.event,
+                        light: light,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

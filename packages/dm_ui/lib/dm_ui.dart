@@ -25,6 +25,7 @@ export 'package:dm_ui/src/rawdah/medallion_tone.dart';
 export 'package:dm_ui/src/rawdah/mihrab_arch.dart';
 export 'package:dm_ui/src/rawdah/moon_phase.dart';
 export 'package:dm_ui/src/rawdah/ornament_paths.dart';
+export 'package:dm_ui/src/rawdah/prayer_arc.dart';
 export 'package:dm_ui/src/rawdah/qibla_dial.dart';
 export 'package:dm_ui/src/rawdah/rawdah_glyph.dart';
 export 'package:dm_ui/src/rawdah/rawdah_glyph_kind.dart';

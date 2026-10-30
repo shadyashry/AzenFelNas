@@ -132,12 +132,8 @@ void main() {
       );
     });
 
-    testWidgets('US-10 the hero says whether the next Athan is on and offers '
-        'the Athan and Settings tabs', (tester) async {
+    testWidgets('the header keeps Settings one tap away', (tester) async {
       await _pump(tester, HomeReady(_content()));
-      // Nothing chosen yet: the five prayers alert (§15 D94).
-      expect(find.text('Athan on'), findsOneWidget);
-      expect(find.byTooltip('Athan'), findsOneWidget);
       expect(find.byTooltip('Settings'), findsOneWidget);
     });
 
