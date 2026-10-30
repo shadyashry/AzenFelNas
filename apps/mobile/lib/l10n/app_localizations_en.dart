@@ -863,4 +863,387 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsDiagnosticsHint =>
       'Copy a report for support if something goes wrong';
+
+  @override
+  String get navQuran => 'Quran';
+
+  @override
+  String get quranTitle => 'The Holy Quran';
+
+  @override
+  String get quranDownloadAction => 'Download Quran for offline use';
+
+  @override
+  String get quranDownloadBody =>
+      'The Madinah Mushaf (Hafs ʿan ʿĀṣim), as published by the King Fahd Glorious Quran Printing Complex. After one download every page, the surah and juz index, search, bookmarks and highlights work with no internet.';
+
+  @override
+  String quranDownloadSize(String size) {
+    return 'Download size: $size';
+  }
+
+  @override
+  String quranInstalledSize(String size) {
+    return 'Space after installing: $size';
+  }
+
+  @override
+  String quranRequiredSpace(String size) {
+    return 'Free space needed to install: $size';
+  }
+
+  @override
+  String get quranResume => 'Resume download';
+
+  @override
+  String get quranCancel => 'Stop download';
+
+  @override
+  String quranDownloading(String done, String total) {
+    return 'Downloading $done of $total';
+  }
+
+  @override
+  String get quranInstalling => 'Checking every file and preparing search…';
+
+  @override
+  String get quranChecking => 'Checking the downloaded Quran…';
+
+  @override
+  String get quranPaused => 'Download paused. What was downloaded is kept.';
+
+  @override
+  String get quranFailOffline =>
+      'No internet connection. Connect and try again.';
+
+  @override
+  String quranFailServer(String code) {
+    return 'The download server did not answer (HTTP $code). Try again later.';
+  }
+
+  @override
+  String quranFailSpace(String needed, String available) {
+    return 'Not enough space: $needed needed, $available free.';
+  }
+
+  @override
+  String get quranFailSpaceFull =>
+      'The device ran out of space. Free up space and try again.';
+
+  @override
+  String get quranFailIntegrity =>
+      'A file failed its integrity check and was discarded. Try again.';
+
+  @override
+  String get quranFailStorage =>
+      'The app could not write to its storage. Try again.';
+
+  @override
+  String get quranFailSearch =>
+      'The offline search could not be prepared. Try again.';
+
+  @override
+  String get quranFailCancelled =>
+      'Download stopped. What was downloaded is kept.';
+
+  @override
+  String get quranDamagedTitle => 'Some Quran files are missing or damaged';
+
+  @override
+  String quranDamagedBody(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$shown files need to be downloaded again.',
+      one: 'One file needs to be downloaded again.',
+    );
+    return '$_temp0 Reading is paused until they are repaired.';
+  }
+
+  @override
+  String get quranRepair => 'Repair';
+
+  @override
+  String get quranReadyOffline => 'Ready offline';
+
+  @override
+  String get quranUninstallNote =>
+      'Uninstalling the app, clearing its data or removing the download deletes the downloaded Quran; you would need to download it again.';
+
+  @override
+  String get quranAttribution =>
+      'Mushaf pages and text: King Fahd Glorious Quran Printing Complex, Madinah Mushaf (Hafs), digital edition 1441, used under the Complex\'s published usage terms. The app is not published or endorsed by the Complex.';
+
+  @override
+  String get quranJuzAttribution =>
+      'Juz boundaries: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex\'s text.';
+
+  @override
+  String quranPage(String page) {
+    return 'Page $page';
+  }
+
+  @override
+  String quranJuz(String juz) {
+    return 'Juz $juz';
+  }
+
+  @override
+  String get quranNextPage => 'Next page';
+
+  @override
+  String get quranPreviousPage => 'Previous page';
+
+  @override
+  String get quranZoomIn => 'Zoom in';
+
+  @override
+  String get quranZoomOut => 'Zoom out';
+
+  @override
+  String get quranResetZoom => 'Fit to screen';
+
+  @override
+  String get quranFitPage => 'Whole page';
+
+  @override
+  String get quranFitWidth => 'Fit width';
+
+  @override
+  String get quranFacingPages => 'Two facing pages on wide screens';
+
+  @override
+  String get quranShowHighlights => 'Show highlights';
+
+  @override
+  String get quranGoToPage => 'Go to page';
+
+  @override
+  String quranGoToPageHint(String count) {
+    return '1 to $count';
+  }
+
+  @override
+  String quranGoToPageInvalid(String count) {
+    return 'Enter a page from 1 to $count.';
+  }
+
+  @override
+  String get quranGo => 'Go';
+
+  @override
+  String get quranIndex => 'Surahs and juz';
+
+  @override
+  String get quranSurahsTab => 'Surahs';
+
+  @override
+  String get quranJuzTab => 'Juz';
+
+  @override
+  String get quranFilterSurahs => 'Find a surah by name or number';
+
+  @override
+  String quranSurahLine(String number, String verses, String page) {
+    return 'Surah $number · $verses verses · page $page';
+  }
+
+  @override
+  String quranJuzLine(String page) {
+    return 'Starts at page $page';
+  }
+
+  @override
+  String get quranNoSurah => 'No surah matches.';
+
+  @override
+  String get quranSearch => 'Search the Quran';
+
+  @override
+  String get quranSearchHint => 'Arabic word or phrase';
+
+  @override
+  String get quranSearchIdle =>
+      'Type an Arabic word or part of a verse. Search works offline and ignores diacritics and the different spellings of alef and hamza.';
+
+  @override
+  String get quranSearchEmpty => 'No verse matches.';
+
+  @override
+  String quranSearchCount(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$shown verses',
+      one: 'One verse',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quranSearchMore(String shown, String total) {
+    return 'Showing the first $shown of $total verses. Type more to narrow it.';
+  }
+
+  @override
+  String quranVerseRef(String verse, String page) {
+    return 'Verse $verse · page $page';
+  }
+
+  @override
+  String get quranBookmarkAdd => 'Bookmark this page';
+
+  @override
+  String get quranBookmarkRemove => 'Remove bookmark';
+
+  @override
+  String get quranNotes => 'Bookmarks and highlights';
+
+  @override
+  String get quranBookmarksTab => 'Bookmarks';
+
+  @override
+  String get quranHighlightsTab => 'My highlights';
+
+  @override
+  String get quranNoBookmarks =>
+      'No bookmarks yet. Use the bookmark button on a page.';
+
+  @override
+  String get quranNoHighlights =>
+      'No highlights yet. Choose Highlight on a page.';
+
+  @override
+  String get quranHighlight => 'Highlight';
+
+  @override
+  String get quranAreaExplain =>
+      'Area highlight: draw boxes over the page. It marks a region of the page image, not specific words or verses. Turn pages with the buttons to continue on another page.';
+
+  @override
+  String get quranHighlightSave => 'Save';
+
+  @override
+  String get quranHighlightUndo => 'Undo last box';
+
+  @override
+  String get quranHighlightCancel => 'Cancel';
+
+  @override
+  String quranHighlightBoxes(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$shown boxes',
+      one: 'one box',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quranHighlightPages(String first, String last) {
+    return 'Pages $first–$last';
+  }
+
+  @override
+  String get quranHighlightDelete => 'Delete highlight';
+
+  @override
+  String get quranHighlightOpen => 'Open';
+
+  @override
+  String get quranHighlightColor => 'Colour';
+
+  @override
+  String get quranColorYellow => 'Yellow';
+
+  @override
+  String get quranColorGreen => 'Green';
+
+  @override
+  String get quranColorBlue => 'Blue';
+
+  @override
+  String get quranColorPink => 'Pink';
+
+  @override
+  String get quranColorOrange => 'Orange';
+
+  @override
+  String get quranStorage => 'Quran download';
+
+  @override
+  String quranEdition(String edition, String version) {
+    return 'Madinah Mushaf · Hafs · digital edition $edition · package $version';
+  }
+
+  @override
+  String quranOnDevice(String size) {
+    return 'On this device: $size';
+  }
+
+  @override
+  String get quranVerify => 'Check all files';
+
+  @override
+  String quranVerifying(String done, String total) {
+    return 'Checking $done of $total files…';
+  }
+
+  @override
+  String quranVerified(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'All $shown files passed the integrity check.',
+      one: 'The file passed the integrity check.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get quranRemove => 'Remove download';
+
+  @override
+  String get quranRemoveTitle => 'Remove the downloaded Quran?';
+
+  @override
+  String quranRemoveBody(String size) {
+    return 'Offline reading stops until you download it again ($size). Your bookmarks, highlights and last page are kept and come back when you download it again.';
+  }
+
+  @override
+  String get quranRemoveConfirm => 'Remove';
+
+  @override
+  String get quranKeep => 'Keep';
+
+  @override
+  String get quranRemoved =>
+      'The Quran download was removed. Your notes are kept.';
+
+  @override
+  String get quranPageError =>
+      'This page could not be shown. Check the files under Quran download.';
+
+  @override
+  String get quranOpening => 'Opening the Mushaf…';
+
+  @override
+  String quranReaderLabel(String page) {
+    return 'Mushaf page $page. Swipe right or use Next page to read on.';
+  }
+
+  @override
+  String get quranMore => 'More';
+
+  @override
+  String get quranShowControls => 'Show controls';
+
+  @override
+  String get quranUpdate => 'Download update';
+
+  @override
+  String get quranUpdateBody =>
+      'A newer copy of the Quran package is available. The one on this device stays readable until the new one is downloaded and checked.';
 }

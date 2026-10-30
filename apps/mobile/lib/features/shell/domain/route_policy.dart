@@ -67,6 +67,10 @@ abstract final class RoutePolicy {
     ['place'] => const PlaceRoute(),
     ['health'] => const HealthRoute(),
     ['qibla'] => const QiblaRoute(),
+    ['quran'] => const QuranRoute(),
+    ['quran', 'search'] => const QuranSearchRoute(),
+    ['quran', 'notes'] => const QuranNotesRoute(),
+    ['quran', 'storage'] => const QuranStorageRoute(),
     ['calc', final id] when CalculationRoute.idPattern.hasMatch(id) =>
       CalculationRoute(id),
     ['calc', final id, final code]

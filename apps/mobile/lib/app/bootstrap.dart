@@ -7,6 +7,7 @@ import 'package:daily_muslim/features/athan/data/permission_handler_athan_grant.
 import 'package:daily_muslim/features/contexts/data/geolocator_device_locator.dart';
 import 'package:daily_muslim/features/contexts/data/permission_handler_location_access.dart';
 import 'package:daily_muslim/features/qibla/data/channel_heading_source.dart';
+import 'package:daily_muslim/features/quran/data/quran_notes_database.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/data/geolocator_system_settings.dart';
 import 'package:daily_muslim/features/storage/data/database_files.dart';
@@ -48,6 +49,15 @@ abstract final class Bootstrap {
             assets: rootBundle,
             clock: const SystemClock(),
             blobRoot: Directory('${support.path}/packages'),
+            quranNotes: QuranNotesDatabase(
+              driftDatabase(
+                name: QuranNotesDatabase.fileName,
+                native: DriftNativeOptions(
+                  databasePath: () async =>
+                      '${support.path}/${QuranNotesDatabase.fileName}',
+                ),
+              ),
+            ),
             locator: GeolocatorDeviceLocator(
               GeolocatorPlatform.instance,
               androidLocationManager:

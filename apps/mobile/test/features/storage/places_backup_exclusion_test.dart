@@ -38,6 +38,7 @@ List<String> _excludes(String xml, String section) {
 void main() {
   const res = 'android/app/src/main/res/xml';
   const placesRule = 'domain="file" path="${PlacesDatabase.directoryName}/"';
+  const quranRule = 'domain="file" path="quran/"';
 
   group('Android rules exclude places/ from backup (REQ-PRIV-003)', () {
     final manifest = File(
@@ -58,12 +59,13 @@ void main() {
 
     test('Auto Backup up to API 30 (fullBackupContent)', () {
       final xml = File('$res/backup_rules.xml').readAsStringSync();
-      expect(_excludes(xml, 'full-backup-content'), [placesRule]);
+      // The offline Quran package (§15 D107) is downloaded again instead.
+      expect(_excludes(xml, 'full-backup-content'), [placesRule, quranRule]);
     });
 
     test('API 31+ cloud backup and device transfer (dataExtractionRules)', () {
       final xml = File('$res/data_extraction_rules.xml').readAsStringSync();
-      expect(_excludes(xml, 'cloud-backup'), [placesRule]);
+      expect(_excludes(xml, 'cloud-backup'), [placesRule, quranRule]);
       expect(_excludes(xml, 'device-transfer'), [placesRule]);
     });
   });

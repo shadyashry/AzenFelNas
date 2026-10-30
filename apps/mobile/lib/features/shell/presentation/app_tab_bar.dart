@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// The app's navigation bar (§7.2, §15 D89) on the four destinations:
-/// Home, Qibla, Athan and Settings, each a top-level location. The Qibla
-/// needle takes the place's real bearing.
+/// The app's navigation bar (§7.2, §15 D89, D107) on the five
+/// destinations: Home, Quran, Qibla, Athan and Settings, each a top-level
+/// location. The Qibla needle takes the place's real bearing.
 final class AppTabBar extends ConsumerWidget {
   /// The bar with [current] selected.
   const new({required this.current, super.key});
@@ -20,6 +20,7 @@ final class AppTabBar extends ConsumerWidget {
   /// The location of [tab].
   static String locationOf(RawdahTab tab) => switch (tab) {
     RawdahTab.home => const HomeRoute().location,
+    RawdahTab.quran => const QuranRoute().location,
     RawdahTab.qibla => const QiblaRoute().location,
     RawdahTab.athan => const HealthRoute().location,
     RawdahTab.settings => const SettingsRoute().location,
@@ -35,6 +36,7 @@ final class AppTabBar extends ConsumerWidget {
       current: current,
       labels: RawdahTabLabels(
         home: l.navHome,
+        quran: l.navQuran,
         qibla: l.navQibla,
         athan: l.navAthan,
         settings: l.navSettings,

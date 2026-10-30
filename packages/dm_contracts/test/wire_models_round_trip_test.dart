@@ -41,6 +41,11 @@ void main() {
     ],
     encode: (places) => [for (final place in places) place.toJson()],
   );
+  roundTripValidFixtures<QuranPackageManifest>(
+    'quran_package',
+    decode: (json) => QuranPackageManifest.fromJson(asJsonObject(json)),
+    encode: (model) => model.toJson(),
+  );
   roundTripValidFixtures<DiagnosticBundle>(
     'diagnostic_bundle',
     decode: (json) => DiagnosticBundle.fromJson(asJsonObject(json)),

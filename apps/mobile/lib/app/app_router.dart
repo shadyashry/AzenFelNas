@@ -4,6 +4,10 @@ import 'package:daily_muslim/features/home/presentation/timeline_page.dart';
 import 'package:daily_muslim/features/onboarding/presentation/home_gate.dart';
 import 'package:daily_muslim/features/passport/presentation/passport_page.dart';
 import 'package:daily_muslim/features/qibla/presentation/qibla_page.dart';
+import 'package:daily_muslim/features/quran/presentation/quran_notes_page.dart';
+import 'package:daily_muslim/features/quran/presentation/quran_page.dart';
+import 'package:daily_muslim/features/quran/presentation/quran_search_page.dart';
+import 'package:daily_muslim/features/quran/presentation/quran_storage_page.dart';
 import 'package:daily_muslim/features/settings/presentation/attributions_page.dart';
 import 'package:daily_muslim/features/settings/presentation/diagnostics_page.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_page.dart';
@@ -55,6 +59,24 @@ abstract final class AppRouter {
           GoRoute(
             path: 'qibla',
             builder: (context, state) => const QiblaPage(),
+          ),
+          GoRoute(
+            path: 'quran',
+            builder: (context, state) => const QuranPage(),
+            routes: [
+              GoRoute(
+                path: 'search',
+                builder: (context, state) => const QuranSearchPage(),
+              ),
+              GoRoute(
+                path: 'notes',
+                builder: (context, state) => const QuranNotesPage(),
+              ),
+              GoRoute(
+                path: 'storage',
+                builder: (context, state) => const QuranStoragePage(),
+              ),
+            ],
           ),
           GoRoute(
             path: 'calc/:id',

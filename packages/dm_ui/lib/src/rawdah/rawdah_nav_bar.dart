@@ -119,6 +119,7 @@ final class _Destination extends StatelessWidget {
                 RawdahGlyph(
                   kind: switch (tab) {
                     RawdahTab.home => RawdahGlyphKind.mihrab,
+                    RawdahTab.quran => RawdahGlyphKind.mushaf,
                     RawdahTab.qibla => RawdahGlyphKind.starCompass,
                     RawdahTab.athan => RawdahGlyphKind.minaret,
                     RawdahTab.settings => RawdahGlyphKind.rosette,

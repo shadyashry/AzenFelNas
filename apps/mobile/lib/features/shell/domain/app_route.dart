@@ -98,6 +98,55 @@ final class HealthRoute extends AppRoute {
   bool get linkable => true;
 }
 
+/// The Quran reader, or its download when the package is not installed
+/// (§15 D107).
+final class QuranRoute extends AppRoute {
+  /// The route.
+  const new();
+
+  @override
+  String get location => '/quran';
+
+  @override
+  bool get linkable => false;
+}
+
+/// Search in the Quran text (offline, §15 D107).
+final class QuranSearchRoute extends AppRoute {
+  /// The route.
+  const new();
+
+  @override
+  String get location => '/quran/search';
+
+  @override
+  bool get linkable => false;
+}
+
+/// Bookmarks and highlights (§15 D107).
+final class QuranNotesRoute extends AppRoute {
+  /// The route.
+  const new();
+
+  @override
+  String get location => '/quran/notes';
+
+  @override
+  bool get linkable => false;
+}
+
+/// The Quran download: status, size, check, remove (§15 D107).
+final class QuranStorageRoute extends AppRoute {
+  /// The route.
+  const new();
+
+  @override
+  String get location => '/quran/storage';
+
+  @override
+  bool get linkable => false;
+}
+
 /// Qibla (S22).
 final class QiblaRoute extends AppRoute {
   /// The route.

@@ -12,6 +12,7 @@ SCHEMAS=(
   tz_transition_oracle
   polygon_lookup_oracle
   gazetteer_package
+  quran_package
 )
 for name in "${SCHEMAS[@]}"; do
   uv run --frozen --project ../lab/tools/codegen datamodel-codegen \

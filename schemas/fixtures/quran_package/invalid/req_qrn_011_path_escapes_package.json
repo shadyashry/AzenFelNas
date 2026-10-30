@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "packageId": "hafs-madinah-1441",
+  "version": "1441.1",
+  "layoutId": "kfgqpc-hafs-1441-604",
+  "edition": {
+    "riwayah": "hafs",
+    "publisher": "King Fahd Glorious Quran Printing Complex",
+    "printEdition": "1441",
+    "pageCount": 604,
+    "suraCount": 114,
+    "verseCount": 6236,
+    "sources": [
+      {
+        "role": "pages",
+        "url": "https://dm.qurancomplex.gov.sa/Download/1441-AI-hafs.zip",
+        "sha256": "280c5d71ca16aaeeb3a343be1b92c76fa6df71d0671e202c026fde12402d9eef",
+        "version": "1441",
+        "license": "KFGQPC usage rights"
+      }
+    ]
+  },
+  "pageImage": {
+    "format": "webp-lossless",
+    "width": 1400,
+    "height": 2002,
+    "pathPattern": "pages/{page:03}.webp"
+  },
+  "files": [
+    {
+      "path": "pages/../../escape.webp",
+      "bytes": 120000,
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000001"
+    },
+    {
+      "path": "quran.sqlite",
+      "bytes": 4096,
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000002"
+    }
+  ]
+}

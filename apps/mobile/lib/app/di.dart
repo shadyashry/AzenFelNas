@@ -54,6 +54,18 @@ import 'package:daily_muslim/features/packages/data/package_payload_checks.dart'
 import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/qibla/domain/heading_source.dart';
 import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
+import 'package:daily_muslim/features/quran/data/channel_free_space.dart';
+import 'package:daily_muslim/features/quran/data/drift_quran_notes.dart';
+import 'package:daily_muslim/features/quran/data/http_quran_origin.dart';
+import 'package:daily_muslim/features/quran/data/io_quran_package_disk.dart';
+import 'package:daily_muslim/features/quran/data/quran_manifest_codec.dart';
+import 'package:daily_muslim/features/quran/data/quran_notes_database.dart';
+import 'package:daily_muslim/features/quran/data/sqlite_mushaf_index.dart';
+import 'package:daily_muslim/features/quran/data/sqlite_search_index.dart';
+import 'package:daily_muslim/features/quran/domain/build_search_index.dart';
+import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
+import 'package:daily_muslim/features/quran/domain/quran_origin.dart';
+import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/schedule/application/calculate_schedule.dart';
 import 'package:daily_muslim/features/schedule/application/load_runtime_data.dart';
 import 'package:daily_muslim/features/schedule/domain/runtime_data.dart';
@@ -78,6 +90,7 @@ import 'package:dm_contracts/athan_scheduler_api.dart';
 import 'package:dm_contracts/dm_contracts.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
+import 'package:drift/native.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:geo_salah_profiles/geo_salah_profiles.dart';
@@ -99,6 +112,8 @@ abstract final class AppBindings {
     required OpenSystemSettings systemSettings,
     ReadDeviceZone deviceZone = const ChannelDeviceZone(),
     RunPayloadWork runPayloadWork = Isolate.run,
+    QuranNotesDatabase? quranNotes,
+    ReadFreeSpace freeSpace = const ChannelFreeSpace(),
   }) {
     final settings = DriftSettingsStore(databases.dm);
     final eventLog = DriftEventLog(databases.dm);
@@ -127,6 +142,13 @@ abstract final class AppBindings {
       clock: clock,
     );
     return [
+      ..._quran(
+        root: Directory('${blobRoot.parent.path}/quran'),
+        notes: DriftQuranNotes(
+          quranNotes ?? QuranNotesDatabase(NativeDatabase.memory()),
+        ),
+        freeSpace: freeSpace,
+      ),
       watchSettingProvider.overrideWithValue(settings),
       writeSettingProvider.overrideWithValue(settings),
       readAttributionsProvider.overrideWithValue(
@@ -219,6 +241,47 @@ abstract final class AppBindings {
         const ExportDiagnosticBundle(ClipboardDiagnosticText()),
       ),
     ];
+  }
+
+  /// The offline Quran (§15 D107): the package under [root] (persistent
+  /// app support storage, never a cache), the CDN for the download only,
+  /// and the notes, which live apart from the package.
+  static List<Override> _quran({
+    required Directory root,
+    required DriftQuranNotes notes,
+    required ReadFreeSpace freeSpace,
+  }) => [
+    quranPackageDiskProvider.overrideWithValue(
+      IoQuranPackageDisk(
+        root,
+        pinnedManifestSha256: QuranEditionPin.manifestSha256,
+      ),
+    ),
+    quranOriginProvider.overrideWithValue(_quranOrigin()),
+    acceptManifestProvider.overrideWithValue(QuranManifestCodec.acceptPinned),
+    readFreeSpaceProvider.overrideWithValue(freeSpace),
+    buildSearchIndexProvider.overrideWithValue(const SqliteSearchIndex()),
+    searchIndexIsCurrentProvider.overrideWithValue(SqliteSearchIndex.isCurrent),
+    openMushafIndexProvider.overrideWithValue(SqliteMushafIndex.new),
+    bookmarkStoreProvider.overrideWithValue(notes),
+    highlightStoreProvider.overrideWithValue(notes),
+    readingPositionStoreProvider.overrideWithValue(notes),
+    readerPreferencesStoreProvider.overrideWithValue(notes),
+  ];
+
+  /// The CDN of this build's channel. A dev build may name a loopback port
+  /// (`--dart-define DM_QURAN_LOOPBACK_PORT=8787`, with `adb reverse`) to
+  /// test the download against a local copy of the package.
+  static QuranOrigin _quranOrigin() {
+    const port = int.fromEnvironment('DM_QURAN_LOOPBACK_PORT');
+    return switch (AppBuild.channel) {
+      ReleaseChannel.dev when port > 0 => HttpQuranOrigin.loopback(
+        port,
+        AppBuild.channel.name,
+        QuranEditionPin.cdnPath,
+      ),
+      _ => HttpQuranOrigin.cdn(AppBuild.channel.name, QuranEditionPin.cdnPath),
+    };
   }
 
   /// The package sync of §7.4 against [fetch]: the CDN in the app, a

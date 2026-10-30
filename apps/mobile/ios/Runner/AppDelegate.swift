@@ -21,6 +21,7 @@ import UIKit
     }
     if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "DmDeviceZone") {
       DeviceZoneChannel.register(messenger: registrar.messenger())
+      StorageChannel.register(messenger: registrar.messenger())
     }
   }
 }
@@ -36,6 +37,26 @@ enum DeviceZoneChannel {
           return
         }
         result(TimeZone.current.identifier)
+      }
+  }
+}
+
+/// Free space before the offline Quran download (`ChannelFreeSpace` in Dart, DESIGN.md §15 D107).
+enum StorageChannel {
+  static func register(messenger: FlutterBinaryMessenger) {
+    FlutterMethodChannel(name: "dm/storage", binaryMessenger: messenger)
+      .setMethodCallHandler { call, result in
+        guard call.method == "usableBytes", let path = call.arguments as? String else {
+          result(FlutterMethodNotImplemented)
+          return
+        }
+        let url = URL(fileURLWithPath: path)
+        let values = try? url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
+        if let bytes = values?.volumeAvailableCapacityForImportantUsage {
+          result(NSNumber(value: bytes))
+        } else {
+          result(nil)
+        }
       }
   }
 }
