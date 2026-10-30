@@ -188,16 +188,23 @@ final class _BrandIntroState extends State<BrandIntro>
     final still = MediaQuery.disableAnimationsOf(context);
     // The app keeps its place in the tree when the intro leaves, so none of
     // its state is rebuilt; its transform is the identity once settled.
+    // Until the intro starts to fade it is laid out and read by screen
+    // readers but not painted: the opaque stage covers it, and painting it
+    // under every frame of the motion is wasted work.
     return Stack(
       fit: StackFit.expand,
       children: [
         AnimatedBuilder(
           animation: _exit,
-          builder: (context, app) => Transform.scale(
-            scale: still || _done
-                ? 1
-                : 0.96 + 0.04 * Curves.easeOutCubic.transform(_exit.value),
-            child: app,
+          builder: (context, app) => Opacity(
+            opacity: _done || _exit.value > 0 ? 1 : 0,
+            alwaysIncludeSemantics: true,
+            child: Transform.scale(
+              scale: still || _done
+                  ? 1
+                  : 0.96 + 0.04 * Curves.easeOutCubic.transform(_exit.value),
+              child: app,
+            ),
           ),
           child: widget.child,
         ),
