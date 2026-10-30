@@ -5,7 +5,7 @@ holds two clear standard voices, both `PENDING`: `mirza_isha_2013` (Moazzambeg M
 performer, 3.2 MB, 4:20) and `icr_friday_2024` (Asim Javed, CC0, lossless source, 2.7 MB, 3:40). Owed: the owner's
 listening review of both, Legal on the Public Domain Mark, and the CDN upload. The rest of this note describes D111.
 
-**Update (D113).** The Athan Test now fires after 10 s (was 60 s) and also runs with the phone alarm tone.
+**Update (D115).** The Athan Test now fires after 10 s (was 60 s) and also runs with the phone alarm tone.
 
 Branch `slice/s43-adhan-voices`, cut from `slice/s41-ux-polish` at `50637e5`. Not merged, no PR (owner rule).
 

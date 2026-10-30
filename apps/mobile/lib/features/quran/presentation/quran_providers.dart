@@ -1,6 +1,9 @@
+import 'package:daily_muslim/features/quran/domain/ayah_highlight.dart';
 import 'package:daily_muslim/features/quran/domain/build_search_index.dart';
 import 'package:daily_muslim/features/quran/domain/highlight.dart';
+import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
+import 'package:daily_muslim/features/quran/domain/mushaf_lines.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:daily_muslim/features/quran/domain/quran_manifest.dart';
 import 'package:daily_muslim/features/quran/domain/quran_notes.dart';
@@ -8,10 +11,13 @@ import 'package:daily_muslim/features/quran/domain/quran_origin.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_disk.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
 import 'package:daily_muslim/features/quran/domain/read_mushaf_index.dart';
+import 'package:daily_muslim/features/quran/domain/read_verse_places.dart';
+import 'package:daily_muslim/features/quran/domain/verse_place.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_format.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_package_controller.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 
 /// The package on disk, bound in `app/di.dart`.
 final quranPackageDiskProvider = Provider<QuranPackageDisk>(
@@ -47,6 +53,17 @@ final searchIndexIsCurrentProvider = Provider<bool Function(String)>(
 
 /// Opens the index of a package directory, bound in `app/di.dart`.
 final openMushafIndexProvider = Provider<ReadMushafIndex Function(String)>(
+  (ref) => throw UnimplementedError('bound in app/di.dart'),
+);
+
+/// Opens the verse placements of a package directory, bound in
+/// `app/di.dart`.
+final openVersePlacesProvider = Provider<ReadVersePlaces Function(String)>(
+  (ref) => throw UnimplementedError('bound in app/di.dart'),
+);
+
+/// Verse highlights, bound in `app/di.dart`.
+final ayahHighlightStoreProvider = Provider<AyahHighlightStore>(
   (ref) => throw UnimplementedError('bound in app/di.dart'),
 );
 
@@ -144,3 +161,87 @@ final FutureProvider<int?> lastQuranPageProvider = FutureProvider.autoDispose(
 final Provider<QuranPackageStatus> quranStatusProvider = Provider(
   (ref) => ref.watch(quranPackageProvider),
 );
+
+/// Where verses stand in the active package; `null` until it is ready
+/// (§15 D114).
+final Provider<ReadVersePlaces?> versePlacesProvider = Provider((ref) {
+  final installed = readablePackage(ref.watch(quranPackageProvider));
+  if (installed == null) return null;
+  final places = ref.read(openVersePlacesProvider)(installed.directory);
+  ref.onDispose(places.close);
+  return places;
+});
+
+/// The verses that touch a page, in Mushaf order; empty while the package
+/// is not ready.
+final FutureProviderFamily<List<VersePlace>, int> versesOnPageProvider =
+    FutureProvider.family<List<VersePlace>, int>((
+      ref,
+      page,
+    ) async {
+      final places = ref.watch(versePlacesProvider);
+      if (places == null) return const [];
+      return switch (await places.versesOnPage(page)) {
+        Ok(:final value) => value,
+        Err() => const [],
+      };
+    });
+
+/// The pages surah `sura` is on: its header page to the page of its last
+/// verse (§15 D114). Without verse places the next surah's header page
+/// bounds it; `null` for an unknown surah.
+final FutureProviderFamily<({int first, int last})?, int> surahPagesProvider =
+    FutureProvider.family<({int first, int last})?, int>((ref, sura) async {
+      final suras = await ref.watch(surasProvider.future);
+      final i = suras.indexWhere((s) => s.number == sura);
+      if (i < 0) return null;
+      final entry = suras[i];
+      final places = ref.watch(versePlacesProvider);
+      final last = places == null
+          ? null
+          : switch (await places.verse(sura, entry.verseCount)) {
+              Ok(:final value) => value?.pageEnd,
+              Err() => null,
+            };
+      return (
+        first: entry.startPage,
+        last:
+            last ??
+            (i + 1 < suras.length
+                ? suras[i + 1].startPage
+                : QuranEditionPin.layout.pageCount),
+      );
+    });
+
+/// The verse highlights of the pinned layout, in Mushaf order.
+final StreamProvider<List<AyahHighlight>> ayahHighlightsProvider =
+    StreamProvider(
+      (ref) => ref
+          .watch(ayahHighlightStoreProvider)
+          .watchAyahHighlights(QuranEditionPin.layoutId),
+    );
+
+/// The verse highlights as bands over the lines each verse is on, by page
+/// (§15 D114). Only the measured layout has line geometry.
+final FutureProvider<Map<int, List<(HighlightRegion, HighlightColor)>>>
+ayahRegionsProvider = FutureProvider((ref) async {
+  final highlights =
+      ref.watch(ayahHighlightsProvider).value ?? const <AyahHighlight>[];
+  final places = ref.watch(versePlacesProvider);
+  final map = <int, List<(HighlightRegion, HighlightColor)>>{};
+  if (places == null || QuranEditionPin.layoutId != MushafLines.layoutId) {
+    return map;
+  }
+  for (final h in highlights) {
+    final place = switch (await places.verse(h.sura, h.aya)) {
+      Ok(:final value) => value,
+      Err() => null,
+    };
+    if (place == null) continue;
+    for (final (:page, :line) in place.lines(MushafLines.linesOn)) {
+      final band = MushafLines.band(page, line);
+      if (band != null) (map[page] ??= []).add((band, h.color));
+    }
+  }
+  return map;
+});

@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 
 /// One official Mushaf page exactly as published (§15 D107, REQ-QRN-031):
 /// the image is shown at its own aspect ratio with no filter, tint, theme
-/// or control over it. The only overlay is the reader's own highlights,
-/// drawn translucent (multiply) so every letter and mark stays readable;
-/// with [regions] empty the page is untouched.
+/// or control over it. The only overlays are the reader's own highlights,
+/// drawn translucent (multiply) so every letter and mark stays readable,
+/// and for a moment the outline of a verse just opened ([marks], §15
+/// D114); with both empty the page is untouched.
 ///
 /// The image is decoded no larger than shown (rounded up to 256 px steps
 /// and never above the source), so a small phone never holds a full-size
@@ -23,6 +24,7 @@ final class MushafPageImage extends StatelessWidget {
     required this.sourceWidth,
     required this.regions,
     required this.errorLabel,
+    this.marks = const [],
     super.key,
   });
 
@@ -43,6 +45,9 @@ final class MushafPageImage extends StatelessWidget {
 
   /// Shown when the file cannot be decoded.
   final String errorLabel;
+
+  /// Lines outlined for a moment: the verse just opened.
+  final List<HighlightRegion> marks;
 
   /// The decode width for [logicalWidth] at [pixelRatio].
   static int decodeWidth(double logicalWidth, double pixelRatio, int source) {
@@ -79,6 +84,8 @@ final class MushafPageImage extends StatelessWidget {
           IgnorePointer(
             child: CustomPaint(painter: HighlightPainter(regions)),
           ),
+        if (marks.isNotEmpty)
+          IgnorePointer(child: CustomPaint(painter: MarkPainter(marks))),
       ],
     );
   }
@@ -121,4 +128,47 @@ final class HighlightPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(HighlightPainter old) => old.regions != regions;
+}
+
+/// Outlines the lines of a verse just opened: a gold frame and the
+/// faintest wash, so it reads as "here" without looking like a saved
+/// highlight.
+final class MarkPainter extends CustomPainter {
+  /// The painter of [marks].
+  const new(this.marks);
+
+  /// The lines to outline.
+  final List<HighlightRegion> marks;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    for (final r in marks) {
+      final rect = RRect.fromRectAndRadius(
+        Rect.fromLTRB(
+          r.left * size.width,
+          r.top * size.height,
+          r.right * size.width,
+          r.bottom * size.height,
+        ),
+        const Radius.circular(4),
+      );
+      canvas
+        ..drawRRect(
+          rect,
+          Paint()
+            ..color = const Color(0x26C9A45C)
+            ..blendMode = BlendMode.multiply,
+        )
+        ..drawRRect(
+          rect,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2
+            ..color = const Color(0xFFC9A45C),
+        );
+    }
+  }
+
+  @override
+  bool shouldRepaint(MarkPainter old) => old.marks != marks;
 }

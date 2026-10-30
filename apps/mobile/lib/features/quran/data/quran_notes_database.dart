@@ -4,8 +4,9 @@ import 'package:drift/drift.dart';
 
 part 'quran_notes_database.g.dart';
 
-/// `quran_notes.sqlite` (§7.3, §15 D107): bookmarks, highlights, the last
-/// page read and the reader's choices. Kept apart from the downloaded
+/// `quran_notes.sqlite` (§7.3, §15 D107, D114): bookmarks, area and verse
+/// highlights, the last page read and the reader's choices. Kept apart
+/// from the downloaded
 /// package, so removing or replacing the package never touches it; rows are
 /// keyed by page layout, so another edition never shows them in the wrong
 /// place.
@@ -16,6 +17,7 @@ part 'quran_notes_database.g.dart';
     QuranHighlightRegions,
     QuranReadingPositions,
     QuranReaderPrefs,
+    QuranAyahHighlights,
   ],
 )
 final class QuranNotesDatabase extends _$QuranNotesDatabase {
@@ -25,11 +27,14 @@ final class QuranNotesDatabase extends _$QuranNotesDatabase {
   /// The file name under the app support directory.
   static const fileName = 'quran_notes.sqlite';
 
-  /// The steps above version 1.
-  static const migrations = ForwardOnlyMigration({});
+  /// The steps above version 1: version 2 adds whole-verse highlights
+  /// (§15 D114).
+  ForwardOnlyMigration get migrations => ForwardOnlyMigration({
+    2: (m) => m.createTable(quranAyahHighlights),
+  });
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => migrations.strategy(this);

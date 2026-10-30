@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/quran/domain/installed_quran.dart';
+import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
+import 'package:daily_muslim/features/quran/domain/surah_names.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/services.dart';
 
 /// Sizes, numbers and failures written for the reader.
@@ -16,6 +19,33 @@ abstract final class QuranFormat {
   /// [n] in [style]'s digits.
   static String number(int n, DisplayStyle style) =>
       style.digits.apply(n.toString());
+
+  /// The name of surah [sura] for [style]'s language (§15 D110, D114):
+  /// Arabic as its Mushaf header gives it, without the word «سورة» and with
+  /// every mark kept; English its English name.
+  static String surahName(SuraEntry sura, DisplayStyle style) =>
+      switch (style.locale) {
+        StatusLocale.ar => _headerName(sura.header),
+        StatusLocale.en => SurahNames.englishOf(sura.number) ?? sura.header,
+      };
+
+  static String _headerName(String header) {
+    final cut = header.indexOf(' ');
+    return cut < 0 ? header : header.substring(cut + 1).trim();
+  }
+
+  /// The reference of verse [aya] of [sura], e.g. "Al-Baqarah 2:255" or
+  /// «البقرة، الآية ٢٥٥».
+  static String verseRef(
+    AppLocalizations l,
+    SuraEntry sura,
+    int aya,
+    DisplayStyle style,
+  ) => l.quranAyahRef(
+    surahName(sura, style),
+    number(sura.number, style),
+    number(aya, style),
+  );
 
   /// The message for [failure].
   static String failure(

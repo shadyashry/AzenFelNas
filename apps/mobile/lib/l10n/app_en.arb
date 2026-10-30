@@ -1548,6 +1548,74 @@
   "@quranJuzAttribution": {
     "description": "Juz metadata attribution."
   },
+  "quranAyahsOnPage": "Ayahs on this page",
+  "@quranAyahsOnPage": {
+    "description": "Reader menu and sheet title: the verses on the current page."
+  },
+  "quranAyahsOnLine": "Ayahs on this line",
+  "@quranAyahsOnLine": {
+    "description": "Sheet title after a long press on a line of the page."
+  },
+  "quranAyahHint": "Press and hold a line of the page to see its ayahs.",
+  "@quranAyahHint": {
+    "description": "Tip at the top of the ayahs sheet."
+  },
+  "quranAyahHighlight": "Highlight this ayah",
+  "@quranAyahHighlight": {
+    "description": "Ayahs sheet: colour row label."
+  },
+  "quranAyahRemoveHighlight": "Remove highlight",
+  "@quranAyahRemoveHighlight": {
+    "description": "Ayahs sheet: removes the verse highlight."
+  },
+  "quranAyahCopy": "Copy ayah",
+  "@quranAyahCopy": {
+    "description": "Ayahs sheet: copies the verse text with its reference."
+  },
+  "quranAyahCopied": "Ayah copied",
+  "@quranAyahCopied": {
+    "description": "Snack bar after copying a verse."
+  },
+  "quranAyahShow": "Show on the page",
+  "@quranAyahShow": {
+    "description": "Ayahs sheet: outlines the verse's lines on the page for a few seconds."
+  },
+  "quranAyahLinesNote": "An ayah highlight covers the whole lines the ayah is on, so a line it shares with another ayah is covered whole.",
+  "@quranAyahLinesNote": {
+    "description": "Ayahs sheet: what a verse highlight marks."
+  },
+  "quranAyahHighlights": "Highlighted ayahs",
+  "@quranAyahHighlights": {
+    "description": "My highlights: heading of the verse highlights."
+  },
+  "quranAyahRef": "{surah} {sura}:{aya}",
+  "@quranAyahRef": {
+    "description": "A verse reference, e.g. Al-Baqarah 2:255.",
+    "placeholders": {
+      "surah": {"type": "String", "example": "Al-Baqarah"},
+      "sura": {"type": "String", "example": "2"},
+      "aya": {"type": "String", "example": "255"}
+    }
+  },
+  "quranJuzSurahLine": "From verse {verse} · page {page}",
+  "@quranJuzSurahLine": {
+    "description": "Under a juz in the index: where a surah starts inside that juz.",
+    "placeholders": {
+      "verse": {"type": "String", "example": "93"},
+      "page": {"type": "String", "example": "62"}
+    }
+  },
+  "quranSurahPages": "{surah} · pages {first}–{last}",
+  "@quranSurahPages": {
+    "description": "Title of the page strip: the surah being read and its page range.",
+    "placeholders": {
+      "surah": {"type": "String", "example": "Ali 'Imran"},
+      "first": {"type": "String", "example": "50"},
+      "last": {"type": "String", "example": "76"}
+    }
+  },
+  "quranSurahPagesHint": "Tap a page to open it, or slide to move along the surah.",
+  "@quranSurahPagesHint": {"description": "Hint under the page strip of the current surah."},
   "quranPage": "Page {page}",
   "@quranPage": {
     "description": "Current Mushaf page.",

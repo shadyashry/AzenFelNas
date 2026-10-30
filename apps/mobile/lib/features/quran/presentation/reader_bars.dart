@@ -3,6 +3,7 @@ import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:daily_muslim/features/quran/domain/reader_preferences.dart';
+import 'package:daily_muslim/features/quran/presentation/ayah_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/go_to_page_dialog.dart';
 import 'package:daily_muslim/features/quran/presentation/highlight_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_viewport_controller.dart';
@@ -10,6 +11,7 @@ import 'package:daily_muslim/features/quran/presentation/quran_format.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_index_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_controller.dart';
+import 'package:daily_muslim/features/quran/presentation/surah_pages_sheet.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
@@ -17,8 +19,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// The bar above the page: the surah and juz of the page, the page number
-/// (tap to go to a page), the bookmark, search and the menu.
+/// The bar above the page: the surah of the page (tap for the surah index
+/// at it), the juz (tap for the juz index at it) and the page number (tap
+/// for the pages of the surah), the bookmark, search and the menu.
 final class ReaderTopBar extends ConsumerWidget {
   /// The bar for [page].
   const new({required this.page, super.key});
@@ -45,13 +48,17 @@ final class ReaderTopBar extends ConsumerWidget {
         child: Row(
           children: [
             Expanded(
-              child: InkWell(
-                onTap: () => showGoToPageDialog(context, ref),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (sura != null)
-                      Text(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (sura != null)
+                    _TitleTap(
+                      hint: l.quranIndex,
+                      onTap: () => showQuranIndexSheet(
+                        context,
+                        currentSura: sura.number,
+                      ),
+                      child: Text(
                         sura.header,
                         textDirection: TextDirection.rtl,
                         maxLines: 1,
@@ -62,16 +69,44 @@ final class ReaderTopBar extends ConsumerWidget {
                           color: theme.colorScheme.primary,
                         ),
                       ),
-                    Text(
-                      [
-                        if (part != null)
-                          l.quranJuz(QuranFormat.number(part.number, style)),
-                        l.quranPage(QuranFormat.number(page, style)),
-                      ].join(' · '),
-                      style: theme.textTheme.bodySmall,
                     ),
-                  ],
-                ),
+                  Row(
+                    children: [
+                      if (part != null) ...[
+                        _TitleTap(
+                          hint: l.quranIndex,
+                          onTap: () => showQuranIndexSheet(
+                            context,
+                            currentJuz: part.number,
+                          ),
+                          child: Text(
+                            l.quranJuz(QuranFormat.number(part.number, style)),
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ),
+                        Text(' · ', style: theme.textTheme.bodySmall),
+                      ],
+                      Flexible(
+                        child: _TitleTap(
+                          hint: l.quranGoToPage,
+                          onTap: () => sura == null
+                              ? showGoToPageDialog(context, ref)
+                              : showSurahPagesSheet(
+                                  context,
+                                  sura: sura,
+                                  page: page,
+                                  onGoToPage: () =>
+                                      showGoToPageDialog(context, ref),
+                                ),
+                          child: Text(
+                            l.quranPage(QuranFormat.number(page, style)),
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             IconButton(
@@ -100,7 +135,48 @@ final class ReaderTopBar extends ConsumerWidget {
   }
 }
 
+/// One tappable part of the title (§15 D114), at least 24 dp tall (WCAG
+/// 2.2 target size).
+final class _TitleTap extends StatelessWidget {
+  const new({required this.hint, required this.onTap, required this.child});
+
+  final String hint;
+  final VoidCallback onTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    onTapHint: hint,
+    child: InkWell(
+      onTap: onTap,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 24),
+        child: Align(alignment: AlignmentDirectional.centerStart, child: child),
+      ),
+    ),
+  );
+}
+
+/// The verses of [page] in the ayahs sheet (§15 D114).
+Future<void> _showPageAyahs(
+  BuildContext context,
+  WidgetRef ref,
+  int page,
+) async {
+  final l = AppLocalizations.of(context);
+  final verses = await ref.read(versesOnPageProvider(page).future);
+  if (!context.mounted || verses.isEmpty) return;
+  await showAyahSheet(
+    context,
+    title: l.quranAyahsOnPage,
+    places: verses,
+    hint: true,
+  );
+}
+
 enum _MenuItem {
+  ayahs,
   contents,
   goTo,
   notes,
@@ -124,6 +200,7 @@ final class _ReaderMenu extends ConsumerWidget {
       tooltip: l.quranMore,
       icon: const Icon(Icons.more_vert),
       onSelected: (item) => switch (item) {
+        _MenuItem.ayahs => _showPageAyahs(context, ref, state.page),
         _MenuItem.contents => showQuranIndexSheet(context),
         _MenuItem.goTo => showGoToPageDialog(context, ref),
         _MenuItem.notes => context.push(const QuranNotesRoute().location),
@@ -140,6 +217,7 @@ final class _ReaderMenu extends ConsumerWidget {
         _MenuItem.storage => context.push(const QuranStorageRoute().location),
       },
       itemBuilder: (context) => [
+        PopupMenuItem(value: _MenuItem.ayahs, child: Text(l.quranAyahsOnPage)),
         PopupMenuItem(value: _MenuItem.contents, child: Text(l.quranIndex)),
         PopupMenuItem(value: _MenuItem.goTo, child: Text(l.quranGoToPage)),
         PopupMenuItem(value: _MenuItem.notes, child: Text(l.quranNotes)),

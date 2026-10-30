@@ -90,14 +90,14 @@ final class _HighlightSheet extends ConsumerWidget {
 }
 
 /// The five highlight colours as 48 dp swatches with names for screen
-/// readers; the chosen one is ringed and checked, not marked by colour
-/// alone.
+/// readers; the chosen one, if any, is ringed and checked, not marked by
+/// colour alone.
 final class HighlightColorRow extends StatelessWidget {
   /// The row with [selected] chosen.
   const new({required this.selected, required this.onSelected, super.key});
 
-  /// The chosen colour.
-  final HighlightColor selected;
+  /// The chosen colour; `null` when none is chosen yet.
+  final HighlightColor? selected;
 
   /// Called with the tapped colour.
   final ValueChanged<HighlightColor> onSelected;

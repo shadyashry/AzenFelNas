@@ -1,7 +1,6 @@
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
-import 'package:daily_muslim/features/quran/domain/surah_names.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_format.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
@@ -39,13 +38,7 @@ final class ContinueQuranCard extends ConsumerWidget {
     for (final s in suras) {
       if (s.startPage <= page) sura = s;
     }
-    final surah = switch ((sura, style.locale)) {
-      (null, _) => null,
-      (final SuraEntry s, StatusLocale.ar) => _nameOf(s.header),
-      (final SuraEntry s, StatusLocale.en) =>
-        SurahNames.englishOf(s.number) ??
-            l.homeSurahNumber(QuranFormat.number(s.number, style)),
-    };
+    final surah = sura == null ? null : QuranFormat.surahName(sura, style);
     final title = [?surah, l.quranPage(QuranFormat.number(page, style))];
     final offline = status is QuranReady;
     void open() => context.go(const QuranRoute().location);
@@ -117,13 +110,6 @@ final class ContinueQuranCard extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  /// The surah's name from its Mushaf header, e.g. «الكَهۡفِ» from
-  /// «سُورَةُ الكَهۡفِ»: the first word («سورة») dropped, marks kept.
-  static String _nameOf(String header) {
-    final cut = header.indexOf(' ');
-    return cut < 0 ? header : header.substring(cut + 1).trim();
   }
 }
 

@@ -4,8 +4,10 @@ import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:daily_muslim/features/quran/domain/reader_preferences.dart';
+import 'package:daily_muslim/features/quran/domain/verse_place.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
+import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meta/meta.dart';
 
@@ -34,6 +36,7 @@ final class ReaderState {
     this.preferences = const ReaderPreferences(),
     this.showHighlights = true,
     this.draft,
+    this.mark,
   });
 
   /// The current page (the right page of a spread).
@@ -54,6 +57,11 @@ final class ReaderState {
   /// The highlight being drawn, or `null` outside drawing mode.
   final HighlightDraft? draft;
 
+  /// The verse whose lines are outlined for a moment after it was opened
+  /// from search, the index or the ayahs sheet (§15 D114); `null` most of
+  /// the time.
+  final VersePlace? mark;
+
   ReaderState _with({
     int? page,
     bool? restored,
@@ -61,6 +69,7 @@ final class ReaderState {
     ReaderPreferences? preferences,
     bool? showHighlights,
     HighlightDraft? Function()? draft,
+    VersePlace? Function()? mark,
   }) => ReaderState(
     page: page ?? this.page,
     restored: restored ?? this.restored,
@@ -68,6 +77,7 @@ final class ReaderState {
     preferences: preferences ?? this.preferences,
     showHighlights: showHighlights ?? this.showHighlights,
     draft: draft == null ? this.draft : draft(),
+    mark: mark == null ? this.mark : mark(),
   );
 }
 
@@ -76,10 +86,17 @@ final class ReaderState {
 /// (REQ-QRN-021).
 final class ReaderController extends Notifier<ReaderState> {
   Timer? _save;
+  Timer? _unmark;
+
+  /// How long an opened verse stays outlined.
+  static const markFor = Duration(seconds: 4);
 
   @override
   ReaderState build() {
-    ref.onDispose(() => _save?.cancel());
+    ref.onDispose(() {
+      _save?.cancel();
+      _unmark?.cancel();
+    });
     unawaited(_restore());
     return const ReaderState(page: 1, restored: false);
   }
@@ -116,6 +133,39 @@ final class ReaderController extends Notifier<ReaderState> {
             ),
       );
     });
+  }
+
+  /// Opens the page of [place] and outlines its lines for [markFor]
+  /// (§15 D114); the outline is drawn over the page, never into it.
+  void showVerse(VersePlace place) {
+    goTo(place.page);
+    state = state._with(mark: () => place);
+    _unmark?.cancel();
+    _unmark = Timer(markFor, () {
+      if (ref.mounted) state = state._with(mark: () => null);
+    });
+  }
+
+  /// Opens verse [aya] of [sura] as [showVerse] does; when the package
+  /// cannot place it, opens [fallbackPage] without an outline.
+  Future<void> showVerseAt(
+    int sura,
+    int aya, {
+    required int fallbackPage,
+  }) async {
+    final places = ref.read(versePlacesProvider);
+    final place = places == null
+        ? null
+        : switch (await places.verse(sura, aya)) {
+            Ok(:final value) => value,
+            Err() => null,
+          };
+    if (!ref.mounted) return;
+    if (place == null) {
+      goTo(fallbackPage);
+    } else {
+      showVerse(place);
+    }
   }
 
   /// Shows or hides the bars.

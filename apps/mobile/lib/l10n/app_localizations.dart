@@ -1910,6 +1910,90 @@ abstract class AppLocalizations {
   /// **'Juz boundaries and the check of the English surah names: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex\'s text.'**
   String get quranJuzAttribution;
 
+  /// Reader menu and sheet title: the verses on the current page.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayahs on this page'**
+  String get quranAyahsOnPage;
+
+  /// Sheet title after a long press on a line of the page.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayahs on this line'**
+  String get quranAyahsOnLine;
+
+  /// Tip at the top of the ayahs sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Press and hold a line of the page to see its ayahs.'**
+  String get quranAyahHint;
+
+  /// Ayahs sheet: colour row label.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlight this ayah'**
+  String get quranAyahHighlight;
+
+  /// Ayahs sheet: removes the verse highlight.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove highlight'**
+  String get quranAyahRemoveHighlight;
+
+  /// Ayahs sheet: copies the verse text with its reference.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy ayah'**
+  String get quranAyahCopy;
+
+  /// Snack bar after copying a verse.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayah copied'**
+  String get quranAyahCopied;
+
+  /// Ayahs sheet: outlines the verse's lines on the page for a few seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Show on the page'**
+  String get quranAyahShow;
+
+  /// Ayahs sheet: what a verse highlight marks.
+  ///
+  /// In en, this message translates to:
+  /// **'An ayah highlight covers the whole lines the ayah is on, so a line it shares with another ayah is covered whole.'**
+  String get quranAyahLinesNote;
+
+  /// My highlights: heading of the verse highlights.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlighted ayahs'**
+  String get quranAyahHighlights;
+
+  /// A verse reference, e.g. Al-Baqarah 2:255.
+  ///
+  /// In en, this message translates to:
+  /// **'{surah} {sura}:{aya}'**
+  String quranAyahRef(String surah, String sura, String aya);
+
+  /// Under a juz in the index: where a surah starts inside that juz.
+  ///
+  /// In en, this message translates to:
+  /// **'From verse {verse} · page {page}'**
+  String quranJuzSurahLine(String verse, String page);
+
+  /// Title of the page strip: the surah being read and its page range.
+  ///
+  /// In en, this message translates to:
+  /// **'{surah} · pages {first}–{last}'**
+  String quranSurahPages(String surah, String first, String last);
+
+  /// Hint under the page strip of the current surah.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a page to open it, or slide to move along the surah.'**
+  String get quranSurahPagesHint;
+
   /// Current Mushaf page.
   ///
   /// In en, this message translates to:

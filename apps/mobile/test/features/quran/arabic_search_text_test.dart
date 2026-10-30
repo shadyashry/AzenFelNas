@@ -21,6 +21,18 @@ void main() {
     expect(fold('   '), isEmpty);
   });
 
+  test('REQ-QRN-040 REQ-QRN-052: a query quoted in ornate parentheses is '
+      'searched by what is inside them', () {
+    const ayah = 'بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ';
+
+    expect(ArabicSearchText.query('﴿$ayah﴾\nAl-Fatihah 1:1'), fold(ayah));
+    expect(ArabicSearchText.query('﴿$ayah﴾\nالفاتحة، الآية ١'), fold(ayah));
+    expect(ArabicSearchText.query('﴿$ayah'), fold(ayah));
+    expect(ArabicSearchText.query('بسم الله'), fold('بسم الله'));
+    expect(ArabicSearchText.query('﴿﴾'), isEmpty);
+    expect(fold('﴿بسم﴾'), fold('بسم'));
+  });
+
   test('REQ-QRN-040: the match maps back onto the published text', () {
     const text = 'ٱلۡحَمۡدُ لِلَّهِ رَبِّ ٱلۡعَٰلَمِينَ';
     final folded = ArabicSearchText.fold(text);

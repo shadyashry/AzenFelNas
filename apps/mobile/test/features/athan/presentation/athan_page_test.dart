@@ -79,7 +79,7 @@ void main() {
     );
     await tester.scrollUntilVisible(find.text('Fajr Athan voice'), 200);
     // With nothing on the phone the device tone plays (§15 D79, D111), and
-    // the Test can ring it (§15 D113).
+    // the Test can ring it (§15 D115).
     expect(find.text('Phone alarm tone'), findsOneWidget);
     expect(find.text('Play a test Athan in 10 seconds'), findsOneWidget);
     expect(find.text('Choose an Athan sound first'), findsNothing);

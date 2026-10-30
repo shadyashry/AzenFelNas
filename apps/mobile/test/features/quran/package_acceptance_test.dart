@@ -6,7 +6,9 @@ import 'dart:io';
 import 'package:daily_muslim/features/quran/data/quran_manifest_codec.dart';
 import 'package:daily_muslim/features/quran/data/sqlite_mushaf_index.dart';
 import 'package:daily_muslim/features/quran/data/sqlite_search_index.dart';
+import 'package:daily_muslim/features/quran/domain/juz_contents.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
+import 'package:daily_muslim/features/quran/domain/mushaf_lines.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -110,6 +112,95 @@ void main() {
     },
     skip: skip,
   );
+
+  test('REQ-QRN-023: every surah sits under a juz, juz 4 opens inside '
+      'Ali Imran at 3:93, and juz 30 closes with An-Nas', () async {
+    final contents = juzContents(
+      (await index.juz()).fold(),
+      (await index.suras()).fold(),
+    );
+
+    final listed = {
+      for (final (_, inside) in contents)
+        for (final s in inside) s.sura.number,
+    };
+    expect(listed, {for (var n = 1; n <= 114; n++) n});
+    final juz4 = contents[3].$2;
+    expect(
+      (juz4.first.sura.number, juz4.first.aya, juz4.first.page),
+      (
+        3,
+        93,
+        62,
+      ),
+    );
+    expect(contents.last.$2.last.sura.number, 114);
+  }, skip: skip);
+
+  test(
+    'REQ-QRN-040 REQ-QRN-052: an ayah copied from its sheet and pasted into '
+    'search finds that ayah, with the English or the Arabic reference',
+    () async {
+      final place = switch (await index.verse(3, 96)) {
+        Ok(:final value) => value!,
+        Err(:final failure) => throw StateError('$failure'),
+      };
+      for (final reference in ["Ali 'Imran 3:96", 'آل عمران، الآية ٩٦']) {
+        final results = await search('﴿${place.text}﴾\n$reference');
+
+        expect(
+          [
+            for (final h in results.hits) (h.sura, h.aya),
+          ],
+          [(3, 96)],
+          reason: reference,
+        );
+      }
+    },
+    skip: skip,
+  );
+
+  test('REQ-QRN-023 every verse sits on lines the geometry knows, and '
+      'every page line holds a verse or a surah title (§15 D114)', () async {
+    // The search index is attached on open; build it once for this test.
+    SqliteSearchIndex.buildSync(dir.path);
+    final covered = <(int, int)>{};
+    for (var page = 1; page <= QuranEditionPin.layout.pageCount; page++) {
+      final verses = switch (await index.versesOnPage(page)) {
+        Ok(:final value) => value,
+        Err(:final failure) => throw StateError('$failure'),
+      };
+      expect(verses, isNotEmpty, reason: 'page $page');
+      for (final v in verses) {
+        for (final (:page, :line) in v.lines(MushafLines.linesOn)) {
+          expect(MushafLines.band(page, line), isNotNull);
+          covered.add((page, line));
+        }
+      }
+    }
+    final suras = switch (await index.suras()) {
+      Ok(:final value) => value,
+      Err(:final failure) => throw StateError('$failure'),
+    };
+    var lines = 0;
+    for (var page = 1; page <= QuranEditionPin.layout.pageCount; page++) {
+      lines += MushafLines.linesOn(page);
+    }
+    // Uncovered lines are surah titles and basmalahs: at most two a surah.
+    expect(lines - covered.length, lessThanOrEqualTo(2 * suras.length));
+  }, skip: skip);
+
+  test('REQ-QRN-023 al-Kahf opens on page 293: its first verse on line '
+      '12 (§15 D114)', () async {
+    final place = switch (await index.verse(18, 1)) {
+      Ok(:final value) => value,
+      Err(:final failure) => throw StateError('$failure'),
+    };
+    expect(
+      (place?.page, place?.lineStart, place?.pageEnd, place?.lineEnd),
+      (293, 12, 293, 12),
+    );
+  }, skip: skip);
 }
 
 extension<T> on Result<T, Object> {

@@ -1673,6 +1673,432 @@ class QuranReaderPrefsCompanion extends UpdateCompanion<QuranReaderPrefsRow> {
   }
 }
 
+class $QuranAyahHighlightsTable extends QuranAyahHighlights
+    with TableInfo<$QuranAyahHighlightsTable, QuranAyahHighlightRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $QuranAyahHighlightsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _layoutIdMeta = const VerificationMeta(
+    'layoutId',
+  );
+  @override
+  late final GeneratedColumn<String> layoutId = GeneratedColumn<String>(
+    'layout_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _suraMeta = const VerificationMeta('sura');
+  @override
+  late final GeneratedColumn<int> sura = GeneratedColumn<int>(
+    'sura',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _ayaMeta = const VerificationMeta('aya');
+  @override
+  late final GeneratedColumn<int> aya = GeneratedColumn<int>(
+    'aya',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _colorMeta = const VerificationMeta('color');
+  @override
+  late final GeneratedColumn<String> color = GeneratedColumn<String>(
+    'color',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdUtcMeta = const VerificationMeta(
+    'createdUtc',
+  );
+  @override
+  late final GeneratedColumn<int> createdUtc = GeneratedColumn<int>(
+    'created_utc',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedUtcMeta = const VerificationMeta(
+    'updatedUtc',
+  );
+  @override
+  late final GeneratedColumn<int> updatedUtc = GeneratedColumn<int>(
+    'updated_utc',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    layoutId,
+    sura,
+    aya,
+    color,
+    createdUtc,
+    updatedUtc,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'quran_ayah_highlights';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<QuranAyahHighlightRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('layout_id')) {
+      context.handle(
+        _layoutIdMeta,
+        layoutId.isAcceptableOrUnknown(data['layout_id']!, _layoutIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_layoutIdMeta);
+    }
+    if (data.containsKey('sura')) {
+      context.handle(
+        _suraMeta,
+        sura.isAcceptableOrUnknown(data['sura']!, _suraMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_suraMeta);
+    }
+    if (data.containsKey('aya')) {
+      context.handle(
+        _ayaMeta,
+        aya.isAcceptableOrUnknown(data['aya']!, _ayaMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_ayaMeta);
+    }
+    if (data.containsKey('color')) {
+      context.handle(
+        _colorMeta,
+        color.isAcceptableOrUnknown(data['color']!, _colorMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_colorMeta);
+    }
+    if (data.containsKey('created_utc')) {
+      context.handle(
+        _createdUtcMeta,
+        createdUtc.isAcceptableOrUnknown(data['created_utc']!, _createdUtcMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdUtcMeta);
+    }
+    if (data.containsKey('updated_utc')) {
+      context.handle(
+        _updatedUtcMeta,
+        updatedUtc.isAcceptableOrUnknown(data['updated_utc']!, _updatedUtcMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedUtcMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {layoutId, sura, aya};
+  @override
+  QuranAyahHighlightRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return QuranAyahHighlightRow(
+      layoutId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}layout_id'],
+      )!,
+      sura: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sura'],
+      )!,
+      aya: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}aya'],
+      )!,
+      color: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}color'],
+      )!,
+      createdUtc: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}created_utc'],
+      )!,
+      updatedUtc: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_utc'],
+      )!,
+    );
+  }
+
+  @override
+  $QuranAyahHighlightsTable createAlias(String alias) {
+    return $QuranAyahHighlightsTable(attachedDatabase, alias);
+  }
+}
+
+class QuranAyahHighlightRow extends DataClass
+    implements Insertable<QuranAyahHighlightRow> {
+  /// The page layout.
+  final String layoutId;
+
+  /// Surah.
+  final int sura;
+
+  /// Verse.
+  final int aya;
+
+  /// `HighlightColor.name`.
+  final String color;
+
+  /// Created (UTC epoch ms).
+  final int createdUtc;
+
+  /// Last changed (UTC epoch ms).
+  final int updatedUtc;
+  const QuranAyahHighlightRow({
+    required this.layoutId,
+    required this.sura,
+    required this.aya,
+    required this.color,
+    required this.createdUtc,
+    required this.updatedUtc,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['layout_id'] = Variable<String>(layoutId);
+    map['sura'] = Variable<int>(sura);
+    map['aya'] = Variable<int>(aya);
+    map['color'] = Variable<String>(color);
+    map['created_utc'] = Variable<int>(createdUtc);
+    map['updated_utc'] = Variable<int>(updatedUtc);
+    return map;
+  }
+
+  QuranAyahHighlightsCompanion toCompanion(bool nullToAbsent) {
+    return QuranAyahHighlightsCompanion(
+      layoutId: Value(layoutId),
+      sura: Value(sura),
+      aya: Value(aya),
+      color: Value(color),
+      createdUtc: Value(createdUtc),
+      updatedUtc: Value(updatedUtc),
+    );
+  }
+
+  factory QuranAyahHighlightRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return QuranAyahHighlightRow(
+      layoutId: serializer.fromJson<String>(json['layoutId']),
+      sura: serializer.fromJson<int>(json['sura']),
+      aya: serializer.fromJson<int>(json['aya']),
+      color: serializer.fromJson<String>(json['color']),
+      createdUtc: serializer.fromJson<int>(json['createdUtc']),
+      updatedUtc: serializer.fromJson<int>(json['updatedUtc']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'layoutId': serializer.toJson<String>(layoutId),
+      'sura': serializer.toJson<int>(sura),
+      'aya': serializer.toJson<int>(aya),
+      'color': serializer.toJson<String>(color),
+      'createdUtc': serializer.toJson<int>(createdUtc),
+      'updatedUtc': serializer.toJson<int>(updatedUtc),
+    };
+  }
+
+  QuranAyahHighlightRow copyWith({
+    String? layoutId,
+    int? sura,
+    int? aya,
+    String? color,
+    int? createdUtc,
+    int? updatedUtc,
+  }) => QuranAyahHighlightRow(
+    layoutId: layoutId ?? this.layoutId,
+    sura: sura ?? this.sura,
+    aya: aya ?? this.aya,
+    color: color ?? this.color,
+    createdUtc: createdUtc ?? this.createdUtc,
+    updatedUtc: updatedUtc ?? this.updatedUtc,
+  );
+  QuranAyahHighlightRow copyWithCompanion(QuranAyahHighlightsCompanion data) {
+    return QuranAyahHighlightRow(
+      layoutId: data.layoutId.present ? data.layoutId.value : this.layoutId,
+      sura: data.sura.present ? data.sura.value : this.sura,
+      aya: data.aya.present ? data.aya.value : this.aya,
+      color: data.color.present ? data.color.value : this.color,
+      createdUtc: data.createdUtc.present
+          ? data.createdUtc.value
+          : this.createdUtc,
+      updatedUtc: data.updatedUtc.present
+          ? data.updatedUtc.value
+          : this.updatedUtc,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('QuranAyahHighlightRow(')
+          ..write('layoutId: $layoutId, ')
+          ..write('sura: $sura, ')
+          ..write('aya: $aya, ')
+          ..write('color: $color, ')
+          ..write('createdUtc: $createdUtc, ')
+          ..write('updatedUtc: $updatedUtc')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(layoutId, sura, aya, color, createdUtc, updatedUtc);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is QuranAyahHighlightRow &&
+          other.layoutId == this.layoutId &&
+          other.sura == this.sura &&
+          other.aya == this.aya &&
+          other.color == this.color &&
+          other.createdUtc == this.createdUtc &&
+          other.updatedUtc == this.updatedUtc);
+}
+
+class QuranAyahHighlightsCompanion
+    extends UpdateCompanion<QuranAyahHighlightRow> {
+  final Value<String> layoutId;
+  final Value<int> sura;
+  final Value<int> aya;
+  final Value<String> color;
+  final Value<int> createdUtc;
+  final Value<int> updatedUtc;
+  final Value<int> rowid;
+  const QuranAyahHighlightsCompanion({
+    this.layoutId = const Value.absent(),
+    this.sura = const Value.absent(),
+    this.aya = const Value.absent(),
+    this.color = const Value.absent(),
+    this.createdUtc = const Value.absent(),
+    this.updatedUtc = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  QuranAyahHighlightsCompanion.insert({
+    required String layoutId,
+    required int sura,
+    required int aya,
+    required String color,
+    required int createdUtc,
+    required int updatedUtc,
+    this.rowid = const Value.absent(),
+  }) : layoutId = Value(layoutId),
+       sura = Value(sura),
+       aya = Value(aya),
+       color = Value(color),
+       createdUtc = Value(createdUtc),
+       updatedUtc = Value(updatedUtc);
+  static Insertable<QuranAyahHighlightRow> custom({
+    Expression<String>? layoutId,
+    Expression<int>? sura,
+    Expression<int>? aya,
+    Expression<String>? color,
+    Expression<int>? createdUtc,
+    Expression<int>? updatedUtc,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (layoutId != null) 'layout_id': layoutId,
+      if (sura != null) 'sura': sura,
+      if (aya != null) 'aya': aya,
+      if (color != null) 'color': color,
+      if (createdUtc != null) 'created_utc': createdUtc,
+      if (updatedUtc != null) 'updated_utc': updatedUtc,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  QuranAyahHighlightsCompanion copyWith({
+    Value<String>? layoutId,
+    Value<int>? sura,
+    Value<int>? aya,
+    Value<String>? color,
+    Value<int>? createdUtc,
+    Value<int>? updatedUtc,
+    Value<int>? rowid,
+  }) {
+    return QuranAyahHighlightsCompanion(
+      layoutId: layoutId ?? this.layoutId,
+      sura: sura ?? this.sura,
+      aya: aya ?? this.aya,
+      color: color ?? this.color,
+      createdUtc: createdUtc ?? this.createdUtc,
+      updatedUtc: updatedUtc ?? this.updatedUtc,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (layoutId.present) {
+      map['layout_id'] = Variable<String>(layoutId.value);
+    }
+    if (sura.present) {
+      map['sura'] = Variable<int>(sura.value);
+    }
+    if (aya.present) {
+      map['aya'] = Variable<int>(aya.value);
+    }
+    if (color.present) {
+      map['color'] = Variable<String>(color.value);
+    }
+    if (createdUtc.present) {
+      map['created_utc'] = Variable<int>(createdUtc.value);
+    }
+    if (updatedUtc.present) {
+      map['updated_utc'] = Variable<int>(updatedUtc.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('QuranAyahHighlightsCompanion(')
+          ..write('layoutId: $layoutId, ')
+          ..write('sura: $sura, ')
+          ..write('aya: $aya, ')
+          ..write('color: $color, ')
+          ..write('createdUtc: $createdUtc, ')
+          ..write('updatedUtc: $updatedUtc, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$QuranNotesDatabase extends GeneratedDatabase {
   _$QuranNotesDatabase(QueryExecutor e) : super(e);
   $QuranNotesDatabaseManager get managers => $QuranNotesDatabaseManager(this);
@@ -1687,6 +2113,8 @@ abstract class _$QuranNotesDatabase extends GeneratedDatabase {
   late final $QuranReaderPrefsTable quranReaderPrefs = $QuranReaderPrefsTable(
     this,
   );
+  late final $QuranAyahHighlightsTable quranAyahHighlights =
+      $QuranAyahHighlightsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1697,6 +2125,7 @@ abstract class _$QuranNotesDatabase extends GeneratedDatabase {
     quranHighlightRegions,
     quranReadingPositions,
     quranReaderPrefs,
+    quranAyahHighlights,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -2982,6 +3411,256 @@ typedef $$QuranReaderPrefsTableProcessedTableManager =
       QuranReaderPrefsRow,
       PrefetchHooks Function()
     >;
+typedef $$QuranAyahHighlightsTableCreateCompanionBuilder =
+    QuranAyahHighlightsCompanion Function({
+      required String layoutId,
+      required int sura,
+      required int aya,
+      required String color,
+      required int createdUtc,
+      required int updatedUtc,
+      Value<int> rowid,
+    });
+typedef $$QuranAyahHighlightsTableUpdateCompanionBuilder =
+    QuranAyahHighlightsCompanion Function({
+      Value<String> layoutId,
+      Value<int> sura,
+      Value<int> aya,
+      Value<String> color,
+      Value<int> createdUtc,
+      Value<int> updatedUtc,
+      Value<int> rowid,
+    });
+
+class $$QuranAyahHighlightsTableFilterComposer
+    extends Composer<_$QuranNotesDatabase, $QuranAyahHighlightsTable> {
+  $$QuranAyahHighlightsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get layoutId => $composableBuilder(
+    column: $table.layoutId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sura => $composableBuilder(
+    column: $table.sura,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get aya => $composableBuilder(
+    column: $table.aya,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get color => $composableBuilder(
+    column: $table.color,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get createdUtc => $composableBuilder(
+    column: $table.createdUtc,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get updatedUtc => $composableBuilder(
+    column: $table.updatedUtc,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$QuranAyahHighlightsTableOrderingComposer
+    extends Composer<_$QuranNotesDatabase, $QuranAyahHighlightsTable> {
+  $$QuranAyahHighlightsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get layoutId => $composableBuilder(
+    column: $table.layoutId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sura => $composableBuilder(
+    column: $table.sura,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get aya => $composableBuilder(
+    column: $table.aya,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get color => $composableBuilder(
+    column: $table.color,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get createdUtc => $composableBuilder(
+    column: $table.createdUtc,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get updatedUtc => $composableBuilder(
+    column: $table.updatedUtc,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$QuranAyahHighlightsTableAnnotationComposer
+    extends Composer<_$QuranNotesDatabase, $QuranAyahHighlightsTable> {
+  $$QuranAyahHighlightsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get layoutId =>
+      $composableBuilder(column: $table.layoutId, builder: (column) => column);
+
+  GeneratedColumn<int> get sura =>
+      $composableBuilder(column: $table.sura, builder: (column) => column);
+
+  GeneratedColumn<int> get aya =>
+      $composableBuilder(column: $table.aya, builder: (column) => column);
+
+  GeneratedColumn<String> get color =>
+      $composableBuilder(column: $table.color, builder: (column) => column);
+
+  GeneratedColumn<int> get createdUtc => $composableBuilder(
+    column: $table.createdUtc,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get updatedUtc => $composableBuilder(
+    column: $table.updatedUtc,
+    builder: (column) => column,
+  );
+}
+
+class $$QuranAyahHighlightsTableTableManager
+    extends
+        RootTableManager<
+          _$QuranNotesDatabase,
+          $QuranAyahHighlightsTable,
+          QuranAyahHighlightRow,
+          $$QuranAyahHighlightsTableFilterComposer,
+          $$QuranAyahHighlightsTableOrderingComposer,
+          $$QuranAyahHighlightsTableAnnotationComposer,
+          $$QuranAyahHighlightsTableCreateCompanionBuilder,
+          $$QuranAyahHighlightsTableUpdateCompanionBuilder,
+          (
+            QuranAyahHighlightRow,
+            BaseReferences<
+              _$QuranNotesDatabase,
+              $QuranAyahHighlightsTable,
+              QuranAyahHighlightRow
+            >,
+          ),
+          QuranAyahHighlightRow,
+          PrefetchHooks Function()
+        > {
+  $$QuranAyahHighlightsTableTableManager(
+    _$QuranNotesDatabase db,
+    $QuranAyahHighlightsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$QuranAyahHighlightsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$QuranAyahHighlightsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$QuranAyahHighlightsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> layoutId = const Value.absent(),
+                Value<int> sura = const Value.absent(),
+                Value<int> aya = const Value.absent(),
+                Value<String> color = const Value.absent(),
+                Value<int> createdUtc = const Value.absent(),
+                Value<int> updatedUtc = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => QuranAyahHighlightsCompanion(
+                layoutId: layoutId,
+                sura: sura,
+                aya: aya,
+                color: color,
+                createdUtc: createdUtc,
+                updatedUtc: updatedUtc,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String layoutId,
+                required int sura,
+                required int aya,
+                required String color,
+                required int createdUtc,
+                required int updatedUtc,
+                Value<int> rowid = const Value.absent(),
+              }) => QuranAyahHighlightsCompanion.insert(
+                layoutId: layoutId,
+                sura: sura,
+                aya: aya,
+                color: color,
+                createdUtc: createdUtc,
+                updatedUtc: updatedUtc,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$QuranAyahHighlightsTable, QuranAyahHighlightRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$QuranNotesDatabase,
+                    $QuranAyahHighlightsTable,
+                    QuranAyahHighlightRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$QuranAyahHighlightsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$QuranNotesDatabase,
+      $QuranAyahHighlightsTable,
+      QuranAyahHighlightRow,
+      $$QuranAyahHighlightsTableFilterComposer,
+      $$QuranAyahHighlightsTableOrderingComposer,
+      $$QuranAyahHighlightsTableAnnotationComposer,
+      $$QuranAyahHighlightsTableCreateCompanionBuilder,
+      $$QuranAyahHighlightsTableUpdateCompanionBuilder,
+      (
+        QuranAyahHighlightRow,
+        BaseReferences<
+          _$QuranNotesDatabase,
+          $QuranAyahHighlightsTable,
+          QuranAyahHighlightRow
+        >,
+      ),
+      QuranAyahHighlightRow,
+      PrefetchHooks Function()
+    >;
 
 class $QuranNotesDatabaseManager {
   final _$QuranNotesDatabase _db;
@@ -2996,4 +3675,6 @@ class $QuranNotesDatabaseManager {
       $$QuranReadingPositionsTableTableManager(_db, _db.quranReadingPositions);
   $$QuranReaderPrefsTableTableManager get quranReaderPrefs =>
       $$QuranReaderPrefsTableTableManager(_db, _db.quranReaderPrefs);
+  $$QuranAyahHighlightsTableTableManager get quranAyahHighlights =>
+      $$QuranAyahHighlightsTableTableManager(_db, _db.quranAyahHighlights);
 }

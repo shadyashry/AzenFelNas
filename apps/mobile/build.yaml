@@ -8,5 +8,6 @@ targets:
           databases:
             dm: lib/features/storage/data/dm_database.dart
             places: lib/features/storage/data/places_database.dart
+            quran_notes: lib/features/quran/data/quran_notes_database.dart
           schema_dir: drift_schemas/
           test_dir: test/drift/

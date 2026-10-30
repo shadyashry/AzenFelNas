@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:daily_muslim/features/quran/domain/ayah_highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:daily_muslim/features/quran/domain/installed_quran.dart';
+import 'package:daily_muslim/features/quran/domain/mushaf_lines.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
+import 'package:daily_muslim/features/quran/domain/verse_place.dart';
+import 'package:daily_muslim/features/quran/presentation/ayah_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/highlight_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_page_image.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_viewport.dart';
@@ -14,6 +18,7 @@ import 'package:daily_muslim/features/quran/presentation/reader_bars.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_controller.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// The Mushaf reader (§15 D107): the page surface between the reader's
@@ -83,12 +88,18 @@ final class _Surface extends ConsumerWidget {
     const layout = QuranEditionPin.layout;
     final image = installed.manifest.pageImage;
     final aspect = image.width / image.height;
+    final ayahRegions = state.showHighlights
+        ? ref.watch(ayahRegionsProvider).value ??
+              const <int, List<(HighlightRegion, HighlightColor)>>{}
+        : const <int, List<(HighlightRegion, HighlightColor)>>{};
     final regions = _regionsByPage(
       state.showHighlights
           ? ref.watch(highlightsProvider).value ?? const <Highlight>[]
           : const <Highlight>[],
       state.draft,
+      ayahRegions,
     );
+    final marks = _marksByPage(state.mark);
     return LayoutBuilder(
       builder: (context, constraints) {
         final spreads =
@@ -100,6 +111,7 @@ final class _Surface extends ConsumerWidget {
           size: size,
           sourceWidth: image.width,
           regions: regions[number] ?? const [],
+          marks: marks[number] ?? const [],
           errorLabel: l.quranPageError,
         );
         _precache(context, layout.pageCount, state.page, constraints.biggest);
@@ -135,16 +147,44 @@ final class _Surface extends ConsumerWidget {
             final hit = _toPage(spreads, item, a, b);
             if (hit != null) controller.addRegion(hit);
           },
-          onTap: (item, point) {
+          onTap: (item, point) async {
             final (page, p) = _pageAt(spreads, item, point);
-            final tapped = state.draft == null && state.showHighlights
+            final reading = state.draft == null && state.showHighlights;
+            final tapped = reading
                 ? _highlightAt(ref.read(highlightsProvider).value, page, p)
                 : null;
             if (tapped != null) {
               unawaited(showHighlightSheet(context, tapped));
+              return;
+            }
+            // A tap on a highlighted verse opens it (§15 D114).
+            final verses = reading && _onAyahHighlight(ayahRegions, page, p)
+                ? await _versesAt(ref, page, p, highlightedOnly: true)
+                : const <VersePlace>[];
+            if (verses.isNotEmpty && context.mounted) {
+              unawaited(
+                showAyahSheet(
+                  context,
+                  title: l.quranAyahsOnLine,
+                  places: verses,
+                ),
+              );
             } else if (state.draft == null) {
               controller.toggleChrome();
             }
+          },
+          onLongPress: (item, point) async {
+            final (page, p) = _pageAt(spreads, item, point);
+            final verses = await _versesAt(ref, page, p);
+            if (verses.isEmpty || !context.mounted) return;
+            unawaited(HapticFeedback.selectionClick());
+            unawaited(
+              showAyahSheet(
+                context,
+                title: l.quranAyahsOnLine,
+                places: verses,
+              ),
+            );
           },
         );
       },
@@ -192,11 +232,68 @@ final class _Surface extends ConsumerWidget {
     return null;
   }
 
+  /// The verses on the line under [p] of [page]; with [highlightedOnly]
+  /// only those with a verse highlight. Empty off the lines (the margins,
+  /// the page title, the page number) and on a surah title line.
+  static Future<List<VersePlace>> _versesAt(
+    WidgetRef ref,
+    int page,
+    Offset p, {
+    bool highlightedOnly = false,
+  }) async {
+    if (QuranEditionPin.layoutId != MushafLines.layoutId) return const [];
+    final line = MushafLines.lineAt(page, p.dx, p.dy);
+    if (line == null) return const [];
+    final verses = await ref.read(versesOnPageProvider(page).future);
+    final marked = highlightedOnly
+        ? {
+            for (final h
+                in ref.read(ayahHighlightsProvider).value ??
+                    const <AyahHighlight>[])
+              (h.sura, h.aya),
+          }
+        : null;
+    return [
+      for (final v in verses)
+        if (v.covers(page, line) &&
+            (marked == null || marked.contains((v.sura, v.aya))))
+          v,
+    ];
+  }
+
+  static bool _onAyahHighlight(
+    Map<int, List<(HighlightRegion, HighlightColor)>> ayahRegions,
+    int page,
+    Offset p,
+  ) => (ayahRegions[page] ?? const []).any(
+    (r) =>
+        p.dx >= r.$1.left &&
+        p.dx <= r.$1.right &&
+        p.dy >= r.$1.top &&
+        p.dy <= r.$1.bottom,
+  );
+
+  /// The lines of the verse just opened, by page.
+  static Map<int, List<HighlightRegion>> _marksByPage(VersePlace? mark) {
+    final map = <int, List<HighlightRegion>>{};
+    if (mark == null || QuranEditionPin.layoutId != MushafLines.layoutId) {
+      return map;
+    }
+    for (final (:page, :line) in mark.lines(MushafLines.linesOn)) {
+      final band = MushafLines.band(page, line);
+      if (band != null) (map[page] ??= []).add(band);
+    }
+    return map;
+  }
+
   static Map<int, List<(HighlightRegion, HighlightColor)>> _regionsByPage(
     List<Highlight> saved,
     HighlightDraft? draft,
+    Map<int, List<(HighlightRegion, HighlightColor)>> ayahs,
   ) {
-    final map = <int, List<(HighlightRegion, HighlightColor)>>{};
+    final map = <int, List<(HighlightRegion, HighlightColor)>>{
+      for (final MapEntry(:key, :value) in ayahs.entries) key: [...value],
+    };
     for (final h in saved) {
       for (final r in h.regions) {
         (map[r.page] ??= []).add((r, h.color));
