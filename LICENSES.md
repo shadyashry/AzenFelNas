@@ -15,11 +15,12 @@ Placeholder created in slice S01. This file is **generated per release** (`DESIG
 
 No recording is bundled (`apps/mobile/assets/athan/athan_audio_manifest.json` lists none). The earlier test sound `test_cc0_adhan.m4a` (Commons `File:Beautiful_adhan.ogg`) was removed in S43: its uploader is a blocked sock-puppet account of a user whose other Athan upload was deleted as "not a recording of own voice" (`DESIGN.md` §15 D111).
 
-Downloadable voices (not bundled; downloaded after install from `cdn.azenfelnas.app`, listed in `apps/mobile/assets/athan/voice_catalog.json`, built by `dm-pipelines athan-voices`; `DESIGN.md` §15 D111):
+Downloadable voices (not bundled; downloaded after install from `cdn.azenfelnas.app`, listed in `apps/mobile/assets/athan/voice_catalog.json`, built by `dm-pipelines athan-voices`; `DESIGN.md` §15 D111, D112; the Malmö voice of D111 was withdrawn after the owner's review):
 
 | Source | Licence | Obligation |
 |---|---|---|
-| `malmo_fajr_2012.m4a`: Fajr Athan from the video "Eid al-Fitr Fajr azan at Malmö Mosque - 19 August 2012" by Islamic Center Malmö (YouTube `0IHfm4Y82xA`), via Wikimedia Commons (uploaded by Rafic.Mufid; licence confirmed by Commons' YouTube review). Audio taken from the video, first 4.5 s of silence removed, −2.2 dB to −16 LUFS, AAC-LC 96 kbps | CC BY 3.0 | attribution with source, licence link and the notice of changes, in the app's licences page and beside the voice; no endorsement implied. Offered on `dev` and `lab` only until the listening review passes. The app's code licence is unaffected |
+| `mirza_isha_2013.m4a`: Isha Athan called and published by Moazzambeg Mirza (Internet Archive `IshaAzanByMoazzambegMirza07092013`, 2013). Room tone before the first phrase removed, −2.2 dB to −16 LUFS, AAC-LC 96 kbps | Public Domain Mark 1.0 (by the performer) | none required; credited on the licences page and beside the voice. Legal to confirm the mark suffices (`DESIGN.md` §15 D112). `dev`/`lab` only until reviewed |
+| `icr_friday_2024.m4a`: first Friday Athan of 2024-05-17 at ICR, called and published by Asim Javed (Internet Archive, CC0). −4.5 dB to −16 LUFS, AAC-LC 96 kbps | CC0 1.0 | none required; credited anyway. `dev`/`lab` only until reviewed |
 
 ## Accuracy Lab (development only, not shipped in the app)
 

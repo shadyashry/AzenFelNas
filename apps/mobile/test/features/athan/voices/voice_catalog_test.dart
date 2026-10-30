@@ -28,7 +28,10 @@ void main() {
       for (final v in voices) {
         expect(v.credit.creator, isNotEmpty);
         expect(v.credit.sourcePage, startsWith('https://'));
-        expect(v.credit.licence, isIn(['CC0-1.0', 'CC-BY-3.0', 'CC-BY-4.0']));
+        expect(
+          v.credit.licence,
+          isIn(['CC0-1.0', 'CC-PDM-1.0', 'CC-BY-3.0', 'CC-BY-4.0']),
+        );
         expect(v.credit.changes, isNotEmpty);
         expect(v.path, '${v.soundId}/1/${v.soundId}.m4a');
       }

@@ -27,7 +27,7 @@ class VoiceSource(_Record):
     origin: Annotated[StrictStr, Field(pattern=_HTTPS)]
     uploader: Annotated[StrictStr, Field(min_length=1)]
     recorded: Annotated[StrictStr, Field(pattern=r"^\d{4}-\d{2}-\d{2}$")]
-    licence: Literal["CC0-1.0", "CC-BY-3.0", "CC-BY-4.0", "CC-BY-SA-3.0", "CC-BY-SA-4.0"]
+    licence: Literal["CC0-1.0", "CC-PDM-1.0", "CC-BY-3.0", "CC-BY-4.0", "CC-BY-SA-4.0"]
     licence_url: Annotated[StrictStr, Field(alias="licenceUrl", pattern=_HTTPS)]
     licence_review: Annotated[StrictStr, Field(alias="licenceReview", pattern=_HTTPS)]
     original_extension: Annotated[
@@ -42,6 +42,7 @@ class VoiceProcessing(_Record):
     gain_db: Annotated[StrictFloat, Field(alias="gainDb", ge=-20, le=6)]
     target_lufs: Annotated[StrictFloat, Field(alias="targetLufs", ge=-30, le=-10)]
     bitrate_kbps: Annotated[StrictInt, Field(alias="bitrateKbps", ge=64, le=256)]
+    sample_rate: Literal[44100, 48000] = Field(alias="sampleRate")
 
 
 class VoicePin(_Record):

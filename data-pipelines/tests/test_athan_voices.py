@@ -37,15 +37,16 @@ def test_every_pinned_voice_is_licensed_for_redistribution_and_reviewed_or_pendi
     config = load_athan_voices_config(REPO / CONFIG)
     assert config.voice
     for voice in config.voice:
-        assert voice.source.licence in {"CC0-1.0", "CC-BY-3.0", "CC-BY-4.0", "CC-BY-SA-4.0"}
+        assert voice.source.licence in {"CC0-1.0", "CC-PDM-1.0", "CC-BY-3.0", "CC-BY-4.0"}
         assert voice.review in {"pending", "passed"}
 
 
 def test_the_encoder_trims_only_the_start_and_applies_one_fixed_gain() -> None:
-    pin = load_athan_voices_config(REPO / CONFIG).pin("malmo_fajr_2012")
-    args = encode_args(pin, Path("in.opus"), Path("out.m4a"))
-    assert args[args.index("-ss") + 1] == "4.5"
+    pin = load_athan_voices_config(REPO / CONFIG).pin("mirza_isha_2013")
+    args = encode_args(pin, Path("in.mp3"), Path("out.m4a"))
+    assert args[args.index("-ss") + 1] == "12.8"
     assert args[args.index("-af") + 1] == "volume=-2.2dB"
+    assert args[args.index("-ar") + 1] == "44100"
     assert "-t" not in args
     assert "-to" not in args
     assert args[args.index("-c:a") + 1] == "aac"

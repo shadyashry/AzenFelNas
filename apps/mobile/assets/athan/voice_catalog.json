@@ -2,29 +2,55 @@
   "schemaVersion": 1,
   "voices": [
     {
-      "soundId": "malmo_fajr_2012",
+      "soundId": "mirza_isha_2013",
       "name": {
-        "en": "Islamic Center Malmö, Eid al-Fitr 2012",
-        "ar": "المركز الإسلامي في مالمو، عيد الفطر ٢٠١٢"
+        "en": "Moazzambeg Mirza (Ahmedabad, 2013)",
+        "ar": "معظم بيك ميرزا (أحمد آباد، ٢٠١٣)"
       },
-      "designation": "FAJR",
+      "designation": "STANDARD",
       "review": "PENDING",
       "file": {
-        "path": "malmo_fajr_2012/1/malmo_fajr_2012.m4a",
-        "bytes": 2975655,
-        "sha256": "a51cd54c043cc5af7d669811245f91a0c7c90086865c608998a6adf44f8559dc",
-        "durationMs": 243054
+        "path": "mirza_isha_2013/1/mirza_isha_2013.m4a",
+        "bytes": 3169859,
+        "sha256": "70e6681289d6076f8efa016d51d1335430937293c2ddfd430a4fd7f600ba4859",
+        "durationMs": 259541
       },
       "credit": {
-        "creator": "Islamic Center Malmö (YouTube channel “islamiccentermalmo”)",
-        "sourcePage": "https://commons.wikimedia.org/wiki/File:Eid_al-Fitr_Fajr_azan_at_Malm%C3%B6_Mosque_-_19_August_2012.webm",
-        "origin": "https://www.youtube.com/watch?v=0IHfm4Y82xA",
-        "uploader": "Rafic.Mufid (Wikimedia Commons)",
-        "recorded": "2012-08-19",
+        "creator": "Moazzambeg Mirza",
+        "sourcePage": "https://archive.org/details/IshaAzanByMoazzambegMirza07092013",
+        "origin": "https://archive.org/details/IshaAzanByMoazzambegMirza07092013",
+        "uploader": "Moazzam Mirza (Internet Archive)",
+        "recorded": "2013-09-07",
         "retrieved": "2026-10-30",
-        "licence": "CC-BY-3.0",
-        "licenceUrl": "https://creativecommons.org/licenses/by/3.0/",
-        "changes": "Audio track taken from the video; the first 4.5 s (silence) removed; volume lowered 2.2 dB to -16 LUFS; encoded AAC-LC 96 kbps. Nothing else changed."
+        "licence": "CC-PDM-1.0",
+        "licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+        "changes": "The first 12.8 s (room tone before the first phrase) removed; volume lowered 2.2 dB to -16 LUFS; encoded AAC-LC 96 kbps. Nothing else changed."
+      }
+    },
+    {
+      "soundId": "icr_friday_2024",
+      "name": {
+        "en": "Asim Javed (ICR, 2024)",
+        "ar": "عاصم جاويد (٢٠٢٤)"
+      },
+      "designation": "STANDARD",
+      "review": "PENDING",
+      "file": {
+        "path": "icr_friday_2024/1/icr_friday_2024.m4a",
+        "bytes": 2683486,
+        "sha256": "37727d79972cb3e7698d4b8b8a5f792d56b219149d425b2bb3f5524d301936d1",
+        "durationMs": 219743
+      },
+      "credit": {
+        "creator": "Asim Javed",
+        "sourcePage": "https://archive.org/details/icr-friday-prayer-1st-adhan-17th-may-2024-9th-dhul-qadah-1445-by-asim-javed",
+        "origin": "https://archive.org/details/icr-friday-prayer-1st-adhan-17th-may-2024-9th-dhul-qadah-1445-by-asim-javed",
+        "uploader": "Asim Javed (Internet Archive)",
+        "recorded": "2024-05-17",
+        "retrieved": "2026-10-30",
+        "licence": "CC0-1.0",
+        "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "changes": "Volume lowered 4.5 dB to -16 LUFS; encoded AAC-LC 96 kbps. Nothing else changed."
       }
     }
   ]

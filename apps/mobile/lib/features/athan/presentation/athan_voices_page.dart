@@ -400,6 +400,7 @@ final class _VoiceRow extends ConsumerWidget {
   /// SPDX id to the licence's usual short name, e.g. `CC BY 3.0`.
   static String _licence(String spdx) => switch (spdx) {
     'CC0-1.0' => 'CC0 1.0',
+    'CC-PDM-1.0' => 'Public Domain Mark 1.0',
     _ => switch (RegExp(r'^CC-(.+)-([0-9.]+)$').firstMatch(spdx)) {
       final RegExpMatch m => 'CC ${m[1]} ${m[2]}',
       null => spdx,

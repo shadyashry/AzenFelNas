@@ -1,4 +1,9 @@
-# S43 hand-over: downloadable Athan voices (DESIGN.md §15 D111)
+# S43 hand-over: downloadable Athan voices (DESIGN.md §15 D111, D112)
+
+**Update (D112).** The owner rejected the Malmö voice as not accurate and not clear. It is removed; the catalog now
+holds two clear standard voices, both `PENDING`: `mirza_isha_2013` (Moazzambeg Mirza, Public Domain Mark by the
+performer, 3.2 MB, 4:20) and `icr_friday_2024` (Asim Javed, CC0, lossless source, 2.7 MB, 3:40). Owed: the owner's
+listening review of both, Legal on the Public Domain Mark, and the CDN upload. The rest of this note describes D111.
 
 Branch `slice/s43-adhan-voices`, cut from `slice/s41-ux-polish` at `50637e5`. Not merged, no PR (owner rule).
 

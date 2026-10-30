@@ -50,7 +50,7 @@
             "uploader": { "type": "string", "minLength": 1 },
             "recorded": { "type": "string", "format": "date" },
             "retrieved": { "type": "string", "format": "date" },
-            "licence": { "enum": ["CC0-1.0", "CC-BY-3.0", "CC-BY-4.0", "CC-BY-SA-4.0"] },
+            "licence": { "enum": ["CC0-1.0", "CC-PDM-1.0", "CC-BY-3.0", "CC-BY-4.0", "CC-BY-SA-4.0"] },
             "licenceUrl": { "type": "string", "pattern": "^https://creativecommons\\.org/" },
             "changes": { "type": "string", "minLength": 1, "description": "The notice of changes the licence asks for." }
           }

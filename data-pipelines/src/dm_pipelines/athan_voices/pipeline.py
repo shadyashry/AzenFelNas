@@ -88,7 +88,7 @@ def encode_args(pin: VoicePin, original: Path, out: Path) -> list[str]:
         "-b:a",
         f"{processing.bitrate_kbps}k",
         "-ar",
-        "48000",
+        f"{processing.sample_rate}",
         "-ac",
         "2",
         "-map_metadata",

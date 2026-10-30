@@ -45,9 +45,15 @@
     },
     {
       "package": "athan_voices",
-      "name": "Fajr Athan, Islamic Center Malmö, Eid al-Fitr 2012",
-      "licence": "CC-BY-3.0",
-      "notice": "Downloadable Athan voice “Islamic Center Malmö, Eid al-Fitr 2012”: from the video “Eid al-Fitr Fajr azan at Malmö Mosque - 19 August 2012” by Islamic Center Malmö (youtube.com/watch?v=0IHfm4Y82xA), via Wikimedia Commons (commons.wikimedia.org/wiki/File:Eid_al-Fitr_Fajr_azan_at_Malm%C3%B6_Mosque_-_19_August_2012.webm), licensed under Creative Commons Attribution 3.0 (creativecommons.org/licenses/by/3.0/). Changed: audio track taken from the video; the first 4.5 s (silence) removed; volume lowered 2.2 dB to -16 LUFS; encoded AAC-LC 96 kbps. Nothing else changed. No endorsement by the creator is implied."
+      "name": "Athan voice: Moazzambeg Mirza (Ahmedabad, 2013)",
+      "licence": "CC-PDM-1.0",
+      "notice": "Downloadable Athan voice “Moazzambeg Mirza (Ahmedabad, 2013)”: the Isha Athan called by Moazzambeg Mirza at Muhammadi Masjid, Sarkhej, Ahmedabad, on 7 September 2013, published by him at archive.org/details/IshaAzanByMoazzambegMirza07092013 with the Public Domain Mark 1.0 (creativecommons.org/publicdomain/mark/1.0/). Changed: the room tone before the first phrase removed; volume lowered 2.2 dB; encoded AAC-LC 96 kbps. No endorsement is implied."
+    },
+    {
+      "package": "athan_voices",
+      "name": "Athan voice: Asim Javed (ICR, 2024)",
+      "licence": "CC0-1.0",
+      "notice": "Downloadable Athan voice “Asim Javed (ICR, 2024)”: the first Friday Athan of 17 May 2024 at ICR, called by Asim Javed and published by him at archive.org/details/icr-friday-prayer-1st-adhan-17th-may-2024-9th-dhul-qadah-1445-by-asim-javed under CC0 1.0 (creativecommons.org/publicdomain/zero/1.0/). Changed: volume lowered 4.5 dB; encoded AAC-LC 96 kbps. No endorsement is implied."
     }
   ]
 }
