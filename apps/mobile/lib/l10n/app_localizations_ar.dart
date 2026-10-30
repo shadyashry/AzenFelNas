@@ -1026,6 +1026,20 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String quranJuzSurahLine(String verse, String page) {
+    return 'من الآية $verse · صفحة $page';
+  }
+
+  @override
+  String quranSurahPages(String surah, String first, String last) {
+    return '$surah · الصفحات $first–$last';
+  }
+
+  @override
+  String get quranSurahPagesHint =>
+      'دوس على صفحة عشان تفتحها، أو اسحب عشان تتنقل جوه السورة.';
+
+  @override
   String quranPage(String page) {
     return 'صفحة $page';
   }

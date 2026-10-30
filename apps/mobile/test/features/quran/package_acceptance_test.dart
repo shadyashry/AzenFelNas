@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:daily_muslim/features/quran/data/quran_manifest_codec.dart';
 import 'package:daily_muslim/features/quran/data/sqlite_mushaf_index.dart';
 import 'package:daily_muslim/features/quran/data/sqlite_search_index.dart';
+import 'package:daily_muslim/features/quran/domain/juz_contents.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_lines.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
@@ -111,6 +112,30 @@ void main() {
     },
     skip: skip,
   );
+
+  test('REQ-QRN-023: every surah sits under a juz, juz 4 opens inside '
+      'Ali Imran at 3:93, and juz 30 closes with An-Nas', () async {
+    final contents = juzContents(
+      (await index.juz()).fold(),
+      (await index.suras()).fold(),
+    );
+
+    final listed = {
+      for (final (_, inside) in contents)
+        for (final s in inside) s.sura.number,
+    };
+    expect(listed, {for (var n = 1; n <= 114; n++) n});
+    final juz4 = contents[3].$2;
+    expect(
+      (juz4.first.sura.number, juz4.first.aya, juz4.first.page),
+      (
+        3,
+        93,
+        62,
+      ),
+    );
+    expect(contents.last.$2.last.sura.number, 114);
+  }, skip: skip);
 
   test(
     'REQ-QRN-040 REQ-QRN-052: an ayah copied from its sheet and pasted into '

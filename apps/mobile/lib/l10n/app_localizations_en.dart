@@ -1036,6 +1036,20 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String quranJuzSurahLine(String verse, String page) {
+    return 'From verse $verse · page $page';
+  }
+
+  @override
+  String quranSurahPages(String surah, String first, String last) {
+    return '$surah · pages $first–$last';
+  }
+
+  @override
+  String get quranSurahPagesHint =>
+      'Tap a page to open it, or slide to move along the surah.';
+
+  @override
   String quranPage(String page) {
     return 'Page $page';
   }

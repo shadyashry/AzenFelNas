@@ -1808,6 +1808,24 @@ abstract class AppLocalizations {
   /// **'{surah} {sura}:{aya}'**
   String quranAyahRef(String surah, String sura, String aya);
 
+  /// Under a juz in the index: where a surah starts inside that juz.
+  ///
+  /// In en, this message translates to:
+  /// **'From verse {verse} · page {page}'**
+  String quranJuzSurahLine(String verse, String page);
+
+  /// Title of the page strip: the surah being read and its page range.
+  ///
+  /// In en, this message translates to:
+  /// **'{surah} · pages {first}–{last}'**
+  String quranSurahPages(String surah, String first, String last);
+
+  /// Hint under the page strip of the current surah.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a page to open it, or slide to move along the surah.'**
+  String get quranSurahPagesHint;
+
   /// Current Mushaf page.
   ///
   /// In en, this message translates to:

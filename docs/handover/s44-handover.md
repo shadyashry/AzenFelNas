@@ -38,9 +38,12 @@ Branch `slice/s44-quran-ayah`, cut from `slice/s41-ux-polish` at `50637e5` (S42'
 - Found on device and fixed: pasting a copied ayah into Quran search found nothing, because the search fold kept
   `﴿ ﴾` and the reference. `ArabicSearchText.query` now searches the text inside `﴿…﴾`; checked on the emulator (the
   paste finds 3:96 on page 62) and against the real package with the English and the Arabic reference.
-- Owner request: tapping the surah name in the reader's title opens the surah index scrolled to the current surah,
-  marked; the juz and page line still opens *Go to page*. Widget tests in English and Arabic; checked on the emulator
-  on page 62 (Ali 'Imran at the top) and page 604 (An-Nas, list at its end).
+- Owner requests on the reader's title: the surah name opens the surah index at the current surah, marked; the juz
+  opens the juz index at the current juz, every juz listing the surahs inside it; the page number opens a strip of the
+  surah's pages (official page images, small, right to left) with a slider, and *Go to page* one tap away. Widget tests
+  in English and Arabic, a package test (every surah sits under a juz; juz 4 opens at 3:93 on page 62). Checked on the
+  emulator in both languages: Juz 4 lists Ali 'Imran from 93 and An-Nisa' from page 77; the strip shows Ali 'Imran pages
+  50–76, the slider moved it to 71 and the button opened page 71.
 
 ## Owed
 - **On a phone**: haptic feedback on long press (an emulator has none).

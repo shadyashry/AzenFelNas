@@ -1464,6 +1464,25 @@
       "aya": {"type": "String", "example": "255"}
     }
   },
+  "quranJuzSurahLine": "From verse {verse} · page {page}",
+  "@quranJuzSurahLine": {
+    "description": "Under a juz in the index: where a surah starts inside that juz.",
+    "placeholders": {
+      "verse": {"type": "String", "example": "93"},
+      "page": {"type": "String", "example": "62"}
+    }
+  },
+  "quranSurahPages": "{surah} · pages {first}–{last}",
+  "@quranSurahPages": {
+    "description": "Title of the page strip: the surah being read and its page range.",
+    "placeholders": {
+      "surah": {"type": "String", "example": "Ali 'Imran"},
+      "first": {"type": "String", "example": "50"},
+      "last": {"type": "String", "example": "76"}
+    }
+  },
+  "quranSurahPagesHint": "Tap a page to open it, or slide to move along the surah.",
+  "@quranSurahPagesHint": {"description": "Hint under the page strip of the current surah."},
   "quranPage": "Page {page}",
   "@quranPage": {
     "description": "Current Mushaf page.",

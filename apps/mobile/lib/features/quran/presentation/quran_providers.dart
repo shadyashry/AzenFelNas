@@ -187,6 +187,32 @@ final FutureProviderFamily<List<VersePlace>, int> versesOnPageProvider =
       };
     });
 
+/// The pages surah `sura` is on: its header page to the page of its last
+/// verse (§15 D111). Without verse places the next surah's header page
+/// bounds it; `null` for an unknown surah.
+final FutureProviderFamily<({int first, int last})?, int> surahPagesProvider =
+    FutureProvider.family<({int first, int last})?, int>((ref, sura) async {
+      final suras = await ref.watch(surasProvider.future);
+      final i = suras.indexWhere((s) => s.number == sura);
+      if (i < 0) return null;
+      final entry = suras[i];
+      final places = ref.watch(versePlacesProvider);
+      final last = places == null
+          ? null
+          : switch (await places.verse(sura, entry.verseCount)) {
+              Ok(:final value) => value?.pageEnd,
+              Err() => null,
+            };
+      return (
+        first: entry.startPage,
+        last:
+            last ??
+            (i + 1 < suras.length
+                ? suras[i + 1].startPage
+                : QuranEditionPin.layout.pageCount),
+      );
+    });
+
 /// The verse highlights of the pinned layout, in Mushaf order.
 final StreamProvider<List<AyahHighlight>> ayahHighlightsProvider =
     StreamProvider(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/quran/domain/arabic_search_text.dart';
+import 'package:daily_muslim/features/quran/domain/juz_contents.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_format.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
@@ -13,25 +14,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// The surah and juz index (REQ-QRN-023): the 114 surah headers as printed
 /// (KFGQPC text and font), filterable by name or number, and the 30 juz;
 /// a tap opens the first page. With [currentSura] the surah list opens
-/// scrolled to that surah and marks it (§15 D111).
-Future<void> showQuranIndexSheet(BuildContext context, {int? currentSura}) =>
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      builder: (context) => FractionallySizedBox(
-        heightFactor: 0.85,
-        child: DefaultTabController(
-          length: 2,
-          child: _IndexSheet(currentSura: currentSura),
-        ),
-      ),
-    );
+/// scrolled to that surah and marks it; with [currentJuz] the juz list
+/// opens instead, scrolled to that juz (§15 D111).
+Future<void> showQuranIndexSheet(
+  BuildContext context, {
+  int? currentSura,
+  int? currentJuz,
+}) => showModalBottomSheet<void>(
+  context: context,
+  isScrollControlled: true,
+  showDragHandle: true,
+  builder: (context) => FractionallySizedBox(
+    heightFactor: 0.85,
+    child: DefaultTabController(
+      length: 2,
+      initialIndex: currentJuz == null ? 0 : 1,
+      child: _IndexSheet(currentSura: currentSura, currentJuz: currentJuz),
+    ),
+  ),
+);
 
 final class _IndexSheet extends StatelessWidget {
-  const new({required this.currentSura});
+  const new({required this.currentSura, required this.currentJuz});
 
   final int? currentSura;
+  final int? currentJuz;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +55,7 @@ final class _IndexSheet extends StatelessWidget {
           child: TabBarView(
             children: [
               _Suras(current: currentSura),
-              const _Juz(),
+              _Juz(current: currentJuz),
             ],
           ),
         ),
@@ -182,24 +189,85 @@ final class _SurasState extends ConsumerState<_Suras> {
   }
 }
 
-final class _Juz extends ConsumerWidget {
-  const new();
+/// The 30 juz, each with the surahs inside it (§15 D111); opened from the
+/// juz in the reader's title it is scrolled to that juz and marks it.
+final class _Juz extends ConsumerStatefulWidget {
+  const new({required this.current});
+
+  /// The juz being read, scrolled to and marked; `null` for none.
+  final int? current;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_Juz> createState() => _JuzState();
+}
+
+final class _JuzState extends ConsumerState<_Juz> {
+  final GlobalKey _currentKey = GlobalKey();
+  bool _scrolled = false;
+
+  void _scrollToCurrent() {
+    if (_scrolled || widget.current == null) return;
+    _scrolled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final target = _currentKey.currentContext;
+      if (target != null && target.mounted) {
+        Scrollable.ensureVisible(target);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final style = DisplayStyle.of(context, ref);
-    final all = ref.watch(juzProvider).value ?? const <JuzEntry>[];
-    return ListView.builder(
-      itemCount: all.length,
-      itemBuilder: (context, i) {
-        final j = all[i];
-        return ListTile(
-          title: Text(l.quranJuz(QuranFormat.number(j.number, style))),
-          subtitle: Text(l.quranJuzLine(QuranFormat.number(j.page, style))),
-          onTap: () => _open(context, ref, j.sura, j.aya, j.page),
-        );
-      },
+    final font = ref.watch(quranFontProvider).value ?? false;
+    final juz = ref.watch(juzProvider).value ?? const <JuzEntry>[];
+    final suras = ref.watch(surasProvider).value ?? const <SuraEntry>[];
+    final contents = juzContents(juz, suras);
+    if (contents.isNotEmpty) _scrollToCurrent();
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (final (j, inside) in contents) ...[
+            ListTile(
+              key: j.number == widget.current ? _currentKey : null,
+              selected: j.number == widget.current,
+              title: Text(l.quranJuz(QuranFormat.number(j.number, style))),
+              subtitle: Text(
+                l.quranJuzLine(QuranFormat.number(j.page, style)),
+              ),
+              onTap: () => _open(context, ref, j.sura, j.aya, j.page),
+            ),
+            for (final s in inside)
+              ListTile(
+                dense: true,
+                contentPadding: const EdgeInsetsDirectional.only(
+                  start: 40,
+                  end: 16,
+                ),
+                title: Text(
+                  s.sura.header,
+                  textDirection: TextDirection.rtl,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: font ? QuranFont.family : null,
+                    fontSize: 18,
+                  ),
+                ),
+                subtitle: Text(
+                  l.quranJuzSurahLine(
+                    QuranFormat.number(s.aya, style),
+                    QuranFormat.number(s.page, style),
+                  ),
+                ),
+                onTap: () => _open(context, ref, s.sura.number, s.aya, s.page),
+              ),
+            const Divider(height: 1),
+          ],
+        ],
+      ),
     );
   }
 }

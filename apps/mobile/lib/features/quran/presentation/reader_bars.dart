@@ -11,6 +11,7 @@ import 'package:daily_muslim/features/quran/presentation/quran_format.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_index_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_controller.dart';
+import 'package:daily_muslim/features/quran/presentation/surah_pages_sheet.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
@@ -18,9 +19,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// The bar above the page: the surah of the page (tap for the index), the
-/// juz and page number (tap to go to a page), the bookmark, search and the
-/// menu.
+/// The bar above the page: the surah of the page (tap for the surah index
+/// at it), the juz (tap for the juz index at it) and the page number (tap
+/// for the pages of the surah), the bookmark, search and the menu.
 final class ReaderTopBar extends ConsumerWidget {
   /// The bar for [page].
   const new({required this.page, super.key});
@@ -69,17 +70,41 @@ final class ReaderTopBar extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  _TitleTap(
-                    hint: l.quranGoToPage,
-                    onTap: () => showGoToPageDialog(context, ref),
-                    child: Text(
-                      [
-                        if (part != null)
-                          l.quranJuz(QuranFormat.number(part.number, style)),
-                        l.quranPage(QuranFormat.number(page, style)),
-                      ].join(' · '),
-                      style: theme.textTheme.bodySmall,
-                    ),
+                  Row(
+                    children: [
+                      if (part != null) ...[
+                        _TitleTap(
+                          hint: l.quranIndex,
+                          onTap: () => showQuranIndexSheet(
+                            context,
+                            currentJuz: part.number,
+                          ),
+                          child: Text(
+                            l.quranJuz(QuranFormat.number(part.number, style)),
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ),
+                        Text(' · ', style: theme.textTheme.bodySmall),
+                      ],
+                      Flexible(
+                        child: _TitleTap(
+                          hint: l.quranGoToPage,
+                          onTap: () => sura == null
+                              ? showGoToPageDialog(context, ref)
+                              : showSurahPagesSheet(
+                                  context,
+                                  sura: sura,
+                                  page: page,
+                                  onGoToPage: () =>
+                                      showGoToPageDialog(context, ref),
+                                ),
+                          child: Text(
+                            l.quranPage(QuranFormat.number(page, style)),
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -110,9 +135,8 @@ final class ReaderTopBar extends ConsumerWidget {
   }
 }
 
-/// One tappable line of the title: the surah opens the index at it, the
-/// juz and page line opens *Go to page* (§15 D111). Each line is at least
-/// 24 dp tall (WCAG 2.2 target size).
+/// One tappable part of the title (§15 D111), at least 24 dp tall (WCAG
+/// 2.2 target size).
 final class _TitleTap extends StatelessWidget {
   const new({required this.hint, required this.onTap, required this.child});
 
