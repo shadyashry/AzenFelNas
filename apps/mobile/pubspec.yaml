@@ -1,7 +1,7 @@
 name: daily_muslim
 description: "Azen Fel Nas — offline-first prayer times, Athan and Qibla for iOS and Android (DESIGN.md §7)."
 publish_to: none
-version: 0.2.0+4
+version: 0.2.0+5
 resolution: workspace
 
 environment:
