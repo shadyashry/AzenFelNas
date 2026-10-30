@@ -43,19 +43,25 @@ final class MushafLayout {
   /// The page number typed by a reader, or `null` when [input] is not a
   /// page of this Mushaf. Accepts Western and Arabic-Indic digits.
   int? parsePage(String input) {
-    final digits = StringBuffer();
-    for (final rune in input.trim().runes) {
-      if (rune >= 0x30 && rune <= 0x39) {
-        digits.writeCharCode(rune);
-      } else if (rune >= 0x0660 && rune <= 0x0669) {
-        digits.writeCharCode(rune - 0x0660 + 0x30);
-      } else if (rune >= 0x06F0 && rune <= 0x06F9) {
-        digits.writeCharCode(rune - 0x06F0 + 0x30);
-      } else {
-        return null;
-      }
-    }
-    final page = int.tryParse(digits.toString());
+    final page = parseTypedNumber(input);
     return page != null && contains(page) ? page : null;
   }
+}
+
+/// A whole number typed by a reader in Western, Arabic-Indic or Eastern
+/// Arabic-Indic digits; `null` for anything else.
+int? parseTypedNumber(String input) {
+  final digits = StringBuffer();
+  for (final rune in input.trim().runes) {
+    if (rune >= 0x30 && rune <= 0x39) {
+      digits.writeCharCode(rune);
+    } else if (rune >= 0x0660 && rune <= 0x0669) {
+      digits.writeCharCode(rune - 0x0660 + 0x30);
+    } else if (rune >= 0x06F0 && rune <= 0x06F9) {
+      digits.writeCharCode(rune - 0x06F0 + 0x30);
+    } else {
+      return null;
+    }
+  }
+  return int.tryParse(digits.toString());
 }

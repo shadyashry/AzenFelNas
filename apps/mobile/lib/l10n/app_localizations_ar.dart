@@ -1461,4 +1461,51 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get quranUpdateBody =>
       'في نسخة أحدث من حزمة المصحف. النسخة اللي على جهازك هتفضل شغّالة لحد ما الجديدة تتنزّل وتتراجع.';
+
+  @override
+  String quranSurahPosition(String page, String position, String count) {
+    return 'صفحة $page · $position من $count في السورة';
+  }
+
+  @override
+  String quranSurahOnePage(String page) {
+    return 'صفحة $page · السورة كلها في الصفحة دي';
+  }
+
+  @override
+  String get quranSurahStart => 'أول السورة';
+
+  @override
+  String get quranGoToAyah => 'روح لآية';
+
+  @override
+  String quranGoToAyahInvalid(String count) {
+    return 'اكتب رقم آية من ١ لـ $count.';
+  }
+
+  @override
+  String get quranSurahPagesOpen => 'صفحات السورة';
+
+  @override
+  String quranNextSurah(String surah) {
+    return 'كمّل في $surah';
+  }
+
+  @override
+  String quranNextSurahSamePage(String surah) {
+    return 'كمّل في $surah، بتبدأ في الصفحة دي';
+  }
+
+  @override
+  String quranPageFirstAyah(String aya) {
+    return 'آية $aya';
+  }
+
+  @override
+  String quranPageContinuedAyah(String aya) {
+    return 'تكملة آية $aya';
+  }
+
+  @override
+  String get quranBookmarked => 'متعلّم عليها';
 }

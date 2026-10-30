@@ -36,7 +36,11 @@ final class ReaderTopBar extends ConsumerWidget {
     final theme = Theme.of(context);
     final suras = ref.watch(surasProvider).value ?? const <SuraEntry>[];
     final juz = ref.watch(juzProvider).value ?? const <JuzEntry>[];
-    final sura = suras.lastWhereOrNull((s) => s.startPage <= page);
+    // The surah the reader chose, while this page is one of its pages
+    // (§15 D120); otherwise the last surah whose header is at or before it.
+    final sura =
+        ref.watch(readerScopeProvider)?.sura ??
+        suras.lastWhereOrNull((s) => s.startPage <= page);
     final part = juz.lastWhereOrNull((j) => j.page <= page);
     final marked =
         ref.watch(bookmarksProvider).value?.any((b) => b.page == page) ?? false;

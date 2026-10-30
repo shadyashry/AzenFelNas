@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
+import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/installed_quran.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
@@ -13,9 +14,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// The pages of the surah being read, as small images of the official
-/// pages in Mushaf order (right to left), with a slider along them
-/// (§15 D114). It opens on [page], marked; a tap opens a page.
-/// [onGoToPage] offers typing any page number instead.
+/// pages in Mushaf order (right to left), each with its number, the
+/// surah's first verse on it and a bookmark mark, and a slider along them
+/// that previews a page before opening it (§15 D114, D120). It opens on
+/// [page], marked; a tap opens a page. A surah on one page shows that page
+/// alone, without the slider. [onGoToPage] offers typing any page number
+/// instead.
 Future<void> showSurahPagesSheet(
   BuildContext context, {
   required SuraEntry sura,
@@ -84,6 +88,13 @@ final class _SurahPagesState extends ConsumerState<_SurahPages> {
     final theme = Theme.of(context);
     final range = ref.watch(surahPagesProvider(widget.sura.number)).value;
     final installed = readablePackage(ref.watch(quranStatusProvider));
+    final starts =
+        ref.watch(surahPageStartsProvider(widget.sura.number)).value ??
+        const <int, ({int aya, bool continued})>{};
+    final bookmarked = {
+      for (final b in ref.watch(bookmarksProvider).value ?? const <Bookmark>[])
+        b.page,
+    };
     if (range == null || installed == null) {
       return const SizedBox(
         height: 200,
@@ -95,6 +106,11 @@ final class _SurahPagesState extends ConsumerState<_SurahPages> {
     final image = installed.manifest.pageImage;
     final thumbHeight = _thumbWidth * image.height / image.width;
     String n(int v) => QuranFormat.number(v, style);
+    String? ayah(int page) => switch (starts[page]) {
+      null => null,
+      (:final aya, continued: true) => l.quranPageContinuedAyah(n(aya)),
+      (:final aya, continued: false) => l.quranPageFirstAyah(n(aya)),
+    };
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
@@ -113,13 +129,14 @@ final class _SurahPagesState extends ConsumerState<_SurahPages> {
                 style: theme.textTheme.titleMedium,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
-              child: Text(
-                l.quranSurahPagesHint,
-                style: theme.textTheme.bodySmall,
+            if (count > 1)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
+                child: Text(
+                  l.quranSurahPagesHint,
+                  style: theme.textTheme.bodySmall,
+                ),
               ),
-            ),
             // The Mushaf runs right to left in either interface language.
             Directionality(
               textDirection: TextDirection.rtl,
@@ -127,7 +144,7 @@ final class _SurahPagesState extends ConsumerState<_SurahPages> {
                 height:
                     thumbHeight +
                     16 +
-                    MediaQuery.textScalerOf(context).scale(20),
+                    MediaQuery.textScalerOf(context).scale(40),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     _viewport = constraints.maxWidth;
@@ -144,6 +161,8 @@ final class _SurahPagesState extends ConsumerState<_SurahPages> {
                         installed: installed,
                         page: first + i,
                         label: n(first + i),
+                        ayah: ayah(first + i),
+                        bookmarked: bookmarked.contains(first + i),
                         current: first + i == widget.page,
                         focused: first + i == _focus,
                         width: _thumbWidth,
@@ -203,6 +222,8 @@ final class _Thumb extends StatelessWidget {
     required this.installed,
     required this.page,
     required this.label,
+    required this.ayah,
+    required this.bookmarked,
     required this.current,
     required this.focused,
     required this.width,
@@ -213,6 +234,8 @@ final class _Thumb extends StatelessWidget {
   final InstalledQuran installed;
   final int page;
   final String label;
+  final String? ayah;
+  final bool bookmarked;
   final bool current;
   final bool focused;
   final double width;
@@ -227,7 +250,11 @@ final class _Thumb extends StatelessWidget {
     return Semantics(
       button: true,
       selected: current,
-      label: l.quranPage(label),
+      label: [
+        l.quranPage(label),
+        ?ayah,
+        if (bookmarked) l.quranBookmarked,
+      ].join(', '),
       excludeSemantics: true,
       child: InkWell(
         onTap: onTap,
@@ -265,13 +292,27 @@ final class _Thumb extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4),
-              Text(
-                label,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: current ? scheme.accent : null,
-                  fontWeight: current ? FontWeight.w700 : null,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (bookmarked)
+                    Icon(Icons.bookmark, size: 14, color: scheme.accent),
+                  Text(
+                    label,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: current ? scheme.accent : null,
+                      fontWeight: current ? FontWeight.w700 : null,
+                    ),
+                  ),
+                ],
               ),
+              if (ayah case final ayah?)
+                Text(
+                  ayah,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
             ],
           ),
         ),

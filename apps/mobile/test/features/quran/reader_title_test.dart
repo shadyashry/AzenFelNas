@@ -73,6 +73,7 @@ Future<void> _pump(WidgetTester tester, Locale locale) async {
         surahPagesProvider.overrideWith(
           (ref, sura) async => (first: 300, last: 304),
         ),
+        versePlacesProvider.overrideWithValue(null),
         readingPositionStoreProvider.overrideWithValue(notes),
         readerPreferencesStoreProvider.overrideWithValue(notes),
       ],

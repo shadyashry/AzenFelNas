@@ -47,6 +47,7 @@ final class MushafViewport extends StatefulWidget {
     required this.onTap,
     required this.semanticLabel,
     this.onLongPress,
+    this.reveal,
     super.key,
   });
 
@@ -87,6 +88,12 @@ final class MushafViewport extends StatefulWidget {
   /// What a screen reader announces for the surface.
   final String semanticLabel;
 
+  /// A height on [item] (0..1 of the item) to bring into view when it
+  /// changes, e.g. the first line of a verse just opened (§15 D120). Fit
+  /// page shows the whole page, so it only moves a page taller than the
+  /// window (fit width); the page is never cropped or rearranged.
+  final ({int item, double y})? reveal;
+
   @override
   State<MushafViewport> createState() => _MushafViewportState();
 }
@@ -117,6 +124,27 @@ final class _MushafViewportState extends State<MushafViewport> {
     _current = widget.item;
     _pages = PageController(initialPage: widget.item);
     widget.controller.handler = _command;
+    _scheduleReveal();
+  }
+
+  void _scheduleReveal() {
+    final reveal = widget.reveal;
+    if (reveal == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final geometry = _geometry;
+      if (!mounted || geometry == null || widget.reveal != reveal) return;
+      if (reveal.item != _current) return;
+      // The line a quarter of the way down the window, as far as the
+      // page's edges allow.
+      final base = geometry.baseOffset;
+      final top =
+          geometry.viewport.height / 4 - reveal.y * geometry.baseSize.height;
+      setState(() {
+        _scale = 1;
+        _offset = geometry.clampOffset(Offset(base.dx, top), 1);
+      });
+      widget.controller.reportScale(1);
+    });
   }
 
   @override
@@ -136,6 +164,7 @@ final class _MushafViewportState extends State<MushafViewport> {
       _resetZoom();
       _pages.jumpToPage(widget.item);
     }
+    if (widget.reveal != old.reveal) _scheduleReveal();
   }
 
   @override

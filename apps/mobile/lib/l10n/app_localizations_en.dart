@@ -1433,4 +1433,51 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get quranUpdateBody =>
       'A newer copy of the Quran package is available. The one on this device stays readable until the new one is downloaded and checked.';
+
+  @override
+  String quranSurahPosition(String page, String position, String count) {
+    return 'Page $page · $position of $count in this surah';
+  }
+
+  @override
+  String quranSurahOnePage(String page) {
+    return 'Page $page · the whole surah is on this page';
+  }
+
+  @override
+  String get quranSurahStart => 'Beginning of the surah';
+
+  @override
+  String get quranGoToAyah => 'Go to ayah';
+
+  @override
+  String quranGoToAyahInvalid(String count) {
+    return 'Type an ayah number from 1 to $count.';
+  }
+
+  @override
+  String get quranSurahPagesOpen => 'Pages of this surah';
+
+  @override
+  String quranNextSurah(String surah) {
+    return 'Continue to $surah';
+  }
+
+  @override
+  String quranNextSurahSamePage(String surah) {
+    return 'Continue to $surah, which begins on this page';
+  }
+
+  @override
+  String quranPageFirstAyah(String aya) {
+    return 'Ayah $aya';
+  }
+
+  @override
+  String quranPageContinuedAyah(String aya) {
+    return 'Ayah $aya continues';
+  }
+
+  @override
+  String get quranBookmarked => 'Bookmarked';
 }

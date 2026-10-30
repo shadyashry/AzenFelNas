@@ -2443,6 +2443,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A newer copy of the Quran package is available. The one on this device stays readable until the new one is downloaded and checked.'**
   String get quranUpdateBody;
+
+  /// Surah bar under the page: the page and its place among the surah's pages.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} · {position} of {count} in this surah'**
+  String quranSurahPosition(String page, String position, String count);
+
+  /// Surah bar for a surah on one page.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} · the whole surah is on this page'**
+  String quranSurahOnePage(String page);
+
+  /// Surah bar button: open the surah's first ayah.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginning of the surah'**
+  String get quranSurahStart;
+
+  /// Surah bar button and dialog title: open an ayah of the surah.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to ayah'**
+  String get quranGoToAyah;
+
+  /// Go to ayah: the number is not an ayah of the surah.
+  ///
+  /// In en, this message translates to:
+  /// **'Type an ayah number from 1 to {count}.'**
+  String quranGoToAyahInvalid(String count);
+
+  /// Surah bar button: open the strip of the surah's pages.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages of this surah'**
+  String get quranSurahPagesOpen;
+
+  /// On the surah's last page: open the next surah.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to {surah}'**
+  String quranNextSurah(String surah);
+
+  /// On the surah's last page when the next surah starts on the same page.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to {surah}, which begins on this page'**
+  String quranNextSurahSamePage(String surah);
+
+  /// Under a page in the surah's pages: the surah's first ayah on that page.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayah {aya}'**
+  String quranPageFirstAyah(String aya);
+
+  /// Under a page in the surah's pages: the page opens with the rest of an ayah from the page before.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayah {aya} continues'**
+  String quranPageContinuedAyah(String aya);
+
+  /// Spoken for a bookmarked page in the surah's pages.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarked'**
+  String get quranBookmarked;
 }
 
 class _AppLocalizationsDelegate

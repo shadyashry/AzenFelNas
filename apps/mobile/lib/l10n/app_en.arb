@@ -2064,5 +2064,27 @@
   },
   "@quranUpdateBody": {
     "description": "A newer Quran package is pinned by this build."
-  }
+  },
+  "quranSurahPosition": "Page {page} · {position} of {count} in this surah",
+  "@quranSurahPosition": {"description": "Surah bar under the page: the page and its place among the surah's pages.", "placeholders": {"page": {"type": "String", "example": "6"}, "position": {"type": "String", "example": "5"}, "count": {"type": "String", "example": "48"}}},
+  "quranSurahOnePage": "Page {page} · the whole surah is on this page",
+  "@quranSurahOnePage": {"description": "Surah bar for a surah on one page.", "placeholders": {"page": {"type": "String", "example": "604"}}},
+  "quranSurahStart": "Beginning of the surah",
+  "@quranSurahStart": {"description": "Surah bar button: open the surah's first ayah."},
+  "quranGoToAyah": "Go to ayah",
+  "@quranGoToAyah": {"description": "Surah bar button and dialog title: open an ayah of the surah."},
+  "quranGoToAyahInvalid": "Type an ayah number from 1 to {count}.",
+  "@quranGoToAyahInvalid": {"description": "Go to ayah: the number is not an ayah of the surah.", "placeholders": {"count": {"type": "String", "example": "286"}}},
+  "quranSurahPagesOpen": "Pages of this surah",
+  "@quranSurahPagesOpen": {"description": "Surah bar button: open the strip of the surah's pages."},
+  "quranNextSurah": "Continue to {surah}",
+  "@quranNextSurah": {"description": "On the surah's last page: open the next surah.", "placeholders": {"surah": {"type": "String", "example": "Ali 'Imran"}}},
+  "quranNextSurahSamePage": "Continue to {surah}, which begins on this page",
+  "@quranNextSurahSamePage": {"description": "On the surah's last page when the next surah starts on the same page.", "placeholders": {"surah": {"type": "String", "example": "Al-Falaq"}}},
+  "quranPageFirstAyah": "Ayah {aya}",
+  "@quranPageFirstAyah": {"description": "Under a page in the surah's pages: the surah's first ayah on that page.", "placeholders": {"aya": {"type": "String", "example": "25"}}},
+  "quranPageContinuedAyah": "Ayah {aya} continues",
+  "@quranPageContinuedAyah": {"description": "Under a page in the surah's pages: the page opens with the rest of an ayah from the page before.", "placeholders": {"aya": {"type": "String", "example": "25"}}},
+  "quranBookmarked": "Bookmarked",
+  "@quranBookmarked": {"description": "Spoken for a bookmarked page in the surah's pages."}
 }

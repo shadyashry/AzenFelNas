@@ -225,6 +225,30 @@ final FutureProviderFamily<({int first, int last})?, int> surahPagesProvider =
       );
     });
 
+/// The first verse of surah `sura` on each of its pages, by page
+/// (§15 D120): the verse the surah opens the page with, or the one carried
+/// over from the page before (`continued`). Pages where the package places
+/// none of its verses are left out.
+final FutureProviderFamily<Map<int, ({int aya, bool continued})>, int>
+surahPageStartsProvider =
+    FutureProvider.family<Map<int, ({int aya, bool continued})>, int>((
+      ref,
+      sura,
+    ) async {
+      final pages = await ref.watch(surahPagesProvider(sura).future);
+      if (pages == null) return const {};
+      final starts = <int, ({int aya, bool continued})>{};
+      for (var p = pages.first; p <= pages.last; p++) {
+        final verses = await ref.watch(versesOnPageProvider(p).future);
+        for (final v in verses) {
+          if (v.sura != sura) continue;
+          starts[p] = (aya: v.aya, continued: v.page < p);
+          break;
+        }
+      }
+      return starts;
+    });
+
 /// The verse highlights of the pinned layout, in Mushaf order.
 final StreamProvider<List<AyahHighlight>> ayahHighlightsProvider =
     StreamProvider(

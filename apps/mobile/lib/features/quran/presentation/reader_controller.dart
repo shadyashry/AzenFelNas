@@ -4,6 +4,7 @@ import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:daily_muslim/features/quran/domain/reader_preferences.dart';
+import 'package:daily_muslim/features/quran/domain/surah_scope.dart';
 import 'package:daily_muslim/features/quran/domain/verse_place.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
@@ -37,6 +38,7 @@ final class ReaderState {
     this.showHighlights = true,
     this.draft,
     this.mark,
+    this.scopeSura,
   });
 
   /// The current page (the right page of a spread).
@@ -62,6 +64,11 @@ final class ReaderState {
   /// the time.
   final VersePlace? mark;
 
+  /// The surah the reader last chose (from the index, search, a verse or
+  /// the surah bar); the surah bar keeps to it while the page is one of
+  /// its pages (§15 D120). `null` until one is chosen.
+  final int? scopeSura;
+
   ReaderState _with({
     int? page,
     bool? restored,
@@ -70,6 +77,7 @@ final class ReaderState {
     bool? showHighlights,
     HighlightDraft? Function()? draft,
     VersePlace? Function()? mark,
+    int? scopeSura,
   }) => ReaderState(
     page: page ?? this.page,
     restored: restored ?? this.restored,
@@ -78,6 +86,7 @@ final class ReaderState {
     showHighlights: showHighlights ?? this.showHighlights,
     draft: draft == null ? this.draft : draft(),
     mark: mark == null ? this.mark : mark(),
+    scopeSura: scopeSura ?? this.scopeSura,
   );
 }
 
@@ -142,9 +151,10 @@ final class ReaderController extends Notifier<ReaderState> {
 
   /// Opens the page of [place] and outlines its lines for [markFor]
   /// (§15 D114); the outline is drawn over the page, never into it.
+  /// The verse's surah becomes the surah bar's (§15 D120).
   void showVerse(VersePlace place) {
     goTo(place.page);
-    state = state._with(mark: () => place);
+    state = state._with(mark: () => place, scopeSura: place.sura);
     _unmark?.cancel();
     _unmark = Timer(markFor, () {
       if (ref.mounted) state = state._with(mark: () => null);
@@ -168,6 +178,7 @@ final class ReaderController extends Notifier<ReaderState> {
     if (!ref.mounted) return;
     if (place == null) {
       goTo(fallbackPage);
+      state = state._with(scopeSura: sura);
     } else {
       showVerse(place);
     }
@@ -252,3 +263,19 @@ final class ReaderController extends Notifier<ReaderState> {
 /// The reader state, for the life of the app.
 final NotifierProvider<ReaderController, ReaderState> readerProvider =
     NotifierProvider<ReaderController, ReaderState>(ReaderController.new);
+
+/// The surah bar's surah and the current page's place in it (§15 D120);
+/// `null` until the index and the surah's pages are read.
+final Provider<SurahScope?> readerScopeProvider = Provider((ref) {
+  final (:page, :scopeSura) = ref.watch(
+    readerProvider.select((s) => (page: s.page, scopeSura: s.scopeSura)),
+  );
+  final suras = ref.watch(surasProvider).value;
+  if (suras == null) return null;
+  return SurahScope.pick(
+    page: page,
+    selected: scopeSura,
+    suras: suras,
+    pagesOf: (sura) => ref.watch(surahPagesProvider(sura)).value,
+  );
+});

@@ -5,6 +5,7 @@ import 'package:daily_muslim/features/quran/domain/ayah_highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:daily_muslim/features/quran/domain/installed_quran.dart';
+import 'package:daily_muslim/features/quran/domain/mushaf_layout.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_lines.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:daily_muslim/features/quran/domain/verse_place.dart';
@@ -16,6 +17,7 @@ import 'package:daily_muslim/features/quran/presentation/mushaf_viewport_control
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_bars.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_controller.dart';
+import 'package:daily_muslim/features/quran/presentation/surah_nav_bar.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -63,6 +65,7 @@ final class _MushafReaderState extends ConsumerState<MushafReader> {
             key: const ValueKey('surface'),
             child: _Surface(installed: widget.installed, viewport: _viewport),
           ),
+          if (chrome && state.draft == null) const SurahNavBar(),
           if (chrome && state.draft == null)
             ReaderBottomBar(viewport: _viewport),
           if (chrome && state.draft != null) DrawBar(viewport: _viewport),
@@ -126,6 +129,7 @@ final class _Surface extends ConsumerWidget {
           controller: viewport,
           drawing: state.draft != null,
           semanticLabel: l.quranReaderLabel(state.page.toString()),
+          reveal: _reveal(state.mark, spreads, layout),
           onItemChanged: (item) => controller.goTo(
             spreads ? layout.pagesOf(item).right : item + 1,
           ),
@@ -277,6 +281,24 @@ final class _Surface extends ConsumerWidget {
   );
 
   /// The lines of the verse just opened, by page.
+  /// Where the opened verse's first line is, to bring it into view
+  /// (§15 D120); `null` without a mark or line geometry.
+  static ({int item, double y})? _reveal(
+    VersePlace? mark,
+    bool spreads,
+    MushafLayout layout,
+  ) {
+    if (mark == null || QuranEditionPin.layoutId != MushafLines.layoutId) {
+      return null;
+    }
+    final band = MushafLines.band(mark.page, mark.lineStart);
+    if (band == null) return null;
+    return (
+      item: spreads ? layout.spreadOf(mark.page) : mark.page - 1,
+      y: band.top,
+    );
+  }
+
   static Map<int, List<HighlightRegion>> _marksByPage(VersePlace? mark) {
     final map = <int, List<HighlightRegion>>{};
     if (mark == null || QuranEditionPin.layoutId != MushafLines.layoutId) {
