@@ -1555,6 +1555,582 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy a report for support if something goes wrong'**
   String get settingsDiagnosticsHint;
+
+  /// Tab label: the Quran reader.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran'**
+  String get navQuran;
+
+  /// Quran tab title.
+  ///
+  /// In en, this message translates to:
+  /// **'The Holy Quran'**
+  String get quranTitle;
+
+  /// Button: start the Quran download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Quran for offline use'**
+  String get quranDownloadAction;
+
+  /// Quran download screen: what the download is.
+  ///
+  /// In en, this message translates to:
+  /// **'The Madinah Mushaf (Hafs ʿan ʿĀṣim), as published by the King Fahd Glorious Quran Printing Complex. After one download every page, the surah and juz index, search, bookmarks and highlights work with no internet.'**
+  String get quranDownloadBody;
+
+  /// Measured size of the Quran download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download size: {size}'**
+  String quranDownloadSize(String size);
+
+  /// Measured size on the device after install.
+  ///
+  /// In en, this message translates to:
+  /// **'Space after installing: {size}'**
+  String quranInstalledSize(String size);
+
+  /// Free space needed, including the search index.
+  ///
+  /// In en, this message translates to:
+  /// **'Free space needed to install: {size}'**
+  String quranRequiredSpace(String size);
+
+  /// Button: resume a paused Quran download.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume download'**
+  String get quranResume;
+
+  /// Button: stop the Quran download.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop download'**
+  String get quranCancel;
+
+  /// Download progress in sizes.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading {done} of {total}'**
+  String quranDownloading(String done, String total);
+
+  /// Quran install step.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking every file and preparing search…'**
+  String get quranInstalling;
+
+  /// Quran tab while checking files at start.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking the downloaded Quran…'**
+  String get quranChecking;
+
+  /// Quran download paused.
+  ///
+  /// In en, this message translates to:
+  /// **'Download paused. What was downloaded is kept.'**
+  String get quranPaused;
+
+  /// Quran download failure: offline.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Connect and try again.'**
+  String get quranFailOffline;
+
+  /// Quran download failure: HTTP error.
+  ///
+  /// In en, this message translates to:
+  /// **'The download server did not answer (HTTP {code}). Try again later.'**
+  String quranFailServer(String code);
+
+  /// Quran download failure: not enough space.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough space: {needed} needed, {available} free.'**
+  String quranFailSpace(String needed, String available);
+
+  /// Quran download failure: disk full while writing.
+  ///
+  /// In en, this message translates to:
+  /// **'The device ran out of space. Free up space and try again.'**
+  String get quranFailSpaceFull;
+
+  /// Quran download failure: hash mismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'A file did not match the official copy and was discarded. Try again.'**
+  String get quranFailIntegrity;
+
+  /// Quran download failure: storage error.
+  ///
+  /// In en, this message translates to:
+  /// **'The app could not write to its storage. Try again.'**
+  String get quranFailStorage;
+
+  /// Quran install failure: search index.
+  ///
+  /// In en, this message translates to:
+  /// **'The offline search could not be prepared. Try again.'**
+  String get quranFailSearch;
+
+  /// Quran download stopped by the user.
+  ///
+  /// In en, this message translates to:
+  /// **'Download stopped. What was downloaded is kept.'**
+  String get quranFailCancelled;
+
+  /// Quran package damaged: title.
+  ///
+  /// In en, this message translates to:
+  /// **'Some Quran files are missing or damaged'**
+  String get quranDamagedTitle;
+
+  /// Quran package damaged: body.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} files need to be downloaded again. Reading is paused until they are repaired.'**
+  String quranDamagedBody(String count);
+
+  /// Button: download damaged Quran files again.
+  ///
+  /// In en, this message translates to:
+  /// **'Repair'**
+  String get quranRepair;
+
+  /// Status: the Quran package is verified and usable offline.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready offline'**
+  String get quranReadyOffline;
+
+  /// What removes the offline Quran.
+  ///
+  /// In en, this message translates to:
+  /// **'Uninstalling the app, clearing its data or removing the download deletes the downloaded Quran; you would need to download it again.'**
+  String get quranUninstallNote;
+
+  /// Quran source attribution; no endorsement claim.
+  ///
+  /// In en, this message translates to:
+  /// **'Mushaf pages and text: King Fahd Glorious Quran Printing Complex, Madinah Mushaf (Hafs), digital edition 1441, used under the Complex\'s published usage terms. The app is not endorsed or certified by the Complex.'**
+  String get quranAttribution;
+
+  /// Juz metadata attribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Juz boundaries: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex\'s text.'**
+  String get quranJuzAttribution;
+
+  /// Current Mushaf page.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page}'**
+  String quranPage(String page);
+
+  /// Current juz.
+  ///
+  /// In en, this message translates to:
+  /// **'Juz {juz}'**
+  String quranJuz(String juz);
+
+  /// Button: next Mushaf page (always on the left).
+  ///
+  /// In en, this message translates to:
+  /// **'Next page'**
+  String get quranNextPage;
+
+  /// Button: previous Mushaf page (always on the right).
+  ///
+  /// In en, this message translates to:
+  /// **'Previous page'**
+  String get quranPreviousPage;
+
+  /// Button: zoom in.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom in'**
+  String get quranZoomIn;
+
+  /// Button: zoom out.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom out'**
+  String get quranZoomOut;
+
+  /// Button: reset the zoom to fit.
+  ///
+  /// In en, this message translates to:
+  /// **'Fit to screen'**
+  String get quranResetZoom;
+
+  /// Fit mode: whole page visible.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole page'**
+  String get quranFitPage;
+
+  /// Fit mode: page fills the width and scrolls.
+  ///
+  /// In en, this message translates to:
+  /// **'Fit width'**
+  String get quranFitWidth;
+
+  /// Setting: show spreads on wide screens.
+  ///
+  /// In en, this message translates to:
+  /// **'Two facing pages on wide screens'**
+  String get quranFacingPages;
+
+  /// Toggle: draw saved highlights.
+  ///
+  /// In en, this message translates to:
+  /// **'Show highlights'**
+  String get quranShowHighlights;
+
+  /// Action and dialog title: jump to a page.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to page'**
+  String get quranGoToPage;
+
+  /// Page number field hint.
+  ///
+  /// In en, this message translates to:
+  /// **'1 to {count}'**
+  String quranGoToPageHint(String count);
+
+  /// Invalid page number.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a page from 1 to {count}.'**
+  String quranGoToPageInvalid(String count);
+
+  /// Button: go to the typed page.
+  ///
+  /// In en, this message translates to:
+  /// **'Go'**
+  String get quranGo;
+
+  /// Action and title: the index.
+  ///
+  /// In en, this message translates to:
+  /// **'Surahs and juz'**
+  String get quranIndex;
+
+  /// Index tab: surahs.
+  ///
+  /// In en, this message translates to:
+  /// **'Surahs'**
+  String get quranSurahsTab;
+
+  /// Index tab: juz.
+  ///
+  /// In en, this message translates to:
+  /// **'Juz'**
+  String get quranJuzTab;
+
+  /// Index filter hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a surah by name or number'**
+  String get quranFilterSurahs;
+
+  /// Index line under a surah name.
+  ///
+  /// In en, this message translates to:
+  /// **'Surah {number} · {verses} verses · page {page}'**
+  String quranSurahLine(String number, String verses, String page);
+
+  /// Index line for a juz.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts at page {page}'**
+  String quranJuzLine(String page);
+
+  /// Index filter: nothing found.
+  ///
+  /// In en, this message translates to:
+  /// **'No surah matches.'**
+  String get quranNoSurah;
+
+  /// Action and title: Quran text search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search the Quran'**
+  String get quranSearch;
+
+  /// Search field hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic word or phrase'**
+  String get quranSearchHint;
+
+  /// Search screen before typing.
+  ///
+  /// In en, this message translates to:
+  /// **'Type an Arabic word or part of a verse. Search works offline and ignores diacritics and the different spellings of alef and hamza.'**
+  String get quranSearchIdle;
+
+  /// Search: no results.
+  ///
+  /// In en, this message translates to:
+  /// **'No verse matches.'**
+  String get quranSearchEmpty;
+
+  /// Search: number of matching verses.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} verses'**
+  String quranSearchCount(String count);
+
+  /// Search: result list truncated.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing the first {shown} of {total} verses. Type more to narrow it.'**
+  String quranSearchMore(String shown, String total);
+
+  /// Search result reference.
+  ///
+  /// In en, this message translates to:
+  /// **'Verse {verse} · page {page}'**
+  String quranVerseRef(String verse, String page);
+
+  /// Button: add a bookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark this page'**
+  String get quranBookmarkAdd;
+
+  /// Button: remove the page's bookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove bookmark'**
+  String get quranBookmarkRemove;
+
+  /// Action and title: saved notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks and highlights'**
+  String get quranNotes;
+
+  /// Notes tab: bookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks'**
+  String get quranBookmarksTab;
+
+  /// Notes tab: highlights.
+  ///
+  /// In en, this message translates to:
+  /// **'My highlights'**
+  String get quranHighlightsTab;
+
+  /// Notes: no bookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'No bookmarks yet. Use the bookmark button on a page.'**
+  String get quranNoBookmarks;
+
+  /// Notes: no highlights.
+  ///
+  /// In en, this message translates to:
+  /// **'No highlights yet. Choose Highlight on a page.'**
+  String get quranNoHighlights;
+
+  /// Action: start an area highlight.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlight'**
+  String get quranHighlight;
+
+  /// Explains area highlighting while drawing.
+  ///
+  /// In en, this message translates to:
+  /// **'Area highlight: draw boxes over the page. It marks a region of the page image, not specific words or verses. Turn pages with the buttons to continue on another page.'**
+  String get quranAreaExplain;
+
+  /// Button: save the drawn highlight.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get quranHighlightSave;
+
+  /// Button: remove the last drawn box.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo last box'**
+  String get quranHighlightUndo;
+
+  /// Button: leave drawing mode without saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get quranHighlightCancel;
+
+  /// Number of boxes in the highlight being drawn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} boxes'**
+  String quranHighlightBoxes(String count);
+
+  /// A highlight spanning pages.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages {first}–{last}'**
+  String quranHighlightPages(String first, String last);
+
+  /// Button: delete a highlight.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete highlight'**
+  String get quranHighlightDelete;
+
+  /// Button: open the highlighted page.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get quranHighlightOpen;
+
+  /// Highlight colour picker label.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour'**
+  String get quranHighlightColor;
+
+  /// Highlight colour.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow'**
+  String get quranColorYellow;
+
+  /// Highlight colour.
+  ///
+  /// In en, this message translates to:
+  /// **'Green'**
+  String get quranColorGreen;
+
+  /// Highlight colour.
+  ///
+  /// In en, this message translates to:
+  /// **'Blue'**
+  String get quranColorBlue;
+
+  /// Highlight colour.
+  ///
+  /// In en, this message translates to:
+  /// **'Pink'**
+  String get quranColorPink;
+
+  /// Highlight colour.
+  ///
+  /// In en, this message translates to:
+  /// **'Orange'**
+  String get quranColorOrange;
+
+  /// Action and title: storage management.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran download'**
+  String get quranStorage;
+
+  /// Installed edition line.
+  ///
+  /// In en, this message translates to:
+  /// **'Madinah Mushaf · Hafs · digital edition {edition} · package {version}'**
+  String quranEdition(String edition, String version);
+
+  /// Measured storage used by the Quran download.
+  ///
+  /// In en, this message translates to:
+  /// **'On this device: {size}'**
+  String quranOnDevice(String size);
+
+  /// Button: verify every file's hash.
+  ///
+  /// In en, this message translates to:
+  /// **'Check all files'**
+  String get quranVerify;
+
+  /// Verification progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking {done} of {total} files…'**
+  String quranVerifying(String done, String total);
+
+  /// Verification passed.
+  ///
+  /// In en, this message translates to:
+  /// **'All {count} files match the official copy.'**
+  String quranVerified(String count);
+
+  /// Button: delete the Quran package.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove download'**
+  String get quranRemove;
+
+  /// Confirm dialog title.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the downloaded Quran?'**
+  String get quranRemoveTitle;
+
+  /// Confirm dialog body.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline reading stops until you download it again ({size}). Your bookmarks, highlights and last page are kept and come back when you download it again.'**
+  String quranRemoveBody(String size);
+
+  /// Confirm button: remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get quranRemoveConfirm;
+
+  /// Dismiss button: keep the download.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep'**
+  String get quranKeep;
+
+  /// Snack bar after removal.
+  ///
+  /// In en, this message translates to:
+  /// **'The Quran download was removed. Your notes are kept.'**
+  String get quranRemoved;
+
+  /// Page image failed to decode.
+  ///
+  /// In en, this message translates to:
+  /// **'This page could not be shown. Check the files under Quran download.'**
+  String get quranPageError;
+
+  /// Reader loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening the Mushaf…'**
+  String get quranOpening;
+
+  /// Screen reader label of the page surface.
+  ///
+  /// In en, this message translates to:
+  /// **'Mushaf page {page}. Swipe right or use Next page to read on.'**
+  String quranReaderLabel(String page);
+
+  /// Menu button.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get quranMore;
+
+  /// Button shown while controls are hidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Show controls'**
+  String get quranShowControls;
 }
 
 class _AppLocalizationsDelegate

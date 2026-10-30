@@ -1231,5 +1231,569 @@
   "settingsDiagnosticsHint": "Copy a report for support if something goes wrong",
   "@settingsDiagnosticsHint": {
     "description": "Settings: line under 'Report a problem'."
+  },
+  "navQuran": "Quran",
+  "@navQuran": {
+    "description": "Tab label: the Quran reader."
+  },
+  "quranTitle": "The Holy Quran",
+  "@quranTitle": {
+    "description": "Quran tab title."
+  },
+  "quranDownloadAction": "Download Quran for offline use",
+  "@quranDownloadAction": {
+    "description": "Button: start the Quran download."
+  },
+  "quranDownloadBody": "The Madinah Mushaf (Hafs ʿan ʿĀṣim), as published by the King Fahd Glorious Quran Printing Complex. After one download every page, the surah and juz index, search, bookmarks and highlights work with no internet.",
+  "@quranDownloadBody": {
+    "description": "Quran download screen: what the download is."
+  },
+  "quranDownloadSize": "Download size: {size}",
+  "@quranDownloadSize": {
+    "description": "Measured size of the Quran download.",
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "119.2 MB"
+      }
+    }
+  },
+  "quranInstalledSize": "Space after installing: {size}",
+  "@quranInstalledSize": {
+    "description": "Measured size on the device after install.",
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "125.0 MB"
+      }
+    }
+  },
+  "quranRequiredSpace": "Free space needed to install: {size}",
+  "@quranRequiredSpace": {
+    "description": "Free space needed, including the search index.",
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "141 MB"
+      }
+    }
+  },
+  "quranResume": "Resume download",
+  "@quranResume": {
+    "description": "Button: resume a paused Quran download."
+  },
+  "quranCancel": "Stop download",
+  "@quranCancel": {
+    "description": "Button: stop the Quran download."
+  },
+  "quranDownloading": "Downloading {done} of {total}",
+  "@quranDownloading": {
+    "description": "Download progress in sizes.",
+    "placeholders": {
+      "done": {
+        "type": "String",
+        "example": "40.1 MB"
+      },
+      "total": {
+        "type": "String",
+        "example": "119.2 MB"
+      }
+    }
+  },
+  "quranInstalling": "Checking every file and preparing search…",
+  "@quranInstalling": {
+    "description": "Quran install step."
+  },
+  "quranChecking": "Checking the downloaded Quran…",
+  "@quranChecking": {
+    "description": "Quran tab while checking files at start."
+  },
+  "quranPaused": "Download paused. What was downloaded is kept.",
+  "@quranPaused": {
+    "description": "Quran download paused."
+  },
+  "quranFailOffline": "No internet connection. Connect and try again.",
+  "@quranFailOffline": {
+    "description": "Quran download failure: offline."
+  },
+  "quranFailServer": "The download server did not answer (HTTP {code}). Try again later.",
+  "@quranFailServer": {
+    "description": "Quran download failure: HTTP error.",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "503"
+      }
+    }
+  },
+  "quranFailSpace": "Not enough space: {needed} needed, {available} free.",
+  "@quranFailSpace": {
+    "description": "Quran download failure: not enough space.",
+    "placeholders": {
+      "needed": {
+        "type": "String",
+        "example": "141 MB"
+      },
+      "available": {
+        "type": "String",
+        "example": "90 MB"
+      }
+    }
+  },
+  "quranFailSpaceFull": "The device ran out of space. Free up space and try again.",
+  "@quranFailSpaceFull": {
+    "description": "Quran download failure: disk full while writing."
+  },
+  "quranFailIntegrity": "A file did not match the official copy and was discarded. Try again.",
+  "@quranFailIntegrity": {
+    "description": "Quran download failure: hash mismatch."
+  },
+  "quranFailStorage": "The app could not write to its storage. Try again.",
+  "@quranFailStorage": {
+    "description": "Quran download failure: storage error."
+  },
+  "quranFailSearch": "The offline search could not be prepared. Try again.",
+  "@quranFailSearch": {
+    "description": "Quran install failure: search index."
+  },
+  "quranFailCancelled": "Download stopped. What was downloaded is kept.",
+  "@quranFailCancelled": {
+    "description": "Quran download stopped by the user."
+  },
+  "quranDamagedTitle": "Some Quran files are missing or damaged",
+  "@quranDamagedTitle": {
+    "description": "Quran package damaged: title."
+  },
+  "quranDamagedBody": "{count} files need to be downloaded again. Reading is paused until they are repaired.",
+  "@quranDamagedBody": {
+    "description": "Quran package damaged: body.",
+    "placeholders": {
+      "count": {
+        "type": "String",
+        "example": "3"
+      }
+    }
+  },
+  "quranRepair": "Repair",
+  "@quranRepair": {
+    "description": "Button: download damaged Quran files again."
+  },
+  "quranReadyOffline": "Ready offline",
+  "@quranReadyOffline": {
+    "description": "Status: the Quran package is verified and usable offline."
+  },
+  "quranUninstallNote": "Uninstalling the app, clearing its data or removing the download deletes the downloaded Quran; you would need to download it again.",
+  "@quranUninstallNote": {
+    "description": "What removes the offline Quran."
+  },
+  "quranAttribution": "Mushaf pages and text: King Fahd Glorious Quran Printing Complex, Madinah Mushaf (Hafs), digital edition 1441, used under the Complex's published usage terms. The app is not endorsed or certified by the Complex.",
+  "@quranAttribution": {
+    "description": "Quran source attribution; no endorsement claim."
+  },
+  "quranJuzAttribution": "Juz boundaries: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex's text.",
+  "@quranJuzAttribution": {
+    "description": "Juz metadata attribution."
+  },
+  "quranPage": "Page {page}",
+  "@quranPage": {
+    "description": "Current Mushaf page.",
+    "placeholders": {
+      "page": {
+        "type": "String",
+        "example": "586"
+      }
+    }
+  },
+  "quranJuz": "Juz {juz}",
+  "@quranJuz": {
+    "description": "Current juz.",
+    "placeholders": {
+      "juz": {
+        "type": "String",
+        "example": "30"
+      }
+    }
+  },
+  "quranNextPage": "Next page",
+  "@quranNextPage": {
+    "description": "Button: next Mushaf page (always on the left)."
+  },
+  "quranPreviousPage": "Previous page",
+  "@quranPreviousPage": {
+    "description": "Button: previous Mushaf page (always on the right)."
+  },
+  "quranZoomIn": "Zoom in",
+  "@quranZoomIn": {
+    "description": "Button: zoom in."
+  },
+  "quranZoomOut": "Zoom out",
+  "@quranZoomOut": {
+    "description": "Button: zoom out."
+  },
+  "quranResetZoom": "Fit to screen",
+  "@quranResetZoom": {
+    "description": "Button: reset the zoom to fit."
+  },
+  "quranFitPage": "Whole page",
+  "@quranFitPage": {
+    "description": "Fit mode: whole page visible."
+  },
+  "quranFitWidth": "Fit width",
+  "@quranFitWidth": {
+    "description": "Fit mode: page fills the width and scrolls."
+  },
+  "quranFacingPages": "Two facing pages on wide screens",
+  "@quranFacingPages": {
+    "description": "Setting: show spreads on wide screens."
+  },
+  "quranShowHighlights": "Show highlights",
+  "@quranShowHighlights": {
+    "description": "Toggle: draw saved highlights."
+  },
+  "quranGoToPage": "Go to page",
+  "@quranGoToPage": {
+    "description": "Action and dialog title: jump to a page."
+  },
+  "quranGoToPageHint": "1 to {count}",
+  "@quranGoToPageHint": {
+    "description": "Page number field hint.",
+    "placeholders": {
+      "count": {
+        "type": "String",
+        "example": "604"
+      }
+    }
+  },
+  "quranGoToPageInvalid": "Enter a page from 1 to {count}.",
+  "@quranGoToPageInvalid": {
+    "description": "Invalid page number.",
+    "placeholders": {
+      "count": {
+        "type": "String",
+        "example": "604"
+      }
+    }
+  },
+  "quranGo": "Go",
+  "@quranGo": {
+    "description": "Button: go to the typed page."
+  },
+  "quranIndex": "Surahs and juz",
+  "@quranIndex": {
+    "description": "Action and title: the index."
+  },
+  "quranSurahsTab": "Surahs",
+  "@quranSurahsTab": {
+    "description": "Index tab: surahs."
+  },
+  "quranJuzTab": "Juz",
+  "@quranJuzTab": {
+    "description": "Index tab: juz."
+  },
+  "quranFilterSurahs": "Find a surah by name or number",
+  "@quranFilterSurahs": {
+    "description": "Index filter hint."
+  },
+  "quranSurahLine": "Surah {number} · {verses} verses · page {page}",
+  "@quranSurahLine": {
+    "description": "Index line under a surah name.",
+    "placeholders": {
+      "number": {
+        "type": "String",
+        "example": "2"
+      },
+      "verses": {
+        "type": "String",
+        "example": "286"
+      },
+      "page": {
+        "type": "String",
+        "example": "2"
+      }
+    }
+  },
+  "quranJuzLine": "Starts at page {page}",
+  "@quranJuzLine": {
+    "description": "Index line for a juz.",
+    "placeholders": {
+      "page": {
+        "type": "String",
+        "example": "22"
+      }
+    }
+  },
+  "quranNoSurah": "No surah matches.",
+  "@quranNoSurah": {
+    "description": "Index filter: nothing found."
+  },
+  "quranSearch": "Search the Quran",
+  "@quranSearch": {
+    "description": "Action and title: Quran text search."
+  },
+  "quranSearchHint": "Arabic word or phrase",
+  "@quranSearchHint": {
+    "description": "Search field hint."
+  },
+  "quranSearchIdle": "Type an Arabic word or part of a verse. Search works offline and ignores diacritics and the different spellings of alef and hamza.",
+  "@quranSearchIdle": {
+    "description": "Search screen before typing."
+  },
+  "quranSearchEmpty": "No verse matches.",
+  "@quranSearchEmpty": {
+    "description": "Search: no results."
+  },
+  "quranSearchCount": "{count} verses",
+  "@quranSearchCount": {
+    "description": "Search: number of matching verses.",
+    "placeholders": {
+      "count": {
+        "type": "String",
+        "example": "12"
+      }
+    }
+  },
+  "quranSearchMore": "Showing the first {shown} of {total} verses. Type more to narrow it.",
+  "@quranSearchMore": {
+    "description": "Search: result list truncated.",
+    "placeholders": {
+      "shown": {
+        "type": "String",
+        "example": "200"
+      },
+      "total": {
+        "type": "String",
+        "example": "1200"
+      }
+    }
+  },
+  "quranVerseRef": "Verse {verse} · page {page}",
+  "@quranVerseRef": {
+    "description": "Search result reference.",
+    "placeholders": {
+      "verse": {
+        "type": "String",
+        "example": "255"
+      },
+      "page": {
+        "type": "String",
+        "example": "42"
+      }
+    }
+  },
+  "quranBookmarkAdd": "Bookmark this page",
+  "@quranBookmarkAdd": {
+    "description": "Button: add a bookmark."
+  },
+  "quranBookmarkRemove": "Remove bookmark",
+  "@quranBookmarkRemove": {
+    "description": "Button: remove the page's bookmark."
+  },
+  "quranNotes": "Bookmarks and highlights",
+  "@quranNotes": {
+    "description": "Action and title: saved notes."
+  },
+  "quranBookmarksTab": "Bookmarks",
+  "@quranBookmarksTab": {
+    "description": "Notes tab: bookmarks."
+  },
+  "quranHighlightsTab": "My highlights",
+  "@quranHighlightsTab": {
+    "description": "Notes tab: highlights."
+  },
+  "quranNoBookmarks": "No bookmarks yet. Use the bookmark button on a page.",
+  "@quranNoBookmarks": {
+    "description": "Notes: no bookmarks."
+  },
+  "quranNoHighlights": "No highlights yet. Choose Highlight on a page.",
+  "@quranNoHighlights": {
+    "description": "Notes: no highlights."
+  },
+  "quranHighlight": "Highlight",
+  "@quranHighlight": {
+    "description": "Action: start an area highlight."
+  },
+  "quranAreaExplain": "Area highlight: draw boxes over the page. It marks a region of the page image, not specific words or verses. Turn pages with the buttons to continue on another page.",
+  "@quranAreaExplain": {
+    "description": "Explains area highlighting while drawing."
+  },
+  "quranHighlightSave": "Save",
+  "@quranHighlightSave": {
+    "description": "Button: save the drawn highlight."
+  },
+  "quranHighlightUndo": "Undo last box",
+  "@quranHighlightUndo": {
+    "description": "Button: remove the last drawn box."
+  },
+  "quranHighlightCancel": "Cancel",
+  "@quranHighlightCancel": {
+    "description": "Button: leave drawing mode without saving."
+  },
+  "quranHighlightBoxes": "{count} boxes",
+  "@quranHighlightBoxes": {
+    "description": "Number of boxes in the highlight being drawn.",
+    "placeholders": {
+      "count": {
+        "type": "String",
+        "example": "2"
+      }
+    }
+  },
+  "quranHighlightPages": "Pages {first}–{last}",
+  "@quranHighlightPages": {
+    "description": "A highlight spanning pages.",
+    "placeholders": {
+      "first": {
+        "type": "String",
+        "example": "2"
+      },
+      "last": {
+        "type": "String",
+        "example": "3"
+      }
+    }
+  },
+  "quranHighlightDelete": "Delete highlight",
+  "@quranHighlightDelete": {
+    "description": "Button: delete a highlight."
+  },
+  "quranHighlightOpen": "Open",
+  "@quranHighlightOpen": {
+    "description": "Button: open the highlighted page."
+  },
+  "quranHighlightColor": "Colour",
+  "@quranHighlightColor": {
+    "description": "Highlight colour picker label."
+  },
+  "quranColorYellow": "Yellow",
+  "@quranColorYellow": {
+    "description": "Highlight colour."
+  },
+  "quranColorGreen": "Green",
+  "@quranColorGreen": {
+    "description": "Highlight colour."
+  },
+  "quranColorBlue": "Blue",
+  "@quranColorBlue": {
+    "description": "Highlight colour."
+  },
+  "quranColorPink": "Pink",
+  "@quranColorPink": {
+    "description": "Highlight colour."
+  },
+  "quranColorOrange": "Orange",
+  "@quranColorOrange": {
+    "description": "Highlight colour."
+  },
+  "quranStorage": "Quran download",
+  "@quranStorage": {
+    "description": "Action and title: storage management."
+  },
+  "quranEdition": "Madinah Mushaf · Hafs · digital edition {edition} · package {version}",
+  "@quranEdition": {
+    "description": "Installed edition line.",
+    "placeholders": {
+      "edition": {
+        "type": "String",
+        "example": "1441"
+      },
+      "version": {
+        "type": "String",
+        "example": "1441.1"
+      }
+    }
+  },
+  "quranOnDevice": "On this device: {size}",
+  "@quranOnDevice": {
+    "description": "Measured storage used by the Quran download.",
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "125.0 MB"
+      }
+    }
+  },
+  "quranVerify": "Check all files",
+  "@quranVerify": {
+    "description": "Button: verify every file's hash."
+  },
+  "quranVerifying": "Checking {done} of {total} files…",
+  "@quranVerifying": {
+    "description": "Verification progress.",
+    "placeholders": {
+      "done": {
+        "type": "String",
+        "example": "120"
+      },
+      "total": {
+        "type": "String",
+        "example": "606"
+      }
+    }
+  },
+  "quranVerified": "All {count} files match the official copy.",
+  "@quranVerified": {
+    "description": "Verification passed.",
+    "placeholders": {
+      "count": {
+        "type": "String",
+        "example": "606"
+      }
+    }
+  },
+  "quranRemove": "Remove download",
+  "@quranRemove": {
+    "description": "Button: delete the Quran package."
+  },
+  "quranRemoveTitle": "Remove the downloaded Quran?",
+  "@quranRemoveTitle": {
+    "description": "Confirm dialog title."
+  },
+  "quranRemoveBody": "Offline reading stops until you download it again ({size}). Your bookmarks, highlights and last page are kept and come back when you download it again.",
+  "@quranRemoveBody": {
+    "description": "Confirm dialog body.",
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "119.2 MB"
+      }
+    }
+  },
+  "quranRemoveConfirm": "Remove",
+  "@quranRemoveConfirm": {
+    "description": "Confirm button: remove."
+  },
+  "quranKeep": "Keep",
+  "@quranKeep": {
+    "description": "Dismiss button: keep the download."
+  },
+  "quranRemoved": "The Quran download was removed. Your notes are kept.",
+  "@quranRemoved": {
+    "description": "Snack bar after removal."
+  },
+  "quranPageError": "This page could not be shown. Check the files under Quran download.",
+  "@quranPageError": {
+    "description": "Page image failed to decode."
+  },
+  "quranOpening": "Opening the Mushaf…",
+  "@quranOpening": {
+    "description": "Reader loading."
+  },
+  "quranReaderLabel": "Mushaf page {page}. Swipe right or use Next page to read on.",
+  "@quranReaderLabel": {
+    "description": "Screen reader label of the page surface.",
+    "placeholders": {
+      "page": {
+        "type": "String",
+        "example": "586"
+      }
+    }
+  },
+  "quranMore": "More",
+  "@quranMore": {
+    "description": "Menu button."
+  },
+  "quranShowControls": "Show controls",
+  "@quranShowControls": {
+    "description": "Button shown while controls are hidden."
   }
 }

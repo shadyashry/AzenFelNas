@@ -7,6 +7,7 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.Dispatchers
+import java.io.File
 import java.io.FileNotFoundException
 import java.util.TimeZone
 
@@ -17,6 +18,15 @@ class MainActivity : FlutterActivity() {
     // The phone's time zone names the user's region with no permission (DESIGN.md section 15 D100).
     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dm/device_zone").setMethodCallHandler { call, result ->
       if (call.method == "zoneId") result.success(TimeZone.getDefault().id) else result.notImplemented()
+    }
+    // Free space before the offline Quran download (DESIGN.md section 15 D106).
+    MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dm/storage").setMethodCallHandler { call, result ->
+      val path = call.arguments as? String
+      if (call.method == "usableBytes" && path != null) {
+        result.success(File(path).let { if (it.exists()) it else filesDir }.usableSpace)
+      } else {
+        result.notImplemented()
+      }
     }
     val core = AthanCoreHost(applicationContext)
     AthanSchedulerApi.setUp(

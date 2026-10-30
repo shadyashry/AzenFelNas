@@ -86,6 +86,8 @@ final class _GlyphPainter extends CustomPainter {
         _minaret(canvas, stroke);
       case RawdahGlyphKind.rosette:
         _rosette(canvas, stroke);
+      case RawdahGlyphKind.mushaf:
+        _mushaf(canvas, stroke);
     }
     canvas.restore();
   }
@@ -184,6 +186,25 @@ final class _GlyphPainter extends CustomPainter {
     canvas
       ..drawPath(OrnamentPaths.star(const Offset(13, 13), 10.5), stroke)
       ..drawCircle(const Offset(13, 13), 2.8, stroke);
+  }
+
+  /// An open Mushaf on a rahl (folding stand), §15 D106.
+  void _mushaf(Canvas canvas, Paint stroke) {
+    for (final side in const [-1.0, 1.0]) {
+      canvas.drawPath(
+        Path()
+          ..moveTo(13, 8)
+          ..quadraticBezierTo(13 + side * 5, 5.5, 13 + side * 9.5, 6.5)
+          ..lineTo(13 + side * 9.5, 16.5)
+          ..quadraticBezierTo(13 + side * 5, 15.5, 13, 18)
+          ..close(),
+        stroke,
+      );
+    }
+    canvas
+      ..drawLine(const Offset(13, 8), const Offset(13, 18), stroke)
+      ..drawLine(const Offset(8, 24), const Offset(17, 19), stroke)
+      ..drawLine(const Offset(18, 24), const Offset(9, 19), stroke);
   }
 
   @override

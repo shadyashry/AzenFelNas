@@ -4,6 +4,8 @@
 <data-extraction-rules>
     <cloud-backup>
         <exclude domain="file" path="places/" />
+        <!-- The offline Quran package (DESIGN.md §15 D106): ~125 MB, downloaded again on a new device. -->
+        <exclude domain="file" path="quran/" />
     </cloud-backup>
     <device-transfer>
         <exclude domain="file" path="places/" />
