@@ -8,6 +8,7 @@ import 'package:daily_muslim/features/home/presentation/fasting_card.dart';
 import 'package:daily_muslim/features/home/presentation/home_hour_field.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/home_state.dart';
+import 'package:daily_muslim/features/home/presentation/prayer_strip.dart';
 import 'package:daily_muslim/features/home/presentation/time_rows.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
@@ -70,8 +71,9 @@ final class HomePage extends ConsumerWidget {
   }
 }
 
-/// Today: the hero, then the prayer list on a cream card lifted over its
-/// lower edge, notices, and the way to Athan health and the coming days.
+/// Today: the hero, the five-prayer strip rising over its lower edge, then
+/// on cream the full list with every time's confidence, notices, and the
+/// way to Athan health and the coming days (§15 D103).
 final class HomeContentView extends ConsumerWidget {
   /// Shows [content], with [notice] above the times when given.
   const new({required this.content, this.notice, super.key});
@@ -81,9 +83,6 @@ final class HomeContentView extends ConsumerWidget {
 
   /// A notice such as "engine default used" (US-06).
   final String? notice;
-
-  /// How far the prayer card rises over the hero.
-  static const double _lift = 28;
 
   /// The widest the cream sections grow, so lines stay readable in
   /// landscape and on tablets.
@@ -102,48 +101,49 @@ final class HomeContentView extends ConsumerWidget {
         padding: scrollInsets(context),
         children: [
           HomeHourField(content: content, style: style, light: light),
-          // Painted over the hero's lower edge; the space it leaves below
-          // becomes the gap before the next section.
+          // Everything below rises over the hero's lower edge; the room
+          // this leaves at the end is only extra scroll space.
           Transform.translate(
-            offset: const Offset(0, -_lift),
+            offset: const Offset(0, -HomeHourField.stripRoom),
             child: _Reading(
-              child: _Panel(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(
-                        12,
-                        4,
-                        12,
-                        4,
-                      ),
-                      child: Text(
-                        l.homeTitle,
-                        style: DmTheme.naskh(
-                          size: 22,
-                          color: RawdahScheme.of(context).primary,
-                          bold: true,
-                        ),
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: DmScales.gutter,
                     ),
-                    TimeRows(
+                    child: PrayerStrip(
+                      day: content.day,
+                      style: style,
+                      next: next?.event,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                      20,
+                      22,
+                      20,
+                      8,
+                    ),
+                    child: Text(
+                      l.homeTitle,
+                      style: DmTheme.naskh(
+                        size: 26,
+                        color: RawdahScheme.of(context).primary,
+                        bold: true,
+                      ).copyWith(height: 1.2),
+                    ),
+                  ),
+                  _Panel(
+                    child: TimeRows(
                       day: content.day,
                       style: style,
                       next: next?.event,
                       light: light,
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Transform.translate(
-            offset: const Offset(0, -_lift / 2),
-            child: _Reading(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+                  ),
+                  const SizedBox(height: 8),
                   const TravelBanner(),
                   const FastingCard(),
                   if (notice case final String text)
@@ -223,10 +223,10 @@ final class _Panel extends StatelessWidget {
           color: r.panel,
           borderRadius: BorderRadius.circular(DmScales.radiusCard),
           border: Border.all(color: r.hairline),
-          boxShadow: DmElevation.raised,
+          boxShadow: DmElevation.card,
         ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(6, 10, 6, 8),
+          padding: const EdgeInsets.fromLTRB(6, 6, 6, 6),
           child: child,
         ),
       ),

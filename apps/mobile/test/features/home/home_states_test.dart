@@ -7,6 +7,7 @@ import 'package:daily_muslim/features/home/domain/time_row_view.dart';
 import 'package:daily_muslim/features/home/presentation/home_page.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/home_state.dart';
+import 'package:daily_muslim/features/home/presentation/prayer_strip.dart';
 import 'package:daily_muslim/features/home/presentation/time_rows.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
@@ -104,7 +105,40 @@ void main() {
 
     testWidgets('REQ-TIME-002 Isha after midnight shows +1', (tester) async {
       await _pump(tester, HomeReady(_content()));
-      expect(find.text('00:12 +1'), findsOneWidget);
+      // In the strip and in its row.
+      expect(find.text('00:12 +1'), findsNWidgets(2));
+    });
+
+    testWidgets('REQ-UX-001 the strip shows the five prayers with their '
+        'confidence to screen readers, without Sunrise or Imsak', (
+      tester,
+    ) async {
+      await _pump(tester, HomeReady(_content()));
+      final strip = find.byType(PrayerStrip);
+      expect(
+        find.descendant(
+          of: strip,
+          matching: find.bySemanticsLabel('Asr, 15:52, Calculated'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: strip, matching: find.text('Sunrise')),
+        findsNothing,
+      );
+      expect(
+        find.descendant(of: strip, matching: find.byType(Text)),
+        findsNWidgets(10),
+      );
+    });
+
+    testWidgets('US-10 the hero says whether the next Athan is on and offers '
+        'the Athan and Settings tabs', (tester) async {
+      await _pump(tester, HomeReady(_content()));
+      // Nothing chosen yet: the five prayers alert (§15 D94).
+      expect(find.text('Athan on'), findsOneWidget);
+      expect(find.byTooltip('Athan'), findsOneWidget);
+      expect(find.byTooltip('Settings'), findsOneWidget);
     });
 
     testWidgets('noProfile says the engine default is used (US-06)', (
@@ -152,8 +186,8 @@ void main() {
       tester,
     ) async {
       await _pump(tester, HomeReady(_content()), locale: const Locale('ar'));
-      // In the niche and in its row.
-      expect(find.text('١٥:٥٢'), findsNWidgets(2));
+      // In the hero, the strip and its row.
+      expect(find.text('١٥:٥٢'), findsNWidgets(3));
     });
 
     testWidgets('REQ-DOM-040 the digits setting can keep Western digits in '
@@ -164,8 +198,8 @@ void main() {
         locale: const Locale('ar'),
         digits: DigitsSetting.western,
       );
-      // In the niche and in its row.
-      expect(find.text('15:52'), findsNWidgets(2));
+      // In the hero, the strip and its row.
+      expect(find.text('15:52'), findsNWidgets(3));
     });
   });
 

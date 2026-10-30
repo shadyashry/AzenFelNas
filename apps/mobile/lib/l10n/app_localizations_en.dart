@@ -206,6 +206,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeNextPrayerLabel => 'Next prayer';
 
   @override
+  String get homeAthanOn => 'Athan on';
+
+  @override
+  String get homeAthanOff => 'Athan off';
+
+  @override
   String homeNextPrayer(String prayer) {
     return 'Next: $prayer';
   }

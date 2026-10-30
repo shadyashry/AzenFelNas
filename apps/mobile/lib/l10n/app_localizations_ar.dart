@@ -207,6 +207,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeNextPrayerLabel => 'الصلاة الجاية';
 
   @override
+  String get homeAthanOn => 'الأذان شغّال';
+
+  @override
+  String get homeAthanOff => 'الأذان مقفول';
+
+  @override
   String homeNextPrayer(String prayer) {
     return 'الجاية: $prayer';
   }
