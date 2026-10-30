@@ -16,6 +16,7 @@ import 'package:daily_muslim/features/storage/data/static_rules_backup_exclusion
 import 'package:daily_muslim/features/storage/domain/exclude_from_backup.dart';
 import 'package:dm_contracts/athan_scheduler_api.dart';
 import 'package:dm_core_types/dm_core_types.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +31,7 @@ import 'package:permission_handler_platform_interface/permission_handler_platfor
 abstract final class Bootstrap {
   /// The root widget for this process.
   static Future<Widget> run() async {
+    FontLicences.register(rootBundle);
     final open = DatabaseFiles(
       supportDirectory: getApplicationSupportDirectory,
       excludeFromBackup: _exclusion(),

@@ -228,7 +228,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String homeCountdown(String hours, String minutes) {
+  String homeCountdown(int hours, int minutes) {
     return 'in $hours h $minutes min';
   }
 
@@ -864,7 +864,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get travelNotNow => 'Not now';
 
   @override
-  String homeCountdownMinutes(String minutes) {
+  String homeCountdownMinutes(int minutes) {
     return 'in $minutes min';
   }
 

@@ -297,11 +297,11 @@
     "description": "Home: countdown to the next prayer.",
     "placeholders": {
       "hours": {
-        "type": "String",
+        "type": "int",
         "example": "2"
       },
       "minutes": {
-        "type": "String",
+        "type": "int",
         "example": "05"
       }
     }
@@ -1227,7 +1227,7 @@
     "description": "Home: time left to the next prayer, under an hour.",
     "placeholders": {
       "minutes": {
-        "type": "String"
+        "type": "int"
       }
     }
   },

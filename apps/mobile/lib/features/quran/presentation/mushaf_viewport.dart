@@ -123,7 +123,7 @@ final class _MushafViewportState extends State<MushafViewport> {
   void didUpdateWidget(MushafViewport old) {
     super.didUpdateWidget(old);
     if (old.controller != widget.controller) {
-      old.controller.handler = null;
+      _release(old.controller);
       widget.controller.handler = _command;
     }
     if (old.itemCount != widget.itemCount) {
@@ -140,9 +140,16 @@ final class _MushafViewportState extends State<MushafViewport> {
 
   @override
   void dispose() {
-    widget.controller.handler = null;
+    _release(widget.controller);
     _pages.dispose();
     super.dispose();
+  }
+
+  /// Clears [controller]'s handler if it is still this viewport's: a
+  /// viewport that replaces this one in the same frame has already set its
+  /// own, and this one is disposed after it mounts (§15 D116).
+  void _release(MushafViewportController controller) {
+    if (controller.handler == _command) controller.handler = null;
   }
 
   void _resetZoom() {

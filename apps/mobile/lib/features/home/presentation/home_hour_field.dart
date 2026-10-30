@@ -16,6 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+/// A soft green shadow that lifts the hero's ivory text, the arc's labels
+/// too, off the lit architecture behind it (§15 D116).
+const List<Shadow> _lift = [Shadow(color: Color(0xB3062E25), blurRadius: 14)];
+
 /// Home's hero, the Horizon composition (§15 D105): on the forest-green
 /// field with the Madinah artwork at its foot, the place and Settings, the
 /// day's five prayers as a thin gold arc, and under it, centred, the next
@@ -83,6 +87,7 @@ final class HomeHourField extends ConsumerWidget {
       progress: timeline.progress,
       labelStyle: type.arcLabel.copyWith(
         color: RawdahPalette.ivory.withValues(alpha: 0.9),
+        shadows: _lift,
       ),
     );
     final nextPrayer = next == null
@@ -167,8 +172,8 @@ final class HomeHourField extends ConsumerWidget {
     final minutes = remaining <= 0 ? 0 : (remaining + 59999) ~/ 60000;
     return style.digits.apply(
       minutes < 60
-          ? l.homeCountdownMinutes('$minutes')
-          : l.homeCountdown('${minutes ~/ 60}', '${minutes % 60}'),
+          ? l.homeCountdownMinutes(minutes)
+          : l.homeCountdown(minutes ~/ 60, minutes % 60),
     );
   }
 }
@@ -305,11 +310,8 @@ final class _NextPrayer extends StatelessWidget {
       container: true,
       label: [l.homeNextPrayer(name), time.plain, countdown].join(', '),
       excludeSemantics: true,
-      // A soft green shadow lifts the ivory off lit architecture.
       child: DefaultTextStyle.merge(
-        style: const TextStyle(
-          shadows: [Shadow(color: Color(0xB3062E25), blurRadius: 14)],
-        ),
+        style: const TextStyle(shadows: _lift),
         child: Column(
           children: [
             Text(

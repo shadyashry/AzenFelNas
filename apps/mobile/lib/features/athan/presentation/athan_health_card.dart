@@ -102,7 +102,7 @@ final class AthanHealthCard extends ConsumerWidget {
                   ListTile(
                     dense: true,
                     leading: Icon(
-                      Icons.arrow_left,
+                      Icons.arrow_right,
                       color: theme.colorScheme.secondary,
                     ),
                     minLeadingWidth: 12,

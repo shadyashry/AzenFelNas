@@ -5,7 +5,7 @@ import 'package:geo_salah_profiles/geo_salah_profiles.dart';
 /// (§10.3). [version] equals `pubspec.yaml` (a test keeps them equal).
 abstract final class AppBuild {
   /// The app version, `major.minor.patch`.
-  static const version = '0.1.0';
+  static const version = '0.2.0';
 
   /// The prayer-profile schema the engine reads (`minEngineSchema` gate).
   static const engineSchema = 1;

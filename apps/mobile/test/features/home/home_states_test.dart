@@ -12,6 +12,7 @@ import 'package:daily_muslim/features/home/presentation/time_rows.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/presentation/needs_attention_card.dart';
+import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:daily_muslim/l10n/app_localizations_en.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:dm_packages/dm_packages.dart';
@@ -208,6 +209,22 @@ void main() {
       // The row's digits; the hero and the full list with «م» after them.
       expect(find.text('3:52'), findsOneWidget);
       expect(find.text('3:52 م'), findsNWidgets(2));
+    });
+
+    testWidgets('REQ-DOM-040 the Arabic countdown counts in the plural its '
+        'number takes', (tester) async {
+      await _pump(tester, HomeReady(_content()), locale: const Locale('ar'));
+      // One hour and five minutes: «ساعة», and «دقائق» for three to ten.
+      expect(find.text('بعد ساعة و٥ دقائق'), findsOneWidget);
+    });
+
+    test('REQ-DOM-040 Arabic counts take the dual and the plural', () {
+      final l = lookupAppLocalizations(const Locale('ar'));
+      expect(l.homeCountdown(2, 2), 'بعد ساعتين ودقيقتين');
+      expect(l.homeCountdown(3, 11), 'بعد 3 ساعات و11 دقيقة');
+      expect(l.homeCountdownMinutes(10), 'بعد 10 دقائق');
+      expect(l.athanPreReminderMinutes(15), 'قبل 15 دقيقة');
+      expect(l.planPreReminderTitle('العصر', 5), 'العصر بعد 5 دقائق');
     });
   });
 

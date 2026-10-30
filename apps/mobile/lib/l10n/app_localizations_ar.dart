@@ -229,8 +229,24 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String homeCountdown(String hours, String minutes) {
-    return 'بعد $hours ساعة و$minutes دقيقة';
+  String homeCountdown(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours ساعة',
+      few: '$hours ساعات',
+      two: 'ساعتين',
+      one: 'ساعة',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقيقة',
+      few: '$minutes دقائق',
+      two: 'دقيقتين',
+      one: 'دقيقة',
+    );
+    return 'بعد $_temp0 و$_temp1';
   }
 
   @override
@@ -554,12 +570,24 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String planPreReminderTitle(String prayer, int minutes) {
-    return '$prayer بعد $minutes دقيقة';
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقيقة',
+      few: '$minutes دقائق',
+    );
+    return '$prayer بعد $_temp0';
   }
 
   @override
   String planPreReminderBody(String prayer, int minutes) {
-    return 'أذان $prayer بعد $minutes دقيقة.';
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقيقة',
+      few: '$minutes دقائق',
+    );
+    return 'أذان $prayer بعد $_temp0.';
   }
 
   @override
@@ -797,7 +825,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String athanPreReminderMinutes(int minutes) {
-    return 'قبل $minutes دقيقة';
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقيقة',
+      few: '$minutes دقائق',
+    );
+    return 'قبل $_temp0';
   }
 
   @override
@@ -856,8 +890,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get travelNotNow => 'مش دلوقتي';
 
   @override
-  String homeCountdownMinutes(String minutes) {
-    return 'بعد $minutes دقيقة';
+  String homeCountdownMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقيقة',
+      few: '$minutes دقائق',
+      two: 'دقيقتين',
+      one: 'دقيقة',
+    );
+    return 'بعد $_temp0';
   }
 
   @override

@@ -504,7 +504,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'in {hours} h {minutes} min'**
-  String homeCountdown(String hours, String minutes);
+  String homeCountdown(int hours, int minutes);
 
   /// Home: no timed prayer left.
   ///
@@ -1578,7 +1578,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'in {minutes} min'**
-  String homeCountdownMinutes(String minutes);
+  String homeCountdownMinutes(int minutes);
 
   /// Home: the next prayer, in the cartouche inside the arch.
   ///

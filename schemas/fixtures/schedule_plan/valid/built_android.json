@@ -14,11 +14,11 @@
       "fireAtUtcMs": 1792661400000,
       "displayLocal": "12:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -50,11 +50,11 @@
       "fireAtUtcMs": 1792672920000,
       "displayLocal": "15:42",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -86,11 +86,11 @@
       "fireAtUtcMs": 1792681680000,
       "displayLocal": "18:08",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -122,11 +122,11 @@
       "fireAtUtcMs": 1792686300000,
       "displayLocal": "19:25",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -158,11 +158,11 @@
       "fireAtUtcMs": 1792722360000,
       "displayLocal": "05:26",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -194,11 +194,11 @@
       "fireAtUtcMs": 1792747800000,
       "displayLocal": "12:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -230,11 +230,11 @@
       "fireAtUtcMs": 1792759320000,
       "displayLocal": "15:42",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -266,11 +266,11 @@
       "fireAtUtcMs": 1792768020000,
       "displayLocal": "18:07",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -302,11 +302,11 @@
       "fireAtUtcMs": 1792772640000,
       "displayLocal": "19:24",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -338,11 +338,11 @@
       "fireAtUtcMs": 1792808760000,
       "displayLocal": "05:26",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -374,11 +374,11 @@
       "fireAtUtcMs": 1792834200000,
       "displayLocal": "12:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -410,11 +410,11 @@
       "fireAtUtcMs": 1792845660000,
       "displayLocal": "15:41",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -446,11 +446,11 @@
       "fireAtUtcMs": 1792854360000,
       "displayLocal": "18:06",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -482,11 +482,11 @@
       "fireAtUtcMs": 1792859040000,
       "displayLocal": "19:24",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -518,11 +518,11 @@
       "fireAtUtcMs": 1792895220000,
       "displayLocal": "05:27",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -554,11 +554,11 @@
       "fireAtUtcMs": 1792920600000,
       "displayLocal": "12:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -590,11 +590,11 @@
       "fireAtUtcMs": 1792932000000,
       "displayLocal": "15:40",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -626,11 +626,11 @@
       "fireAtUtcMs": 1792940700000,
       "displayLocal": "18:05",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -662,11 +662,11 @@
       "fireAtUtcMs": 1792945380000,
       "displayLocal": "19:23",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -698,11 +698,11 @@
       "fireAtUtcMs": 1792981620000,
       "displayLocal": "05:27",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -734,11 +734,11 @@
       "fireAtUtcMs": 1793007000000,
       "displayLocal": "12:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -770,11 +770,11 @@
       "fireAtUtcMs": 1793018340000,
       "displayLocal": "15:39",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -806,11 +806,11 @@
       "fireAtUtcMs": 1793027040000,
       "displayLocal": "18:04",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -842,11 +842,11 @@
       "fireAtUtcMs": 1793031720000,
       "displayLocal": "19:22",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -878,11 +878,11 @@
       "fireAtUtcMs": 1793068080000,
       "displayLocal": "05:28",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -914,11 +914,11 @@
       "fireAtUtcMs": 1793093340000,
       "displayLocal": "12:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -950,11 +950,11 @@
       "fireAtUtcMs": 1793104740000,
       "displayLocal": "15:39",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -986,11 +986,11 @@
       "fireAtUtcMs": 1793113380000,
       "displayLocal": "18:03",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1022,11 +1022,11 @@
       "fireAtUtcMs": 1793118060000,
       "displayLocal": "19:21",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1058,11 +1058,11 @@
       "fireAtUtcMs": 1793154540000,
       "displayLocal": "05:29",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1094,11 +1094,11 @@
       "fireAtUtcMs": 1793179740000,
       "displayLocal": "12:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1130,11 +1130,11 @@
       "fireAtUtcMs": 1793191080000,
       "displayLocal": "15:38",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1166,11 +1166,11 @@
       "fireAtUtcMs": 1793199720000,
       "displayLocal": "18:02",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1202,11 +1202,11 @@
       "fireAtUtcMs": 1793204400000,
       "displayLocal": "19:20",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1238,11 +1238,11 @@
       "fireAtUtcMs": 1793240940000,
       "displayLocal": "05:29",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1274,11 +1274,11 @@
       "fireAtUtcMs": 1793266140000,
       "displayLocal": "12:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1310,11 +1310,11 @@
       "fireAtUtcMs": 1793277420000,
       "displayLocal": "15:37",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1346,11 +1346,11 @@
       "fireAtUtcMs": 1793286060000,
       "displayLocal": "18:01",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1382,11 +1382,11 @@
       "fireAtUtcMs": 1793290740000,
       "displayLocal": "19:19",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1418,11 +1418,11 @@
       "fireAtUtcMs": 1793327400000,
       "displayLocal": "04:30",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1454,11 +1454,11 @@
       "fireAtUtcMs": 1793352540000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1490,11 +1490,11 @@
       "fireAtUtcMs": 1793363820000,
       "displayLocal": "14:37",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1526,11 +1526,11 @@
       "fireAtUtcMs": 1793372400000,
       "displayLocal": "17:00",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1562,11 +1562,11 @@
       "fireAtUtcMs": 1793377140000,
       "displayLocal": "18:19",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1598,11 +1598,11 @@
       "fireAtUtcMs": 1793413860000,
       "displayLocal": "04:31",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1634,11 +1634,11 @@
       "fireAtUtcMs": 1793438940000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1670,11 +1670,11 @@
       "fireAtUtcMs": 1793450160000,
       "displayLocal": "14:36",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1706,11 +1706,11 @@
       "fireAtUtcMs": 1793458740000,
       "displayLocal": "16:59",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1742,11 +1742,11 @@
       "fireAtUtcMs": 1793463480000,
       "displayLocal": "18:18",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1778,11 +1778,11 @@
       "fireAtUtcMs": 1793500260000,
       "displayLocal": "04:31",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1814,11 +1814,11 @@
       "fireAtUtcMs": 1793525340000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1850,11 +1850,11 @@
       "fireAtUtcMs": 1793536560000,
       "displayLocal": "14:36",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1886,11 +1886,11 @@
       "fireAtUtcMs": 1793545140000,
       "displayLocal": "16:59",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1922,11 +1922,11 @@
       "fireAtUtcMs": 1793549820000,
       "displayLocal": "18:17",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1958,11 +1958,11 @@
       "fireAtUtcMs": 1793586720000,
       "displayLocal": "04:32",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -1994,11 +1994,11 @@
       "fireAtUtcMs": 1793611740000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2030,11 +2030,11 @@
       "fireAtUtcMs": 1793622900000,
       "displayLocal": "14:35",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2066,11 +2066,11 @@
       "fireAtUtcMs": 1793631480000,
       "displayLocal": "16:58",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2102,11 +2102,11 @@
       "fireAtUtcMs": 1793636220000,
       "displayLocal": "18:17",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2138,11 +2138,11 @@
       "fireAtUtcMs": 1793673180000,
       "displayLocal": "04:33",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2174,11 +2174,11 @@
       "fireAtUtcMs": 1793698140000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2210,11 +2210,11 @@
       "fireAtUtcMs": 1793709240000,
       "displayLocal": "14:34",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2246,11 +2246,11 @@
       "fireAtUtcMs": 1793717820000,
       "displayLocal": "16:57",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2282,11 +2282,11 @@
       "fireAtUtcMs": 1793722560000,
       "displayLocal": "18:16",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2318,11 +2318,11 @@
       "fireAtUtcMs": 1793759580000,
       "displayLocal": "04:33",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2354,11 +2354,11 @@
       "fireAtUtcMs": 1793784540000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2390,11 +2390,11 @@
       "fireAtUtcMs": 1793795640000,
       "displayLocal": "14:34",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2426,11 +2426,11 @@
       "fireAtUtcMs": 1793804160000,
       "displayLocal": "16:56",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2462,11 +2462,11 @@
       "fireAtUtcMs": 1793808900000,
       "displayLocal": "18:15",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2498,11 +2498,11 @@
       "fireAtUtcMs": 1793846040000,
       "displayLocal": "04:34",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2534,11 +2534,11 @@
       "fireAtUtcMs": 1793870940000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2570,11 +2570,11 @@
       "fireAtUtcMs": 1793881980000,
       "displayLocal": "14:33",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2606,11 +2606,11 @@
       "fireAtUtcMs": 1793890500000,
       "displayLocal": "16:55",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2642,11 +2642,11 @@
       "fireAtUtcMs": 1793895300000,
       "displayLocal": "18:15",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2678,11 +2678,11 @@
       "fireAtUtcMs": 1793932500000,
       "displayLocal": "04:35",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2714,11 +2714,11 @@
       "fireAtUtcMs": 1793957340000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2750,11 +2750,11 @@
       "fireAtUtcMs": 1793968380000,
       "displayLocal": "14:33",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2786,11 +2786,11 @@
       "fireAtUtcMs": 1793976900000,
       "displayLocal": "16:55",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2822,11 +2822,11 @@
       "fireAtUtcMs": 1793981640000,
       "displayLocal": "18:14",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2858,11 +2858,11 @@
       "fireAtUtcMs": 1794018900000,
       "displayLocal": "04:35",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2894,11 +2894,11 @@
       "fireAtUtcMs": 1794043740000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2930,11 +2930,11 @@
       "fireAtUtcMs": 1794054720000,
       "displayLocal": "14:32",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -2966,11 +2966,11 @@
       "fireAtUtcMs": 1794063240000,
       "displayLocal": "16:54",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3002,11 +3002,11 @@
       "fireAtUtcMs": 1794067980000,
       "displayLocal": "18:13",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3038,11 +3038,11 @@
       "fireAtUtcMs": 1794105360000,
       "displayLocal": "04:36",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3074,11 +3074,11 @@
       "fireAtUtcMs": 1794130140000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3110,11 +3110,11 @@
       "fireAtUtcMs": 1794141120000,
       "displayLocal": "14:32",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3146,11 +3146,11 @@
       "fireAtUtcMs": 1794149580000,
       "displayLocal": "16:53",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3182,11 +3182,11 @@
       "fireAtUtcMs": 1794154380000,
       "displayLocal": "18:13",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3218,11 +3218,11 @@
       "fireAtUtcMs": 1794191820000,
       "displayLocal": "04:37",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3254,11 +3254,11 @@
       "fireAtUtcMs": 1794216540000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3290,11 +3290,11 @@
       "fireAtUtcMs": 1794227460000,
       "displayLocal": "14:31",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3326,11 +3326,11 @@
       "fireAtUtcMs": 1794235980000,
       "displayLocal": "16:53",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3362,11 +3362,11 @@
       "fireAtUtcMs": 1794240720000,
       "displayLocal": "18:12",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3398,11 +3398,11 @@
       "fireAtUtcMs": 1794278220000,
       "displayLocal": "04:37",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3434,11 +3434,11 @@
       "fireAtUtcMs": 1794302940000,
       "displayLocal": "11:29",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3470,11 +3470,11 @@
       "fireAtUtcMs": 1794313860000,
       "displayLocal": "14:31",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3506,11 +3506,11 @@
       "fireAtUtcMs": 1794322320000,
       "displayLocal": "16:52",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3542,11 +3542,11 @@
       "fireAtUtcMs": 1794327120000,
       "displayLocal": "18:12",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3578,11 +3578,11 @@
       "fireAtUtcMs": 1794364680000,
       "displayLocal": "04:38",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3614,11 +3614,11 @@
       "fireAtUtcMs": 1794389400000,
       "displayLocal": "11:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3650,11 +3650,11 @@
       "fireAtUtcMs": 1794400200000,
       "displayLocal": "14:30",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3686,11 +3686,11 @@
       "fireAtUtcMs": 1794408720000,
       "displayLocal": "16:52",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3722,11 +3722,11 @@
       "fireAtUtcMs": 1794413460000,
       "displayLocal": "18:11",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3758,11 +3758,11 @@
       "fireAtUtcMs": 1794451140000,
       "displayLocal": "04:39",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3794,11 +3794,11 @@
       "fireAtUtcMs": 1794475800000,
       "displayLocal": "11:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3830,11 +3830,11 @@
       "fireAtUtcMs": 1794486600000,
       "displayLocal": "14:30",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3866,11 +3866,11 @@
       "fireAtUtcMs": 1794495060000,
       "displayLocal": "16:51",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3902,11 +3902,11 @@
       "fireAtUtcMs": 1794499860000,
       "displayLocal": "18:11",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3938,11 +3938,11 @@
       "fireAtUtcMs": 1794537540000,
       "displayLocal": "04:39",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -3974,11 +3974,11 @@
       "fireAtUtcMs": 1794562200000,
       "displayLocal": "11:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4010,11 +4010,11 @@
       "fireAtUtcMs": 1794572940000,
       "displayLocal": "14:29",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4046,11 +4046,11 @@
       "fireAtUtcMs": 1794581400000,
       "displayLocal": "16:50",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4082,11 +4082,11 @@
       "fireAtUtcMs": 1794586260000,
       "displayLocal": "18:11",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4118,11 +4118,11 @@
       "fireAtUtcMs": 1794624000000,
       "displayLocal": "04:40",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4154,11 +4154,11 @@
       "fireAtUtcMs": 1794648600000,
       "displayLocal": "11:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4190,11 +4190,11 @@
       "fireAtUtcMs": 1794659340000,
       "displayLocal": "14:29",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4226,11 +4226,11 @@
       "fireAtUtcMs": 1794667800000,
       "displayLocal": "16:50",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4262,11 +4262,11 @@
       "fireAtUtcMs": 1794672600000,
       "displayLocal": "18:10",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4298,11 +4298,11 @@
       "fireAtUtcMs": 1794710460000,
       "displayLocal": "04:41",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4334,11 +4334,11 @@
       "fireAtUtcMs": 1794735000000,
       "displayLocal": "11:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4370,11 +4370,11 @@
       "fireAtUtcMs": 1794745740000,
       "displayLocal": "14:29",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4406,11 +4406,11 @@
       "fireAtUtcMs": 1794754140000,
       "displayLocal": "16:49",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4442,11 +4442,11 @@
       "fireAtUtcMs": 1794759000000,
       "displayLocal": "18:10",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4478,11 +4478,11 @@
       "fireAtUtcMs": 1794796860000,
       "displayLocal": "04:41",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4514,11 +4514,11 @@
       "fireAtUtcMs": 1794821400000,
       "displayLocal": "11:30",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4550,11 +4550,11 @@
       "fireAtUtcMs": 1794832080000,
       "displayLocal": "14:28",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4586,11 +4586,11 @@
       "fireAtUtcMs": 1794840540000,
       "displayLocal": "16:49",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4622,11 +4622,11 @@
       "fireAtUtcMs": 1794845340000,
       "displayLocal": "18:09",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4658,11 +4658,11 @@
       "fireAtUtcMs": 1794883320000,
       "displayLocal": "04:42",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4694,11 +4694,11 @@
       "fireAtUtcMs": 1794907860000,
       "displayLocal": "11:31",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4730,11 +4730,11 @@
       "fireAtUtcMs": 1794918480000,
       "displayLocal": "14:28",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4766,11 +4766,11 @@
       "fireAtUtcMs": 1794926940000,
       "displayLocal": "16:49",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4802,11 +4802,11 @@
       "fireAtUtcMs": 1794931740000,
       "displayLocal": "18:09",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4838,11 +4838,11 @@
       "fireAtUtcMs": 1794969780000,
       "displayLocal": "04:43",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4874,11 +4874,11 @@
       "fireAtUtcMs": 1794994260000,
       "displayLocal": "11:31",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4910,11 +4910,11 @@
       "fireAtUtcMs": 1795004880000,
       "displayLocal": "14:28",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4946,11 +4946,11 @@
       "fireAtUtcMs": 1795013280000,
       "displayLocal": "16:48",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -4982,11 +4982,11 @@
       "fireAtUtcMs": 1795018140000,
       "displayLocal": "18:09",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -5035,11 +5035,11 @@
       "fireAtUtcMs": 1795056240000,
       "displayLocal": "04:44",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -5071,11 +5071,11 @@
       "fireAtUtcMs": 1795080660000,
       "displayLocal": "11:31",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -5107,11 +5107,11 @@
       "fireAtUtcMs": 1795091220000,
       "displayLocal": "14:27",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -5143,11 +5143,11 @@
       "fireAtUtcMs": 1795099680000,
       "displayLocal": "16:48",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -5179,11 +5179,11 @@
       "fireAtUtcMs": 1795104540000,
       "displayLocal": "18:09",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -5215,11 +5215,11 @@
       "fireAtUtcMs": 1795142640000,
       "displayLocal": "04:44",
       "title": {
-        "ar": "الفجر بعد 10 دقيقة",
+        "ar": "الفجر بعد 10 دقائق",
         "en": "Fajr in 10 min"
       },
       "body": {
-        "ar": "أذان الفجر بعد 10 دقيقة.",
+        "ar": "أذان الفجر بعد 10 دقائق.",
         "en": "The Fajr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -5251,11 +5251,11 @@
       "fireAtUtcMs": 1795167060000,
       "displayLocal": "11:31",
       "title": {
-        "ar": "الظهر بعد 10 دقيقة",
+        "ar": "الظهر بعد 10 دقائق",
         "en": "Dhuhr in 10 min"
       },
       "body": {
-        "ar": "أذان الظهر بعد 10 دقيقة.",
+        "ar": "أذان الظهر بعد 10 دقائق.",
         "en": "The Dhuhr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -5287,11 +5287,11 @@
       "fireAtUtcMs": 1795177620000,
       "displayLocal": "14:27",
       "title": {
-        "ar": "العصر بعد 10 دقيقة",
+        "ar": "العصر بعد 10 دقائق",
         "en": "Asr in 10 min"
       },
       "body": {
-        "ar": "أذان العصر بعد 10 دقيقة.",
+        "ar": "أذان العصر بعد 10 دقائق.",
         "en": "The Asr Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -5323,11 +5323,11 @@
       "fireAtUtcMs": 1795186020000,
       "displayLocal": "16:47",
       "title": {
-        "ar": "المغرب بعد 10 دقيقة",
+        "ar": "المغرب بعد 10 دقائق",
         "en": "Maghrib in 10 min"
       },
       "body": {
-        "ar": "أذان المغرب بعد 10 دقيقة.",
+        "ar": "أذان المغرب بعد 10 دقائق.",
         "en": "The Maghrib Athan is in 10 minutes."
       },
       "soundId": "notification_default",
@@ -5359,11 +5359,11 @@
       "fireAtUtcMs": 1795190880000,
       "displayLocal": "18:08",
       "title": {
-        "ar": "العشاء بعد 10 دقيقة",
+        "ar": "العشاء بعد 10 دقائق",
         "en": "Isha in 10 min"
       },
       "body": {
-        "ar": "أذان العشاء بعد 10 دقيقة.",
+        "ar": "أذان العشاء بعد 10 دقائق.",
         "en": "The Isha Athan is in 10 minutes."
       },
       "soundId": "notification_default",

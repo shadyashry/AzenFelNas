@@ -57,7 +57,10 @@ final class _MushafReaderState extends ConsumerState<MushafReader> {
       child: Column(
         children: [
           if (chrome) ReaderTopBar(page: state.page),
+          // Keyed so hiding or showing the bars keeps the pages, their zoom
+          // and the viewport's command handler (§15 D116).
           Expanded(
+            key: const ValueKey('surface'),
             child: _Surface(installed: widget.installed, viewport: _viewport),
           ),
           if (chrome && state.draft == null)

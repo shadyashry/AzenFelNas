@@ -28,6 +28,16 @@ internal class PlanProbesTest {
     }
 
     @Test
+    fun `REQ-ALM-053 the phone alarm tone needs no file and passes the sound probe`() {
+        val tone =
+            builtPlan.copy(
+                entries = builtPlan.entries.map { it.copy(soundId = PlanProbes.DEVICE_ALARM_SOUND_ID) },
+            )
+
+        assertEquals(true, positives(PlanProbes { false }.of(tone, 0L))[ProbeName.SOUND_ASSET])
+    }
+
+    @Test
     fun `REQ-ALM-003 no plan is NOT_READY and the plan-derived probes cannot tell`() {
         val probes = PlanProbes { true }.of(null, 0L)
 

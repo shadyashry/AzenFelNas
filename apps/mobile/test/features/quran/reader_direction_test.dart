@@ -42,6 +42,39 @@ Widget _reader(
 );
 
 void main() {
+  testWidgets('REQ-QRN-032: the zoom buttons still work after the viewport '
+      'is replaced in the same frame', (tester) async {
+    final controller = MushafViewportController();
+    Widget viewport(Key key) => MushafViewport(
+      key: key,
+      itemCount: 10,
+      item: 0,
+      aspect: 0.7,
+      fit: PageFit.page,
+      controller: controller,
+      drawing: false,
+      semanticLabel: 'page',
+      itemBuilder: (context, item, size) => const SizedBox.expand(),
+      onItemChanged: (_) {},
+      onDraw: (_, _, _) {},
+      onTap: (_, _) {},
+    );
+    Widget app(Key key) => Directionality(
+      textDirection: TextDirection.ltr,
+      child: viewport(key),
+    );
+    await tester.pumpWidget(app(const ValueKey(1)));
+    // As when the reader's bars hide: a new viewport mounts before the old
+    // one is disposed.
+    await tester.pumpWidget(app(const ValueKey(2)));
+    await tester.pump();
+
+    controller.send(ViewportCommand.zoomIn);
+    await tester.pump();
+
+    expect(controller.scale, greaterThan(1));
+  });
+
   for (final locale in const [Locale('en'), Locale('ar')]) {
     group('interface ${locale.languageCode}', () {
       testWidgets('REQ-QRN-020: a swipe to the right turns to the next '

@@ -26,6 +26,12 @@ dev_dependencies:
 # per weight it serves so a requested weight matches a real face (never a
 # synthesized bold), and DmTheme sets the matching `wght` axis.
 flutter:
+  # The licences ship with the faces; FontLicences shows them (§10.4).
+  assets:
+    - fonts/OFL-Inter.txt
+    - fonts/OFL-Lora.txt
+    - fonts/OFL-NotoNaskhArabic.txt
+    - fonts/OFL-NotoSansArabic.txt
   fonts:
     - family: Inter
       fonts:
