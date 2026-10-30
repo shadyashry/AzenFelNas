@@ -58,7 +58,7 @@ void main() {
     Duration gone() => settled() + BrandIntro.exitDuration * 2;
 
     testWidgets('opens on the launch screen picture, the logo at its launch '
-        'size, then settles', (tester) async {
+        'size, then opens out to fill the screen', (tester) async {
       await pump(tester, ready: ValueNotifier(false));
       expect(find.byType(Image), findsOneWidget);
       final image = tester.widget<Image>(find.byType(Image));
@@ -71,7 +71,28 @@ void main() {
       await play(tester, settled());
       final last = tester.getRect(find.byType(Image));
       expect(last.center, first.center);
-      expect(last.width, moreOrLessEquals(BrandIntro.side));
+      expect(last.width, moreOrLessEquals(BrandIntro.fullSideIn(screen)));
+    });
+
+    testWidgets('on a phone in portrait the settled logo spans the full '
+        'width; in landscape it leaves room below', (tester) async {
+      tester.view
+        ..physicalSize = const Size(1080, 2340)
+        ..devicePixelRatio = 2.625;
+      addTearDown(tester.view.reset);
+      await pump(tester, ready: ValueNotifier(false));
+      await play(tester, settled());
+      final portrait = tester.view.physicalSize / tester.view.devicePixelRatio;
+      expect(
+        tester.getRect(find.byType(Image)).width,
+        moreOrLessEquals(portrait.width),
+      );
+      tester.view.physicalSize = const Size(2340, 1080);
+      await tester.pump();
+      final landscape = tester.view.physicalSize / tester.view.devicePixelRatio;
+      final rect = tester.getRect(find.byType(Image));
+      expect(rect.height, lessThan(landscape.height));
+      expect(rect.center.dy, moreOrLessEquals(landscape.height / 2));
     });
 
     testWidgets('shows the logo over the app, then leaves the app alone', (
@@ -85,12 +106,12 @@ void main() {
     });
 
     testWidgets('from the launch picture to the app takes under the design '
-        'target of 1.5 seconds when the app is ready', (tester) async {
+        'target of 2 seconds when the app is ready', (tester) async {
       await pump(tester);
       // Up to the motion's start: the launch picture still on screen.
       await play(tester, BrandIntro.decodeWait * 2);
       expect(find.byType(Image), findsOneWidget);
-      await play(tester, const Duration(milliseconds: 1400));
+      await play(tester, const Duration(milliseconds: 1900));
       expect(find.byType(Image), findsNothing);
     });
 

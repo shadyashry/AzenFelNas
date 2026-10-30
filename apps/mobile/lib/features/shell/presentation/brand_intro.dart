@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
@@ -7,17 +8,20 @@ import 'package:flutter/material.dart';
 /// The opening moment (§15 D100, D101, D106), over the whole screen. The
 /// native launch screen shows the approved logo at [launchSide] on its own
 /// green; the intro's first frame is that same picture, held back until the
-/// logo is decoded, so nothing blinks or jumps. The logo then settles to
-/// [side] while one warm glow rises over the lantern and the sunrise and
-/// fades, and rests, still, until the app is [ready]; then the intro fades
-/// into it. If the app is still loading [loadingAfter] after the logo
-/// settled, a thin gold line says so; after [longestHold] the intro leaves
-/// anyway for the app's own loading and recovery states. The app starts
-/// underneath at once and keeps its place in the tree, so deep links and
-/// notification taps land while the intro plays. A tap skips it; it is
-/// hidden from screen readers. With reduced motion the logo stays still and
-/// the intro fades when the app is ready. It plays once per process: a
-/// resume does not replay it.
+/// logo is decoded, so nothing blinks or jumps. The logo then opens out to
+/// fill the screen ([fullSideIn]) as dawn light spreads from its sunrise:
+/// a warm bloom over the whole screen, soft rays rising through the arch, a
+/// sheen across the gold and a glow at the lantern and the sunrise, all of
+/// it once, never looping. The logo rests, crisp, until the app is
+/// [ready]; then it opens towards the reader and fades as the app settles
+/// into place beneath. If the app is still loading [loadingAfter] after the
+/// logo settled, a thin gold line says so; after [longestHold] the intro
+/// leaves anyway for the app's own loading and recovery states. The app
+/// starts underneath at once and keeps its place in the tree, so deep links
+/// and notification taps land while the intro plays. A tap skips it; it is
+/// hidden from screen readers. With reduced motion the logo stays still at
+/// the launch size and the intro fades when the app is ready. It plays once
+/// per process: a resume does not replay it.
 final class BrandIntro extends StatefulWidget {
   /// The intro over [child], leaving once [ready].
   const new({required this.child, this.ready = true, super.key});
@@ -28,18 +32,15 @@ final class BrandIntro extends StatefulWidget {
   /// Whether the first screen has its content.
   final bool ready;
 
-  /// The logo's side once settled, in logical pixels.
-  static const side = 180.0;
-
-  /// The logo's side on the native launch screens (97 % of [side]); the
-  /// launch images are made at this size by `tool/brand`.
+  /// The logo's side on the native launch screens; the launch images are
+  /// made at this size by `tool/brand`.
   static const launchSide = 175.0;
 
-  /// The settle and the glow.
-  static const motionDuration = Duration(milliseconds: 900);
+  /// The opening out and the dawn light.
+  static const motionDuration = Duration(milliseconds: 1400);
 
-  /// The fade into the app.
-  static const exitDuration = Duration(milliseconds: 300);
+  /// The opening towards the reader and the fade into the app.
+  static const exitDuration = Duration(milliseconds: 450);
 
   /// The fade into the app with reduced motion, or when a tap skips.
   static const quickExitDuration = Duration(milliseconds: 200);
@@ -56,6 +57,12 @@ final class BrandIntro extends StatefulWidget {
 
   /// The intro's logo: the launch screens' picture, its plain edge faded.
   static const asset = 'assets/brand/logo_launch.png';
+
+  /// The settled logo's side on a screen of [size]: the full width in
+  /// portrait; in landscape a little short of the height, leaving room for
+  /// the loading line.
+  static double fullSideIn(Size size) =>
+      math.min(size.width, size.height * 0.8);
 
   @override
   State<BrandIntro> createState() => _BrandIntroState();
@@ -178,12 +185,22 @@ final class _BrandIntroState extends State<BrandIntro>
 
   @override
   Widget build(BuildContext context) {
+    final still = MediaQuery.disableAnimationsOf(context);
     // The app keeps its place in the tree when the intro leaves, so none of
-    // its state is rebuilt.
+    // its state is rebuilt; its transform is the identity once settled.
     return Stack(
       fit: StackFit.expand,
       children: [
-        widget.child,
+        AnimatedBuilder(
+          animation: _exit,
+          builder: (context, app) => Transform.scale(
+            scale: still || _done
+                ? 1
+                : 0.96 + 0.04 * Curves.easeOutCubic.transform(_exit.value),
+            child: app,
+          ),
+          child: widget.child,
+        ),
         if (!_done)
           GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -194,12 +211,15 @@ final class _BrandIntroState extends State<BrandIntro>
                 value: DmTheme.statusBarOn(Brightness.dark),
                 child: FadeTransition(
                   opacity: ReverseAnimation(
-                    CurvedAnimation(parent: _exit, curve: Curves.easeOut),
+                    CurvedAnimation(parent: _exit, curve: Curves.easeIn),
                   ),
                   child: AnimatedBuilder(
-                    animation: _motion,
-                    builder: (context, _) =>
-                        _Stage(t: _motion.value, loading: _loading),
+                    animation: Listenable.merge([_motion, _exit]),
+                    builder: (context, _) => _Stage(
+                      t: _motion.value,
+                      leaving: still ? 0 : _exit.value,
+                      loading: _loading,
+                    ),
                   ),
                 ),
               ),
@@ -210,30 +230,40 @@ final class _BrandIntroState extends State<BrandIntro>
   }
 }
 
-/// The whole-screen stage at motion [t] (0 → 1); [loading] once the app
-/// has kept the settled logo waiting.
+/// The whole-screen stage at motion [t] (0 → 1) and exit [leaving]
+/// (0 → 1); [loading] once the app has kept the settled logo waiting.
 final class _Stage extends StatelessWidget {
-  const new({required this.t, required this.loading});
+  const new({required this.t, required this.leaving, required this.loading});
 
   final double t;
+  final double leaving;
   final bool loading;
 
   /// 0 before [from], 1 after [to], linear between.
   static double _span(double t, double from, double to) =>
       ((t - from) / (to - from)).clamp(0.0, 1.0);
 
+  /// Up over [from]–[peak], down over [peak]–[to], each eased.
+  static double _rise(double t, double from, double peak, double to) => t < peak
+      ? Curves.easeOut.transform(_span(t, from, peak))
+      : 1 - Curves.easeInOut.transform(_span(t, peak, to));
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    // Centred on the whole screen, as the launch screens are; smaller only
-    // where a screen could not hold it.
-    final side = math.min(BrandIntro.side, size.shortestSide * 0.6);
-    final settle = Curves.easeOutCubic.transform(_span(t, 0, 0.78));
-    const from = BrandIntro.launchSide / BrandIntro.side;
-    // One warm glow: up by 0.55, gone by the end, the logo still and crisp.
-    final glow = t < 0.55
-        ? Curves.easeOut.transform(_span(t, 0.15, 0.55))
-        : 1 - Curves.easeInOut.transform(_span(t, 0.55, 1));
+    final full = BrandIntro.fullSideIn(size);
+    // From the launch picture, centred on the whole screen as the launch
+    // screens are, out to the full side; then towards the reader as it
+    // leaves.
+    final open = Curves.easeInOutCubic.transform(_span(t, 0, 0.55));
+    final from = math.min(BrandIntro.launchSide / full, 1);
+    final scale =
+        (from + (1 - from) * open) *
+        (1 + 0.08 * Curves.easeIn.transform(leaving));
+    final sunrise = Offset(
+      size.width / 2,
+      size.height / 2 + (_GlowPainter.sunrise.dy - 0.5) * full * scale,
+    );
     return ColoredBox(
       color: RawdahPalette.logoGround,
       child: Stack(
@@ -241,30 +271,49 @@ final class _Stage extends StatelessWidget {
         children: [
           Center(
             child: Transform.scale(
-              scale: from + (1 - from) * settle,
+              scale: scale,
               child: SizedBox.square(
-                dimension: side,
+                dimension: full,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
                     Image.asset(
                       BrandIntro.asset,
-                      width: side,
-                      height: side,
+                      width: full,
+                      height: full,
                       gaplessPlayback: true,
                     ),
-                    if (glow > 0)
-                      IgnorePointer(
-                        child: CustomPaint(painter: _GlowPainter(glow)),
+                    IgnorePointer(
+                      child: CustomPaint(
+                        painter: _GlowPainter(
+                          sheen: Curves.easeInOut.transform(
+                            _span(t, 0.45, 0.88),
+                          ),
+                          glow: _rise(t, 0.5, 0.72, 1),
+                        ),
                       ),
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-          Center(
-            child: Transform.translate(
-              offset: Offset(0, side / 2 + 40),
+          IgnorePointer(
+            child: CustomPaint(
+              painter: _DawnPainter(
+                from: sunrise,
+                bloom: _rise(t, 0.12, 0.55, 1),
+                reach: Curves.easeOutCubic.transform(_span(t, 0.22, 0.78)),
+                rays: _rise(t, 0.22, 0.5, 1),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.viewPaddingOf(context).bottom + 28,
+              ),
               child: AnimatedOpacity(
                 opacity: loading ? 1 : 0,
                 duration: const Duration(milliseconds: 300),
@@ -290,20 +339,137 @@ final class _Stage extends StatelessWidget {
   }
 }
 
-/// Warm light over the logo's lantern and sunrise at [strength] (0 → 1),
-/// screened onto the picture so it only brightens; both pools sit well
-/// inside the logo's square, clear of its edge and mostly of the letters.
-final class _GlowPainter extends CustomPainter {
-  new(this.strength);
+/// Dawn over the whole screen from the logo's sunrise at [from]: a warm
+/// [bloom] (0 → 1) and soft rays fanning upward through the arch, reaching
+/// [reach] of the screen at strength [rays]. Added, so it only lightens;
+/// no blur or blend that reads the screen back, so it stays cheap.
+final class _DawnPainter extends CustomPainter {
+  new({
+    required this.from,
+    required this.bloom,
+    required this.reach,
+    required this.rays,
+  });
 
-  final double strength;
+  final Offset from;
+  final double bloom;
+  final double reach;
+  final double rays;
 
-  /// Where the lantern and the sunrise sit in the logo, as fractions of it.
-  static const _lantern = Offset(0.5, 0.23);
-  static const _sunrise = Offset(0.5, 0.845);
+  static const _rayCount = 9;
 
   @override
   void paint(Canvas canvas, Size size) {
+    final far = size.longestSide;
+    if (bloom > 0) {
+      canvas.drawRect(
+        Offset.zero & size,
+        Paint()
+          ..blendMode = BlendMode.plus
+          ..shader = ui.Gradient.radial(
+            from,
+            far * 0.85,
+            [
+              RawdahPalette.goldLight.withValues(alpha: 0.14 * bloom),
+              RawdahPalette.gold.withValues(alpha: 0.04 * bloom),
+              RawdahPalette.gold.withValues(alpha: 0),
+            ],
+            const [0, 0.45, 1],
+          ),
+      );
+    }
+    if (rays <= 0 || reach <= 0) return;
+    final length = far * 0.9 * reach;
+    final shader = ui.Gradient.radial(
+      from,
+      length,
+      [
+        RawdahPalette.goldLight.withValues(alpha: 0.07 * rays),
+        RawdahPalette.goldLight.withValues(alpha: 0.025 * rays),
+        RawdahPalette.goldLight.withValues(alpha: 0),
+      ],
+      const [0, 0.5, 1],
+    );
+    final paint = Paint()
+      ..blendMode = BlendMode.plus
+      ..shader = shader;
+    // A fan over the upper half-circle; each ray a narrow wedge over a
+    // wider, fainter one, so its edges read soft without a blur.
+    const spread = math.pi * 0.78;
+    final path = Path();
+    for (final halfWedge in const [math.pi / 70, math.pi / 160]) {
+      for (var i = 0; i < _rayCount; i++) {
+        final angle = -math.pi / 2 - spread / 2 + spread * i / (_rayCount - 1);
+        path
+          ..moveTo(from.dx, from.dy)
+          ..lineTo(
+            from.dx + length * math.cos(angle - halfWedge),
+            from.dy + length * math.sin(angle - halfWedge),
+          )
+          ..lineTo(
+            from.dx + length * math.cos(angle + halfWedge),
+            from.dy + length * math.sin(angle + halfWedge),
+          )
+          ..close();
+      }
+    }
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(_DawnPainter old) =>
+      old.from != from ||
+      old.bloom != bloom ||
+      old.reach != reach ||
+      old.rays != rays;
+}
+
+/// Light on the logo itself, added so it only lightens: a [sheen] (0 → 1,
+/// its place across the logo) and warm [glow] (0 → 1) over the lantern and
+/// the sunrise; both pools
+/// sit well inside the logo's square, clear of its edge and mostly of the
+/// letters.
+final class _GlowPainter extends CustomPainter {
+  new({required this.sheen, required this.glow});
+
+  final double sheen;
+  final double glow;
+
+  /// Where the lantern and the sunrise sit in the logo, as fractions of it.
+  static const lantern = Offset(0.5, 0.23);
+  static const sunrise = Offset(0.5, 0.845);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (sheen > 0 && sheen < 1) {
+      // A soft diagonal band from the upper left to the lower right.
+      final across = -0.35 + 1.7 * sheen;
+      final centre = Offset(size.width * across, size.height * 0.5);
+      const direction = Offset(0.91, 0.41);
+      final half = direction * (size.width * 0.16);
+      final strength = math.sin(math.pi * sheen);
+      canvas
+        ..save()
+        ..clipRect(Offset.zero & size)
+        ..drawRect(
+          Offset.zero & size,
+          Paint()
+            ..blendMode = BlendMode.plus
+            ..shader = ui.Gradient.linear(
+              centre - half,
+              centre + half,
+              [
+                RawdahPalette.goldLight.withValues(alpha: 0),
+                RawdahPalette.goldLight.withValues(alpha: 0.22 * strength),
+                RawdahPalette.goldLight.withValues(alpha: 0),
+              ],
+              const [0, 0.5, 1],
+            ),
+        )
+        ..restore();
+    }
+    if (glow <= 0) return;
+
     void pool(Offset at, double radius, double squash, double alpha) {
       final centre = Offset(at.dx * size.width, at.dy * size.height);
       final r = radius * size.width;
@@ -315,10 +481,10 @@ final class _GlowPainter extends CustomPainter {
           Offset.zero,
           r,
           Paint()
-            ..blendMode = BlendMode.screen
+            ..blendMode = BlendMode.plus
             ..shader = RadialGradient(
               colors: [
-                RawdahPalette.goldLight.withValues(alpha: alpha * strength),
+                RawdahPalette.goldLight.withValues(alpha: alpha * glow),
                 RawdahPalette.goldLight.withValues(alpha: 0),
               ],
             ).createShader(Rect.fromCircle(center: Offset.zero, radius: r)),
@@ -326,10 +492,11 @@ final class _GlowPainter extends CustomPainter {
         ..restore();
     }
 
-    pool(_lantern, 0.15, 1, 0.32);
-    pool(_sunrise, 0.16, 0.45, 0.28);
+    pool(lantern, 0.15, 1, 0.26);
+    pool(sunrise, 0.16, 0.45, 0.22);
   }
 
   @override
-  bool shouldRepaint(_GlowPainter old) => old.strength != strength;
+  bool shouldRepaint(_GlowPainter old) =>
+      old.sheen != sheen || old.glow != glow;
 }

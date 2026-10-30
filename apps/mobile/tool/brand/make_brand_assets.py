@@ -45,8 +45,9 @@ ADAPTIVE_LOGO_DP = 60
 IN_APP_1X = 220
 
 # The intro's logo ('assets/brand/logo_launch.png'): the launch screens'
-# faded pixels at the side the intro settles at (BrandIntro.side).
-INTRO_1X = 180
+# faded pixels, large enough to fill a phone's width; 3x is the source's own
+# 1254 px, never upscaled.
+INTRO_1X = 418
 
 ANDROID_DENSITIES = {"mdpi": 1.0, "hdpi": 1.5, "xhdpi": 2.0, "xxhdpi": 3.0, "xxxhdpi": 4.0}
 LEGACY_LAUNCHER_DP = 48
