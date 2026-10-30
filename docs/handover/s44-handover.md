@@ -22,8 +22,24 @@ Branch `slice/s44-quran-ayah`, cut from `slice/s41-ux-polish` at `50637e5` (S42'
 - Geometry: fit over 20 sampled pages (worst line-centre deviation 0.008 of the page height); bands drawn over pages 1,
   2, 62, 293, 604 and inspected. Package-wide: every verse's lines have a band; uncovered lines are titles/basmalahs.
 
+- On-device pass (Android 16 emulator, debug build of `ac77859`, 2026-10-30), English and Arabic:
+  - Opening the reader migrated the existing v1 `quran_notes.sqlite` to v2; its bookmark and reading position were
+    kept.
+  - Long press on page 62 line 7 listed 3:95 and 3:96, and line 8 listed 3:96 and 3:97. On page 1 line 5 it listed
+    1:5 and 1:6. All match the package.
+  - Highlighting 3:96 green drew one band over lines 7–8 and stored one `quran_ayah_highlights` row. It showed under
+    *My highlights*, which opens the page with the outline. Tapping the band opened its sheet, and removing the
+    highlight cleared the band and the row.
+  - Copy put `﴿text﴾` plus the reference on the clipboard.
+  - The surah index opened 18:1 with the gold outline on page 293 line 12 and on page 1 line 2; the outline faded
+    after 4 s.
+  - In Arabic the sheets are right to left, the references use the Arabic form and digits, and the page images are
+    unchanged.
+- Found on device: pasting a copied ayah into Quran search finds nothing. `ArabicSearchText.normalize` keeps
+  `﴿ ﴾` (U+FD3E/FD3F) and Latin letters, so the folded query never matches. The fix belongs in the S42 search fold;
+  it is not made here.
+
 ## Owed
-- **On-device pass** (long press, sheet, highlight, outline, copy) on the emulator or a phone: the shared emulator was
-  in use by the S43 adhan session during this slice.
+- **On a phone**: haptic feedback on long press (an emulator has none).
 - **Sharia board / Content**: the copy format and the Arabic strings; that a verse highlight covers whole lines.
 - Verse-precise (within-line) highlighting needs per-glyph coordinates the package does not have.
