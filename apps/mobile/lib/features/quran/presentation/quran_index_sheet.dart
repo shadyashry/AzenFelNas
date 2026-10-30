@@ -12,20 +12,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// The surah and juz index (REQ-QRN-023): the 114 surah headers as printed
 /// (KFGQPC text and font), filterable by name or number, and the 30 juz;
-/// a tap opens the first page.
-Future<void> showQuranIndexSheet(BuildContext context) =>
+/// a tap opens the first page. With [currentSura] the surah list opens
+/// scrolled to that surah and marks it (§15 D111).
+Future<void> showQuranIndexSheet(BuildContext context, {int? currentSura}) =>
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      builder: (context) => const FractionallySizedBox(
+      builder: (context) => FractionallySizedBox(
         heightFactor: 0.85,
-        child: DefaultTabController(length: 2, child: _IndexSheet()),
+        child: DefaultTabController(
+          length: 2,
+          child: _IndexSheet(currentSura: currentSura),
+        ),
       ),
     );
 
 final class _IndexSheet extends StatelessWidget {
-  const new();
+  const new({required this.currentSura});
+
+  final int? currentSura;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,14 @@ final class _IndexSheet extends StatelessWidget {
             Tab(text: l.quranJuzTab),
           ],
         ),
-        const Expanded(child: TabBarView(children: [_Suras(), _Juz()])),
+        Expanded(
+          child: TabBarView(
+            children: [
+              _Suras(current: currentSura),
+              const _Juz(),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -57,17 +70,79 @@ final class _Filter extends Notifier<String> {
   set value(String value) => state = value;
 }
 
-final class _Suras extends ConsumerWidget {
-  const new();
+final class _Suras extends ConsumerStatefulWidget {
+  const new({required this.current});
+
+  /// The surah being read, scrolled to and marked; `null` for none.
+  final int? current;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_Suras> createState() => _SurasState();
+}
+
+final class _SurasState extends ConsumerState<_Suras> {
+  final ScrollController _scroll = ScrollController();
+  bool _scrolled = false;
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  /// Once the full list is laid out, brings the current surah to the top.
+  /// Every row has the prototype's height, so its offset is its index
+  /// times that height.
+  void _scrollToCurrent(List<SuraEntry> shown) {
+    final current = widget.current;
+    if (_scrolled || current == null || shown.isEmpty) return;
+    _scrolled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_scroll.hasClients) return;
+      final index = shown.indexWhere((s) => s.number == current);
+      if (index < 0) return;
+      final position = _scroll.position;
+      final rowHeight =
+          (position.maxScrollExtent + position.viewportDimension) /
+          shown.length;
+      _scroll.jumpTo(
+        (index * rowHeight).clamp(0, position.maxScrollExtent).toDouble(),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final style = DisplayStyle.of(context, ref);
     final font = ref.watch(quranFontProvider).value ?? false;
     final filter = ref.watch(_filterProvider);
     final all = ref.watch(surasProvider).value ?? const <SuraEntry>[];
     final shown = _matching(all, filter);
+    if (filter.isEmpty) _scrollToCurrent(shown);
+    Widget tile(SuraEntry s) => ListTile(
+      selected: s.number == widget.current,
+      title: Text(
+        s.header,
+        textDirection: TextDirection.rtl,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          fontFamily: font ? QuranFont.family : null,
+          fontSize: 22,
+        ),
+      ),
+      subtitle: Text(
+        l.quranSurahLine(
+          QuranFormat.number(s.number, style),
+          QuranFormat.number(s.verseCount, style),
+          QuranFormat.number(s.startPage, style),
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      onTap: () => _open(context, ref, s.number, 1, s.startPage),
+    );
     return Column(
       children: [
         Padding(
@@ -84,29 +159,10 @@ final class _Suras extends ConsumerWidget {
           child: shown.isEmpty
               ? Center(child: Text(l.quranNoSurah))
               : ListView.builder(
+                  controller: _scroll,
+                  prototypeItem: tile(shown.first),
                   itemCount: shown.length,
-                  itemBuilder: (context, i) {
-                    final s = shown[i];
-                    return ListTile(
-                      title: Text(
-                        s.header,
-                        textDirection: TextDirection.rtl,
-                        style: TextStyle(
-                          fontFamily: font ? QuranFont.family : null,
-                          fontSize: 22,
-                        ),
-                      ),
-                      subtitle: Text(
-                        l.quranSurahLine(
-                          QuranFormat.number(s.number, style),
-                          QuranFormat.number(s.verseCount, style),
-                          QuranFormat.number(s.startPage, style),
-                        ),
-                      ),
-                      onTap: () =>
-                          _open(context, ref, s.number, 1, s.startPage),
-                    );
-                  },
+                  itemBuilder: (context, i) => tile(shown[i]),
                 ),
         ),
       ],

@@ -18,8 +18,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// The bar above the page: the surah and juz of the page, the page number
-/// (tap to go to a page), the bookmark, search and the menu.
+/// The bar above the page: the surah of the page (tap for the index), the
+/// juz and page number (tap to go to a page), the bookmark, search and the
+/// menu.
 final class ReaderTopBar extends ConsumerWidget {
   /// The bar for [page].
   const new({required this.page, super.key});
@@ -46,13 +47,17 @@ final class ReaderTopBar extends ConsumerWidget {
         child: Row(
           children: [
             Expanded(
-              child: InkWell(
-                onTap: () => showGoToPageDialog(context, ref),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (sura != null)
-                      Text(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (sura != null)
+                    _TitleTap(
+                      hint: l.quranIndex,
+                      onTap: () => showQuranIndexSheet(
+                        context,
+                        currentSura: sura.number,
+                      ),
+                      child: Text(
                         sura.header,
                         textDirection: TextDirection.rtl,
                         maxLines: 1,
@@ -63,7 +68,11 @@ final class ReaderTopBar extends ConsumerWidget {
                           color: theme.colorScheme.primary,
                         ),
                       ),
-                    Text(
+                    ),
+                  _TitleTap(
+                    hint: l.quranGoToPage,
+                    onTap: () => showGoToPageDialog(context, ref),
+                    child: Text(
                       [
                         if (part != null)
                           l.quranJuz(QuranFormat.number(part.number, style)),
@@ -71,8 +80,8 @@ final class ReaderTopBar extends ConsumerWidget {
                       ].join(' · '),
                       style: theme.textTheme.bodySmall,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             IconButton(
@@ -99,6 +108,30 @@ final class ReaderTopBar extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// One tappable line of the title: the surah opens the index at it, the
+/// juz and page line opens *Go to page* (§15 D111). Each line is at least
+/// 24 dp tall (WCAG 2.2 target size).
+final class _TitleTap extends StatelessWidget {
+  const new({required this.hint, required this.onTap, required this.child});
+
+  final String hint;
+  final VoidCallback onTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    onTapHint: hint,
+    child: InkWell(
+      onTap: onTap,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 24),
+        child: Align(alignment: AlignmentDirectional.centerStart, child: child),
+      ),
+    ),
+  );
 }
 
 /// The verses of [page] in the ayahs sheet (§15 D111).
