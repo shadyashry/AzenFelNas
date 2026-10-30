@@ -112,6 +112,29 @@ void main() {
     skip: skip,
   );
 
+  test(
+    'REQ-QRN-040 REQ-QRN-052: an ayah copied from its sheet and pasted into '
+    'search finds that ayah, with the English or the Arabic reference',
+    () async {
+      final place = switch (await index.verse(3, 96)) {
+        Ok(:final value) => value!,
+        Err(:final failure) => throw StateError('$failure'),
+      };
+      for (final reference in ["Ali 'Imran 3:96", 'آل عمران، الآية ٩٦']) {
+        final results = await search('﴿${place.text}﴾\n$reference');
+
+        expect(
+          [
+            for (final h in results.hits) (h.sura, h.aya),
+          ],
+          [(3, 96)],
+          reason: reference,
+        );
+      }
+    },
+    skip: skip,
+  );
+
   test('REQ-QRN-023 every verse sits on lines the geometry knows, and '
       'every page line holds a verse or a surah title (§15 D111)', () async {
     // The search index is attached on open; build it once for this test.

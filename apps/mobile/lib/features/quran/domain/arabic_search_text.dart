@@ -47,6 +47,8 @@ abstract final class ArabicSearchText {
   static const int _heh = 0x0647;
   static const int _superscriptAlef = 0x0670;
   static const int _smallHighYeh = 0x06E7;
+  static const String _ornateOpen = '﴿';
+  static const String _ornateClose = '﴾';
 
   /// [source] folded, with the source index of every folded code unit.
   static FoldedText fold(String source) {
@@ -66,6 +68,18 @@ abstract final class ArabicSearchText {
 
   /// [source] folded.
   static String normalize(String source) => fold(source).text;
+
+  /// A search query folded. Text quoted in ornate parentheses (`﴿…﴾`, the
+  /// form *Copy ayah* writes, §15 D111) is searched by what is inside them,
+  /// so a pasted ayah finds itself without its reference.
+  static String query(String source) {
+    final open = source.indexOf(_ornateOpen);
+    if (open < 0) return normalize(source);
+    final close = source.indexOf(_ornateClose, open + 1);
+    return normalize(
+      source.substring(open + 1, close < 0 ? source.length : close),
+    );
+  }
 
   /// Whether [unit] is a mark that follows a letter (harakat, Quranic
   /// annotation marks, the superscript alef, tatweel).
@@ -96,6 +110,8 @@ abstract final class ArabicSearchText {
       0x0626 => _yeh,
       // Arabic-Indic digits are verse numbers here, never words.
       >= 0x0660 && <= 0x0669 => null,
+      // Ornate parentheses quote an ayah; they are never words.
+      0xFD3E || 0xFD3F => null,
       // Latin letters fold to lower case; anything else stays.
       >= 0x41 && <= 0x5A => unit + 0x20,
       _ => unit,

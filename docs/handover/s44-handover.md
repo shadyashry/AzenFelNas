@@ -35,9 +35,9 @@ Branch `slice/s44-quran-ayah`, cut from `slice/s41-ux-polish` at `50637e5` (S42'
     after 4 s.
   - In Arabic the sheets are right to left, the references use the Arabic form and digits, and the page images are
     unchanged.
-- Found on device: pasting a copied ayah into Quran search finds nothing. `ArabicSearchText.normalize` keeps
-  `﴿ ﴾` (U+FD3E/FD3F) and Latin letters, so the folded query never matches. The fix belongs in the S42 search fold;
-  it is not made here.
+- Found on device and fixed: pasting a copied ayah into Quran search found nothing, because the search fold kept
+  `﴿ ﴾` and the reference. `ArabicSearchText.query` now searches the text inside `﴿…﴾`; checked on the emulator (the
+  paste finds 3:96 on page 62) and against the real package with the English and the Arabic reference.
 
 ## Owed
 - **On a phone**: haptic feedback on long press (an emulator has none).

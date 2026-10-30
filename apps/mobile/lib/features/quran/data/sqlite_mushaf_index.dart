@@ -90,7 +90,7 @@ final class SqliteMushafIndex implements ReadMushafIndex, ReadVersePlaces {
     String query, {
     required int limit,
   }) async {
-    final folded = ArabicSearchText.normalize(query);
+    final folded = ArabicSearchText.query(query);
     if (folded.isEmpty) {
       return const Result.ok(SearchResults(hits: [], total: 0));
     }
