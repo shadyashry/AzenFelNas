@@ -79,27 +79,25 @@ final class TimeRow extends StatelessWidget {
       excludeSemantics: true,
       child: InkWell(
         onTap: onTap,
+        borderRadius: BorderRadius.circular(DmScales.radius[1]),
         child: DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: switch (highlight) {
-              final Color wash => LinearGradient(
-                colors: [
-                  wash.withValues(alpha: 0),
-                  wash,
-                  wash,
-                  wash.withValues(alpha: 0),
-                ],
-                stops: const [0, 0.18, 0.82, 1],
-              ),
-              null => null,
-            },
-            border: Border(
-              bottom: BorderSide(
-                color: RawdahScheme.of(context).hairline,
-                width: 0.8,
+          // The next prayer sits on a rounded sage wash and is set bold
+          // (not colour alone); the others close with a hairline (§15
+          // D102).
+          decoration: switch (highlight) {
+            final Color wash => BoxDecoration(
+              color: wash,
+              borderRadius: BorderRadius.circular(DmScales.radius[1]),
+            ),
+            null => BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: RawdahScheme.of(context).hairline,
+                  width: 0.8,
+                ),
               ),
             ),
-          ),
+          },
           child: ConstrainedBox(
             // 48 dp: Android's tap target, above the 44 pt floor.
             constraints: const BoxConstraints(

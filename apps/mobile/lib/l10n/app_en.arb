@@ -252,6 +252,10 @@
   "@placeUse": {
     "description": "Coordinate entry: save button."
   },
+  "homeNextPrayerLabel": "Next prayer",
+  "@homeNextPrayerLabel": {
+    "description": "Home hero: small label above the next prayer's name."
+  },
   "homeNextPrayer": "Next: {prayer}",
   "@homeNextPrayer": {
     "description": "Home: next prayer line.",

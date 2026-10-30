@@ -14,7 +14,7 @@ abstract final class RawdahPalette {
   /// Primary forest green: headings, filled actions, the Home hero.
   static const Color forest = Color(0xFF0B3F32);
 
-  /// Secondary emerald; text-safe on [pearl] (6.6:1).
+  /// Secondary emerald; text-safe on [pearl] (6.4:1).
   static const Color emerald = Color(0xFF17634D);
 
   /// Deep green of the navigation bar and strong-contrast fields.
@@ -28,9 +28,9 @@ abstract final class RawdahPalette {
   static const Color qiblaAligned = Color(0xFF39FF14);
 
   /// The green of anything switched on (§15 D100): a switch's track, a
-  /// ticked box, the chosen segment. Ivory on it reads at 4.6:1; it stands
-  /// 3:1 off the night panel.
-  static const Color enabled = Color(0xFF1A7F4E);
+  /// ticked box, the chosen segment. Ivory on it reads at 5.1:1, it stands
+  /// 4.7:1 off the cream ground and 3.1:1 off the night panel.
+  static const Color enabled = Color(0xFF197A4B);
 
   /// Light gold for selected details on green: the active tab, the next
   /// prayer's label. Never text on cream.
@@ -40,22 +40,22 @@ abstract final class RawdahPalette {
   /// [pearl].
   static const Color gold = Color(0xFFC9A45C);
 
-  /// Burnished gold: gold icons and marks on cream (4.6:1 on [pearlDeep]).
+  /// Burnished gold: gold icons and marks on cream (4.8:1 on [pearlDeep]).
   static const Color goldDeep = Color(0xFF8E6B2B);
 
   /// Hairline between rows and around cards on cream.
   static const Color hairline = Color(0xFFE4DABD);
 
-  /// Main dark text on cream (11.7:1 on [pearl]).
+  /// Main dark text on cream (11.0:1 on [pearl]).
   static const Color ink = Color(0xFF173B30);
 
-  /// Secondary text on cream (5.9:1 on [pearl]).
+  /// Secondary text on cream (5.7:1 on [pearl]).
   static const Color muted = Color(0xFF526359);
 
   /// Primary text on green fields and the navigation bar.
   static const Color ivory = Color(0xFFFFF9E9);
 
-  /// Secondary text on green fields (8.4:1 on [emeraldDeep]).
+  /// Secondary text on green fields (10.7:1 on [emeraldDeep]).
   static const Color ivoryMuted = Color(0xFFD5DED3);
 
   /// Carpet red, errors only.

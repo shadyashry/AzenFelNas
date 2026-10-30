@@ -83,7 +83,7 @@ final class _ArchPainter extends CustomPainter {
       const Offset(0, _base),
       const Offset(_w, _base),
       Paint()
-        ..color = RawdahPalette.goldLight.withValues(alpha: 0.35)
+        ..color = RawdahPalette.goldLight.withValues(alpha: 0.55)
         ..strokeWidth = 1,
     );
     _dotted(canvas, curve);
@@ -112,10 +112,9 @@ final class _ArchPainter extends CustomPainter {
   }
 
   void _dotted(Canvas canvas, _ArchCurve curve) {
-    final dot = Paint()
-      ..color = RawdahPalette.goldLight.withValues(alpha: 0.32);
+    final dot = Paint()..color = RawdahPalette.goldLight.withValues(alpha: 0.7);
     for (var f = 0.0; f <= 1.0; f += 0.018) {
-      canvas.drawCircle(curve.at(f), 0.9, dot);
+      canvas.drawCircle(curve.at(f), 1.2, dot);
     }
   }
 

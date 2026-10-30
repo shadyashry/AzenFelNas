@@ -4,6 +4,7 @@ import 'package:daily_muslim/features/travel/domain/travel_check.dart';
 import 'package:daily_muslim/features/travel/presentation/travel_providers.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_core_types/dm_core_types.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
@@ -55,28 +56,39 @@ final class _Prompt extends ConsumerWidget {
             .value
             ?.nameIn(Localizations.localeOf(context).languageCode) ??
         suggestion.toCity;
-    return MaterialBanner(
-      content: Text(l.travelPrompt(city)),
-      actions: [
-        TextButton(
-          onPressed: () =>
-              ref.read(dismissedTravelProvider.notifier).dismiss(suggestion),
-          child: Text(l.travelNotNow),
+    // A rounded card like the other Home sections (§15 D102).
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: DmScales.gutter,
+        vertical: 6,
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(DmScales.radiusCard),
+        child: MaterialBanner(
+          content: Text(l.travelPrompt(city)),
+          actions: [
+            TextButton(
+              onPressed: () => ref
+                  .read(dismissedTravelProvider.notifier)
+                  .dismiss(suggestion),
+              child: Text(l.travelNotNow),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (await ref.read(contextUseCasesProvider.future) case Ok(
+                  value: final useCases,
+                )) {
+                  await useCases.follow();
+                }
+                ref
+                  ..invalidate(scheduleProvider)
+                  ..invalidate(travelCheckProvider);
+              },
+              child: Text(l.travelSwitch),
+            ),
+          ],
         ),
-        TextButton(
-          onPressed: () async {
-            if (await ref.read(contextUseCasesProvider.future) case Ok(
-              value: final useCases,
-            )) {
-              await useCases.follow();
-            }
-            ref
-              ..invalidate(scheduleProvider)
-              ..invalidate(travelCheckProvider);
-          },
-          child: Text(l.travelSwitch),
-        ),
-      ],
+      ),
     );
   }
 }

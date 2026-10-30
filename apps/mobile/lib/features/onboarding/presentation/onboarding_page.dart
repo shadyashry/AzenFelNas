@@ -39,6 +39,9 @@ final class OnboardingPage extends ConsumerWidget {
       body: GirihBackdrop(
         ground: RawdahScheme.of(context).ground,
         ink: RawdahPalette.gold,
+        // A whisper of pattern on the first run only (§15 D102).
+        opacity: 0.05,
+        tile: 72,
         child: SafeArea(
           child: switch (state) {
             OnboardingStep(step: OnboardingStepKind.welcome) => _Step(

@@ -458,6 +458,12 @@ abstract class AppLocalizations {
   /// **'Use this place'**
   String get placeUse;
 
+  /// Home hero: small label above the next prayer's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Next prayer'**
+  String get homeNextPrayerLabel;
+
   /// Home: next prayer line.
   ///
   /// In en, this message translates to:

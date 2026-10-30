@@ -284,6 +284,14 @@ abstract final class DmTheme {
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: control),
       ),
+      bannerTheme: MaterialBannerThemeData(
+        backgroundColor: r.wash,
+        surfaceTintColor: Colors.transparent,
+        dividerColor: Colors.transparent,
+        elevation: 0,
+        contentTextStyle: step(DmScales.body),
+        padding: const EdgeInsetsDirectional.fromSTEB(16, 14, 16, 4),
+      ),
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(
           color: RawdahPalette.emeraldDeep,

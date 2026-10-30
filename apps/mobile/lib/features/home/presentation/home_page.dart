@@ -22,7 +22,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// Home (§7.2 `home`, §18.4, §15 D89): every [HomeState] is rendered by one
-/// exhaustive switch on the pearl girih ground, with the navigation bar.
+/// exhaustive switch on the cream ground, with the navigation bar.
 final class HomePage extends ConsumerWidget {
   /// The page.
   const new({super.key});
@@ -37,9 +37,8 @@ final class HomePage extends ConsumerWidget {
       ..watch(athanPlanProvider);
     return Scaffold(
       extendBody: true,
-      body: GirihBackdrop(
-        ground: RawdahScheme.of(context).ground,
-        ink: RawdahPalette.gold,
+      body: ColoredBox(
+        color: RawdahScheme.of(context).ground,
         child: switch (ref.watch(homeStateProvider)) {
           HomeLoading() => const _Loading(),
           HomeReady(:final content) => HomeContentView(content: content),
@@ -71,8 +70,8 @@ final class HomePage extends ConsumerWidget {
   }
 }
 
-/// Today: the hour-light field with the mihrab, then notices, the prayer
-/// list and the way to Athan health and the coming days.
+/// Today: the hero, then the prayer list on a cream card lifted over its
+/// lower edge, notices, and the way to Athan health and the coming days.
 final class HomeContentView extends ConsumerWidget {
   /// Shows [content], with [notice] above the times when given.
   const new({required this.content, this.notice, super.key});
@@ -83,64 +82,107 @@ final class HomeContentView extends ConsumerWidget {
   /// A notice such as "engine default used" (US-06).
   final String? notice;
 
+  /// How far the prayer card rises over the hero.
+  static const double _lift = 28;
+
+  /// The widest the cream sections grow, so lines stay readable in
+  /// landscape and on tablets.
+  static const double _readingWidth = 640;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final style = DisplayStyle.of(context, ref);
     final light = ref.watch(hourLightProvider);
     final next = content.nextPrayer;
-    // Light status bar icons over the hour-light field (§15 D101).
+    // Light status bar icons over the hero (§15 D101).
     return AnnotatedRegion(
       value: DmTheme.statusBarOn(Brightness.dark),
       child: ListView(
         padding: scrollInsets(context),
         children: [
           HomeHourField(content: content, style: style, light: light),
-          const TravelBanner(),
-          const FastingCard(),
-          if (notice case final String text)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
-              child: Text(
-                text,
-                style: Theme.of(context).textTheme.labelMedium,
-                textAlign: TextAlign.center,
+          // Painted over the hero's lower edge; the space it leaves below
+          // becomes the gap before the next section.
+          Transform.translate(
+            offset: const Offset(0, -_lift),
+            child: _Reading(
+              child: _Panel(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                        12,
+                        4,
+                        12,
+                        4,
+                      ),
+                      child: Text(
+                        l.homeTitle,
+                        style: DmTheme.naskh(
+                          size: 22,
+                          color: RawdahScheme.of(context).primary,
+                          bold: true,
+                        ),
+                      ),
+                    ),
+                    TimeRows(
+                      day: content.day,
+                      style: style,
+                      next: next?.event,
+                      light: light,
+                    ),
+                  ],
+                ),
               ),
             ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 14, 16, 6),
-            child: GoldDivider(),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            child: TimeRows(
-              day: content.day,
-              style: style,
-              next: next?.event,
-              light: light,
+          Transform.translate(
+            offset: const Offset(0, -_lift / 2),
+            child: _Reading(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const TravelBanner(),
+                  const FastingCard(),
+                  if (notice case final String text)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+                      child: Text(
+                        text,
+                        style: Theme.of(context).textTheme.labelMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  _Link(
+                    icon: Icons.notifications_none,
+                    // The evaluated Athan Health (§8.3, §15 D95), so a
+                    // missing permission shows on Home too.
+                    text: switch (ref.watch(athanHealthProvider)) {
+                      AsyncData(value: AthanHealthReady()) =>
+                        l.athanHealthReady,
+                      AsyncData(value: AthanHealthLimited()) =>
+                        l.athanHealthLimited,
+                      AsyncData(value: AthanHealthNotReady()) =>
+                        l.athanHealthNotReady,
+                      AsyncData(value: AthanHealthUnknown()) ||
+                      AsyncError() ||
+                      AsyncLoading() => switch (content.health) {
+                        AthanReadinessUnknown() => l.homeHealthUnknown,
+                      },
+                    },
+                    onTap: () =>
+                        context.go(AppTabBar.locationOf(RawdahTab.athan)),
+                  ),
+                  _Link(
+                    icon: Icons.view_week_outlined,
+                    text: l.timelineTitle,
+                    onTap: () => context.push(const TimelineRoute().location),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          _Link(
-            icon: Icons.notifications_none,
-            // The evaluated Athan Health (§8.3, §15 D95), so a missing
-            // permission shows on Home too.
-            text: switch (ref.watch(athanHealthProvider)) {
-              AsyncData(value: AthanHealthReady()) => l.athanHealthReady,
-              AsyncData(value: AthanHealthLimited()) => l.athanHealthLimited,
-              AsyncData(value: AthanHealthNotReady()) => l.athanHealthNotReady,
-              AsyncData(value: AthanHealthUnknown()) ||
-              AsyncError() ||
-              AsyncLoading() => switch (content.health) {
-                AthanReadinessUnknown() => l.homeHealthUnknown,
-              },
-            },
-            onTap: () => context.go(AppTabBar.locationOf(RawdahTab.athan)),
-          ),
-          _Link(
-            icon: Icons.view_week_outlined,
-            text: l.timelineTitle,
-            onTap: () => context.push(const TimelineRoute().location),
           ),
         ],
       ),
@@ -148,6 +190,51 @@ final class HomeContentView extends ConsumerWidget {
   }
 }
 
+/// Centres [child] at no more than the reading width.
+final class _Reading extends StatelessWidget {
+  const new({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: HomeContentView._readingWidth,
+      ),
+      child: child,
+    ),
+  );
+}
+
+/// A cream card with a hairline and a soft green shadow (§15 D102).
+final class _Panel extends StatelessWidget {
+  const new({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final r = RawdahScheme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: DmScales.gutter),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: r.panel,
+          borderRadius: BorderRadius.circular(DmScales.radiusCard),
+          border: Border.all(color: r.hairline),
+          boxShadow: DmElevation.raised,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(6, 10, 6, 8),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+/// A shortcut row: a gold icon in a sage tile, the words, a chevron.
 final class _Link extends StatelessWidget {
   const new({required this.icon, required this.text, required this.onTap});
 
@@ -156,18 +243,60 @@ final class _Link extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) => ListTile(
-    dense: true,
-    contentPadding: const EdgeInsetsDirectional.symmetric(horizontal: 22),
-    leading: Icon(icon, color: RawdahScheme.of(context).accent, size: 20),
-    title: Text(text, style: Theme.of(context).textTheme.bodyLarge),
-    // chevron_right mirrors with the text direction (REQ-UX-030).
-    trailing: Icon(
-      Icons.chevron_right,
-      color: RawdahScheme.of(context).accent,
-    ),
-    onTap: onTap,
-  );
+  Widget build(BuildContext context) {
+    final r = RawdahScheme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: DmScales.gutter,
+        vertical: 5,
+      ),
+      child: Material(
+        color: r.panel,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(DmScales.radiusControl),
+          side: BorderSide(color: r.hairline),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 56),
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(10, 8, 12, 8),
+              child: Row(
+                children: [
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: r.wash,
+                      borderRadius: BorderRadius.circular(DmScales.radius[1]),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Icon(
+                        icon,
+                        color: r.accent,
+                        size: DmScales.iconMedium,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      text,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ),
+                  // chevron_right mirrors with the text direction
+                  // (REQ-UX-030).
+                  Icon(Icons.chevron_right, color: r.accent),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 final class _NeedsLocation extends StatelessWidget {

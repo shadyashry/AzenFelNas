@@ -203,6 +203,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get placeUse => 'Use this place';
 
   @override
+  String get homeNextPrayerLabel => 'Next prayer';
+
+  @override
   String homeNextPrayer(String prayer) {
     return 'Next: $prayer';
   }

@@ -40,7 +40,7 @@ final class RawdahScheme extends ThemeExtension<RawdahScheme> {
   /// light emerald headings and gold marks.
   static const RawdahScheme night = RawdahScheme(
     ground: Color(0xFF041C16),
-    panel: Color(0xFF0A2620),
+    panel: Color(0xFF08221C),
     ink: Color(0xFFF3EEDD),
     inkMuted: Color(0xFFA9BAAF),
     primary: Color(0xFF9AD8B5),

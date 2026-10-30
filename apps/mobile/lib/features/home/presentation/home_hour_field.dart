@@ -15,13 +15,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
 import 'package:go_router/go_router.dart';
 
-/// Home's hour-light field (§15 D89): the place and Hijri date with the
-/// Moon, the day drawn as a mihrab with every prayer at its instant and the
-/// Sun at now, the next prayer in the niche, and the time left with a gold
-/// line from the previous prayer. One semantics node reads the next prayer,
-/// its time and the time left (REQ-UX-020).
+/// Home's hero (§15 D89, D102): the Madinah artwork under a deep-green
+/// veil, the place and Hijri date with the Moon, the next prayer's name and
+/// time with the time left, and the day drawn as a mihrab with every prayer
+/// at its instant and the Sun at now; a gold line inside the niche runs from
+/// the previous prayer to the next. One semantics node reads the next
+/// prayer, its time and the time left (REQ-UX-020).
 final class HomeHourField extends ConsumerWidget {
-  /// The field for [content] in [light].
+  /// The hero for [content] in [light].
   const new({
     required this.content,
     required this.style,
@@ -35,8 +36,11 @@ final class HomeHourField extends ConsumerWidget {
   /// Locale and digits.
   final DisplayStyle style;
 
-  /// The hour light.
+  /// The hour light: a faint tint over the veil and the arc's Sun.
   final HourLight light;
+
+  /// The bundled artwork (§15 D102), decorative and offline.
+  static const String artwork = 'assets/art/madinah_hero.webp';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,35 +54,52 @@ final class HomeHourField extends ConsumerWidget {
     final nextName = next == null
         ? null
         : DisplayStyle.eventName(l, next.event);
-    return Column(
-      children: [
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [light.top, light.bottom],
-            ),
-          ),
-          child: CustomPaint(
-            painter: _FieldPainter(light),
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(18, 10, 18, 18),
-                child: Column(
-                  children: [
-                    _Header(content: content, style: style),
-                    const SizedBox(height: 6),
+    return DecoratedBox(
+      decoration: const BoxDecoration(color: RawdahPalette.emeraldDeep),
+      child: Stack(
+        children: [
+          Positioned.fill(child: _Artwork(light: light)),
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(
+                DmScales.gutter,
+                8,
+                DmScales.gutter,
+                44,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _Header(content: content, style: style),
+                  const SizedBox(height: 18),
+                  if (next != null && nextName != null)
                     Semantics(
                       container: true,
                       label: [
-                        if (nextName != null) l.homeNextPrayer(nextName),
-                        if (next != null)
-                          style.digits.apply(TimeRows.timeText(l, next)),
+                        l.homeNextPrayer(nextName),
+                        style.digits.apply(TimeRows.timeText(l, next)),
                         countdown,
                       ].join(', '),
                       excludeSemantics: true,
+                      child: _NextPrayer(
+                        name: nextName,
+                        time: style.digits.apply(TimeRows.timeText(l, next)),
+                        countdown: countdown,
+                      ),
+                    )
+                  else
+                    Text(
+                      l.homeNoNextPrayer,
+                      style: const TextStyle(
+                        color: RawdahPalette.ivory,
+                        fontSize: 16,
+                      ),
+                    ),
+                  const SizedBox(height: 4),
+                  Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 320),
                       child: _Mihrab(
                         content: content,
                         style: style,
@@ -86,29 +107,13 @@ final class HomeHourField extends ConsumerWidget {
                         nowUtcMs: now,
                       ),
                     ),
-                    if (next != null)
-                      _Progress(
-                        content: content,
-                        next: next,
-                        nowUtcMs: now,
-                        countdown: countdown,
-                      )
-                    else
-                      Text(
-                        l.homeNoNextPrayer,
-                        style: const TextStyle(color: RawdahPalette.ivory),
-                      ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-        ),
-        const DecoratedBox(
-          decoration: BoxDecoration(gradient: RawdahPalette.gilded),
-          child: SizedBox(height: 3, width: double.infinity),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -143,7 +148,7 @@ final class _Header extends ConsumerWidget {
         ? ref.watch(currentPlaceNameProvider).value?.nameIn(language) ??
               l.homeCurrentPlace
         : place.label;
-    const ivory = TextStyle(color: Color(0xFFE5EEE6), fontSize: 13);
+    const quiet = TextStyle(color: RawdahPalette.ivoryMuted, fontSize: 13);
     final hijri = content.hijri;
     return Wrap(
       alignment: WrapAlignment.spaceBetween,
@@ -156,10 +161,10 @@ final class _Header extends ConsumerWidget {
           label: l.homePlaceChip(name),
           excludeSemantics: true,
           child: Material(
-            color: RawdahPalette.emeraldDeep.withValues(alpha: 0.35),
+            color: RawdahPalette.emeraldDeep.withValues(alpha: 0.45),
             shape: StadiumBorder(
               side: BorderSide(
-                color: RawdahPalette.goldLight.withValues(alpha: 0.6),
+                color: RawdahPalette.gold.withValues(alpha: 0.45),
               ),
             ),
             child: InkWell(
@@ -168,28 +173,29 @@ final class _Header extends ConsumerWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minHeight: 44),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 8, 0),
                   // Wraps, never overflows, at 200 % text (REQ-UX-020).
                   child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Icon(
-                        current ? Icons.near_me_outlined : Icons.place_outlined,
-                        size: 16,
-                        color: RawdahPalette.goldLight,
+                        current ? Icons.near_me : Icons.place,
+                        size: DmScales.iconMedium,
+                        color: RawdahPalette.gold,
                       ),
                       const SizedBox(width: 6),
                       Text(
                         name,
-                        style: ivory.copyWith(
-                          fontSize: 14,
+                        style: const TextStyle(
+                          color: RawdahPalette.ivory,
+                          fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(width: 2),
                       const Icon(
                         Icons.expand_more,
-                        size: 18,
+                        size: DmScales.iconMedium,
                         color: RawdahPalette.goldLight,
                       ),
                     ],
@@ -211,7 +217,7 @@ final class _Header extends ConsumerWidget {
                     '${hijri.year}',
                   ),
                 ),
-                style: ivory,
+                style: quiet,
               ),
               const SizedBox(width: 6),
               MoonPhaseGlyph(hijriDay: hijri.day),
@@ -222,7 +228,137 @@ final class _Header extends ConsumerWidget {
   }
 }
 
-/// The arch with the niche: cartouche and the next prayer's time.
+/// The next prayer: a small gold label, the name large in Naskh with the
+/// time left under it, and the time at the end. At large text the time
+/// wraps under the name instead of clipping (REQ-UX-020).
+final class _NextPrayer extends StatelessWidget {
+  const new({required this.name, required this.time, required this.countdown});
+
+  final String name;
+  final String time;
+  final String countdown;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final arabic = Localizations.localeOf(context).languageCode == 'ar';
+    return Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      crossAxisAlignment: WrapCrossAlignment.end,
+      spacing: 12,
+      children: [
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                const Icon(
+                  Icons.wb_sunny_outlined,
+                  size: DmScales.iconSmall,
+                  color: RawdahPalette.goldLight,
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  arabic
+                      ? l.homeNextPrayerLabel
+                      : l.homeNextPrayerLabel.toUpperCase(),
+                  style: TextStyle(
+                    color: RawdahPalette.goldLight,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: arabic ? 0 : 1.4,
+                  ),
+                ),
+              ],
+            ),
+            Text(
+              name,
+              style: DmTheme.naskh(
+                size: 46,
+                color: RawdahPalette.ivory,
+                bold: true,
+              ).copyWith(height: 1.25),
+            ),
+            Text(
+              countdown,
+              style: const TextStyle(
+                color: RawdahPalette.ivoryMuted,
+                fontSize: 17,
+              ),
+            ),
+          ],
+        ),
+        Text(
+          time,
+          style: DmTheme.naskh(
+            size: 44,
+            color: RawdahPalette.ivory,
+            bold: true,
+          ).copyWith(height: 1.25),
+        ),
+      ],
+    );
+  }
+}
+
+/// The artwork under a deep-green veil: darker at the top behind the
+/// header, at the reading start behind the next prayer, and at the bottom
+/// behind the arc labels, so ivory text keeps its contrast. The hour light
+/// tints the veil faintly.
+final class _Artwork extends StatelessWidget {
+  const new({required this.light});
+
+  final HourLight light;
+
+  @override
+  Widget build(BuildContext context) => ExcludeSemantics(
+    child: Stack(
+      fit: StackFit.expand,
+      children: [
+        Image.asset(
+          HomeHourField.artwork,
+          fit: BoxFit.cover,
+          alignment: const Alignment(0.55, 0.1),
+          gaplessPlayback: true,
+        ),
+        ColoredBox(color: light.top.withValues(alpha: 0.16)),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                RawdahPalette.emeraldDeep.withValues(alpha: 0.80),
+                RawdahPalette.emeraldDeep.withValues(alpha: 0.38),
+                RawdahPalette.emeraldDeep.withValues(alpha: 0.72),
+                RawdahPalette.emeraldDeep.withValues(alpha: 0.97),
+              ],
+              stops: const [0, 0.3, 0.55, 1],
+            ),
+          ),
+        ),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: AlignmentDirectional.centerStart,
+              end: AlignmentDirectional.centerEnd,
+              colors: [
+                RawdahPalette.forest.withValues(alpha: 0.55),
+                RawdahPalette.forest.withValues(alpha: 0),
+              ],
+              stops: const [0, 0.75],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+/// The arch with the niche: the gold line from the previous prayer to the
+/// next.
 final class _Mihrab extends StatelessWidget {
   const new({
     required this.content,
@@ -274,91 +410,48 @@ final class _Mihrab extends StatelessWidget {
       fontFamily: style.locale == StatusLocale.ar
           ? DmTheme.arabicFamily
           : DmTheme.latinFamily,
-      fontSize: 10.5,
-      color: const Color(0xD9E9EFE7),
+      fontSize: 11,
+      color: RawdahPalette.ivoryMuted,
     );
     return Stack(
       alignment: Alignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: MihrabArch(
-            marks: marks,
-            sun: position(nowUtcMs),
-            light: light,
-            labelStyle: labelStyle,
-          ),
+        MihrabArch(
+          marks: marks,
+          sun: position(nowUtcMs),
+          light: light,
+          labelStyle: labelStyle,
         ),
         if (next != null)
           Positioned.fill(
-            top: 70,
-            bottom: 30,
-            child: _Niche(next: next, style: style, light: light),
+            top: 96,
+            bottom: 40,
+            left: 70,
+            right: 70,
+            child: Center(
+              child: _Progress(
+                content: content,
+                next: next,
+                nowUtcMs: nowUtcMs,
+              ),
+            ),
           ),
       ],
     );
   }
 }
 
-final class _Niche extends StatelessWidget {
-  const new({required this.next, required this.style, required this.light});
-
-  final TimeRowView next;
-  final DisplayStyle style;
-  final HourLight light;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    // The niche scales its content to the arch, so 200 % text shrinks the
-    // display numerals instead of clipping them (REQ-UX-020).
-    return FittedBox(
-      fit: BoxFit.scaleDown,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Cartouche(
-            child: Text(
-              l.homeCartouche(DisplayStyle.eventName(l, next.event)),
-              style: DmTheme.naskh(size: 20, color: RawdahPalette.ivory),
-            ),
-          ),
-          Text(
-            style.digits.apply(TimeRows.timeText(l, next)),
-            style:
-                DmTheme.naskh(
-                  size: 72,
-                  color: RawdahPalette.ivory,
-                  bold: true,
-                ).copyWith(
-                  height: 1.25,
-                  shadows: [
-                    Shadow(
-                      color: light.glow.withValues(alpha: 0.45),
-                      blurRadius: 28,
-                    ),
-                  ],
-                ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// The time left and a gold line from the previous prayer to the next.
+/// A gold line from the previous prayer to the next, with their names.
 final class _Progress extends StatelessWidget {
   const new({
     required this.content,
     required this.next,
     required this.nowUtcMs,
-    required this.countdown,
   });
 
   final HomeContent content;
   final TimeRowView next;
   final int nowUtcMs;
-  final String countdown;
 
   @override
   Widget build(BuildContext context) {
@@ -375,35 +468,33 @@ final class _Progress extends StatelessWidget {
     final fraction = from != null && to != null && to > from
         ? ((nowUtcMs - from) / (to - from)).clamp(0.0, 1.0)
         : null;
-    const ivory = TextStyle(color: Color(0xFFE5EEE6), fontSize: 13);
-    return Column(
-      children: [
-        Text(countdown, style: ivory.copyWith(fontSize: 15)),
-        if (fraction != null && previous != null) ...[
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22),
-            child: _GoldLine(fraction: fraction),
+    if (fraction == null || previous == null) return const SizedBox.shrink();
+    const quiet = TextStyle(color: RawdahPalette.ivoryMuted, fontSize: 11);
+    // At least 150 wide, as wide as its names need, and scaled down to the
+    // niche rather than clipped at large text (REQ-UX-020).
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: IntrinsicWidth(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 150),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _GoldLine(fraction: fraction),
+              const SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(DisplayStyle.eventName(l, previous.event), style: quiet),
+                  const SizedBox(width: 12),
+                  Text(DisplayStyle.eventName(l, next.event), style: quiet),
+                ],
+              ),
+            ],
           ),
-          const SizedBox(height: 4),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  DisplayStyle.eventName(l, previous.event),
-                  style: ivory.copyWith(fontSize: 11),
-                ),
-                Text(
-                  DisplayStyle.eventName(l, next.event),
-                  style: ivory.copyWith(fontSize: 11),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ],
+        ),
+      ),
     );
   }
 }
@@ -472,62 +563,4 @@ final class _GoldLinePainter extends CustomPainter {
   @override
   bool shouldRepaint(_GoldLinePainter old) =>
       old.fraction != fraction || old.rtl != rtl;
-}
-
-/// Glow behind the niche, stars at night and a gold girih.
-final class _FieldPainter extends CustomPainter {
-  const new(this.light);
-
-  final HourLight light;
-
-  static const List<(double, double, double)> _stars = [
-    (0.10, 0.07, 1.0),
-    (0.23, 0.14, 0.8),
-    (0.77, 0.09, 1.1),
-    (0.64, 0.20, 0.7),
-    (0.15, 0.33, 0.9),
-    (0.85, 0.30, 0.8),
-    (0.51, 0.05, 0.7),
-  ];
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final glowCentre = Offset(size.width / 2, size.height * 0.48);
-    canvas.drawCircle(
-      glowCentre,
-      size.width * 0.62,
-      Paint()
-        ..shader =
-            RadialGradient(
-              colors: [
-                light.glow.withValues(alpha: 0.30),
-                light.glow.withValues(alpha: 0),
-              ],
-            ).createShader(
-              Rect.fromCircle(center: glowCentre, radius: size.width * 0.62),
-            ),
-    );
-    final girih = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.7
-      ..color = RawdahPalette.goldLight.withValues(alpha: 0.13);
-    const tile = 56.0;
-    for (var y = tile / 2; y < size.height + tile; y += tile) {
-      for (var x = tile / 2; x < size.width + tile; x += tile) {
-        canvas.drawPath(
-          OrnamentPaths.girihTile(Offset(x, y), tile * 0.215),
-          girih,
-        );
-      }
-    }
-    if (light.stars) {
-      final star = Paint()..color = const Color(0xB3FFFFFF);
-      for (final (x, y, r) in _stars) {
-        canvas.drawCircle(Offset(size.width * x, size.height * y), r, star);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_FieldPainter old) => old.light != light;
 }

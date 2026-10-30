@@ -204,6 +204,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get placeUse => 'استخدم المكان ده';
 
   @override
+  String get homeNextPrayerLabel => 'الصلاة الجاية';
+
+  @override
   String homeNextPrayer(String prayer) {
     return 'الجاية: $prayer';
   }
