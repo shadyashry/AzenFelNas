@@ -9,6 +9,8 @@
     dm-pipelines gazetteer build --source FILE [--out DIR]
     dm-pipelines quran fetch --source mushaf|text|juz --dest FILE  # the pinned source (curl)
     dm-pipelines quran build --mushaf FILE --text FILE --juz FILE --out DIR
+    dm-pipelines athan-voices fetch --voice ID --dest FILE  # the pinned recording (curl)
+    dm-pipelines athan-voices build --voice ID --source FILE --out DIR  # needs ffmpeg, ffprobe
 
 `tzdata build` needs `make`, a C compiler and `dart` on PATH. Exit codes: 0 done, 1 refused
 (pins, tools), 2 usage error.
@@ -21,7 +23,15 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
-from dm_pipelines.commands import CommandError, CommandRunner, SubprocessRunner
+from dm_pipelines.athan_voices.config import load_athan_voices_config
+from dm_pipelines.athan_voices.pipeline import CONFIG as VOICES_CONFIG
+from dm_pipelines.athan_voices.pipeline import BuildVoice, VoiceBuildError
+from dm_pipelines.commands import (
+    CapturingSubprocessRunner,
+    CommandError,
+    CommandRunner,
+    SubprocessRunner,
+)
 from dm_pipelines.gazetteer.config import load_gazetteer_config
 from dm_pipelines.gazetteer.pipeline import CONFIG as GAZETTEER_CONFIG
 from dm_pipelines.gazetteer.pipeline import BuildGazetteer
@@ -90,7 +100,27 @@ def _parser() -> argparse.ArgumentParser:
     quran_build.add_argument("--text", type=Path, required=True, help="KFGQPC-Hafs-V30.zip")
     quran_build.add_argument("--juz", type=Path, required=True, help="quran-data.xml")
     quran_build.add_argument("--out", type=Path, required=True, help="package directory")
+    voices = pipelines.add_parser("athan-voices", help="downloadable Athan voices (§15 D111)")
+    voice_commands = voices.add_subparsers(dest="command", required=True)
+    voice_fetch = voice_commands.add_parser("fetch", help="download a pinned recording and verify")
+    voice_fetch.add_argument("--voice", required=True, help="soundId in athan_voices.v1.toml")
+    voice_fetch.add_argument("--dest", type=Path, required=True, help="file to write")
+    voice_build = voice_commands.add_parser("build", help="build the app's .m4a and its record")
+    voice_build.add_argument("--voice", required=True, help="soundId in athan_voices.v1.toml")
+    voice_build.add_argument("--source", type=Path, required=True, help="the fetched recording")
+    voice_build.add_argument("--out", type=Path, required=True, help="output directory")
     return parser
+
+
+def _build_voice(args: argparse.Namespace) -> int:
+    build = BuildVoice(runner=CapturingSubprocessRunner(), repo=args.repo).run(
+        args.voice, args.source, args.out
+    )
+    print(  # noqa: T201
+        f"built: {args.out / build.file} sha256 {build.sha256} ({build.bytes} bytes, "
+        f"{build.duration_ms} ms, {build.integrated_lufs} LUFS, peak {build.peak_dbfs} dBTP)"
+    )
+    return 0
 
 
 def _fetch_quran(runner: CommandRunner, repo: Path, source: str, dest: Path) -> None:
@@ -155,6 +185,21 @@ def _build(runner: CommandRunner, args: argparse.Namespace) -> tuple[Path, Pipel
     return out, BuildTzdata(runner=runner, repo=repo).run(args.source, out)
 
 
+def _fetch_any(runner: CommandRunner, repo: Path, args: argparse.Namespace) -> None:
+    if args.pipeline == "polygons":
+        _fetch_polygons(runner, repo, args.dataset, args.dest)
+    elif args.pipeline == "gazetteer":
+        source = load_gazetteer_config(repo / GAZETTEER_CONFIG).source
+        _download(runner, source.url, source.sha256, args.dest)
+    elif args.pipeline == "quran":
+        _fetch_quran(runner, repo, args.source, args.dest)
+    elif args.pipeline == "athan-voices":
+        pin = load_athan_voices_config(repo / VOICES_CONFIG).pin(args.voice).source
+        _download(runner, pin.url, pin.sha256, args.dest)
+    else:
+        _fetch(runner, repo, args.dest)
+
+
 def run(argv: Sequence[str], runner: CommandRunner) -> int:
     """Run the command line `argv` with `runner`; return the exit code."""
     try:
@@ -164,19 +209,13 @@ def run(argv: Sequence[str], runner: CommandRunner) -> int:
     repo: Path = args.repo
     try:
         if args.command == "fetch":
-            if args.pipeline == "polygons":
-                _fetch_polygons(runner, repo, args.dataset, args.dest)
-            elif args.pipeline == "gazetteer":
-                source = load_gazetteer_config(repo / GAZETTEER_CONFIG).source
-                _download(runner, source.url, source.sha256, args.dest)
-            elif args.pipeline == "quran":
-                _fetch_quran(runner, repo, args.source, args.dest)
-            else:
-                _fetch(runner, repo, args.dest)
+            _fetch_any(runner, repo, args)
             print(f"fetched: {args.dest}")  # noqa: T201 - the CLI reports on stdout
             return 0
         if args.pipeline == "quran":
             return _build_quran(args)
+        if args.pipeline == "athan-voices":
+            return _build_voice(args)
         out, manifest = _build(runner, args)
     except (
         SourceMismatchError,
@@ -184,6 +223,8 @@ def run(argv: Sequence[str], runner: CommandRunner) -> int:
         TextSourceError,
         JuzSourceError,
         PageSourceError,
+        VoiceBuildError,
+        KeyError,
         CommandError,
         CorpusError,
         PinError,

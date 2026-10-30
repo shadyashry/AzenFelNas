@@ -42,3 +42,36 @@ class SubprocessRunner:
         if completed.returncode != 0:
             message = f"{' '.join(args)} exited {completed.returncode}: {completed.stderr.strip()}"
             raise CommandError(message)
+
+
+class CapturingRunner(Protocol):
+    """Runs one external command to completion and returns what it printed (port)."""
+
+    def capture(self, args: Sequence[str], cwd: Path) -> str:
+        """Run `args` in `cwd`; return stdout and stderr; raise `CommandError` unless it exits 0."""
+        ...
+
+
+class CapturingSubprocessRunner(SubprocessRunner):
+    """`SubprocessRunner` that also returns a tool's output (ffprobe, ffmpeg's loudness meter)."""
+
+    def capture(self, args: Sequence[str], cwd: Path) -> str:
+        """Run `args` in `cwd`; return stdout followed by stderr."""
+        try:
+            # As `run`: fixed tool names and pipeline paths, no shell.
+            completed = subprocess.run(  # noqa: S603
+                list(args),
+                cwd=cwd,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                check=False,
+            )
+        except OSError as error:
+            message = f"cannot run {args[0]}: {error}"
+            raise CommandError(message) from error
+        if completed.returncode != 0:
+            message = f"{' '.join(args)} exited {completed.returncode}: {completed.stderr.strip()}"
+            raise CommandError(message)
+        return completed.stdout + completed.stderr

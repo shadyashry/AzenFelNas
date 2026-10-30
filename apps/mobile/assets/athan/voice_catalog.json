@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "voices": [
+    {
+      "soundId": "malmo_fajr_2012",
+      "name": {
+        "en": "Islamic Center Malmö, Eid al-Fitr 2012",
+        "ar": "المركز الإسلامي في مالمو، عيد الفطر ٢٠١٢"
+      },
+      "designation": "FAJR",
+      "review": "PENDING",
+      "file": {
+        "path": "malmo_fajr_2012/1/malmo_fajr_2012.m4a",
+        "bytes": 2975655,
+        "sha256": "a51cd54c043cc5af7d669811245f91a0c7c90086865c608998a6adf44f8559dc",
+        "durationMs": 243054
+      },
+      "credit": {
+        "creator": "Islamic Center Malmö (YouTube channel “islamiccentermalmo”)",
+        "sourcePage": "https://commons.wikimedia.org/wiki/File:Eid_al-Fitr_Fajr_azan_at_Malm%C3%B6_Mosque_-_19_August_2012.webm",
+        "origin": "https://www.youtube.com/watch?v=0IHfm4Y82xA",
+        "uploader": "Rafic.Mufid (Wikimedia Commons)",
+        "recorded": "2012-08-19",
+        "retrieved": "2026-10-30",
+        "licence": "CC-BY-3.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/3.0/",
+        "changes": "Audio track taken from the video; the first 4.5 s (silence) removed; volume lowered 2.2 dB to -16 LUFS; encoded AAC-LC 96 kbps. Nothing else changed."
+      }
+    }
+  ]
+}

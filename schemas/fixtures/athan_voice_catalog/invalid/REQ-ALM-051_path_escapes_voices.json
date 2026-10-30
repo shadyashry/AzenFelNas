@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "voices": [
+    {
+      "soundId": "zz_fixture_fajr",
+      "name": {
+        "en": "Fixture voice",
+        "ar": "صوت تجريبي"
+      },
+      "designation": "FAJR",
+      "review": "PENDING",
+      "file": {
+        "path": "../escape.m4a",
+        "bytes": 2975655,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "durationMs": 243054
+      },
+      "credit": {
+        "creator": "Fixture creator",
+        "sourcePage": "https://example.invalid/source",
+        "origin": "https://example.invalid/origin",
+        "uploader": "Fixture uploader",
+        "recorded": "2012-08-19",
+        "retrieved": "2026-10-30",
+        "licence": "CC-BY-3.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/3.0/",
+        "changes": "Audio track extracted; leading 4.5 s of silence removed; gain -2.2 dB; encoded AAC-LC 96 kbps."
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://azenfelnas.app/schemas/athan_voice_catalog.v1.schema.json",
+  "title": "Athan voice catalog v1",
+  "description": "The downloadable Athan voices the app offers (DESIGN.md §15 D111), bundled with the app so every file is pinned by size and SHA-256. Files are AAC-LC .m4a at -16 LUFS served from cdn.azenfelnas.app/<channel>/athan/voices/<file.path>; built by `dm-pipelines athan-voices` from data-pipelines/config/athan_voices.v1.toml. Only licences that allow redistribution with modification are accepted (REQ-ALM-050); a PENDING review is offered on dev and lab only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "voices"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "voices": { "type": "array", "items": { "$ref": "#/$defs/voice" } }
+  },
+  "$defs": {
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["soundId", "name", "designation", "review", "file", "credit"],
+      "properties": {
+        "soundId": { "type": "string", "pattern": "^[a-z0-9_]+$", "description": "The schedule plan's soundId and the file name the alarm player reads." },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["en", "ar"],
+          "properties": {
+            "en": { "type": "string", "minLength": 1 },
+            "ar": { "type": "string", "minLength": 1 }
+          }
+        },
+        "designation": { "enum": ["STANDARD", "FAJR"], "description": "As the source states it; FAJR is offered for Fajr only (REQ-ALM-052)." },
+        "review": { "enum": ["PENDING", "PASSED"], "description": "PASSED once the whole recording was listened to (completeness, words, noise)." },
+        "file": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "bytes", "sha256", "durationMs"],
+          "properties": {
+            "path": { "type": "string", "pattern": "^[a-z0-9_]+/[0-9]+/[a-z0-9_]+\\.m4a$" },
+            "bytes": { "type": "integer", "minimum": 1, "maximum": 20000000 },
+            "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "durationMs": { "type": "integer", "minimum": 1000 }
+          }
+        },
+        "credit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["creator", "sourcePage", "origin", "uploader", "recorded", "retrieved", "licence", "licenceUrl", "changes"],
+          "properties": {
+            "creator": { "type": "string", "minLength": 1, "description": "The author as the source names it; never assumed to be the muezzin." },
+            "sourcePage": { "type": "string", "pattern": "^https://" },
+            "origin": { "type": "string", "pattern": "^https://" },
+            "uploader": { "type": "string", "minLength": 1 },
+            "recorded": { "type": "string", "format": "date" },
+            "retrieved": { "type": "string", "format": "date" },
+            "licence": { "enum": ["CC0-1.0", "CC-BY-3.0", "CC-BY-4.0", "CC-BY-SA-4.0"] },
+            "licenceUrl": { "type": "string", "pattern": "^https://creativecommons\\.org/" },
+            "changes": { "type": "string", "minLength": 1, "description": "The notice of changes the licence asks for." }
+          }
+        }
+      }
+    }
+  }
+}
