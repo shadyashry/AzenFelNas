@@ -1,4 +1,4 @@
-"""Renders the KFGQPC Illustrator pages to lossless WebP (§15 D106).
+"""Renders the KFGQPC Illustrator pages to lossless WebP (§15 D107).
 
 Each `.ai` file of the 1441 zip carries a PDF-compatible stream; PDFium renders the whole media box
 (margins, frame, ornaments and page number included, nothing cropped) at the configured width on a

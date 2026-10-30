@@ -12,6 +12,6 @@ enum RawdahGlyphKind {
   /// An eight-point rosette: Settings.
   rosette,
 
-  /// An open Mushaf on a rahl: Quran (§15 D106).
+  /// An open Mushaf on a rahl: Quran (§15 D107).
   mushaf,
 }

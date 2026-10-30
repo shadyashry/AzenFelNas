@@ -1,4 +1,4 @@
-"""The pinned inputs of the Quran pipeline: `config/quran.v1.toml` (§9.5, §15 D106)."""
+"""The pinned inputs of the Quran pipeline: `config/quran.v1.toml` (§9.5, §15 D107)."""
 
 import tomllib
 from pathlib import Path

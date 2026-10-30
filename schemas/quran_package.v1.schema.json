@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://azenfelnas.app/schemas/quran_package.v1.schema.json",
   "title": "Quran package manifest v1",
-  "description": "manifest.json of the offline Quran package (DESIGN.md §9.5, §15 D106): the edition, its sources and licences, the page image geometry and every file with its size and sha256. The app pins this manifest's own sha256, so every file it lists is verified against a value the app was built with.",
+  "description": "manifest.json of the offline Quran package (DESIGN.md §9.5, §15 D107): the edition, its sources and licences, the page image geometry and every file with its size and sha256. The app pins this manifest's own sha256, so every file it lists is verified against a value the app was built with.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schemaVersion", "packageId", "version", "layoutId", "edition", "pageImage", "files"],

@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-/// What a source of the Quran package supplies (§15 D106).
+/// What a source of the Quran package supplies (§15 D107).
 @JsonEnum()
 enum QuranSourceRole {
   /// The page images (the KFGQPC digital Mushaf).

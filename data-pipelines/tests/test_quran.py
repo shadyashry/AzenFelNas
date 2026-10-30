@@ -1,4 +1,4 @@
-"""The Quran pipeline: Word-file parsing, juz checks and the full build (§9.5, §15 D106).
+"""The Quran pipeline: Word-file parsing, juz checks and the full build (§9.5, §15 D107).
 
 The unit tests use a synthetic Word file with placeholder words, never Quran text. The full build
 runs only when `DM_QURAN_SOURCES` names a directory holding the three pinned sources.

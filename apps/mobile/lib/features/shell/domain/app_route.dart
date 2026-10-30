@@ -99,7 +99,7 @@ final class HealthRoute extends AppRoute {
 }
 
 /// The Quran reader, or its download when the package is not installed
-/// (§15 D106).
+/// (§15 D107).
 final class QuranRoute extends AppRoute {
   /// The route.
   const new();
@@ -111,7 +111,7 @@ final class QuranRoute extends AppRoute {
   bool get linkable => false;
 }
 
-/// Search in the Quran text (offline, §15 D106).
+/// Search in the Quran text (offline, §15 D107).
 final class QuranSearchRoute extends AppRoute {
   /// The route.
   const new();
@@ -123,7 +123,7 @@ final class QuranSearchRoute extends AppRoute {
   bool get linkable => false;
 }
 
-/// Bookmarks and highlights (§15 D106).
+/// Bookmarks and highlights (§15 D107).
 final class QuranNotesRoute extends AppRoute {
   /// The route.
   const new();
@@ -135,7 +135,7 @@ final class QuranNotesRoute extends AppRoute {
   bool get linkable => false;
 }
 
-/// The Quran download: status, size, check, remove (§15 D106).
+/// The Quran download: status, size, check, remove (§15 D107).
 final class QuranStorageRoute extends AppRoute {
   /// The route.
   const new();

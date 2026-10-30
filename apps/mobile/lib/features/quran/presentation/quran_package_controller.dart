@@ -12,7 +12,7 @@ import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Turns the reader's actions on the Quran download into use-case calls
-/// and keeps the latest [QuranPackageStatus] (§15 D106). It lives as long
+/// and keeps the latest [QuranPackageStatus] (§15 D107). It lives as long
 /// as the app, so a download continues while the reader visits other tabs;
 /// closing the app stops it, and the next attempt resumes.
 final class QuranPackageController extends Notifier<QuranPackageStatus> {

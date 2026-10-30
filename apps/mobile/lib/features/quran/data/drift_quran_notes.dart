@@ -5,7 +5,7 @@ import 'package:daily_muslim/features/quran/domain/quran_notes.dart';
 import 'package:daily_muslim/features/quran/domain/reader_preferences.dart';
 import 'package:drift/drift.dart';
 
-/// The Quran notes ports over `quran_notes.sqlite` (§15 D106): one adapter,
+/// The Quran notes ports over `quran_notes.sqlite` (§15 D107): one adapter,
 /// four narrow ports, so each use case sees only what it calls.
 final class DriftQuranNotes
     implements

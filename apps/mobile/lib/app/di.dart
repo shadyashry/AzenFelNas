@@ -243,7 +243,7 @@ abstract final class AppBindings {
     ];
   }
 
-  /// The offline Quran (§15 D106): the package under [root] (persistent
+  /// The offline Quran (§15 D107): the package under [root] (persistent
   /// app support storage, never a cache), the CDN for the download only,
   /// and the notes, which live apart from the package.
   static List<Override> _quran({

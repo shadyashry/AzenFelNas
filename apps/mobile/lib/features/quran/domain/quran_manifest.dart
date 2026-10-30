@@ -3,7 +3,7 @@ import 'package:daily_muslim/features/quran/domain/quran_page_geometry.dart';
 import 'package:meta/meta.dart';
 
 /// What the app needs of a Quran package's `manifest.json`
-/// (`quran_package.v1`, §15 D106); the data layer reads the wire form.
+/// (`quran_package.v1`, §15 D107); the data layer reads the wire form.
 @immutable
 final class QuranManifest {
   /// The manifest.

@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 /// Why downloading, installing or opening the Quran package failed
-/// (§15 D106). Each variant maps to one message and one action.
+/// (§15 D107). Each variant maps to one message and one action.
 @immutable
 sealed class QuranFailure {
   const new();

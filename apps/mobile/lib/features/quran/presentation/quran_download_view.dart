@@ -12,7 +12,7 @@ import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// The Quran download before the reader opens (§15 D106, REQ-QRN-010):
+/// The Quran download before the reader opens (§15 D107, REQ-QRN-010):
 /// what it is and where it comes from, its measured sizes, the one action
 /// that fits the state, progress, and every failure in words.
 final class QuranDownloadView extends ConsumerWidget {

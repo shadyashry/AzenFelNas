@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:daily_muslim/features/quran/domain/reader_preferences.dart';
 import 'package:meta/meta.dart';
 
-/// Where the page sits in the reader at a zoom level (§15 D106,
+/// Where the page sits in the reader at a zoom level (§15 D107,
 /// REQ-QRN-030): pure geometry, so rotation, resizing and zoom are tested
 /// without a device.
 ///

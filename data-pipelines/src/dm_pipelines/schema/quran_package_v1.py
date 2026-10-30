@@ -63,7 +63,7 @@ class Edition(WireModel):
 
 class QuranPackageManifestV1(WireModel):
     """
-    manifest.json of the offline Quran package (DESIGN.md §9.5, §15 D106): the edition, its sources and licences, the page image geometry and every file with its size and sha256. The app pins this manifest's own sha256, so every file it lists is verified against a value the app was built with.
+    manifest.json of the offline Quran package (DESIGN.md §9.5, §15 D107): the edition, its sources and licences, the page image geometry and every file with its size and sha256. The app pins this manifest's own sha256, so every file it lists is verified against a value the app was built with.
     """
 
     model_config = ConfigDict(

@@ -1,4 +1,4 @@
-// The built Quran package, checked end to end on the host (§15 D106). Runs
+// The built Quran package, checked end to end on the host (§15 D107). Runs
 // only when DM_QURAN_PACKAGE names a directory holding the package that
 // `dm-pipelines quran build` wrote; CI has no copy of the package.
 import 'dart:io';

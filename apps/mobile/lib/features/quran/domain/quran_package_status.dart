@@ -3,7 +3,7 @@ import 'package:daily_muslim/features/quran/domain/installed_quran.dart';
 import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
 import 'package:meta/meta.dart';
 
-/// Where the offline Quran package stands on this device (§15 D106).
+/// Where the offline Quran package stands on this device (§15 D107).
 /// The reader opens only on [QuranReady]; "Ready offline" is shown only
 /// after every file was verified and the local search answered.
 @immutable

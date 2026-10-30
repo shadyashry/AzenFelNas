@@ -59,7 +59,7 @@ void main() {
 
     test('Auto Backup up to API 30 (fullBackupContent)', () {
       final xml = File('$res/backup_rules.xml').readAsStringSync();
-      // The offline Quran package (§15 D106) is downloaded again instead.
+      // The offline Quran package (§15 D107) is downloaded again instead.
       expect(_excludes(xml, 'full-backup-content'), [placesRule, quranRule]);
     });
 

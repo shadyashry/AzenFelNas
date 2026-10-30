@@ -24,7 +24,7 @@ Placeholder created in slice S01. This file is **generated per release** (`DESIG
 | JPL DE440s planetary ephemeris (`de440s.bsp`) | U.S. Government work (JPL/NASA) | fetched by URL with a sha256 pin; not redistributed (`DESIGN.md` §15 D28) |
 | MET Norway Sunrise API 3.0 values in `lab/tests/data/published_sun_events_2026.json` | NLOD 2.0 / CC BY 4.0 | attribution: "MET Norway" (`DESIGN.md` §15 D31) |
 
-## Offline Quran package (downloaded after install, not bundled; DESIGN.md §15 D106)
+## Offline Quran package (downloaded after install, not bundled; DESIGN.md §15 D107)
 
 | Source | Licence | Obligation |
 |---|---|---|

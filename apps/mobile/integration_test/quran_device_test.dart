@@ -1,4 +1,4 @@
-// On-device check of the offline Quran (§15 D106). Needs the package already
+// On-device check of the offline Quran (§15 D107). Needs the package already
 // downloaded on the device and is meant to run with the network off:
 //
 //   flutter drive --profile --driver=test_driver/integration_test.dart \

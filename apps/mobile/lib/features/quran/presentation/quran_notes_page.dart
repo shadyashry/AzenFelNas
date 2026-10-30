@@ -12,7 +12,7 @@ import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Bookmarks and "My highlights" (§15 D106, REQ-QRN-050, REQ-QRN-060):
+/// Bookmarks and "My highlights" (§15 D107, REQ-QRN-050, REQ-QRN-060):
 /// stored on the device apart from the download, they open their page,
 /// and a highlight can be recoloured or deleted.
 final class QuranNotesPage extends ConsumerWidget {

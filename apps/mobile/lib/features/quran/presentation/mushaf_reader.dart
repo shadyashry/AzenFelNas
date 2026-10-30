@@ -16,7 +16,7 @@ import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// The Mushaf reader (§15 D106): the page surface between the reader's
+/// The Mushaf reader (§15 D107): the page surface between the reader's
 /// bars. The bars sit above and below the page, never over it; hiding them
 /// gives the page the whole screen.
 final class MushafReader extends ConsumerStatefulWidget {

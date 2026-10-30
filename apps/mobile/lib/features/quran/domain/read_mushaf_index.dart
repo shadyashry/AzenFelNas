@@ -3,7 +3,7 @@ import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
 /// The navigation metadata and the local search of an installed package
-/// (§15 D106). Works offline; never contacts the network.
+/// (§15 D107). Works offline; never contacts the network.
 abstract interface class ReadMushafIndex {
   /// The 114 surahs in order.
   Future<Result<List<SuraEntry>, QuranFailure>> suras();

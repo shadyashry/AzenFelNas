@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 /// The page order of a Mushaf, independent of the interface language
-/// (§15 D106, REQ-QRN-020).
+/// (§15 D107, REQ-QRN-020).
 ///
 /// Pages are numbered 1..[pageCount] and read right to left: the next page
 /// lies to the left of the current one, and a spread shows the odd page on

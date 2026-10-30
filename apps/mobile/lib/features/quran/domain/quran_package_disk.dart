@@ -5,7 +5,7 @@ import 'package:daily_muslim/features/quran/domain/quran_manifest_file.dart';
 import 'package:daily_muslim/features/quran/domain/staged_quran.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
-/// The Quran package on this device's persistent app storage (§15 D106):
+/// The Quran package on this device's persistent app storage (§15 D107):
 /// one active package, at most one staging directory for a download in
 /// progress, and an atomic switch between them. Never a cache directory,
 /// so the OS does not clear it.

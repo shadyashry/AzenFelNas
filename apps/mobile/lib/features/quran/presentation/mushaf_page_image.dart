@@ -5,7 +5,7 @@ import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:flutter/material.dart';
 
-/// One official Mushaf page exactly as published (§15 D106, REQ-QRN-031):
+/// One official Mushaf page exactly as published (§15 D107, REQ-QRN-031):
 /// the image is shown at its own aspect ratio with no filter, tint, theme
 /// or control over it. The only overlay is the reader's own highlights,
 /// drawn translucent (multiply) so every letter and mark stays readable;

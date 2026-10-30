@@ -80,7 +80,7 @@ def _parser() -> argparse.ArgumentParser:
     gazetteer_build = gazetteer_commands.add_parser("build", help="build gazetteer.json, manifest")
     gazetteer_build.add_argument("--source", type=Path, required=True, help="pinned source file")
     gazetteer_build.add_argument("--out", type=Path, help="output directory (default: app assets)")
-    quran = pipelines.add_parser("quran", help="the offline Quran package (KFGQPC, §15 D106)")
+    quran = pipelines.add_parser("quran", help="the offline Quran package (KFGQPC, §15 D107)")
     quran_commands = quran.add_subparsers(dest="command", required=True)
     quran_fetch = quran_commands.add_parser("fetch", help="download a pinned source and verify")
     quran_fetch.add_argument("--source", choices=("mushaf", "text", "juz"), required=True)

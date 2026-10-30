@@ -9,7 +9,7 @@ import 'package:dm_core_types/dm_core_types.dart';
 
 /// Downloads again only the damaged files of the active package, checks
 /// each against the pinned manifest, rebuilds the search index if needed
-/// and checks every file before reporting ready (§15 D106, REQ-QRN-013).
+/// and checks every file before reporting ready (§15 D107, REQ-QRN-013).
 final class RepairQuranPackage {
   /// The use case over its ports.
   const new({

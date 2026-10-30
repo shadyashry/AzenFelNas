@@ -9,7 +9,7 @@ import 'package:sqlite3/sqlite3.dart';
 
 /// [BuildSearchIndex] with SQLite FTS5 (trigram tokenizer): `search.sqlite`
 /// beside `quran.sqlite`, holding the folded text of every verse
-/// ([ArabicSearchText]) under the verse's id (§15 D106, REQ-QRN-040).
+/// ([ArabicSearchText]) under the verse's id (§15 D107, REQ-QRN-040).
 ///
 /// The index is derived data: it is built on the device, after every
 /// package file was verified and before the package is activated, and

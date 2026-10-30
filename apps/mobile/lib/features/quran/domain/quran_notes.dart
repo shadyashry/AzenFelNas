@@ -3,7 +3,7 @@ import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:daily_muslim/features/quran/domain/reader_preferences.dart';
 
 /// Bookmarks of one page layout, stored apart from the downloaded package
-/// so removing the package keeps them (§15 D106, REQ-QRN-060).
+/// so removing the package keeps them (§15 D107, REQ-QRN-060).
 abstract interface class BookmarkStore {
   /// Bookmarks of [layoutId], newest first; emits on every change.
   Stream<List<Bookmark>> watchBookmarks(String layoutId);

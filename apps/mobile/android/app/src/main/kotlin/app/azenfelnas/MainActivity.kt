@@ -19,7 +19,7 @@ class MainActivity : FlutterActivity() {
     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dm/device_zone").setMethodCallHandler { call, result ->
       if (call.method == "zoneId") result.success(TimeZone.getDefault().id) else result.notImplemented()
     }
-    // Free space before the offline Quran download (DESIGN.md section 15 D106).
+    // Free space before the offline Quran download (DESIGN.md section 15 D107).
     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dm/storage").setMethodCallHandler { call, result ->
       val path = call.arguments as? String
       if (call.method == "usableBytes" && path != null) {

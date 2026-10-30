@@ -11,7 +11,7 @@ import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
 import 'package:daily_muslim/features/quran/domain/staged_quran.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
-/// Downloads, verifies and installs the pinned Quran package (§15 D106,
+/// Downloads, verifies and installs the pinned Quran package (§15 D107,
 /// REQ-QRN-010..014).
 ///
 /// 1. The manifest must be byte for byte the pinned one (size, SHA-256) and

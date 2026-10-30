@@ -1,4 +1,4 @@
-# S42 hand-over: offline Quran reader (DESIGN.md §15 D106)
+# S42 hand-over: offline Quran reader (DESIGN.md §15 D107)
 
 Branch `slice/s42-quran-reader`, cut from `slice/s41-ux-polish` at `710f66b` (the uncommitted S41 nav-bar work in the
 main checkout is not included; merging it touches `rawdah_nav_bar.dart`, `app_tab_bar.dart` and the ARB files).
@@ -26,7 +26,7 @@ main checkout is not included; merging it touches `rawdah_nav_bar.dart`, `app_ta
   restart with state kept. `integration_test/quran_device_test.dart` (flutter drive, profile): passed.
 - Also on the emulator: full check of 606 files, a truncated page detected at start and repaired (only that file
   fetched), removal (notes kept) and re-download with the bookmark restored.
-- Measured (D106): search 0.6–37 ms; PSS 173 MB on Home, 184–186 MB reading (60 pages, 4× zoom); APK arm64 release
+- Measured (D107): search 0.6–37 ms; PSS 173 MB on Home, 184–186 MB reading (60 pages, 4× zoom); APK arm64 release
   +656 768 bytes; download 124 946 306 bytes, installed 126.6 MB, free space asked 143.4 MB.
 - `melos run ci`: SUCCESS (format, analyze --fatal-infos, arch and REQ lints, all Dart/Flutter tests).
 

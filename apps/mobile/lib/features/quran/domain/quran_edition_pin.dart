@@ -1,6 +1,6 @@
 import 'package:daily_muslim/features/quran/domain/mushaf_layout.dart';
 
-/// The one Quran package this build accepts (§15 D106): its CDN path, the
+/// The one Quran package this build accepts (§15 D107): its CDN path, the
 /// SHA-256 and size of its `manifest.json`, and sizes measured on the built
 /// package. The manifest lists every other file by SHA-256, so pinning it
 /// pins the whole package.

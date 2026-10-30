@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 /// page image's width and height, origin top left).
 ///
 /// An area highlight marks a visual region the reader drew; it does not
-/// identify words or verses (§15 D106, REQ-QRN-050).
+/// identify words or verses (§15 D107, REQ-QRN-050).
 @immutable
 final class HighlightRegion {
   /// The area [left]..[right] × [top]..[bottom] of [page].

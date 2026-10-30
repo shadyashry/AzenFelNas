@@ -5,7 +5,7 @@ import 'package:daily_muslim/features/quran/domain/quran_package_disk.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
-/// The package's status at start, without the network (§15 D106,
+/// The package's status at start, without the network (§15 D107,
 /// REQ-QRN-010): the active package if every file has its size and the
 /// local search index is current (rebuilt here when it is not), damaged if
 /// a file is missing or cut short, paused if a download was left, and not

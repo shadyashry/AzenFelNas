@@ -3,6 +3,6 @@
      filesDir/places/ and never leaves the device (REQ-PRIV-003, DESIGN.md §7.3). -->
 <full-backup-content>
     <exclude domain="file" path="places/" />
-    <!-- The offline Quran package (DESIGN.md §15 D106): ~125 MB, downloaded again on a new device. -->
+    <!-- The offline Quran package (DESIGN.md §15 D107): ~125 MB, downloaded again on a new device. -->
     <exclude domain="file" path="quran/" />
 </full-backup-content>

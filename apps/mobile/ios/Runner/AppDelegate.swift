@@ -41,7 +41,7 @@ enum DeviceZoneChannel {
   }
 }
 
-/// Free space before the offline Quran download (`ChannelFreeSpace` in Dart, DESIGN.md §15 D106).
+/// Free space before the offline Quran download (`ChannelFreeSpace` in Dart, DESIGN.md §15 D107).
 enum StorageChannel {
   static func register(messenger: FlutterBinaryMessenger) {
     FlutterMethodChannel(name: "dm/storage", binaryMessenger: messenger)

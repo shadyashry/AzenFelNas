@@ -42,7 +42,7 @@ const _sourceExtensions = {
 };
 
 /// Files allowed to open a network connection: the two CDN adapters (data
-/// packages, and the offline Quran download of §15 D106).
+/// packages, and the offline Quran download of §15 D107).
 const _networkAdapters = {
   'lib/features/packages/data/http_cdn_channel.dart',
   'lib/features/quran/data/http_quran_origin.dart',

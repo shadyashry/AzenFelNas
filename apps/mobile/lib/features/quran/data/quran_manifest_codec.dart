@@ -8,7 +8,7 @@ import 'package:daily_muslim/features/quran/domain/quran_page_geometry.dart';
 import 'package:dm_contracts/dm_contracts.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-/// Reads `manifest.json` (`quran_package.v1`, §15 D106) into the domain's
+/// Reads `manifest.json` (`quran_package.v1`, §15 D107) into the domain's
 /// [QuranManifest].
 abstract final class QuranManifestCodec {
   /// [bytes] decoded, or `null` when they do not have the schema's shape.

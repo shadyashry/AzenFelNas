@@ -8,7 +8,7 @@ import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Offline search in the Quran text (§15 D106, REQ-QRN-040): the query is
+/// Offline search in the Quran text (§15 D107, REQ-QRN-040): the query is
 /// folded like the index and matched as a substring of each verse; a
 /// result shows the whole verse as published, the match in bold, the surah,
 /// verse and page, and opens that page.

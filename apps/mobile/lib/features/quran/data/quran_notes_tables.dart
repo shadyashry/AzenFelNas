@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-/// Bookmarked pages per page layout (`quran_notes.sqlite`, §15 D106).
+/// Bookmarked pages per page layout (`quran_notes.sqlite`, §15 D107).
 @DataClassName('QuranBookmarkRow')
 class QuranBookmarks extends Table {
   /// The page layout (`QuranPackageManifest.layoutId`).

@@ -4,7 +4,7 @@ import 'package:drift/drift.dart';
 
 part 'quran_notes_database.g.dart';
 
-/// `quran_notes.sqlite` (§7.3, §15 D106): bookmarks, highlights, the last
+/// `quran_notes.sqlite` (§7.3, §15 D107): bookmarks, highlights, the last
 /// page read and the reader's choices. Kept apart from the downloaded
 /// package, so removing or replacing the package never touches it; rows are
 /// keyed by page layout, so another edition never shows them in the wrong

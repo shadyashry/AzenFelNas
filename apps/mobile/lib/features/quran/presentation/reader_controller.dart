@@ -23,7 +23,7 @@ final class HighlightDraft {
   final List<HighlightRegion> regions;
 }
 
-/// What the reader shows (§15 D106).
+/// What the reader shows (§15 D107).
 @immutable
 final class ReaderState {
   /// The state.

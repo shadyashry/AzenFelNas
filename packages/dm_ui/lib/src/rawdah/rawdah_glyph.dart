@@ -188,7 +188,7 @@ final class _GlyphPainter extends CustomPainter {
       ..drawCircle(const Offset(13, 13), 2.8, stroke);
   }
 
-  /// An open Mushaf on a rahl (folding stand), §15 D106.
+  /// An open Mushaf on a rahl (folding stand), §15 D107.
   void _mushaf(Canvas canvas, Paint stroke) {
     for (final side in const [-1.0, 1.0]) {
       canvas.drawPath(

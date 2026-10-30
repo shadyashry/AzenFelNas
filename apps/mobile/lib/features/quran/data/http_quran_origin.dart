@@ -6,7 +6,7 @@ import 'package:daily_muslim/features/quran/domain/quran_origin.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:meta/meta.dart';
 
-/// [QuranOrigin] over HTTPS to `cdn.azenfelnas.app` only (§0.2, §15 D106),
+/// [QuranOrigin] over HTTPS to `cdn.azenfelnas.app` only (§0.2, §15 D107),
 /// with its own [HttpClient]: no cookies, no identifiers, no redirects, a
 /// 30 s limit per read. A partial file resumes with an HTTP `Range`
 /// request; a server that ignores the range restarts the file.

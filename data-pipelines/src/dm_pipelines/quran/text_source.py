@@ -1,4 +1,4 @@
-"""Reads the KFGQPC Hafs Word file: pages, lines, surah headers and verses (§15 D106).
+"""Reads the KFGQPC Hafs Word file: pages, lines, surah headers and verses (§15 D107).
 
 The Word file sets the whole Madinah Mushaf one Word page per Mushaf page and one line per Mushaf
 line: a surah opens with a header line (`سُورَةُ …`) and, except at-Tawbah and al-Fatiha (whose

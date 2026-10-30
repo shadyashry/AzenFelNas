@@ -5,7 +5,7 @@ import 'package:dm_core_types/dm_core_types.dart';
 const searchIndexFileName = 'search.sqlite';
 
 /// Builds the local search index of the package in `directory` from its
-/// `quran.sqlite`, then runs a query to confirm it answers (§15 D106).
+/// `quran.sqlite`, then runs a query to confirm it answers (§15 D107).
 abstract interface class BuildSearchIndex {
   /// Builds the index; [QuranSearchUnavailable] when it fails or does not
   /// answer.

@@ -3,7 +3,7 @@ import 'package:daily_muslim/features/quran/domain/quran_package_disk.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
 /// Removes the downloaded Quran package and any partial download
-/// (§15 D106, REQ-QRN-061). Bookmarks, highlights and the last page read
+/// (§15 D107, REQ-QRN-061). Bookmarks, highlights and the last page read
 /// live in `quran_notes.sqlite` and are kept; they show again once the same
 /// page layout is downloaded.
 final class RemoveQuranPackage {

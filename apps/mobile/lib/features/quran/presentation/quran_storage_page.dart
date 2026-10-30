@@ -10,7 +10,7 @@ import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// The Quran download (§15 D106, REQ-QRN-061): its status, edition and
+/// The Quran download (§15 D107, REQ-QRN-061): its status, edition and
 /// measured size on this device, a full check of every file against the
 /// official copy, and removal (notes are kept).
 final class QuranStoragePage extends ConsumerWidget {

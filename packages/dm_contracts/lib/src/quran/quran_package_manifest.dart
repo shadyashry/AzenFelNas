@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'quran_package_manifest.freezed.dart';
 part 'quran_package_manifest.g.dart';
 
-/// Wire form of `quran_package.v1` (§9.5, §15 D106): the offline Quran
+/// Wire form of `quran_package.v1` (§9.5, §15 D107): the offline Quran
 /// package's `manifest.json`.
 @freezed
 abstract class QuranPackageManifest with _$QuranPackageManifest {

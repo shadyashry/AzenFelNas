@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 /// One surah in the index: its header as printed in the source, its first
-/// page and its verse count (all from the KFGQPC text, §15 D106).
+/// page and its verse count (all from the KFGQPC text, §15 D107).
 @immutable
 final class SuraEntry {
   /// The entry.

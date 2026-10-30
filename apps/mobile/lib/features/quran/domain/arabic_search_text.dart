@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-/// The search form of Arabic text (§15 D106, REQ-QRN-040).
+/// The search form of Arabic text (§15 D107, REQ-QRN-040).
 ///
 /// Search runs on a separate, folded copy of the verses; the displayed text
 /// is never changed. Folding drops every diacritic and Quranic mark, the

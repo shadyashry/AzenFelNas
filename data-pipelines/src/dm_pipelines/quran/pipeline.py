@@ -1,4 +1,4 @@
-"""`BuildQuran`: the offline Quran package (§9.5, §15 D106).
+"""`BuildQuran`: the offline Quran package (§9.5, §15 D107).
 
 pinned 1441 Mushaf zip ─▶ pages/NNN.webp (lossless, verified pixel for pixel)
 pinned Hafs V3.0 zip   ─▶ verses, surahs, page and line of every verse ─┐

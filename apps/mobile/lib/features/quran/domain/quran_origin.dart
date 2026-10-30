@@ -2,7 +2,7 @@ import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
 /// Where the Quran package is downloaded from: `cdn.azenfelnas.app` only
-/// (§0.2, §15 D106). Used only by the download; reading never calls it.
+/// (§0.2, §15 D107). Used only by the download; reading never calls it.
 abstract interface class QuranOrigin {
   /// The package's `manifest.json`, at most [maxBytes] bytes.
   Future<Result<List<int>, QuranFailure>> manifest({required int maxBytes});

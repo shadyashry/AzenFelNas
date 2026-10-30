@@ -1,4 +1,4 @@
-# Pinned sources of the offline Quran package (DESIGN.md §9.5, §15 D106).
+# Pinned sources of the offline Quran package (DESIGN.md §9.5, §15 D107).
 # `dm-pipelines quran fetch` refuses (and deletes) bytes that do not match a sha256 below, and
 # `dm-pipelines quran build` refuses a source that does not. A new edition is a commit that changes
 # this file, the app's pinned manifest (`QuranEditions`) and the published package.

@@ -38,7 +38,7 @@ abstract final class QuranFormat {
 }
 
 /// The KFGQPC Hafs font, loaded from the downloaded package (never from the
-/// network) for surah names and search results (§15 D106). The font file is
+/// network) for surah names and search results (§15 D107). The font file is
 /// shipped unmodified, as its licence requires.
 abstract final class QuranFont {
   /// The family registered by [load].

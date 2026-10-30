@@ -12,7 +12,7 @@ typedef MushafItemBuilder = Widget Function(
   Size size,
 );
 
-/// The Mushaf's reading surface (§15 D106, REQ-QRN-020, REQ-QRN-030).
+/// The Mushaf's reading surface (§15 D107, REQ-QRN-020, REQ-QRN-030).
 ///
 /// Items are laid out right to left whatever the interface language: the
 /// next item lies to the left, a swipe to the right (or the left arrow key)

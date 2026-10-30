@@ -11,7 +11,7 @@ import 'package:daily_muslim/features/quran/domain/quran_package_disk.dart';
 import 'package:daily_muslim/features/quran/domain/staged_quran.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 
-/// [QuranPackageDisk] under `<app support>/quran` (§15 D106):
+/// [QuranPackageDisk] under `<app support>/quran` (§15 D107):
 ///
 /// ```text
 /// active.json                          pointer: packageId, version

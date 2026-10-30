@@ -35,7 +35,7 @@
 			<string>NSPrivacyAccessedAPICategoryDiskSpace</string>
 			<key>NSPrivacyAccessedAPITypeReasons</key>
 			<array>
-				<!-- Check whether there is enough space before writing files (the offline Quran download, DESIGN.md §15 D106). -->
+				<!-- Check whether there is enough space before writing files (the offline Quran download, DESIGN.md §15 D107). -->
 				<string>E174.1</string>
 			</array>
 		</dict>

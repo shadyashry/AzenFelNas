@@ -9,7 +9,7 @@ import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// The Quran tab (§15 D106): the reader once the package is ready offline,
+/// The Quran tab (§15 D107): the reader once the package is ready offline,
 /// the download and its states before that. The tab bar hides with the
 /// reader's controls, so the page can use the whole screen.
 final class QuranPage extends ConsumerWidget {
