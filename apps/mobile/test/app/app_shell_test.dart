@@ -116,6 +116,18 @@ void main() {
     expect(pubspec, contains('\nversion: ${AppBuild.version}+'));
   });
 
+  shellTest(
+    'Settings offers "Report a problem", said in words a reader knows',
+    location: '/settings',
+    (tester, _) async {
+      expect(find.text('Report a problem'), findsOneWidget);
+      expect(
+        find.text('Copy a report for support if something goes wrong'),
+        findsOneWidget,
+      );
+    },
+  );
+
   // The app is drawn edge to edge: the last row of a tab page must scroll
   // clear of the floating tab bar and the system navigation bar (§15 D100).
   for (final (location, lastRow) in [

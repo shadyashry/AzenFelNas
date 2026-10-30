@@ -197,9 +197,9 @@
   "athanPreReminderOff": "إيقاف",
   "athanTestScheduled": "الأذان التجريبي بعد {seconds} ث",
   "athanPreReminderMinutes": "قبل {minutes} دقيقة",
-  "settingsDiagnostics": "التشخيص",
-  "diagnosticsTitle": "التشخيص",
-  "diagnosticsIntro": "ده كل اللي في تقرير التشخيص. مكانك متقرّب لحوالي ١ كم، ومفيش أي حاجة بتعرّف عليك أو على الجهاز. مفيش حاجة بتتبعت: انسخه والصقه في رسالة للدعم لو حابب بس.",
+  "settingsDiagnostics": "الإبلاغ عن مشكلة",
+  "diagnosticsTitle": "الإبلاغ عن مشكلة",
+  "diagnosticsIntro": "لو حصلت مشكلة، انسخ التقرير ده وابعته للدعم. ده كل اللي فيه: مكانك متقرّب لحوالي ١ كم، ومفيش أي حاجة بتعرّف عليك أو على الجهاز. التطبيق مش بيبعت أي حاجة لوحده.",
   "diagnosticsCopy": "انسخ التقرير",
   "diagnosticsCopied": "اتنسخ التقرير",
   "diagnosticsUnavailable": "ماقدرناش نجهّز التقرير.",
@@ -238,5 +238,6 @@
   "onboardingFeatureAthan": "الأذان في وقته",
   "onboardingFeatureQibla": "بوصلة القبلة",
   "placeSuggestions": "مدن في نفس توقيتك",
-  "homePlaceChip": "{place}، غيّر المكان"
+  "homePlaceChip": "{place}، غيّر المكان",
+  "settingsDiagnosticsHint": "انسخ تقرير تبعته للدعم لو حصلت مشكلة"
 }

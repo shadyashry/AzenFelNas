@@ -89,8 +89,9 @@ final class SettingsPage extends ConsumerWidget {
                   onTap: () => context.push(const HealthRoute().location),
                 ),
                 ListTile(
-                  leading: const Icon(Icons.monitor_heart_outlined),
+                  leading: const Icon(Icons.support_agent_outlined),
                   title: Text(l.settingsDiagnostics),
+                  subtitle: Text(l.settingsDiagnosticsHint),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => context.push(const DiagnosticsRoute().location),
                 ),

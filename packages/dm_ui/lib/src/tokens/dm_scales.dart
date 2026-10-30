@@ -21,6 +21,27 @@ abstract final class DmScales {
   /// Corner radii.
   static const List<double> radius = [8, 12, 16, 24];
 
+  /// Side gutter of every page (§15 D102).
+  static const double gutter = 16;
+
+  /// Radius of controls: fields, menus, chips.
+  static const double radiusControl = 14;
+
+  /// Radius of cards and tiles.
+  static const double radiusCard = 20;
+
+  /// Radius of sheets, dialogs and the hero's lower edge.
+  static const double radiusSheet = 28;
+
+  /// Small icons: chips, inline marks.
+  static const double iconSmall = 16;
+
+  /// Icons in list rows and links.
+  static const double iconMedium = 20;
+
+  /// Standard icons: app bars, buttons, the navigation bar.
+  static const double iconLarge = 24;
+
   /// Display text.
   static const TypeStep display = TypeStep(40, 48);
 

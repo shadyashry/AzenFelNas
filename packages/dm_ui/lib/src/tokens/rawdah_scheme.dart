@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// The content-surface colours of the Rawdah world for one brightness
-/// (§7.9, §15 D89), carried on the theme so every component follows light
-/// and dark: pearl marble by day, Nabawi Night after Isha. The hour-light
-/// field and the gold of rules and ornaments are the same in both.
+/// The content-surface colours for one brightness (§7.9, §15 D89, D102),
+/// carried on the theme so every component follows light and dark: cream
+/// by day, Nabawi Night in dark mode. The Home hero, the navigation bar and
+/// the gold of rules and ornaments are the same in both.
 ///
 /// Text roles meet WCAG 2.2 AA (4.5:1) on [panel] and [ground], and
 /// [accent] meets 3:1 for icons and marks (REQ-UX-010, pinned by
@@ -23,31 +23,31 @@ final class RawdahScheme extends ThemeExtension<RawdahScheme> {
     required this.error,
   });
 
-  /// Pearl marble: the day scheme.
+  /// Cream: the day scheme.
   static const RawdahScheme light = RawdahScheme(
-    ground: Color(0xFFFBF9F3),
-    panel: Color(0xFFFFFEFA),
-    ink: Color(0xFF1B2620),
-    inkMuted: Color(0xFF55615A),
-    primary: Color(0xFF145A3E),
+    ground: Color(0xFFF4F2E5),
+    panel: Color(0xFFFFFCF4),
+    ink: Color(0xFF173B30),
+    inkMuted: Color(0xFF526359),
+    primary: Color(0xFF0B3F32),
     accent: Color(0xFF8E6B2B),
-    hairline: Color(0xFFDCCDA4),
-    wash: Color(0xFFE3EEE2),
+    hairline: Color(0xFFE4DABD),
+    wash: Color(0xFFE3EBDD),
     error: Color(0xFF9B2C2C),
   );
 
-  /// Nabawi Night: deep emerald-black ground, raised panels, ivory ink,
+  /// Nabawi Night: deep forest ground, raised green panels, ivory ink,
   /// light emerald headings and gold marks.
   static const RawdahScheme night = RawdahScheme(
-    ground: Color(0xFF0B1712),
-    panel: Color(0xFF13261D),
-    ink: Color(0xFFECE7DA),
-    inkMuted: Color(0xFFA7B5AC),
-    primary: Color(0xFF86D3A8),
-    accent: Color(0xFFD4AF63),
-    hairline: Color(0xFF34503F),
-    wash: Color(0xFF1D3F2E),
-    error: Color(0xFFE89384),
+    ground: Color(0xFF041C16),
+    panel: Color(0xFF0A2620),
+    ink: Color(0xFFF3EEDD),
+    inkMuted: Color(0xFFA9BAAF),
+    primary: Color(0xFF9AD8B5),
+    accent: Color(0xFFE0BD6E),
+    hairline: Color(0xFF24463B),
+    wash: Color(0xFF123B30),
+    error: Color(0xFFEE9A8A),
   );
 
   /// The scheme of [context]'s theme; the day scheme when none is set.

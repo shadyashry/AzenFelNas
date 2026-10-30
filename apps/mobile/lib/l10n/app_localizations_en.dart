@@ -691,14 +691,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get settingsDiagnostics => 'Diagnostics';
+  String get settingsDiagnostics => 'Report a problem';
 
   @override
-  String get diagnosticsTitle => 'Diagnostics';
+  String get diagnosticsTitle => 'Report a problem';
 
   @override
   String get diagnosticsIntro =>
-      'This is everything the diagnostic report contains. Your place is rounded to about 1 km and nothing identifies you or this device. Nothing is sent: copy it and paste it into a message to support only if you want to.';
+      'If something goes wrong, copy this report and send it to support. This is everything it contains: your place is rounded to about 1 km and nothing identifies you or this device. Nothing is sent by the app itself.';
 
   @override
   String get diagnosticsCopy => 'Copy report';
@@ -859,4 +859,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String homePlaceChip(String place) {
     return '$place, change place';
   }
+
+  @override
+  String get settingsDiagnosticsHint =>
+      'Copy a report for support if something goes wrong';
 }

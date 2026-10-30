@@ -1283,19 +1283,19 @@ abstract class AppLocalizations {
   /// Settings row and screen title for the diagnostic export.
   ///
   /// In en, this message translates to:
-  /// **'Diagnostics'**
+  /// **'Report a problem'**
   String get settingsDiagnostics;
 
   /// Diagnostics screen title.
   ///
   /// In en, this message translates to:
-  /// **'Diagnostics'**
+  /// **'Report a problem'**
   String get diagnosticsTitle;
 
   /// Explains the bundle before the user copies it (REQ-PRIV-005).
   ///
   /// In en, this message translates to:
-  /// **'This is everything the diagnostic report contains. Your place is rounded to about 1 km and nothing identifies you or this device. Nothing is sent: copy it and paste it into a message to support only if you want to.'**
+  /// **'If something goes wrong, copy this report and send it to support. This is everything it contains: your place is rounded to about 1 km and nothing identifies you or this device. Nothing is sent by the app itself.'**
   String get diagnosticsIntro;
 
   /// Button that copies the shown diagnostic report to the clipboard.
@@ -1531,6 +1531,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{place}, change place'**
   String homePlaceChip(String place);
+
+  /// Settings: line under 'Report a problem'.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy a report for support if something goes wrong'**
+  String get settingsDiagnosticsHint;
 }
 
 class _AppLocalizationsDelegate

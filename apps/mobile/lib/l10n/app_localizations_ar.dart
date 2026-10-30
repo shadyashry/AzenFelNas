@@ -687,14 +687,14 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get settingsDiagnostics => 'التشخيص';
+  String get settingsDiagnostics => 'الإبلاغ عن مشكلة';
 
   @override
-  String get diagnosticsTitle => 'التشخيص';
+  String get diagnosticsTitle => 'الإبلاغ عن مشكلة';
 
   @override
   String get diagnosticsIntro =>
-      'ده كل اللي في تقرير التشخيص. مكانك متقرّب لحوالي ١ كم، ومفيش أي حاجة بتعرّف عليك أو على الجهاز. مفيش حاجة بتتبعت: انسخه والصقه في رسالة للدعم لو حابب بس.';
+      'لو حصلت مشكلة، انسخ التقرير ده وابعته للدعم. ده كل اللي فيه: مكانك متقرّب لحوالي ١ كم، ومفيش أي حاجة بتعرّف عليك أو على الجهاز. التطبيق مش بيبعت أي حاجة لوحده.';
 
   @override
   String get diagnosticsCopy => 'انسخ التقرير';
@@ -855,4 +855,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String homePlaceChip(String place) {
     return '$place، غيّر المكان';
   }
+
+  @override
+  String get settingsDiagnosticsHint => 'انسخ تقرير تبعته للدعم لو حصلت مشكلة';
 }

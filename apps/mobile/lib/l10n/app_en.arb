@@ -976,15 +976,15 @@
       }
     }
   },
-  "settingsDiagnostics": "Diagnostics",
+  "settingsDiagnostics": "Report a problem",
   "@settingsDiagnostics": {
     "description": "Settings row and screen title for the diagnostic export."
   },
-  "diagnosticsTitle": "Diagnostics",
+  "diagnosticsTitle": "Report a problem",
   "@diagnosticsTitle": {
     "description": "Diagnostics screen title."
   },
-  "diagnosticsIntro": "This is everything the diagnostic report contains. Your place is rounded to about 1 km and nothing identifies you or this device. Nothing is sent: copy it and paste it into a message to support only if you want to.",
+  "diagnosticsIntro": "If something goes wrong, copy this report and send it to support. This is everything it contains: your place is rounded to about 1 km and nothing identifies you or this device. Nothing is sent by the app itself.",
   "@diagnosticsIntro": {
     "description": "Explains the bundle before the user copies it (REQ-PRIV-005)."
   },
@@ -1215,5 +1215,9 @@
         "example": "Cairo"
       }
     }
+  },
+  "settingsDiagnosticsHint": "Copy a report for support if something goes wrong",
+  "@settingsDiagnosticsHint": {
+    "description": "Settings: line under 'Report a problem'."
   }
 }

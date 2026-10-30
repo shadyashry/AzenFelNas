@@ -35,6 +35,7 @@ export 'package:dm_ui/src/rawdah/rawdah_tab_labels.dart';
 export 'package:dm_ui/src/rawdah/readiness_medallion.dart';
 export 'package:dm_ui/src/sky/sky_theme.dart';
 export 'package:dm_ui/src/theme/dm_theme.dart';
+export 'package:dm_ui/src/tokens/dm_elevation.dart';
 export 'package:dm_ui/src/tokens/dm_scales.dart';
 export 'package:dm_ui/src/tokens/hour_light.dart';
 export 'package:dm_ui/src/tokens/rawdah_palette.dart';
