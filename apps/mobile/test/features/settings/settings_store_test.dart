@@ -47,6 +47,7 @@ void main() {
         AppSettings.showSeconds,
         AppSettings.athanPlanGeneration,
         AppSettings.fajrSoundId,
+        AppSettings.quranRemoved,
       ].map((k) => k.wire),
       AppSettings.wires,
     );

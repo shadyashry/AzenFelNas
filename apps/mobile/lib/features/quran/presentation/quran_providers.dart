@@ -29,6 +29,18 @@ final quranOriginProvider = Provider<QuranOrigin>(
   (ref) => throw UnimplementedError('bound in app/di.dart'),
 );
 
+/// Whether this build carries its own copy of the package (§15 D117),
+/// bound in `app/di.dart`; none until bound.
+final quranBundleProvider = Provider<Future<bool> Function()>(
+  (ref) =>
+      () async => false,
+);
+
+/// Whether the Quran installs from the app's own copy, with no download.
+final FutureProvider<bool> quranBundledProvider = FutureProvider(
+  (ref) => ref.watch(quranBundleProvider)(),
+);
+
 /// Accepts the downloaded manifest when it is the pinned one, bound in
 /// `app/di.dart`.
 final acceptManifestProvider = Provider<QuranManifest? Function(List<int>)>(

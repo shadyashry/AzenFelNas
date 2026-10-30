@@ -61,6 +61,7 @@ final class _Installed extends ConsumerWidget {
     final style = DisplayStyle.of(context, ref);
     final status = ref.watch(quranPackageProvider);
     final verifying = ref.watch(_verifyingProvider);
+    final bundled = ref.watch(quranBundledProvider).value ?? false;
     if (status is! QuranReady) return const SizedBox.shrink();
     final installed = status.installed;
     final manifest = installed.manifest;
@@ -89,11 +90,15 @@ final class _Installed extends ConsumerWidget {
                   QuranFormat.bytes(installed.installedBytes, style),
                 ),
               ),
-              subtitle: Text(
-                l.quranDownloadSize(
-                  QuranFormat.bytes(QuranEditionPin.downloadBytes, style),
-                ),
-              ),
+              // Nothing was downloaded when the app carries the copy
+              // (§15 D117).
+              subtitle: bundled
+                  ? null
+                  : Text(
+                      l.quranDownloadSize(
+                        QuranFormat.bytes(QuranEditionPin.downloadBytes, style),
+                      ),
+                    ),
             ),
           ],
         ),

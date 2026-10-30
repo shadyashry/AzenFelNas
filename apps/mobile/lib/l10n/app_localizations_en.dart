@@ -996,6 +996,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'The Madinah Mushaf (Hafs ʿan ʿĀṣim), as published by the King Fahd Glorious Quran Printing Complex. After one download every page, the surah and juz index, search, bookmarks and highlights work with no internet.';
 
   @override
+  String get quranBundledBody =>
+      'The Madinah Mushaf (Hafs ʿan ʿĀṣim), as published by the King Fahd Glorious Quran Printing Complex, comes with the app. It is prepared once on this phone, with no internet; then every page, the surah and juz index, search, bookmarks and highlights work offline.';
+
+  @override
+  String get quranInstallAction => 'Open the Quran';
+
+  @override
+  String quranPreparing(String done, String total) {
+    return 'Preparing the Quran: $done of $total';
+  }
+
+  @override
   String quranDownloadSize(String size) {
     return 'Download size: $size';
   }
@@ -1014,7 +1026,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quranResume => 'Resume download';
 
   @override
-  String get quranCancel => 'Stop download';
+  String get quranCancel => 'Stop';
 
   @override
   String quranDownloading(String done, String total) {
@@ -1086,7 +1098,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranUninstallNote =>
-      'Uninstalling the app, clearing its data or removing the download deletes the downloaded Quran; you would need to download it again.';
+      'Removing the Quran, clearing the app\'s data or uninstalling the app deletes the copy on this phone; you would need to install it again.';
 
   @override
   String get quranAttribution =>
@@ -1339,7 +1351,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quranColorOrange => 'Orange';
 
   @override
-  String get quranStorage => 'Quran download';
+  String get quranStorage => 'Quran on this phone';
 
   @override
   String quranEdition(String edition, String version) {
@@ -1371,7 +1383,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get quranRemove => 'Remove download';
+  String get quranRemove => 'Remove the Quran';
 
   @override
   String get quranRemoveTitle => 'Remove the downloaded Quran?';

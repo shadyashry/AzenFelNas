@@ -8,6 +8,8 @@ import 'package:daily_muslim/features/quran/application/verify_quran_package.dar
 import 'package:daily_muslim/features/quran/domain/download_cancel.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
+import 'package:daily_muslim/features/settings/domain/app_settings.dart';
+import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,19 +28,38 @@ final class QuranPackageController extends Notifier<QuranPackageStatus> {
     return const QuranChecking();
   }
 
-  /// Re-reads the status from disk (no network).
+  /// Re-reads the status from disk (no network). When the app carries its
+  /// own copy and nothing is installed, installs it at once (§15 D117),
+  /// unless the reader removed the Quran themself.
   Future<void> check() async {
     final checked = await CheckQuranPackage(
       ref.read(quranPackageDiskProvider),
       ref.read(buildSearchIndexProvider),
       ref.read(searchIndexIsCurrentProvider),
     )();
-    if (ref.mounted && _running == null) state = checked;
+    if (!ref.mounted || _running != null) return;
+    state = checked;
+    final pending = switch (checked) {
+      QuranNotInstalled(failure: null) => true,
+      QuranPaused(failure: null, current: null) => true,
+      _ => false,
+    };
+    if (pending && await _installsFromApp() && ref.mounted) download();
   }
+
+  Future<bool> _installsFromApp() async =>
+      await ref.read(quranBundleProvider)() &&
+      !await ref
+          .read(watchSettingProvider)
+          .watch(AppSettings.quranRemoved)
+          .first;
 
   /// Starts or resumes the download.
   void download() {
     if (_running != null) return;
+    unawaited(
+      ref.read(writeSettingProvider).write(AppSettings.quranRemoved, false),
+    );
     _follow(
       DownloadQuranPackage(
         disk: ref.read(quranPackageDiskProvider),
@@ -86,6 +107,8 @@ final class QuranPackageController extends Notifier<QuranPackageStatus> {
     final removed = await RemoveQuranPackage(
       ref.read(quranPackageDiskProvider),
     )();
+    if (!ref.mounted) return false;
+    await ref.read(writeSettingProvider).write(AppSettings.quranRemoved, true);
     if (!ref.mounted) return false;
     state = const QuranNotInstalled();
     return removed is Ok;

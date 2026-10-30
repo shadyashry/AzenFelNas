@@ -55,3 +55,8 @@ infra/**/*.tfplan
 /.impeccable/mocks/
 /.impeccable/*.json
 /design/brand/out/
+# The bundled Quran package (§15 D117): copied by apps/mobile/tool/bundle_quran.py,
+# never committed; only the empty folders pubspec.yaml names are kept.
+/apps/mobile/assets/quran/**
+!/apps/mobile/assets/quran/**/
+!/apps/mobile/assets/quran/**/.gitkeep

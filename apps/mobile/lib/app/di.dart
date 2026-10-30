@@ -59,6 +59,7 @@ import 'package:daily_muslim/features/packages/data/package_payload_checks.dart'
 import 'package:daily_muslim/features/packages/domain/run_payload_work.dart';
 import 'package:daily_muslim/features/qibla/domain/heading_source.dart';
 import 'package:daily_muslim/features/qibla/presentation/qibla_providers.dart';
+import 'package:daily_muslim/features/quran/data/bundled_quran_origin.dart';
 import 'package:daily_muslim/features/quran/data/channel_free_space.dart';
 import 'package:daily_muslim/features/quran/data/drift_quran_notes.dart';
 import 'package:daily_muslim/features/quran/data/http_quran_origin.dart';
@@ -152,6 +153,7 @@ abstract final class AppBindings {
     );
     return [
       ..._quran(
+        assets: assets,
         root: Directory('${blobRoot.parent.path}/quran'),
         notes: DriftQuranNotes(
           quranNotes ?? QuranNotesDatabase(NativeDatabase.memory()),
@@ -259,32 +261,40 @@ abstract final class AppBindings {
   }
 
   /// The offline Quran (§15 D107): the package under [root] (persistent
-  /// app support storage, never a cache), the CDN for the download only,
-  /// and the notes, which live apart from the package.
+  /// app support storage, never a cache), installed from the copy bundled
+  /// in [assets] when the build carries one (§15 D117), else downloaded
+  /// from the CDN, and the notes, which live apart from the package.
   static List<Override> _quran({
+    required AssetBundle assets,
     required Directory root,
     required DriftQuranNotes notes,
     required ReadFreeSpace freeSpace,
-  }) => [
-    quranPackageDiskProvider.overrideWithValue(
-      IoQuranPackageDisk(
-        root,
-        pinnedManifestSha256: QuranEditionPin.manifestSha256,
+  }) {
+    final origin = BundledQuranOrigin(assets, _quranOrigin());
+    return [
+      quranPackageDiskProvider.overrideWithValue(
+        IoQuranPackageDisk(
+          root,
+          pinnedManifestSha256: QuranEditionPin.manifestSha256,
+        ),
       ),
-    ),
-    quranOriginProvider.overrideWithValue(_quranOrigin()),
-    acceptManifestProvider.overrideWithValue(QuranManifestCodec.acceptPinned),
-    readFreeSpaceProvider.overrideWithValue(freeSpace),
-    buildSearchIndexProvider.overrideWithValue(const SqliteSearchIndex()),
-    searchIndexIsCurrentProvider.overrideWithValue(SqliteSearchIndex.isCurrent),
-    openMushafIndexProvider.overrideWithValue(SqliteMushafIndex.new),
-    openVersePlacesProvider.overrideWithValue(SqliteMushafIndex.new),
-    bookmarkStoreProvider.overrideWithValue(notes),
-    highlightStoreProvider.overrideWithValue(notes),
-    ayahHighlightStoreProvider.overrideWithValue(notes),
-    readingPositionStoreProvider.overrideWithValue(notes),
-    readerPreferencesStoreProvider.overrideWithValue(notes),
-  ];
+      quranOriginProvider.overrideWithValue(origin),
+      quranBundleProvider.overrideWithValue(origin.available),
+      acceptManifestProvider.overrideWithValue(QuranManifestCodec.acceptPinned),
+      readFreeSpaceProvider.overrideWithValue(freeSpace),
+      buildSearchIndexProvider.overrideWithValue(const SqliteSearchIndex()),
+      searchIndexIsCurrentProvider.overrideWithValue(
+        SqliteSearchIndex.isCurrent,
+      ),
+      openMushafIndexProvider.overrideWithValue(SqliteMushafIndex.new),
+      openVersePlacesProvider.overrideWithValue(SqliteMushafIndex.new),
+      bookmarkStoreProvider.overrideWithValue(notes),
+      highlightStoreProvider.overrideWithValue(notes),
+      ayahHighlightStoreProvider.overrideWithValue(notes),
+      readingPositionStoreProvider.overrideWithValue(notes),
+      readerPreferencesStoreProvider.overrideWithValue(notes),
+    ];
+  }
 
   /// The downloadable Athan voices (§15 D111): the bundled catalog (voices
   /// awaiting their listening review on dev and lab only; none on iOS until

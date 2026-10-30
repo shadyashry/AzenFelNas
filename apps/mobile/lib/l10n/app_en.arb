@@ -1399,6 +1399,28 @@
   "@quranDownloadBody": {
     "description": "Quran download screen: what the download is."
   },
+  "quranBundledBody": "The Madinah Mushaf (Hafs ʿan ʿĀṣim), as published by the King Fahd Glorious Quran Printing Complex, comes with the app. It is prepared once on this phone, with no internet; then every page, the surah and juz index, search, bookmarks and highlights work offline.",
+  "@quranBundledBody": {
+    "description": "Quran screen when the app carries its own copy: nothing is downloaded."
+  },
+  "quranInstallAction": "Open the Quran",
+  "@quranInstallAction": {
+    "description": "Button: prepare the Quran from the app's own copy (no download)."
+  },
+  "quranPreparing": "Preparing the Quran: {done} of {total}",
+  "@quranPreparing": {
+    "description": "Progress while the app's own copy of the Quran is prepared on the phone (no download).",
+    "placeholders": {
+      "done": {
+        "type": "String",
+        "example": "40 MB"
+      },
+      "total": {
+        "type": "String",
+        "example": "119 MB"
+      }
+    }
+  },
   "quranDownloadSize": "Download size: {size}",
   "@quranDownloadSize": {
     "description": "Measured size of the Quran download.",
@@ -1433,7 +1455,7 @@
   "@quranResume": {
     "description": "Button: resume a paused Quran download."
   },
-  "quranCancel": "Stop download",
+  "quranCancel": "Stop",
   "@quranCancel": {
     "description": "Button: stop the Quran download."
   },
@@ -1536,7 +1558,7 @@
   "@quranReadyOffline": {
     "description": "Status: the Quran package is verified and usable offline."
   },
-  "quranUninstallNote": "Uninstalling the app, clearing its data or removing the download deletes the downloaded Quran; you would need to download it again.",
+  "quranUninstallNote": "Removing the Quran, clearing the app's data or uninstalling the app deletes the copy on this phone; you would need to install it again.",
   "@quranUninstallNote": {
     "description": "What removes the offline Quran."
   },
@@ -1912,7 +1934,7 @@
   "@quranColorOrange": {
     "description": "Highlight colour."
   },
-  "quranStorage": "Quran download",
+  "quranStorage": "Quran on this phone",
   "@quranStorage": {
     "description": "Action and title: storage management."
   },
@@ -1971,7 +1993,7 @@
       }
     }
   },
-  "quranRemove": "Remove download",
+  "quranRemove": "Remove the Quran",
   "@quranRemove": {
     "description": "Button: delete the Quran package."
   },

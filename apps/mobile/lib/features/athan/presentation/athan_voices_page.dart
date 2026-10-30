@@ -4,6 +4,7 @@ import 'package:daily_muslim/features/athan/domain/athan_voice.dart';
 import 'package:daily_muslim/features/athan/domain/voice_download_status.dart';
 import 'package:daily_muslim/features/athan/domain/voice_failure.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_page.dart';
+import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_voice_providers.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_format.dart';
@@ -138,9 +139,14 @@ final class AthanVoicesPage extends ConsumerWidget {
     final catalog = ref.watch(voiceCatalogProvider).value ?? const [];
     final installed =
         ref.watch(voiceInventoryProvider).value?.installed ?? const {};
+    // A voice bundled with the app (§15 D117) is a plain choice above, not
+    // a download.
+    final bundled = ref.watch(athanSoundsProvider).value ?? const <String>[];
     final voices = [
       for (final v in catalog)
-        if (slot == VoiceSlot.fajr || !v.fajrOnly) v,
+        if ((slot == VoiceSlot.fajr || !v.fajrOnly) &&
+            !bundled.contains(v.soundId))
+          v,
     ];
     final stored = chosen.value;
     final athan = ref.watch(athanSoundSettingProvider).value;

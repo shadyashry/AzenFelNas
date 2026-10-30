@@ -36,6 +36,7 @@ Widget _app(
   _Writes? writes,
   String? athan,
   String? fajr,
+  List<String> bundled = const [],
   Locale locale = const Locale('en'),
 }) => localizedApp(
   Scaffold(body: page),
@@ -45,6 +46,7 @@ Widget _app(
       FakeAthanPlatform(),
       <EventLogEntry>[],
       voices: [_standard, _fajr],
+      sounds: bundled,
       disk: disk,
       host: host,
       preview: preview,
@@ -62,6 +64,32 @@ void _phone(WidgetTester tester) {
 }
 
 void main() {
+  testWidgets('REQ-ALM-055 a voice bundled with the app is the Athan sound '
+      'until the user chooses, and is a choice, never a download', (
+    tester,
+  ) async {
+    _phone(tester);
+    await tester.pumpWidget(
+      _app(
+        const AthanVoicesPage(slot: VoiceSlot.athan),
+        disk: FakeVoiceDisk(),
+        bundled: ['std'],
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Voice std'), findsOneWidget);
+    expect(find.text('Download'), findsNothing);
+    final row = find.ancestor(
+      of: find.text('Voice std'),
+      matching: find.byType(ListTile),
+    );
+    expect(
+      find.descendant(of: row, matching: find.byIcon(Icons.check_circle)),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('REQ-ALM-052 a Fajr voice is offered for Fajr only; Fajr can '
       'follow the Athan voice', (tester) async {
     _phone(tester);

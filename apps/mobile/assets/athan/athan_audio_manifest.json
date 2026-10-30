@@ -1,3 +1,18 @@
 {
-  "sounds": []
+  "sounds": [
+    {
+      "soundId": "mirza_isha_2013",
+      "file": "athan/mirza_isha_2013.m4a",
+      "durationMs": 259541,
+      "licenceRef": "TEST-REVIEW-PENDING CC-PDM-1.0",
+      "sha256": "70e6681289d6076f8efa016d51d1335430937293c2ddfd430a4fd7f600ba4859"
+    },
+    {
+      "soundId": "icr_friday_2024",
+      "file": "athan/icr_friday_2024.m4a",
+      "durationMs": 219743,
+      "licenceRef": "TEST-REVIEW-PENDING CC0-1.0",
+      "sha256": "37727d79972cb3e7698d4b8b8a5f792d56b219149d425b2bb3f5524d301936d1"
+    }
+  ]
 }

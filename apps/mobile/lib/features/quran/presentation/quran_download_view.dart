@@ -14,7 +14,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// The Quran download before the reader opens (§15 D107, REQ-QRN-010):
 /// what it is and where it comes from, its measured sizes, the one action
-/// that fits the state, progress, and every failure in words.
+/// that fits the state, progress, and every failure in words. When the app
+/// carries its own copy (§15 D117) it says so: nothing is downloaded, the
+/// copy is only prepared on the phone.
 final class QuranDownloadView extends ConsumerWidget {
   /// The view of [status].
   const new({required this.status, super.key});
@@ -27,6 +29,7 @@ final class QuranDownloadView extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final style = DisplayStyle.of(context, ref);
     final controller = ref.read(quranPackageProvider.notifier);
+    final bundled = ref.watch(quranBundledProvider).value ?? false;
     return ListView(
       padding: scrollInsets(context, horizontal: 20, top: 12),
       children: [
@@ -38,13 +41,16 @@ final class QuranDownloadView extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 16),
-        Text(l.quranDownloadBody, style: Theme.of(context).textTheme.bodyLarge),
+        Text(
+          bundled ? l.quranBundledBody : l.quranDownloadBody,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
         const SizedBox(height: 16),
-        _Sizes(style: style),
+        _Sizes(style: style, bundled: bundled),
         const SizedBox(height: 20),
-        _StatusPanel(status: status, style: style),
+        _StatusPanel(status: status, style: style, bundled: bundled),
         const SizedBox(height: 12),
-        _Action(status: status, controller: controller),
+        _Action(status: status, controller: controller, bundled: bundled),
         const SizedBox(height: 24),
         Text(
           l.quranUninstallNote,
@@ -63,9 +69,10 @@ final class QuranDownloadView extends ConsumerWidget {
 }
 
 final class _Sizes extends StatelessWidget {
-  const new({required this.style});
+  const new({required this.style, required this.bundled});
 
   final DisplayStyle style;
+  final bool bundled;
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +81,12 @@ final class _Sizes extends StatelessWidget {
     return RawdahSection(
       title: l.quranStorage,
       children: [
-        ListTile(
-          title: Text(l.quranDownloadSize(size(QuranEditionPin.downloadBytes))),
-        ),
+        if (!bundled)
+          ListTile(
+            title: Text(
+              l.quranDownloadSize(size(QuranEditionPin.downloadBytes)),
+            ),
+          ),
         ListTile(
           title: Text(
             l.quranInstalledSize(
@@ -99,10 +109,15 @@ final class _Sizes extends StatelessWidget {
 }
 
 final class _StatusPanel extends StatelessWidget {
-  const new({required this.status, required this.style});
+  const new({
+    required this.status,
+    required this.style,
+    required this.bundled,
+  });
 
   final QuranPackageStatus status;
   final DisplayStyle style;
+  final bool bundled;
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +130,7 @@ final class _StatusPanel extends StatelessWidget {
     ) = switch (status) {
       QuranNotInstalled(:final failure?) => (describe(failure), null, false),
       QuranDownloading(:final progress) => (
-        l.quranDownloading(
+        (bundled ? l.quranPreparing : l.quranDownloading)(
           QuranFormat.bytes(progress.doneBytes, style),
           QuranFormat.bytes(progress.totalBytes, style),
         ),
@@ -167,10 +182,15 @@ final class _StatusPanel extends StatelessWidget {
 }
 
 final class _Action extends StatelessWidget {
-  const new({required this.status, required this.controller});
+  const new({
+    required this.status,
+    required this.controller,
+    required this.bundled,
+  });
 
   final QuranPackageStatus status;
   final QuranPackageController controller;
+  final bool bundled;
 
   @override
   Widget build(BuildContext context) {
@@ -191,8 +211,8 @@ final class _Action extends StatelessWidget {
       QuranReady() => const SizedBox.shrink(),
       QuranPaused() => FilledButton.icon(
         onPressed: controller.download,
-        icon: const Icon(Icons.download),
-        label: Text(l.quranResume),
+        icon: Icon(bundled ? Icons.menu_book_outlined : Icons.download),
+        label: Text(bundled ? l.quranInstallAction : l.quranResume),
       ),
       QuranDamaged() => FilledButton.icon(
         onPressed: controller.repair,
@@ -201,8 +221,8 @@ final class _Action extends StatelessWidget {
       ),
       QuranNotInstalled() => FilledButton.icon(
         onPressed: controller.download,
-        icon: const Icon(Icons.download),
-        label: Text(l.quranDownloadAction),
+        icon: Icon(bundled ? Icons.menu_book_outlined : Icons.download),
+        label: Text(bundled ? l.quranInstallAction : l.quranDownloadAction),
       ),
     };
   }

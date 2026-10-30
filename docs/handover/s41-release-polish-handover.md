@@ -40,3 +40,20 @@ Branch `slice/s41-ux-polish` (equal to `main` at `281640f` when the pass began).
 - **iOS** (macOS): the same `device_alarm` rule in AthanKit's sound probe.
 - **Physical phone**: Athan ringing on time from a locked, idle phone; pre-Android-12 launch (no emulator image here).
 - **Content / Sharia board**: the Arabic plural wording; the voices' listening review (D111, D112).
+
+## Built-in Quran and Athan voices (D117, after the owner reviewed the screens)
+- **Quran** comes with the app: `tool/bundle_quran.py <package dir>` copies the pinned, verified package into
+  `assets/quran/` (not in git). At first start it is prepared on the phone with no network through the D107 checks;
+  the CDN download is only the fallback. A Quran removed on the storage page stays removed (`quranRemoved`).
+- **Athan**: the two D112 voices are bundled sounds; the first is the default Athan and the Test plays it.
+  Still `TEST-`/lab-only until the owner's listening review. Fajr follows the Athan voice (D111): **Sharia board** owes
+  whether Fajr should default to the phone tone until a Fajr recording is approved.
+- To build an APK with the Quran: run the bundle script first (package from `dm-pipelines quran build`).
+- Build note: right after `flutter clean`, the first `flutter build apk` here produced APKs with no Flutter assets at
+  all (22.6 MB); the next build was correct (158.8 MB arm64). Always check before shipping:
+  `unzip -l <apk> | grep -cE "quran/pages/.*webp|athan/.*m4a"` must print 606.
+- Evidence (0.2.0+3, emulator Android 16, x86_64 split of the same build): upgrade over +2 kept the installed Quran and
+  switched the Athan voice to the bundled default; app data cleared + airplane mode: setup in Arabic, the Quran
+  prepared from the app in about 30 s and opened at page 1; the plan's 145 Athan entries use `mirza_isha_2013`; the Test
+  played on `USAGE_ALARM` in the foreground service and Stop ended it. Tests: app 679 passed (one 50 ms timing test
+  failed under load and passed alone), analyze clean.

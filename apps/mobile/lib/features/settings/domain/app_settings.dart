@@ -127,6 +127,14 @@ abstract final class AppSettings {
     null,
   );
 
+  /// `quranRemoved`: the reader removed the Quran, so the app's own copy is
+  /// not installed again at start until they install it (§15 D117).
+  static const SettingKey<bool> quranRemoved = SettingKey(
+    'quranRemoved',
+    BoolCodec(),
+    false,
+  );
+
   /// The Appendix K key names, in order.
   static const List<String> wires = [
     'locale',
@@ -146,5 +154,6 @@ abstract final class AppSettings {
     'showSeconds',
     'athanPlanGeneration',
     'fajrSoundId',
+    'quranRemoved',
   ];
 }

@@ -1029,6 +1029,18 @@ class AppLocalizationsAr extends AppLocalizations {
       'مصحف المدينة النبوية برواية حفص عن عاصم، زي ما نشره مجمع الملك فهد لطباعة المصحف الشريف. بعد تنزيل واحد، كل الصفحات والفهرس والبحث والعلامات والتظليل بيشتغلوا من غير إنترنت.';
 
   @override
+  String get quranBundledBody =>
+      'مصحف المدينة النبوية برواية حفص عن عاصم، زي ما نشره مجمع الملك فهد لطباعة المصحف الشريف، موجود جوّه التطبيق. بيتجهّز مرة واحدة على الموبايل من غير إنترنت، وبعدها كل الصفحات والفهرس والبحث والعلامات والتظليل بيشتغلوا من غير إنترنت.';
+
+  @override
+  String get quranInstallAction => 'افتح المصحف';
+
+  @override
+  String quranPreparing(String done, String total) {
+    return 'بنجهّز المصحف: $done من $total';
+  }
+
+  @override
   String quranDownloadSize(String size) {
     return 'حجم التنزيل: $size';
   }
@@ -1047,7 +1059,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quranResume => 'كمّل التنزيل';
 
   @override
-  String get quranCancel => 'وقّف التنزيل';
+  String get quranCancel => 'وقّف';
 
   @override
   String quranDownloading(String done, String total) {
@@ -1115,7 +1127,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranUninstallNote =>
-      'لو مسحت التطبيق أو بياناته أو شلت التنزيل، المصحف المتنزّل هيتمسح وهتحتاج تنزّله تاني.';
+      'لو شلت المصحف أو مسحت بيانات التطبيق أو مسحت التطبيق، النسخة اللي على الموبايل هتتمسح وهتحتاج تثبّتها تاني.';
 
   @override
   String get quranAttribution =>
@@ -1368,7 +1380,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quranColorOrange => 'برتقالي';
 
   @override
-  String get quranStorage => 'تنزيل المصحف';
+  String get quranStorage => 'المصحف على الموبايل';
 
   @override
   String quranEdition(String edition, String version) {
@@ -1400,7 +1412,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get quranRemove => 'شيل التنزيل';
+  String get quranRemove => 'شيل المصحف';
 
   @override
   String get quranRemoveTitle => 'تشيل المصحف المتنزّل؟';

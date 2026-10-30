@@ -1766,6 +1766,24 @@ abstract class AppLocalizations {
   /// **'The Madinah Mushaf (Hafs ʿan ʿĀṣim), as published by the King Fahd Glorious Quran Printing Complex. After one download every page, the surah and juz index, search, bookmarks and highlights work with no internet.'**
   String get quranDownloadBody;
 
+  /// Quran screen when the app carries its own copy: nothing is downloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'The Madinah Mushaf (Hafs ʿan ʿĀṣim), as published by the King Fahd Glorious Quran Printing Complex, comes with the app. It is prepared once on this phone, with no internet; then every page, the surah and juz index, search, bookmarks and highlights work offline.'**
+  String get quranBundledBody;
+
+  /// Button: prepare the Quran from the app's own copy (no download).
+  ///
+  /// In en, this message translates to:
+  /// **'Open the Quran'**
+  String get quranInstallAction;
+
+  /// Progress while the app's own copy of the Quran is prepared on the phone (no download).
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing the Quran: {done} of {total}'**
+  String quranPreparing(String done, String total);
+
   /// Measured size of the Quran download.
   ///
   /// In en, this message translates to:
@@ -1793,7 +1811,7 @@ abstract class AppLocalizations {
   /// Button: stop the Quran download.
   ///
   /// In en, this message translates to:
-  /// **'Stop download'**
+  /// **'Stop'**
   String get quranCancel;
 
   /// Download progress in sizes.
@@ -1895,7 +1913,7 @@ abstract class AppLocalizations {
   /// What removes the offline Quran.
   ///
   /// In en, this message translates to:
-  /// **'Uninstalling the app, clearing its data or removing the download deletes the downloaded Quran; you would need to download it again.'**
+  /// **'Removing the Quran, clearing the app\'s data or uninstalling the app deletes the copy on this phone; you would need to install it again.'**
   String get quranUninstallNote;
 
   /// Quran source attribution; no endorsement claim.
@@ -2303,7 +2321,7 @@ abstract class AppLocalizations {
   /// Action and title: storage management.
   ///
   /// In en, this message translates to:
-  /// **'Quran download'**
+  /// **'Quran on this phone'**
   String get quranStorage;
 
   /// Installed edition line.
@@ -2339,7 +2357,7 @@ abstract class AppLocalizations {
   /// Button: delete the Quran package.
   ///
   /// In en, this message translates to:
-  /// **'Remove download'**
+  /// **'Remove the Quran'**
   String get quranRemove;
 
   /// Confirm dialog title.

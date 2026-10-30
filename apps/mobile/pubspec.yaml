@@ -1,7 +1,7 @@
 name: daily_muslim
 description: "Azen Fel Nas — offline-first prayer times, Athan and Qibla for iOS and Android (DESIGN.md §7)."
 publish_to: none
-version: 0.2.0+2
+version: 0.2.0+3
 resolution: workspace
 
 environment:
@@ -60,3 +60,9 @@ flutter:
     - assets/brand/
     - assets/art/
     - assets/athan/
+    # The pinned Quran package (§15 D107), bundled so it installs with no
+    # network (§15 D117). Not in git: `tool/bundle_quran.py` copies a
+    # verified build here; without it the app downloads it from the CDN.
+    - assets/quran/
+    - assets/quran/pages/
+    - assets/quran/fonts/
