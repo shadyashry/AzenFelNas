@@ -64,3 +64,11 @@ Branch `slice/s41-ux-polish` (equal to `main` at `281640f` when the pass began).
 - Qibla: one 1 s vibration when the phone lines up, again only after turning clearly away.
 - Emulator evidence: each stop path ended playback (dumpsys audio); Kotlin 96/96, app tests for Athan, shell and Qibla
   191 passed. Owed: physical phones (volume-key routing, screen-on timing), the Qibla vibration on a real compass.
+
+## Horizon Dark (D119)
+- Owner's dark tokens in `RawdahScheme.night` plus new roles (`raised`, `navBar`, `caption`, `selection`,
+  `selectionLine`, `switchedOn`); light values equal what light drew before (light goldens unchanged, dark goldens
+  refreshed). Home: olive next-prayer tile with gold outline and name; raised Continue Quran with muted-gold Resume;
+  a dark veil on the hero artwork. Quran pages untouched. Continue Quran now appears right after the first read.
+- Evidence: dm_ui 95 tests, app 683 (+ the timing test passing alone), analyze clean; emulator screenshots EN/AR dark
+  and light, 130 % text, landscape. Owed: smaller phone, physical device.

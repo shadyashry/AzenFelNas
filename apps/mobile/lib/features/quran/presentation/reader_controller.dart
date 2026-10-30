@@ -123,16 +123,21 @@ final class ReaderController extends Notifier<ReaderState> {
     state = state._with(page: clamped, restored: true);
     _save?.cancel();
     _save = Timer(const Duration(milliseconds: 400), () {
-      unawaited(
-        ref
-            .read(readingPositionStoreProvider)
-            .writePosition(
-              QuranEditionPin.layoutId,
-              clamped,
-              nowUtcMs: ref.read(clockProvider).nowUtcMs(),
-            ),
-      );
+      unawaited(_savePosition(clamped));
     });
+  }
+
+  Future<void> _savePosition(int page) async {
+    await ref
+        .read(readingPositionStoreProvider)
+        .writePosition(
+          QuranEditionPin.layoutId,
+          page,
+          nowUtcMs: ref.read(clockProvider).nowUtcMs(),
+        );
+    // Home's "Continue Quran" follows the page just saved, also the first
+    // one (§15 D108).
+    if (ref.mounted) ref.invalidate(lastQuranPageProvider);
   }
 
   /// Opens the page of [place] and outlines its lines for [markFor]

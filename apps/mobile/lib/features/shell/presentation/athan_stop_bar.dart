@@ -19,25 +19,30 @@ final class AthanStopBar extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     final l = AppLocalizations.of(context);
+    final r = RawdahScheme.of(context);
+    // Light gold by day; a raised night surface with a gold outline in the
+    // dark appearance, where the Stop button itself is gold (§15 D119).
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final text = dark ? r.ink : RawdahPalette.forest;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
       child: Material(
-        color: RawdahPalette.goldLight,
-        borderRadius: BorderRadius.circular(28),
+        color: dark ? r.raised : RawdahPalette.goldLight,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+          side: dark ? BorderSide(color: r.accent) : BorderSide.none,
+        ),
         elevation: 2,
         child: Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(20, 8, 8, 8),
           child: Row(
             children: [
-              const Icon(Icons.volume_up, color: RawdahPalette.forest),
+              Icon(Icons.volume_up, color: dark ? r.accent : text),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   l.athanPlayingNow,
-                  style: const TextStyle(
-                    color: RawdahPalette.forest,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(color: text, fontWeight: FontWeight.w600),
                 ),
               ),
               FilledButton.icon(

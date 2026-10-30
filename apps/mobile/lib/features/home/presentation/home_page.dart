@@ -242,7 +242,7 @@ final class _Panel extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: padding),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: r.panel,
+          color: r.raised,
           borderRadius: BorderRadius.circular(DmScales.radiusCard),
           border: Border.all(color: r.hairline),
           boxShadow: DmElevation.card,
@@ -273,10 +273,11 @@ final class _Link extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final r = RawdahScheme.of(context);
+    final dark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: padding, vertical: 5),
       child: Material(
-        color: r.panel,
+        color: r.raised,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(DmScales.radiusControl),
           side: BorderSide(color: r.hairline),
@@ -292,7 +293,8 @@ final class _Link extends StatelessWidget {
                 children: [
                   DecoratedBox(
                     decoration: BoxDecoration(
-                      color: r.wash,
+                      // On a raised row at night the tile is a gold tint.
+                      color: dark ? r.accent.withValues(alpha: 0.14) : r.wash,
                       borderRadius: BorderRadius.circular(DmScales.radius[1]),
                     ),
                     child: Padding(

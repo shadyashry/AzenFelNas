@@ -145,14 +145,10 @@ final class _Cell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final r = RawdahScheme.of(context);
+    // Light gold under dark-green ink by day; at night a dark olive tile
+    // with a fine gold outline and a gold name (§15 D119): the outline marks
+    // the next prayer without relying on colour alone.
     final dark = Theme.of(context).brightness == Brightness.dark;
-    // Light gold under dark-green ink by day; a deep gold wash at night.
-    final tile = dark
-        ? RawdahPalette.gold.withValues(alpha: 0.22)
-        : Color.alphaBlend(
-            RawdahPalette.goldLight.withValues(alpha: 0.5),
-            r.panel,
-          );
     return Semantics(
       label: '$name, ${time.plain}, $chip',
       button: true,
@@ -160,8 +156,13 @@ final class _Cell extends StatelessWidget {
       excludeSemantics: true,
       onTap: onTap,
       child: Material(
-        color: isNext ? tile : Colors.transparent,
-        borderRadius: BorderRadius.circular(DmScales.radiusControl),
+        color: isNext ? r.selection : Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(DmScales.radiusControl),
+          side: isNext && dark
+              ? BorderSide(color: r.selectionLine)
+              : BorderSide.none,
+        ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
@@ -176,7 +177,11 @@ final class _Cell extends StatelessWidget {
                     name,
                     textAlign: TextAlign.center,
                     style: type.rowName.copyWith(
-                      color: isNext ? r.ink : r.inkMuted,
+                      color: switch ((isNext, dark)) {
+                        (true, true) => r.accent,
+                        (true, false) => r.ink,
+                        (false, _) => r.inkMuted,
+                      },
                     ),
                   ),
                   // Left to right inside Arabic, so the colon never flips.

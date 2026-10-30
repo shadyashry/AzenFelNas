@@ -368,6 +368,9 @@ final class _Artwork extends StatelessWidget {
   static const Color _skyLeft = Color(0xFF0D3427);
   static const Color _skyRight = Color(0xFF224B36);
 
+  /// The dark appearance's veil: the page ground of Horizon Dark.
+  static const Color _nightVeil = Color(0xFF061A15);
+
   @override
   Widget build(BuildContext context) => ExcludeSemantics(
     child: LayoutBuilder(
@@ -410,6 +413,15 @@ final class _Artwork extends StatelessWidget {
             Positioned.fill(
               child: ColoredBox(color: light.top.withValues(alpha: 0.08)),
             ),
+            // Horizon Dark (§15 D119): a deeper green over the artwork that
+            // calms the lit minarets and the orange glow; the dome and the
+            // minarets stay. It lies under the text, never over it.
+            if (Theme.of(context).brightness == Brightness.dark)
+              Positioned.fill(
+                child: ColoredBox(
+                  color: _nightVeil.withValues(alpha: 0.38),
+                ),
+              ),
             if (compact)
               Positioned.fill(
                 child: ColoredBox(

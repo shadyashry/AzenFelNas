@@ -6,6 +6,7 @@ import 'package:dm_ui/src/rawdah/rawdah_tab_labels.dart';
 import 'package:dm_ui/src/tokens/dm_elevation.dart';
 import 'package:dm_ui/src/tokens/dm_scales.dart';
 import 'package:dm_ui/src/tokens/rawdah_palette.dart';
+import 'package:dm_ui/src/tokens/rawdah_scheme.dart';
 import 'package:flutter/material.dart';
 
 /// The deep-green navigation bar (§15 D89, D102), docked at the bottom with
@@ -53,9 +54,9 @@ final class RawdahNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-    decoration: const BoxDecoration(
-      color: RawdahPalette.emeraldDeep,
-      borderRadius: BorderRadius.vertical(
+    decoration: BoxDecoration(
+      color: RawdahScheme.of(context).navBar,
+      borderRadius: const BorderRadius.vertical(
         top: Radius.circular(DmScales.radiusSheet),
       ),
       boxShadow: DmElevation.bar,

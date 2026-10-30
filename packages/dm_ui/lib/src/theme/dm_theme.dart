@@ -64,19 +64,21 @@ abstract final class DmTheme {
   }
 
   /// The theme for [brightness] and [locale]: the scheme for that
-  /// brightness (cream by day, Nabawi Night in dark mode, §15 D89, D102),
+  /// brightness (cream by day, Horizon Dark at night, §15 D89, D102, D119),
   /// carried as a [RawdahScheme] extension so components follow it. Gold is
   /// kept for thin borders, key icons and the selected tab; filled actions
-  /// are forest green with ivory text.
+  /// are forest green with ivory text by day and muted gold with deep-green
+  /// text at night. Dialogs, sheets, menus and cards sit on the raised level.
   static ThemeData of(Brightness brightness, StatusLocale locale) {
     final r = switch (brightness) {
       Brightness.light => RawdahScheme.light,
       Brightness.dark => RawdahScheme.night,
     };
-    // Filled actions stay green in both modes, ivory on top.
-    final action = switch (brightness) {
-      Brightness.light => RawdahPalette.forest,
-      Brightness.dark => RawdahPalette.emerald,
+    // Filled actions: forest green under ivory by day, muted gold under deep
+    // green at night (§15 D119).
+    final (action, onAction) = switch (brightness) {
+      Brightness.light => (RawdahPalette.forest, RawdahPalette.ivory),
+      Brightness.dark => (r.accent, RawdahPalette.emeraldDeep),
     };
     final scheme =
         ColorScheme.fromSeed(
@@ -149,7 +151,7 @@ abstract final class DmTheme {
         titleLarge: step(DmScales.title),
         titleMedium: step(DmScales.body).copyWith(fontWeight: FontWeight.w600),
         bodyLarge: step(DmScales.body),
-        labelMedium: step(DmScales.label).copyWith(color: r.inkMuted),
+        labelMedium: step(DmScales.label).copyWith(color: r.caption),
       ),
       // Secondary screens are quiet: cream ground, a Naskh title in forest
       // green, a hairline instead of a shadow.
@@ -166,7 +168,7 @@ abstract final class DmTheme {
         shape: Border(bottom: hairline.copyWith(width: 0.8)),
       ),
       cardTheme: CardThemeData(
-        color: r.panel,
+        color: r.raised,
         elevation: 0,
         margin: const EdgeInsets.symmetric(vertical: 6),
         shape: RoundedRectangleBorder(
@@ -177,7 +179,7 @@ abstract final class DmTheme {
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           backgroundColor: action,
-          foregroundColor: RawdahPalette.ivory,
+          foregroundColor: onAction,
           disabledBackgroundColor: r.wash,
           disabledForegroundColor: r.inkMuted,
           minimumSize: const Size(64, 52),
@@ -213,20 +215,20 @@ abstract final class DmTheme {
       // Anything switched on is green, in both modes (§15 D100).
       switchTheme: SwitchThemeData(
         thumbColor: selected(RawdahPalette.ivory, r.inkMuted),
-        trackColor: selected(RawdahPalette.enabled, r.wash),
-        trackOutlineColor: selected(RawdahPalette.enabled, r.inkMuted),
+        trackColor: selected(r.switchedOn, r.wash),
+        trackOutlineColor: selected(r.switchedOn, r.inkMuted),
         thumbIcon: selected<Icon?>(
-          const Icon(Icons.check, color: RawdahPalette.enabled),
+          Icon(Icons.check, color: r.switchedOn),
           null,
         ),
       ),
       checkboxTheme: CheckboxThemeData(
-        fillColor: selected(RawdahPalette.enabled, Colors.transparent),
+        fillColor: selected(r.switchedOn, Colors.transparent),
         checkColor: const WidgetStatePropertyAll(RawdahPalette.ivory),
         side: BorderSide(color: r.inkMuted, width: 1.6),
       ),
       radioTheme: RadioThemeData(
-        fillColor: selected(RawdahPalette.enabled, r.inkMuted),
+        fillColor: selected(r.switchedOn, r.inkMuted),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(
@@ -269,7 +271,7 @@ abstract final class DmTheme {
         circularTrackColor: r.wash,
       ),
       dialogTheme: DialogThemeData(
-        backgroundColor: r.panel,
+        backgroundColor: r.raised,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(DmScales.radiusSheet),
@@ -279,7 +281,7 @@ abstract final class DmTheme {
         contentTextStyle: step(DmScales.body),
       ),
       bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: r.panel,
+        backgroundColor: r.raised,
         surfaceTintColor: Colors.transparent,
         showDragHandle: true,
         dragHandleColor: r.hairline,
@@ -288,7 +290,7 @@ abstract final class DmTheme {
         ),
       ),
       popupMenuTheme: PopupMenuThemeData(
-        color: r.panel,
+        color: r.raised,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: control, side: hairline),
       ),
@@ -322,7 +324,7 @@ abstract final class DmTheme {
         ),
         textStyle: const TextStyle(color: RawdahPalette.ivory, fontSize: 13),
       ),
-      canvasColor: r.panel,
+      canvasColor: r.raised,
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: r.panel,
@@ -379,7 +381,7 @@ abstract final class DmTheme {
     BorderRadius radius,
     BorderSide hairline,
   ) => MenuStyle(
-    backgroundColor: WidgetStatePropertyAll(r.panel),
+    backgroundColor: WidgetStatePropertyAll(r.raised),
     surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
     shape: WidgetStatePropertyAll(
       RoundedRectangleBorder(borderRadius: radius, side: hairline),

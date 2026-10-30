@@ -145,24 +145,35 @@ final class _Resume extends StatelessWidget {
   final TextStyle style;
 
   @override
-  Widget build(BuildContext context) => Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Container(
-        width: 52,
-        height: 52,
-        decoration: const BoxDecoration(
-          color: RawdahPalette.gold,
-          shape: BoxShape.circle,
+  Widget build(BuildContext context) {
+    // Muted gold under deep green at night (§15 D119).
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 52,
+          height: 52,
+          decoration: BoxDecoration(
+            color: dark ? RawdahScheme.of(context).accent : RawdahPalette.gold,
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(
+            Icons.chevron_right,
+            size: 30,
+            color: RawdahPalette.emeraldDeep,
+          ),
         ),
-        child: const Icon(
-          Icons.chevron_right,
-          size: 30,
-          color: RawdahPalette.emeraldDeep,
+        const SizedBox(height: DmScales.lineGap),
+        Text(
+          label,
+          style: style.copyWith(
+            color: dark
+                ? RawdahScheme.of(context).accent
+                : RawdahPalette.goldInk,
+          ),
         ),
-      ),
-      const SizedBox(height: DmScales.lineGap),
-      Text(label, style: style.copyWith(color: RawdahPalette.goldInk)),
-    ],
-  );
+      ],
+    );
+  }
 }
