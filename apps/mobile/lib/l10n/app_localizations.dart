@@ -470,6 +470,30 @@ abstract class AppLocalizations {
   /// **'Resume'**
   String get homeQuranResume;
 
+  /// Home: under Continue Quran, shown only when the downloaded Quran checked complete.
+  ///
+  /// In en, this message translates to:
+  /// **'Available offline'**
+  String get homeQuranOffline;
+
+  /// Home: Continue Quran names the surah by its number in English (no transliterated names are bundled).
+  ///
+  /// In en, this message translates to:
+  /// **'Surah {number}'**
+  String homeSurahNumber(String number);
+
+  /// Marker after a morning time on a 12-hour clock.
+  ///
+  /// In en, this message translates to:
+  /// **'AM'**
+  String get timeAm;
+
+  /// Marker after an afternoon or evening time on a 12-hour clock.
+  ///
+  /// In en, this message translates to:
+  /// **'PM'**
+  String get timePm;
+
   /// Home: next prayer line.
   ///
   /// In en, this message translates to:
@@ -1409,7 +1433,7 @@ abstract class AppLocalizations {
   /// Navigation bar: Home.
   ///
   /// In en, this message translates to:
-  /// **'Today'**
+  /// **'Home'**
   String get navHome;
 
   /// Navigation bar: Qibla.

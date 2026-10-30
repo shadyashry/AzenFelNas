@@ -19,25 +19,51 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-# Bundled OFL faces (§7.9, §15 D75 and D89): IBM Plex Sans Arabic and Inter for
-# interface text, Amiri (Naskh) for prayer names and times. Licences beside the
-# files in fonts/.
+# Bundled OFL faces (§7.9, §15 D109), each from the official google/fonts
+# repository with its licence beside it in fonts/: Inter and Noto Sans Arabic
+# for interface text, Lora and Noto Naskh Arabic for display text (prayer
+# names, times, headings). Every file is a variable font; it is declared once
+# per weight it serves so a requested weight matches a real face (never a
+# synthesized bold), and DmTheme sets the matching `wght` axis.
 flutter:
   fonts:
-    - family: Amiri
-      fonts:
-        - asset: fonts/Amiri-Regular.ttf
-        - asset: fonts/Amiri-Bold.ttf
-          weight: 700
-    - family: IBM Plex Sans Arabic
-      fonts:
-        - asset: fonts/IBMPlexSansArabic-Regular.ttf
-        - asset: fonts/IBMPlexSansArabic-Medium.ttf
-          weight: 500
-        - asset: fonts/IBMPlexSansArabic-SemiBold.ttf
-          weight: 600
-        - asset: fonts/IBMPlexSansArabic-Bold.ttf
-          weight: 700
     - family: Inter
       fonts:
         - asset: fonts/Inter-Variable.ttf
+          weight: 400
+        - asset: fonts/Inter-Variable.ttf
+          weight: 500
+        - asset: fonts/Inter-Variable.ttf
+          weight: 600
+        - asset: fonts/Inter-Variable.ttf
+          weight: 700
+    - family: Noto Sans Arabic
+      fonts:
+        - asset: fonts/NotoSansArabic-Variable.ttf
+          weight: 400
+        - asset: fonts/NotoSansArabic-Variable.ttf
+          weight: 500
+        - asset: fonts/NotoSansArabic-Variable.ttf
+          weight: 600
+        - asset: fonts/NotoSansArabic-Variable.ttf
+          weight: 700
+    - family: Lora
+      fonts:
+        - asset: fonts/Lora-Variable.ttf
+          weight: 400
+        - asset: fonts/Lora-Variable.ttf
+          weight: 500
+        - asset: fonts/Lora-Variable.ttf
+          weight: 600
+        - asset: fonts/Lora-Variable.ttf
+          weight: 700
+    - family: Noto Naskh Arabic
+      fonts:
+        - asset: fonts/NotoNaskhArabic-Variable.ttf
+          weight: 400
+        - asset: fonts/NotoNaskhArabic-Variable.ttf
+          weight: 500
+        - asset: fonts/NotoNaskhArabic-Variable.ttf
+          weight: 600
+        - asset: fonts/NotoNaskhArabic-Variable.ttf
+          weight: 700

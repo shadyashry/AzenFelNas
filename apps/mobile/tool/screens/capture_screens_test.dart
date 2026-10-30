@@ -38,14 +38,9 @@ Future<void> _loadFonts() async {
   await _loadFont('Roboto', ['$material/roboto-regular.ttf']);
   const ui = '../../packages/dm_ui/fonts';
   await _loadFont(DmTheme.latinFamily, ['$ui/Inter-Variable.ttf']);
-  await _loadFont(DmTheme.arabicFamily, [
-    for (final w in ['Regular', 'Medium', 'SemiBold', 'Bold'])
-      '$ui/IBMPlexSansArabic-$w.ttf',
-  ]);
-  await _loadFont(DmTheme.naskhFamily, [
-    '$ui/Amiri-Regular.ttf',
-    '$ui/Amiri-Bold.ttf',
-  ]);
+  await _loadFont(DmTheme.arabicFamily, ['$ui/NotoSansArabic-Variable.ttf']);
+  await _loadFont(DmTheme.displayLatinFamily, ['$ui/Lora-Variable.ttf']);
+  await _loadFont(DmTheme.naskhFamily, ['$ui/NotoNaskhArabic-Variable.ttf']);
 }
 
 Future<void> _shot(WidgetTester tester, String name) async {

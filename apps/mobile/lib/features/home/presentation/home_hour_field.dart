@@ -3,10 +3,10 @@ import 'dart:math' as math;
 import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
 import 'package:daily_muslim/features/home/domain/prayer_timeline.dart';
 import 'package:daily_muslim/features/home/domain/time_row_view.dart';
+import 'package:daily_muslim/features/home/presentation/clock_text.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/home_state.dart';
-import 'package:daily_muslim/features/home/presentation/time_rows.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
@@ -48,8 +48,10 @@ final class HomeHourField extends ConsumerWidget {
   /// How far the cream section rises over the hero's foot.
   static const double sheetOverlap = 28;
 
-  /// The hero's share of a portrait screen's height.
-  static const double _portraitShare = 0.6;
+  /// The hero's share of a portrait screen's height: compact enough that
+  /// the day's row and Continue Quran show below it on a 390 x 844 phone
+  /// (§15 D109).
+  static const double _portraitShare = 0.5;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,6 +67,8 @@ final class HomeHourField extends ConsumerWidget {
       nowUtcMs: now,
     );
     final screen = MediaQuery.sizeOf(context);
+    final type = DmType.of(style.locale);
+    final padding = DmScales.paddingFor(screen.width);
     // Portrait: a share of the height, the arc over the next prayer.
     // Landscape: as tall as the content, the next prayer at the start and
     // the arc beside it, so nothing falls under the navigation bar.
@@ -77,9 +81,7 @@ final class HomeHourField extends ConsumerWidget {
       ],
       next: timeline.next,
       progress: timeline.progress,
-      labelStyle: TextStyle(
-        fontFamily: DmTheme.naskhFamily,
-        fontSize: 14,
+      labelStyle: type.arcLabel.copyWith(
         color: RawdahPalette.ivory.withValues(alpha: 0.9),
       ),
     );
@@ -87,12 +89,13 @@ final class HomeHourField extends ConsumerWidget {
         ? Text(
             l.homeNoNextPrayer,
             textAlign: TextAlign.center,
-            style: DmTheme.naskh(size: 22, color: RawdahPalette.ivory),
+            style: type.countdown.copyWith(color: RawdahPalette.ivory),
           )
         : _NextPrayer(
             name: DisplayStyle.eventName(l, next.event),
-            time: style.digits.apply(TimeRows.timeText(l, next)),
+            time: ClockText.of(context, l, next, style),
             countdown: _countdown(l, next, now),
+            type: type,
           );
     return ConstrainedBox(
       constraints: BoxConstraints(minHeight: minHeight),
@@ -104,18 +107,19 @@ final class HomeHourField extends ConsumerWidget {
           SafeArea(
             bottom: false,
             child: Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(
-                DmScales.gutter,
-                4,
-                DmScales.gutter,
-                sheetOverlap + 16,
+              padding: EdgeInsetsDirectional.fromSTEB(
+                padding,
+                0,
+                padding,
+                sheetOverlap + DmScales.sectionGap,
               ),
               child: Column(
                 children: [
-                  _Header(content: content),
+                  _Header(content: content, type: type),
                   if (content.hijri case final hijri?)
                     _Hijri(
                       day: hijri.day,
+                      style: type.supporting,
                       text: style.digits.apply(
                         l.homeHijriDate(
                           '${hijri.day}',
@@ -124,12 +128,12 @@ final class HomeHourField extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  SizedBox(height: landscape ? 4 : 12),
+                  const SizedBox(height: DmScales.lineGap),
                   if (landscape)
                     Row(
                       children: [
                         Expanded(child: nextPrayer),
-                        const SizedBox(width: DmScales.gutter),
+                        SizedBox(width: padding),
                         Expanded(
                           child: Center(
                             child: ConstrainedBox(
@@ -144,7 +148,7 @@ final class HomeHourField extends ConsumerWidget {
                     )
                   else ...[
                     SizedBox(
-                      width: math.min(screen.width - 2 * DmScales.gutter, 460),
+                      width: math.min(screen.width - 2 * padding, 460),
                       child: arc,
                     ),
                     nextPrayer,
@@ -174,9 +178,10 @@ final class HomeHourField extends ConsumerWidget {
 /// Settings at the end. The words "pinned", "manual" and "approximate" are
 /// for the diagnostics, not for the header.
 final class _Header extends ConsumerWidget {
-  const new({required this.content});
+  const new({required this.content, required this.type});
 
   final HomeContent content;
+  final DmType type;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -204,7 +209,7 @@ final class _Header extends ConsumerWidget {
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(minHeight: 48),
                   child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(2, 4, 8, 4),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 8, 4),
                     // Wraps, never overflows, at 200 % text (REQ-UX-020).
                     child: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
@@ -214,13 +219,12 @@ final class _Header extends ConsumerWidget {
                           size: DmScales.iconLarge,
                           color: RawdahPalette.gold,
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: DmScales.iconGap),
                         Text(
                           name,
-                          style: DmTheme.naskh(
-                            size: 20,
+                          style: type.location.copyWith(
                             color: RawdahPalette.ivory,
-                          ).copyWith(height: 1.2),
+                          ),
                         ),
                         const SizedBox(width: 2),
                         const Icon(
@@ -252,10 +256,11 @@ final class _Header extends ConsumerWidget {
 
 /// The Hijri date with its Moon, quiet under the header.
 final class _Hijri extends StatelessWidget {
-  const new({required this.day, required this.text});
+  const new({required this.day, required this.text, required this.style});
 
   final int day;
   final String text;
+  final TextStyle style;
 
   @override
   Widget build(BuildContext context) => Wrap(
@@ -266,31 +271,39 @@ final class _Hijri extends StatelessWidget {
       const SizedBox(width: 8),
       Text(
         text,
-        style: const TextStyle(color: RawdahPalette.ivoryMuted, fontSize: 13),
+        style: style.copyWith(color: RawdahPalette.ivoryMuted),
       ),
     ],
   );
 }
 
 /// The next prayer, centred under the arc: its name, its time large with
-/// any "+1" set smaller, and the time left.
+/// the AM/PM marker small on the same baseline, and the time left. The
+/// digits keep their own left-to-right order inside Arabic text, so the
+/// marker sits after them in reading order («٣:٤٢ م»). The digits are
+/// tabular and every line has a fixed height, so the countdown
+/// ticking never moves anything (§15 D109).
 final class _NextPrayer extends StatelessWidget {
-  const new({required this.name, required this.time, required this.countdown});
+  const new({
+    required this.name,
+    required this.time,
+    required this.countdown,
+    required this.type,
+  });
 
   final String name;
-  final String time;
+  final ClockText time;
   final String countdown;
+  final DmType type;
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final cut = time.indexOf(' ');
-    final (clock, suffix) = cut < 0
-        ? (time, '')
-        : (time.substring(0, cut), time.substring(cut));
+    const ivory = RawdahPalette.ivory;
+    final marker = type.nextPeriod.copyWith(color: ivory);
     return Semantics(
       container: true,
-      label: [l.homeNextPrayer(name), time, countdown].join(', '),
+      label: [l.homeNextPrayer(name), time.plain, countdown].join(', '),
       excludeSemantics: true,
       // A soft green shadow lifts the ivory off lit architecture.
       child: DefaultTextStyle.merge(
@@ -302,38 +315,27 @@ final class _NextPrayer extends StatelessWidget {
             Text(
               name,
               textAlign: TextAlign.center,
-              style: DmTheme.naskh(
-                size: 34,
-                color: RawdahPalette.ivory,
-                bold: true,
-              ).copyWith(height: 1.2),
+              style: type.nextName.copyWith(color: ivory),
             ),
+            // One paragraph: the marker shares the digits' baseline and,
+            // at large text, wraps under them instead of overflowing.
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(text: clock),
-                  if (suffix.isNotEmpty)
-                    TextSpan(
-                      text: suffix,
-                      style: DmTheme.naskh(
-                        size: 30,
-                        color: RawdahPalette.ivory,
-                      ),
-                    ),
+                  TextSpan(text: time.clock),
+                  if (time.period case final period?)
+                    TextSpan(text: ' $period', style: marker),
+                  if (time.offset case final offset?)
+                    TextSpan(text: ' $offset', style: marker),
                 ],
               ),
               textAlign: TextAlign.center,
-              style: DmTheme.naskh(
-                size: 68,
-                color: RawdahPalette.ivory,
-                bold: true,
-              ).copyWith(height: 1.1),
+              style: type.nextTime.copyWith(color: ivory),
             ),
-            const SizedBox(height: 4),
             Text(
               countdown,
               textAlign: TextAlign.center,
-              style: DmTheme.naskh(size: 22, color: RawdahPalette.ivory),
+              style: type.countdown.copyWith(color: ivory),
             ),
           ],
         ),

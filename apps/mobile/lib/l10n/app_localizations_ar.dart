@@ -13,7 +13,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appTitle => 'أذّن في الناس';
 
   @override
-  String get homeTitle => 'النهارده';
+  String get homeTitle => 'اليوم';
 
   @override
   String get settingsTitle => 'الإعدادات';
@@ -204,10 +204,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get placeUse => 'استخدم المكان ده';
 
   @override
-  String get homeContinueQuran => 'كمّل قراءة القرآن';
+  String get homeContinueQuran => 'متابعة القراءة';
 
   @override
-  String get homeQuranResume => 'كمّل';
+  String get homeQuranResume => 'متابعة';
+
+  @override
+  String get homeQuranOffline => 'متاح دون إنترنت';
+
+  @override
+  String homeSurahNumber(String number) {
+    return 'سورة $number';
+  }
+
+  @override
+  String get timeAm => 'ص';
+
+  @override
+  String get timePm => 'م';
 
   @override
   String homeNextPrayer(String prayer) {
@@ -866,7 +880,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsDiagnosticsHint => 'انسخ تقرير تبعته للدعم لو حصلت مشكلة';
 
   @override
-  String get navQuran => 'القرآن الكريم';
+  String get navQuran => 'القرآن';
 
   @override
   String get quranTitle => 'القرآن الكريم';

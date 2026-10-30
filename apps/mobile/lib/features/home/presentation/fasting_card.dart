@@ -1,7 +1,7 @@
 import 'package:daily_muslim/features/home/domain/fasting_day.dart';
+import 'package:daily_muslim/features/home/presentation/clock_text.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
-import 'package:daily_muslim/features/home/presentation/time_rows.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/settings/domain/app_settings.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
@@ -34,13 +34,15 @@ final class FastingCard extends ConsumerWidget {
           lines: [
             style.digits.apply(
               l.homeFastingWindow(
-                TimeRows.timeText(l, begins),
-                TimeRows.timeText(l, ends),
+                ClockText.of(context, l, begins, style).plain,
+                ClockText.of(context, l, ends, style).plain,
               ),
             ),
             if (imsak != null)
               style.digits.apply(
-                l.homeFastingImsak(TimeRows.timeText(l, imsak)),
+                l.homeFastingImsak(
+                  ClockText.of(context, l, imsak, style).plain,
+                ),
               ),
           ],
         ),

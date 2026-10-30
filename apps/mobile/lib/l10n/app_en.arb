@@ -260,6 +260,28 @@
   "@homeQuranResume": {
     "description": "Home: the Continue Quran card's button; opens the reader at the last page read."
   },
+  "homeQuranOffline": "Available offline",
+  "@homeQuranOffline": {
+    "description": "Home: under Continue Quran, shown only when the downloaded Quran checked complete."
+  },
+  "homeSurahNumber": "Surah {number}",
+  "@homeSurahNumber": {
+    "description": "Home: Continue Quran names the surah by its number in English (no transliterated names are bundled).",
+    "placeholders": {
+      "number": {
+        "type": "String",
+        "example": "18"
+      }
+    }
+  },
+  "timeAm": "AM",
+  "@timeAm": {
+    "description": "Marker after a morning time on a 12-hour clock."
+  },
+  "timePm": "PM",
+  "@timePm": {
+    "description": "Marker after an afternoon or evening time on a 12-hour clock."
+  },
   "homeNextPrayer": "Next: {prayer}",
   "@homeNextPrayer": {
     "description": "Home: next prayer line.",
@@ -1109,7 +1131,7 @@
       }
     }
   },
-  "navHome": "Today",
+  "navHome": "Home",
   "@navHome": {
     "description": "Navigation bar: Home."
   },

@@ -7,15 +7,26 @@ import 'package:flutter/services.dart';
 
 /// The static Material theme of content surfaces (§7.9, Appendix G).
 abstract final class DmTheme {
-  /// Latin family (OFL), bundled in `dm_ui` (§15 D75, D89).
+  /// Latin interface family: Inter (OFL), bundled in `dm_ui` (§15 D109).
   static const String latinFamily = 'packages/dm_ui/Inter';
 
-  /// Arabic family (OFL), bundled in `dm_ui` (§15 D75, D89).
-  static const String arabicFamily = 'packages/dm_ui/IBM Plex Sans Arabic';
+  /// Arabic interface family: Noto Sans Arabic (OFL), bundled in `dm_ui`
+  /// (§15 D109).
+  static const String arabicFamily = 'packages/dm_ui/Noto Sans Arabic';
 
-  /// The Naskh of prayer names and times (Amiri, OFL), bundled in `dm_ui`
-  /// (§15 D89).
-  static const String naskhFamily = 'packages/dm_ui/Amiri';
+  /// Latin display family for prayer names, times and headings: Lora (OFL),
+  /// bundled in `dm_ui` (§15 D109).
+  static const String displayLatinFamily = 'packages/dm_ui/Lora';
+
+  /// Arabic display family for prayer names, times and headings: Noto Naskh
+  /// Arabic (OFL), bundled in `dm_ui` (§15 D109).
+  static const String naskhFamily = 'packages/dm_ui/Noto Naskh Arabic';
+
+  /// The `wght` axis for [weight]: the bundled faces are variable fonts, so
+  /// a weight is drawn by the font itself, never synthesized (§15 D109).
+  static List<FontVariation> weightAxis(FontWeight weight) => [
+    FontVariation.weight(weight.value.toDouble()),
+  ];
 
   /// The status bar over a ground of [ground] brightness (§15 D101):
   /// dark icons on cream, light icons on night, forest green and the Home
@@ -32,18 +43,25 @@ abstract final class DmTheme {
         ),
       };
 
-  /// Amiri at [size] in [color], bold for the next prayer and titles.
+  /// Display text at [size] in [color], semi-bold for the next prayer and
+  /// titles: Lora for Latin script and Noto Naskh Arabic for Arabic, chosen
+  /// per glyph (§15 D109).
   static TextStyle naskh({
     required double size,
     required Color color,
     bool bold = false,
-  }) => TextStyle(
-    fontFamily: naskhFamily,
-    fontSize: size,
-    height: 1.35,
-    color: color,
-    fontWeight: bold ? FontWeight.w700 : FontWeight.w400,
-  );
+  }) {
+    final weight = bold ? FontWeight.w600 : FontWeight.w400;
+    return TextStyle(
+      fontFamily: displayLatinFamily,
+      fontFamilyFallback: const [naskhFamily, arabicFamily],
+      fontSize: size,
+      height: 1.35,
+      color: color,
+      fontWeight: weight,
+      fontVariations: weightAxis(weight),
+    );
+  }
 
   /// The theme for [brightness] and [locale]: the scheme for that
   /// brightness (cream by day, Nabawi Night in dark mode, §15 D89, D102),
@@ -103,6 +121,7 @@ abstract final class DmTheme {
       fontFamilyFallback: const [arabicFamily, latinFamily],
       fontSize: 16,
       fontWeight: FontWeight.w600,
+      fontVariations: weightAxis(FontWeight.w600),
     );
     final hairline = BorderSide(color: r.hairline);
     final control = BorderRadius.circular(DmScales.radiusControl);
@@ -111,7 +130,7 @@ abstract final class DmTheme {
         WidgetStateProperty.resolveWith(
           (states) => states.contains(WidgetState.selected) ? on : off,
         );
-    return ThemeData(
+    final theme = ThemeData(
       colorScheme: scheme,
       scaffoldBackgroundColor: r.ground,
       fontFamily: family,
@@ -225,7 +244,10 @@ abstract final class DmTheme {
         indicatorColor: RawdahPalette.gold,
         dividerColor: r.hairline,
         labelStyle: buttonText,
-        unselectedLabelStyle: buttonText.copyWith(fontWeight: FontWeight.w500),
+        unselectedLabelStyle: buttonText.copyWith(
+          fontWeight: FontWeight.w500,
+          fontVariations: weightAxis(FontWeight.w500),
+        ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: r.wash,
@@ -279,6 +301,7 @@ abstract final class DmTheme {
         contentTextStyle: buttonText.copyWith(
           color: RawdahPalette.ivory,
           fontWeight: FontWeight.w400,
+          fontVariations: weightAxis(FontWeight.w400),
         ),
         actionTextColor: RawdahPalette.goldLight,
         behavior: SnackBarBehavior.floating,
@@ -323,6 +346,30 @@ abstract final class DmTheme {
           borderRadius: control,
           borderSide: BorderSide(color: r.error, width: 1.6),
         ),
+      ),
+    );
+    // Every text style draws its weight on the variable font's own axis.
+    TextStyle? axis(TextStyle? style) => style?.copyWith(
+      fontVariations: weightAxis(style.fontWeight ?? FontWeight.w400),
+    );
+    final text = theme.textTheme;
+    return theme.copyWith(
+      textTheme: text.copyWith(
+        displayLarge: axis(text.displayLarge),
+        displayMedium: axis(text.displayMedium),
+        displaySmall: axis(text.displaySmall),
+        headlineLarge: axis(text.headlineLarge),
+        headlineMedium: axis(text.headlineMedium),
+        headlineSmall: axis(text.headlineSmall),
+        titleLarge: axis(text.titleLarge),
+        titleMedium: axis(text.titleMedium),
+        titleSmall: axis(text.titleSmall),
+        bodyLarge: axis(text.bodyLarge),
+        bodyMedium: axis(text.bodyMedium),
+        bodySmall: axis(text.bodySmall),
+        labelLarge: axis(text.labelLarge),
+        labelMedium: axis(text.labelMedium),
+        labelSmall: axis(text.labelSmall),
       ),
     );
   }

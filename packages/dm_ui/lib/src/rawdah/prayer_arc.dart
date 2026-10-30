@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:dm_ui/src/theme/dm_theme.dart';
 import 'package:dm_ui/src/tokens/rawdah_palette.dart';
 import 'package:flutter/widgets.dart';
 
@@ -37,7 +38,7 @@ final class PrayerArc extends StatelessWidget {
   final TextStyle labelStyle;
 
   /// Height for a width, so the arc reads the same on every screen.
-  static const double aspect = 3.6;
+  static const double aspect = 5;
 
   @override
   Widget build(BuildContext context) => ExcludeSemantics(
@@ -46,7 +47,8 @@ final class PrayerArc extends StatelessWidget {
         // The labels sit under the line; leave room for two lines of them
         // at the reader's text size.
         final scale = MediaQuery.textScalerOf(context).scale(1);
-        final labelRoom = (labelStyle.fontSize ?? 12) * 1.4 * scale + 6;
+        final size = labelStyle.fontSize ?? 12;
+        final labelRoom = size * (labelStyle.height ?? 1.4) * scale + 6;
         return SizedBox(
           height: box.maxWidth / aspect + labelRoom,
           width: box.maxWidth,
@@ -88,7 +90,7 @@ final class _ArcPainter extends CustomPainter {
     // A circular arc through both ends and the apex, filling the box:
     // the apex 12 below the top (room for the ringed marker), the ends
     // [PrayerArc.aspect] of the width lower.
-    final inset = size.width * 0.06;
+    final inset = size.width * 0.1;
     final halfChord = size.width / 2 - inset;
     final rise = size.width / PrayerArc.aspect - 12;
     final radius = (halfChord * halfChord + rise * rise) / (2 * rise);
@@ -179,7 +181,8 @@ final class _ArcPainter extends CustomPainter {
           style: isNext
               ? labelStyle.copyWith(
                   color: RawdahPalette.goldLight,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
+                  fontVariations: DmTheme.weightAxis(FontWeight.w600),
                 )
               : labelStyle,
         ),

@@ -105,8 +105,9 @@ void main() {
 
     testWidgets('REQ-TIME-002 Isha after midnight shows +1', (tester) async {
       await _pump(tester, HomeReady(_content()));
-      // In the strip and in its row.
-      expect(find.text('00:12 +1'), findsNWidgets(2));
+      // In the row (the AM marker under it) and in the full list.
+      expect(find.text('12:12 +1'), findsOneWidget);
+      expect(find.text('12:12 AM +1'), findsOneWidget);
     });
 
     testWidgets('REQ-UX-001 the strip shows the five prayers with their '
@@ -118,7 +119,7 @@ void main() {
       expect(
         find.descendant(
           of: strip,
-          matching: find.bySemanticsLabel('Asr, 15:52, Calculated'),
+          matching: find.bySemanticsLabel('Asr, 3:52 PM, Calculated'),
         ),
         findsOneWidget,
       );
@@ -128,8 +129,17 @@ void main() {
       );
       expect(
         find.descendant(of: strip, matching: find.byType(Text)),
-        findsNWidgets(10),
+        findsNWidgets(15),
       );
+    });
+
+    testWidgets('a phone set to a 24-hour clock keeps 24-hour times, with '
+        'no AM/PM', (tester) async {
+      tester.platformDispatcher.alwaysUse24HourFormatTestValue = true;
+      addTearDown(tester.platformDispatcher.clearAlwaysUse24HourTestValue);
+      await _pump(tester, HomeReady(_content()));
+      expect(find.text('15:52'), findsNWidgets(3));
+      expect(find.text('PM'), findsNothing);
     });
 
     testWidgets('the header keeps Settings one tap away', (tester) async {
@@ -182,8 +192,9 @@ void main() {
       tester,
     ) async {
       await _pump(tester, HomeReady(_content()), locale: const Locale('ar'));
-      // In the hero, the strip and its row.
-      expect(find.text('١٥:٥٢'), findsNWidgets(3));
+      // The row's digits; the hero and the full list with «م» after them.
+      expect(find.text('٣:٥٢'), findsOneWidget);
+      expect(find.text('٣:٥٢ م'), findsNWidgets(2));
     });
 
     testWidgets('REQ-DOM-040 the digits setting can keep Western digits in '
@@ -194,8 +205,9 @@ void main() {
         locale: const Locale('ar'),
         digits: DigitsSetting.western,
       );
-      // In the hero, the strip and its row.
-      expect(find.text('15:52'), findsNWidgets(3));
+      // The row's digits; the hero and the full list with «م» after them.
+      expect(find.text('3:52'), findsOneWidget);
+      expect(find.text('3:52 م'), findsNWidgets(2));
     });
   });
 

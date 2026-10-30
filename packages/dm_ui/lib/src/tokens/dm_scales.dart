@@ -24,6 +24,29 @@ abstract final class DmScales {
   /// Side gutter of every page (§15 D102).
   static const double gutter = 16;
 
+  /// Horizontal padding of Home's content (§15 D109); [gutter] on a
+  /// compact screen, narrower than [compactWidth].
+  static const double pagePadding = 20;
+
+  /// Below this width a screen is compact.
+  static const double compactWidth = 375;
+
+  /// Gap between major sections.
+  static const double sectionGap = 16;
+
+  /// Padding inside a card.
+  static const double cardPadding = 16;
+
+  /// Gap between an icon and its text.
+  static const double iconGap = 12;
+
+  /// Gap between closely related lines of text.
+  static const double lineGap = 4;
+
+  /// Home's horizontal padding for a screen [width] wide.
+  static double paddingFor(double width) =>
+      width < compactWidth ? gutter : pagePadding;
+
   /// Radius of controls: fields, menus, chips.
   static const double radiusControl = 14;
 

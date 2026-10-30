@@ -44,3 +44,4 @@ export 'package:dm_ui/src/tokens/rawdah_scheme.dart';
 export 'package:dm_ui/src/tokens/sky_phase_tokens.dart';
 export 'package:dm_ui/src/tokens/sky_tokens.dart';
 export 'package:dm_ui/src/tokens/static_palette.dart';
+export 'package:dm_ui/src/typography/dm_type.dart';

@@ -10,13 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Home's "Continue Quran" (§15 D108): the surah, as printed in the
-/// Mushaf's header and in the package's own KFGQPC font, and the page the
-/// reader was last left on, with a gold resume button that opens the
-/// reader there (it restores its last page). Shown only when there is a
-/// saved page and the downloaded Quran is readable; "Ready offline" only
-/// when the package checked complete (`QuranReady`). Nothing of the Mushaf
-/// page itself is drawn here.
+/// Home's "Continue Quran" (§15 D108, D109): the surah and page the reader
+/// was last left on, with a gold resume action that opens the reader there
+/// (it restores its last page). Arabic names the surah as its Mushaf header
+/// does, without the word «سورة» and with every mark kept; English names
+/// it by number (no transliterated names are bundled). Shown only when
+/// there is a saved page and the downloaded Quran is readable; "Available
+/// offline" only when the package checked complete (`QuranReady`). Nothing
+/// of the Mushaf page itself is drawn here.
 final class ContinueQuranCard extends ConsumerWidget {
   /// The card, or nothing when there is nothing to continue.
   const new({super.key});
@@ -30,104 +31,98 @@ final class ContinueQuranCard extends ConsumerWidget {
     if (readablePackage(status) == null) return const SizedBox.shrink();
     final l = AppLocalizations.of(context);
     final style = DisplayStyle.of(context, ref);
+    final type = DmType.of(style.locale);
     final r = RawdahScheme.of(context);
     final suras = ref.watch(surasProvider).value ?? const <SuraEntry>[];
     SuraEntry? sura;
     for (final s in suras) {
       if (s.startPage <= page) sura = s;
     }
-    final font = ref.watch(quranFontProvider).value ?? false;
-    final pageText = l.quranPage(QuranFormat.number(page, style));
+    final surah = switch ((sura, style.locale)) {
+      (null, _) => null,
+      (final SuraEntry s, StatusLocale.ar) => _nameOf(s.header),
+      (final SuraEntry s, StatusLocale.en) => l.homeSurahNumber(
+        QuranFormat.number(s.number, style),
+      ),
+    };
+    final title = [?surah, l.quranPage(QuranFormat.number(page, style))];
     final offline = status is QuranReady;
     void open() => context.go(const QuranRoute().location);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: DmScales.gutter),
-      child: Semantics(
-        button: true,
-        label: [
-          l.homeContinueQuran,
-          ?sura?.header,
-          pageText,
-          if (offline) l.quranReadyOffline,
-        ].join(', '),
-        excludeSemantics: true,
-        onTap: open,
-        child: Material(
-          color: r.wash,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(DmScales.radiusCard),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: open,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  const _Book(),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l.homeContinueQuran,
-                          style: Theme.of(context).textTheme.labelMedium
-                              ?.copyWith(color: r.inkMuted, fontSize: 14),
-                        ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 8,
+    return Semantics(
+      button: true,
+      label: [
+        l.homeContinueQuran,
+        ...title,
+        if (offline) l.homeQuranOffline,
+      ].join(', '),
+      excludeSemantics: true,
+      onTap: open,
+      child: Material(
+        color: r.wash,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(DmScales.radiusCard),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: open,
+          child: Padding(
+            padding: const EdgeInsets.all(DmScales.cardPadding),
+            child: Row(
+              children: [
+                const _Book(),
+                const SizedBox(width: DmScales.iconGap),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l.homeContinueQuran,
+                        style: type.quranLabel.copyWith(color: r.inkMuted),
+                      ),
+                      const SizedBox(height: DmScales.lineGap),
+                      Text(
+                        title.join(' · '),
+                        style: type.quranTitle.copyWith(color: r.ink),
+                      ),
+                      if (offline) ...[
+                        const SizedBox(height: DmScales.lineGap),
+                        Row(
                           children: [
-                            if (sura != null)
-                              Text(
-                                sura.header,
-                                textDirection: TextDirection.rtl,
-                                style: TextStyle(
-                                  fontFamily: font ? QuranFont.family : null,
-                                  fontSize: 21,
-                                  color: r.ink,
+                            Icon(
+                              Icons.check_circle_outline,
+                              size: DmScales.iconSmall,
+                              color: r.inkMuted,
+                            ),
+                            const SizedBox(width: 6),
+                            Flexible(
+                              child: Text(
+                                l.homeQuranOffline,
+                                style: type.offline.copyWith(
+                                  color: r.inkMuted,
                                 ),
                               ),
-                            if (sura != null)
-                              Text(
-                                '·',
-                                style: DmTheme.naskh(size: 20, color: r.ink),
-                              ),
-                            Text(
-                              pageText,
-                              style: DmTheme.naskh(size: 20, color: r.ink),
                             ),
                           ],
                         ),
-                        if (offline)
-                          Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            spacing: 6,
-                            children: [
-                              Icon(
-                                Icons.check_circle,
-                                size: DmScales.iconSmall,
-                                color: r.primary,
-                              ),
-                              Text(
-                                l.quranReadyOffline,
-                                style: Theme.of(context).textTheme.labelMedium,
-                              ),
-                            ],
-                          ),
                       ],
-                    ),
+                    ],
                   ),
-                  const SizedBox(width: 8),
-                  _Resume(label: l.homeQuranResume, onTap: open),
-                ],
-              ),
+                ),
+                const SizedBox(width: DmScales.iconGap),
+                _Resume(label: l.homeQuranResume, style: type.resume),
+              ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  /// The surah's name from its Mushaf header, e.g. «الكَهۡفِ» from
+  /// «سُورَةُ الكَهۡفِ»: the first word («سورة») dropped, marks kept.
+  static String _nameOf(String header) {
+    final cut = header.indexOf(' ');
+    return cut < 0 ? header : header.substring(cut + 1).trim();
   }
 }
 
@@ -137,39 +132,50 @@ final class _Book extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    width: 46,
-    height: 56,
+    width: 52,
+    height: 64,
     decoration: BoxDecoration(
       color: RawdahPalette.forest,
       borderRadius: BorderRadius.circular(6),
       border: Border.all(color: RawdahPalette.gold.withValues(alpha: 0.6)),
     ),
     alignment: Alignment.topCenter,
-    padding: const EdgeInsets.only(top: 6),
+    padding: const EdgeInsets.only(top: 8),
     child: const Icon(
       Icons.bookmark,
-      size: DmScales.iconMedium,
+      size: DmScales.iconLarge,
       color: RawdahPalette.goldLight,
     ),
   );
 }
 
-/// The gold resume button; the chevron mirrors with the text direction.
+/// The gold resume disc with its label under it; the arrow follows the
+/// reading direction. The whole card is the tap target; this is its mark.
 final class _Resume extends StatelessWidget {
-  const new({required this.label, required this.onTap});
+  const new({required this.label, required this.style});
 
   final String label;
-  final VoidCallback onTap;
+  final TextStyle style;
 
   @override
-  Widget build(BuildContext context) => IconButton(
-    onPressed: onTap,
-    tooltip: label,
-    style: IconButton.styleFrom(
-      backgroundColor: RawdahPalette.gold,
-      foregroundColor: RawdahPalette.emeraldDeep,
-      minimumSize: const Size(52, 52),
-    ),
-    icon: const Icon(Icons.chevron_right, size: 30),
+  Widget build(BuildContext context) => Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        width: 52,
+        height: 52,
+        decoration: const BoxDecoration(
+          color: RawdahPalette.gold,
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(
+          Icons.chevron_right,
+          size: 30,
+          color: RawdahPalette.emeraldDeep,
+        ),
+      ),
+      const SizedBox(height: DmScales.lineGap),
+      Text(label, style: style.copyWith(color: RawdahPalette.goldInk)),
+    ],
   );
 }

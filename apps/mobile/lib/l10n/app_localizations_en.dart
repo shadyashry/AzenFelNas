@@ -209,6 +209,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeQuranResume => 'Resume';
 
   @override
+  String get homeQuranOffline => 'Available offline';
+
+  @override
+  String homeSurahNumber(String number) {
+    return 'Surah $number';
+  }
+
+  @override
+  String get timeAm => 'AM';
+
+  @override
+  String get timePm => 'PM';
+
+  @override
   String homeNextPrayer(String prayer) {
     return 'Next: $prayer';
   }
@@ -790,7 +804,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get navHome => 'Today';
+  String get navHome => 'Home';
 
   @override
   String get navQibla => 'Qibla';

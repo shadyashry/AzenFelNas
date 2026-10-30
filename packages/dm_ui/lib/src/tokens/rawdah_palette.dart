@@ -47,6 +47,10 @@ abstract final class RawdahPalette {
   /// Burnished gold: gold icons and marks on cream (4.8:1 on [pearlDeep]).
   static const Color goldDeep = Color(0xFF8E6B2B);
 
+  /// Gold ink: small gold text on light surfaces, such as "Resume" on the
+  /// sage card (5.2:1 on [sage], 5.6:1 on [pearl]; §15 D109).
+  static const Color goldInk = Color(0xFF7A5A22);
+
   /// Hairline between rows and around cards on cream.
   static const Color hairline = Color(0xFFE4DABD);
 

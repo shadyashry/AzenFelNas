@@ -69,8 +69,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Ramadan 12'), findsOneWidget);
-      expect(find.text('Fast from 04:48 to 17:51'), findsOneWidget);
-      expect(find.text('Imsak 04:38'), findsOneWidget);
+      expect(find.text('Fast from 4:48 AM to 5:51 PM'), findsOneWidget);
+      expect(find.text('Imsak 4:38 AM'), findsOneWidget);
       expect(find.text('Expected — not yet announced'), findsOneWidget);
       expect(find.text('Hijri day'), findsOneWidget);
     });

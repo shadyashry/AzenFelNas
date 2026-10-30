@@ -74,24 +74,43 @@ Future<void> _pump(
 void main() {
   group('Continue Quran on Home (§15 D108)', () {
     testWidgets('it names the surah and page the reader was left on, and '
-        'says Ready offline only for a checked package', (tester) async {
+        'says Available offline only for a checked package', (tester) async {
       await _pump(tester, status: const QuranReady(_installed), page: 300);
       expect(find.text('Continue Quran'), findsOneWidget);
-      expect(find.text('سُورَةُ الكَهۡفِ'), findsOneWidget);
-      expect(find.text('Page 300'), findsOneWidget);
-      expect(find.text('Ready offline'), findsOneWidget);
-      expect(find.byTooltip('Resume'), findsOneWidget);
+      expect(find.text('Surah 18 · Page 300'), findsOneWidget);
+      expect(find.text('Available offline'), findsOneWidget);
+      expect(find.text('Resume'), findsOneWidget);
     });
 
     testWidgets('a package still readable during an update is not called '
-        'ready offline', (tester) async {
+        'available offline', (tester) async {
       await _pump(
         tester,
         status: const QuranInstalling(current: _installed),
         page: 293,
       );
-      expect(find.text('Page 293'), findsOneWidget);
-      expect(find.text('Ready offline'), findsNothing);
+      expect(find.text('Surah 18 · Page 293'), findsOneWidget);
+      expect(find.text('Available offline'), findsNothing);
+    });
+
+    testWidgets('in Arabic the surah is its Mushaf header without «سورة», '
+        'marks kept, and the page in Arabic-Indic digits', (tester) async {
+      await tester.pumpWidget(
+        localizedApp(
+          const Scaffold(body: ContinueQuranCard()),
+          locale: const Locale('ar'),
+          overrides: [
+            quranStatusProvider.overrideWithValue(const QuranReady(_installed)),
+            lastQuranPageProvider.overrideWith((ref) async => 293),
+            surasProvider.overrideWith((ref) async => _suras),
+          ],
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      expect(find.text('الكَهۡفِ · صفحة ٢٩٣'), findsOneWidget);
+      expect(find.text('متابعة القراءة'), findsOneWidget);
+      expect(find.text('متاح دون إنترنت'), findsOneWidget);
     });
 
     testWidgets('nothing shows before the first read or without a readable '

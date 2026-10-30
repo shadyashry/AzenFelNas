@@ -1,5 +1,6 @@
 import 'package:daily_muslim/features/home/domain/day_view.dart';
 import 'package:daily_muslim/features/home/domain/time_row_view.dart';
+import 'package:daily_muslim/features/home/presentation/clock_text.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
@@ -41,7 +42,7 @@ final class TimeRows extends StatelessWidget {
         for (final row in day.rows)
           TimeRow(
             eventName: DisplayStyle.eventName(l, row.event),
-            timeText: timeText(l, row),
+            timeText: ClockText.of(context, l, row, style).plain,
             label: row.confidence,
             locale: style.locale,
             digits: style.digits,

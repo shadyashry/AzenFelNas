@@ -25,6 +25,7 @@ final class RawdahNavBar extends StatelessWidget {
     required this.current,
     required this.labels,
     required this.onSelect,
+    this.labelStyle,
     this.qiblaBearingDeg,
     this.athanRing = AthanRing.unknown,
     super.key,
@@ -35,6 +36,10 @@ final class RawdahNavBar extends StatelessWidget {
 
   /// Localised labels.
   final RawdahTabLabels labels;
+
+  /// The labels' type (the language's navigation style, §15 D109); the
+  /// theme's text when `null`.
+  final TextStyle? labelStyle;
 
   /// Called with the tapped destination.
   final ValueChanged<RawdahTab> onSelect;
@@ -67,6 +72,7 @@ final class RawdahNavBar extends StatelessWidget {
                 child: _Destination(
                   tab: tab,
                   label: labels.of(tab),
+                  labelStyle: labelStyle,
                   selected: tab == current,
                   qiblaBearingDeg: qiblaBearingDeg,
                   athanRing: athanRing,
@@ -84,6 +90,7 @@ final class _Destination extends StatelessWidget {
   const new({
     required this.tab,
     required this.label,
+    required this.labelStyle,
     required this.selected,
     required this.qiblaBearingDeg,
     required this.athanRing,
@@ -92,6 +99,7 @@ final class _Destination extends StatelessWidget {
 
   final RawdahTab tab;
   final String label;
+  final TextStyle? labelStyle;
   final bool selected;
   final double? qiblaBearingDeg;
   final AthanRing athanRing;
@@ -135,12 +143,14 @@ final class _Destination extends StatelessWidget {
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: color,
-                    fontSize: DmScales.label.size - 1,
-                    height: 1.2,
-                    fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
-                  ),
+                  style:
+                      (labelStyle ??
+                              TextStyle(
+                                fontSize: DmScales.label.size - 1,
+                                height: 1.4,
+                                fontWeight: FontWeight.w500,
+                              ))
+                          .copyWith(color: color),
                 ),
                 const SizedBox(height: 4),
                 // A short gold bar under the chosen tab: the selection is

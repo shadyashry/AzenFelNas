@@ -97,6 +97,8 @@ final class HomeContentView extends ConsumerWidget {
     final style = DisplayStyle.of(context, ref);
     final light = ref.watch(hourLightProvider);
     final next = content.nextPrayer;
+    final type = DmType.of(style.locale);
+    final padding = DmScales.paddingFor(MediaQuery.sizeOf(context).width);
     // Light status bar icons over the hero (§15 D101).
     return AnnotatedRegion(
       value: DmTheme.statusBarOn(Brightness.dark),
@@ -105,12 +107,14 @@ final class HomeContentView extends ConsumerWidget {
         children: [
           HomeHourField(content: content, style: style, light: light),
           // The cream sheet rises over the hero's foot; the room this
-          // leaves at the end is only extra scroll space.
+          // leaves at the end is only extra scroll space. Order (§15 D109):
+          // the day's row, Continue Quran, then notices, the Athan and
+          // seven-day links and the full list with every confidence.
           Transform.translate(
             offset: const Offset(0, -HomeHourField.sheetOverlap),
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: RawdahScheme.of(context).ground,
+                color: RawdahScheme.of(context).panel,
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(DmScales.radiusSheet),
                 ),
@@ -119,25 +123,41 @@ final class HomeContentView extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(height: 18),
-                    const ContinueQuranCard(),
-                    const SizedBox(height: 12),
-                    _Panel(
+                    const SizedBox(height: DmScales.sectionGap),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: padding),
+                      child: Text(
+                        l.homeTitle,
+                        style: type.sectionHeading.copyWith(
+                          color: RawdahScheme.of(context).ink,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: DmScales.lineGap * 2),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: padding),
                       child: PrayerStrip(
                         day: content.day,
                         style: style,
                         next: next?.event,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: DmScales.sectionGap),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: padding),
+                      child: const ContinueQuranCard(),
+                    ),
+                    const SizedBox(height: DmScales.sectionGap),
                     const TravelBanner(),
                     const FastingCard(),
                     if (notice case final String text)
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+                        padding: EdgeInsets.fromLTRB(padding, 4, padding, 8),
                         child: Text(
                           text,
-                          style: Theme.of(context).textTheme.labelMedium,
+                          style: type.supporting.copyWith(
+                            color: RawdahScheme.of(context).inkMuted,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -158,33 +178,21 @@ final class HomeContentView extends ConsumerWidget {
                           AthanReadinessUnknown() => l.homeHealthUnknown,
                         },
                       },
+                      padding: padding,
                       onTap: () =>
                           context.go(AppTabBar.locationOf(RawdahTab.athan)),
                     ),
                     _Link(
                       icon: Icons.view_week_outlined,
                       text: l.timelineTitle,
+                      padding: padding,
                       onTap: () => context.push(const TimelineRoute().location),
                     ),
+                    const SizedBox(height: DmScales.sectionGap),
                     // Every time with its confidence, Imsak and Sunrise
-                    // too (US-05, REQ-UX-001): quieter than the strip.
-                    Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(
-                        20,
-                        18,
-                        20,
-                        8,
-                      ),
-                      child: Text(
-                        l.homeTitle,
-                        style: DmTheme.naskh(
-                          size: 22,
-                          color: RawdahScheme.of(context).primary,
-                          bold: true,
-                        ).copyWith(height: 1.2),
-                      ),
-                    ),
+                    // too (US-05, REQ-UX-001): quieter than the row.
                     _Panel(
+                      padding: padding,
                       child: TimeRows(
                         day: content.day,
                         style: style,
@@ -222,15 +230,16 @@ final class _Reading extends StatelessWidget {
 
 /// A cream card with a hairline and a soft green shadow (§15 D102).
 final class _Panel extends StatelessWidget {
-  const new({required this.child});
+  const new({required this.child, required this.padding});
 
   final Widget child;
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
     final r = RawdahScheme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: DmScales.gutter),
+      padding: EdgeInsets.symmetric(horizontal: padding),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: r.panel,
@@ -249,20 +258,23 @@ final class _Panel extends StatelessWidget {
 
 /// A shortcut row: a gold icon in a sage tile, the words, a chevron.
 final class _Link extends StatelessWidget {
-  const new({required this.icon, required this.text, required this.onTap});
+  const new({
+    required this.icon,
+    required this.text,
+    required this.onTap,
+    required this.padding,
+  });
 
   final IconData icon;
   final String text;
   final VoidCallback onTap;
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
     final r = RawdahScheme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: DmScales.gutter,
-        vertical: 5,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: padding, vertical: 5),
       child: Material(
         color: r.panel,
         shape: RoundedRectangleBorder(

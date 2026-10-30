@@ -32,8 +32,12 @@ final class AppTabBar extends ConsumerWidget {
     // The bar never starts the schedule itself (a deep link to Settings
     // must not compute prayer times); it follows it once Home has.
     final scheduled = ref.exists(scheduleProvider);
+    final arabic = Localizations.localeOf(context).languageCode == 'ar';
     return RawdahNavBar(
       current: current,
+      labelStyle: DmType.of(
+        arabic ? StatusLocale.ar : StatusLocale.en,
+      ).navLabel,
       labels: RawdahTabLabels(
         home: l.navHome,
         quran: l.navQuran,
