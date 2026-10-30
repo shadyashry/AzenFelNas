@@ -129,3 +129,18 @@ final FutureProvider<bool> quranFontProvider = FutureProvider((ref) async {
   if (installed == null) return false;
   return await QuranFont.load(installed);
 });
+
+/// The page the reader was last left on, for Home's "Continue Quran"
+/// (§15 D108); `null` before the first read. Re-read each time Home is
+/// built, so it follows the reader.
+final FutureProvider<int?> lastQuranPageProvider = FutureProvider.autoDispose(
+  (ref) => ref
+      .watch(readingPositionStoreProvider)
+      .readPosition(QuranEditionPin.layoutId),
+);
+
+/// The download's status as a plain value, for screens outside the Quran
+/// tab that only read it (Home's "Continue Quran", §15 D108).
+final Provider<QuranPackageStatus> quranStatusProvider = Provider(
+  (ref) => ref.watch(quranPackageProvider),
+);

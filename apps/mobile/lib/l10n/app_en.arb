@@ -252,6 +252,14 @@
   "@placeUse": {
     "description": "Coordinate entry: save button."
   },
+  "homeContinueQuran": "Continue Quran",
+  "@homeContinueQuran": {
+    "description": "Home: title of the card that reopens the Quran reader at the last page read."
+  },
+  "homeQuranResume": "Resume",
+  "@homeQuranResume": {
+    "description": "Home: the Continue Quran card's button; opens the reader at the last page read."
+  },
   "homeNextPrayer": "Next: {prayer}",
   "@homeNextPrayer": {
     "description": "Home: next prayer line.",

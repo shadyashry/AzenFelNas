@@ -458,6 +458,18 @@ abstract class AppLocalizations {
   /// **'Use this place'**
   String get placeUse;
 
+  /// Home: title of the card that reopens the Quran reader at the last page read.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Quran'**
+  String get homeContinueQuran;
+
+  /// Home: the Continue Quran card's button; opens the reader at the last page read.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get homeQuranResume;
+
   /// Home: next prayer line.
   ///
   /// In en, this message translates to:

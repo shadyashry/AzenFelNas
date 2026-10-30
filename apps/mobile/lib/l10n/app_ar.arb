@@ -60,6 +60,8 @@
   "placeName": "اسم المكان",
   "placeCoordinatesInvalid": "خط العرض من -90 لـ 90، وخط الطول من -180 لـ 180.",
   "placeUse": "استخدم المكان ده",
+  "homeContinueQuran": "كمّل قراءة القرآن",
+  "homeQuranResume": "كمّل",
   "homeNextPrayer": "الجاية: {prayer}",
   "homeCountdown": "بعد {hours} ساعة و{minutes} دقيقة",
   "homeNoNextPrayer": "مفيش صلاة تانية في الأيام الجاية",

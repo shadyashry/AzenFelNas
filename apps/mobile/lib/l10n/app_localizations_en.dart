@@ -203,6 +203,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get placeUse => 'Use this place';
 
   @override
+  String get homeContinueQuran => 'Continue Quran';
+
+  @override
+  String get homeQuranResume => 'Resume';
+
+  @override
   String homeNextPrayer(String prayer) {
     return 'Next: $prayer';
   }

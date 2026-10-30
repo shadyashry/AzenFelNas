@@ -10,6 +10,7 @@ import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/home_state.dart';
 import 'package:daily_muslim/features/home/presentation/prayer_strip.dart';
 import 'package:daily_muslim/features/home/presentation/time_rows.dart';
+import 'package:daily_muslim/features/quran/presentation/continue_quran_card.dart';
 import 'package:daily_muslim/features/shell/application/describe_failure.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
@@ -72,7 +73,8 @@ final class HomePage extends ConsumerWidget {
 }
 
 /// Today, the Horizon composition (§15 D105): the hero, then a cream sheet
-/// rising over its foot with the five-prayer schedule, notices, the way to
+/// rising over its foot with the Quran to continue (D108), the five-prayer
+/// schedule, notices, the way to
 /// Athan health and the coming days, and the full list with every time's
 /// confidence.
 final class HomeContentView extends ConsumerWidget {
@@ -118,6 +120,8 @@ final class HomeContentView extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 18),
+                    const ContinueQuranCard(),
+                    const SizedBox(height: 12),
                     _Panel(
                       child: PrayerStrip(
                         day: content.day,
