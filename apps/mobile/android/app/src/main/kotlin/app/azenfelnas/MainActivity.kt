@@ -1,5 +1,7 @@
 package app.azenfelnas
 
+import android.os.Build
+import android.os.Bundle
 import app.azenfelnas.athan.bridge.AthanCoreHost
 import app.azenfelnas.pigeon.AthanSchedulerApi
 import io.flutter.FlutterInjector
@@ -11,6 +13,15 @@ import java.io.FileNotFoundException
 import java.util.TimeZone
 
 class MainActivity : FlutterActivity() {
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    // Android 12+ keeps its splash until Flutter's first frame, which is the same picture (DESIGN.md section 15
+    // D106); its default exit fades the logo out first, so the splash goes at once instead.
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+      splashScreen.setOnExitAnimationListener { it.remove() }
+    }
+  }
+
   override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
     super.configureFlutterEngine(flutterEngine)
     HeadingStreamHandler.register(flutterEngine.dartExecutor.binaryMessenger, applicationContext)

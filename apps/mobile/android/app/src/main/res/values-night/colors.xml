@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Deep emerald (RawdahPalette.emeraldDeep), the dark launch background. -->
-    <color name="splash_background">#0E3B2A</color>
+    <!-- The approved logo's outer green (RawdahPalette.logoGround), as in light mode. -->
+    <color name="splash_background">#022E23</color>
 </resources>

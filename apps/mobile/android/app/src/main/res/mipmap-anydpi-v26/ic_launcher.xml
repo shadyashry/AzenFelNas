@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Adaptive launcher icon (DESIGN.md section 15 D89): the emerald girih field
-     behind the gilded mihrab with the Ruqaa words inside the safe zone. -->
+<!-- Adaptive launcher icon (DESIGN.md section 15 D106): the approved logo, whole,
+     inside the 66 dp safe circle on the logo's own green. -->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@mipmap/ic_launcher_background" />
     <foreground android:drawable="@mipmap/ic_launcher_foreground" />

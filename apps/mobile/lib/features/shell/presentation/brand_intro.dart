@@ -1,19 +1,23 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 
-/// The opening moment (§15 D100, D101), drawn over the whole screen: the
-/// native launch screen's deep emerald continues, a gold mihrab arch draws
-/// itself from both pillars up to its apex, the lamp at the apex lights and
-/// breathes, stars appear at the springing, the mark rises into the arch
-/// and a light sweeps across it, then the intro fades into the app. The app
-/// starts underneath at once; the intro holds, lamp lit, until the app is
-/// [ready] (at most [longestHold]), so it fades into content rather than a
-/// spinner. A tap skips it; it is hidden from screen readers. With reduced
-/// motion it is a short still fade.
+/// The opening moment (§15 D100, D101, D106), over the whole screen. The
+/// native launch screen shows the approved logo at [launchSide] on its own
+/// green; the intro's first frame is that same picture, held back until the
+/// logo is decoded, so nothing blinks or jumps. The logo then settles to
+/// [side] while one warm glow rises over the lantern and the sunrise and
+/// fades, and rests, still, until the app is [ready]; then the intro fades
+/// into it. If the app is still loading [loadingAfter] after the logo
+/// settled, a thin gold line says so; after [longestHold] the intro leaves
+/// anyway for the app's own loading and recovery states. The app starts
+/// underneath at once and keeps its place in the tree, so deep links and
+/// notification taps land while the intro plays. A tap skips it; it is
+/// hidden from screen readers. With reduced motion the logo stays still and
+/// the intro fades when the app is ready. It plays once per process: a
+/// resume does not replay it.
 final class BrandIntro extends StatefulWidget {
   /// The intro over [child], leaving once [ready].
   const new({required this.child, this.ready = true, super.key});
@@ -24,83 +28,156 @@ final class BrandIntro extends StatefulWidget {
   /// Whether the first screen has its content.
   final bool ready;
 
-  /// The longest the intro waits for [ready] after it has played.
+  /// The logo's side once settled, in logical pixels.
+  static const side = 180.0;
+
+  /// The logo's side on the native launch screens (97 % of [side]); the
+  /// launch images are made at this size by `tool/brand`.
+  static const launchSide = 175.0;
+
+  /// The settle and the glow.
+  static const motionDuration = Duration(milliseconds: 900);
+
+  /// The fade into the app.
+  static const exitDuration = Duration(milliseconds: 300);
+
+  /// The fade into the app with reduced motion, or when a tap skips.
+  static const quickExitDuration = Duration(milliseconds: 200);
+
+  /// How long the settled logo waits for [ready] before the loading line.
+  static const loadingAfter = Duration(seconds: 2);
+
+  /// The longest the settled logo waits for [ready].
   static const longestHold = Duration(seconds: 8);
 
-  /// How long the intro shows, fade-out included.
-  static const duration = Duration(milliseconds: 2600);
+  /// The longest the first frame waits for the logo to decode, and the
+  /// motion for that frame to reach the screen.
+  static const decodeWait = Duration(milliseconds: 400);
 
-  /// With reduced motion: the mark, still, then a fade.
-  static const reducedDuration = Duration(milliseconds: 700);
-
-  /// How long the fade takes when a tap skips the intro.
-  static const skipDuration = Duration(milliseconds: 250);
+  /// The intro's logo: the launch screens' picture, its plain edge faded.
+  static const asset = 'assets/brand/logo_launch.png';
 
   @override
   State<BrandIntro> createState() => _BrandIntroState();
 }
 
 final class _BrandIntroState extends State<BrandIntro>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _clock = AnimationController(vsync: this);
-  Timer? _hold;
-  bool _done = false;
+    with TickerProviderStateMixin {
+  late final AnimationController _motion = AnimationController(
+    vsync: this,
+    duration: BrandIntro.motionDuration,
+  );
+  late final AnimationController _exit = AnimationController(
+    vsync: this,
+    duration: BrandIntro.exitDuration,
+  );
+  final List<Timer> _timers = [];
   bool _started = false;
-
-  /// Played up to the fade, waiting for [BrandIntro.ready].
-  bool _waiting = false;
+  bool _frameDeferred = false;
+  bool _settled = false;
+  bool _loading = false;
+  bool _done = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
-    _clock.duration = MediaQuery.disableAnimationsOf(context)
-        ? BrandIntro.reducedDuration
-        : BrandIntro.duration;
-    _clock.addStatusListener((status) {
-      // animateTo reports `completed` at the hold too; only the end counts.
-      if (status == AnimationStatus.completed && _clock.value >= 1 && mounted) {
-        setState(() => _done = true);
-      }
-    });
-    _clock.animateTo(_Timeline.fadeFrom).whenCompleteOrCancel(() {
-      if (!mounted || _clock.value < _Timeline.fadeFrom) return;
-      setState(() => _waiting = true);
-      _hold = Timer(BrandIntro.longestHold, _leave);
-      if (widget.ready) _leave();
-    });
+    // The native launch screen stays until the logo can be drawn.
+    WidgetsBinding.instance.deferFirstFrame();
+    _frameDeferred = true;
+    unawaited(
+      Future.any([
+        precacheImage(const AssetImage(BrandIntro.asset), context),
+        Future<void>.delayed(BrandIntro.decodeWait),
+      ]).whenComplete(_begin),
+    );
   }
 
   @override
   void didUpdateWidget(BrandIntro old) {
     super.didUpdateWidget(old);
-    if (_waiting && widget.ready && !old.ready) _leave();
+    if (_settled && widget.ready && !old.ready) _leave();
   }
 
   @override
   void dispose() {
-    _hold?.cancel();
-    _clock.dispose();
+    _allowFirstFrame();
+    _cancelTimers();
+    _motion.dispose();
+    _exit.dispose();
     super.dispose();
   }
 
-  /// Fades into the app.
-  void _leave() {
-    _hold?.cancel();
-    if (_clock.isAnimating && _clock.value >= _Timeline.fadeFrom) return;
-    _clock.animateTo(1);
+  void _allowFirstFrame() {
+    if (!_frameDeferred) return;
+    _frameDeferred = false;
+    WidgetsBinding.instance.allowFirstFrame();
   }
 
-  /// Runs the rest of the intro as a quick fade.
+  void _cancelTimers() {
+    for (final timer in _timers) {
+      timer.cancel();
+    }
+    _timers.clear();
+  }
+
+  void _begin() {
+    _allowFirstFrame();
+    // The motion starts once the first frame, the launch picture, is on
+    // screen, so it starts from the launch size rather than part-way; at
+    // the latest [BrandIntro.decodeWait] later.
+    unawaited(
+      Future.any([
+        WidgetsBinding.instance.waitUntilFirstFrameRasterized,
+        Future<void>.delayed(BrandIntro.decodeWait),
+      ]).then((_) {
+        if (!mounted || _exit.status != AnimationStatus.dismissed) return;
+        if (MediaQuery.disableAnimationsOf(context)) {
+          _settle();
+          return;
+        }
+        _motion.forward().whenCompleteOrCancel(() {
+          if (mounted && _motion.isCompleted) _settle();
+        });
+      }),
+    );
+  }
+
+  void _settle() {
+    _settled = true;
+    if (widget.ready) {
+      _leave();
+      return;
+    }
+    _timers
+      ..add(
+        Timer(BrandIntro.loadingAfter, () {
+          if (mounted) setState(() => _loading = true);
+        }),
+      )
+      ..add(Timer(BrandIntro.longestHold, _leave));
+  }
+
+  /// Fades into the app.
+  void _leave({bool quick = false}) {
+    _cancelTimers();
+    if (!mounted || _exit.status != AnimationStatus.dismissed) return;
+    if (quick || MediaQuery.disableAnimationsOf(context)) {
+      _exit.duration = BrandIntro.quickExitDuration;
+    }
+    _exit.forward().whenCompleteOrCancel(() {
+      if (mounted && _exit.isCompleted) setState(() => _done = true);
+    });
+  }
+
   void _skip() {
-    _hold?.cancel();
-    _clock.animateTo(1, duration: BrandIntro.skipDuration);
+    _motion.stop();
+    _leave(quick: true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final still = MediaQuery.disableAnimationsOf(context);
     // The app keeps its place in the tree when the intro leaves, so none of
     // its state is rebuilt.
     return Stack(
@@ -112,23 +189,18 @@ final class _BrandIntroState extends State<BrandIntro>
             behavior: HitTestBehavior.opaque,
             onTap: _skip,
             child: ExcludeSemantics(
-              // Light status bar icons over the emerald (§15 D101).
+              // Light status bar icons over the green (§15 D101).
               child: AnnotatedRegion(
                 value: DmTheme.statusBarOn(Brightness.dark),
-                child: AnimatedBuilder(
-                  animation: _clock,
-                  builder: (context, _) {
-                    final t = still ? 1.0 : _clock.value;
-                    final fade = _Timeline.span(
-                      _clock.value,
-                      _Timeline.fadeFrom,
-                      1,
-                    );
-                    return Opacity(
-                      opacity: 1 - Curves.easeIn.transform(fade),
-                      child: _Stage(t: t, waiting: _waiting && fade == 0),
-                    );
-                  },
+                child: FadeTransition(
+                  opacity: ReverseAnimation(
+                    CurvedAnimation(parent: _exit, curve: Curves.easeOut),
+                  ),
+                  child: AnimatedBuilder(
+                    animation: _motion,
+                    builder: (context, _) =>
+                        _Stage(t: _motion.value, loading: _loading),
+                  ),
                 ),
               ),
             ),
@@ -138,85 +210,77 @@ final class _BrandIntroState extends State<BrandIntro>
   }
 }
 
-/// Where each part of the intro starts and ends, as fractions of it.
-abstract final class _Timeline {
-  /// Where the fade into the app starts.
-  static const fadeFrom = 0.86;
-
-  /// 0 before [from], 1 after [to], linear between.
-  static double span(double t, double from, double to) =>
-      ((t - from) / (to - from)).clamp(0.0, 1.0);
-}
-
-/// The whole-screen stage at [t] (0 → 1); [waiting] while the app loads.
+/// The whole-screen stage at motion [t] (0 → 1); [loading] once the app
+/// has kept the settled logo waiting.
 final class _Stage extends StatelessWidget {
-  const new({required this.t, required this.waiting});
+  const new({required this.t, required this.loading});
 
   final double t;
-  final bool waiting;
+  final bool loading;
+
+  /// 0 before [from], 1 after [to], linear between.
+  static double _span(double t, double from, double to) =>
+      ((t - from) / (to - from)).clamp(0.0, 1.0);
 
   @override
   Widget build(BuildContext context) {
-    final pattern = Curves.easeOut.transform(_Timeline.span(t, 0, 0.35));
-    final rise = Curves.easeOutBack.transform(_Timeline.span(t, 0.3, 0.62));
-    final sweep = _Timeline.span(t, 0.58, 0.84);
-    final line = Curves.easeInOut.transform(_Timeline.span(t, 0.1, 0.86));
     final size = MediaQuery.sizeOf(context);
-    final markWidth = math.min<double>(size.width * 0.58, 300);
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        gradient: RadialGradient(
-          center: Alignment(0, -0.2),
-          radius: 1.2,
-          colors: [Color(0xFF1C6646), RawdahPalette.emeraldDeep],
-        ),
-      ),
+    // Centred on the whole screen, as the launch screens are; smaller only
+    // where a screen could not hold it.
+    final side = math.min(BrandIntro.side, size.shortestSide * 0.6);
+    final settle = Curves.easeOutCubic.transform(_span(t, 0, 0.78));
+    const from = BrandIntro.launchSide / BrandIntro.side;
+    // One warm glow: up by 0.55, gone by the end, the logo still and crisp.
+    final glow = t < 0.55
+        ? Curves.easeOut.transform(_span(t, 0.15, 0.55))
+        : 1 - Curves.easeInOut.transform(_span(t, 0.55, 1));
+    return ColoredBox(
+      color: RawdahPalette.logoGround,
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // The girih settles in from a little larger.
-          Opacity(
-            opacity: 0.55 * pattern,
+          Center(
             child: Transform.scale(
-              scale: 1.12 - 0.12 * pattern,
-              child: const GirihBackdrop(
-                ground: Colors.transparent,
-                ink: RawdahPalette.gold,
-                child: SizedBox.expand(),
-              ),
-            ),
-          ),
-          CustomPaint(painter: _ArchPainter(t)),
-          Align(
-            alignment: const Alignment(0, 0.12),
-            child: Opacity(
-              opacity: _Timeline.span(t, 0.3, 0.5),
-              child: Transform.translate(
-                offset: Offset(0, 40 * (1 - rise)),
-                child: Transform.scale(
-                  scale: 0.8 + 0.2 * rise,
-                  child: _Sweep(
-                    at: sweep,
-                    child: Image.asset(
-                      'assets/brand/logo.png',
-                      width: markWidth,
+              scale: from + (1 - from) * settle,
+              child: SizedBox.square(
+                dimension: side,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      BrandIntro.asset,
+                      width: side,
+                      height: side,
+                      gaplessPlayback: true,
                     ),
-                  ),
+                    if (glow > 0)
+                      IgnorePointer(
+                        child: CustomPaint(painter: _GlowPainter(glow)),
+                      ),
+                  ],
                 ),
               ),
             ),
           ),
-          Align(
-            alignment: const Alignment(0, 0.86),
-            child: SizedBox(
-              width: math.min(size.width * 0.4, 180),
-              child: LinearProgressIndicator(
-                // Still loading: the line keeps moving.
-                value: waiting ? null : line,
-                minHeight: 2,
-                borderRadius: BorderRadius.circular(1),
-                backgroundColor: RawdahPalette.goldDeep.withValues(alpha: 0.35),
-                color: RawdahPalette.goldLight,
+          Center(
+            child: Transform.translate(
+              offset: Offset(0, side / 2 + 40),
+              child: AnimatedOpacity(
+                opacity: loading ? 1 : 0,
+                duration: const Duration(milliseconds: 300),
+                child: SizedBox(
+                  width: math.min(size.width * 0.3, 120),
+                  child: loading
+                      ? LinearProgressIndicator(
+                          minHeight: 2,
+                          borderRadius: BorderRadius.circular(1),
+                          backgroundColor: RawdahPalette.goldDeep.withValues(
+                            alpha: 0.35,
+                          ),
+                          color: RawdahPalette.goldLight,
+                        )
+                      : const SizedBox(height: 2),
+                ),
               ),
             ),
           ),
@@ -226,164 +290,46 @@ final class _Stage extends StatelessWidget {
   }
 }
 
-/// A band of light crossing [child] once as [at] runs 0 → 1.
-final class _Sweep extends StatelessWidget {
-  const new({required this.at, required this.child});
+/// Warm light over the logo's lantern and sunrise at [strength] (0 → 1),
+/// screened onto the picture so it only brightens; both pools sit well
+/// inside the logo's square, clear of its edge and mostly of the letters.
+final class _GlowPainter extends CustomPainter {
+  new(this.strength);
 
-  final double at;
-  final Widget child;
+  final double strength;
 
-  @override
-  Widget build(BuildContext context) {
-    if (at <= 0 || at >= 1) return child;
-    final centre = -0.4 + 1.8 * at;
-    return ShaderMask(
-      blendMode: BlendMode.srcATop,
-      shaderCallback: (bounds) => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Colors.transparent,
-          RawdahPalette.ivory.withValues(alpha: 0.55),
-          Colors.transparent,
-        ],
-        stops: [
-          (centre - 0.15).clamp(0.0, 1.0),
-          centre.clamp(0.0, 1.0),
-          (centre + 0.15).clamp(0.0, 1.0),
-        ],
-      ).createShader(bounds),
-      child: child,
-    );
-  }
-}
-
-/// The full-screen mihrab at [t]: the arch drawn up from both pillars, the
-/// lamp lit at its apex, stars at the springing.
-final class _ArchPainter extends CustomPainter {
-  new(this.t);
-
-  final double t;
+  /// Where the lantern and the sunrise sit in the logo, as fractions of it.
+  static const _lantern = Offset(0.5, 0.23);
+  static const _sunrise = Offset(0.5, 0.845);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final draw = Curves.easeInOutCubic.transform(_Timeline.span(t, 0.05, 0.55));
-    final glow = _Timeline.span(t, 0.45, 0.6);
-    final stars = Curves.easeOutBack.transform(_Timeline.span(t, 0.5, 0.72));
-
-    final margin = size.width * 0.1;
-    final left = margin;
-    final right = size.width - margin;
-    final bottom = size.height * 0.9;
-    final spring = size.height * 0.36;
-    final apex = Offset(size.width / 2, size.height * 0.1);
-    final halfWidth = (right - left) / 2;
-
-    // Each half from its pillar's foot, up the pillar, then the curve to
-    // the apex; both are drawn at once and meet at the top.
-    Path half(double side) {
-      final x = size.width / 2 + side * halfWidth;
-      return Path()
-        ..moveTo(x, bottom)
-        ..lineTo(x, spring)
-        ..cubicTo(
-          x,
-          spring - (spring - apex.dy) * 0.55,
-          apex.dx + side * halfWidth * 0.18,
-          apex.dy + (spring - apex.dy) * 0.25,
-          apex.dx,
-          apex.dy,
-        );
-    }
-
-    final outer = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3
-      ..strokeCap = StrokeCap.round
-      ..shader = const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          RawdahPalette.goldLight,
-          RawdahPalette.gold,
-          RawdahPalette.goldDeep,
-        ],
-      ).createShader(Offset.zero & size);
-    final inner = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1
-      ..color = RawdahPalette.goldLight.withValues(alpha: 0.6);
-
-    for (final side in const [-1.0, 1.0]) {
-      canvas.drawPath(_part(half(side), draw), outer);
-      final inset = Matrix4.identity()
-        ..translateByDouble(size.width / 2, apex.dy, 0, 1)
-        ..scaleByDouble(0.93, 0.97, 1, 1)
-        ..translateByDouble(-size.width / 2, -apex.dy + 14, 0, 1);
-      canvas.drawPath(
-        _part(half(side).transform(inset.storage), draw),
-        inner,
-      );
-    }
-
-    // The base line joins the pillars once they stand.
-    if (draw > 0) {
-      canvas.drawLine(
-        Offset(size.width / 2 - halfWidth * draw, bottom),
-        Offset(size.width / 2 + halfWidth * draw, bottom),
-        outer,
-      );
-    }
-
-    if (glow > 0) {
-      // The lamp hangs from the apex and breathes once lit.
-      final breathe = 0.85 + 0.15 * math.sin(t * math.pi * 6);
-      final lamp = apex + Offset(0, (spring - apex.dy) * 0.42);
+    void pool(Offset at, double radius, double squash, double alpha) {
+      final centre = Offset(at.dx * size.width, at.dy * size.height);
+      final r = radius * size.width;
       canvas
-        ..drawLine(
-          apex,
-          lamp - const Offset(0, 10),
-          Paint()
-            ..color = RawdahPalette.gold.withValues(alpha: glow)
-            ..strokeWidth = 1.2,
-        )
+        ..save()
+        ..translate(centre.dx, centre.dy)
+        ..scale(1, squash)
         ..drawCircle(
-          lamp,
-          90 * breathe,
+          Offset.zero,
+          r,
           Paint()
-            ..shader = ui.Gradient.radial(lamp, 90 * breathe, [
-              RawdahPalette.goldLight.withValues(alpha: 0.45 * glow),
-              RawdahPalette.goldLight.withValues(alpha: 0),
-            ]),
+            ..blendMode = BlendMode.screen
+            ..shader = RadialGradient(
+              colors: [
+                RawdahPalette.goldLight.withValues(alpha: alpha * strength),
+                RawdahPalette.goldLight.withValues(alpha: 0),
+              ],
+            ).createShader(Rect.fromCircle(center: Offset.zero, radius: r)),
         )
-        ..drawCircle(
-          lamp,
-          9,
-          Paint()..color = RawdahPalette.ivory.withValues(alpha: glow),
-        );
+        ..restore();
     }
 
-    if (stars > 0) {
-      final star = Paint()..color = RawdahPalette.gold;
-      for (final x in [left, right]) {
-        canvas.drawPath(
-          OrnamentPaths.star(Offset(x, spring), 11 * stars),
-          star,
-        );
-      }
-      canvas.drawPath(OrnamentPaths.star(apex, 13 * stars), star);
-    }
-  }
-
-  /// The first [fraction] of [path], along its length.
-  static Path _part(Path path, double fraction) {
-    final out = Path();
-    for (final metric in path.computeMetrics()) {
-      out.addPath(metric.extractPath(0, metric.length * fraction), Offset.zero);
-    }
-    return out;
+    pool(_lantern, 0.15, 1, 0.32);
+    pool(_sunrise, 0.16, 0.45, 0.28);
   }
 
   @override
-  bool shouldRepaint(_ArchPainter old) => old.t != t;
+  bool shouldRepaint(_GlowPainter old) => old.strength != strength;
 }

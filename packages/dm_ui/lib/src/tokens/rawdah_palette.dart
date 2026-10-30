@@ -20,6 +20,10 @@ abstract final class RawdahPalette {
   /// Deep green of the navigation bar and strong-contrast fields.
   static const Color emeraldDeep = Color(0xFF062E25);
 
+  /// The approved logo's outer green (§15 D106): the native launch screens
+  /// and the opening intro, so the logo's edge meets its own ground.
+  static const Color logoGround = Color(0xFF022E23);
+
   /// Pale sage surface, for selection washes and quiet tiles.
   static const Color sage = Color(0xFFE3EBDD);
 

@@ -49,10 +49,16 @@ final class OnboardingPage extends ConsumerWidget {
               hero: Semantics(
                 image: true,
                 label: l.appTitle,
-                child: Image.asset(
-                  'assets/brand/logo.png',
-                  height: 210,
-                  excludeFromSemantics: true,
+                // The approved logo, whole, as a tile; the rounding takes
+                // only plain green corners (§15 D106).
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(44),
+                  child: Image.asset(
+                    'assets/brand/logo.png',
+                    height: 200,
+                    width: 200,
+                    excludeFromSemantics: true,
+                  ),
                 ),
               ),
               title: l.onboardingWelcomeTitle,

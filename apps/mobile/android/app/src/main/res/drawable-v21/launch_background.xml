@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Launch splash (DESIGN.md section 15 D89): the mihrab logo centred on pearl,
-     deep emerald in dark mode. -->
+<!-- Launch window, Android 8-11 (DESIGN.md section 15 D106): the approved logo at
+     175 dp, its plain edge faded into the logo's own green; the in-app intro opens
+     on the same picture. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/splash_background" />
     <item>
