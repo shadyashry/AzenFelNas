@@ -1268,23 +1268,191 @@ abstract class AppLocalizations {
   /// **'Test again'**
   String get athanTestAgain;
 
-  /// Sound choice title.
-  ///
-  /// In en, this message translates to:
-  /// **'Athan sound'**
-  String get athanSound;
-
-  /// Sound choice when the manifest is empty.
-  ///
-  /// In en, this message translates to:
-  /// **'No Athan sounds are installed yet'**
-  String get athanNoSounds;
-
   /// Name of a bundled test Athan sound on dev and lab builds (§15 D94, D95).
   ///
   /// In en, this message translates to:
   /// **'Test Athan (not for release)'**
   String get athanSoundTest;
+
+  /// Title of the Athan voice choice (§15 D111).
+  ///
+  /// In en, this message translates to:
+  /// **'Athan voice'**
+  String get athanVoice;
+
+  /// Title of the Fajr voice choice (REQ-ALM-052).
+  ///
+  /// In en, this message translates to:
+  /// **'Fajr Athan voice'**
+  String get athanFajrVoice;
+
+  /// Fajr choice that follows the Athan voice.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as the Athan voice'**
+  String get athanVoiceSameAsAthan;
+
+  /// The device alarm tone as a voice choice (§15 D79).
+  ///
+  /// In en, this message translates to:
+  /// **'Phone alarm tone'**
+  String get athanVoiceDevice;
+
+  /// Under the alarm tone choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Always on the phone, no download'**
+  String get athanVoiceDeviceNote;
+
+  /// Name of a chosen sound this build no longer has.
+  ///
+  /// In en, this message translates to:
+  /// **'A voice that is no longer offered'**
+  String get athanVoiceUnavailable;
+
+  /// Shown when the chosen voice's file is gone (REQ-ALM-053).
+  ///
+  /// In en, this message translates to:
+  /// **'{missing} is not on this phone any more, so {fallback} plays instead. Download it again to bring it back.'**
+  String athanVoiceMissing(String missing, String fallback);
+
+  /// Heading of the downloadable voices.
+  ///
+  /// In en, this message translates to:
+  /// **'Voices to download'**
+  String get athanVoicesDownloadable;
+
+  /// Footnote of the voice choices (REQ-ALM-054).
+  ///
+  /// In en, this message translates to:
+  /// **'A downloaded voice plays from the phone itself: the Athan and the preview need no internet.'**
+  String get athanVoicesOffline;
+
+  /// Platform limits of downloaded voices (§15 D111).
+  ///
+  /// In en, this message translates to:
+  /// **'On Android the whole Athan plays until it ends or you tap Stop. Downloaded voices are not on iPhone yet.'**
+  String get athanVoicesPlatformNote;
+
+  /// When the catalog offers nothing on this build.
+  ///
+  /// In en, this message translates to:
+  /// **'No voices to download yet.'**
+  String get athanVoicesNone;
+
+  /// A voice the source names a Fajr Athan.
+  ///
+  /// In en, this message translates to:
+  /// **'Fajr Athan'**
+  String get athanVoiceKindFajr;
+
+  /// A voice for every prayer.
+  ///
+  /// In en, this message translates to:
+  /// **'Athan'**
+  String get athanVoiceKindAthan;
+
+  /// A voice whose listening review is pending (dev and lab only, REQ-ALM-050).
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet listened to in full: for testing only'**
+  String get athanVoiceReviewPending;
+
+  /// Licence and the creator the source names; opens the licences page.
+  ///
+  /// In en, this message translates to:
+  /// **'{licence} · {creator}'**
+  String athanVoiceCredit(String licence, String creator);
+
+  /// A downloaded voice.
+  ///
+  /// In en, this message translates to:
+  /// **'On this phone'**
+  String get athanVoiceOnPhone;
+
+  /// Starts a voice download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get athanVoiceDownload;
+
+  /// Progress bar label.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading'**
+  String get athanVoiceDownloading;
+
+  /// Cancels a voice download; the bytes are kept.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop download'**
+  String get athanVoiceCancel;
+
+  /// Retries a failed voice download.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get athanVoiceRetry;
+
+  /// Plays a downloaded voice.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen'**
+  String get athanVoicePreview;
+
+  /// Stops the preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get athanVoiceStop;
+
+  /// Deletes a downloaded voice.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from phone'**
+  String get athanVoiceRemove;
+
+  /// Screen reader label of the chosen voice.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected'**
+  String get athanVoiceSelected;
+
+  /// Voice download failed offline.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet. Try again when you are connected; what downloaded is kept.'**
+  String get athanVoiceFailOffline;
+
+  /// The CDN refused the voice.
+  ///
+  /// In en, this message translates to:
+  /// **'The voice could not be downloaded right now. Try again later.'**
+  String get athanVoiceFailServer;
+
+  /// Not enough free space.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough space on the phone: {size} needed.'**
+  String athanVoiceFailSpace(String size);
+
+  /// Size or SHA-256 mismatch (REQ-ALM-051).
+  ///
+  /// In en, this message translates to:
+  /// **'The download arrived damaged and was deleted. Try again.'**
+  String get athanVoiceFailIntegrity;
+
+  /// Write, rename or alarm-player copy failed.
+  ///
+  /// In en, this message translates to:
+  /// **'The voice could not be saved on this phone.'**
+  String get athanVoiceFailStorage;
+
+  /// After Stop download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download stopped; it continues where it left off.'**
+  String get athanVoiceFailCancelled;
 
   /// Title of the per-prayer Athan switches (§15 D95).
   ///

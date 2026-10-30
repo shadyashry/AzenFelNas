@@ -51,6 +51,11 @@ final athanSoundSettingProvider = StreamProvider<String?>(
   (ref) => ref.watch(watchSettingProvider).watch(AppSettings.soundId),
 );
 
+/// The chosen Fajr sound id (null follows the Athan sound, REQ-ALM-052).
+final fajrSoundSettingProvider = StreamProvider<String?>(
+  (ref) => ref.watch(watchSettingProvider).watch(AppSettings.fajrSoundId),
+);
+
 /// The pre-reminder in minutes (REQ-ALM-042).
 final preReminderSettingProvider = StreamProvider<int>(
   (ref) =>

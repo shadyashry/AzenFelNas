@@ -11,11 +11,15 @@ Placeholder created in slice S01. This file is **generated per release** (`DESIG
 | GeoNames `cities15000` + alternate names (`gazetteer`; read from the `geonamescache` 3.0.2 wheel from S12, §15 D72) | CC BY 4.0 | attribution ("Contains data from GeoNames, geonames.org, CC BY 4.0") on the attribution screen |
 | IANA tz database and `zic` (`tzdata`; release 2026e from S10, pinned in `data-pipelines/config/tzdata.v1.toml`) | Public domain | — |
 
-## Athan audio (bundled in `apps/mobile/assets/athan/`)
+## Athan audio
+
+No recording is bundled (`apps/mobile/assets/athan/athan_audio_manifest.json` lists none). The earlier test sound `test_cc0_adhan.m4a` (Commons `File:Beautiful_adhan.ogg`) was removed in S43: its uploader is a blocked sock-puppet account of a user whose other Athan upload was deleted as "not a recording of own voice" (`DESIGN.md` §15 D111).
+
+Downloadable voices (not bundled; downloaded after install from `cdn.azenfelnas.app`, listed in `apps/mobile/assets/athan/voice_catalog.json`, built by `dm-pipelines athan-voices`; `DESIGN.md` §15 D111):
 
 | Source | Licence | Obligation |
 |---|---|---|
-| `test_cc0_adhan.m4a`: Wikimedia Commons `File:Beautiful_adhan.ogg` by Adam-synagda (own work, 2022-04-29), trimmed, normalised and re-encoded | CC0 1.0 | none; a **test sound**, offered on `dev` and `lab` only and removed before 1.0.0 (`DESIGN.md` §15 D94). Licensed recordings follow `docs/release/athan-audio-licensing.md` (D93) |
+| `malmo_fajr_2012.m4a`: Fajr Athan from the video "Eid al-Fitr Fajr azan at Malmö Mosque - 19 August 2012" by Islamic Center Malmö (YouTube `0IHfm4Y82xA`), via Wikimedia Commons (uploaded by Rafic.Mufid; licence confirmed by Commons' YouTube review). Audio taken from the video, first 4.5 s of silence removed, −2.2 dB to −16 LUFS, AAC-LC 96 kbps | CC BY 3.0 | attribution with source, licence link and the notice of changes, in the app's licences page and beside the voice; no endorsement implied. Offered on `dev` and `lab` only until the listening review passes. The app's code licence is unaffected |
 
 ## Accuracy Lab (development only, not shipped in the app)
 

@@ -122,7 +122,9 @@ final class BuildSchedulePlan {
       ScheduleEntryKind.athan => (
         AthanText(event),
         1,
-        request.preferences.soundId,
+        event == PrayerEvent.fajr
+            ? request.preferences.fajrSoundId
+            : request.preferences.soundId,
       ),
       ScheduleEntryKind.imsak => (const ImsakText(), 2, notificationSoundId),
       ScheduleEntryKind.preReminder => (

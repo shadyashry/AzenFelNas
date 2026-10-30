@@ -129,8 +129,9 @@ void main() {
       );
     });
 
-    test('the chosen sound while bundled, else the first bundled one, else '
-        'the device alarm', () {
+    test('REQ-ALM-053 the chosen sound while on the phone; until the user '
+        'chooses the first one, else the device alarm; a chosen sound that '
+        'is gone plays the device alarm, never another recording', () {
       AthanPreferences prefs(String? chosen, List<String> sounds) =>
           AthanPreferences.ofSettings(
             enabled: const {},
@@ -141,12 +142,48 @@ void main() {
           );
 
       expect(prefs('rifaat', ['ali', 'rifaat']).soundId, 'rifaat');
-      expect(prefs('gone', ['ali', 'rifaat']).soundId, 'ali');
+      expect(prefs(null, ['ali', 'rifaat']).soundId, 'ali');
+      expect(
+        prefs('gone', ['ali', 'rifaat']).soundId,
+        AthanPreferences.deviceAlarmSoundId,
+      );
       expect(
         prefs(null, const []).soundId,
         AthanPreferences.deviceAlarmSoundId,
       );
+      expect(
+        prefs(AthanPreferences.deviceAlarmSoundId, ['ali']).soundId,
+        AthanPreferences.deviceAlarmSoundId,
+      );
     });
+
+    test(
+      'REQ-ALM-052 Fajr plays its own voice while it is on the phone, '
+      'else the Athan sound; a Fajr-only voice never plays for the Athan',
+      () {
+        AthanPreferences prefs(String? athan, String? fajr) =>
+            AthanPreferences.ofSettings(
+              enabled: const {},
+              soundId: athan,
+              sounds: const ['ali'],
+              fajrSoundId: fajr,
+              fajrSounds: const ['malmo_fajr'],
+              preReminderMinutes: 0,
+              locale: PlanLocale.en,
+            );
+
+        expect(prefs('ali', null).fajrSoundId, 'ali');
+        expect(prefs('ali', 'malmo_fajr').fajrSoundId, 'malmo_fajr');
+        expect(prefs('ali', 'malmo_fajr').soundId, 'ali');
+        // REQ-ALM-053: the chosen Fajr voice is gone, the Athan sound plays.
+        expect(prefs('ali', 'gone').fajrSoundId, 'ali');
+        // A Fajr-only voice chosen as the Athan sound is not offered there.
+        expect(
+          prefs('malmo_fajr', null).soundId,
+          AthanPreferences.deviceAlarmSoundId,
+        );
+      },
+    );
 
     test('REQ-ALM-042 an allowed pre-reminder is kept and any other value '
         'is off', () {

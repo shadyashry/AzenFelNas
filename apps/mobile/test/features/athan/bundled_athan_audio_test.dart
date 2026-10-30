@@ -20,8 +20,8 @@ void main() {
 
   group('Bundled Athan audio (§15 D93, D94)', () {
     test('every bundled sound file exists and matches its manifest sha256', () {
+      // None is bundled since S43 (§15 D111); any that returns is checked.
       final sounds = _manifest().sounds;
-      expect(sounds, isNotEmpty);
       for (final sound in sounds) {
         final file = File('assets/${sound.file}');
         expect(file.existsSync(), isTrue, reason: sound.file);

@@ -2,7 +2,10 @@ package app.azenfelnas
 
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import app.azenfelnas.athan.bridge.AthanCoreHost
+import app.azenfelnas.athan.bridge.AthanVoiceHost
 import app.azenfelnas.pigeon.AthanSchedulerApi
 import io.flutter.FlutterInjector
 import io.flutter.embedding.android.FlutterActivity
@@ -45,6 +48,53 @@ class MainActivity : FlutterActivity() {
       AthanSchedulerHost(core, Dispatchers.IO),
     )
     Thread({ installBundledAudio(core) }, "athan-audio-install").start()
+    registerVoiceAudio(flutterEngine, AthanVoiceHost(applicationContext))
+  }
+
+  /**
+   * `dm/athan_audio` (DESIGN.md section 15 D111): downloaded voices are copied off the main thread to where the alarm
+   * service plays them; previews start and stop on the main thread, and the end of one is reported back to Dart.
+   */
+  private fun registerVoiceAudio(
+    flutterEngine: FlutterEngine,
+    voices: AthanVoiceHost,
+  ) {
+    val channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dm/athan_audio")
+    val main = Handler(Looper.getMainLooper())
+    channel.setMethodCallHandler { call, result ->
+      val soundId = call.argument<String>("soundId")
+      val path = call.argument<String>("path")
+      val sha256 = call.argument<String>("sha256")
+      when (call.method) {
+        "install" ->
+          if (soundId != null && path != null && sha256 != null) {
+            Thread({
+              val ok = voices.install(soundId, path, sha256)
+              main.post { result.success(ok) }
+            }, "athan-voice-install").start()
+          } else {
+            result.success(false)
+          }
+        "remove" ->
+          if (soundId != null) {
+            Thread({
+              val ok = voices.remove(soundId)
+              main.post { result.success(ok) }
+            }, "athan-voice-remove").start()
+          } else {
+            result.success(false)
+          }
+        "preview" ->
+          result.success(
+            path != null && voices.preview(path) { main.post { channel.invokeMethod("previewEnded", null) } },
+          )
+        "stopPreview" -> {
+          voices.stopPreview()
+          result.success(true)
+        }
+        else -> result.notImplemented()
+      }
+    }
   }
 
   /**

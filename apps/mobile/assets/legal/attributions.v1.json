@@ -42,6 +42,12 @@
       "name": "Tanzil.net Quran metadata",
       "licence": "CC-BY-3.0",
       "notice": "Juz boundaries from the Tanzil Quran metadata (tanzil.net), CC BY 3.0, checked against the Complex's text; the English surah names were checked against its transliterated names."
+    },
+    {
+      "package": "athan_voices",
+      "name": "Fajr Athan, Islamic Center Malmö, Eid al-Fitr 2012",
+      "licence": "CC-BY-3.0",
+      "notice": "Downloadable Athan voice “Islamic Center Malmö, Eid al-Fitr 2012”: from the video “Eid al-Fitr Fajr azan at Malmö Mosque - 19 August 2012” by Islamic Center Malmö (youtube.com/watch?v=0IHfm4Y82xA), via Wikimedia Commons (commons.wikimedia.org/wiki/File:Eid_al-Fitr_Fajr_azan_at_Malm%C3%B6_Mosque_-_19_August_2012.webm), licensed under Creative Commons Attribution 3.0 (creativecommons.org/licenses/by/3.0/). Changed: audio track taken from the video; the first 4.5 s (silence) removed; volume lowered 2.2 dB to -16 LUFS; encoded AAC-LC 96 kbps. Nothing else changed. No endorsement by the creator is implied."
     }
   ]
 }

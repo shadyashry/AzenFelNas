@@ -7,7 +7,11 @@ import 'package:daily_muslim/features/athan/application/reconcile_schedule_plan.
 import 'package:daily_muslim/features/athan/application/record_athan_test_result.dart';
 import 'package:daily_muslim/features/athan/data/arb_plan_texts.dart';
 import 'package:daily_muslim/features/athan/data/asset_athan_sounds.dart';
+import 'package:daily_muslim/features/athan/data/asset_voice_catalog.dart';
+import 'package:daily_muslim/features/athan/data/channel_voice_audio.dart';
 import 'package:daily_muslim/features/athan/data/event_log_last_test.dart';
+import 'package:daily_muslim/features/athan/data/http_voice_origin.dart';
+import 'package:daily_muslim/features/athan/data/io_voice_disk.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_arm_athan_test.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_drain_native_events.dart';
 import 'package:daily_muslim/features/athan/data/pigeon_platform_health.dart';
@@ -16,6 +20,7 @@ import 'package:daily_muslim/features/athan/data/pigeon_write_widget_snapshot.da
 import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_plan_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
+import 'package:daily_muslim/features/athan/presentation/athan_voice_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/widget_snapshot_providers.dart';
 import 'package:daily_muslim/features/contexts/application/context_use_cases.dart';
 import 'package:daily_muslim/features/contexts/application/follow_device_location.dart';
@@ -114,6 +119,7 @@ abstract final class AppBindings {
     RunPayloadWork runPayloadWork = Isolate.run,
     QuranNotesDatabase? quranNotes,
     ReadFreeSpace freeSpace = const ChannelFreeSpace(),
+    ChannelVoiceAudio? voiceAudio,
   }) {
     final settings = DriftSettingsStore(databases.dm);
     final eventLog = DriftEventLog(databases.dm);
@@ -219,6 +225,11 @@ abstract final class AppBindings {
           },
         ),
       ),
+      ..._voices(
+        assets: assets,
+        root: Directory('${blobRoot.parent.path}/athan_voices'),
+        audio: voiceAudio ?? ChannelVoiceAudio(),
+      ),
       planScheduleProvider.overrideWithValue(
         PlanSchedule(clock, ArbPlanTexts()),
       ),
@@ -268,6 +279,40 @@ abstract final class AppBindings {
     readingPositionStoreProvider.overrideWithValue(notes),
     readerPreferencesStoreProvider.overrideWithValue(notes),
   ];
+
+  /// The downloadable Athan voices (§15 D111): the bundled catalog (voices
+  /// awaiting their listening review on dev and lab only; none on iOS until
+  /// AthanKit installs them), the files under [root] (persistent app
+  /// storage), the CDN and the native alarm player behind [audio].
+  static List<Override> _voices({
+    required AssetBundle assets,
+    required Directory root,
+    required ChannelVoiceAudio audio,
+  }) {
+    const port = int.fromEnvironment('DM_VOICE_LOOPBACK_PORT');
+    return [
+      readVoiceCatalogProvider.overrideWithValue(
+        AssetVoiceCatalog(
+          assets,
+          includePending: switch (AppBuild.channel) {
+            ReleaseChannel.dev || ReleaseChannel.lab => true,
+            ReleaseChannel.beta || ReleaseChannel.production => false,
+          },
+          supported: Platform.isAndroid,
+        ),
+      ),
+      voiceDiskProvider.overrideWithValue(IoVoiceDisk(root)),
+      voiceOriginProvider.overrideWithValue(switch (AppBuild.channel) {
+        ReleaseChannel.dev when port > 0 => HttpVoiceOrigin.loopback(
+          port,
+          AppBuild.channel.name,
+        ),
+        _ => HttpVoiceOrigin.cdn(AppBuild.channel.name),
+      }),
+      voiceAudioHostProvider.overrideWithValue(audio),
+      voicePreviewProvider.overrideWithValue(audio),
+    ];
+  }
 
   /// The CDN of this build's channel. A dev build may name a loopback port
   /// (`--dart-define DM_QURAN_LOOPBACK_PORT=8787`, with `adb reverse`) to

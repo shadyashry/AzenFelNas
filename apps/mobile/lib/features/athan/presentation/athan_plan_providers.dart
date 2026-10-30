@@ -4,6 +4,7 @@ import 'package:daily_muslim/features/athan/application/athan_preferences.dart';
 import 'package:daily_muslim/features/athan/application/plan_schedule.dart';
 import 'package:daily_muslim/features/athan/domain/plan_target.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
+import 'package:daily_muslim/features/athan/presentation/athan_voice_providers.dart';
 import 'package:daily_muslim/features/athan/presentation/widget_snapshot_providers.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
@@ -23,7 +24,8 @@ final applySchedulePlanProvider = Provider<ApplySchedulePlan>(
 
 /// The Athan armed for the active place (§15 D94): planned again and handed
 /// to the native host whenever the schedule, the place, the Athan choices,
-/// the bundled sounds or the locale change; true when the host stored the
+/// the bundled sounds, the downloaded voices (§15 D111) or the locale
+/// change; true when the host stored the
 /// plan. Home and the Athan screen keep it alive, so it runs on every open;
 /// Athan Health is evaluated again once the host answered.
 final FutureProvider<bool> athanPlanProvider = FutureProvider.autoDispose<bool>(
@@ -31,7 +33,8 @@ final FutureProvider<bool> athanPlanProvider = FutureProvider.autoDispose<bool>(
     final loaded = await ref.watch(scheduleProvider.future);
     final enabled = await ref.watch(athanEnabledSettingProvider.future);
     final soundId = await ref.watch(athanSoundSettingProvider.future);
-    final sounds = await ref.watch(athanSoundsProvider.future);
+    final fajrSoundId = await ref.watch(fajrSoundSettingProvider.future);
+    final options = await ref.watch(athanSoundOptionsProvider.future);
     final preReminder = await ref.watch(preReminderSettingProvider.future);
     final locale = await ref.watch(localeSettingProvider.future);
     final hijri = await ref.watch(hijriOverrideSettingProvider.future);
@@ -52,7 +55,9 @@ final FutureProvider<bool> athanPlanProvider = FutureProvider.autoDispose<bool>(
           preferences: AthanPreferences.ofSettings(
             enabled: enabled,
             soundId: soundId,
-            sounds: sounds,
+            sounds: options.athan,
+            fajrSoundId: fajrSoundId,
+            fajrSounds: options.fajrOnly,
             preReminderMinutes: preReminder,
             locale: snapshotLocaleOf(
               locale,

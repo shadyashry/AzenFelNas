@@ -119,6 +119,14 @@ abstract final class AppSettings {
     0,
   );
 
+  /// `fajrSoundId`: the Fajr Athan's sound; null follows [soundId]
+  /// (§15 D111, REQ-ALM-052).
+  static const fajrSoundId = SettingKey<String?>(
+    'fajrSoundId',
+    OptionalStringCodec(),
+    null,
+  );
+
   /// The Appendix K key names, in order.
   static const List<String> wires = [
     'locale',
@@ -137,5 +145,6 @@ abstract final class AppSettings {
     'activeContextId',
     'showSeconds',
     'athanPlanGeneration',
+    'fajrSoundId',
   ];
 }

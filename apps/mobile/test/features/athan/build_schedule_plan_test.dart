@@ -79,6 +79,7 @@ void main() {
           preferences: AthanPreferences(
             enabled: allEvents.enabled,
             soundId: allEvents.soundId,
+            fajrSoundId: allEvents.fajrSoundId,
             preReminder: PreReminder.off,
             locale: PlanLocale.en,
           ),
@@ -108,6 +109,40 @@ void main() {
       );
     });
 
+    test('REQ-ALM-052 the Fajr Athan carries the Fajr voice and every other '
+        'Athan the Athan voice; reminders keep the notification sound', () {
+      final plan = build(
+        cairoRequest(
+          preferences: AthanPreferences(
+            enabled: allEvents.enabled,
+            soundId: 'athan_v1',
+            fajrSoundId: 'fajr_v1',
+            preReminder: PreReminder.ten,
+            locale: PlanLocale.en,
+          ),
+        ),
+      );
+      final athans = _of(plan, ScheduleEntryKind.athan).toList();
+      expect(
+        athans
+            .where((e) => e.event == PrayerEventCode.fajr)
+            .map((e) => e.soundId)
+            .toSet(),
+        {'fajr_v1'},
+      );
+      expect(
+        athans
+            .where((e) => e.event != PrayerEventCode.fajr)
+            .map((e) => e.soundId)
+            .toSet(),
+        {'athan_v1'},
+      );
+      expect(
+        _of(plan, ScheduleEntryKind.preReminder).map((e) => e.soundId),
+        everyElement(isNot(anyOf('fajr_v1', 'athan_v1'))),
+      );
+    });
+
     test('REQ-ALM-010 with no event enabled the plan still holds its '
         'horizon warning', () {
       final none = build(
@@ -115,6 +150,7 @@ void main() {
           preferences: AthanPreferences(
             enabled: const {},
             soundId: allEvents.soundId,
+            fajrSoundId: allEvents.fajrSoundId,
             preReminder: PreReminder.off,
             locale: PlanLocale.ar,
           ),
