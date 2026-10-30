@@ -224,6 +224,22 @@ void main() {
       ),
       findsOneWidget,
     );
+
+    // The Fajr page ticks what plays: the Athan voice it falls back to.
+    await tester.pumpWidget(
+      _app(
+        const AthanVoicesPage(slot: VoiceSlot.fajr),
+        disk: FakeVoiceDisk(),
+        athan: 'std',
+        fajr: 'fjr',
+      ),
+    );
+    await tester.pumpAndSettle();
+    ListTile row(String title) => tester.widget<ListTile>(
+      find.ancestor(of: find.text(title), matching: find.byType(ListTile)),
+    );
+    expect(row('Same as the Athan voice').selected, isTrue);
+    expect(row('Phone alarm tone').selected, isFalse);
   });
 
   testWidgets('REQ-UX-030 the voices page lays out in Arabic (RTL) without '

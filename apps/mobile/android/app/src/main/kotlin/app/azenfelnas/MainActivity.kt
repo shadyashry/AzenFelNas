@@ -17,6 +17,8 @@ import java.io.FileNotFoundException
 import java.util.TimeZone
 
 class MainActivity : FlutterActivity() {
+  private var voices: AthanVoiceHost? = null
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     // Android 12+ keeps its splash until Flutter's first frame, which is the same picture (DESIGN.md section 15
@@ -48,7 +50,13 @@ class MainActivity : FlutterActivity() {
       AthanSchedulerHost(core, Dispatchers.IO),
     )
     Thread({ installBundledAudio(core) }, "athan-audio-install").start()
-    registerVoiceAudio(flutterEngine, AthanVoiceHost(applicationContext))
+    registerVoiceAudio(flutterEngine, AthanVoiceHost(applicationContext).also { voices = it })
+  }
+
+  /** A preview never outlives the screen that started it (DESIGN.md section 15 D111). */
+  override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
+    voices?.stopPreview()
+    super.cleanUpFlutterEngine(flutterEngine)
   }
 
   /**

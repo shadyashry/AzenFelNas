@@ -143,17 +143,18 @@ final class AthanVoicesPage extends ConsumerWidget {
         if (slot == VoiceSlot.fajr || !v.fajrOnly) v,
     ];
     final stored = chosen.value;
+    final athan = ref.watch(athanSoundSettingProvider).value;
     final playing = switch ((slot, options)) {
       (_, null) => null,
       (VoiceSlot.athan, final AthanSoundOptions o) => o.athanSound(stored),
-      (VoiceSlot.fajr, final AthanSoundOptions o) => o.fajrSound(
-        stored,
-        ref.watch(athanSoundSettingProvider).value,
-      ),
+      (VoiceSlot.fajr, final AthanSoundOptions o) => o.fajrSound(stored, athan),
     };
-    // Fajr shows "same as the Athan" as chosen until the user picks a voice.
-    bool isSelected(String? id) =>
-        slot == VoiceSlot.fajr && stored == null ? id == null : id == playing;
+    // Fajr shows "same as the Athan" while it follows the Athan voice: until
+    // the user picks a voice, and while the picked one is gone (REQ-ALM-053).
+    final followsAthan =
+        slot == VoiceSlot.fajr &&
+        (stored == null || (options?.fajrFellBack(stored, athan) ?? false));
+    bool isSelected(String? id) => followsAthan ? id == null : id == playing;
     void choose(String? id) => write.write(key, id);
     return Scaffold(
       appBar: AppBar(
