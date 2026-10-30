@@ -4,7 +4,9 @@ version = "0.0.0"
 description = "Data pipelines for tzdata, tz/country polygons, gazetteer and hijri packages (DESIGN.md §9.5)."
 requires-python = "==3.15.*"
 dependencies = [
+    "pillow==13.0.0",
     "pydantic==2.14.1",
+    "pypdfium2==5.14.0",
     "shapely==2.2.0",
 ]
 
@@ -60,6 +62,11 @@ allowed-confusables = ["−", "±"]
 strict = true
 python_version = "3.15"
 plugins = ["pydantic.mypy"]
+
+# pypdfium2 ships no type information; pages.py uses four of its calls and narrows their results.
+[[tool.mypy.overrides]]
+module = ["pypdfium2"]
+ignore_missing_imports = true
 
 [tool.pydantic-mypy]
 init_forbid_extra = true

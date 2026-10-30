@@ -1,0 +1,42 @@
+# Pinned sources of the offline Quran package (DESIGN.md §9.5, §15 D106).
+# `dm-pipelines quran fetch` refuses (and deletes) bytes that do not match a sha256 below, and
+# `dm-pipelines quran build` refuses a source that does not. A new edition is a commit that changes
+# this file, the app's pinned manifest (`QuranEditions`) and the published package.
+#
+# Every source is used as published: the pipeline renders and reads it, it never edits Quran text.
+
+[package]
+id = "hafs-madinah-1441"
+version = "1441.1"
+pageCount = 604
+# Page images: lossless WebP at this width (height follows the page's own aspect ratio).
+pageWidth = 1400
+
+# The Madinah Mushaf, riwayat Hafs, digital edition 1441 AH, one Adobe Illustrator file per page.
+# Published sha256 (dm.qurancomplex.gov.sa, 2026-10-30): 280C5D71…2D9EEF. Usage rights:
+# https://dm.qurancomplex.gov.sa/rights/ (free use in software, inside and outside Saudi Arabia).
+[mushaf]
+version = "1441"
+url = "https://dm.qurancomplex.gov.sa/Download/1441-AI-hafs.zip"
+sha256 = "280c5d71ca16aaeeb3a343be1b92c76fa6df71d0671e202c026fde12402d9eef"
+license = "KFGQPC usage rights for the digital Madinah Mushaf (https://dm.qurancomplex.gov.sa/rights/)"
+
+# The KFGQPC Hafs Uthmanic script, version 3.0: the font and a Word file with the whole Mushaf,
+# one Word page per Mushaf page and one line per Mushaf line. The text, its verse markers and its
+# page and line breaks are read from that file; the font is shipped unmodified (its EULA allows
+# use, copying and distribution, never modification or sale).
+[text]
+version = "3.0"
+url = "https://fonts.qurancomplex.gov.sa/fonts/KFGQPC-Hafs-V30.zip"
+sha256 = "ddf52d0f6919b0a9cfb1e9cc048d41d88e695f973455fea3c9973837295a324c"
+docxMember = "KFGQPC-Hafs-V30/KFGQPC Hafs V30.docx"
+fontMember = "KFGQPC-Hafs-V30/KFGQPC Hafs V30.ttf"
+license = "KFGQPC font EULA (embedded in the font's name table): use, copy, distribute; no modification"
+
+# Juz boundaries only (the KFGQPC Word file has none). Each juz start is checked against the KFGQPC
+# page starts before it is written.
+[juz]
+version = "1.0"
+url = "https://tanzil.net/res/text/metadata/quran-data.xml"
+sha256 = "8867c1d88191472adec9db694b3cd9f135b1a2ef580574d32cf888dcb22c5c7a"
+license = "CC-BY-3.0 (Tanzil.net Quran metadata)"

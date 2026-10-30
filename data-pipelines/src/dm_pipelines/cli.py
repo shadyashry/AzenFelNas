@@ -7,6 +7,8 @@
         [--out DIR]
     dm-pipelines gazetteer fetch --dest FILE    # the pinned source (curl)
     dm-pipelines gazetteer build --source FILE [--out DIR]
+    dm-pipelines quran fetch --source mushaf|text|juz --dest FILE  # the pinned source (curl)
+    dm-pipelines quran build --mushaf FILE --text FILE --juz FILE --out DIR
 
 `tzdata build` needs `make`, a C compiler and `dart` on PATH. Exit codes: 0 done, 1 refused
 (pins, tools), 2 usage error.
@@ -28,6 +30,12 @@ from dm_pipelines.hashing import sha256_file
 from dm_pipelines.polygons.config import Dataset, load_polygons_config
 from dm_pipelines.polygons.pipeline import CONFIG as POLYGONS_CONFIG
 from dm_pipelines.polygons.pipeline import BuildPolygons, default_out
+from dm_pipelines.quran.config import JuzSource, MushafSource, TextSource, load_quran_config
+from dm_pipelines.quran.juz_source import JuzSourceError
+from dm_pipelines.quran.pages import PageSourceError
+from dm_pipelines.quran.pipeline import CONFIG as QURAN_CONFIG
+from dm_pipelines.quran.pipeline import BuildQuran, SourceHashError
+from dm_pipelines.quran.text_source import TextSourceError
 from dm_pipelines.schema.pipeline_manifest_v1 import PipelineManifestV1
 from dm_pipelines.tzdata.config import load_tzdata_config
 from dm_pipelines.tzdata.oracle import CorpusError
@@ -72,7 +80,37 @@ def _parser() -> argparse.ArgumentParser:
     gazetteer_build = gazetteer_commands.add_parser("build", help="build gazetteer.json, manifest")
     gazetteer_build.add_argument("--source", type=Path, required=True, help="pinned source file")
     gazetteer_build.add_argument("--out", type=Path, help="output directory (default: app assets)")
+    quran = pipelines.add_parser("quran", help="the offline Quran package (KFGQPC, §15 D106)")
+    quran_commands = quran.add_subparsers(dest="command", required=True)
+    quran_fetch = quran_commands.add_parser("fetch", help="download a pinned source and verify")
+    quran_fetch.add_argument("--source", choices=("mushaf", "text", "juz"), required=True)
+    quran_fetch.add_argument("--dest", type=Path, required=True, help="file to write")
+    quran_build = quran_commands.add_parser("build", help="build pages, quran.sqlite, manifest")
+    quran_build.add_argument("--mushaf", type=Path, required=True, help="1441-AI-hafs.zip")
+    quran_build.add_argument("--text", type=Path, required=True, help="KFGQPC-Hafs-V30.zip")
+    quran_build.add_argument("--juz", type=Path, required=True, help="quran-data.xml")
+    quran_build.add_argument("--out", type=Path, required=True, help="package directory")
     return parser
+
+
+def _fetch_quran(runner: CommandRunner, repo: Path, source: str, dest: Path) -> None:
+    config = load_quran_config(repo / QURAN_CONFIG)
+    pin: MushafSource | TextSource | JuzSource
+    match source:
+        case "mushaf":
+            pin = config.mushaf
+        case "text":
+            pin = config.text
+        case _:
+            pin = config.juz
+    _download(runner, pin.url, pin.sha256, dest)
+
+
+def _build_quran(args: argparse.Namespace) -> int:
+    manifest = BuildQuran(repo=args.repo).run(args.mushaf, args.text, args.juz, args.out)
+    total = sum(f.bytes for f in manifest.files)
+    print(f"built: {args.out} ({len(manifest.files)} files, {total} bytes)")  # noqa: T201
+    return 0
 
 
 def _fetch(runner: CommandRunner, repo: Path, dest: Path) -> None:
@@ -131,13 +169,21 @@ def run(argv: Sequence[str], runner: CommandRunner) -> int:
             elif args.pipeline == "gazetteer":
                 source = load_gazetteer_config(repo / GAZETTEER_CONFIG).source
                 _download(runner, source.url, source.sha256, args.dest)
+            elif args.pipeline == "quran":
+                _fetch_quran(runner, repo, args.source, args.dest)
             else:
                 _fetch(runner, repo, args.dest)
             print(f"fetched: {args.dest}")  # noqa: T201 - the CLI reports on stdout
             return 0
+        if args.pipeline == "quran":
+            return _build_quran(args)
         out, manifest = _build(runner, args)
     except (
         SourceMismatchError,
+        SourceHashError,
+        TextSourceError,
+        JuzSourceError,
+        PageSourceError,
         CommandError,
         CorpusError,
         PinError,
