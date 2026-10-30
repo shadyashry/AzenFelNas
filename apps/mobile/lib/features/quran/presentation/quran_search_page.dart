@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_format.dart';
@@ -115,7 +117,12 @@ final class _Results extends ConsumerWidget {
               QuranFormat.number(hit.page, style),
             ),
             onTap: () {
-              ref.read(readerProvider.notifier).goTo(hit.page);
+              // Opens the page with the verse's lines outlined (§15 D111).
+              unawaited(
+                ref
+                    .read(readerProvider.notifier)
+                    .showVerseAt(hit.sura, hit.aya, fallbackPage: hit.page),
+              );
               Navigator.of(context).pop();
             },
           );

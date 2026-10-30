@@ -999,6 +999,43 @@ class AppLocalizationsEn extends AppLocalizations {
       'Juz boundaries and the check of the English surah names: Tanzil.net Quran metadata (CC BY 3.0), checked against the Complex\'s text.';
 
   @override
+  String get quranAyahsOnPage => 'Ayahs on this page';
+
+  @override
+  String get quranAyahsOnLine => 'Ayahs on this line';
+
+  @override
+  String get quranAyahHint =>
+      'Press and hold a line of the page to see its ayahs.';
+
+  @override
+  String get quranAyahHighlight => 'Highlight this ayah';
+
+  @override
+  String get quranAyahRemoveHighlight => 'Remove highlight';
+
+  @override
+  String get quranAyahCopy => 'Copy ayah';
+
+  @override
+  String get quranAyahCopied => 'Ayah copied';
+
+  @override
+  String get quranAyahShow => 'Show on the page';
+
+  @override
+  String get quranAyahLinesNote =>
+      'An ayah highlight covers the whole lines the ayah is on, so a line it shares with another ayah is covered whole.';
+
+  @override
+  String get quranAyahHighlights => 'Highlighted ayahs';
+
+  @override
+  String quranAyahRef(String surah, String sura, String aya) {
+    return '$surah $sura:$aya';
+  }
+
+  @override
   String quranPage(String page) {
     return 'Page $page';
   }

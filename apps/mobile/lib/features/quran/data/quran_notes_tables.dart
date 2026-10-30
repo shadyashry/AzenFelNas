@@ -98,3 +98,29 @@ class QuranReaderPrefs extends Table {
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
+
+/// Whole-verse highlights per page layout (§15 D111, schema version 2): one
+/// per verse.
+@DataClassName('QuranAyahHighlightRow')
+class QuranAyahHighlights extends Table {
+  /// The page layout.
+  TextColumn get layoutId => text()();
+
+  /// Surah.
+  IntColumn get sura => integer()();
+
+  /// Verse.
+  IntColumn get aya => integer()();
+
+  /// `HighlightColor.name`.
+  TextColumn get color => text()();
+
+  /// Created (UTC epoch ms).
+  IntColumn get createdUtc => integer()();
+
+  /// Last changed (UTC epoch ms).
+  IntColumn get updatedUtc => integer()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {layoutId, sura, aya};
+}

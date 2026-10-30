@@ -263,8 +263,10 @@ abstract final class AppBindings {
     buildSearchIndexProvider.overrideWithValue(const SqliteSearchIndex()),
     searchIndexIsCurrentProvider.overrideWithValue(SqliteSearchIndex.isCurrent),
     openMushafIndexProvider.overrideWithValue(SqliteMushafIndex.new),
+    openVersePlacesProvider.overrideWithValue(SqliteMushafIndex.new),
     bookmarkStoreProvider.overrideWithValue(notes),
     highlightStoreProvider.overrideWithValue(notes),
+    ayahHighlightStoreProvider.overrideWithValue(notes),
     readingPositionStoreProvider.overrideWithValue(notes),
     readerPreferencesStoreProvider.overrideWithValue(notes),
   ];

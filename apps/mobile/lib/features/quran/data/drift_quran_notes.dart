@@ -1,16 +1,18 @@
 import 'package:daily_muslim/features/quran/data/quran_notes_database.dart';
+import 'package:daily_muslim/features/quran/domain/ayah_highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:daily_muslim/features/quran/domain/quran_notes.dart';
 import 'package:daily_muslim/features/quran/domain/reader_preferences.dart';
 import 'package:drift/drift.dart';
 
-/// The Quran notes ports over `quran_notes.sqlite` (§15 D107): one adapter,
-/// four narrow ports, so each use case sees only what it calls.
+/// The Quran notes ports over `quran_notes.sqlite` (§15 D107, D111): one
+/// adapter, five narrow ports, so each use case sees only what it calls.
 final class DriftQuranNotes
     implements
         BookmarkStore,
         HighlightStore,
+        AyahHighlightStore,
         ReadingPositionStore,
         ReaderPreferencesStore {
   /// The adapter over [_db].
@@ -218,6 +220,75 @@ final class DriftQuranNotes
           facingPages: preferences.facingPages,
         ),
       );
+
+  @override
+  Stream<List<AyahHighlight>> watchAyahHighlights(String layoutId) =>
+      (_db.select(_db.quranAyahHighlights)
+            ..where((t) => t.layoutId.equals(layoutId))
+            ..orderBy([
+              (t) => OrderingTerm.asc(t.sura),
+              (t) => OrderingTerm.asc(t.aya),
+            ]))
+          .watch()
+          .map(
+            (rows) => [
+              for (final row in rows)
+                AyahHighlight(
+                  layoutId: row.layoutId,
+                  sura: row.sura,
+                  aya: row.aya,
+                  color: _color(row.color),
+                  createdUtcMs: row.createdUtc,
+                  updatedUtcMs: row.updatedUtc,
+                ),
+            ],
+          );
+
+  @override
+  Future<void> setAyahHighlight(
+    String layoutId,
+    int sura,
+    int aya,
+    HighlightColor color, {
+    required int nowUtcMs,
+  }) => _db.transaction(() async {
+    final changed =
+        await (_db.update(_db.quranAyahHighlights)..where(
+              (t) =>
+                  t.layoutId.equals(layoutId) &
+                  t.sura.equals(sura) &
+                  t.aya.equals(aya),
+            ))
+            .write(
+              QuranAyahHighlightsCompanion(
+                color: Value(color.name),
+                updatedUtc: Value(nowUtcMs),
+              ),
+            );
+    if (changed > 0) return;
+    await _db
+        .into(_db.quranAyahHighlights)
+        .insert(
+          QuranAyahHighlightsCompanion.insert(
+            layoutId: layoutId,
+            sura: sura,
+            aya: aya,
+            color: color.name,
+            createdUtc: nowUtcMs,
+            updatedUtc: nowUtcMs,
+          ),
+        );
+  });
+
+  @override
+  Future<void> removeAyahHighlight(String layoutId, int sura, int aya) =>
+      (_db.delete(_db.quranAyahHighlights)..where(
+            (t) =>
+                t.layoutId.equals(layoutId) &
+                t.sura.equals(sura) &
+                t.aya.equals(aya),
+          ))
+          .go();
 
   static HighlightColor _color(String name) => HighlightColor.values.firstWhere(
     (c) => c.name == name,

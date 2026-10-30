@@ -3,13 +3,16 @@ import 'package:daily_muslim/features/quran/domain/arabic_search_text.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
 import 'package:daily_muslim/features/quran/domain/read_mushaf_index.dart';
+import 'package:daily_muslim/features/quran/domain/read_verse_places.dart';
+import 'package:daily_muslim/features/quran/domain/verse_place.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-/// [ReadMushafIndex] over the package's `quran.sqlite` with the local
-/// `search.sqlite` attached, both read-only (§15 D107). Queries are small
-/// and indexed, so they run on the calling isolate.
-final class SqliteMushafIndex implements ReadMushafIndex {
+/// [ReadMushafIndex] and [ReadVersePlaces] over the package's
+/// `quran.sqlite` with the local `search.sqlite` attached, both read-only
+/// (§15 D107, D111). Queries are small and indexed, so they run on the
+/// calling isolate.
+final class SqliteMushafIndex implements ReadMushafIndex, ReadVersePlaces {
   /// The index of the package in [directory].
   new(this.directory);
 
@@ -111,6 +114,43 @@ final class SqliteMushafIndex implements ReadMushafIndex {
       );
     });
   }
+
+  static const _placeColumns =
+      'sura, aya, page, line_start, page_end, line_end, text';
+
+  @override
+  Future<Result<List<VersePlace>, QuranFailure>> versesOnPage(
+    int page,
+  ) async => _query(
+    (db) => [
+      for (final row in db.select(
+        'SELECT $_placeColumns FROM verse WHERE page <= ? AND page_end >= ? '
+        'ORDER BY id',
+        [page, page],
+      ))
+        _place(row),
+    ],
+  );
+
+  @override
+  Future<Result<VersePlace?, QuranFailure>> verse(int sura, int aya) async =>
+      _query((db) {
+        final rows = db.select(
+          'SELECT $_placeColumns FROM verse WHERE sura = ? AND aya = ?',
+          [sura, aya],
+        );
+        return rows.isEmpty ? null : _place(rows.first);
+      });
+
+  static VersePlace _place(Row row) => VersePlace(
+    sura: _int(row['sura']),
+    aya: _int(row['aya']),
+    page: _int(row['page']),
+    lineStart: _int(row['line_start']),
+    pageEnd: _int(row['page_end']),
+    lineEnd: _int(row['line_end']),
+    text: _string(row['text']),
+  );
 
   static VerseHit _hit(Row row, String folded) {
     final text = _string(row['text']);

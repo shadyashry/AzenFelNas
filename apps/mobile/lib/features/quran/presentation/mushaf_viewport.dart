@@ -46,6 +46,7 @@ final class MushafViewport extends StatefulWidget {
     required this.onDraw,
     required this.onTap,
     required this.semanticLabel,
+    this.onLongPress,
     super.key,
   });
 
@@ -78,6 +79,10 @@ final class MushafViewport extends StatefulWidget {
 
   /// A tap at a point relative to [item] (0..1).
   final void Function(int item, Offset point) onTap;
+
+  /// A press and hold at a point relative to [item] (0..1); not while
+  /// drawing.
+  final void Function(int item, Offset point)? onLongPress;
 
   /// What a screen reader announces for the surface.
   final String semanticLabel;
@@ -363,6 +368,16 @@ final class _MushafViewportState extends State<MushafViewport> {
                 _scale,
               ),
             ),
+            onLongPressStart: widget.drawing || widget.onLongPress == null
+                ? null
+                : (d) => widget.onLongPress?.call(
+                    _current,
+                    geometry.relative(
+                      d.localPosition,
+                      _offset ?? geometry.baseOffset,
+                      _scale,
+                    ),
+                  ),
             onDoubleTapDown: (d) => _doubleTapAt = d.localPosition,
             onDoubleTap: _onDoubleTap,
             child: Directionality(

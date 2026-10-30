@@ -3,6 +3,7 @@ import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:daily_muslim/features/quran/domain/reader_preferences.dart';
+import 'package:daily_muslim/features/quran/presentation/ayah_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/go_to_page_dialog.dart';
 import 'package:daily_muslim/features/quran/presentation/highlight_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_viewport_controller.dart';
@@ -100,7 +101,25 @@ final class ReaderTopBar extends ConsumerWidget {
   }
 }
 
+/// The verses of [page] in the ayahs sheet (§15 D111).
+Future<void> _showPageAyahs(
+  BuildContext context,
+  WidgetRef ref,
+  int page,
+) async {
+  final l = AppLocalizations.of(context);
+  final verses = await ref.read(versesOnPageProvider(page).future);
+  if (!context.mounted || verses.isEmpty) return;
+  await showAyahSheet(
+    context,
+    title: l.quranAyahsOnPage,
+    places: verses,
+    hint: true,
+  );
+}
+
 enum _MenuItem {
+  ayahs,
   contents,
   goTo,
   notes,
@@ -124,6 +143,7 @@ final class _ReaderMenu extends ConsumerWidget {
       tooltip: l.quranMore,
       icon: const Icon(Icons.more_vert),
       onSelected: (item) => switch (item) {
+        _MenuItem.ayahs => _showPageAyahs(context, ref, state.page),
         _MenuItem.contents => showQuranIndexSheet(context),
         _MenuItem.goTo => showGoToPageDialog(context, ref),
         _MenuItem.notes => context.push(const QuranNotesRoute().location),
@@ -140,6 +160,7 @@ final class _ReaderMenu extends ConsumerWidget {
         _MenuItem.storage => context.push(const QuranStorageRoute().location),
       },
       itemBuilder: (context) => [
+        PopupMenuItem(value: _MenuItem.ayahs, child: Text(l.quranAyahsOnPage)),
         PopupMenuItem(value: _MenuItem.contents, child: Text(l.quranIndex)),
         PopupMenuItem(value: _MenuItem.goTo, child: Text(l.quranGoToPage)),
         PopupMenuItem(value: _MenuItem.notes, child: Text(l.quranNotes)),

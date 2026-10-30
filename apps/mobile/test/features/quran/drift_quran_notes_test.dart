@@ -113,4 +113,60 @@ void main() {
       ),
     );
   });
+
+  test('REQ-QRN-052 a verse highlight is kept per verse, recoloured in '
+      'place and removed (§15 D111)', () async {
+    await notes.setAyahHighlight(
+      layout,
+      2,
+      255,
+      HighlightColor.yellow,
+      nowUtcMs: 1,
+    );
+    await notes.setAyahHighlight(
+      layout,
+      1,
+      7,
+      HighlightColor.green,
+      nowUtcMs: 2,
+    );
+    await notes.setAyahHighlight(
+      layout,
+      2,
+      255,
+      HighlightColor.blue,
+      nowUtcMs: 3,
+    );
+
+    final saved = await notes.watchAyahHighlights(layout).first;
+    expect(
+      [for (final h in saved) (h.sura, h.aya, h.color)],
+      [
+        (1, 7, HighlightColor.green),
+        (2, 255, HighlightColor.blue),
+      ],
+    );
+    final kursi = saved.last;
+    expect((kursi.createdUtcMs, kursi.updatedUtcMs), (1, 3));
+
+    await notes.removeAyahHighlight(layout, 2, 255);
+    expect(
+      [for (final h in await notes.watchAyahHighlights(layout).first) h.aya],
+      [7],
+    );
+  });
+
+  test(
+    'REQ-QRN-060 verse highlights of another layout are not shown',
+    () async {
+      await notes.setAyahHighlight(
+        'other-layout',
+        2,
+        255,
+        HighlightColor.pink,
+        nowUtcMs: 1,
+      );
+      expect(await notes.watchAyahHighlights(layout).first, isEmpty);
+    },
+  );
 }

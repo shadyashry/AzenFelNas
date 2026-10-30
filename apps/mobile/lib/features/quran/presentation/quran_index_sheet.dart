@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/quran/domain/arabic_search_text.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
@@ -101,7 +103,8 @@ final class _Suras extends ConsumerWidget {
                           QuranFormat.number(s.startPage, style),
                         ),
                       ),
-                      onTap: () => _open(context, ref, s.startPage),
+                      onTap: () =>
+                          _open(context, ref, s.number, 1, s.startPage),
                     );
                   },
                 ),
@@ -138,14 +141,20 @@ final class _Juz extends ConsumerWidget {
         return ListTile(
           title: Text(l.quranJuz(QuranFormat.number(j.number, style))),
           subtitle: Text(l.quranJuzLine(QuranFormat.number(j.page, style))),
-          onTap: () => _open(context, ref, j.page),
+          onTap: () => _open(context, ref, j.sura, j.aya, j.page),
         );
       },
     );
   }
 }
 
-void _open(BuildContext context, WidgetRef ref, int page) {
-  ref.read(readerProvider.notifier).goTo(page);
+/// Opens the first verse of a surah or juz with its lines outlined
+/// (§15 D111), or [page] when the package cannot place it.
+void _open(BuildContext context, WidgetRef ref, int sura, int aya, int page) {
+  unawaited(
+    ref
+        .read(readerProvider.notifier)
+        .showVerseAt(sura, aya, fallbackPage: page),
+  );
   Navigator.of(context).pop();
 }

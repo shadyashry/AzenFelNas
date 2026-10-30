@@ -990,6 +990,42 @@ class AppLocalizationsAr extends AppLocalizations {
       'بدايات الأجزاء ومراجعة أسماء السور بالإنجليزية: بيانات Tanzil.net (CC BY 3.0)، متراجعة على نص المجمع.';
 
   @override
+  String get quranAyahsOnPage => 'آيات هذه الصفحة';
+
+  @override
+  String get quranAyahsOnLine => 'آيات هذا السطر';
+
+  @override
+  String get quranAyahHint => 'اضغط مطولًا على سطر في الصفحة لعرض آياته.';
+
+  @override
+  String get quranAyahHighlight => 'تظليل الآية';
+
+  @override
+  String get quranAyahRemoveHighlight => 'إزالة التظليل';
+
+  @override
+  String get quranAyahCopy => 'نسخ الآية';
+
+  @override
+  String get quranAyahCopied => 'تم نسخ الآية';
+
+  @override
+  String get quranAyahShow => 'إظهارها في الصفحة';
+
+  @override
+  String get quranAyahLinesNote =>
+      'تظليل الآية يغطي الأسطر التي تقع عليها كاملة، فالسطر الذي تشترك فيه مع آية أخرى يُظلَّل كله.';
+
+  @override
+  String get quranAyahHighlights => 'الآيات المظللة';
+
+  @override
+  String quranAyahRef(String surah, String sura, String aya) {
+    return '$surah، الآية $aya';
+  }
+
+  @override
   String quranPage(String page) {
     return 'صفحة $page';
   }
