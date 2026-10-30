@@ -46,16 +46,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsTheme => 'المظهر';
 
   @override
-  String get themeSky => 'السما (بتمشي مع الشمس)';
+  String get themeSky => 'ديناميكي (يتغيّر مع أوقات الصلاة)';
 
   @override
   String get themeLight => 'فاتح';
 
   @override
-  String get themeDark => 'غامق';
+  String get themeDark => 'داكن';
 
   @override
-  String get themeSystem => 'زي الجهاز';
+  String get themeSystem => 'حسب الجهاز';
 
   @override
   String get settingsReducedMotion => 'تقليل الحركة';
@@ -221,26 +221,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get homeNoProfile =>
-      'مفيش ملف لجهة محلية هنا؛ بنستخدم الإعداد الافتراضي للمحرك.';
+      'لسه مفيش جدول محلي للمنطقة دي، فالمواقيت بالطريقة العامة.';
 
   @override
   String get homeHealthUnknown => 'الأذان: لسه ما اتظبطش';
 
   @override
-  String homeManualPlace(String label) {
-    return 'مكان يدوي · $label';
-  }
-
-  @override
-  String get homeCurrentPlace => 'الموقع التقريبي';
-
-  @override
-  String homePinnedPlace(String label) {
-    return 'مكان مثبّت · $label';
-  }
-
-  @override
-  String get homeChangePlace => 'غيّر المكان';
+  String get homeCurrentPlace => 'موقعك الحالي';
 
   @override
   String get timelineTitle => 'الأيام السبعة الجاية';
@@ -863,4 +850,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get placeSuggestions => 'مدن في نفس توقيتك';
+
+  @override
+  String homePlaceChip(String place) {
+    return '$place، غيّر المكان';
+  }
 }

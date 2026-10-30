@@ -1,3 +1,4 @@
+import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/travel/domain/travel_check.dart';
 import 'package:daily_muslim/features/travel/presentation/travel_providers.dart';
@@ -5,6 +6,7 @@ import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 
 /// "You seem to be in Oslo. Switch schedule?" (US-22, REQ-TRV-001): shown on
 /// Home only when the check suggests it; switching follows the device
@@ -25,6 +27,19 @@ final class TravelBanner extends ConsumerWidget {
   }
 }
 
+/// The city a zone is known by (§15 D101), or `null` while loading or when
+/// the gazetteer has none.
+final FutureProviderFamily<GazetteerHit?, String> _zoneCityProvider =
+    FutureProvider.family<GazetteerHit?, String>((
+      ref,
+      zoneId,
+    ) async {
+      return switch (await ref.watch(contextUseCasesProvider.future)) {
+        Ok(value: final useCases) => await useCases.nameZone(zoneId),
+        Err() => null,
+      };
+    });
+
 final class _Prompt extends ConsumerWidget {
   const new({required this.suggestion});
 
@@ -33,8 +48,15 @@ final class _Prompt extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
+    // The zone's city in the reader's language, else the zone id's.
+    final city =
+        ref
+            .watch(_zoneCityProvider(suggestion.toZoneId))
+            .value
+            ?.nameIn(Localizations.localeOf(context).languageCode) ??
+        suggestion.toCity;
     return MaterialBanner(
-      content: Text(l.travelPrompt(suggestion.toCity)),
+      content: Text(l.travelPrompt(city)),
       actions: [
         TextButton(
           onPressed: () =>

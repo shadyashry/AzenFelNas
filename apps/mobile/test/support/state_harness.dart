@@ -3,6 +3,7 @@ import 'package:daily_muslim/features/contexts/application/follow_device_locatio
 import 'package:daily_muslim/features/contexts/application/locate_observer.dart';
 import 'package:daily_muslim/features/contexts/application/locate_with_permission.dart';
 import 'package:daily_muslim/features/contexts/application/name_nearest_place.dart';
+import 'package:daily_muslim/features/contexts/application/name_zone.dart';
 import 'package:daily_muslim/features/contexts/application/pin_place.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_observer_context.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_place.dart';
@@ -92,6 +93,7 @@ ContextUseCases fakeContextUseCases({
     follow: FollowDeviceLocation(locate),
     suggest: SuggestPlaces(deviceZone, around),
     nameNearest: NameNearestPlace(around),
+    nameZone: NameZone(around),
   );
 }
 
@@ -108,10 +110,10 @@ final class NoPlacesAround implements FindPlacesAround {
   const new();
 
   @override
-  Future<Result<GazetteerHit?, GazetteerFailure>> nearest(
+  Future<Result<List<(GazetteerHit, double)>, GazetteerFailure>> near(
     GeoPointE6 point, {
     required double withinKm,
-  }) async => const Ok(null);
+  }) async => const Ok([]);
 
   @override
   Future<Result<List<GazetteerHit>, GazetteerFailure>> largestIn(
@@ -120,13 +122,13 @@ final class NoPlacesAround implements FindPlacesAround {
   }) async => const Ok([]);
 }
 
-/// Places around fixed answers: [near] for any point, [inZone] for [zone].
+/// Places around fixed answers: [nearby] for any point, [inZone] for [zone].
 final class FakePlacesAround implements FindPlacesAround {
   /// The fake.
-  const new({this.near, this.zone = '', this.inZone = const []});
+  const new({this.nearby, this.zone = '', this.inZone = const []});
 
-  /// The nearest place to any point.
-  final GazetteerHit? near;
+  /// The place near any point.
+  final GazetteerHit? nearby;
 
   /// The zone that has [inZone].
   final String zone;
@@ -135,10 +137,10 @@ final class FakePlacesAround implements FindPlacesAround {
   final List<GazetteerHit> inZone;
 
   @override
-  Future<Result<GazetteerHit?, GazetteerFailure>> nearest(
+  Future<Result<List<(GazetteerHit, double)>, GazetteerFailure>> near(
     GeoPointE6 point, {
     required double withinKm,
-  }) async => Ok(near);
+  }) async => Ok([if (nearby case final GazetteerHit hit) (hit, 1.0)]);
 
   @override
   Future<Result<List<GazetteerHit>, GazetteerFailure>> largestIn(

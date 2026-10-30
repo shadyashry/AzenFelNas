@@ -173,7 +173,7 @@ abstract class AppLocalizations {
   /// Theme choice: header colours follow the sun.
   ///
   /// In en, this message translates to:
-  /// **'Sky (follows the sun)'**
+  /// **'Dynamic (changes with prayer times)'**
   String get themeSky;
 
   /// Theme choice.
@@ -485,7 +485,7 @@ abstract class AppLocalizations {
   /// Home: engine default profile used (US-06).
   ///
   /// In en, this message translates to:
-  /// **'There is no local authority profile here; the engine default is used.'**
+  /// **'No local timetable for this area yet; times use the standard method.'**
   String get homeNoProfile;
 
   /// Home: Athan readiness before Athan exists.
@@ -494,29 +494,11 @@ abstract class AppLocalizations {
   /// **'Athan: not set up yet'**
   String get homeHealthUnknown;
 
-  /// Home: place chip for a manual context (US-02).
-  ///
-  /// In en, this message translates to:
-  /// **'Manual place · {label}'**
-  String homeManualPlace(String label);
-
   /// Home: place chip for the device location.
   ///
   /// In en, this message translates to:
-  /// **'Approximate location'**
+  /// **'Your location'**
   String get homeCurrentPlace;
-
-  /// Home: place chip for a pinned context.
-  ///
-  /// In en, this message translates to:
-  /// **'Pinned place · {label}'**
-  String homePinnedPlace(String label);
-
-  /// Home: button to manual place.
-  ///
-  /// In en, this message translates to:
-  /// **'Change place'**
-  String get homeChangePlace;
 
   /// Day timeline title and Home button.
   ///
@@ -1543,6 +1525,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cities in your time zone'**
   String get placeSuggestions;
+
+  /// Home header: screen-reader label of the place chip.
+  ///
+  /// In en, this message translates to:
+  /// **'{place}, change place'**
+  String homePlaceChip(String place);
 }
 
 class _AppLocalizationsDelegate

@@ -75,7 +75,7 @@ final class DriftGazetteerStore
   }
 
   @override
-  Future<Result<GazetteerHit?, GazetteerFailure>> nearest(
+  Future<Result<List<(GazetteerHit, double)>, GazetteerFailure>> near(
     GeoPointE6 point, {
     required double withinKm,
   }) async {
@@ -90,16 +90,12 @@ final class DriftGazetteerStore
         'WHERE g.lat BETWEEN ?1 AND ?2 AND g.lon BETWEEN ?3 AND ?4',
         [lat - dLat, lat + dLat, lon - dLon, lon + dLon],
       );
-      GazetteerHit? best;
-      var bestKm = withinKm;
-      for (final hit in rows) {
-        final km = _distanceKm(lat, lon, hit.point);
-        if (km <= bestKm) {
-          best = hit;
-          bestKm = km;
-        }
-      }
-      return Ok(best);
+      return Ok(
+        [
+            for (final hit in rows) (hit, _distanceKm(lat, lon, hit.point)),
+          ].where((near) => near.$2 <= withinKm).toList()
+          ..sort((a, b) => a.$2.compareTo(b.$2)),
+      );
     } on Exception catch (error) {
       return Err(GazetteerFailure.storage('$error'));
     }

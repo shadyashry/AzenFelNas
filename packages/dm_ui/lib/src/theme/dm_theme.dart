@@ -3,6 +3,7 @@ import 'package:dm_ui/src/tokens/dm_scales.dart';
 import 'package:dm_ui/src/tokens/rawdah_palette.dart';
 import 'package:dm_ui/src/tokens/rawdah_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// The static Material theme of content surfaces (§7.9, Appendix G).
 abstract final class DmTheme {
@@ -15,6 +16,21 @@ abstract final class DmTheme {
   /// The Naskh of prayer names and times (Amiri, OFL), bundled in `dm_ui`
   /// (§15 D89).
   static const String naskhFamily = 'packages/dm_ui/Amiri';
+
+  /// The status bar over a ground of [ground] brightness (§15 D101):
+  /// dark icons on pearl, light icons on night, emerald and the hour-light
+  /// field. Transparent, since the app is drawn edge to edge.
+  static SystemUiOverlayStyle statusBarOn(Brightness ground) =>
+      switch (ground) {
+        Brightness.light => SystemUiOverlayStyle.dark.copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+        ),
+        Brightness.dark => SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+        ),
+      };
 
   /// Amiri at [size] in [color], bold for the next prayer and the niche.
   static TextStyle naskh({
@@ -97,6 +113,7 @@ abstract final class DmTheme {
         scrolledUnderElevation: 0,
         centerTitle: true,
         titleTextStyle: naskh(size: 24, color: r.primary, bold: true),
+        systemOverlayStyle: statusBarOn(brightness),
         shape: Border(bottom: hairline.copyWith(width: 0.8)),
       ),
       cardTheme: CardThemeData(

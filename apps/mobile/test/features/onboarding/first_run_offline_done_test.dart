@@ -51,11 +51,11 @@ void main() {
     // Home: the manual place, no engine-default notice (the Egyptian seed
     // profile is in effect from 2026-10-01, §15 D97) and every event with
     // its label.
-    expect(find.text('Manual place · Cairo'), findsOneWidget);
+    expect(find.text('Cairo'), findsOneWidget);
     expect(
       find.text(
-        'There is no local authority profile here; the engine default is '
-        'used.',
+        'No local timetable for this area yet; times use the standard '
+        'method.',
       ),
       findsNothing,
     );
@@ -89,7 +89,8 @@ void main() {
     await tester.tap(find.text("Show today's times"));
     await pumpUntil(tester, find.byType(TimeRow));
 
-    expect(find.text('Approximate location'), findsOneWidget);
+    // The device location is named after the city it is in (§15 D101).
+    await pumpUntil(tester, find.text('Cairo'));
     expect(find.byType(TimeRow), findsAtLeastNWidgets(6));
 
     await disposeApp(tester, dbs);

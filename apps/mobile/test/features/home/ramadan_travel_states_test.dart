@@ -1,17 +1,28 @@
+import 'package:daily_muslim/features/contexts/domain/gazetteer_failure.dart';
+import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
+import 'package:daily_muslim/features/contexts/domain/gazetteer_ports.dart';
+import 'package:daily_muslim/features/contexts/domain/search_key.dart';
 import 'package:daily_muslim/features/home/domain/fasting_day.dart';
 import 'package:daily_muslim/features/home/domain/time_row_view.dart';
 import 'package:daily_muslim/features/home/presentation/fasting_card.dart';
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
+import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
+import 'package:daily_muslim/features/storage/data/places_database.dart';
 import 'package:daily_muslim/features/travel/domain/travel_check.dart';
 import 'package:daily_muslim/features/travel/presentation/travel_banner.dart';
 import 'package:daily_muslim/features/travel/presentation/travel_providers.dart';
+import 'package:dm_civil_time/dm_civil_time.dart';
+import 'package:dm_core_types/dm_core_types.dart';
+import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geo_salah_core/geo_salah_core.dart';
 
 import '../../support/app_harness.dart';
+import '../../support/fake_location_access.dart';
 import '../../support/state_harness.dart';
+import '../contexts/support/fake_device_locator.dart';
 
 TimeRowView _row(PrayerEvent event, String time) => TimeRowView(
   event: event,
@@ -107,6 +118,48 @@ void main() {
       expect(find.textContaining('You seem to be in'), findsNothing);
     });
 
+    testWidgets('an Arabic reader gets the zone city in Arabic (§15 D101)', (
+      tester,
+    ) async {
+      final db = PlacesDatabase(NativeDatabase.memory());
+      addTearDown(db.close);
+      final oslo = GazetteerHit(
+        id: 3143244,
+        name: 'Oslo',
+        matchedName: 'Oslo',
+        exact: false,
+        country: 'NO',
+        admin1: '12',
+        point: GeoPointE6(59913330, 10738890),
+        population: 580000,
+        zoneId: 'Europe/Oslo',
+        arabicName: 'أوسلو',
+      );
+      final useCases = fakeContextUseCases(
+        db: db,
+        places: const _NoSearch(),
+        access: FakeLocationAccess(),
+        locator: FakeDeviceLocator(),
+        around: FakePlacesAround(zone: 'Europe/Oslo', inZone: [oslo]),
+      );
+      await tester.pumpWidget(
+        localizedApp(
+          const Scaffold(body: TravelBanner()),
+          locale: const Locale('ar'),
+          overrides: [
+            travelCheckProvider.overrideWith(
+              (ref) async => const TravelSuggested(_suggestion),
+            ),
+            contextUseCasesProvider.overrideWith(
+              (ref) async => Ok(useCases),
+            ),
+          ],
+        ),
+      );
+      await pumpUntil(tester, find.textContaining('أوسلو'));
+      expect(find.text('شكلك في أوسلو. نغيّر المواعيد؟'), findsOneWidget);
+    });
+
     testWidgets('no suggestion shows nothing', (tester) async {
       await tester.pumpWidget(
         localizedApp(
@@ -122,4 +175,14 @@ void main() {
       expect(find.byType(MaterialBanner), findsNothing);
     });
   });
+}
+
+final class _NoSearch implements FindGazetteerPlaces {
+  const new();
+
+  @override
+  Future<Result<List<GazetteerHit>, GazetteerFailure>> findByPrefix(
+    SearchKey prefix, {
+    required int limit,
+  }) async => const Ok([]);
 }

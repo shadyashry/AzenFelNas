@@ -1,6 +1,7 @@
 import 'package:daily_muslim/features/contexts/application/follow_device_location.dart';
 import 'package:daily_muslim/features/contexts/application/locate_with_permission.dart';
 import 'package:daily_muslim/features/contexts/application/name_nearest_place.dart';
+import 'package:daily_muslim/features/contexts/application/name_zone.dart';
 import 'package:daily_muslim/features/contexts/application/pin_place.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_observer_context.dart';
 import 'package:daily_muslim/features/contexts/application/search_gazetteer.dart';
@@ -22,6 +23,7 @@ final class ContextUseCases {
     required this.follow,
     required this.suggest,
     required this.nameNearest,
+    required this.nameZone,
   });
 
   /// First-run approximate location (asks for access).
@@ -48,4 +50,7 @@ final class ContextUseCases {
 
   /// The name of the place a fix is in, for the screen (§15 D100).
   final NameNearestPlace nameNearest;
+
+  /// The city a zone is known by, for the screen (§15 D101).
+  final NameZone nameZone;
 }

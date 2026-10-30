@@ -48,7 +48,7 @@
   "@settingsTheme": {
     "description": "Settings row: theme mode."
   },
-  "themeSky": "Sky (follows the sun)",
+  "themeSky": "Dynamic (changes with prayer times)",
   "@themeSky": {
     "description": "Theme choice: header colours follow the sun."
   },
@@ -284,7 +284,7 @@
   "@homeNeedsLocation": {
     "description": "Home: no usable place."
   },
-  "homeNoProfile": "There is no local authority profile here; the engine default is used.",
+  "homeNoProfile": "No local timetable for this area yet; times use the standard method.",
   "@homeNoProfile": {
     "description": "Home: engine default profile used (US-06)."
   },
@@ -292,33 +292,9 @@
   "@homeHealthUnknown": {
     "description": "Home: Athan readiness before Athan exists."
   },
-  "homeManualPlace": "Manual place · {label}",
-  "@homeManualPlace": {
-    "description": "Home: place chip for a manual context (US-02).",
-    "placeholders": {
-      "label": {
-        "type": "String",
-        "example": "Alexandria"
-      }
-    }
-  },
-  "homeCurrentPlace": "Approximate location",
+  "homeCurrentPlace": "Your location",
   "@homeCurrentPlace": {
     "description": "Home: place chip for the device location."
-  },
-  "homePinnedPlace": "Pinned place · {label}",
-  "@homePinnedPlace": {
-    "description": "Home: place chip for a pinned context.",
-    "placeholders": {
-      "label": {
-        "type": "String",
-        "example": "Home"
-      }
-    }
-  },
-  "homeChangePlace": "Change place",
-  "@homeChangePlace": {
-    "description": "Home: button to manual place."
   },
   "timelineTitle": "Next 7 days",
   "@timelineTitle": {
@@ -1229,5 +1205,15 @@
   "placeSuggestions": "Cities in your time zone",
   "@placeSuggestions": {
     "description": "Place search: heading of the cities suggested before typing."
+  },
+  "homePlaceChip": "{place}, change place",
+  "@homePlaceChip": {
+    "description": "Home header: screen-reader label of the place chip.",
+    "placeholders": {
+      "place": {
+        "type": "String",
+        "example": "Cairo"
+      }
+    }
   }
 }

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
 import 'package:daily_muslim/features/home/domain/time_row_view.dart';
 import 'package:daily_muslim/features/home/presentation/display_style.dart';
+import 'package:daily_muslim/features/home/presentation/home_providers.dart';
 import 'package:daily_muslim/features/home/presentation/home_state.dart';
 import 'package:daily_muslim/features/home/presentation/time_rows.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
@@ -122,22 +123,26 @@ final class HomeHourField extends ConsumerWidget {
   }
 }
 
-/// Place (with the way to change it) and the Hijri date with its Moon.
-final class _Header extends StatelessWidget {
+/// The place and the Hijri date with its Moon. The place is its name only
+/// (the city a device fix is in, §15 D101), in a chip that opens the place
+/// screen; the words "pinned", "manual" and "approximate" are for the
+/// diagnostics, not for the header.
+final class _Header extends ConsumerWidget {
   const new({required this.content, required this.style});
 
   final HomeContent content;
   final DisplayStyle style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final place = content.place;
-    final label = switch (place.kind) {
-      ContextKind.current => l.homeCurrentPlace,
-      ContextKind.pinned => l.homePinnedPlace(place.label),
-      ContextKind.manual => l.homeManualPlace(place.label),
-    };
+    final language = Localizations.localeOf(context).languageCode;
+    final current = place.kind == ContextKind.current;
+    final name = current
+        ? ref.watch(currentPlaceNameProvider).value?.nameIn(language) ??
+              l.homeCurrentPlace
+        : place.label;
     const ivory = TextStyle(color: Color(0xFFE5EEE6), fontSize: 13);
     final hijri = content.hijri;
     return Wrap(
@@ -146,32 +151,51 @@ final class _Header extends StatelessWidget {
       spacing: 8,
       runSpacing: 4,
       children: [
-        InkWell(
-          onTap: () => context.push(const PlaceRoute().location),
-          borderRadius: BorderRadius.circular(8),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 44),
-            // Wraps, never overflows, at 200 % text (REQ-UX-020).
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                const Icon(
-                  Icons.place_outlined,
-                  size: 16,
-                  color: RawdahPalette.goldLight,
-                ),
-                const SizedBox(width: 4),
-                Text(label, style: ivory),
-                const SizedBox(width: 6),
-                Text(
-                  l.homeChangePlace,
-                  style: ivory.copyWith(
-                    color: RawdahPalette.goldLight,
-                    decoration: TextDecoration.underline,
-                    decorationColor: RawdahPalette.goldLight,
+        Semantics(
+          button: true,
+          label: l.homePlaceChip(name),
+          excludeSemantics: true,
+          child: Material(
+            color: RawdahPalette.emeraldDeep.withValues(alpha: 0.35),
+            shape: StadiumBorder(
+              side: BorderSide(
+                color: RawdahPalette.goldLight.withValues(alpha: 0.6),
+              ),
+            ),
+            child: InkWell(
+              onTap: () => context.push(const PlaceRoute().location),
+              customBorder: const StadiumBorder(),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 44),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  // Wraps, never overflows, at 200 % text (REQ-UX-020).
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Icon(
+                        current ? Icons.near_me_outlined : Icons.place_outlined,
+                        size: 16,
+                        color: RawdahPalette.goldLight,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        name,
+                        style: ivory.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(width: 2),
+                      const Icon(
+                        Icons.expand_more,
+                        size: 18,
+                        color: RawdahPalette.goldLight,
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),

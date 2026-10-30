@@ -99,4 +99,22 @@ void main() {
       }
     });
   });
+
+  test('the status bar icons read on their ground (§15 D101)', () {
+    expect(
+      DmTheme.statusBarOn(Brightness.light).statusBarIconBrightness,
+      Brightness.dark,
+    );
+    expect(
+      DmTheme.statusBarOn(Brightness.dark).statusBarIconBrightness,
+      Brightness.light,
+    );
+    expect(
+      DmTheme.of(
+        Brightness.light,
+        StatusLocale.en,
+      ).appBarTheme.systemOverlayStyle?.statusBarIconBrightness,
+      Brightness.dark,
+    );
+  });
 }

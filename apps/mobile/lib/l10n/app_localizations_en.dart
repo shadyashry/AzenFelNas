@@ -46,7 +46,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsTheme => 'Appearance';
 
   @override
-  String get themeSky => 'Sky (follows the sun)';
+  String get themeSky => 'Dynamic (changes with prayer times)';
 
   @override
   String get themeLight => 'Light';
@@ -220,26 +220,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeNoProfile =>
-      'There is no local authority profile here; the engine default is used.';
+      'No local timetable for this area yet; times use the standard method.';
 
   @override
   String get homeHealthUnknown => 'Athan: not set up yet';
 
   @override
-  String homeManualPlace(String label) {
-    return 'Manual place · $label';
-  }
-
-  @override
-  String get homeCurrentPlace => 'Approximate location';
-
-  @override
-  String homePinnedPlace(String label) {
-    return 'Pinned place · $label';
-  }
-
-  @override
-  String get homeChangePlace => 'Change place';
+  String get homeCurrentPlace => 'Your location';
 
   @override
   String get timelineTitle => 'Next 7 days';
@@ -867,4 +854,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get placeSuggestions => 'Cities in your time zone';
+
+  @override
+  String homePlaceChip(String place) {
+    return '$place, change place';
+  }
 }

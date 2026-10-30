@@ -23,6 +23,7 @@ import 'package:daily_muslim/features/contexts/application/import_gazetteer.dart
 import 'package:daily_muslim/features/contexts/application/locate_observer.dart';
 import 'package:daily_muslim/features/contexts/application/locate_with_permission.dart';
 import 'package:daily_muslim/features/contexts/application/name_nearest_place.dart';
+import 'package:daily_muslim/features/contexts/application/name_zone.dart';
 import 'package:daily_muslim/features/contexts/application/pin_place.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_observer_context.dart';
 import 'package:daily_muslim/features/contexts/application/resolve_place.dart';
@@ -314,6 +315,7 @@ abstract final class AppBindings {
       follow: FollowDeviceLocation(locate),
       suggest: SuggestPlaces(deviceZone, gazetteer),
       nameNearest: NameNearestPlace(gazetteer),
+      nameZone: NameZone(gazetteer),
     );
   }
 }

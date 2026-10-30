@@ -1,3 +1,5 @@
+import 'package:daily_muslim/features/contexts/domain/context_kind.dart';
+import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/home/application/build_day_views.dart';
 import 'package:daily_muslim/features/home/application/build_fasting_day.dart';
 import 'package:daily_muslim/features/home/domain/athan_readiness.dart';
@@ -31,6 +33,23 @@ final homeStateProvider = Provider<HomeState>((ref) {
     case AsyncLoading():
       return const HomeLoading();
   }
+});
+
+/// The place the device location is in, for Home's header (§15 D101):
+/// `null` for a chosen place, while loading, or when no place is near.
+final currentPlaceNameProvider = FutureProvider<GazetteerHit?>((ref) async {
+  final loaded = switch (ref.watch(scheduleProvider)) {
+    AsyncData(value: Ok(:final value)) => value,
+    AsyncData() || AsyncError() || AsyncLoading() => null,
+  };
+  final context = loaded?.schedule.context.context;
+  if (context == null || context.kind != ContextKind.current) return null;
+  return switch (await ref.watch(contextUseCasesProvider.future)) {
+    Ok(value: final useCases) => await useCases.nameNearest(
+      context.place.point,
+    ),
+    Err() => null,
+  };
 });
 
 /// The day timeline's state (§18.4).

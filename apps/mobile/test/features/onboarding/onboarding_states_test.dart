@@ -169,7 +169,7 @@ void main() {
       await pump(
         tester,
         access: LocationAccess.granted,
-        around: FakePlacesAround(near: cairo),
+        around: FakePlacesAround(nearby: cairo),
       );
       await tester.tap(find.text('Find my location'));
       await pumpUntil(tester, find.text('Your times are ready'));

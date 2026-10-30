@@ -98,7 +98,7 @@ void main() {
       expect(find.byType(TimeRow), findsNWidgets(7));
       expect(find.text('Calculated'), findsNWidgets(6));
       expect(find.text('Not available'), findsOneWidget);
-      expect(find.text('Manual place · Alexandria'), findsOneWidget);
+      expect(find.text('Alexandria'), findsOneWidget);
       expect(find.text('Athan: not set up yet'), findsOneWidget);
     });
 
@@ -113,8 +113,8 @@ void main() {
       await _pump(tester, HomeNoProfile(_content()));
       expect(
         find.text(
-          'There is no local authority profile here; the engine default is '
-          'used.',
+          'No local timetable for this area yet; times use the standard '
+          'method.',
         ),
         findsOneWidget,
       );

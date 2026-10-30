@@ -83,7 +83,7 @@ Widget harnessApp(
     systemSettings: systemSettings ?? FakeSystemSettings(),
     runPayloadWork: runPayloadWorkInPlace,
   ),
-  child: DailyMuslimApp(initialLocation: initialLocation),
+  child: DailyMuslimApp(initialLocation: initialLocation, intro: false),
 );
 
 /// Unmounts the app so drift's stream timers fire inside the fake clock, then

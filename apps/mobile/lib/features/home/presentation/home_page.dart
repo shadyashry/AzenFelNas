@@ -89,57 +89,61 @@ final class HomeContentView extends ConsumerWidget {
     final style = DisplayStyle.of(context, ref);
     final light = ref.watch(hourLightProvider);
     final next = content.nextPrayer;
-    return ListView(
-      padding: scrollInsets(context),
-      children: [
-        HomeHourField(content: content, style: style, light: light),
-        const TravelBanner(),
-        const FastingCard(),
-        if (notice case final String text)
+    // Light status bar icons over the hour-light field (§15 D101).
+    return AnnotatedRegion(
+      value: DmTheme.statusBarOn(Brightness.dark),
+      child: ListView(
+        padding: scrollInsets(context),
+        children: [
+          HomeHourField(content: content, style: style, light: light),
+          const TravelBanner(),
+          const FastingCard(),
+          if (notice case final String text)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.labelMedium,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 14, 16, 6),
+            child: GoldDivider(),
+          ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
-            child: Text(
-              text,
-              style: Theme.of(context).textTheme.labelMedium,
-              textAlign: TextAlign.center,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: TimeRows(
+              day: content.day,
+              style: style,
+              next: next?.event,
+              light: light,
             ),
           ),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(16, 14, 16, 6),
-          child: GoldDivider(),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          child: TimeRows(
-            day: content.day,
-            style: style,
-            next: next?.event,
-            light: light,
-          ),
-        ),
-        const SizedBox(height: 8),
-        _Link(
-          icon: Icons.notifications_none,
-          // The evaluated Athan Health (§8.3, §15 D95), so a missing
-          // permission shows on Home too.
-          text: switch (ref.watch(athanHealthProvider)) {
-            AsyncData(value: AthanHealthReady()) => l.athanHealthReady,
-            AsyncData(value: AthanHealthLimited()) => l.athanHealthLimited,
-            AsyncData(value: AthanHealthNotReady()) => l.athanHealthNotReady,
-            AsyncData(value: AthanHealthUnknown()) ||
-            AsyncError() ||
-            AsyncLoading() => switch (content.health) {
-              AthanReadinessUnknown() => l.homeHealthUnknown,
+          const SizedBox(height: 8),
+          _Link(
+            icon: Icons.notifications_none,
+            // The evaluated Athan Health (§8.3, §15 D95), so a missing
+            // permission shows on Home too.
+            text: switch (ref.watch(athanHealthProvider)) {
+              AsyncData(value: AthanHealthReady()) => l.athanHealthReady,
+              AsyncData(value: AthanHealthLimited()) => l.athanHealthLimited,
+              AsyncData(value: AthanHealthNotReady()) => l.athanHealthNotReady,
+              AsyncData(value: AthanHealthUnknown()) ||
+              AsyncError() ||
+              AsyncLoading() => switch (content.health) {
+                AthanReadinessUnknown() => l.homeHealthUnknown,
+              },
             },
-          },
-          onTap: () => context.go(AppTabBar.locationOf(RawdahTab.athan)),
-        ),
-        _Link(
-          icon: Icons.view_week_outlined,
-          text: l.timelineTitle,
-          onTap: () => context.push(const TimelineRoute().location),
-        ),
-      ],
+            onTap: () => context.go(AppTabBar.locationOf(RawdahTab.athan)),
+          ),
+          _Link(
+            icon: Icons.view_week_outlined,
+            text: l.timelineTitle,
+            onTap: () => context.push(const TimelineRoute().location),
+          ),
+        ],
+      ),
     );
   }
 }

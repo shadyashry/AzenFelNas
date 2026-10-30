@@ -38,8 +38,9 @@ abstract interface class DecodeGazetteerPayload {
 /// `SuggestPlaces`, §15 D100): a fix gets a name and a first-run user a
 /// list to tap instead of a search.
 abstract interface class FindPlacesAround {
-  /// The place nearest [point] within [withinKm], or `null` when none is.
-  Future<Result<GazetteerHit?, GazetteerFailure>> nearest(
+  /// The places within [withinKm] of [point], nearest first, each with its
+  /// distance in kilometres.
+  Future<Result<List<(GazetteerHit, double)>, GazetteerFailure>> near(
     GeoPointE6 point, {
     required double withinKm,
   });

@@ -1,5 +1,8 @@
 import 'package:daily_muslim/app/app_router.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
+import 'package:daily_muslim/features/home/presentation/home_providers.dart';
+import 'package:daily_muslim/features/home/presentation/home_state.dart';
+import 'package:daily_muslim/features/onboarding/presentation/home_gate.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_providers.dart';
 import 'package:daily_muslim/features/shell/presentation/brand_intro.dart';
@@ -13,11 +16,15 @@ import 'package:go_router/go_router.dart';
 /// Root widget: language, theme and the router, all read from the Appendix K
 /// settings. Locale changes presentation only (REQ-DOM-040).
 final class DailyMuslimApp extends ConsumerStatefulWidget {
-  /// The app; [initialLocation] is for tests.
-  const new({this.initialLocation = '/', super.key});
+  /// The app; [initialLocation] and [intro] are for tests.
+  const new({this.initialLocation = '/', this.intro = true, super.key});
 
   /// Where the router starts.
   final String initialLocation;
+
+  /// Whether the opening intro plays (§15 D101); app tests that drive the
+  /// screens leave it out, `brand_intro_test.dart` covers it.
+  final bool intro;
 
   @override
   ConsumerState<DailyMuslimApp> createState() => _DailyMuslimAppState();
@@ -47,6 +54,14 @@ final class _DailyMuslimAppState extends ConsumerState<DailyMuslimApp> {
     super.dispose();
   }
 
+  /// Whether the first screen has its content, so the intro can fade into
+  /// it (§15 D101): the welcome step at once, Home once its times are in.
+  bool _ready() => switch (ref.watch(onboardingCompleteProvider)) {
+    AsyncData(value: true) => ref.watch(homeStateProvider) is! HomeLoading,
+    AsyncData(value: false) || AsyncError() => true,
+    AsyncLoading() => false,
+  };
+
   @override
   Widget build(BuildContext context) {
     ref.listen(packageSyncProvider, (_, _) {});
@@ -60,8 +75,16 @@ final class _DailyMuslimAppState extends ConsumerState<DailyMuslimApp> {
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       routerConfig: _router,
       // The launch screen's emerald continues into the app (§15 D100).
-      builder: (context, child) =>
-          BrandIntro(child: child ?? const SizedBox.shrink()),
+      // Status bar icons that read on the page's ground (§15 D101); pages
+      // with an app bar or a dark field set their own.
+      builder: (context, child) => AnnotatedRegion(
+        value: DmTheme.statusBarOn(Theme.of(context).brightness),
+        child: switch ((widget.intro, child)) {
+          (true, final Widget app) => BrandIntro(ready: _ready(), child: app),
+          (false, final Widget app) => app,
+          (_, null) => const SizedBox.shrink(),
+        },
+      ),
       locale: switch (locale) {
         LocaleSetting.ar => const Locale('ar'),
         LocaleSetting.en => const Locale('en'),
