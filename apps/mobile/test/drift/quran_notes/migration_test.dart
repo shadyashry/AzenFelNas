@@ -34,7 +34,7 @@ void main() {
     }
   });
 
-  // Version 2 only adds the verse-highlight table (§15 D113); every note
+  // Version 2 only adds the verse-highlight table (§15 D114); every note
   // a reader kept under version 1 must come through unchanged.
   test('REQ-QRN-060 migration from v1 to v2 keeps every note', () async {
     const layout = 'kfgqpc-hafs-1441-604';

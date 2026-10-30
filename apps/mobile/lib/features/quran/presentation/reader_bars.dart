@@ -135,7 +135,7 @@ final class ReaderTopBar extends ConsumerWidget {
   }
 }
 
-/// One tappable part of the title (§15 D113), at least 24 dp tall (WCAG
+/// One tappable part of the title (§15 D114), at least 24 dp tall (WCAG
 /// 2.2 target size).
 final class _TitleTap extends StatelessWidget {
   const new({required this.hint, required this.onTap, required this.child});
@@ -158,7 +158,7 @@ final class _TitleTap extends StatelessWidget {
   );
 }
 
-/// The verses of [page] in the ayahs sheet (§15 D113).
+/// The verses of [page] in the ayahs sheet (§15 D114).
 Future<void> _showPageAyahs(
   BuildContext context,
   WidgetRef ref,

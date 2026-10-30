@@ -5,26 +5,32 @@ import 'dart:ui' as ui;
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 
-/// The opening moment (§15 D100, D101, D106), over the whole screen. The
-/// native launch screen shows the approved logo at [launchSide] on its own
-/// green; the intro's first frame is that same picture, held back until the
-/// logo is decoded, so nothing blinks or jumps. The logo then opens out to
-/// fill the screen ([fullSideIn]) as dawn light spreads from its sunrise:
-/// a warm bloom over the whole screen, soft rays rising through the arch, a
-/// sheen across the gold and a glow at the lantern and the sunrise, all of
-/// it once, never looping. The logo rests, crisp, until the app is
-/// [ready]; then it opens towards the reader and fades as the app settles
-/// into place beneath. If the app is still loading [loadingAfter] after the
-/// logo settled, a thin gold line says so; after [longestHold] the intro
-/// leaves anyway for the app's own loading and recovery states. The app
-/// starts underneath at once and keeps its place in the tree, so deep links
-/// and notification taps land while the intro plays. A tap skips it; it is
-/// hidden from screen readers. With reduced motion the logo stays still at
-/// the launch size and the intro fades when the app is ready. It plays once
-/// per process: a resume does not replay it.
+/// The opening moment (§15 D113), over the whole screen. The native launch
+/// screen is the logo's own green with nothing on it, and so is the intro's
+/// first frame. Once the logo is decoded and that frame is on screen, the
+/// approved logo fades in while it settles from 97 to 100 % (0–780 ms); a
+/// soft warm glow rises and falls at its lantern (300–1250 ms), then at its
+/// sunrise (600–1430 ms), and a gold light runs out along its horizon line
+/// and fades (650–1450 ms). The light is drawn over the logo, never into
+/// it, and kept off the lettering; it plays once and never loops. At
+/// [motionDuration] the intro crossfades into the app if it is [ready]
+/// ([exitDuration]); otherwise the logo rests, a thin gold line says it is
+/// loading after [loadingAfter], and after [longestHold] the intro leaves
+/// anyway for the app's own loading and recovery states. The app starts
+/// underneath at once and keeps its place in the tree, so deep links and
+/// notification taps land while the intro plays. A tap skips it; it is
+/// hidden from screen readers. With reduced motion, or when the launch
+/// opened a link ([brief]), the logo stays at its size with no light: a
+/// [briefFade] in, a short rest, a [briefFade] into the app once it is
+/// ready. It plays once per launch: a resume does not replay it.
 final class BrandIntro extends StatefulWidget {
   /// The intro over [child], leaving once [ready].
-  const new({required this.child, this.ready = true, super.key});
+  const new({
+    required this.child,
+    this.ready = true,
+    this.brief = false,
+    super.key,
+  });
 
   /// The app.
   final Widget child;
@@ -32,37 +38,51 @@ final class BrandIntro extends StatefulWidget {
   /// Whether the first screen has its content.
   final bool ready;
 
-  /// The logo's side on the native launch screens; the launch images are
-  /// made at this size by `tool/brand`.
-  static const launchSide = 175.0;
+  /// Whether to play the still, short intro whatever the motion setting:
+  /// the launch opened a link, so its page should come quickly.
+  final bool brief;
 
-  /// The opening out and the dawn light.
-  static const motionDuration = Duration(milliseconds: 1400);
+  /// The logo's fade-in and the light on it.
+  static const motionDuration = Duration(milliseconds: 1500);
 
-  /// The opening towards the reader and the fade into the app.
+  /// The crossfade into the app.
   static const exitDuration = Duration(milliseconds: 450);
 
-  /// The fade into the app with reduced motion, or when a tap skips.
-  static const quickExitDuration = Duration(milliseconds: 200);
+  /// The still intro's fades in and out, and the fade when a tap skips.
+  static const briefFade = Duration(milliseconds: 180);
 
-  /// How long the settled logo waits for [ready] before the loading line.
+  /// How long the still intro shows the logo before it may leave.
+  static const briefRest = Duration(milliseconds: 400);
+
+  /// How long the resting logo waits for [ready] before the loading line.
   static const loadingAfter = Duration(seconds: 2);
 
-  /// The longest the settled logo waits for [ready].
+  /// The longest the resting logo waits for [ready].
   static const longestHold = Duration(seconds: 8);
 
-  /// The longest the first frame waits for the logo to decode, and the
-  /// motion for that frame to reach the screen.
-  static const decodeWait = Duration(milliseconds: 400);
+  /// The longest the logo's fade-in waits for the image to decode, and for
+  /// the first frame to reach the screen. A busy cold start on the emulator
+  /// took over 400 ms to decode, and the logo then popped in mid-fade.
+  static const decodeWait = Duration(milliseconds: 1500);
 
-  /// The intro's logo: the launch screens' picture, its plain edge faded.
+  /// The intro's logo: the approved logo, its plain edge faded.
   static const asset = 'assets/brand/logo_launch.png';
 
-  /// The settled logo's side on a screen of [size]: the full width in
-  /// portrait; in landscape a little short of the height, leaving room for
-  /// the loading line.
-  static double fullSideIn(Size size) =>
-      math.min(size.width, size.height * 0.8);
+  /// The logo's largest side: the intro asset's 1x size, so it stays crisp.
+  static const largestSide = 418.0;
+
+  /// Where the logo rests on a screen of [size] whose system bars take
+  /// [safe]: most of the safe width in portrait, short of the safe height
+  /// in landscape so the loading line has room, a little above the centre.
+  static Rect logoRectIn(Size size, EdgeInsets safe) {
+    final area = safe.deflateRect(Offset.zero & size);
+    final side = math.min(
+      math.min(area.width * 0.86, area.height * 0.62),
+      largestSide,
+    );
+    final centre = area.center.translate(0, -0.12 * (area.height - side) / 2);
+    return Rect.fromCenter(center: centre, width: side, height: side);
+  }
 
   @override
   State<BrandIntro> createState() => _BrandIntroState();
@@ -78,9 +98,12 @@ final class _BrandIntroState extends State<BrandIntro>
     vsync: this,
     duration: BrandIntro.exitDuration,
   );
+  late final Animation<double> _shown = ReverseAnimation(
+    CurvedAnimation(parent: _exit, curve: Curves.easeOut),
+  );
   final List<Timer> _timers = [];
   bool _started = false;
-  bool _frameDeferred = false;
+  bool _still = false;
   bool _settled = false;
   bool _loading = false;
   bool _done = false;
@@ -90,16 +113,24 @@ final class _BrandIntroState extends State<BrandIntro>
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
-    // The native launch screen stays until the logo can be drawn.
-    WidgetsBinding.instance.deferFirstFrame();
-    _frameDeferred = true;
+    _still = widget.brief || MediaQuery.disableAnimationsOf(context);
+    if (_still) {
+      _motion.duration = BrandIntro.briefFade;
+      _exit.duration = BrandIntro.briefFade;
+    }
+    // The fade-in starts once the logo is decoded and the first frame, the
+    // bare ground, is on screen, so none of it is lost to start-up; at the
+    // latest [BrandIntro.decodeWait] later.
     unawaited(
-      Future.any([
-        precacheImage(const AssetImage(BrandIntro.asset), context),
-        Future<void>.delayed(BrandIntro.decodeWait),
-      ]).whenComplete(_begin),
+      Future.wait([
+        _atMost(precacheImage(const AssetImage(BrandIntro.asset), context)),
+        _atMost(WidgetsBinding.instance.waitUntilFirstFrameRasterized),
+      ]).then((_) => _begin()),
     );
   }
+
+  static Future<void> _atMost(Future<void> wait) =>
+      Future.any([wait, Future<void>.delayed(BrandIntro.decodeWait)]);
 
   @override
   void didUpdateWidget(BrandIntro old) {
@@ -109,17 +140,10 @@ final class _BrandIntroState extends State<BrandIntro>
 
   @override
   void dispose() {
-    _allowFirstFrame();
     _cancelTimers();
     _motion.dispose();
     _exit.dispose();
     super.dispose();
-  }
-
-  void _allowFirstFrame() {
-    if (!_frameDeferred) return;
-    _frameDeferred = false;
-    WidgetsBinding.instance.allowFirstFrame();
   }
 
   void _cancelTimers() {
@@ -130,28 +154,19 @@ final class _BrandIntroState extends State<BrandIntro>
   }
 
   void _begin() {
-    _allowFirstFrame();
-    // The motion starts once the first frame, the launch picture, is on
-    // screen, so it starts from the launch size rather than part-way; at
-    // the latest [BrandIntro.decodeWait] later.
-    unawaited(
-      Future.any([
-        WidgetsBinding.instance.waitUntilFirstFrameRasterized,
-        Future<void>.delayed(BrandIntro.decodeWait),
-      ]).then((_) {
-        if (!mounted || _exit.status != AnimationStatus.dismissed) return;
-        if (MediaQuery.disableAnimationsOf(context)) {
-          _settle();
-          return;
-        }
-        _motion.forward().whenCompleteOrCancel(() {
-          if (mounted && _motion.isCompleted) _settle();
-        });
-      }),
-    );
+    if (!mounted || _exit.status != AnimationStatus.dismissed) return;
+    _motion.forward().whenCompleteOrCancel(() {
+      if (!mounted || !_motion.isCompleted) return;
+      if (_still) {
+        _timers.add(Timer(BrandIntro.briefRest, _settle));
+      } else {
+        _settle();
+      }
+    });
   }
 
   void _settle() {
+    if (!mounted) return;
     _settled = true;
     if (widget.ready) {
       _leave();
@@ -166,13 +181,11 @@ final class _BrandIntroState extends State<BrandIntro>
       ..add(Timer(BrandIntro.longestHold, _leave));
   }
 
-  /// Fades into the app.
+  /// Crossfades into the app.
   void _leave({bool quick = false}) {
     _cancelTimers();
     if (!mounted || _exit.status != AnimationStatus.dismissed) return;
-    if (quick || MediaQuery.disableAnimationsOf(context)) {
-      _exit.duration = BrandIntro.quickExitDuration;
-    }
+    if (quick) _exit.duration = BrandIntro.briefFade;
     _exit.forward().whenCompleteOrCancel(() {
       if (mounted && _exit.isCompleted) setState(() => _done = true);
     });
@@ -185,12 +198,10 @@ final class _BrandIntroState extends State<BrandIntro>
 
   @override
   Widget build(BuildContext context) {
-    final still = MediaQuery.disableAnimationsOf(context);
     // The app keeps its place in the tree when the intro leaves, so none of
-    // its state is rebuilt; its transform is the identity once settled.
-    // Until the intro starts to fade it is laid out and read by screen
-    // readers but not painted: the opaque stage covers it, and painting it
-    // under every frame of the motion is wasted work.
+    // its state is rebuilt. Until the crossfade starts it is laid out and
+    // read by screen readers but not painted: the opaque stage covers it,
+    // and painting it under every frame of the motion is wasted work.
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -199,12 +210,7 @@ final class _BrandIntroState extends State<BrandIntro>
           builder: (context, app) => Opacity(
             opacity: _done || _exit.value > 0 ? 1 : 0,
             alwaysIncludeSemantics: true,
-            child: Transform.scale(
-              scale: still || _done
-                  ? 1
-                  : 0.96 + 0.04 * Curves.easeOutCubic.transform(_exit.value),
-              child: app,
-            ),
+            child: app,
           ),
           child: widget.child,
         ),
@@ -217,14 +223,12 @@ final class _BrandIntroState extends State<BrandIntro>
               child: AnnotatedRegion(
                 value: DmTheme.statusBarOn(Brightness.dark),
                 child: FadeTransition(
-                  opacity: ReverseAnimation(
-                    CurvedAnimation(parent: _exit, curve: Curves.easeIn),
-                  ),
+                  opacity: _shown,
                   child: AnimatedBuilder(
-                    animation: Listenable.merge([_motion, _exit]),
+                    animation: _motion,
                     builder: (context, _) => _Stage(
                       t: _motion.value,
-                      leaving: still ? 0 : _exit.value,
+                      still: _still,
                       loading: _loading,
                     ),
                   ),
@@ -237,81 +241,77 @@ final class _BrandIntroState extends State<BrandIntro>
   }
 }
 
-/// The whole-screen stage at motion [t] (0 → 1) and exit [leaving]
-/// (0 → 1); [loading] once the app has kept the settled logo waiting.
+/// The whole-screen stage at motion [t] (0 → 1 over
+/// [BrandIntro.motionDuration], or over [BrandIntro.briefFade] when
+/// [still]); [loading] once the app has kept the resting logo waiting.
 final class _Stage extends StatelessWidget {
-  const new({required this.t, required this.leaving, required this.loading});
+  const new({required this.t, required this.still, required this.loading});
 
   final double t;
-  final double leaving;
+  final bool still;
   final bool loading;
 
-  /// 0 before [from], 1 after [to], linear between.
-  static double _span(double t, double from, double to) =>
-      ((t - from) / (to - from)).clamp(0.0, 1.0);
+  /// How far through [from]–[to] ms of the motion [t] is, 0 → 1.
+  static double _span(double t, int from, int to) {
+    final ms = t * BrandIntro.motionDuration.inMilliseconds;
+    return ((ms - from) / (to - from)).clamp(0.0, 1.0);
+  }
 
-  /// Up over [from]–[peak], down over [peak]–[to], each eased.
-  static double _rise(double t, double from, double peak, double to) => t < peak
-      ? Curves.easeOut.transform(_span(t, from, peak))
-      : 1 - Curves.easeInOut.transform(_span(t, peak, to));
+  /// Up over [from]–[peak] ms, back down to nothing by [to] ms.
+  static double _swell(double t, int from, int peak, int to) {
+    final rising = _span(t, from, peak);
+    return rising < 1
+        ? Curves.easeOutCubic.transform(rising)
+        : 1 - Curves.easeInOutSine.transform(_span(t, peak, to));
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    final full = BrandIntro.fullSideIn(size);
-    // From the launch picture, centred on the whole screen as the launch
-    // screens are, out to the full side; then towards the reader as it
-    // leaves.
-    final open = Curves.easeInOutCubic.transform(_span(t, 0, 0.55));
-    final from = math.min(BrandIntro.launchSide / full, 1);
-    final scale =
-        (from + (1 - from) * open) *
-        (1 + 0.08 * Curves.easeIn.transform(leaving));
-    final sunrise = Offset(
-      size.width / 2,
-      size.height / 2 + (_GlowPainter.sunrise.dy - 0.5) * full * scale,
-    );
+    final logo = BrandIntro.logoRectIn(size, MediaQuery.paddingOf(context));
+    final appear = still
+        ? Curves.easeOut.transform(t)
+        : Curves.easeOutCubic.transform(_span(t, 0, 780));
     return ColoredBox(
       color: RawdahPalette.logoGround,
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Center(
-            child: Transform.scale(
-              scale: scale,
-              child: SizedBox.square(
-                dimension: full,
+          IgnorePointer(
+            child: CustomPaint(
+              painter: _GroundPainter(logo: logo, strength: appear),
+            ),
+          ),
+          Positioned.fromRect(
+            rect: logo,
+            child: Opacity(
+              opacity: appear,
+              child: Transform.scale(
+                scale: still ? 1 : 0.97 + 0.03 * appear,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
                     Image.asset(
                       BrandIntro.asset,
-                      width: full,
-                      height: full,
+                      width: logo.width,
+                      height: logo.height,
                       gaplessPlayback: true,
                     ),
-                    IgnorePointer(
-                      child: CustomPaint(
-                        painter: _GlowPainter(
-                          sheen: Curves.easeInOut.transform(
-                            _span(t, 0.45, 0.88),
+                    if (!still)
+                      IgnorePointer(
+                        child: CustomPaint(
+                          painter: _LightPainter(
+                            lantern: _swell(t, 300, 700, 1250),
+                            sunrise: _swell(t, 600, 1000, 1430),
+                            horizon: _swell(t, 650, 1050, 1450),
+                            reach: Curves.easeOutCubic.transform(
+                              _span(t, 650, 1150),
+                            ),
                           ),
-                          glow: _rise(t, 0.5, 0.72, 1),
                         ),
                       ),
-                    ),
                   ],
                 ),
-              ),
-            ),
-          ),
-          IgnorePointer(
-            child: CustomPaint(
-              painter: _DawnPainter(
-                from: sunrise,
-                bloom: _rise(t, 0.12, 0.55, 1),
-                reach: Curves.easeOutCubic.transform(_span(t, 0.22, 0.78)),
-                rays: _rise(t, 0.22, 0.5, 1),
               ),
             ),
           ),
@@ -346,164 +346,171 @@ final class _Stage extends StatelessWidget {
   }
 }
 
-/// Dawn over the whole screen from the logo's sunrise at [from]: a warm
-/// [bloom] (0 → 1) and soft rays fanning upward through the arch, reaching
-/// [reach] of the screen at strength [rays]. Added, so it only lightens;
-/// no blur or blend that reads the screen back, so it stays cheap.
-final class _DawnPainter extends CustomPainter {
-  new({
-    required this.from,
-    required this.bloom,
-    required this.reach,
-    required this.rays,
-  });
+/// The ground at [strength] (0 → 1, from the launch screen's flat green): a
+/// restrained emerald lift behind the [logo], whose own green is a little
+/// lighter than its outer band, easing to the plain ground by the circle
+/// through its corners, then deepening towards the screen's corners. The
+/// logo's faded edge so meets a green close to its own and no square shows.
+final class _GroundPainter extends CustomPainter {
+  new({required this.logo, required this.strength});
 
-  final Offset from;
-  final double bloom;
-  final double reach;
-  final double rays;
+  final Rect logo;
+  final double strength;
 
-  static const _rayCount = 9;
+  static final Color _lift =
+      Color.lerp(
+        RawdahPalette.logoGround,
+        RawdahPalette.emerald,
+        0.12,
+      ) ??
+      RawdahPalette.logoGround;
+  static final Color _dusk =
+      Color.lerp(
+        RawdahPalette.logoGround,
+        Colors.black,
+        0.32,
+      ) ??
+      RawdahPalette.logoGround;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final far = size.longestSide;
-    if (bloom > 0) {
-      canvas.drawRect(
-        Offset.zero & size,
-        Paint()
-          ..blendMode = BlendMode.plus
-          ..shader = ui.Gradient.radial(
-            from,
-            far * 0.85,
-            [
-              RawdahPalette.goldLight.withValues(alpha: 0.14 * bloom),
-              RawdahPalette.gold.withValues(alpha: 0.04 * bloom),
-              RawdahPalette.gold.withValues(alpha: 0),
-            ],
-            const [0, 0.45, 1],
-          ),
-      );
-    }
-    if (rays <= 0 || reach <= 0) return;
-    final length = far * 0.9 * reach;
-    final shader = ui.Gradient.radial(
-      from,
-      length,
+    if (strength <= 0) return;
+    final side = logo.width;
+    final far = math.max(
+      side,
       [
-        RawdahPalette.goldLight.withValues(alpha: 0.07 * rays),
-        RawdahPalette.goldLight.withValues(alpha: 0.025 * rays),
-        RawdahPalette.goldLight.withValues(alpha: 0),
-      ],
-      const [0, 0.5, 1],
+        Offset.zero,
+        Offset(size.width, 0),
+        Offset(0, size.height),
+        Offset(size.width, size.height),
+      ].map((corner) => (corner - logo.center).distance).reduce(math.max),
     );
-    final paint = Paint()
-      ..blendMode = BlendMode.plus
-      ..shader = shader;
-    // A fan over the upper half-circle; each ray a narrow wedge over a
-    // wider, fainter one, so its edges read soft without a blur.
-    const spread = math.pi * 0.78;
-    final path = Path();
-    for (final halfWedge in const [math.pi / 70, math.pi / 160]) {
-      for (var i = 0; i < _rayCount; i++) {
-        final angle = -math.pi / 2 - spread / 2 + spread * i / (_rayCount - 1);
-        path
-          ..moveTo(from.dx, from.dy)
-          ..lineTo(
-            from.dx + length * math.cos(angle - halfWedge),
-            from.dy + length * math.sin(angle - halfWedge),
-          )
-          ..lineTo(
-            from.dx + length * math.cos(angle + halfWedge),
-            from.dy + length * math.sin(angle + halfWedge),
-          )
-          ..close();
-      }
-    }
-    canvas.drawPath(path, paint);
+    Color at(Color to) =>
+        Color.lerp(RawdahPalette.logoGround, to, strength) ??
+        RawdahPalette.logoGround;
+    canvas.drawRect(
+      Offset.zero & size,
+      Paint()
+        ..shader = ui.Gradient.radial(
+          logo.center,
+          far,
+          [at(_lift), at(_lift), RawdahPalette.logoGround, at(_dusk)],
+          [0, 0.3 * side / far, side * math.sqrt1_2 / far, 1],
+        ),
+    );
   }
 
   @override
-  bool shouldRepaint(_DawnPainter old) =>
-      old.from != from ||
-      old.bloom != bloom ||
-      old.reach != reach ||
-      old.rays != rays;
+  bool shouldRepaint(_GroundPainter old) =>
+      old.logo != logo || old.strength != strength;
 }
 
-/// Light on the logo itself, added so it only lightens: a [sheen] (0 → 1,
-/// its place across the logo) and warm [glow] (0 → 1) over the lantern and
-/// the sunrise; both pools
-/// sit well inside the logo's square, clear of its edge and mostly of the
-/// letters.
-final class _GlowPainter extends CustomPainter {
-  new({required this.sheen, required this.glow});
+/// Light over the logo, each part 0 → 1, added so it only lightens: a warm
+/// glow at the [lantern], a low glow at the [sunrise], and light along the
+/// [horizon] line, running out from the sunrise to [reach] of it. Every
+/// pool sits clear of the lettering; no blur or blend that reads the
+/// screen back, so it stays cheap. Places are fractions of the logo's
+/// side, measured on `tool/brand/logo_source.png`.
+final class _LightPainter extends CustomPainter {
+  new({
+    required this.lantern,
+    required this.sunrise,
+    required this.horizon,
+    required this.reach,
+  });
 
-  final double sheen;
-  final double glow;
+  final double lantern;
+  final double sunrise;
+  final double horizon;
+  final double reach;
 
-  /// Where the lantern and the sunrise sit in the logo, as fractions of it.
-  static const lantern = Offset(0.5, 0.23);
-  static const sunrise = Offset(0.5, 0.845);
+  /// The lantern's body; the nearest letter mark is 0.145 away.
+  static const lanternAt = Offset(0.493, 0.232);
+
+  /// The sunrise dome, sitting on the horizon line.
+  static const sunriseAt = Offset(0.499, 0.848);
+
+  /// The horizon line from pillar to pillar: a shallow curve through its
+  /// top under the sunrise.
+  static const horizonFrom = Offset(0.21, 0.8725);
+  static const horizonBend = Offset(0.5025, 0.8433);
+  static const horizonTo = Offset(0.795, 0.873);
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (sheen > 0 && sheen < 1) {
-      // A soft diagonal band from the upper left to the lower right.
-      final across = -0.35 + 1.7 * sheen;
-      final centre = Offset(size.width * across, size.height * 0.5);
-      const direction = Offset(0.91, 0.41);
-      final half = direction * (size.width * 0.16);
-      final strength = math.sin(math.pi * sheen);
-      canvas
-        ..save()
-        ..clipRect(Offset.zero & size)
-        ..drawRect(
-          Offset.zero & size,
-          Paint()
-            ..blendMode = BlendMode.plus
-            ..shader = ui.Gradient.linear(
-              centre - half,
-              centre + half,
-              [
-                RawdahPalette.goldLight.withValues(alpha: 0),
-                RawdahPalette.goldLight.withValues(alpha: 0.22 * strength),
-                RawdahPalette.goldLight.withValues(alpha: 0),
-              ],
-              const [0, 0.5, 1],
-            ),
-        )
-        ..restore();
-    }
-    if (glow <= 0) return;
+    final side = size.width;
 
     void pool(Offset at, double radius, double squash, double alpha) {
-      final centre = Offset(at.dx * size.width, at.dy * size.height);
-      final r = radius * size.width;
+      if (alpha <= 0) return;
+      final r = radius * side;
       canvas
         ..save()
-        ..translate(centre.dx, centre.dy)
+        ..translate(at.dx * side, at.dy * side)
         ..scale(1, squash)
         ..drawCircle(
           Offset.zero,
           r,
           Paint()
             ..blendMode = BlendMode.plus
-            ..shader = RadialGradient(
-              colors: [
-                RawdahPalette.goldLight.withValues(alpha: alpha * glow),
-                RawdahPalette.goldLight.withValues(alpha: 0),
+            ..shader = ui.Gradient.radial(
+              Offset.zero,
+              r,
+              [
+                RawdahPalette.goldLight.withValues(alpha: alpha),
+                RawdahPalette.gold.withValues(alpha: alpha * 0.35),
+                RawdahPalette.gold.withValues(alpha: 0),
               ],
-            ).createShader(Rect.fromCircle(center: Offset.zero, radius: r)),
+              const [0, 0.45, 1],
+            ),
         )
         ..restore();
     }
 
-    pool(lantern, 0.15, 1, 0.26);
-    pool(sunrise, 0.16, 0.45, 0.22);
+    pool(lanternAt, 0.13, 1, 0.24 * lantern);
+    pool(sunriseAt, 0.14, 0.4, 0.22 * sunrise);
+
+    if (horizon <= 0 || reach <= 0) return;
+    final from = horizonFrom * side;
+    final to = horizonTo * side;
+    final line = Path()
+      ..moveTo(from.dx, from.dy)
+      ..quadraticBezierTo(
+        horizonBend.dx * side,
+        horizonBend.dy * side,
+        to.dx,
+        to.dy,
+      );
+    // From the sunrise outward: bright at the middle, nothing past reach;
+    // strokes from wide and faint to narrow and bright, so the light reads
+    // soft without a blur.
+    final half = 0.5 * reach;
+    for (final (width, alpha) in const [
+      (0.026, 0.08),
+      (0.014, 0.14),
+      (0.006, 0.34),
+    ]) {
+      final light = RawdahPalette.goldLight.withValues(alpha: alpha * horizon);
+      canvas.drawPath(
+        line,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = width * side
+          ..blendMode = BlendMode.plus
+          ..shader = ui.Gradient.linear(
+            Offset(from.dx, 0),
+            Offset(to.dx, 0),
+            [light.withValues(alpha: 0), light, light.withValues(alpha: 0)],
+            [0.5 - half, 0.5, 0.5 + half],
+          ),
+      );
+    }
   }
 
   @override
-  bool shouldRepaint(_GlowPainter old) =>
-      old.sheen != sheen || old.glow != glow;
+  bool shouldRepaint(_LightPainter old) =>
+      old.lantern != lantern ||
+      old.sunrise != sunrise ||
+      old.horizon != horizon ||
+      old.reach != reach;
 }

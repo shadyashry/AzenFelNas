@@ -153,7 +153,7 @@ final class _Highlights extends ConsumerWidget {
   }
 }
 
-/// A verse highlight (§15 D113): its colour, its reference; tap to open
+/// A verse highlight (§15 D114): its colour, its reference; tap to open
 /// it with its lines outlined, or remove it.
 final class _AyahRow extends ConsumerWidget {
   const new(this.highlight, {required this.suras});

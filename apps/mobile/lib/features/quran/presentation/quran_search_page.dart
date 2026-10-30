@@ -117,7 +117,7 @@ final class _Results extends ConsumerWidget {
               QuranFormat.number(hit.page, style),
             ),
             onTap: () {
-              // Opens the page with the verse's lines outlined (§15 D113).
+              // Opens the page with the verse's lines outlined (§15 D114).
               unawaited(
                 ref
                     .read(readerProvider.notifier)

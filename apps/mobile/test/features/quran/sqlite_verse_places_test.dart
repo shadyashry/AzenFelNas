@@ -45,7 +45,7 @@ void main() {
     dir.deleteSync(recursive: true);
   });
 
-  group('Verse places from the package (§15 D113)', () {
+  group('Verse places from the package (§15 D114)', () {
     test('a page lists every verse that touches it, in Mushaf order, '
         'including one that runs on from or to the next page', () async {
       final on293 = switch (await index.versesOnPage(293)) {

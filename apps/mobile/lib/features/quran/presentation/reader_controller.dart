@@ -58,7 +58,7 @@ final class ReaderState {
   final HighlightDraft? draft;
 
   /// The verse whose lines are outlined for a moment after it was opened
-  /// from search, the index or the ayahs sheet (§15 D113); `null` most of
+  /// from search, the index or the ayahs sheet (§15 D114); `null` most of
   /// the time.
   final VersePlace? mark;
 
@@ -136,7 +136,7 @@ final class ReaderController extends Notifier<ReaderState> {
   }
 
   /// Opens the page of [place] and outlines its lines for [markFor]
-  /// (§15 D113); the outline is drawn over the page, never into it.
+  /// (§15 D114); the outline is drawn over the page, never into it.
   void showVerse(VersePlace place) {
     goTo(place.page);
     state = state._with(mark: () => place);

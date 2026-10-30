@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 /// Where one verse stands in the Mushaf, from the package's `verse` table
-/// (§15 D113): it starts on [page] at [lineStart] and ends on [pageEnd] at
+/// (§15 D114): it starts on [page] at [lineStart] and ends on [pageEnd] at
 /// [lineEnd] (lines counted 1..15 down a page, the surah title and
 /// basmalah lines included), with its [text] as the KFGQPC source gives
 /// it. A verse may start or end in the middle of a line; the data does not

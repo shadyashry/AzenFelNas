@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// The verses of a line or a page (§15 D113), each with its reference, the
+/// The verses of a line or a page (§15 D114), each with its reference, the
 /// start of its text in the Mushaf's own font, and what can be done with
 /// it: highlight it in a colour (drawn over the lines it is on), remove
 /// that highlight, copy its text with the reference, or show it on the

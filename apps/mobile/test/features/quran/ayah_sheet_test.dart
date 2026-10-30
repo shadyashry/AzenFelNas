@@ -97,7 +97,7 @@ Future<_FakeStore> _open(WidgetTester tester) async {
 }
 
 void main() {
-  group('The ayahs sheet (§15 D113)', () {
+  group('The ayahs sheet (§15 D114)', () {
     testWidgets('it names the verse and shows its text from the package', (
       tester,
     ) async {

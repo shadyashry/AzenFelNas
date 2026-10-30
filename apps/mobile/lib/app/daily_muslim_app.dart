@@ -22,7 +22,7 @@ final class DailyMuslimApp extends ConsumerStatefulWidget {
   /// Where the router starts.
   final String initialLocation;
 
-  /// Whether the opening intro plays (§15 D101); app tests that drive the
+  /// Whether the opening intro plays (§15 D113); app tests that drive the
   /// screens leave it out, `brand_intro_test.dart` covers it.
   final bool intro;
 
@@ -38,6 +38,12 @@ final class _DailyMuslimAppState extends ConsumerState<DailyMuslimApp> {
   /// Back from system settings (a permission, a muted channel), Athan Health
   /// is evaluated again (§15 D96).
   late final AppLifecycleListener _lifecycle;
+
+  /// Whether the launch opened a link, so the intro is the short one and
+  /// the linked page comes quickly (§15 D113).
+  late final bool _linked =
+      WidgetsBinding.instance.platformDispatcher.defaultRouteName !=
+      Navigator.defaultRouteName;
 
   @override
   void initState() {
@@ -80,7 +86,13 @@ final class _DailyMuslimAppState extends ConsumerState<DailyMuslimApp> {
       builder: (context, child) => AnnotatedRegion(
         value: DmTheme.statusBarOn(Theme.of(context).brightness),
         child: switch ((widget.intro, child)) {
-          (true, final Widget app) => BrandIntro(ready: _ready(), child: app),
+          (true, final Widget app) => BrandIntro(
+            // A linked page has its own loading states; it does not wait
+            // for Home's times.
+            ready: _linked || _ready(),
+            brief: _linked,
+            child: app,
+          ),
           (false, final Widget app) => app,
           (_, null) => const SizedBox.shrink(),
         },

@@ -85,7 +85,7 @@ Future<void> _pump(WidgetTester tester, Locale locale) async {
 void main() {
   for (final locale in const [Locale('en'), Locale('ar')]) {
     final ar = locale.languageCode == 'ar';
-    group('The reader title, ${locale.languageCode} (§15 D113)', () {
+    group('The reader title, ${locale.languageCode} (§15 D114)', () {
       testWidgets('REQ-QRN-023: tapping the surah name opens the surah index '
           'scrolled to that surah, marked as the one being read', (
         tester,
