@@ -144,28 +144,26 @@ final class _Content extends StatelessWidget {
       (false, final IconData mark) => Icon(mark, size: 20, color: color),
       (false, null) => null,
     };
+    final mark = trailing;
     return Row(
       children: [
-        // Balances the trailing mark, so the label sits in the middle.
-        const SizedBox(width: 22),
+        // Balances the trailing mark, so the label sits in the middle; with
+        // no mark the label takes the whole width.
+        if (mark != null) const SizedBox(width: 22),
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (lead case final Widget mark) ...[
-                mark,
+              if (lead case final Widget icon) ...[
+                icon,
                 const SizedBox(width: 12),
               ],
               Flexible(child: Text(label, textAlign: TextAlign.center)),
             ],
           ),
         ),
-        SizedBox(
-          width: 22,
-          child: trailing == null
-              ? null
-              : Icon(trailing, size: 20, color: color),
-        ),
+        if (mark != null)
+          SizedBox(width: 22, child: Icon(mark, size: 20, color: color)),
       ],
     );
   }

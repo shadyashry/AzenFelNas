@@ -84,6 +84,12 @@
       "name": "AndroidX Media3",
       "licence": "Apache-2.0",
       "notice": "The Android radio player uses AndroidX Media3 (ExoPlayer and media session), Copyright The Android Open Source Project, under the Apache License 2.0 (apache.org/licenses/LICENSE-2.0)."
+    },
+    {
+      "package": "country_names",
+      "name": "Unicode CLDR",
+      "licence": "Unicode-3.0",
+      "notice": "Country names from the Unicode Common Locale Data Repository (CLDR) 45, © Unicode, Inc., under the Unicode License v3 (unicode.org/license.txt)."
     }
   ]
 }

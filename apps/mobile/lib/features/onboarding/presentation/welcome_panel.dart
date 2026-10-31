@@ -1,3 +1,4 @@
+import 'package:daily_muslim/features/onboarding/presentation/ivory_sheet.dart';
 import 'package:daily_muslim/features/onboarding/presentation/location_notice.dart';
 import 'package:daily_muslim/features/onboarding/presentation/onboarding_controller.dart';
 import 'package:daily_muslim/features/onboarding/presentation/onboarding_state.dart';
@@ -46,93 +47,81 @@ final class WelcomePanel extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final controller = ref.read(onboardingProvider.notifier);
-    final side = metrics.sidePadding;
-    final contentWidth = (width - 2 * side)
-        .clamp(0, WelcomeMetrics.readingWidth)
-        .toDouble();
-    return ColoredBox(
-      color: EmeraldPalette.hero,
-      child: DecoratedBox(
-        decoration: const BoxDecoration(
-          color: EmeraldPalette.panel,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(31)),
-        ),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(side, 27, side, 16 + bottomInset),
-          child: Center(
-            heightFactor: 1,
-            child: SizedBox(
-              width: contentWidth,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Semantics(
-                    header: true,
-                    child: Text(
-                      l.welcomeHeading,
-                      style: type.heading.copyWith(color: EmeraldPalette.ink),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  PreferredBreakText(
-                    l.welcomeBody,
-                    width: contentWidth,
-                    style: type.paragraph.copyWith(
-                      color: EmeraldPalette.inkMuted,
-                    ),
-                  ),
-                  if (state case OnboardingFailed(
-                    :final failure,
-                    :final suggestion,
-                  )) ...[
-                    const SizedBox(height: 18),
-                    LocationNotice(
-                      notice: const DescribeFailure()(failure),
-                      suggestion: suggestion,
-                      type: type,
-                    ),
-                  ],
-                  const SizedBox(height: 23),
-                  WelcomeAction(
-                    key: const Key('onboardingDetect'),
-                    kind: WelcomeActionKind.primary,
-                    label: l.welcomeUseLocation,
-                    textStyle: type.action,
-                    icon: Icons.my_location,
-                    trailing: Icons.arrow_forward,
-                    loading: state is OnboardingResolving,
-                    loadingLabel: l.onboardingResolving,
-                    onPressed: controller.useApproximateLocation,
-                  ),
-                  const SizedBox(height: 10),
-                  // Stays available while location is found (§15 D126).
-                  WelcomeAction(
-                    key: const Key('onboardingChooseCity'),
-                    kind: WelcomeActionKind.secondary,
-                    label: l.welcomeChooseCity,
-                    textStyle: type.action,
-                    icon: Icons.location_on_outlined,
-                    trailing: Icons.chevron_right,
-                    onPressed: controller.choosePlace,
-                  ),
-                  const SizedBox(height: 16),
-                  _Privacy(type: type),
-                  SizedBox(height: 22 * metrics.gap),
-                  const Spacer(),
-                  const ExcludeSemantics(
-                    child: Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: EmeraldPalette.divider,
-                    ),
-                  ),
-                  SizedBox(height: 18 * metrics.gap),
-                  WelcomeFeatures(type: type),
-                ],
-              ),
+    final contentWidth = IvorySheet.contentWidthOf(
+      width,
+      metrics.sidePadding,
+    );
+    return IvorySheet(
+      width: width,
+      side: metrics.sidePadding,
+      top: 27,
+      bottom: 16 + bottomInset,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Semantics(
+            header: true,
+            child: Text(
+              l.welcomeHeading,
+              style: type.heading.copyWith(color: EmeraldPalette.ink),
             ),
           ),
-        ),
+          const SizedBox(height: 6),
+          PreferredBreakText(
+            l.welcomeBody,
+            width: contentWidth,
+            style: type.paragraph.copyWith(
+              color: EmeraldPalette.inkMuted,
+            ),
+          ),
+          if (state case OnboardingFailed(
+            :final failure,
+            :final suggestion,
+          )) ...[
+            const SizedBox(height: 18),
+            LocationNotice(
+              notice: const DescribeFailure()(failure),
+              suggestion: suggestion,
+              type: type,
+            ),
+          ],
+          const SizedBox(height: 23),
+          WelcomeAction(
+            key: const Key('onboardingDetect'),
+            kind: WelcomeActionKind.primary,
+            label: l.welcomeUseLocation,
+            textStyle: type.action,
+            icon: Icons.my_location,
+            trailing: Icons.arrow_forward,
+            loading: state is OnboardingResolving,
+            loadingLabel: l.onboardingResolving,
+            onPressed: controller.useApproximateLocation,
+          ),
+          const SizedBox(height: 10),
+          // Stays available while location is found (§15 D126).
+          WelcomeAction(
+            key: const Key('onboardingChooseCity'),
+            kind: WelcomeActionKind.secondary,
+            label: l.welcomeChooseCity,
+            textStyle: type.action,
+            icon: Icons.location_on_outlined,
+            trailing: Icons.chevron_right,
+            onPressed: controller.choosePlace,
+          ),
+          const SizedBox(height: 16),
+          _Privacy(type: type),
+          SizedBox(height: 22 * metrics.gap),
+          const Spacer(),
+          const ExcludeSemantics(
+            child: Divider(
+              height: 1,
+              thickness: 1,
+              color: EmeraldPalette.divider,
+            ),
+          ),
+          SizedBox(height: 18 * metrics.gap),
+          WelcomeFeatures(type: type),
+        ],
       ),
     );
   }

@@ -1,7 +1,5 @@
 import 'dart:ui';
 
-import 'package:daily_muslim/features/athan/domain/athan_grant.dart';
-import 'package:daily_muslim/features/athan/presentation/athan_providers.dart';
 import 'package:daily_muslim/features/contexts/domain/gazetteer_hit.dart';
 import 'package:daily_muslim/features/contexts/domain/place_choice.dart';
 import 'package:daily_muslim/features/contexts/domain/resolved_context.dart';
@@ -83,24 +81,44 @@ final class OnboardingController extends Notifier<OnboardingState> {
       PlatformDispatcher.instance.locale.languageCode == 'ar' ? 'ar' : 'en',
   };
 
-  /// → manual place search.
-  void choosePlace() => state = const OnboardingStep(OnboardingStepKind.place);
+  /// The completion step a *Change* left, so Back from the city picker
+  /// returns to it (§15 D127).
+  OnboardingStep? _saved;
 
-  /// Back from the place search to the welcome step.
-  void backToWelcome() =>
-      state = const OnboardingStep(OnboardingStepKind.welcome);
+  /// → manual place search, from the welcome step or from *Change* on the
+  /// completion step.
+  void choosePlace() {
+    _saved = switch (state) {
+      final OnboardingStep step when step.step == OnboardingStepKind.done =>
+        step,
+      _ => null,
+    };
+    state = const OnboardingStep(OnboardingStepKind.place);
+  }
+
+  /// Back from the city picker: to the completion step it was opened from,
+  /// else to the welcome step. The stored place is unchanged.
+  void leavePlace() =>
+      state = _saved ?? const OnboardingStep(OnboardingStepKind.welcome);
+
+  /// Back to the welcome step.
+  void backToWelcome() {
+    _saved = null;
+    state = const OnboardingStep(OnboardingStepKind.welcome);
+  }
 
   /// A place was pinned in the place step.
-  void placePinned(ResolvedContext context) => state = _done(context);
+  void placePinned(ResolvedContext context) {
+    _saved = null;
+    state = _done(context);
+  }
 
-  /// Ends onboarding; Home takes over. The Athan is on from here (§15 D94),
-  /// so the notification permission (REQ-ALM-026) and Android's exact alarms
-  /// (§15 D96; without them the Athan may be up to an hour late) are asked
-  /// for now. A permission already held shows nothing.
-  Future<void> finish() async {
-    final grant = ref.read(requestAthanGrantProvider);
-    await grant(AthanGrant.notifications);
-    await grant(AthanGrant.exactAlarms);
+  /// *View today's prayer times*: ends onboarding and Home takes over
+  /// (§15 D127). The Athan is on from here (§15 D94) whether or not alerts
+  /// were set up; nothing is asked for here, so skipping the optional setup
+  /// never opens a prompt, and the notification permission (REQ-ALM-026) and
+  /// exact alarms (§15 D96) are asked only by *Set up prayer alerts*.
+  Future<void> showTimes() async {
     ref.invalidate(scheduleProvider);
     await ref.read(completeFirstRunProvider).call();
   }

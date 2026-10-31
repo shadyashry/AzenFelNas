@@ -174,28 +174,6 @@
   "@onboardingFailedTitle": {
     "description": "Onboarding: location failed."
   },
-  "onboardingDoneTitle": "Your times are ready",
-  "@onboardingDoneTitle": {
-    "description": "Onboarding done step title."
-  },
-  "onboardingDoneBody": "Prayer times for {place}.",
-  "@onboardingDoneBody": {
-    "description": "Onboarding done step body.",
-    "placeholders": {
-      "place": {
-        "type": "String",
-        "example": "Cairo"
-      }
-    }
-  },
-  "onboardingAthanPermissions": "So the Athan sounds on time, the next screens ask to allow notifications and alarms.",
-  "@onboardingAthanPermissions": {
-    "description": "Onboarding done step: why the notification and alarm prompts follow (REQ-ALM-026, §15 D96)."
-  },
-  "onboardingShowTimes": "Show today's times",
-  "@onboardingShowTimes": {
-    "description": "Onboarding done button."
-  },
   "placeTitle": "Choose a place",
   "@placeTitle": {
     "description": "Manual place screen title."
@@ -2214,5 +2192,59 @@
   "cityPickerEmpty": "No matching cities",
   "@cityPickerEmpty": {"description": "City picker: the search found nothing (§15 D126)."},
   "cityPickerSelected": "Selected: {city}",
-  "@cityPickerSelected": {"description": "Screen-reader line for the city chosen in the picker (§15 D126).", "placeholders": {"city": {"type": "String", "example": "Cairo"}}}
+  "@cityPickerSelected": {"description": "Screen-reader line for the city chosen in the picker (§15 D126).", "placeholders": {"city": {"type": "String", "example": "Cairo"}}},
+  "setupHeader": "Prayer setup",
+  "@setupHeader": {"description": "Header of the setup-completion screen (§15 D127)."},
+  "setupLocationSaved": "Location saved",
+  "@setupLocationSaved": {"description": "Gold line above the completion headline (§15 D127)."},
+  "setupReadyHeadline": "Prayer times\nare ready",
+  "@setupReadyHeadline": {"description": "Completion headline once the times are calculated; the break is kept where both lines fit (§15 D127)."},
+  "setupPreparing": "Preparing prayer times…",
+  "@setupPreparing": {"description": "Completion headline while the times are calculated (§15 D127)."},
+  "setupNotReady": "Prayer times are not ready",
+  "@setupNotReady": {"description": "Completion headline when the times could not be calculated (§15 D127)."},
+  "setupRetry": "Try again",
+  "@setupRetry": {"description": "Button: calculate the times again (§15 D127)."},
+  "setupSelectedLocation": "Selected location",
+  "@setupSelectedLocation": {"description": "Label of the location summary (§15 D127)."},
+  "setupChange": "Change",
+  "@setupChange": {"description": "Link that reopens the city picker (§15 D127)."},
+  "setupChangeLabel": "Change city",
+  "@setupChangeLabel": {"description": "Screen-reader label of the Change link (§15 D127)."},
+  "setupPlace": "{city}, {country}",
+  "@setupPlace": {"description": "A place and its country (§15 D127).", "placeholders": {"city": {"type": "String", "example": "Cairo"}, "country": {"type": "String", "example": "Egypt"}}},
+  "setupAlertsTitle": "Prayer alerts",
+  "@setupAlertsTitle": {"description": "Title of the alerts section (§15 D127)."},
+  "setupOptional": "Optional",
+  "@setupOptional": {"description": "Status of alerts not set up yet (§15 D127)."},
+  "setupPendingBody": "Enable notifications to receive prayer reminders.",
+  "@setupPendingBody": {"description": "Alerts not set up yet (§15 D127)."},
+  "setupPendingHelper": "You can set these up later in Settings.",
+  "@setupPendingHelper": {"description": "Helper under the pending alerts text (§15 D127)."},
+  "setupWithoutAlerts": "You can view prayer times without enabling alerts.",
+  "@setupWithoutAlerts": {"description": "Note that the times do not need alerts (§15 D127)."},
+  "setupAlertsAction": "Set up prayer alerts",
+  "@setupAlertsAction": {"description": "Button: ask for the alert permissions (§15 D127)."},
+  "setupViewTimes": "View today’s prayer times",
+  "@setupViewTimes": {"description": "Button: end setup and open Home (§15 D127)."},
+  "setupEnabled": "Enabled",
+  "@setupEnabled": {"description": "Status of alerts whose capabilities are all granted (§15 D127)."},
+  "setupEnabledBody": "Your prayer alerts are enabled.",
+  "@setupEnabledBody": {"description": "Alerts enabled (§15 D127)."},
+  "setupEnabledHelper": "Manage Adhan and reminders in Settings.",
+  "@setupEnabledHelper": {"description": "Helper under the enabled alerts text (§15 D127)."},
+  "setupAttention": "Needs attention",
+  "@setupAttention": {"description": "Status of alerts with a capability missing (§15 D127)."},
+  "setupReview": "Review alert settings",
+  "@setupReview": {"description": "Button: open the prompt or settings screen that fixes alerts (§15 D127)."},
+  "setupChecking": "Checking alerts…",
+  "@setupChecking": {"description": "Status while the alert capabilities are read (§15 D127)."},
+  "setupMissingNotifications": "Notifications are off, so prayer alerts cannot appear.",
+  "@setupMissingNotifications": {"description": "Alerts need attention: no notification permission (§15 D127)."},
+  "setupMissingExactAlarms": "Alarms & reminders is off, so the Adhan may sound late.",
+  "@setupMissingExactAlarms": {"description": "Alerts need attention: no exact alarms (§15 D127)."},
+  "setupMissingAppSettings": "Battery saving or muted notifications may keep the Adhan from sounding.",
+  "@setupMissingAppSettings": {"description": "Alerts need attention: battery restriction or muted channel (§15 D127)."},
+  "setupMissingUnknown": "This phone could not confirm that prayer alerts will sound.",
+  "@setupMissingUnknown": {"description": "Alerts need attention: the phone cannot tell, or nothing the user can grant fixes it (§15 D127)."}
 }

@@ -70,6 +70,15 @@ abstract final class EmeraldPalette {
   /// The quiet divider of the panel.
   static const Color divider = Color(0xFFDFDDCD);
 
-  /// The soft supporting green: a selected city, a notice.
+  /// The soft supporting green: a selected city, a notice, a status pill.
   static const Color wash = Color(0xFFE9EEE4);
+
+  /// The setup-completion glow (§15 D127), drawn at [glowOpacity].
+  static const Color confirmGlow = Color(0xFF23744E);
+
+  /// The fine outline of the completion check (§15 D127).
+  static const Color confirmRing = Color(0xFFBFA567);
+
+  /// Supporting paragraphs on the panel (§15 D127).
+  static const Color support = Color(0xFF435D50);
 }
