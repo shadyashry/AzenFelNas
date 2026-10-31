@@ -4,7 +4,7 @@ Prayer profiles are **data** (DESIGN.md §0.2 rule 1, §6.5, ADR-007, ADR-008). 
 
 ## Seed profiles (slice S07, Appendix E)
 
-All four are `DRAFT_UNVERIFIED`. Their values are **illustrative** until evidence and approvals exist, and they load on `dev` and `lab` only: `ProfileLoadPolicy` refuses `DRAFT_UNVERIFIED` and `CANDIDATE` profiles on `beta` and `production`.
+All five are `DRAFT_UNVERIFIED` (the four Appendix E seeds and the interim Bahrain profile, §15 D130). Their values are **illustrative** until evidence and approvals exist, and they load on `dev` and `lab` only: `ProfileLoadPolicy` refuses `DRAFT_UNVERIFIED` and `CANDIDATE` profiles on `beta` and `production`.
 
 Where DESIGN.md gives no value, the seed carries an **engineering default** recorded in §15 D50, never a recalled or invented number:
 - rule values: the `engine.default` value;
@@ -28,6 +28,7 @@ The Sharia board and the accuracy lead replace them through a profile-change PR 
 | `sa.ummalqura.standard` | Isha `intervalAfter maghrib` 90 min; Ramadan Isha 120 min | §6.5 |
 | `sa.ummalqura.standard` | Fajr 18°, Asr k = 1, `GOVERNMENT`, `effectiveFrom: 2026-10-01` (§15 D97), `maxAbsMinutes: 0` | **§15 D50 default** |
 | `ae.awqaf.standard` | Fajr 18.1°, Isha 18.2°, Asr k = 1, Maghrib horizon 40′ refraction, Fajr −1 / Sunrise −3 / Dhuhr +2 / Maghrib +2 / Isha −1 min, rounding ceil (Sunrise floor), `maxAbsMinutes: 3`, `GOVERNMENT`, `effectiveFrom: 2026-10-01` | **§15 D99**: fitted to 123 days of the Awqaf table (93 % to the minute, all within 1 min, Maghrib never early) |
+| `bh.ummalqura.interim` | Fajr 18.5°, Isha `intervalAfter maghrib` 90 min (also in Ramadan), Asr k = 1, no offsets, `COMMUNITY_CONVENTION`, `effectiveFrom: 2026-10-01` | **§15 D130**: an interim Umm al-Qura convention chosen by the owner; Bahrain's official Sunni timetable is not published online, so the values are not fitted to it and may differ by minutes (Fajr most of all) |
 
 ## Checks
 

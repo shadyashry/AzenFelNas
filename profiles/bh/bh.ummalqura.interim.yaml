@@ -1,0 +1,53 @@
+# bh.ummalqura.interim: Bahrain, Sunni (DESIGN.md §6.5, §15 D130).
+# DRAFT_UNVERIFIED seed (Appendix E): an INTERIM convention chosen by the owner until Bahrain's official timetable
+# is obtained; loads on dev/lab only. The official Sunni timetable (Ministry of Justice, Islamic Affairs and Waqf /
+# Sunni Endowments) is not published online (moj.gov.bh, bahrain.bh: none, checked 2026-10-31). The values are the
+# Umm al-Qura convention that third-party calculators report for Bahrain (Fajr 18.5°, Isha 90 min after Maghrib);
+# they are NOT fitted to an official table and may differ from it by minutes. When the official table arrives this
+# profile is replaced by one fitted to it, as for the UAE (§15 D99), and the Sharia board approves the values.
+profileId: bh.ummalqura.interim
+schemaVersion: 1
+version: 2026.10.1
+status: DRAFT_UNVERIFIED
+effectiveFrom: "2026-10-01"                      # in effect for testing now, like the other seeds (§15 D97)
+effectiveTo: null
+scope:
+  countries: [BH]
+  adminAreas: []
+  polygonsRef: null
+authority:
+  name: "Umm al-Qura convention (interim for Bahrain)"
+  type: COMMUNITY_CONVENTION                     # not the authority's own table: never "Authority aligned" (§6.2)
+referenceMode: EXACT_COORDINATE
+referencePoints: []
+rules:
+  imsak: null
+  fajr: { type: solarAltitude, degrees: 18.5 }   # Umm al-Qura since 1430 AH, as reported for Bahrain (§15 D130)
+  sunrise: { type: horizon }
+  dhuhr: { type: transit }
+  asr: { type: shadowFactor, k: 1 }              # the standard (Shafi'i, Maliki, Hanbali) shadow, as in Umm al-Qura
+  maghrib: { type: horizon }
+  isha: { type: intervalAfter, base: maghrib, minutes: 90 }   # as reported for Bahrain (§15 D130)
+horizon:
+  elevationPolicy: NONE
+highLatitude:
+  chain: [anglePortion, { nearestLatitude: { latDeg: 48.5 } }]   # §6.5 illustration (§15 D50); never reached at 26°N
+rounding:                                        # entries never shown before they enter (§6.4, ADR-005)
+  default: ceil
+  sunrise: floor
+adjustments:
+  perEventMinutes: {}
+  maxAbsMinutes: 0                               # no offsets until fitted to the official table
+  ramadan: {}                                    # no Ramadan Isha change: the Bahrain tables found keep 90 min in
+                                                 # Ramadan, unlike Saudi Arabia's 120 (§15 D130; owed: official check)
+evidence:
+  sources: []                                    # owed: the official timetable (§15 D130); no URL or hash is invented
+  benchmarkSet: bh-2026-q4
+  holdoutReport: null
+  benchmarkReportId: null
+approvals:
+  religious: null
+  accuracy: null
+compatibility:
+  minEngineSchema: 1
+  minAppVersion: "1.0.0"

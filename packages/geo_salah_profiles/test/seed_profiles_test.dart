@@ -27,6 +27,12 @@ const Map<String, List<(String, double, double, String, double)>> _cities = {
     ('Dubai', 25.20, 55.27, 'Asia/Dubai', 4),
     ('Abu Dhabi', 24.45, 54.38, 'Asia/Dubai', 4),
   ],
+  // Not yet in Appendix H (owed, §15 D130).
+  'BH': [
+    ('Manama', 26.22, 50.59, 'Asia/Bahrain', 3),
+    ('Muharraq', 26.26, 50.61, 'Asia/Bahrain', 3),
+    ('Riffa', 26.13, 50.56, 'Asia/Bahrain', 3),
+  ],
   '*': [
     ('London', 51.51, -0.13, 'Europe/London', 0),
     ('Tromsø', 69.65, 18.96, 'Europe/Oslo', 1),
@@ -105,13 +111,14 @@ void main() {
   group('seed profiles (S07 done-test, Appendix E)', () {
     final files = seedProfileFiles();
 
-    test('are the four Appendix E seeds, all DRAFT_UNVERIFIED without '
-        'approvals', () {
+    test('are the four Appendix E seeds and the interim Bahrain profile '
+        '(§15 D130), all DRAFT_UNVERIFIED without approvals', () {
       final profiles = seedProfiles();
       expect(
         profiles.map((p) => p.profileId),
         unorderedEquals([
           'ae.awqaf.standard',
+          'bh.ummalqura.interim',
           'eg.egas.standard',
           'engine.default',
           'sa.ummalqura.standard',
