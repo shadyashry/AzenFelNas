@@ -12,6 +12,14 @@ struct AthanSound: Codable, Equatable, Sendable {
     let licenceRef: String
     let sha256: String
     let iosClip: AthanIosClip?
+    /// The name the voices page shows (D123); AthanKit only carries it.
+    var name: AthanSoundName?
+}
+
+/// The English and Arabic name of a bundled sound (D123).
+struct AthanSoundName: Codable, Equatable, Sendable {
+    let en: String
+    let ar: String
 }
 
 /// A `.caf` clip of at most 29 s.

@@ -95,12 +95,16 @@ void main() {
         200,
       );
       await tester.scrollUntilVisible(
-        find.text('Athan voice: Asim Javed (ICR, 2024)'),
+        find.text('Athan voice: Abdul Basit Abdus Samad'),
         200,
       );
       expect(
-        find.text('Athan voice: Moazzambeg Mirza (Ahmedabad, 2013)'),
+        find.text('Athan voice: Abdul Basit Abdus Samad'),
         findsOneWidget,
+      );
+      await tester.scrollUntilVisible(
+        find.text('Athan voice: Ahmed El-Haddad'),
+        200,
       );
       await tester.scrollUntilVisible(find.text('Open-source licences'), 200);
       expect(find.text('Open-source licences'), findsOneWidget);

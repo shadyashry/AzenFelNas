@@ -1,0 +1,12 @@
+{
+  "sounds": [
+    {
+      "soundId": "athan_fixture_named_v1",
+      "file": "athan/athan_fixture_named_v1.m4a",
+      "durationMs": 239400,
+      "name": { "en": "Fixture voice", "ar": "صوت الاختبار" },
+      "licenceRef": "fixture-licence",
+      "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+    }
+  ]
+}

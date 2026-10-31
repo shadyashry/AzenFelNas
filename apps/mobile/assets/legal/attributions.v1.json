@@ -44,16 +44,34 @@
       "notice": "Juz boundaries from the Tanzil Quran metadata (tanzil.net), CC BY 3.0, checked against the Complex's text; the English surah names were checked against its transliterated names."
     },
     {
-      "package": "athan_voices",
-      "name": "Athan voice: Moazzambeg Mirza (Ahmedabad, 2013)",
-      "licence": "CC-PDM-1.0",
-      "notice": "Downloadable Athan voice “Moazzambeg Mirza (Ahmedabad, 2013)”: the Isha Athan called by Moazzambeg Mirza at Muhammadi Masjid, Sarkhej, Ahmedabad, on 7 September 2013, published by him at archive.org/details/IshaAzanByMoazzambegMirza07092013 with the Public Domain Mark 1.0 (creativecommons.org/publicdomain/mark/1.0/). Changed: the room tone before the first phrase removed; volume lowered 2.2 dB; encoded AAC-LC 96 kbps. No endorsement is implied."
+      "package": "athan_audio",
+      "name": "Athan voice: Abdul Basit Abdus Samad",
+      "licence": "Owner-supplied; permission under review",
+      "notice": "Athan recording in the voice of Abdul Basit Abdus Samad, supplied by the app's owner and bundled with the app; the recording's source and the permission to use it are under legal review. Changed: volume lowered −2.4 dB to -16 LUFS, silence at the ends trimmed, encoded AAC-LC. Azen Fel Nas is not affiliated with or endorsed by the reciter, his family or any publisher of the recording."
     },
     {
-      "package": "athan_voices",
-      "name": "Athan voice: Asim Javed (ICR, 2024)",
-      "licence": "CC0-1.0",
-      "notice": "Downloadable Athan voice “Asim Javed (ICR, 2024)”: the first Friday Athan of 17 May 2024 at ICR, called by Asim Javed and published by him at archive.org/details/icr-friday-prayer-1st-adhan-17th-may-2024-9th-dhul-qadah-1445-by-asim-javed under CC0 1.0 (creativecommons.org/publicdomain/zero/1.0/). Changed: volume lowered 4.5 dB; encoded AAC-LC 96 kbps. No endorsement is implied."
+      "package": "athan_audio",
+      "name": "Athan voice: Mishary Rashid Alafasy",
+      "licence": "Owner-supplied; permission under review",
+      "notice": "Athan recording in the voice of Mishary Rashid Alafasy, supplied by the app's owner and bundled with the app; the recording's source and the permission to use it are under legal review. Changed: volume lowered −3.2 dB to -16 LUFS, silence at the ends trimmed, encoded AAC-LC. Azen Fel Nas is not affiliated with or endorsed by the reciter, his family or any publisher of the recording."
+    },
+    {
+      "package": "athan_audio",
+      "name": "Athan voice: Ahmed El-Taraboulsy",
+      "licence": "Owner-supplied; permission under review",
+      "notice": "Athan recording in the voice of Ahmed El-Taraboulsy, supplied by the app's owner and bundled with the app; the recording's source and the permission to use it are under legal review. Changed: volume lowered −7.9 dB to -16 LUFS, silence at the ends trimmed, encoded AAC-LC. Azen Fel Nas is not affiliated with or endorsed by the reciter, his family or any publisher of the recording."
+    },
+    {
+      "package": "athan_audio",
+      "name": "Athan voice: Mustafa Ismail",
+      "licence": "Owner-supplied; permission under review",
+      "notice": "Athan recording in the voice of Mustafa Ismail, supplied by the app's owner and bundled with the app; the recording's source and the permission to use it are under legal review. Changed: volume lowered −9.5 dB to -16 LUFS, silence at the ends trimmed, encoded AAC-LC. Azen Fel Nas is not affiliated with or endorsed by the reciter, his family or any publisher of the recording."
+    },
+    {
+      "package": "athan_audio",
+      "name": "Athan voice: Ahmed El-Haddad",
+      "licence": "Owner-supplied; permission under review",
+      "notice": "Athan recording in the voice of Ahmed El-Haddad, supplied by the app's owner and bundled with the app; the recording's source and the permission to use it are under legal review. Changed: volume lowered −1.6 dB to -16 LUFS, silence at the ends trimmed, encoded AAC-LC. Azen Fel Nas is not affiliated with or endorsed by the reciter, his family or any publisher of the recording."
     },
     {
       "package": "radio",

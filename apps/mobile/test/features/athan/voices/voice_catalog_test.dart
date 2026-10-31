@@ -8,6 +8,7 @@ import 'package:daily_muslim/features/athan/domain/athan_voice.dart';
 import 'package:daily_muslim/features/athan/domain/voice_failure.dart';
 import 'package:daily_muslim/features/athan/domain/voice_ports.dart';
 import 'package:dm_core_types/dm_core_types.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -15,15 +16,47 @@ import '../support/fake_voices.dart';
 
 String _read(String path) => File(path).readAsStringSync();
 
+const _fixtures = '../../schemas/fixtures/athan_voice_catalog';
+
+/// Assets in memory, with the `AssetManifest.bin` Flutter writes.
+final class _Bundle extends AssetBundle {
+  new(this.assets);
+
+  final Map<String, String> assets;
+
+  @override
+  Future<ByteData> load(String key) async {
+    if (key == 'AssetManifest.bin') {
+      return const StandardMessageCodec().encodeMessage(<String, Object>{
+        for (final k in assets.keys) k: const <Object>[],
+      })!;
+    }
+    final text = assets[key];
+    if (text == null) throw FlutterError('Unable to load asset: "$key".');
+    return ByteData.sublistView(utf8.encode(text));
+  }
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('The bundled voice catalog (§15 D111)', () {
+    test('the catalog offers no downloadable voice: the bundled voices '
+        'replace them (§15 D123)', () {
+      expect(
+        AssetVoiceCatalog.decode(_read('assets/athan/voice_catalog.json')),
+        isEmpty,
+      );
+    });
+
     test('REQ-ALM-050 every voice names its creator, source, a licence that '
         'allows redistribution with changes, and the changes made', () {
-      final voices = AssetVoiceCatalog.decode(
-        _read('assets/athan/voice_catalog.json'),
-      );
+      final voices = [
+        ...AssetVoiceCatalog.decode(_read('assets/athan/voice_catalog.json')),
+        ...AssetVoiceCatalog.decode(
+          _read('$_fixtures/valid/one_fajr_voice.json'),
+        ),
+      ];
       expect(voices, isNotEmpty);
       for (final v in voices) {
         expect(v.credit.creator, isNotEmpty);
@@ -52,21 +85,26 @@ void main() {
       'REQ-ALM-050 a voice awaiting its listening review is offered on '
       'dev and lab only, and nothing where the alarm cannot play it',
       () async {
+        final bundle = _Bundle({
+          AssetVoiceCatalog.defaultKey: _read(
+            '$_fixtures/valid/one_fajr_voice.json',
+          ),
+        });
         final pending = await AssetVoiceCatalog(
-          rootBundle,
+          bundle,
           includePending: true,
           supported: true,
         )();
         expect(pending.map((v) => v.review), contains(VoiceReview.pending));
         final release = await AssetVoiceCatalog(
-          rootBundle,
+          bundle,
           includePending: false,
           supported: true,
         )();
         expect(release.where((v) => v.review == VoiceReview.pending), isEmpty);
         expect(
           await AssetVoiceCatalog(
-            rootBundle,
+            bundle,
             includePending: true,
             supported: false,
           )(),
@@ -77,7 +115,7 @@ void main() {
 
     test('the schema fixtures decode as the catalog does: the valid one '
         'reads, a path that escapes the voices directory does not', () {
-      const dir = '../../schemas/fixtures/athan_voice_catalog';
+      const dir = _fixtures;
       expect(
         AssetVoiceCatalog.decode(_read('$dir/valid/one_fajr_voice.json')),
         hasLength(1),

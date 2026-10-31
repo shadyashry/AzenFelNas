@@ -1,4 +1,5 @@
 import 'package:daily_muslim/features/athan/domain/athan_voice.dart';
+import 'package:daily_muslim/features/athan/domain/read_athan_sound_names.dart';
 import 'package:daily_muslim/features/athan/domain/voice_ports.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_voices_page.dart';
 import 'package:daily_muslim/features/settings/domain/setting_key.dart';
@@ -37,6 +38,7 @@ Widget _app(
   String? athan,
   String? fajr,
   List<String> bundled = const [],
+  Map<String, SoundName> names = const {},
   Locale locale = const Locale('en'),
 }) => localizedApp(
   Scaffold(body: page),
@@ -47,6 +49,7 @@ Widget _app(
       <EventLogEntry>[],
       voices: [_standard, _fajr],
       sounds: bundled,
+      soundNames: names,
       disk: disk,
       host: host,
       preview: preview,
@@ -88,6 +91,37 @@ void main() {
       find.descendant(of: row, matching: find.byIcon(Icons.check_circle)),
       findsOneWidget,
     );
+  });
+
+  testWidgets('a bundled voice is shown by its manifest name in the '
+      "page's language (§15 D123)", (tester) async {
+    _phone(tester);
+    const names = {
+      'abdelbasit': SoundName(en: 'Abdul Basit', ar: 'عبد الباسط'),
+    };
+    for (final (locale, name) in [
+      (const Locale('en'), 'Abdul Basit'),
+      (const Locale('ar'), 'عبد الباسط'),
+    ]) {
+      await tester.pumpWidget(
+        _app(
+          const AthanVoicesPage(slot: VoiceSlot.athan),
+          disk: FakeVoiceDisk(),
+          bundled: ['abdelbasit'],
+          names: names,
+          locale: locale,
+        ),
+      );
+      await tester.pumpAndSettle();
+      final row = find.ancestor(
+        of: find.text(name),
+        matching: find.byType(ListTile),
+      );
+      expect(
+        find.descendant(of: row, matching: find.byIcon(Icons.check_circle)),
+        findsOneWidget,
+      );
+    }
   });
 
   testWidgets('REQ-ALM-052 a Fajr voice is offered for Fajr only; Fajr can '

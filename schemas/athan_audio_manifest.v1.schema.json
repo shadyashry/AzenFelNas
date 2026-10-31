@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://azenfelnas.app/schemas/athan_audio_manifest.v1.schema.json",
   "title": "Athan audio manifest v1",
-  "description": "Bundled Athan sounds: AAC-LC 96 kbps .m4a at -16 LUFS under assets/athan/ (DESIGN.md §9.5, §10.4). iOS notification and AlarmKit sounds are a sound's optional `iosClip`: a .caf of at most 29 s (REQ-ALM-034, ADR-013) that AthanKit copies to Library/Sounds/<soundId>.caf; cutting at phrase boundaries is checked by the audio pipeline, not here.",
+  "description": "Bundled Athan sounds: AAC-LC 96 kbps .m4a at -16 LUFS under assets/athan/ (DESIGN.md §9.5, §10.4); until the user chooses, the first sound is the Athan sound (REQ-ALM-055). iOS notification and AlarmKit sounds are a sound's optional `iosClip`: a .caf of at most 29 s (REQ-ALM-034, ADR-013) that AthanKit copies to Library/Sounds/<soundId>.caf; cutting at phrase boundaries is checked by the audio pipeline, not here.",
   "type": "object",
   "additionalProperties": false,
   "required": ["sounds"],
@@ -19,6 +19,16 @@
         "file": { "type": "string", "pattern": "^[a-z0-9_/-]+\\.m4a$" },
         "durationMs": { "type": "integer", "minimum": 1 },
         "fajrVariantOf": { "type": "string", "pattern": "^[a-z0-9_]+$", "description": "soundId of the regular Athan this Fajr recording belongs to." },
+        "name": {
+          "description": "The name the voices page shows for this bundled sound (§15 D123); without it the page shows a generic name.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["en", "ar"],
+          "properties": {
+            "en": { "type": "string", "minLength": 1 },
+            "ar": { "type": "string", "minLength": 1 }
+          }
+        },
         "licenceRef": { "type": "string", "minLength": 1 },
         "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
         "iosClip": { "$ref": "#/$defs/iosClip" }
