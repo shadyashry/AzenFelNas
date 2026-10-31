@@ -29,6 +29,10 @@ abstract final class QuranFormat {
         StatusLocale.en => SurahNames.englishOf(sura.number) ?? sura.header,
       };
 
+  /// The Arabic name of [sura] as its Mushaf header gives it, without the
+  /// word «سورة», in any interface language.
+  static String arabicName(SuraEntry sura) => _headerName(sura.header);
+
   static String _headerName(String header) {
     final cut = header.indexOf(' ');
     return cut < 0 ? header : header.substring(cut + 1).trim();

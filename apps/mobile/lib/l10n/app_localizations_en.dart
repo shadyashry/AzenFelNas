@@ -1528,4 +1528,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranPreviousShort => 'Previous';
+
+  @override
+  String get quranNobleQuran => 'THE NOBLE QURAN';
+
+  @override
+  String get quranToDark => 'Dark appearance';
+
+  @override
+  String get quranToLight => 'Light appearance';
+
+  @override
+  String get quranCalmShort => 'Calm reading';
 }

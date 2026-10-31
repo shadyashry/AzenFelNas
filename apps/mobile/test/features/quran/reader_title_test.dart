@@ -6,6 +6,7 @@ import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_manifest.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
 import 'package:daily_muslim/features/quran/domain/quran_page_geometry.dart';
+import 'package:daily_muslim/features/quran/domain/surah_names.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_bars.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_controller.dart';
@@ -93,7 +94,11 @@ void main() {
       ) async {
         await _pump(tester, locale);
 
-        await tester.tap(find.text('سُورَةُ 60'));
+        // The surah's title: its Mushaf header in Arabic, its English name
+        // in English.
+        await tester.tap(
+          find.text(ar ? 'سُورَةُ 60' : SurahNames.englishOf(60) ?? ''),
+        );
         await tester.pumpAndSettle();
 
         final current = find.widgetWithText(ListTile, 'سُورَةُ 60');

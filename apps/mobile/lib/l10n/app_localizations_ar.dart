@@ -1555,4 +1555,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranPreviousShort => 'السابقة';
+
+  @override
+  String get quranNobleQuran => 'المصحف الشريف';
+
+  @override
+  String get quranToDark => 'الوضع الداكن';
+
+  @override
+  String get quranToLight => 'الوضع الفاتح';
+
+  @override
+  String get quranCalmShort => 'قراءة هادية';
 }

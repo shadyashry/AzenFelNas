@@ -1,9 +1,11 @@
 import 'package:daily_muslim/features/quran/data/drift_quran_notes.dart';
 import 'package:daily_muslim/features/quran/data/quran_notes_database.dart';
+import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_reader.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_viewport_controller.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
+import 'package:daily_muslim/features/quran/presentation/reader_bars.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_controller.dart';
 import 'package:daily_muslim/features/quran/presentation/surah_nav_bar.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
@@ -56,12 +58,26 @@ Future<ProviderContainer> _pump(
       Scaffold(
         body: Align(
           alignment: Alignment.bottomCenter,
-          child: ReaderControls(viewport: viewport, density: density),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Consumer(
+                builder: (context, ref, _) =>
+                    ReaderTopBar(page: ref.watch(readerProvider).page),
+              ),
+              ReaderControls(viewport: viewport, density: density),
+            ],
+          ),
         ),
       ),
       locale: locale,
       overrides: [
         surasProvider.overrideWith((ref) async => _suras),
+        juzProvider.overrideWith((ref) async => const <JuzEntry>[]),
+        quranFontProvider.overrideWith((ref) async => false),
+        bookmarksProvider.overrideWith(
+          (ref) => Stream.value(const <Bookmark>[]),
+        ),
         surahPagesProvider.overrideWith((ref, sura) async => _pages[sura]),
         versePlacesProvider.overrideWithValue(null),
         readingPositionStoreProvider.overrideWithValue(notes),
@@ -126,7 +142,13 @@ void main() {
         container.read(readerProvider.notifier).goTo(5);
         await tester.pump();
 
-        expect(find.text(l.quranPage(n(5))), findsOneWidget);
+        expect(
+          find.descendant(
+            of: find.byType(SurahNavBar),
+            matching: find.text(l.quranPage(n(5))),
+          ),
+          findsOneWidget,
+        );
         expect(find.text(l.quranSurahPageOf(n(4), n(13))), findsOneWidget);
         expect(find.text(l.quranAllPages), findsOneWidget);
         expect(find.byType(Slider), findsOneWidget);
@@ -197,13 +219,13 @@ void main() {
         expect(find.text(l.quranNextPage), findsOneWidget);
       });
 
-      testWidgets('REQ-QRN-025: Go to ayah, from the surah menu, refuses a '
+      testWidgets('REQ-QRN-025: Go to ayah, from the reader menu, refuses a '
           'verse the surah does not have and opens one it has', (tester) async {
         final container = await _pump(tester, locale);
         final l = await AppLocalizations.delegate.load(locale);
         await _open(tester, container, 3);
 
-        await tester.tap(find.byTooltip(l.quranSurahActions));
+        await tester.tap(find.byTooltip(l.quranMore));
         await tester.pumpAndSettle();
         await tester.tap(find.text(l.quranGoToAyah));
         await tester.pumpAndSettle();

@@ -93,7 +93,14 @@ final class _MushafReaderState extends ConsumerState<MushafReader> {
           if (chrome && MushafReader.sideBySide(size, insets, aspect)) {
             return Row(
               children: [
-                Expanded(child: SafeArea(child: surface)),
+                Expanded(
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: surface,
+                    ),
+                  ),
+                ),
                 SizedBox(
                   // Fit page: what the fitted page leaves, so no blank band
                   // is left beside it. Fit width: narrow, the page takes
@@ -107,10 +114,11 @@ final class _MushafReaderState extends ConsumerState<MushafReader> {
                             .clamp(MushafReader.panelMin, 420)
                             .toDouble(),
                   child: Material(
-                    color: RawdahScheme.of(context).panel,
+                    color: RawdahScheme.of(context).ground,
                     child: Column(
                       children: [
-                        ReaderTopBar(page: state.page),
+                        ReaderTopBar(page: state.page, dense: true),
+                        ReadingStrip(page: state.page),
                         Expanded(
                           child: SingleChildScrollView(
                             child: SafeArea(
@@ -132,9 +140,30 @@ final class _MushafReaderState extends ConsumerState<MushafReader> {
           }
           return Column(
             children: [
-              if (chrome) ReaderTopBar(page: state.page),
+              if (chrome) ...[
+                ReaderTopBar(
+                  page: state.page,
+                  dense:
+                      ReaderDensity.forHeight(
+                        MediaQuery.sizeOf(context).height,
+                      ) !=
+                      ReaderDensity.full,
+                ),
+                ReadingStrip(page: state.page),
+              ],
               Expanded(
-                child: SafeArea(top: !chrome, bottom: !chrome, child: surface),
+                child: SafeArea(
+                  top: !chrome,
+                  bottom: !chrome,
+                  // The page in a quiet card with room around it, as in the
+                  // reference (§15 D122).
+                  child: Padding(
+                    padding: chrome
+                        ? const EdgeInsets.fromLTRB(16, 6, 16, 0)
+                        : EdgeInsets.zero,
+                    child: surface,
+                  ),
+                ),
               ),
               if (chrome)
                 SafeArea(
@@ -181,21 +210,20 @@ final class ReaderControls extends ConsumerWidget {
     final next = continueAfter(scope, suras);
     final name = next == null ? null : QuranFormat.surahName(next, style);
     return Material(
-      color: scheme.panel,
+      color: scheme.ground,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Divider(height: 1, color: scheme.hairline),
           Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 640),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SurahNavBar(viewport: viewport, density: density),
+                  SurahNavBar(density: density),
                   ReaderBottomBar(
                     viewport: viewport,
-                    dense: density != ReaderDensity.full,
+                    dense: density == ReaderDensity.minimal,
                     continueShort: name,
                     continueLabel: name == null
                         ? null
@@ -206,6 +234,7 @@ final class ReaderControls extends ConsumerWidget {
                         ? null
                         : () => openSurah(ref, next),
                   ),
+                  if (density != ReaderDensity.minimal) const ReaderFooter(),
                 ],
               ),
             ),
@@ -251,15 +280,27 @@ final class _Surface extends ConsumerWidget {
       builder: (context, constraints) {
         final spreads =
             state.preferences.facingPages && spreadsFit(constraints.biggest);
-        Widget page(int number, Size size) => MushafPageImage(
+        // Each page in a quiet card: rounded, a hairline border, the page
+        // itself untouched inside (§15 D122, REQ-QRN-031).
+        Widget page(int number, Size size) => DecoratedBox(
           key: ValueKey(number),
-          page: number,
-          path: installed.pagePath(number),
-          size: size,
-          sourceWidth: image.width,
-          regions: regions[number] ?? const [],
-          marks: marks[number] ?? const [],
-          errorLabel: l.quranPageError,
+          position: DecorationPosition.foreground,
+          decoration: BoxDecoration(
+            border: Border.all(color: RawdahScheme.of(context).hairline),
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+          ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            child: MushafPageImage(
+              page: number,
+              path: installed.pagePath(number),
+              size: size,
+              sourceWidth: image.width,
+              regions: regions[number] ?? const [],
+              marks: marks[number] ?? const [],
+              errorLabel: l.quranPageError,
+            ),
+          ),
         );
         _precache(context, layout.pageCount, state.page, constraints.biggest);
         return MushafViewport(

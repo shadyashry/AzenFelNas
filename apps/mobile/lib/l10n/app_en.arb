@@ -2114,5 +2114,13 @@
   "quranNextShort": "Next",
   "@quranNextShort": {"description": "Short label of Next page on short windows."},
   "quranPreviousShort": "Previous",
-  "@quranPreviousShort": {"description": "Short label of Previous page on short windows."}
+  "@quranPreviousShort": {"description": "Short label of Previous page on short windows."},
+  "quranNobleQuran": "THE NOBLE QURAN",
+  "@quranNobleQuran": {"description": "Small caption above «القرآن الكريم» in the reader's header."},
+  "quranToDark": "Dark appearance",
+  "@quranToDark": {"description": "Header button: switch the app to its dark appearance."},
+  "quranToLight": "Light appearance",
+  "@quranToLight": {"description": "Header button: switch the app to its light appearance."},
+  "quranCalmShort": "Calm reading",
+  "@quranCalmShort": {"description": "The reading mode line above the page: the Mushaf as printed."}
 }

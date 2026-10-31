@@ -415,5 +415,9 @@
   "quranTajweedUnavailableShort": "مقفولة · مش متاحة للمصحف ده لسه",
   "quranTajweedUnavailable": "ألوان التجويد هتتعرض بس من مصدر تجويد مسموح بيه ومطابق لصفحات المصحف ده، ومعاه دليل الألوان بتاعه. لسه مفيش مصدر زي ده للطبعة دي، والتطبيق عمره ما بيلوّن حروف أو علامات من عنده.",
   "quranNextShort": "التالية",
-  "quranPreviousShort": "السابقة"
+  "quranPreviousShort": "السابقة",
+  "quranNobleQuran": "المصحف الشريف",
+  "quranToDark": "الوضع الداكن",
+  "quranToLight": "الوضع الفاتح",
+  "quranCalmShort": "قراءة هادية"
 }

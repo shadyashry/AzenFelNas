@@ -2593,6 +2593,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Previous'**
   String get quranPreviousShort;
+
+  /// Small caption above «القرآن الكريم» in the reader's header.
+  ///
+  /// In en, this message translates to:
+  /// **'THE NOBLE QURAN'**
+  String get quranNobleQuran;
+
+  /// Header button: switch the app to its dark appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark appearance'**
+  String get quranToDark;
+
+  /// Header button: switch the app to its light appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Light appearance'**
+  String get quranToLight;
+
+  /// The reading mode line above the page: the Mushaf as printed.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm reading'**
+  String get quranCalmShort;
 }
 
 class _AppLocalizationsDelegate
