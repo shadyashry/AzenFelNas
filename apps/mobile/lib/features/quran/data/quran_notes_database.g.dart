@@ -1452,8 +1452,40 @@ class $QuranReaderPrefsTable extends QuranReaderPrefs
       'CHECK ("facing_pages" IN (0, 1))',
     ),
   );
+  static const VerificationMeta _landscapeFitMeta = const VerificationMeta(
+    'landscapeFit',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, fit, facingPages];
+  late final GeneratedColumn<String> landscapeFit = GeneratedColumn<String>(
+    'landscape_fit',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _keepControlsMeta = const VerificationMeta(
+    'keepControls',
+  );
+  @override
+  late final GeneratedColumn<bool> keepControls = GeneratedColumn<bool>(
+    'keep_controls',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("keep_controls" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    fit,
+    facingPages,
+    landscapeFit,
+    keepControls,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1488,6 +1520,24 @@ class $QuranReaderPrefsTable extends QuranReaderPrefs
     } else if (isInserting) {
       context.missing(_facingPagesMeta);
     }
+    if (data.containsKey('landscape_fit')) {
+      context.handle(
+        _landscapeFitMeta,
+        landscapeFit.isAcceptableOrUnknown(
+          data['landscape_fit']!,
+          _landscapeFitMeta,
+        ),
+      );
+    }
+    if (data.containsKey('keep_controls')) {
+      context.handle(
+        _keepControlsMeta,
+        keepControls.isAcceptableOrUnknown(
+          data['keep_controls']!,
+          _keepControlsMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1509,6 +1559,14 @@ class $QuranReaderPrefsTable extends QuranReaderPrefs
         DriftSqlType.bool,
         data['${effectivePrefix}facing_pages'],
       )!,
+      landscapeFit: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}landscape_fit'],
+      ),
+      keepControls: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}keep_controls'],
+      )!,
     );
   }
 
@@ -1528,10 +1586,19 @@ class QuranReaderPrefsRow extends DataClass
 
   /// Two facing pages on wide windows.
   final bool facingPages;
+
+  /// `PageFit.name` in landscape windows (version 3, §15 D123); `null`
+  /// for a row kept from version 2, which then gets the default.
+  final String? landscapeFit;
+
+  /// Whether the controls stay shown (version 3, §15 D123).
+  final bool keepControls;
   const QuranReaderPrefsRow({
     required this.id,
     required this.fit,
     required this.facingPages,
+    this.landscapeFit,
+    required this.keepControls,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1539,6 +1606,10 @@ class QuranReaderPrefsRow extends DataClass
     map['id'] = Variable<int>(id);
     map['fit'] = Variable<String>(fit);
     map['facing_pages'] = Variable<bool>(facingPages);
+    if (!nullToAbsent || landscapeFit != null) {
+      map['landscape_fit'] = Variable<String>(landscapeFit);
+    }
+    map['keep_controls'] = Variable<bool>(keepControls);
     return map;
   }
 
@@ -1547,6 +1618,10 @@ class QuranReaderPrefsRow extends DataClass
       id: Value(id),
       fit: Value(fit),
       facingPages: Value(facingPages),
+      landscapeFit: landscapeFit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(landscapeFit),
+      keepControls: Value(keepControls),
     );
   }
 
@@ -1559,6 +1634,8 @@ class QuranReaderPrefsRow extends DataClass
       id: serializer.fromJson<int>(json['id']),
       fit: serializer.fromJson<String>(json['fit']),
       facingPages: serializer.fromJson<bool>(json['facingPages']),
+      landscapeFit: serializer.fromJson<String?>(json['landscapeFit']),
+      keepControls: serializer.fromJson<bool>(json['keepControls']),
     );
   }
   @override
@@ -1568,15 +1645,24 @@ class QuranReaderPrefsRow extends DataClass
       'id': serializer.toJson<int>(id),
       'fit': serializer.toJson<String>(fit),
       'facingPages': serializer.toJson<bool>(facingPages),
+      'landscapeFit': serializer.toJson<String?>(landscapeFit),
+      'keepControls': serializer.toJson<bool>(keepControls),
     };
   }
 
-  QuranReaderPrefsRow copyWith({int? id, String? fit, bool? facingPages}) =>
-      QuranReaderPrefsRow(
-        id: id ?? this.id,
-        fit: fit ?? this.fit,
-        facingPages: facingPages ?? this.facingPages,
-      );
+  QuranReaderPrefsRow copyWith({
+    int? id,
+    String? fit,
+    bool? facingPages,
+    Value<String?> landscapeFit = const Value.absent(),
+    bool? keepControls,
+  }) => QuranReaderPrefsRow(
+    id: id ?? this.id,
+    fit: fit ?? this.fit,
+    facingPages: facingPages ?? this.facingPages,
+    landscapeFit: landscapeFit.present ? landscapeFit.value : this.landscapeFit,
+    keepControls: keepControls ?? this.keepControls,
+  );
   QuranReaderPrefsRow copyWithCompanion(QuranReaderPrefsCompanion data) {
     return QuranReaderPrefsRow(
       id: data.id.present ? data.id.value : this.id,
@@ -1584,6 +1670,12 @@ class QuranReaderPrefsRow extends DataClass
       facingPages: data.facingPages.present
           ? data.facingPages.value
           : this.facingPages,
+      landscapeFit: data.landscapeFit.present
+          ? data.landscapeFit.value
+          : this.landscapeFit,
+      keepControls: data.keepControls.present
+          ? data.keepControls.value
+          : this.keepControls,
     );
   }
 
@@ -1592,46 +1684,61 @@ class QuranReaderPrefsRow extends DataClass
     return (StringBuffer('QuranReaderPrefsRow(')
           ..write('id: $id, ')
           ..write('fit: $fit, ')
-          ..write('facingPages: $facingPages')
+          ..write('facingPages: $facingPages, ')
+          ..write('landscapeFit: $landscapeFit, ')
+          ..write('keepControls: $keepControls')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, fit, facingPages);
+  int get hashCode =>
+      Object.hash(id, fit, facingPages, landscapeFit, keepControls);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is QuranReaderPrefsRow &&
           other.id == this.id &&
           other.fit == this.fit &&
-          other.facingPages == this.facingPages);
+          other.facingPages == this.facingPages &&
+          other.landscapeFit == this.landscapeFit &&
+          other.keepControls == this.keepControls);
 }
 
 class QuranReaderPrefsCompanion extends UpdateCompanion<QuranReaderPrefsRow> {
   final Value<int> id;
   final Value<String> fit;
   final Value<bool> facingPages;
+  final Value<String?> landscapeFit;
+  final Value<bool> keepControls;
   const QuranReaderPrefsCompanion({
     this.id = const Value.absent(),
     this.fit = const Value.absent(),
     this.facingPages = const Value.absent(),
+    this.landscapeFit = const Value.absent(),
+    this.keepControls = const Value.absent(),
   });
   QuranReaderPrefsCompanion.insert({
     this.id = const Value.absent(),
     required String fit,
     required bool facingPages,
+    this.landscapeFit = const Value.absent(),
+    this.keepControls = const Value.absent(),
   }) : fit = Value(fit),
        facingPages = Value(facingPages);
   static Insertable<QuranReaderPrefsRow> custom({
     Expression<int>? id,
     Expression<String>? fit,
     Expression<bool>? facingPages,
+    Expression<String>? landscapeFit,
+    Expression<bool>? keepControls,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (fit != null) 'fit': fit,
       if (facingPages != null) 'facing_pages': facingPages,
+      if (landscapeFit != null) 'landscape_fit': landscapeFit,
+      if (keepControls != null) 'keep_controls': keepControls,
     });
   }
 
@@ -1639,11 +1746,15 @@ class QuranReaderPrefsCompanion extends UpdateCompanion<QuranReaderPrefsRow> {
     Value<int>? id,
     Value<String>? fit,
     Value<bool>? facingPages,
+    Value<String?>? landscapeFit,
+    Value<bool>? keepControls,
   }) {
     return QuranReaderPrefsCompanion(
       id: id ?? this.id,
       fit: fit ?? this.fit,
       facingPages: facingPages ?? this.facingPages,
+      landscapeFit: landscapeFit ?? this.landscapeFit,
+      keepControls: keepControls ?? this.keepControls,
     );
   }
 
@@ -1659,6 +1770,12 @@ class QuranReaderPrefsCompanion extends UpdateCompanion<QuranReaderPrefsRow> {
     if (facingPages.present) {
       map['facing_pages'] = Variable<bool>(facingPages.value);
     }
+    if (landscapeFit.present) {
+      map['landscape_fit'] = Variable<String>(landscapeFit.value);
+    }
+    if (keepControls.present) {
+      map['keep_controls'] = Variable<bool>(keepControls.value);
+    }
     return map;
   }
 
@@ -1667,7 +1784,9 @@ class QuranReaderPrefsCompanion extends UpdateCompanion<QuranReaderPrefsRow> {
     return (StringBuffer('QuranReaderPrefsCompanion(')
           ..write('id: $id, ')
           ..write('fit: $fit, ')
-          ..write('facingPages: $facingPages')
+          ..write('facingPages: $facingPages, ')
+          ..write('landscapeFit: $landscapeFit, ')
+          ..write('keepControls: $keepControls')
           ..write(')'))
         .toString();
   }
@@ -3237,12 +3356,16 @@ typedef $$QuranReaderPrefsTableCreateCompanionBuilder =
       Value<int> id,
       required String fit,
       required bool facingPages,
+      Value<String?> landscapeFit,
+      Value<bool> keepControls,
     });
 typedef $$QuranReaderPrefsTableUpdateCompanionBuilder =
     QuranReaderPrefsCompanion Function({
       Value<int> id,
       Value<String> fit,
       Value<bool> facingPages,
+      Value<String?> landscapeFit,
+      Value<bool> keepControls,
     });
 
 class $$QuranReaderPrefsTableFilterComposer
@@ -3266,6 +3389,16 @@ class $$QuranReaderPrefsTableFilterComposer
 
   ColumnFilters<bool> get facingPages => $composableBuilder(
     column: $table.facingPages,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get landscapeFit => $composableBuilder(
+    column: $table.landscapeFit,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get keepControls => $composableBuilder(
+    column: $table.keepControls,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -3293,6 +3426,16 @@ class $$QuranReaderPrefsTableOrderingComposer
     column: $table.facingPages,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get landscapeFit => $composableBuilder(
+    column: $table.landscapeFit,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get keepControls => $composableBuilder(
+    column: $table.keepControls,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$QuranReaderPrefsTableAnnotationComposer
@@ -3312,6 +3455,16 @@ class $$QuranReaderPrefsTableAnnotationComposer
 
   GeneratedColumn<bool> get facingPages => $composableBuilder(
     column: $table.facingPages,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get landscapeFit => $composableBuilder(
+    column: $table.landscapeFit,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get keepControls => $composableBuilder(
+    column: $table.keepControls,
     builder: (column) => column,
   );
 }
@@ -3356,20 +3509,28 @@ class $$QuranReaderPrefsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> fit = const Value.absent(),
                 Value<bool> facingPages = const Value.absent(),
+                Value<String?> landscapeFit = const Value.absent(),
+                Value<bool> keepControls = const Value.absent(),
               }) => QuranReaderPrefsCompanion(
                 id: id,
                 fit: fit,
                 facingPages: facingPages,
+                landscapeFit: landscapeFit,
+                keepControls: keepControls,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required String fit,
                 required bool facingPages,
+                Value<String?> landscapeFit = const Value.absent(),
+                Value<bool> keepControls = const Value.absent(),
               }) => QuranReaderPrefsCompanion.insert(
                 id: id,
                 fit: fit,
                 facingPages: facingPages,
+                landscapeFit: landscapeFit,
+                keepControls: keepControls,
               ),
           withReferenceMapper: (p0) => p0
               .map(

@@ -91,4 +91,36 @@ void main() {
       expect(back.dy, closeTo(point.dy, 1e-9));
     }
   });
+
+  test('REQ-QRN-033: after a rotation the same height of the page is in the '
+      'middle of the window, as far as the edges allow (§15 D123)', () {
+    // A page read halfway down in portrait fit width, then turned.
+    const portrait = MushafGeometry(
+      viewport: Size(412, 700),
+      aspect: 0.45,
+      fit: PageFit.width,
+    );
+    const landscape = MushafGeometry(
+      viewport: Size(891, 340),
+      aspect: 0.45,
+      fit: PageFit.width,
+    );
+    final before = portrait.anchored(0.55);
+    final y = portrait
+        .relative(portrait.viewport.center(Offset.zero), before, 1)
+        .dy;
+    final after = landscape.anchored(y);
+    final again = landscape
+        .relative(landscape.viewport.center(Offset.zero), after, 1)
+        .dy;
+
+    expect(y, closeTo(0.55, 1e-9));
+    expect(again, closeTo(0.55, 1e-9));
+    // Near the end, the last line stays reachable and nothing beyond it.
+    final end = landscape.anchored(1);
+    expect(
+      end.dy + landscape.baseSize.height,
+      closeTo(landscape.viewport.height, 1e-9),
+    );
+  });
 }

@@ -1,3 +1,4 @@
+import 'package:daily_muslim/features/quran/domain/hizb_quarter.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
 import 'package:dm_core_types/dm_core_types.dart';
@@ -10,6 +11,10 @@ abstract interface class ReadMushafIndex {
 
   /// The 30 juz in order.
   Future<Result<List<JuzEntry>, QuranFailure>> juz();
+
+  /// The 240 quarters of a hizb in order (§15 D123); empty for a package
+  /// built before they were recorded.
+  Future<Result<List<HizbQuarter>, QuranFailure>> quarters();
 
   /// Verses whose folded text contains the folded [query], in Mushaf order;
   /// at most [limit] hits. An empty folded query finds nothing.

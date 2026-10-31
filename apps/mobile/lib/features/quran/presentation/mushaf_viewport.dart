@@ -29,15 +29,18 @@ typedef MushafItemBuilder = Widget Function(
 /// * a double tap zooms to 2.5× there, or back to fit.
 ///
 /// The zoom resets to fit when the page changes or the window is resized
-/// (rotation, split screen), so the page stays whole and the reader keeps
-/// their page. This is a leaf interaction widget: its gesture state is
-/// local (`setState`), everything durable lives in providers.
+/// (rotation, split screen) or the fit changes; the height of the page at
+/// the middle of the window stays there (§15 D123), so the reader keeps
+/// their line rather than an old pixel offset. Each item has its own
+/// aspect ratio ([aspectOf]): a frameless page is cut to its own content.
+/// This is a leaf interaction widget: its gesture state is local
+/// (`setState`), everything durable lives in providers.
 final class MushafViewport extends StatefulWidget {
   /// The viewport showing [item] of [itemCount].
   const new({
     required this.itemCount,
     required this.item,
-    required this.aspect,
+    required this.aspectOf,
     required this.fit,
     required this.itemBuilder,
     required this.onItemChanged,
@@ -46,6 +49,7 @@ final class MushafViewport extends StatefulWidget {
     required this.onDraw,
     required this.onTap,
     required this.semanticLabel,
+    this.semanticHint,
     this.onLongPress,
     this.reveal,
     super.key,
@@ -57,8 +61,8 @@ final class MushafViewport extends StatefulWidget {
   /// The item to show (0-based).
   final int item;
 
-  /// Width / height of one item.
-  final double aspect;
+  /// Width / height of an item.
+  final double Function(int item) aspectOf;
 
   /// Fit mode.
   final PageFit fit;
@@ -88,6 +92,9 @@ final class MushafViewport extends StatefulWidget {
   /// What a screen reader announces for the surface.
   final String semanticLabel;
 
+  /// What a tap on the surface does, for a screen reader.
+  final String? semanticHint;
+
   /// A height on [item] (0..1 of the item) to bring into view when it
   /// changes, e.g. the first line of a verse just opened (§15 D120). Fit
   /// page shows the whole page, so it only moves a page taller than the
@@ -105,7 +112,6 @@ final class _MushafViewportState extends State<MushafViewport> {
   late int _current;
   double _scale = 1;
   Offset? _offset;
-  Size _lastSize = Size.zero;
 
   _Drag _drag = _Drag.undecided;
   Offset _startFocal = Offset.zero;
@@ -372,15 +378,26 @@ final class _MushafViewportState extends State<MushafViewport> {
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {
       final size = constraints.biggest;
-      final geometry = _geometry = MushafGeometry(
-        viewport: size,
-        aspect: widget.aspect,
-        fit: widget.fit,
-      );
-      if (size != _lastSize) {
-        _lastSize = size;
+      final previous = _geometry;
+      final geometry = _geometry = _geometryOf(_current, size);
+      if (previous != null &&
+          (previous.viewport != size || previous.fit != geometry.fit)) {
+        // A rotation, a resize or a new fit: back to scale 1 with the same
+        // part of the page in the middle of the window.
+        final offset = _offset;
+        _offset = offset == null
+            ? null
+            : geometry.anchored(
+                previous
+                    .relative(
+                      previous.viewport.center(Offset.zero),
+                      offset,
+                      _scale,
+                    )
+                    .dy
+                    .clamp(0.0, 1.0),
+              );
         _scale = 1;
-        _offset = null;
         WidgetsBinding.instance.addPostFrameCallback(
           (_) => widget.controller.reportScale(1),
         );
@@ -390,6 +407,7 @@ final class _MushafViewportState extends State<MushafViewport> {
         onKeyEvent: _onKey,
         child: Semantics(
           label: widget.semanticLabel,
+          hint: widget.semanticHint,
           container: true,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -436,8 +454,15 @@ final class _MushafViewportState extends State<MushafViewport> {
     },
   );
 
-  Widget _item(BuildContext context, int item, MushafGeometry geometry) {
+  MushafGeometry _geometryOf(int item, Size size) => MushafGeometry(
+    viewport: size,
+    aspect: widget.aspectOf(item),
+    fit: widget.fit,
+  );
+
+  Widget _item(BuildContext context, int item, MushafGeometry shown) {
     final current = item == _current;
+    final geometry = current ? shown : _geometryOf(item, shown.viewport);
     final scale = current ? _scale : 1.0;
     final offset = current
         ? (_offset ?? geometry.baseOffset)

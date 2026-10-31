@@ -1424,7 +1424,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quranMore => 'More';
 
   @override
-  String get quranShowControls => 'Show controls';
+  String get quranShowControls => 'Show reading controls';
 
   @override
   String get quranUpdate => 'Download update';
@@ -1513,7 +1513,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranCalmReading =>
-      'Calm reading: the Mushaf exactly as the King Fahd Complex printed it, in dark ink with its own frame and verse markers. Nothing is recoloured.';
+      'Calm reading: the King Fahd Complex\'s own lettering, marks and verse markers in one ink, without the printed frame. No letter is coloured by a rule.';
 
   @override
   String get quranTajweedUnavailableShort =>
@@ -1680,4 +1680,49 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get quranPagesButton => 'Pages';
+
+  @override
+  String quranPlaceInSurah(String position, String count) {
+    return '$position of $count in this Surah';
+  }
+
+  @override
+  String get quranWholeSurahHere => 'The whole surah is on this page';
+
+  @override
+  String quranHizbStart(String hizb) {
+    return 'Hizb $hizb';
+  }
+
+  @override
+  String quranHizbQuarter(String hizb) {
+    return 'Quarter of Hizb $hizb';
+  }
+
+  @override
+  String quranHizbHalf(String hizb) {
+    return 'Half of Hizb $hizb';
+  }
+
+  @override
+  String quranHizbThreeQuarters(String hizb) {
+    return 'Three quarters of Hizb $hizb';
+  }
+
+  @override
+  String get quranHideControls => 'Hide reading controls';
+
+  @override
+  String get quranKeepControls => 'Keep controls visible';
+
+  @override
+  String quranFitSwitchTo(String mode) {
+    return 'Switch to $mode';
+  }
+
+  @override
+  String get quranControlsHint => 'Tap the page to show or hide the controls';
 }

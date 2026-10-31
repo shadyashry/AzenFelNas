@@ -1,5 +1,6 @@
 import 'package:daily_muslim/features/quran/data/sqlite_search_index.dart';
 import 'package:daily_muslim/features/quran/domain/arabic_search_text.dart';
+import 'package:daily_muslim/features/quran/domain/hizb_quarter.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_failure.dart';
 import 'package:daily_muslim/features/quran/domain/read_mushaf_index.dart';
@@ -83,6 +84,27 @@ final class SqliteMushafIndex implements ReadMushafIndex, ReadVersePlaces {
           page: _int(row['page']),
         ),
     ],
+  );
+
+  @override
+  Future<Result<List<HizbQuarter>, QuranFailure>> quarters() async => _query(
+    (db) {
+      final table = db.select(
+        "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'quarter'",
+      );
+      if (table.isEmpty) return const <HizbQuarter>[];
+      return [
+        for (final row in db.select(
+          'SELECT number, sura, aya, page FROM quarter ORDER BY number',
+        ))
+          HizbQuarter(
+            number: _int(row['number']),
+            sura: _int(row['sura']),
+            aya: _int(row['aya']),
+            page: _int(row['page']),
+          ),
+      ];
+    },
   );
 
   @override

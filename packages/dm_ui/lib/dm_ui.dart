@@ -40,6 +40,7 @@ export 'package:dm_ui/src/theme/font_licences.dart';
 export 'package:dm_ui/src/tokens/dm_elevation.dart';
 export 'package:dm_ui/src/tokens/dm_scales.dart';
 export 'package:dm_ui/src/tokens/hour_light.dart';
+export 'package:dm_ui/src/tokens/mushaf_palette.dart';
 export 'package:dm_ui/src/tokens/rawdah_palette.dart';
 export 'package:dm_ui/src/tokens/rawdah_scheme.dart';
 export 'package:dm_ui/src/tokens/sky_phase_tokens.dart';

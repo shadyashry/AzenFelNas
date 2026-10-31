@@ -2,16 +2,18 @@ import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_reader.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_download_view.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
-import 'package:daily_muslim/features/quran/presentation/reader_controller.dart';
 import 'package:daily_muslim/features/shell/presentation/app_tab_bar.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// The Quran tab (§15 D107): the reader once the package is ready offline,
-/// the download and its states before that. The tab bar hides with the
-/// reader's controls, so the page can use the whole screen.
+/// The Quran tab (§15 D107, D123): the reader once the package is ready
+/// offline, the download and its states before that. With the reader the
+/// tab bar stays in a portrait window, so the familiar navigation is always
+/// there and the page never changes size when the reader's controls come
+/// and go; a landscape window gives the reader the whole screen (its menu
+/// leads Home).
 final class QuranPage extends ConsumerWidget {
   /// The page.
   const new({super.key});
@@ -22,14 +24,13 @@ final class QuranPage extends ConsumerWidget {
     final status = ref.watch(quranPackageProvider);
     // During an update the installed package stays readable.
     final readable = readablePackage(status);
-    final chrome =
-        readable == null ||
-        ref.watch(readerProvider.select((s) => s.chromeVisible));
+    final size = MediaQuery.sizeOf(context);
+    final tabs = readable == null || size.width <= size.height;
     return Scaffold(
       appBar: readable != null
           ? null
           : AppBar(title: Text(l.quranTitle), automaticallyImplyLeading: false),
-      bottomNavigationBar: chrome
+      bottomNavigationBar: tabs
           ? const AppTabBar(current: RawdahTab.quran)
           : null,
       body: switch (status) {

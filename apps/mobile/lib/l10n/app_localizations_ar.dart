@@ -1221,7 +1221,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quranFitPage => 'الصفحة كاملة';
 
   @override
-  String get quranFitWidth => 'على عرض الشاشة';
+  String get quranFitWidth => 'ملاءمة العرض';
 
   @override
   String get quranFacingPages => 'صفحتين جنب بعض في الشاشات العريضة';
@@ -1452,7 +1452,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quranMore => 'المزيد';
 
   @override
-  String get quranShowControls => 'اعرض الأزرار';
+  String get quranShowControls => 'إظهار أدوات القراءة';
 
   @override
   String get quranUpdate => 'نزّل التحديث';
@@ -1541,7 +1541,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranCalmReading =>
-      'قراءة هادية: المصحف زي ما طبعه مجمع الملك فهد بالظبط، بحبر غامق وبإطاره وعلامات آياته. مفيش أي حاجة اتلوّنت.';
+      'قراءة هادية: حروف مصحف مجمع الملك فهد وعلاماته وعلامات آياته بلون حبر واحد، من غير الإطار المطبوع. مفيش حرف بيتلوّن حسب حكم.';
 
   @override
   String get quranTajweedUnavailableShort => 'مقفولة · مش متاحة للمصحف ده لسه';
@@ -1711,4 +1711,49 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get quranPagesButton => 'الصفحات';
+
+  @override
+  String quranPlaceInSurah(String position, String count) {
+    return '$position من $count داخل السورة';
+  }
+
+  @override
+  String get quranWholeSurahHere => 'السورة كاملة في هذه الصفحة';
+
+  @override
+  String quranHizbStart(String hizb) {
+    return 'الحزب $hizb';
+  }
+
+  @override
+  String quranHizbQuarter(String hizb) {
+    return 'ربع الحزب $hizb';
+  }
+
+  @override
+  String quranHizbHalf(String hizb) {
+    return 'نصف الحزب $hizb';
+  }
+
+  @override
+  String quranHizbThreeQuarters(String hizb) {
+    return 'ثلاثة أرباع الحزب $hizb';
+  }
+
+  @override
+  String get quranHideControls => 'إخفاء أدوات القراءة';
+
+  @override
+  String get quranKeepControls => 'إبقاء أدوات القراءة ظاهرة';
+
+  @override
+  String quranFitSwitchTo(String mode) {
+    return 'التبديل إلى: $mode';
+  }
+
+  @override
+  String get quranControlsHint => 'المس الصفحة لإظهار أدوات القراءة أو إخفائها';
 }

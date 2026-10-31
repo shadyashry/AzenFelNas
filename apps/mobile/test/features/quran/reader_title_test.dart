@@ -1,14 +1,17 @@
 import 'package:daily_muslim/features/quran/data/drift_quran_notes.dart';
 import 'package:daily_muslim/features/quran/data/quran_notes_database.dart';
 import 'package:daily_muslim/features/quran/domain/highlight.dart';
+import 'package:daily_muslim/features/quran/domain/hizb_quarter.dart';
 import 'package:daily_muslim/features/quran/domain/installed_quran.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/quran_manifest.dart';
 import 'package:daily_muslim/features/quran/domain/quran_package_status.dart';
 import 'package:daily_muslim/features/quran/domain/quran_page_geometry.dart';
+import 'package:daily_muslim/features/quran/presentation/mushaf_viewport_controller.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_bars.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_controller.dart';
+import 'package:daily_muslim/features/quran/presentation/reader_overlay.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
@@ -58,14 +61,31 @@ Future<void> _pump(WidgetTester tester, Locale locale) async {
   final db = QuranNotesDatabase(NativeDatabase.memory());
   addTearDown(db.close);
   final notes = DriftQuranNotes(db);
+  final viewport = MushafViewportController();
+  addTearDown(viewport.dispose);
   await tester.pumpWidget(
     localizedApp(
-      const Scaffold(body: SafeArea(child: ReaderTopBar(page: 300))),
+      Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              ReaderToolbar(
+                page: 300,
+                viewport: viewport,
+                landscape: false,
+              ),
+              const Spacer(),
+              ReaderNavPanel(page: 300, viewport: viewport),
+            ],
+          ),
+        ),
+      ),
       locale: locale,
       overrides: [
         surasProvider.overrideWith((ref) async => _suras),
         juzProvider.overrideWith((ref) async => _juz),
         quranFontProvider.overrideWith((ref) async => false),
+        quartersProvider.overrideWith((ref) async => const <HizbQuarter>[]),
         bookmarksProvider.overrideWith(
           (ref) => Stream.value(const <Bookmark>[]),
         ),
@@ -81,19 +101,28 @@ Future<void> _pump(WidgetTester tester, Locale locale) async {
   );
   await tester.pump();
   await tester.pump();
+  // The reader is on page 300, the first page of surah 60.
+  ProviderScope.containerOf(
+    tester.element(find.byType(ReaderToolbar)),
+  ).read(readerProvider.notifier).goTo(300);
+  await tester.pump();
+  await tester.pump();
 }
 
 void main() {
   for (final locale in const [Locale('en'), Locale('ar')]) {
     final ar = locale.languageCode == 'ar';
-    group('The reader title, ${locale.languageCode} (§15 D114)', () {
+    group('The reader toolbar and navigator, ${locale.languageCode} '
+        '(§15 D114, D123)', () {
       testWidgets('REQ-QRN-023: tapping the surah name opens the surah index '
           'scrolled to that surah, marked as the one being read', (
         tester,
       ) async {
         await _pump(tester, locale);
 
-        await tester.tap(find.text('سُورَةُ 60'));
+        // The surah's name: its Mushaf header in Arabic, its English name in
+        // English.
+        await tester.tap(find.byType(TitleTap).first);
         await tester.pumpAndSettle();
 
         final current = find.widgetWithText(ListTile, 'سُورَةُ 60');
@@ -156,7 +185,7 @@ void main() {
         await tester.pumpAndSettle();
 
         final container = ProviderScope.containerOf(
-          tester.element(find.byType(ReaderTopBar)),
+          tester.element(find.byType(ReaderToolbar)),
         );
         expect(container.read(readerProvider).page, 302);
         expect(find.byType(GridView), findsNothing);

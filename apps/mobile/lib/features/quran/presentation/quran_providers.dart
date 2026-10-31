@@ -2,8 +2,10 @@ import 'package:daily_muslim/features/quran/domain/ayah_highlight.dart';
 import 'package:daily_muslim/features/quran/domain/build_search_index.dart';
 import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
+import 'package:daily_muslim/features/quran/domain/hizb_quarter.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_lines.dart';
+import 'package:daily_muslim/features/quran/domain/page_box.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:daily_muslim/features/quran/domain/quran_manifest.dart';
 import 'package:daily_muslim/features/quran/domain/quran_notes.dart';
@@ -67,6 +69,13 @@ final searchIndexIsCurrentProvider = Provider<bool Function(String)>(
 final openMushafIndexProvider = Provider<ReadMushafIndex Function(String)>(
   (ref) => throw UnimplementedError('bound in app/di.dart'),
 );
+
+/// Reads the page view boxes of a package directory (§15 D123), bound in
+/// `app/di.dart`.
+final readPageBoxesProvider =
+    Provider<Future<PageBoxes?> Function(String directory, int pageCount)>(
+      (ref) => throw UnimplementedError('bound in app/di.dart'),
+    );
 
 /// Opens the verse placements of a package directory, bound in
 /// `app/di.dart`.
@@ -137,6 +146,32 @@ final FutureProvider<List<JuzEntry>> juzProvider = FutureProvider((
     Ok(:final value) => value,
     Err() => const [],
   };
+});
+
+/// The 240 quarters of a hizb of the active package (§15 D123); empty for
+/// a package built before they were recorded.
+final FutureProvider<List<HizbQuarter>> quartersProvider = FutureProvider((
+  ref,
+) async {
+  final index = ref.watch(mushafIndexProvider);
+  if (index == null) return const [];
+  return switch (await index.quarters()) {
+    Ok(:final value) => value,
+    Err() => const [],
+  };
+});
+
+/// The view box of every page of the active package (§15 D123); `null` for
+/// a package of whole pages, which the reader then shows as they are.
+final FutureProvider<PageBoxes?> pageBoxesProvider = FutureProvider((
+  ref,
+) async {
+  final installed = readablePackage(ref.watch(quranPackageProvider));
+  if (installed == null) return null;
+  return await ref.read(readPageBoxesProvider)(
+    installed.directory,
+    QuranEditionPin.layout.pageCount,
+  );
 });
 
 /// Bookmarks of the pinned layout, newest first.

@@ -64,6 +64,7 @@ import 'package:daily_muslim/features/quran/data/bundled_quran_origin.dart';
 import 'package:daily_muslim/features/quran/data/channel_free_space.dart';
 import 'package:daily_muslim/features/quran/data/drift_quran_notes.dart';
 import 'package:daily_muslim/features/quran/data/http_quran_origin.dart';
+import 'package:daily_muslim/features/quran/data/io_page_boxes.dart';
 import 'package:daily_muslim/features/quran/data/io_quran_package_disk.dart';
 import 'package:daily_muslim/features/quran/data/quran_manifest_codec.dart';
 import 'package:daily_muslim/features/quran/data/quran_notes_database.dart';
@@ -336,6 +337,7 @@ abstract final class AppBindings {
         SqliteSearchIndex.isCurrent,
       ),
       openMushafIndexProvider.overrideWithValue(SqliteMushafIndex.new),
+      readPageBoxesProvider.overrideWithValue(readPageBoxes),
       openVersePlacesProvider.overrideWithValue(SqliteMushafIndex.new),
       bookmarkStoreProvider.overrideWithValue(notes),
       highlightStoreProvider.overrideWithValue(notes),

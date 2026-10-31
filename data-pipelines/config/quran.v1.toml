@@ -7,10 +7,16 @@
 
 [package]
 id = "hafs-madinah-1441"
-version = "1441.1"
+version = "1441.2"
 pageCount = 604
-# Page images: lossless WebP at this width (height follows the page's own aspect ratio).
-pageWidth = 1400
+# Frameless pages (§15 D123): each page is cut to its own content (every letter, mark, verse marker,
+# heading and basmalah) plus `boxMargin` points, and rendered `boxWidth` pixels wide as lossless
+# grey WebP; the height follows the box.
+boxWidth = 1600
+# Grey levels kept: the render's tones rounded to this many evenly spaced levels (every edge stays
+# where it is; only antialiasing tones are rounded), which lossless WebP then stores as a palette.
+greyLevels = 16
+boxMargin = 4.0
 
 # The Madinah Mushaf, riwayat Hafs, digital edition 1441 AH, one Adobe Illustrator file per page.
 # Published sha256 (dm.qurancomplex.gov.sa, 2026-10-30): 280C5D71…2D9EEF. Usage rights:

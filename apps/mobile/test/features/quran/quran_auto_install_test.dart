@@ -85,11 +85,11 @@ final class _Settings implements WatchSetting, WriteSetting {
 void main() {
   late Directory root;
   final page = List<int>.generate(4000, (i) => i % 241);
-  final manifest = utf8.encode(
+  List<int> manifestOf(List<int> page, String version) => utf8.encode(
     jsonEncode({
       'schemaVersion': 1,
       'packageId': 'test-pkg',
-      'version': '1',
+      'version': version,
       'layoutId': 'test-layout',
       'edition': {
         'riwayah': 'hafs',
@@ -115,27 +115,34 @@ void main() {
       ],
     }),
   );
-  final origin = BundledQuranOrigin(
-    _Bundle({
-      'assets/quran/manifest.json': manifest,
-      'assets/quran/pages/001.webp': page,
-    }),
-    _Offline(),
-  );
+  BundledQuranOrigin originOf(List<int> manifest, List<int> page) =>
+      BundledQuranOrigin(
+        _Bundle({
+          'assets/quran/manifest.json': manifest,
+          'assets/quran/pages/001.webp': page,
+        }),
+        _Offline(),
+      );
+  final manifest = manifestOf(page, '1');
+  final origin = originOf(manifest, page);
 
   setUp(() => root = Directory.systemTemp.createTempSync('quran_auto'));
   tearDown(() => root.deleteSync(recursive: true));
 
-  ProviderContainer app(_Settings settings) => ProviderContainer(
+  ProviderContainer app(
+    _Settings settings, {
+    List<int>? pinned,
+    BundledQuranOrigin? bundle,
+  }) => ProviderContainer(
     overrides: [
       quranPackageDiskProvider.overrideWithValue(
         IoQuranPackageDisk(
           root,
-          pinnedManifestSha256: '${sha256.convert(manifest)}',
+          pinnedManifestSha256: '${sha256.convert(pinned ?? manifest)}',
         ),
       ),
-      quranOriginProvider.overrideWithValue(origin),
-      quranBundleProvider.overrideWithValue(origin.available),
+      quranOriginProvider.overrideWithValue(bundle ?? origin),
+      quranBundleProvider.overrideWithValue((bundle ?? origin).available),
       acceptManifestProvider.overrideWithValue(QuranManifestCodec.decode),
       readFreeSpaceProvider.overrideWithValue(_Space()),
       buildSearchIndexProvider.overrideWithValue(_Index()),
@@ -184,5 +191,36 @@ void main() {
     second.read(quranPackageProvider.notifier).download();
     await until<QuranReady>(second);
     expect(settings.values[AppSettings.quranRemoved.wire], isFalse);
+  });
+
+  test('REQ-QRN-015: an app carrying a newer package replaces the installed '
+      'one at start with no tap, the old one readable meanwhile', () async {
+    final settings = _Settings();
+    final first = app(settings);
+    await until<QuranReady>(first);
+    first.dispose();
+
+    final newer = List<int>.generate(5000, (i) => i % 239);
+    final newManifest = manifestOf(newer, '2');
+    final second = app(
+      settings,
+      pinned: newManifest,
+      bundle: originOf(newManifest, newer),
+    );
+    addTearDown(second.dispose);
+    final seen = <QuranPackageStatus>[];
+    second.listen(quranPackageProvider, (_, next) => seen.add(next));
+
+    final done = Completer<void>();
+    final sub = second.listen(quranPackageProvider, (_, next) {
+      if (next case QuranReady(updateAvailable: false, :final installed)
+          when installed.manifestSha256 == '${sha256.convert(newManifest)}') {
+        if (!done.isCompleted) done.complete();
+      }
+    }, fireImmediately: true);
+    await done.future.timeout(const Duration(seconds: 10));
+    sub.close();
+
+    expect(seen.whereType<QuranNotInstalled>(), isEmpty);
   });
 }

@@ -28,13 +28,18 @@ final class QuranNotesDatabase extends _$QuranNotesDatabase {
   static const fileName = 'quran_notes.sqlite';
 
   /// The steps above version 1: version 2 adds whole-verse highlights
-  /// (§15 D114).
+  /// (§15 D114); version 3 the landscape fit and *Keep controls visible*
+  /// (§15 D123).
   ForwardOnlyMigration get migrations => ForwardOnlyMigration({
     2: (m) => m.createTable(quranAyahHighlights),
+    3: (m) async {
+      await m.addColumn(quranReaderPrefs, quranReaderPrefs.landscapeFit);
+      await m.addColumn(quranReaderPrefs, quranReaderPrefs.keepControls);
+    },
   });
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => migrations.strategy(this);

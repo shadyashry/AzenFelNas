@@ -95,6 +95,13 @@ class QuranReaderPrefs extends Table {
   /// Two facing pages on wide windows.
   BoolColumn get facingPages => boolean()();
 
+  /// `PageFit.name` in landscape windows (version 3, §15 D123); `null`
+  /// for a row kept from version 2, which then gets the default.
+  TextColumn get landscapeFit => text().nullable()();
+
+  /// Whether the controls stay shown (version 3, §15 D123).
+  BoolColumn get keepControls => boolean().withDefault(const Constant(false))();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }

@@ -2426,10 +2426,10 @@ abstract class AppLocalizations {
   /// **'More'**
   String get quranMore;
 
-  /// Button shown while controls are hidden.
+  /// The small handle under the page that brings the controls back.
   ///
   /// In en, this message translates to:
-  /// **'Show controls'**
+  /// **'Show reading controls'**
   String get quranShowControls;
 
   /// Button: download a newer Quran package.
@@ -2567,7 +2567,7 @@ abstract class AppLocalizations {
   /// The default reading mode.
   ///
   /// In en, this message translates to:
-  /// **'Calm reading: the Mushaf exactly as the King Fahd Complex printed it, in dark ink with its own frame and verse markers. Nothing is recoloured.'**
+  /// **'Calm reading: the King Fahd Complex\'s own lettering, marks and verse markers in one ink, without the printed frame. No letter is coloured by a rule.'**
   String get quranCalmReading;
 
   /// Under the disabled Tajweed switch.
@@ -2851,6 +2851,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{minutes, plural, one{1 min} other{{minutes} min}}'**
   String radioSleepMinutes(int minutes);
+
+  /// The reader's button that opens the pages of the surah.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages'**
+  String get quranPagesButton;
+
+  /// Under the page number: the page's place among the chosen surah's pages.
+  ///
+  /// In en, this message translates to:
+  /// **'{position} of {count} in this Surah'**
+  String quranPlaceInSurah(String position, String count);
+
+  /// Under the page number for a surah that fits on one page.
+  ///
+  /// In en, this message translates to:
+  /// **'The whole surah is on this page'**
+  String get quranWholeSurahHere;
+
+  /// A hizb begins on this page (the Mushaf's margin medallion).
+  ///
+  /// In en, this message translates to:
+  /// **'Hizb {hizb}'**
+  String quranHizbStart(String hizb);
+
+  /// The second quarter of a hizb begins on this page.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarter of Hizb {hizb}'**
+  String quranHizbQuarter(String hizb);
+
+  /// The third quarter of a hizb begins on this page.
+  ///
+  /// In en, this message translates to:
+  /// **'Half of Hizb {hizb}'**
+  String quranHizbHalf(String hizb);
+
+  /// The fourth quarter of a hizb begins on this page.
+  ///
+  /// In en, this message translates to:
+  /// **'Three quarters of Hizb {hizb}'**
+  String quranHizbThreeQuarters(String hizb);
+
+  /// The reader's close button: hides the controls, keeps the page.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide reading controls'**
+  String get quranHideControls;
+
+  /// Reader menu: taps on the page no longer hide the controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep controls visible'**
+  String get quranKeepControls;
+
+  /// Tooltip of the fit button.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to {mode}'**
+  String quranFitSwitchTo(String mode);
+
+  /// Screen-reader hint on the page surface.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the page to show or hide the controls'**
+  String get quranControlsHint;
 }
 
 class _AppLocalizationsDelegate

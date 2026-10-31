@@ -30,7 +30,9 @@ final class QuranPackageController extends Notifier<QuranPackageStatus> {
 
   /// Re-reads the status from disk (no network). When the app carries its
   /// own copy and nothing is installed, installs it at once (§15 D117),
-  /// unless the reader removed the Quran themself.
+  /// unless the reader removed the Quran themself; an installed package
+  /// older than the copy is replaced the same way (§15 D123), the old one
+  /// staying readable until the new one is verified and active.
   Future<void> check() async {
     final checked = await CheckQuranPackage(
       ref.read(quranPackageDiskProvider),
@@ -42,6 +44,7 @@ final class QuranPackageController extends Notifier<QuranPackageStatus> {
     final pending = switch (checked) {
       QuranNotInstalled(failure: null) => true,
       QuranPaused(failure: null, current: null) => true,
+      QuranReady(updateAvailable: true) => true,
       _ => false,
     };
     if (pending && await _installsFromApp() && ref.mounted) download();

@@ -63,9 +63,10 @@ strict = true
 python_version = "3.15"
 plugins = ["pydantic.mypy"]
 
-# pypdfium2 ships no type information; pages.py uses four of its calls and narrows their results.
+# pypdfium2 ships no type information; pages.py uses a few of its calls (and of its raw PDFium
+# bindings, to read fills and bounds and to remove the frame) and narrows their results.
 [[tool.mypy.overrides]]
-module = ["pypdfium2"]
+module = ["pypdfium2", "pypdfium2.raw"]
 ignore_missing_imports = true
 
 [tool.pydantic-mypy]

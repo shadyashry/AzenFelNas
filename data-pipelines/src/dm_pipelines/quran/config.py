@@ -4,7 +4,7 @@ import tomllib
 from pathlib import Path
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 
 
 class _Record(BaseModel):
@@ -19,7 +19,9 @@ class PackagePin(_Record):
     id: Annotated[StrictStr, Field(pattern=r"^[a-z0-9][a-z0-9-]*$")]
     version: Annotated[StrictStr, Field(pattern=r"^[0-9]+(\.[0-9]+)*$")]
     page_count: Annotated[StrictInt, Field(alias="pageCount", ge=1)]
-    page_width: Annotated[StrictInt, Field(alias="pageWidth", ge=256)]
+    box_width: Annotated[StrictInt, Field(alias="boxWidth", ge=256)]
+    box_margin: Annotated[StrictFloat, Field(alias="boxMargin", ge=0, le=20)]
+    grey_levels: Annotated[StrictInt, Field(alias="greyLevels", ge=2, le=256)]
 
 
 class MushafSource(_Record):

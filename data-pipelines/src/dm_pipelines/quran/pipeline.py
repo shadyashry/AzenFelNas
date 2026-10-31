@@ -1,8 +1,10 @@
 """`BuildQuran`: the offline Quran package (§9.5, §15 D107).
 
-pinned 1441 Mushaf zip ─▶ pages/NNN.webp (lossless, verified pixel for pixel)
+pinned 1441 Mushaf zip ─▶ pages/NNN.webp (frameless, cut to the page's content, lossless)
+                       ─▶ pages/boxes.json (each page's view box, §15 D123)
 pinned Hafs V3.0 zip   ─▶ verses, surahs, page and line of every verse ─┐
-pinned Tanzil metadata ─▶ juz starts (checked against the KFGQPC text) ──┴▶ quran.sqlite
+pinned Tanzil metadata ─▶ juz and hizb-quarter starts (checked against   ├▶ quran.sqlite
+                          the KFGQPC text) ───────────────────────────────┘
                        ─▶ fonts/kfgqpc-hafs-v30.ttf (the font file, byte for byte)
   ─▶ manifest.json (quran_package.v1: every file by size and sha256; the app pins its sha256)
   ─▶ build_manifest.json (pipeline_manifest.v1: inputs, tools and outputs; not shipped)
@@ -20,8 +22,14 @@ from pathlib import Path
 
 from dm_pipelines.hashing import sha256_bytes, sha256_file
 from dm_pipelines.quran.config import QuranConfig, load_quran_config
-from dm_pipelines.quran.juz_source import Juz, read_juz
-from dm_pipelines.quran.pages import RenderedPage, render_pages
+from dm_pipelines.quran.juz_source import Juz, Quarter, read_juz, read_quarters
+from dm_pipelines.quran.pages import (
+    PageSourceError,
+    PageSurvey,
+    RenderedPage,
+    boxes_json,
+    render_pages,
+)
 from dm_pipelines.quran.text_source import MushafText, read_mushaf_text
 from dm_pipelines.schema.pipeline_manifest_v1 import Input, Output, PipelineManifestV1
 from dm_pipelines.schema.quran_package_v1 import (
@@ -38,6 +46,10 @@ BUILD_MANIFEST = "build_manifest.json"
 DATABASE = "quran.sqlite"
 FONT = "fonts/kfgqpc-hafs-v30.ttf"
 PAGE_PATTERN = "pages/{page:03}.webp"
+BOXES = "pages/boxes.json"
+# Marks in the KFGQPC text that have a recitation note in the margin.
+SAJDAH = "\u06e9"
+SMALL_HIGH_SEEN = "\u06dc"
 LAYOUT_ID = "kfgqpc-hafs-1441-604"
 PUBLISHER = "King Fahd Glorious Quran Printing Complex"
 _SOURCES = (
@@ -58,6 +70,8 @@ CREATE TABLE verse(
   line_start INTEGER NOT NULL, page_end INTEGER NOT NULL, line_end INTEGER NOT NULL,
   text TEXT NOT NULL, UNIQUE(sura, aya));
 CREATE INDEX verse_page ON verse(page);
+CREATE TABLE quarter(
+  number INTEGER PRIMARY KEY, sura INTEGER NOT NULL, aya INTEGER NOT NULL, page INTEGER NOT NULL);
 """
 
 
@@ -73,8 +87,58 @@ def _pinned(path: Path, sha256: str) -> bytes:
     return data
 
 
-def write_database(path: Path, config: QuranConfig, text: MushafText, juz: tuple[Juz, ...]) -> None:
-    """Write `quran.sqlite`: meta, surahs, juz and verses, in a fixed order (reproducible)."""
+def pick_medallions(
+    surveys: list[PageSurvey], quarters: tuple[Quarter, ...], text: MushafText
+) -> dict[int, frozenset[int]]:
+    """Return the margin ornaments of each page that are hizb medallions (§15 D123).
+
+    On the page where a quarter starts, the ornament nearest the quarter's first line, which must
+    be clearly nearer than any other. Where a sajdah falls on that page and the Complex set both
+    in one medallion (the page's only ornament), it stays: the sajdah note is never lost. Every
+    other quarter but the first (page 1 has no margin) loses exactly one; every ornament kept is
+    a recitation note on a page whose text has a sajdah (U+06E9) or a small high seen (U+06DC)
+    mark, and every sajdah page keeps its note.
+    """
+    lines = {(v.sura, v.aya): v.line_start for v in text.verses}
+    sajdah = {v.page for v in text.verses if SAJDAH in v.text}
+    by_page = {s.page: s for s in surveys}
+    drops: dict[int, frozenset[int]] = {}
+    for q in quarters[1:]:
+        s = by_page[q.page]
+        if q.page in sajdah and len(s.ornaments) == 1:
+            continue
+        pitch = (s.core[3] - s.core[1]) / 15
+        centre = s.core[3] - (lines[(q.sura, q.aya)] - 0.5) * pitch
+        distance = sorted((abs((b[1] + b[3]) / 2 - centre), n) for n, b in enumerate(s.ornaments))
+        if not distance or distance[0][0] > 3 * pitch:
+            message = f"page {q.page}: no hizb medallion beside quarter {q.number}"
+            raise PageSourceError(message)
+        if len(distance) > 1 and distance[1][0] - distance[0][0] < pitch:
+            message = f"page {q.page}: two margin ornaments beside quarter {q.number}"
+            raise PageSourceError(message)
+        if q.page in drops:
+            message = f"page {q.page}: two quarters start on one page"
+            raise PageSourceError(message)
+        drops[q.page] = frozenset({distance[0][1]})
+    marked = {v.page for v in text.verses if SAJDAH in v.text or SMALL_HIGH_SEEN in v.text}
+    notes = {s.page for s in surveys if len(s.ornaments) > len(drops.get(s.page, ()))}
+    if not notes <= marked or not sajdah <= notes:
+        message = (
+            f"margin notes on unmarked pages {sorted(notes - marked)[:5]}, "
+            f"sajdah pages without a note {sorted(sajdah - notes)[:5]}"
+        )
+        raise PageSourceError(message)
+    return drops
+
+
+def write_database(
+    path: Path,
+    config: QuranConfig,
+    text: MushafText,
+    juz: tuple[Juz, ...],
+    quarters: tuple[Quarter, ...],
+) -> None:
+    """Write `quran.sqlite`: meta, surahs, juz, verses and quarters, in a fixed order."""
     path.unlink(missing_ok=True)
     db = sqlite3.connect(path)
     try:
@@ -100,6 +164,10 @@ def write_database(path: Path, config: QuranConfig, text: MushafText, juz: tuple
                 (i + 1, v.sura, v.aya, v.page, v.line_start, v.page_end, v.line_end, v.text)
                 for i, v in enumerate(text.verses)
             ],
+        )
+        db.executemany(
+            "INSERT INTO quarter VALUES (?, ?, ?, ?)",
+            [(q.number, q.sura, q.aya, q.page) for q in quarters],
         )
         db.commit()
         db.execute("VACUUM")
@@ -127,17 +195,20 @@ class BuildQuran:
             docx = archive.read(config.text.docx_member)
             font = archive.read(config.text.font_member)
         text = read_mushaf_text(docx, page_count=pin.page_count)
-        juz = read_juz(_pinned(juz_xml, config.juz.sha256), text)
+        juz_bytes = _pinned(juz_xml, config.juz.sha256)
+        juz = read_juz(juz_bytes, text)
+        quarters = read_quarters(juz_bytes, text)
         _pinned(mushaf, config.mushaf.sha256)
         out.mkdir(parents=True, exist_ok=True)
         pages = render_pages(
             mushaf,
-            page_count=pin.page_count,
-            width=pin.page_width,
+            pin,
             out_dir=out / "pages",
             workers=os.cpu_count() or 1,
+            medallions=lambda surveys: pick_medallions(surveys, quarters, text),
         )
-        write_database(out / DATABASE, config, text, juz)
+        (out / BOXES).write_bytes(boxes_json(pages))
+        write_database(out / DATABASE, config, text, juz, quarters)
         (out / FONT).parent.mkdir(parents=True, exist_ok=True)
         (out / FONT).write_bytes(font)
         manifest = self._manifest(config, text, pages, out)
@@ -189,13 +260,20 @@ class BuildQuran:
                     ),
                 ],
             ),
+            # Each page has its own view box and size (`pages/boxes.json`); these are the
+            # largest, which readers of an earlier build use only as an aspect ratio.
             page_image=PageImage(
                 format="webp-lossless",
-                width=pages[0].width,
-                height=pages[0].height,
+                width=max(p.width for p in pages),
+                height=max(p.height for p in pages),
                 path_pattern=PAGE_PATTERN,
             ),
-            files=[*(_file(out, p) for p in page_paths), _file(out, DATABASE), _file(out, FONT)],
+            files=[
+                *(_file(out, p) for p in page_paths),
+                _file(out, BOXES),
+                _file(out, DATABASE),
+                _file(out, FONT),
+            ],
         )
 
     def _build_manifest(
@@ -223,11 +301,13 @@ class BuildQuran:
             parameters={
                 "packageId": config.package.id,
                 "version": config.package.version,
-                "pageWidth": str(config.package.page_width),
+                "boxWidth": str(config.package.box_width),
+                "boxMargin": str(config.package.box_margin),
+                "greyLevels": str(config.package.grey_levels),
                 "pagesBytes": str(sum(p.bytes for p in pages)),
             },
             outputs=[
-                Output(path=MANIFEST, sha256=sha256_file(out / MANIFEST), records=len(pages) + 2)
+                Output(path=MANIFEST, sha256=sha256_file(out / MANIFEST), records=len(pages) + 3)
             ],
         )
         (out / BUILD_MANIFEST).write_text(

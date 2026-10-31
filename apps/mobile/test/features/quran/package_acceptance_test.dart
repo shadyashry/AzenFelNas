@@ -6,9 +6,11 @@ import 'dart:io';
 import 'package:daily_muslim/features/quran/data/quran_manifest_codec.dart';
 import 'package:daily_muslim/features/quran/data/sqlite_mushaf_index.dart';
 import 'package:daily_muslim/features/quran/data/sqlite_search_index.dart';
+import 'package:daily_muslim/features/quran/domain/hizb_quarter.dart';
 import 'package:daily_muslim/features/quran/domain/juz_contents.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_lines.dart';
+import 'package:daily_muslim/features/quran/domain/page_box.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:dm_core_types/dm_core_types.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -46,7 +48,8 @@ void main() {
     final manifest = QuranManifestCodec.acceptPinned(bytes);
 
     expect(manifest, isNotNull);
-    expect(manifest?.files, hasLength(606));
+    // 604 pages, their view boxes (§15 D123), the index and the font.
+    expect(manifest?.files, hasLength(607));
   }, skip: skip);
 
   test('REQ-QRN-040: the search index builds, answers, and its size is '
@@ -200,6 +203,53 @@ void main() {
       (place?.page, place?.lineStart, place?.pageEnd, place?.lineEnd),
       (293, 12, 293, 12),
     );
+  }, skip: skip);
+
+  test('REQ-QRN-030: every page has a view box, and the box holds the '
+      'middle of its first and last lines (§15 D123)', () {
+    final boxes = PageBoxes.parse(
+      File('$source/pages/boxes.json').readAsStringSync(),
+      pageCount: 604,
+    );
+    for (var page = 1; page <= 604; page++) {
+      final box = boxes.of(page);
+      expect(box.pixelWidth, inInclusiveRange(1598, 1601), reason: '$page');
+      for (final line in [1, MushafLines.linesOn(page)]) {
+        final band = MushafLines.band(page, line)!;
+        final middle = (band.top + band.bottom) / 2;
+        expect(
+          middle,
+          inInclusiveRange(box.top, box.bottom),
+          reason: 'page $page line $line',
+        );
+      }
+    }
+  }, skip: skip);
+
+  test('REQ-QRN-031: 240 hizb quarters in Mushaf order, the first at the '
+      'first verse, eight to a juz (§15 D123)', () async {
+    final quarters = switch (await index.quarters()) {
+      Ok(:final value) => value,
+      Err(:final failure) => throw StateError('$failure'),
+    };
+    final juz = switch (await index.juz()) {
+      Ok(:final value) => value,
+      Err(:final failure) => throw StateError('$failure'),
+    };
+
+    expect(quarters, hasLength(240));
+    expect(
+      quarters.first,
+      const HizbQuarter(number: 1, sura: 1, aya: 1, page: 1),
+    );
+    for (var i = 1; i < quarters.length; i++) {
+      expect(quarters[i].page, greaterThan(quarters[i - 1].page));
+    }
+    for (final j in juz) {
+      final q = quarters[(j.number - 1) * 8];
+      expect((q.sura, q.aya), (j.sura, j.aya), reason: 'juz ${j.number}');
+      expect(q.part, HizbPart.start);
+    }
   }, skip: skip);
 }
 

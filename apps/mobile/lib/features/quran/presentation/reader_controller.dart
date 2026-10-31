@@ -193,13 +193,33 @@ final class ReaderController extends Notifier<ReaderState> {
     }
   }
 
-  /// Shows or hides the bars.
-  void toggleChrome() =>
-      state = state._with(chromeVisible: !state.chromeVisible);
+  /// Shows or hides the controls after a short tap on the page (§15 D123);
+  /// with *Keep controls visible* a tap only brings them back.
+  void toggleChrome() {
+    if (state.chromeVisible && state.preferences.keepControls) return;
+    state = state._with(chromeVisible: !state.chromeVisible);
+  }
 
-  /// Saves and applies [preferences].
+  /// Shows the controls (the handle under the page).
+  void showChrome() => state = state._with(chromeVisible: true);
+
+  /// Hides the controls (their close button); the page does not move.
+  void hideChrome() => state = state._with(chromeVisible: false);
+
+  /// The window turned (or opened) [landscape] or not: a landscape window
+  /// opens on the page alone, a portrait one with the controls, unless the
+  /// reader keeps them visible (§15 D123).
+  void followOrientation({required bool landscape}) => state = state._with(
+    chromeVisible: state.preferences.keepControls || !landscape,
+  );
+
+  /// Saves and applies [preferences]; turning *Keep controls visible* on
+  /// shows them.
   void setPreferences(ReaderPreferences preferences) {
-    state = state._with(preferences: preferences);
+    state = state._with(
+      preferences: preferences,
+      chromeVisible: preferences.keepControls ? true : null,
+    );
     unawaited(
       ref.read(readerPreferencesStoreProvider).writePreferences(preferences),
     );

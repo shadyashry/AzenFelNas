@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'generated/schema.dart';
 import 'generated/schema_v1.dart' as v1;
 import 'generated/schema_v2.dart' as v2;
+import 'generated/schema_v3.dart' as v3;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -145,6 +146,112 @@ void main() {
           await newDb.select(newDb.quranReaderPrefs).get(),
         );
         expect(await newDb.select(newDb.quranAyahHighlights).get(), isEmpty);
+      },
+    );
+  });
+
+  // Version 3 only adds two reader choices (§15 D123); bookmarks, both
+  // kinds of highlights, the reading position and the earlier choices come
+  // through unchanged, and the new choices start at their defaults.
+  test('REQ-QRN-060 migration from v2 to v3 keeps every note', () async {
+    const layout = 'kfgqpc-hafs-1441-604';
+    await verifier.testWithDataIntegrity(
+      oldVersion: 2,
+      newVersion: 3,
+      createOld: v2.DatabaseAtV2.new,
+      createNew: v3.DatabaseAtV3.new,
+      openTestedDatabase: QuranNotesDatabase.new,
+      createItems: (batch, oldDb) => batch
+        ..insertAll(oldDb.quranBookmarks, [
+          const v2.QuranBookmarksData(
+            layoutId: layout,
+            page: 62,
+            createdUtc: 1,
+          ),
+        ])
+        ..insertAll(oldDb.quranHighlights, [
+          const v2.QuranHighlightsData(
+            id: 1,
+            layoutId: layout,
+            color: 'green',
+            firstPage: 62,
+            createdUtc: 2,
+            updatedUtc: 3,
+          ),
+        ])
+        ..insertAll(oldDb.quranHighlightRegions, [
+          const v2.QuranHighlightRegionsData(
+            id: 1,
+            highlightId: 1,
+            page: 62,
+            x0: 0.2,
+            y0: 0.3,
+            x1: 0.8,
+            y1: 0.35,
+          ),
+        ])
+        ..insertAll(oldDb.quranReadingPositions, [
+          const v2.QuranReadingPositionsData(
+            layoutId: layout,
+            page: 62,
+            updatedUtc: 4,
+          ),
+        ])
+        ..insertAll(oldDb.quranReaderPrefs, [
+          const v2.QuranReaderPrefsData(id: 1, fit: 'width', facingPages: 0),
+        ])
+        ..insertAll(oldDb.quranAyahHighlights, [
+          const v2.QuranAyahHighlightsData(
+            layoutId: layout,
+            sura: 2,
+            aya: 255,
+            color: 'blue',
+            createdUtc: 5,
+            updatedUtc: 6,
+          ),
+        ]),
+      validateItems: (newDb) async {
+        expect(await newDb.select(newDb.quranBookmarks).get(), [
+          const v3.QuranBookmarksData(
+            layoutId: layout,
+            page: 62,
+            createdUtc: 1,
+          ),
+        ]);
+        expect(await newDb.select(newDb.quranHighlights).get(), hasLength(1));
+        expect(await newDb.select(newDb.quranHighlightRegions).get(), [
+          const v3.QuranHighlightRegionsData(
+            id: 1,
+            highlightId: 1,
+            page: 62,
+            x0: 0.2,
+            y0: 0.3,
+            x1: 0.8,
+            y1: 0.35,
+          ),
+        ]);
+        expect(
+          await newDb.select(newDb.quranReadingPositions).get(),
+          hasLength(1),
+        );
+        expect(await newDb.select(newDb.quranReaderPrefs).get(), [
+          const v3.QuranReaderPrefsData(
+            id: 1,
+            fit: 'width',
+            facingPages: 0,
+            keepControls: 0,
+          ),
+        ]);
+        expect(await newDb.select(newDb.quranAyahHighlights).get(), [
+          const v3.QuranAyahHighlightsData(
+            layoutId: layout,
+            sura: 2,
+            aya: 255,
+            color: 'blue',
+            createdUtc: 5,
+            updatedUtc: 6,
+          ),
+        ]);
       },
     );
   });

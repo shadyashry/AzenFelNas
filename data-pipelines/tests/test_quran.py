@@ -1,4 +1,4 @@
-"""The Quran pipeline: Word-file parsing, juz checks and the full build (§9.5, §15 D107).
+"""The Quran pipeline: Word file, juz checks, page boxes and full build (§15 D107, D123).
 
 The unit tests use a synthetic Word file with placeholder words, never Quran text. The full build
 runs only when `DM_QURAN_SOURCES` names a directory holding the three pinned sources.
@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 
 from dm_pipelines.quran.juz_source import JuzSourceError, read_juz
+from dm_pipelines.quran.pages import PageSurvey, plan_box
 from dm_pipelines.quran.pipeline import BuildQuran
 from dm_pipelines.quran.text_source import MushafText, TextSourceError, read_mushaf_text
 
@@ -124,9 +125,45 @@ def test_req_qrn_001_rebuild_has_every_page_verse_and_juz(tmp_path: Path) -> Non
 
     assert manifest.edition.page_count == 604
     assert [f.path for f in manifest.files[:2]] == ["pages/001.webp", "pages/002.webp"]
-    assert len(manifest.files) == 606
+    assert len(manifest.files) == 607
+    assert manifest.files[604].path == "pages/boxes.json"
     with sqlite3.connect(tmp_path / "quran.sqlite") as db:
         assert db.execute("SELECT count(*), max(page) FROM verse").fetchone() == (6236, 604)
         pages = [row[0] for row in db.execute("SELECT page FROM juz ORDER BY number")]
+        quarters = db.execute("SELECT count(*), min(page), max(page) FROM quarter").fetchone()
     assert pages[:7] == [1, 22, 42, 62, 82, 102, 121]
     assert pages[-1] == 582
+    assert quarters == (240, 1, 600)
+
+
+def _survey(
+    page: int,
+    core: tuple[float, float, float, float],
+    ornaments: tuple[tuple[float, float, float, float], ...] = (),
+) -> PageSurvey:
+    return PageSurvey(
+        page=page,
+        size=(382.677, 547.086),
+        frame=(21.5, 48.3, 314.7, 498.8),
+        core=core,
+        text=core,
+        removed_above=2,
+        removed_below=1,
+        ornaments=ornaments,
+    )
+
+
+def test_req_qrn_030_a_page_box_is_its_content_with_a_margin_inside_the_page() -> None:
+    box = plan_box(_survey(17, (46.5, 74.2, 290.4, 473.1)), 4.0)
+    assert (box.left, box.bottom, box.right, box.top) == pytest.approx((42.5, 70.2, 294.4, 477.1))
+    edge = plan_box(_survey(3, (1.0, 2.0, 380.0, 546.0)), 4.0)
+    assert (edge.left, edge.bottom) == (0.0, 0.0)
+    assert (edge.right, edge.top) == (382.677, 547.086)
+
+
+def test_req_qrn_030_a_kept_margin_note_widens_the_box_a_dropped_medallion_does_not() -> None:
+    survey = _survey(176, (46.5, 74.2, 290.4, 473.1), ((323.0, 440.0, 357.4, 514.0),))
+    kept = plan_box(survey, 4.0)
+    dropped = plan_box(survey, 4.0, frozenset({0}))
+    assert (kept.right, kept.top) == pytest.approx((361.4, 518.0))
+    assert (dropped.right, dropped.top) == pytest.approx((294.4, 477.1))

@@ -201,12 +201,15 @@ final class DriftQuranNotes
       _db.quranReaderPrefs,
     )..where((t) => t.id.equals(1))).getSingleOrNull();
     if (row == null) return const ReaderPreferences();
+    PageFit fit(String? name, PageFit fallback) => PageFit.values.firstWhere(
+      (f) => f.name == name,
+      orElse: () => fallback,
+    );
     return ReaderPreferences(
-      fit: PageFit.values.firstWhere(
-        (f) => f.name == row.fit,
-        orElse: () => PageFit.page,
-      ),
+      fit: fit(row.fit, PageFit.page),
+      landscapeFit: fit(row.landscapeFit, PageFit.width),
       facingPages: row.facingPages,
+      keepControls: row.keepControls,
     );
   }
 
@@ -218,6 +221,8 @@ final class DriftQuranNotes
           id: const Value(1),
           fit: preferences.fit.name,
           facingPages: preferences.facingPages,
+          landscapeFit: Value(preferences.landscapeFit.name),
+          keepControls: Value(preferences.keepControls),
         ),
       );
 

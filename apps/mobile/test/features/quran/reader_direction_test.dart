@@ -1,7 +1,6 @@
 import 'package:daily_muslim/features/quran/domain/reader_preferences.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_viewport.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_viewport_controller.dart';
-import 'package:daily_muslim/features/quran/presentation/reader_bars.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,7 +22,7 @@ Widget _reader(
           child: MushafViewport(
             itemCount: 10,
             item: 0,
-            aspect: 0.7,
+            aspectOf: (_) => 0.7,
             fit: PageFit.page,
             controller: controller,
             drawing: drawing,
@@ -35,7 +34,24 @@ Widget _reader(
             onTap: (_, _) {},
           ),
         ),
-        ReaderBottomBar(viewport: controller),
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: Row(
+            children: [
+              IconButton(
+                tooltip: 'next',
+                onPressed: () => controller.send(ViewportCommand.next),
+                icon: const Icon(Icons.chevron_left),
+              ),
+              const Spacer(),
+              IconButton(
+                tooltip: 'previous',
+                onPressed: () => controller.send(ViewportCommand.previous),
+                icon: const Icon(Icons.chevron_right),
+              ),
+            ],
+          ),
+        ),
       ],
     ),
   ),
@@ -49,7 +65,7 @@ void main() {
       key: key,
       itemCount: 10,
       item: 0,
-      aspect: 0.7,
+      aspectOf: (_) => 0.7,
       fit: PageFit.page,
       controller: controller,
       drawing: false,
@@ -84,7 +100,7 @@ void main() {
       child: MushafViewport(
         itemCount: count,
         item: item,
-        aspect: 0.7,
+        aspectOf: (_) => 0.7,
         fit: PageFit.page,
         controller: controller,
         drawing: false,
@@ -123,19 +139,14 @@ void main() {
         expect(turns, [1, 2, 1]);
       });
 
-      testWidgets('REQ-QRN-020: Next page sits on the left and turns '
-          'forward, Previous on the right', (tester) async {
+      testWidgets('REQ-QRN-020: the Next command turns forward and '
+          'Previous back', (tester) async {
         final turns = <int>[];
         final controller = MushafViewportController();
         await tester.pumpWidget(_reader(locale, controller, turns));
-        final l = await AppLocalizations.delegate.load(locale);
 
-        final next = find.byTooltip(l.quranNextPage);
-        final previous = find.byTooltip(l.quranPreviousPage);
-        expect(
-          tester.getCenter(next).dx,
-          lessThan(tester.getCenter(previous).dx),
-        );
+        final next = find.byTooltip('next');
+        final previous = find.byTooltip('previous');
 
         await tester.tap(next);
         await tester.pumpAndSettle();

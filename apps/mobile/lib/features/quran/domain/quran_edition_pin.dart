@@ -9,20 +9,20 @@ abstract final class QuranEditionPin {
   static const packageId = 'hafs-madinah-1441';
 
   /// Package build.
-  static const version = '1441.1';
+  static const version = '1441.2';
 
   /// Page layout identity; annotations are stored against it.
   static const layoutId = 'kfgqpc-hafs-1441-604';
 
   /// SHA-256 of `manifest.json`.
   static const manifestSha256 =
-      '946f70b748b5b66317552344937cd961893f35313f2e7fe06e22dbfd3487f7b7';
+      'cb75e58345f573c39b2f810e508b336d4a1637df41e78e46b5ef23c694cb1964';
 
   /// Size of `manifest.json` in bytes.
-  static const manifestBytes = 92979;
+  static const manifestBytes = 93131;
 
   /// Sum of the package files the manifest lists, in bytes (measured).
-  static const downloadBytes = 124946306;
+  static const downloadBytes = 115336977;
 
   /// Size of the search index the app builds after the download (measured
   /// on the built package with this build's folding).

@@ -86,6 +86,14 @@ final class MushafGeometry {
     return clampOffset(focal - point * toScale, toScale);
   }
 
+  /// The offset at scale 1 that puts the content height [y] (0..1) at
+  /// [at] of the viewport's height, as far as the edges allow: how the
+  /// reading place survives a rotation, a resize or a change of fit.
+  Offset anchored(double y, {double at = 0.5}) => clampOffset(
+    Offset(baseOffset.dx, viewport.height * at - y * baseSize.height),
+    1,
+  );
+
   /// Whether a horizontal drag at [scale] should turn the page: the content
   /// is not wider than the viewport, so there is nothing to pan sideways.
   bool turnsPages(double scale) =>
