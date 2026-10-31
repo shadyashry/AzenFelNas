@@ -20,6 +20,7 @@ Copy this file into the release PR and tick each box with a link to its evidence
 - [ ] **Threat-model review signed** by Security (`docs/security/threat-model-review-s27.md`). [**OWED**]
 - [ ] **Tracks**: internal → closed beta → open beta (not in Ramadan) → production; phased rollout Android 5/25/100 % over 3 days, iOS 7 days (`docs/release/beta-internal-tracks.md`). [**OWED**]
 - [ ] **Version**: `MAJOR.MINOR.PATCH` with a monotonic build number set in `apps/mobile/pubspec.yaml`. [check]
+- [ ] **Quran bundled** (§15 D117, D128): `uv run --no-project python -I tool/bundle_quran.py <package dir>` in `apps/mobile` before `flutter build`; the release build refuses to run without the pinned package. Never set `DM_QURAN_BUNDLE=optional` for a store build. [check]
 
 ## C. Sign-off
 | Role | Name | Date | Go / No-go |

@@ -50,6 +50,9 @@ jobs:
         # Room 2.2.5's keep rule omits the database constructor, so an R8 full-mode release crashed at start while
         # every debug build ran; only the release build and the resolved version show it.
         working-directory: apps/mobile
+        # The Quran package is not in git, so this build says it ships without one (§15 D128).
+        env:
+          DM_QURAN_BUNDLE: optional
         run: |
           flutter build apk --release --dart-define=DM_CHANNEL=lab
           deps=$(cd android && ./gradlew --no-daemon -q :app:dependencies --configuration releaseRuntimeClasspath)
