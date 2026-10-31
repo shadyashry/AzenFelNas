@@ -7,6 +7,9 @@ import 'package:flutter/services.dart';
 abstract final class FontLicences {
   /// Each bundled family and the licence file beside it in `fonts/`.
   static const Map<String, String> files = {
+    'Amiri': 'OFL-Amiri.txt',
+    'DM Sans': 'OFL-DMSans.txt',
+    'Gelasio': 'OFL-Gelasio.txt',
     'Inter': 'OFL-Inter.txt',
     'Lora': 'OFL-Lora.txt',
     'Noto Naskh Arabic': 'OFL-NotoNaskhArabic.txt',

@@ -132,13 +132,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get remediationActionOpenSettings => 'Open settings';
 
   @override
-  String get onboardingWelcomeTitle => 'Prayer times for where you are';
-
-  @override
-  String get onboardingWelcomeBody =>
-      'Works offline, without an account. Your location stays on this phone.';
-
-  @override
   String get onboardingUseLocation => 'Use approximate location';
 
   @override
@@ -149,9 +142,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingFailedTitle => 'Location is not available';
-
-  @override
-  String get onboardingTryAgain => 'Try again';
 
   @override
   String get onboardingDoneTitle => 'Your times are ready';
@@ -943,18 +933,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsMoreSection => 'More';
 
   @override
-  String get onboardingChooseCity => 'Choose your city';
-
-  @override
-  String get onboardingDetect => 'Find my location';
-
-  @override
-  String get onboardingChooseCityMyself => 'I\'ll choose my city';
-
-  @override
-  String get onboardingResolvingBody => 'This takes a few seconds.';
-
-  @override
   String onboardingSuggestion(String place) {
     return 'Your phone\'s time zone suggests $place.';
   }
@@ -963,18 +941,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String onboardingUseSuggestion(String place) {
     return 'Use $place';
   }
-
-  @override
-  String get onboardingOtherCity => 'Choose another city';
-
-  @override
-  String get onboardingFeatureOffline => 'Works offline';
-
-  @override
-  String get onboardingFeatureAthan => 'Athan on time';
-
-  @override
-  String get onboardingFeatureQibla => 'Qibla compass';
 
   @override
   String get placeSuggestions => 'Cities in your time zone';
@@ -1725,4 +1691,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranControlsHint => 'Tap the page to show or hide the controls';
+
+  @override
+  String get welcomeHeader => 'Welcome';
+
+  @override
+  String get welcomeEyebrow => 'A moment of peace, every day';
+
+  @override
+  String get welcomeHeadline => 'Prayer times,\nwherever you are.';
+
+  @override
+  String get welcomeHeading => 'Let’s make it local.';
+
+  @override
+  String get welcomeBody =>
+      'Set your location for prayer times\nand your Qibla direction.';
+
+  @override
+  String get welcomeUseLocation => 'Use my location';
+
+  @override
+  String get welcomeChooseCity => 'Choose a city instead';
+
+  @override
+  String get welcomePrivacy => 'Your location stays on this device.';
+
+  @override
+  String get welcomeFeatureOffline => 'Works offline';
+
+  @override
+  String get welcomeFeatureAlerts => 'Prayer alerts';
+
+  @override
+  String get welcomeFeatureQibla => 'Qibla direction';
+
+  @override
+  String get cityPickerTitle => 'Where do you pray?';
+
+  @override
+  String get cityPickerBody => 'Choose your city to get started.';
+
+  @override
+  String get cityPickerSearch => 'Search for a city';
+
+  @override
+  String get cityPickerConfirm => 'Use this city';
+
+  @override
+  String get cityPickerEmpty => 'No matching cities';
+
+  @override
+  String cityPickerSelected(String city) {
+    return 'Selected: $city';
+  }
 }

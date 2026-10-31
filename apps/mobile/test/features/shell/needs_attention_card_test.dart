@@ -1,4 +1,4 @@
-import 'package:daily_muslim/features/onboarding/presentation/onboarding_page.dart';
+import 'package:daily_muslim/features/onboarding/presentation/language_choice.dart';
 import 'package:daily_muslim/features/settings/domain/setting_key.dart';
 import 'package:daily_muslim/features/settings/domain/setting_values.dart';
 import 'package:daily_muslim/features/settings/domain/settings_ports.dart';

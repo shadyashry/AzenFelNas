@@ -10,6 +10,7 @@ import 'package:daily_muslim/features/contexts/domain/gazetteer_ports.dart';
 import 'package:daily_muslim/features/contexts/domain/location_access.dart';
 import 'package:daily_muslim/features/contexts/domain/search_key.dart';
 import 'package:daily_muslim/features/onboarding/application/complete_first_run.dart';
+import 'package:daily_muslim/features/onboarding/presentation/language_choice.dart';
 import 'package:daily_muslim/features/onboarding/presentation/onboarding_controller.dart';
 import 'package:daily_muslim/features/onboarding/presentation/onboarding_page.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
@@ -88,47 +89,53 @@ void main() {
       tester,
     ) async {
       final (access, _) = await pump(tester);
-      expect(find.text('Prayer times for where you are'), findsOneWidget);
+      expect(find.text('Let’s make it local.'), findsOneWidget);
+      expect(find.text('Works offline'), findsOneWidget);
       expect(access.requests, 0);
     });
 
     testWidgets('the welcome step finds the place in one tap, or lets the '
         'user choose a city (§15 D98, D100)', (tester) async {
       final (access, _) = await pump(tester);
-      expect(find.text('Find my location'), findsOneWidget);
-      expect(find.text("I'll choose my city"), findsOneWidget);
+      expect(find.text('Use my location'), findsOneWidget);
+      expect(find.text('Choose a city instead'), findsOneWidget);
       expect(access.requests, 0);
     });
 
-    testWidgets('step(place) shows the manual place search', (tester) async {
+    testWidgets('step(place) shows the city search', (tester) async {
       await pump(tester);
-      await tester.tap(find.text("I'll choose my city"));
+      await tester.tap(find.text('Choose a city instead'));
       await tester.pump();
       expect(find.byKey(const Key('placeSearch')), findsOneWidget);
     });
 
-    testWidgets('resolving shows progress while the place is found', (
-      tester,
-    ) async {
+    testWidgets('resolving shows progress on the action while the place is '
+        'found', (tester) async {
       await pump(
         tester,
         useCases: Completer<Result<ContextUseCases, Failure>>().future,
       );
-      await tester.tap(find.text('Find my location'));
+      await tester.tap(find.text('Use my location'));
       await tester.pump();
-      expect(find.text('Finding your place…'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byKey(const Key('onboardingDetect')),
+          matching: find.byType(CircularProgressIndicator),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('REQ-ERR-002 failed keeps the code for support (long press) '
         'and offers the manual-place branch (§18.3, §15 D98)', (tester) async {
       final (access, _) = await pump(tester);
-      await tester.tap(find.text('Find my location'));
+      await tester.tap(find.text('Use my location'));
       await pumpUntil(tester, find.text('Location is not available'));
       expect(access.requests, 1);
       expect(find.textContaining('LOC_PERMISSION_DENIED'), findsNothing);
       expect(find.byTooltip('Code LOC_PERMISSION_DENIED'), findsOneWidget);
-      expect(find.text('Choose another city'), findsOneWidget);
-      expect(find.text('Try again'), findsOneWidget);
+      expect(find.text('Choose a city instead'), findsOneWidget);
+      expect(find.text('Use my location'), findsOneWidget);
     });
 
     testWidgets('REQ-ALM-026 step(done) after a granted fix; finishing asks '
@@ -136,7 +143,7 @@ void main() {
       tester,
     ) async {
       final (_, settings) = await pump(tester, access: LocationAccess.granted);
-      await tester.tap(find.text('Find my location'));
+      await tester.tap(find.text('Use my location'));
       await pumpUntil(tester, find.text('Your times are ready'));
       await tester.tap(find.text("Show today's times"));
       await pumpUntil(tester, find.text('Your times are ready'));
@@ -171,7 +178,7 @@ void main() {
         access: LocationAccess.granted,
         around: FakePlacesAround(nearby: cairo),
       );
-      await tester.tap(find.text('Find my location'));
+      await tester.tap(find.text('Use my location'));
       await pumpUntil(tester, find.text('Your times are ready'));
       expect(find.text('Prayer times for Cairo.'), findsOneWidget);
     });
@@ -183,7 +190,7 @@ void main() {
         around: FakePlacesAround(zone: 'Africa/Cairo', inZone: [cairo]),
         zone: const FakeDeviceZone('Africa/Cairo'),
       );
-      await tester.tap(find.text('Find my location'));
+      await tester.tap(find.text('Use my location'));
       await pumpUntil(tester, find.text('Location is not available'));
       expect(
         find.text("Your phone's time zone suggests Cairo."),
@@ -198,14 +205,18 @@ void main() {
       tester,
     ) async {
       await pump(tester);
-      await tester.tap(find.text('Find my location'));
+      await tester.tap(find.text('Use my location'));
       await pumpUntil(tester, find.text('Location is not available'));
       expect(find.byKey(const Key('onboardingUseSuggestion')), findsNothing);
-      expect(find.text('Choose another city'), findsOneWidget);
+      expect(find.text('Choose a city instead'), findsOneWidget);
     });
 
-    testWidgets('the language choice and the welcome buttons stand in the '
-        'same place in English and Arabic', (tester) async {
+    testWidgets('REQ-UX-030 the header mirrors in Arabic while the actions '
+        'keep their place (§15 D126)', (tester) async {
+      // Wide enough that the test font keeps the header on one line.
+      tester.view.physicalSize = const Size(1440, 2532);
+      tester.view.devicePixelRatio = 3;
+      addTearDown(tester.view.reset);
       Future<(Rect, Rect)> layout(Locale locale) async {
         await pump(tester, locale: locale);
         return (
@@ -214,9 +225,17 @@ void main() {
         );
       }
 
-      final english = await layout(const Locale('en'));
-      final arabic = await layout(const Locale('ar'));
-      expect(arabic, english);
+      final width =
+          tester.view.physicalSize.width / tester.view.devicePixelRatio;
+      final (englishChoice, englishAction) = await layout(const Locale('en'));
+      final (arabicChoice, arabicAction) = await layout(const Locale('ar'));
+      expect(englishChoice.right, greaterThan(width - 30));
+      expect(arabicChoice.left, lessThan(30));
+      // Full width in both: the taller Arabic lines may move it down.
+      expect(
+        (arabicAction.left, arabicAction.right),
+        (englishAction.left, englishAction.right),
+      );
     });
   });
 }

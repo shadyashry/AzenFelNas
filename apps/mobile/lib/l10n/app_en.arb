@@ -158,14 +158,6 @@
   "@remediationActionOpenSettings": {
     "description": "Needs attention button that opens the app's settings for a blocked permission (§15 D97)."
   },
-  "onboardingWelcomeTitle": "Prayer times for where you are",
-  "@onboardingWelcomeTitle": {
-    "description": "Onboarding welcome step title."
-  },
-  "onboardingWelcomeBody": "Works offline, without an account. Your location stays on this phone.",
-  "@onboardingWelcomeBody": {
-    "description": "Onboarding welcome step body."
-  },
   "onboardingUseLocation": "Use approximate location",
   "@onboardingUseLocation": {
     "description": "Button: ask for approximate location."
@@ -181,10 +173,6 @@
   "onboardingFailedTitle": "Location is not available",
   "@onboardingFailedTitle": {
     "description": "Onboarding: location failed."
-  },
-  "onboardingTryAgain": "Try again",
-  "@onboardingTryAgain": {
-    "description": "Button: retry location."
   },
   "onboardingDoneTitle": "Your times are ready",
   "@onboardingDoneTitle": {
@@ -1321,22 +1309,6 @@
   "@settingsMoreSection": {
     "description": "Settings: heading of Athan, diagnostics and data sources."
   },
-  "onboardingChooseCity": "Choose your city",
-  "@onboardingChooseCity": {
-    "description": "Onboarding: title of the place step."
-  },
-  "onboardingDetect": "Find my location",
-  "@onboardingDetect": {
-    "description": "Onboarding welcome: main button; detects the place from the device location."
-  },
-  "onboardingChooseCityMyself": "I'll choose my city",
-  "@onboardingChooseCityMyself": {
-    "description": "Onboarding welcome: secondary link to the city list."
-  },
-  "onboardingResolvingBody": "This takes a few seconds.",
-  "@onboardingResolvingBody": {
-    "description": "Onboarding: under 'Finding your place'."
-  },
   "onboardingSuggestion": "Your phone's time zone suggests {place}.",
   "@onboardingSuggestion": {
     "description": "Onboarding failure: the city suggested by the device time zone.",
@@ -1356,22 +1328,6 @@
         "example": "Cairo"
       }
     }
-  },
-  "onboardingOtherCity": "Choose another city",
-  "@onboardingOtherCity": {
-    "description": "Onboarding failure: link to the city list."
-  },
-  "onboardingFeatureOffline": "Works offline",
-  "@onboardingFeatureOffline": {
-    "description": "Onboarding welcome feature."
-  },
-  "onboardingFeatureAthan": "Athan on time",
-  "@onboardingFeatureAthan": {
-    "description": "Onboarding welcome feature."
-  },
-  "onboardingFeatureQibla": "Qibla compass",
-  "@onboardingFeatureQibla": {
-    "description": "Onboarding welcome feature."
   },
   "placeSuggestions": "Cities in your time zone",
   "@placeSuggestions": {
@@ -2224,5 +2180,39 @@
   "quranFitSwitchTo": "Switch to {mode}",
   "@quranFitSwitchTo": {"description": "Tooltip of the fit button.", "placeholders": {"mode": {"type": "String", "example": "Whole page"}}},
   "quranControlsHint": "Tap the page to show or hide the controls",
-  "@quranControlsHint": {"description": "Screen-reader hint on the page surface."}
+  "@quranControlsHint": {"description": "Screen-reader hint on the page surface."},
+  "welcomeHeader": "Welcome",
+  "@welcomeHeader": {"description": "Header of the first screen, at the leading edge (§15 D126)."},
+  "welcomeEyebrow": "A moment of peace, every day",
+  "@welcomeEyebrow": {"description": "Gold line above the welcome headline (§15 D126)."},
+  "welcomeHeadline": "Prayer times,\nwherever you are.",
+  "@welcomeHeadline": {"description": "Welcome headline; the line break is kept where both lines fit, otherwise the text wraps naturally (§15 D126)."},
+  "welcomeHeading": "Let’s make it local.",
+  "@welcomeHeading": {"description": "Heading of the welcome panel (§15 D126)."},
+  "welcomeBody": "Set your location for prayer times\nand your Qibla direction.",
+  "@welcomeBody": {"description": "Paragraph of the welcome panel; the line break is kept where both lines fit (§15 D126)."},
+  "welcomeUseLocation": "Use my location",
+  "@welcomeUseLocation": {"description": "Primary welcome action: find the place from the device's approximate location (§15 D126)."},
+  "welcomeChooseCity": "Choose a city instead",
+  "@welcomeChooseCity": {"description": "Secondary welcome action: open the city picker (§15 D126)."},
+  "welcomePrivacy": "Your location stays on this device.",
+  "@welcomePrivacy": {"description": "Privacy sentence under the welcome actions; true of the code: the location is never uploaded (§15 D126)."},
+  "welcomeFeatureOffline": "Works offline",
+  "@welcomeFeatureOffline": {"description": "Welcome feature caption (§15 D126)."},
+  "welcomeFeatureAlerts": "Prayer alerts",
+  "@welcomeFeatureAlerts": {"description": "Welcome feature caption (§15 D126)."},
+  "welcomeFeatureQibla": "Qibla direction",
+  "@welcomeFeatureQibla": {"description": "Welcome feature caption (§15 D126)."},
+  "cityPickerTitle": "Where do you pray?",
+  "@cityPickerTitle": {"description": "Title of the first-run city picker (§15 D126)."},
+  "cityPickerBody": "Choose your city to get started.",
+  "@cityPickerBody": {"description": "Line under the city picker title (§15 D126)."},
+  "cityPickerSearch": "Search for a city",
+  "@cityPickerSearch": {"description": "Hint and label of the city picker's search field; the offline list is searched by city name only (§15 D126)."},
+  "cityPickerConfirm": "Use this city",
+  "@cityPickerConfirm": {"description": "City picker button that pins the selected city (§15 D126)."},
+  "cityPickerEmpty": "No matching cities",
+  "@cityPickerEmpty": {"description": "City picker: the search found nothing (§15 D126)."},
+  "cityPickerSelected": "Selected: {city}",
+  "@cityPickerSelected": {"description": "Screen-reader line for the city chosen in the picker (§15 D126).", "placeholders": {"city": {"type": "String", "example": "Cairo"}}}
 }
