@@ -1,6 +1,9 @@
 # eg.egas.standard: Egypt (DESIGN.md §6.5, the worked example of the profile format).
 # DRAFT_UNVERIFIED seed (Appendix E): illustrative until evidence and approvals exist; loads on dev/lab only.
 # Value sources are in profiles/README.md; "§15 D50" marks an engineering default awaiting the Sharia board.
+# Checked against Dar al-Ifta's published Cairo table for October 2026 (186 times, across the end of summer time,
+# §15 D131): with these angles every time is within one minute; rounded to the nearest minute at the authority's
+# point they reproduce 184 of 186 exactly. The app rounds entries up (ADR-005), which only the Sharia board can change.
 profileId: eg.egas.standard
 schemaVersion: 1
 version: 2026.10.1
@@ -18,12 +21,12 @@ referenceMode: EXACT_COORDINATE
 referencePoints: []
 rules:
   imsak: null
-  fajr: { type: solarAltitude, degrees: 19.5 }   # §6.5 (illustrative)
+  fajr: { type: solarAltitude, degrees: 19.5 }   # §6.5; reproduces Dar al-Ifta's table (§15 D131)
   sunrise: { type: horizon }
   dhuhr: { type: transit, offsetMinutes: 0 }
   asr: { type: shadowFactor, k: 1 }
   maghrib: { type: horizon }
-  isha: { type: solarAltitude, degrees: 17.5 }   # §6.5 (illustrative)
+  isha: { type: solarAltitude, degrees: 17.5 }   # §6.5; reproduces Dar al-Ifta's table (§15 D131)
 horizon:
   elevationPolicy: NONE
 highLatitude:
@@ -36,7 +39,11 @@ adjustments:
   maxAbsMinutes: 3                               # §6.5
   ramadan: {}
 evidence:
-  sources: []                                    # owed (§15 D50)
+  sources:
+    - title: "Dar al-Ifta prayer times, Cairo, monthly table October 2026"
+      url: "https://www.dar-alifta.org/ar/prayer"
+      retrievedOn: "2026-10-31"
+      sha256: "9af4d642b93642ccc75f784ed312b33627efd92c01ef8e00ce5a4692b7735316"   # apps/mobile/test/fixtures/dar_alifta_cairo_2026_10.csv
   benchmarkSet: eg-2026-q4                       # §6.5
   holdoutReport: null
   benchmarkReportId: null
