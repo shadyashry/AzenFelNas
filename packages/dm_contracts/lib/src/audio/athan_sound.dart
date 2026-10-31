@@ -1,4 +1,5 @@
 import 'package:dm_contracts/src/audio/athan_ios_clip.dart';
+import 'package:dm_contracts/src/audio/athan_sound_name.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'athan_sound.freezed.dart';
@@ -29,6 +30,9 @@ abstract class AthanSound with _$AthanSound {
 
     /// iOS notification and AlarmKit clip (REQ-ALM-034).
     AthanIosClip? iosClip,
+
+    /// The name the voices page shows (§15 D124).
+    AthanSoundName? name,
   }) = _AthanSound;
 
   /// Decodes [json]; throws `CheckedFromJsonException` when it does not

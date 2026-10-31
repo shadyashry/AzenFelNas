@@ -6,6 +6,7 @@ import 'package:daily_muslim/features/athan/application/plan_schedule.dart';
 import 'package:daily_muslim/features/athan/application/reconcile_schedule_plan.dart';
 import 'package:daily_muslim/features/athan/application/record_athan_test_result.dart';
 import 'package:daily_muslim/features/athan/data/arb_plan_texts.dart';
+import 'package:daily_muslim/features/athan/data/asset_athan_sound_names.dart';
 import 'package:daily_muslim/features/athan/data/asset_athan_sounds.dart';
 import 'package:daily_muslim/features/athan/data/asset_voice_catalog.dart';
 import 'package:daily_muslim/features/athan/data/channel_voice_audio.dart';
@@ -237,12 +238,16 @@ abstract final class AppBindings {
       readAthanSoundsProvider.overrideWithValue(
         AssetAthanSounds(
           assets,
-          // The CC0 test Athan is offered on dev and lab only (§15 D94).
+          // Voices still under review are offered on dev and lab only
+          // (§15 D94, D124).
           includeTestSounds: switch (AppBuild.channel) {
             ReleaseChannel.dev || ReleaseChannel.lab => true,
             ReleaseChannel.beta || ReleaseChannel.production => false,
           },
         ),
+      ),
+      readAthanSoundNamesProvider.overrideWithValue(
+        AssetAthanSoundNames(assets),
       ),
       ..._voices(
         assets: assets,

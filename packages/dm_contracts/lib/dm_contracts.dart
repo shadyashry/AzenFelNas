@@ -9,6 +9,7 @@ library;
 export 'package:dm_contracts/src/audio/athan_audio_manifest.dart';
 export 'package:dm_contracts/src/audio/athan_ios_clip.dart';
 export 'package:dm_contracts/src/audio/athan_sound.dart';
+export 'package:dm_contracts/src/audio/athan_sound_name.dart';
 export 'package:dm_contracts/src/diagnostics/diagnostic_bundle.dart';
 export 'package:dm_contracts/src/diagnostics/diagnostic_context.dart';
 export 'package:dm_contracts/src/diagnostics/diagnostic_device.dart';

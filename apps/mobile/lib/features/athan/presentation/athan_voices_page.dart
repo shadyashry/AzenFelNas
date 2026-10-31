@@ -1,6 +1,7 @@
 import 'package:daily_muslim/features/athan/application/athan_preferences.dart';
 import 'package:daily_muslim/features/athan/application/athan_sound_options.dart';
 import 'package:daily_muslim/features/athan/domain/athan_voice.dart';
+import 'package:daily_muslim/features/athan/domain/read_athan_sound_names.dart';
 import 'package:daily_muslim/features/athan/domain/voice_download_status.dart';
 import 'package:daily_muslim/features/athan/domain/voice_failure.dart';
 import 'package:daily_muslim/features/athan/presentation/athan_page.dart';
@@ -41,10 +42,11 @@ final class VoiceSlotTile extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final options = ref.watch(athanSoundOptionsProvider).value;
     final catalog = ref.watch(voiceCatalogProvider).value ?? const [];
+    final names = ref.watch(athanSoundNamesProvider).value ?? const {};
     final athan = ref.watch(athanSoundSettingProvider).value;
     final fajr = ref.watch(fajrSoundSettingProvider).value;
     final lang = Localizations.localeOf(context).languageCode;
-    String name(String id) => soundName(l, id, catalog, lang);
+    String name(String id) => soundName(l, id, catalog, names, lang);
     final (playing, fellBack, chosen) = switch ((slot, options)) {
       (_, null) => (null, false, null),
       (VoiceSlot.athan, final AthanSoundOptions o) => (
@@ -94,15 +96,18 @@ final class VoiceSlotTile extends ConsumerWidget {
     );
   }
 
-  /// The name of sound [id]: the device tone, a bundled sound, a catalog
-  /// voice in [lang], or a voice this build no longer offers.
+  /// The name of sound [id]: the device tone, a bundled sound by its
+  /// manifest [names] (§15 D124), a catalog voice in [lang], or a voice this
+  /// build no longer offers.
   static String soundName(
     AppLocalizations l,
     String id,
     List<AthanVoice> catalog,
+    Map<String, SoundName> names,
     String lang,
   ) {
     if (id == AthanPreferences.deviceAlarmSoundId) return l.athanVoiceDevice;
+    if (names[id] case final SoundName name) return name.of(lang);
     for (final v in catalog) {
       if (v.soundId == id) return v.name(lang);
     }
@@ -137,6 +142,7 @@ final class AthanVoicesPage extends ConsumerWidget {
     );
     final options = ref.watch(athanSoundOptionsProvider).value;
     final catalog = ref.watch(voiceCatalogProvider).value ?? const [];
+    final names = ref.watch(athanSoundNamesProvider).value ?? const {};
     final installed =
         ref.watch(voiceInventoryProvider).value?.installed ?? const {};
     // A voice bundled with the app (§15 D117) is a plain choice above, not
@@ -191,6 +197,7 @@ final class AthanVoicesPage extends ConsumerWidget {
                       l,
                       id,
                       catalog,
+                      names,
                       Localizations.localeOf(context).languageCode,
                     ),
                     selected: isSelected(id),

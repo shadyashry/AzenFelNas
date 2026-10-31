@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
+import 'package:daily_muslim/features/athan/application/athan_preferences.dart';
+import 'package:daily_muslim/features/athan/data/asset_athan_sound_names.dart';
 import 'package:daily_muslim/features/athan/data/asset_athan_sounds.dart';
 import 'package:dm_contracts/dm_contracts.dart';
 import 'package:flutter/services.dart';
@@ -20,8 +22,8 @@ void main() {
 
   group('Bundled Athan audio (§15 D93, D94)', () {
     test('every bundled sound file exists and matches its manifest sha256', () {
-      // None is bundled since S43 (§15 D111); any that returns is checked.
       final sounds = _manifest().sounds;
+      expect(sounds, isNotEmpty);
       for (final sound in sounds) {
         final file = File('assets/${sound.file}');
         expect(file.existsSync(), isTrue, reason: sound.file);
@@ -60,6 +62,60 @@ void main() {
       expect(
         await AssetAthanSounds(rootBundle, includeTestSounds: false)(),
         isNot(anyElement(isIn(tests))),
+      );
+    });
+
+    test("REQ-ALM-055 the owner's five voices are bundled and Abdul Basit "
+        'is the Athan sound until the user chooses (§15 D124)', () async {
+      expect(_manifest().sounds.map((s) => s.soundId), [
+        'abdelbasit',
+        'mashary_alafasy',
+        'ahmed_eltaraboulsy',
+        'mostafa_ismail',
+        'ahmed_elhadad',
+      ]);
+      final offered = await AssetAthanSounds(
+        rootBundle,
+        includeTestSounds: true,
+      )();
+      expect(AthanPreferences.effectiveSound(null, offered), 'abdelbasit');
+      final names = await AssetAthanSoundNames(rootBundle)();
+      expect(names['abdelbasit']?.of('en'), 'Abdul Basit Abdus Samad');
+      expect(names['abdelbasit']?.of('ar'), 'عبد الباسط عبد الصمد');
+      expect(names.keys, unorderedEquals(offered));
+    });
+
+    test('every bundled voice is named and credited on the licences page, '
+        'and its licence is still under review (§15 D124)', () {
+      final notices = jsonEncode(
+        jsonDecode(
+          File('assets/legal/attributions.v1.json').readAsStringSync(),
+        ),
+      );
+      for (final s in _manifest().sounds) {
+        expect(s.name, isNotNull, reason: s.soundId);
+        expect(notices, contains(s.name?.en), reason: s.soundId);
+        expect(_isTest(s), isTrue, reason: s.soundId);
+      }
+    });
+
+    test('the schema fixture of a named sound decodes; a name without Arabic '
+        'does not', () {
+      const dir = '../../schemas/fixtures/athan_audio_manifest';
+      Map<String, Object?> read(String f) =>
+          jsonDecode(File('$dir/$f').readAsStringSync())
+              as Map<String, Object?>;
+      expect(
+        AthanAudioManifest.fromJson(
+          read('valid/named_sound.json'),
+        ).sounds.single.name?.ar,
+        'صوت الاختبار',
+      );
+      expect(
+        () => AthanAudioManifest.fromJson(
+          read('invalid/name_without_arabic.json'),
+        ),
+        throwsA(anything),
       );
     });
   });

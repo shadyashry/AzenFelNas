@@ -13,14 +13,17 @@ Placeholder created in slice S01. This file is **generated per release** (`DESIG
 
 ## Athan audio
 
-No recording is bundled (`apps/mobile/assets/athan/athan_audio_manifest.json` lists none). The earlier test sound `test_cc0_adhan.m4a` (Commons `File:Beautiful_adhan.ogg`) was removed in S43: its uploader is a blocked sock-puppet account of a user whose other Athan upload was deleted as "not a recording of own voice" (`DESIGN.md` §15 D111).
-
-Downloadable voices (not bundled; downloaded after install from `cdn.azenfelnas.app`, listed in `apps/mobile/assets/athan/voice_catalog.json`, built by `dm-pipelines athan-voices`; `DESIGN.md` §15 D111, D112; the Malmö voice of D111 was withdrawn after the owner's review):
+Bundled Athan voices (`apps/mobile/assets/athan/`, listed in `athan_audio_manifest.json`; `DESIGN.md` §15 D124). The five recordings were supplied by the owner on 2026-10-31 as MP3 files; their source and licence are not recorded yet. Each is credited by name on the licences page with no endorsement implied, and its `licenceRef` starts `TEST-`, so it is offered on `dev`/`lab` only and the 1.0.0 gate fails while it stays that way. **Legal review owed** before any beta or production build. The owner's MP3 files are not in git.
 
 | Source | Licence | Obligation |
 |---|---|---|
-| `mirza_isha_2013.m4a`: Isha Athan called and published by Moazzambeg Mirza (Internet Archive `IshaAzanByMoazzambegMirza07092013`, 2013). Room tone before the first phrase removed, −2.2 dB to −16 LUFS, AAC-LC 96 kbps | Public Domain Mark 1.0 (by the performer) | none required; credited on the licences page and beside the voice. Legal to confirm the mark suffices (`DESIGN.md` §15 D112). `dev`/`lab` only until reviewed |
-| `icr_friday_2024.m4a`: first Friday Athan of 2024-05-17 at ICR, called and published by Asim Javed (Internet Archive, CC0). −4.5 dB to −16 LUFS, AAC-LC 96 kbps | CC0 1.0 | none required; credited anyway. `dev`/`lab` only until reviewed |
+| `abdelbasit.m4a`: Athan in the voice of Abdul Basit Abdus Samad (owner-supplied MP3, 16 kHz mono). 0.5 s of silence at the start and 7.3 s at the end trimmed, −2.4 dB to −16 LUFS, AAC-LC 48 kbps mono | unknown (owner-supplied) | Legal to establish the source and the permission; credit on the licences page |
+| `mashary_alafasy.m4a`: Athan in the voice of Mishary Rashid Alafasy (owner-supplied MP3). 5.7 s of silence at the end trimmed, −3.2 dB to −16 LUFS, AAC-LC 96 kbps | unknown (owner-supplied) | as above |
+| `ahmed_eltaraboulsy.m4a`: Athan in the voice of Ahmed El-Taraboulsy (owner-supplied MP3). 0.5 s of silence at the end trimmed, −7.9 dB to −16 LUFS, AAC-LC 96 kbps | unknown (owner-supplied) | as above |
+| `mostafa_ismail.m4a`: Athan in the voice of Mustafa Ismail (owner-supplied MP3). −9.5 dB to −16 LUFS, AAC-LC 96 kbps | unknown (owner-supplied) | as above |
+| `ahmed_elhadad.m4a`: Athan in the voice of Ahmed El-Haddad (owner-supplied MP3). 2.3 s of silence at the end trimmed, −1.6 dB to −16 LUFS, AAC-LC 96 kbps | unknown (owner-supplied) | as above |
+
+The earlier voices `mirza_isha_2013` (Public Domain Mark 1.0) and `icr_friday_2024` (CC0 1.0) were removed from the app and from the downloadable catalog in D124; their pins stay in `data-pipelines/config/athan_voices.v1.toml` as the record of D112, and nothing is uploaded for them.
 
 ## Quran radio (streamed, not bundled)
 

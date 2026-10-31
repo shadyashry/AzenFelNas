@@ -1,18 +1,59 @@
 {
   "sounds": [
     {
-      "soundId": "mirza_isha_2013",
-      "file": "athan/mirza_isha_2013.m4a",
-      "durationMs": 259541,
-      "licenceRef": "TEST-REVIEW-PENDING CC-PDM-1.0",
-      "sha256": "70e6681289d6076f8efa016d51d1335430937293c2ddfd430a4fd7f600ba4859"
+      "soundId": "abdelbasit",
+      "file": "athan/abdelbasit.m4a",
+      "durationMs": 239400,
+      "name": {
+        "en": "Abdul Basit Abdus Samad",
+        "ar": "عبد الباسط عبد الصمد"
+      },
+      "licenceRef": "TEST-OWNER-SUPPLIED LEGAL-REVIEW-OWED",
+      "sha256": "8477ee7fe5e6bd690757c6ebdabbc860cf11378a7f6618982b78ce87b0138712"
     },
     {
-      "soundId": "icr_friday_2024",
-      "file": "athan/icr_friday_2024.m4a",
-      "durationMs": 219743,
-      "licenceRef": "TEST-REVIEW-PENDING CC0-1.0",
-      "sha256": "37727d79972cb3e7698d4b8b8a5f792d56b219149d425b2bb3f5524d301936d1"
+      "soundId": "mashary_alafasy",
+      "file": "athan/mashary_alafasy.m4a",
+      "durationMs": 235100,
+      "name": {
+        "en": "Mishary Rashid Alafasy",
+        "ar": "مشاري راشد العفاسي"
+      },
+      "licenceRef": "TEST-OWNER-SUPPLIED LEGAL-REVIEW-OWED",
+      "sha256": "282f12ba7aac67054d27c1a46be0cfa7a5a8b5bd6611823a8aa5e3ed90b80559"
+    },
+    {
+      "soundId": "ahmed_eltaraboulsy",
+      "file": "athan/ahmed_eltaraboulsy.m4a",
+      "durationMs": 263900,
+      "name": {
+        "en": "Ahmed El-Taraboulsy",
+        "ar": "أحمد الطرابلسي"
+      },
+      "licenceRef": "TEST-OWNER-SUPPLIED LEGAL-REVIEW-OWED",
+      "sha256": "696b5b58d7f347f8f5b036ed8d339eb89e1692750781fd9770700d4f7a16076a"
+    },
+    {
+      "soundId": "mostafa_ismail",
+      "file": "athan/mostafa_ismail.m4a",
+      "durationMs": 183980,
+      "name": {
+        "en": "Mustafa Ismail",
+        "ar": "مصطفى إسماعيل"
+      },
+      "licenceRef": "TEST-OWNER-SUPPLIED LEGAL-REVIEW-OWED",
+      "sha256": "262c902a43301b7fd71b3626462dceda931627f5d64777bd1f96c0d142eec7ed"
+    },
+    {
+      "soundId": "ahmed_elhadad",
+      "file": "athan/ahmed_elhadad.m4a",
+      "durationMs": 152300,
+      "name": {
+        "en": "Ahmed El-Haddad",
+        "ar": "أحمد الحداد"
+      },
+      "licenceRef": "TEST-OWNER-SUPPLIED LEGAL-REVIEW-OWED",
+      "sha256": "3e5476705cc105c5308ef160e3ca6c1c501ff914d9829f9307fcb2ac171dd1ef"
     }
   ]
 }

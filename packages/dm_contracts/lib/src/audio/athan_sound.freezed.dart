@@ -23,7 +23,8 @@ mixin _$AthanSound {
  String get licenceRef;/// Lowercase hex SHA-256.
  String get sha256;/// Regular sound this Fajr recording belongs to.
  String? get fajrVariantOf;/// iOS notification and AlarmKit clip (REQ-ALM-034).
- AthanIosClip? get iosClip;
+ AthanIosClip? get iosClip;/// The name the voices page shows (§15 D124).
+ AthanSoundName? get name;
 /// Create a copy of AthanSound
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,20 +38,20 @@ $AthanSoundCopyWith<AthanSound> get copyWith => _$AthanSoundCopyWithImpl<AthanSo
 @override
 bool operator ==(Object other) {
   final _this = this as AthanSound;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AthanSound&&(identical(other.soundId, _this.soundId) || other.soundId == _this.soundId)&&(identical(other.file, _this.file) || other.file == _this.file)&&(identical(other.durationMs, _this.durationMs) || other.durationMs == _this.durationMs)&&(identical(other.licenceRef, _this.licenceRef) || other.licenceRef == _this.licenceRef)&&(identical(other.sha256, _this.sha256) || other.sha256 == _this.sha256)&&(identical(other.fajrVariantOf, _this.fajrVariantOf) || other.fajrVariantOf == _this.fajrVariantOf)&&(identical(other.iosClip, _this.iosClip) || other.iosClip == _this.iosClip));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AthanSound&&(identical(other.soundId, _this.soundId) || other.soundId == _this.soundId)&&(identical(other.file, _this.file) || other.file == _this.file)&&(identical(other.durationMs, _this.durationMs) || other.durationMs == _this.durationMs)&&(identical(other.licenceRef, _this.licenceRef) || other.licenceRef == _this.licenceRef)&&(identical(other.sha256, _this.sha256) || other.sha256 == _this.sha256)&&(identical(other.fajrVariantOf, _this.fajrVariantOf) || other.fajrVariantOf == _this.fajrVariantOf)&&(identical(other.iosClip, _this.iosClip) || other.iosClip == _this.iosClip)&&(identical(other.name, _this.name) || other.name == _this.name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as AthanSound;
-  return Object.hash(runtimeType,_this.soundId,_this.file,_this.durationMs,_this.licenceRef,_this.sha256,_this.fajrVariantOf,_this.iosClip);
+  return Object.hash(runtimeType,_this.soundId,_this.file,_this.durationMs,_this.licenceRef,_this.sha256,_this.fajrVariantOf,_this.iosClip,_this.name);
 }
 
 @override
 String toString() {
   final _this = this as AthanSound;
-  return 'AthanSound(soundId: ${_this.soundId}, file: ${_this.file}, durationMs: ${_this.durationMs}, licenceRef: ${_this.licenceRef}, sha256: ${_this.sha256}, fajrVariantOf: ${_this.fajrVariantOf}, iosClip: ${_this.iosClip})';
+  return 'AthanSound(soundId: ${_this.soundId}, file: ${_this.file}, durationMs: ${_this.durationMs}, licenceRef: ${_this.licenceRef}, sha256: ${_this.sha256}, fajrVariantOf: ${_this.fajrVariantOf}, iosClip: ${_this.iosClip}, name: ${_this.name})';
 }
 
 
@@ -61,11 +62,11 @@ abstract mixin class $AthanSoundCopyWith<$Res>  {
   factory $AthanSoundCopyWith(AthanSound value, $Res Function(AthanSound) _then) = _$AthanSoundCopyWithImpl;
 @useResult
 $Res call({
- String soundId, String file, int durationMs, String licenceRef, String sha256, String? fajrVariantOf, AthanIosClip? iosClip
+ String soundId, String file, int durationMs, String licenceRef, String sha256, String? fajrVariantOf, AthanIosClip? iosClip, AthanSoundName? name
 });
 
 
-$AthanIosClipCopyWith<$Res>? get iosClip;
+$AthanIosClipCopyWith<$Res>? get iosClip;$AthanSoundNameCopyWith<$Res>? get name;
 
 }
 /// @nodoc
@@ -78,7 +79,7 @@ class _$AthanSoundCopyWithImpl<$Res>
 
 /// Create a copy of AthanSound
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? soundId = null,Object? file = null,Object? durationMs = null,Object? licenceRef = null,Object? sha256 = null,Object? fajrVariantOf = freezed,Object? iosClip = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? soundId = null,Object? file = null,Object? durationMs = null,Object? licenceRef = null,Object? sha256 = null,Object? fajrVariantOf = freezed,Object? iosClip = freezed,Object? name = freezed,}) {
   return _then(AthanSound(
 soundId: null == soundId ? _self.soundId : soundId // ignore: cast_nullable_to_non_nullable
 as String,file: null == file ? _self.file : file // ignore: cast_nullable_to_non_nullable
@@ -87,7 +88,8 @@ as int,licenceRef: null == licenceRef ? _self.licenceRef : licenceRef // ignore:
 as String,sha256: null == sha256 ? _self.sha256 : sha256 // ignore: cast_nullable_to_non_nullable
 as String,fajrVariantOf: freezed == fajrVariantOf ? _self.fajrVariantOf : fajrVariantOf // ignore: cast_nullable_to_non_nullable
 as String?,iosClip: freezed == iosClip ? _self.iosClip : iosClip // ignore: cast_nullable_to_non_nullable
-as AthanIosClip?,
+as AthanIosClip?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as AthanSoundName?,
   ));
 }
 /// Create a copy of AthanSound
@@ -101,6 +103,18 @@ $AthanIosClipCopyWith<$Res>? get iosClip {
 
   return $AthanIosClipCopyWith<$Res>(_self.iosClip!, (value) {
     return _then(_self.copyWith(iosClip: value));
+  });
+}/// Create a copy of AthanSound
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AthanSoundNameCopyWith<$Res>? get name {
+    if (_self.name == null) {
+    return null;
+  }
+
+  return $AthanSoundNameCopyWith<$Res>(_self.name!, (value) {
+    return _then(_self.copyWith(name: value));
   });
 }
 }
@@ -184,10 +198,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String soundId,  String file,  int durationMs,  String licenceRef,  String sha256,  String? fajrVariantOf,  AthanIosClip? iosClip)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String soundId,  String file,  int durationMs,  String licenceRef,  String sha256,  String? fajrVariantOf,  AthanIosClip? iosClip,  AthanSoundName? name)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AthanSound() when $default != null:
-return $default(_that.soundId,_that.file,_that.durationMs,_that.licenceRef,_that.sha256,_that.fajrVariantOf,_that.iosClip);case _:
+return $default(_that.soundId,_that.file,_that.durationMs,_that.licenceRef,_that.sha256,_that.fajrVariantOf,_that.iosClip,_that.name);case _:
   return orElse();
 
 }
@@ -205,10 +219,10 @@ return $default(_that.soundId,_that.file,_that.durationMs,_that.licenceRef,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String soundId,  String file,  int durationMs,  String licenceRef,  String sha256,  String? fajrVariantOf,  AthanIosClip? iosClip)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String soundId,  String file,  int durationMs,  String licenceRef,  String sha256,  String? fajrVariantOf,  AthanIosClip? iosClip,  AthanSoundName? name)  $default,) {final _that = this;
 switch (_that) {
 case _AthanSound():
-return $default(_that.soundId,_that.file,_that.durationMs,_that.licenceRef,_that.sha256,_that.fajrVariantOf,_that.iosClip);case _:
+return $default(_that.soundId,_that.file,_that.durationMs,_that.licenceRef,_that.sha256,_that.fajrVariantOf,_that.iosClip,_that.name);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -225,10 +239,10 @@ return $default(_that.soundId,_that.file,_that.durationMs,_that.licenceRef,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String soundId,  String file,  int durationMs,  String licenceRef,  String sha256,  String? fajrVariantOf,  AthanIosClip? iosClip)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String soundId,  String file,  int durationMs,  String licenceRef,  String sha256,  String? fajrVariantOf,  AthanIosClip? iosClip,  AthanSoundName? name)?  $default,) {final _that = this;
 switch (_that) {
 case _AthanSound() when $default != null:
-return $default(_that.soundId,_that.file,_that.durationMs,_that.licenceRef,_that.sha256,_that.fajrVariantOf,_that.iosClip);case _:
+return $default(_that.soundId,_that.file,_that.durationMs,_that.licenceRef,_that.sha256,_that.fajrVariantOf,_that.iosClip,_that.name);case _:
   return null;
 
 }
@@ -240,7 +254,7 @@ return $default(_that.soundId,_that.file,_that.durationMs,_that.licenceRef,_that
 @JsonSerializable()
 
 class _AthanSound implements AthanSound {
-  const _AthanSound({required this.soundId, required this.file, required this.durationMs, required this.licenceRef, required this.sha256, this.fajrVariantOf, this.iosClip});
+  const _AthanSound({required this.soundId, required this.file, required this.durationMs, required this.licenceRef, required this.sha256, this.fajrVariantOf, this.iosClip, this.name});
   factory _AthanSound.fromJson(Map<String, dynamic> json) => _$AthanSoundFromJson(json);
 
 /// Sound id.
@@ -257,6 +271,8 @@ class _AthanSound implements AthanSound {
 @override final  String? fajrVariantOf;
 /// iOS notification and AlarmKit clip (REQ-ALM-034).
 @override final  AthanIosClip? iosClip;
+/// The name the voices page shows (§15 D124).
+@override final  AthanSoundName? name;
 
 /// Create a copy of AthanSound
 /// with the given fields replaced by the non-null parameter values.
@@ -271,18 +287,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AthanSound&&(identical(other.soundId, soundId) || other.soundId == soundId)&&(identical(other.file, file) || other.file == file)&&(identical(other.durationMs, durationMs) || other.durationMs == durationMs)&&(identical(other.licenceRef, licenceRef) || other.licenceRef == licenceRef)&&(identical(other.sha256, sha256) || other.sha256 == sha256)&&(identical(other.fajrVariantOf, fajrVariantOf) || other.fajrVariantOf == fajrVariantOf)&&(identical(other.iosClip, iosClip) || other.iosClip == iosClip));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AthanSound&&(identical(other.soundId, soundId) || other.soundId == soundId)&&(identical(other.file, file) || other.file == file)&&(identical(other.durationMs, durationMs) || other.durationMs == durationMs)&&(identical(other.licenceRef, licenceRef) || other.licenceRef == licenceRef)&&(identical(other.sha256, sha256) || other.sha256 == sha256)&&(identical(other.fajrVariantOf, fajrVariantOf) || other.fajrVariantOf == fajrVariantOf)&&(identical(other.iosClip, iosClip) || other.iosClip == iosClip)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,soundId,file,durationMs,licenceRef,sha256,fajrVariantOf,iosClip);
+    return Object.hash(runtimeType,soundId,file,durationMs,licenceRef,sha256,fajrVariantOf,iosClip,name);
 }
 
 @override
 String toString() {
-    return 'AthanSound(soundId: $soundId, file: $file, durationMs: $durationMs, licenceRef: $licenceRef, sha256: $sha256, fajrVariantOf: $fajrVariantOf, iosClip: $iosClip)';
+    return 'AthanSound(soundId: $soundId, file: $file, durationMs: $durationMs, licenceRef: $licenceRef, sha256: $sha256, fajrVariantOf: $fajrVariantOf, iosClip: $iosClip, name: $name)';
 }
 
 
@@ -293,11 +309,11 @@ abstract mixin class _$AthanSoundCopyWith<$Res> implements $AthanSoundCopyWith<$
   factory _$AthanSoundCopyWith(_AthanSound value, $Res Function(_AthanSound) _then) = __$AthanSoundCopyWithImpl;
 @override @useResult
 $Res call({
- String soundId, String file, int durationMs, String licenceRef, String sha256, String? fajrVariantOf, AthanIosClip? iosClip
+ String soundId, String file, int durationMs, String licenceRef, String sha256, String? fajrVariantOf, AthanIosClip? iosClip, AthanSoundName? name
 });
 
 
-@override $AthanIosClipCopyWith<$Res>? get iosClip;
+@override $AthanIosClipCopyWith<$Res>? get iosClip;@override $AthanSoundNameCopyWith<$Res>? get name;
 
 }
 /// @nodoc
@@ -310,7 +326,7 @@ class __$AthanSoundCopyWithImpl<$Res>
 
 /// Create a copy of AthanSound
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? soundId = null,Object? file = null,Object? durationMs = null,Object? licenceRef = null,Object? sha256 = null,Object? fajrVariantOf = freezed,Object? iosClip = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? soundId = null,Object? file = null,Object? durationMs = null,Object? licenceRef = null,Object? sha256 = null,Object? fajrVariantOf = freezed,Object? iosClip = freezed,Object? name = freezed,}) {
   return _then(_AthanSound(
 soundId: null == soundId ? _self.soundId : soundId // ignore: cast_nullable_to_non_nullable
 as String,file: null == file ? _self.file : file // ignore: cast_nullable_to_non_nullable
@@ -319,7 +335,8 @@ as int,licenceRef: null == licenceRef ? _self.licenceRef : licenceRef // ignore:
 as String,sha256: null == sha256 ? _self.sha256 : sha256 // ignore: cast_nullable_to_non_nullable
 as String,fajrVariantOf: freezed == fajrVariantOf ? _self.fajrVariantOf : fajrVariantOf // ignore: cast_nullable_to_non_nullable
 as String?,iosClip: freezed == iosClip ? _self.iosClip : iosClip // ignore: cast_nullable_to_non_nullable
-as AthanIosClip?,
+as AthanIosClip?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as AthanSoundName?,
   ));
 }
 
@@ -334,6 +351,18 @@ $AthanIosClipCopyWith<$Res>? get iosClip {
 
   return $AthanIosClipCopyWith<$Res>(_self.iosClip!, (value) {
     return _then(_self.copyWith(iosClip: value));
+  });
+}/// Create a copy of AthanSound
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AthanSoundNameCopyWith<$Res>? get name {
+    if (_self.name == null) {
+    return null;
+  }
+
+  return $AthanSoundNameCopyWith<$Res>(_self.name!, (value) {
+    return _then(_self.copyWith(name: value));
   });
 }
 }
