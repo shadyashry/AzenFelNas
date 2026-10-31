@@ -65,12 +65,13 @@ void main() {
       );
     });
 
-    test("REQ-ALM-055 the owner's five voices are bundled and Abdul Basit "
-        'is the Athan sound until the user chooses (§15 D124)', () async {
+    test("REQ-ALM-055 the owner's five voices are bundled and Ahmed "
+        'El-Taraboulsy is the Athan sound until the user chooses '
+        '(§15 D124, D129)', () async {
       expect(_manifest().sounds.map((s) => s.soundId), [
+        'ahmed_eltaraboulsy',
         'abdelbasit',
         'mashary_alafasy',
-        'ahmed_eltaraboulsy',
         'mostafa_ismail',
         'ahmed_elhadad',
       ]);
@@ -78,8 +79,17 @@ void main() {
         rootBundle,
         includeTestSounds: true,
       )();
-      expect(AthanPreferences.effectiveSound(null, offered), 'abdelbasit');
+      expect(
+        AthanPreferences.effectiveSound(null, offered),
+        'ahmed_eltaraboulsy',
+      );
+      // A voice the user chose stays theirs.
+      expect(
+        AthanPreferences.effectiveSound('abdelbasit', offered),
+        'abdelbasit',
+      );
       final names = await AssetAthanSoundNames(rootBundle)();
+      expect(names['ahmed_eltaraboulsy']?.of('en'), 'Ahmed El-Taraboulsy');
       expect(names['abdelbasit']?.of('en'), 'Abdul Basit Abdus Samad');
       expect(names['abdelbasit']?.of('ar'), 'عبد الباسط عبد الصمد');
       expect(names.keys, unorderedEquals(offered));
