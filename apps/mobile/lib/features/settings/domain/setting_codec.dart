@@ -126,3 +126,24 @@ final class BoolMapCodec extends SettingCodec<Map<String, bool>> {
     return (value: Map.unmodifiable(out));
   }
 }
+
+/// A set of distinct non-empty strings, stored sorted
+/// (`radioFavorites`, §15 D122).
+final class StringSetCodec extends SettingCodec<Set<String>> {
+  /// The codec.
+  const new();
+
+  @override
+  Object? encode(Set<String> value) => value.toList()..sort();
+
+  @override
+  ({Set<String> value})? decode(Object? json) {
+    if (json is! List<Object?>) return null;
+    final out = <String>{};
+    for (final item in json) {
+      if (item is! String || item.isEmpty) return null;
+      out.add(item);
+    }
+    return (value: Set.unmodifiable(out));
+  }
+}

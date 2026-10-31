@@ -8,6 +8,7 @@ import 'package:daily_muslim/features/quran/presentation/quran_notes_page.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_page.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_search_page.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_storage_page.dart';
+import 'package:daily_muslim/features/radio/presentation/radio_page.dart';
 import 'package:daily_muslim/features/settings/presentation/attributions_page.dart';
 import 'package:daily_muslim/features/settings/presentation/diagnostics_page.dart';
 import 'package:daily_muslim/features/settings/presentation/settings_page.dart';
@@ -77,6 +78,10 @@ abstract final class AppRouter {
                 builder: (context, state) => const QuranStoragePage(),
               ),
             ],
+          ),
+          GoRoute(
+            path: 'radio',
+            builder: (context, state) => const RadioPage(),
           ),
           GoRoute(
             path: 'calc/:id',

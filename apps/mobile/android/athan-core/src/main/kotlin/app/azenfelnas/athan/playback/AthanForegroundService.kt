@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ServiceInfo
+import android.media.AudioFocusRequest
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.media.VolumeProvider
@@ -45,6 +47,7 @@ public class AthanForegroundService : Service() {
     private var startedAtMs: Long = 0L
     private var session: MediaSession? = null
     private var screen: BroadcastReceiver? = null
+    private var focus: AudioFocusRequest? = null
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -92,6 +95,7 @@ public class AthanForegroundService : Service() {
         graph.receipts.presented(playback.alarmId, ReceiptStage.FGS_STARTED)
         player?.release()
         listenForButtons(graph)
+        holdFocus()
         alarmId = playback.alarmId
         player =
             MediaPlayer().apply {
@@ -171,6 +175,22 @@ public class AthanForegroundService : Service() {
         session = null
         screen?.let { unregisterReceiver(it) }
         screen = null
+        focus?.let { getSystemService(AudioManager::class.java)?.abandonAudioFocusRequest(it) }
+        focus = null
+    }
+
+    /**
+     * Transient audio focus while the Athan sounds, so media in this app (Quran radio, which then waits paused) and in
+     * other apps pauses for it (DESIGN.md section 15 D122). The Athan plays whether or not focus is granted.
+     */
+    private fun holdFocus() {
+        val request =
+            AudioFocusRequest
+                .Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
+                .setAudioAttributes(ChannelRegistry.ALARM_ATTRIBUTES)
+                .build()
+        getSystemService(AudioManager::class.java)?.requestAudioFocus(request)
+        focus = request
     }
 
     private fun audioUri(

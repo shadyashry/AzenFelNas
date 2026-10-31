@@ -88,6 +88,8 @@ final class _GlyphPainter extends CustomPainter {
         _rosette(canvas, stroke);
       case RawdahGlyphKind.mushaf:
         _mushaf(canvas, stroke);
+      case RawdahGlyphKind.radio:
+        _radio(canvas, stroke);
     }
     canvas.restore();
   }
@@ -205,6 +207,35 @@ final class _GlyphPainter extends CustomPainter {
       ..drawLine(const Offset(13, 8), const Offset(13, 18), stroke)
       ..drawLine(const Offset(8, 24), const Offset(17, 19), stroke)
       ..drawLine(const Offset(18, 24), const Offset(9, 19), stroke);
+  }
+
+  /// A small arch between two pairs of sound arcs, §15 D122: static, it
+  /// shows a station, never a level.
+  void _radio(Canvas canvas, Paint stroke) {
+    canvas.drawPath(
+      Path()
+        ..moveTo(10.5, 18)
+        ..lineTo(10.5, 12.5)
+        ..arcToPoint(
+          const Offset(15.5, 12.5),
+          radius: const Radius.circular(2.5),
+        )
+        ..lineTo(15.5, 18)
+        ..close(),
+      stroke,
+    );
+    const centre = Offset(13, 14);
+    for (final (radius, sweep) in const [(6.5, 1.5), (10.5, 1.3)]) {
+      for (final start in [-sweep / 2, math.pi - sweep / 2]) {
+        canvas.drawArc(
+          Rect.fromCircle(center: centre, radius: radius),
+          start,
+          sweep,
+          false,
+          stroke,
+        );
+      }
+    }
   }
 
   @override

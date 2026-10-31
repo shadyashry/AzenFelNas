@@ -1528,4 +1528,156 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranPreviousShort => 'Previous';
+
+  @override
+  String get navRadio => 'Radio';
+
+  @override
+  String get radioOverline => 'LISTEN & REFLECT';
+
+  @override
+  String get radioTitle => 'Quran radio';
+
+  @override
+  String get radioTagline => 'A quieter moment, wherever you are.';
+
+  @override
+  String get radioSource => 'MP3Quran';
+
+  @override
+  String get radioStatusReady => 'Ready';
+
+  @override
+  String get radioStatusConnecting => 'Connecting…';
+
+  @override
+  String get radioStatusLive => 'Live';
+
+  @override
+  String get radioStatusPaused => 'Paused';
+
+  @override
+  String get radioStatusReconnecting => 'Reconnecting…';
+
+  @override
+  String get radioStatusStopped => 'Stopped';
+
+  @override
+  String get radioStatusUnavailable => 'Unavailable';
+
+  @override
+  String get radioUnavailableHint =>
+      'This station can\'t be reached right now. Check your connection and try again.';
+
+  @override
+  String get radioPlay => 'Play';
+
+  @override
+  String get radioPause => 'Pause';
+
+  @override
+  String get radioStop => 'Stop';
+
+  @override
+  String get radioClose => 'Stop and close the player';
+
+  @override
+  String radioFavoriteAdd(String station) {
+    return 'Add $station to favorites';
+  }
+
+  @override
+  String radioFavoriteRemove(String station) {
+    return 'Remove $station from favorites';
+  }
+
+  @override
+  String get radioSleepTimer => 'Sleep timer';
+
+  @override
+  String get radioSleepOff => 'Off';
+
+  @override
+  String radioSleepLabel(String value) {
+    return 'Sleep timer · $value';
+  }
+
+  @override
+  String get radioSleepNeedsAudio => 'Start a station to set the sleep timer.';
+
+  @override
+  String get radioSleepSheetBody =>
+      'The radio stops at the chosen time, even with the screen locked.';
+
+  @override
+  String get radioYourStations => 'Your stations';
+
+  @override
+  String get radioAll => 'All';
+
+  @override
+  String get radioFavorites => 'Favorites';
+
+  @override
+  String get radioSearchHint => 'Find a station';
+
+  @override
+  String get radioNowPlaying => 'Now playing';
+
+  @override
+  String get radioVariantPlain => 'Live station';
+
+  @override
+  String get radioVariantMujawwad => 'Mujawwad recitation';
+
+  @override
+  String get radioVariantWarsh => 'Warsh narration';
+
+  @override
+  String get radioAttribution => 'Audio by MP3Quran';
+
+  @override
+  String get radioNoFavorites =>
+      'No favorites yet. Tap the heart next to a station to keep it here.';
+
+  @override
+  String radioNoMatches(String query) {
+    return 'No station matches “$query”.';
+  }
+
+  @override
+  String get radioLoading => 'Loading stations…';
+
+  @override
+  String get radioLoadFailed =>
+      'The station list couldn\'t be loaded. Live radio needs an internet connection.';
+
+  @override
+  String get radioTryAgain => 'Try again';
+
+  @override
+  String get radioSavedList =>
+      'Couldn\'t update the station list. Showing the saved one.';
+
+  @override
+  String get radioNowPlayingSubtitle => 'Live · MP3Quran';
+
+  @override
+  String radioOpenPlayer(String station) {
+    return 'Open Quran radio: $station';
+  }
+
+  @override
+  String get radioChooseStation => 'Choose a station below';
+
+  @override
+  String radioSleepMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes min',
+      one: '1 min',
+    );
+    return '$_temp0';
+  }
 }

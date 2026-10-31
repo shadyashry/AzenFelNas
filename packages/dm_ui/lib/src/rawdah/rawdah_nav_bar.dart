@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 
 /// The deep-green navigation bar (§15 D89, D102), docked at the bottom with
 /// rounded upper corners: a mihrab for Home, an eight-point star compass
-/// whose needle points at the real Qibla, a minaret with the Athan ring, a
+/// whose needle points at the real Qibla, a small arch sending sound for
+/// Radio (§15 D122), a minaret with the Athan ring, a
 /// rosette for Settings. The current tab is light gold and bold with a
 /// short gold bar under its label, so the selection never rests on colour
 /// alone (§15 D105). The bar's own colour runs under the system navigation
@@ -129,6 +130,7 @@ final class _Destination extends StatelessWidget {
                   kind: switch (tab) {
                     RawdahTab.home => RawdahGlyphKind.mihrab,
                     RawdahTab.quran => RawdahGlyphKind.mushaf,
+                    RawdahTab.radio => RawdahGlyphKind.radio,
                     RawdahTab.qibla => RawdahGlyphKind.starCompass,
                     RawdahTab.athan => RawdahGlyphKind.minaret,
                     RawdahTab.settings => RawdahGlyphKind.rosette,

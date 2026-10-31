@@ -147,6 +147,19 @@ final class QuranStorageRoute extends AppRoute {
   bool get linkable => false;
 }
 
+/// Quran radio (§15 D122). Linkable so the media notification opens it;
+/// opening it never starts audio.
+final class RadioRoute extends AppRoute {
+  /// The route.
+  const new();
+
+  @override
+  String get location => '/radio';
+
+  @override
+  bool get linkable => true;
+}
+
 /// Qibla (S22).
 final class QiblaRoute extends AppRoute {
   /// The route.

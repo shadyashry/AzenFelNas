@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "provider": "mp3quran",
+  "checkedOn": "2026-10-31",
+  "stations": [
+    {
+      "id": 108,
+      "streamPath": "https://stream.radiojar.com/x",
+      "name": {
+        "en": "General recitations",
+        "ar": "تلاوات متنوعة"
+      },
+      "description": {
+        "en": "A selection of Quran recitations",
+        "ar": "تلاوات مختارة من القرآن الكريم"
+      }
+    },
+    {
+      "id": 74,
+      "streamPath": "/radio/mahmoud_khalil_alhussary",
+      "description": {
+        "en": "Quran recitation",
+        "ar": "تلاوة القرآن الكريم"
+      }
+    },
+    {
+      "id": 69,
+      "streamPath": "/radio/mohammed_siddiq_alminshawi",
+      "description": {
+        "en": "Quran recitation",
+        "ar": "تلاوة القرآن الكريم"
+      }
+    },
+    {
+      "id": 32,
+      "streamPath": "/radio/abdulbasit_abdulsamad",
+      "description": {
+        "en": "Quran recitation",
+        "ar": "تلاوة القرآن الكريم"
+      }
+    }
+  ]
+}

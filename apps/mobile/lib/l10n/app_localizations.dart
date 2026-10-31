@@ -2593,6 +2593,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Previous'**
   String get quranPreviousShort;
+
+  /// Tab label: Quran radio (§15 D122).
+  ///
+  /// In en, this message translates to:
+  /// **'Radio'**
+  String get navRadio;
+
+  /// Small capitals above the Radio title.
+  ///
+  /// In en, this message translates to:
+  /// **'LISTEN & REFLECT'**
+  String get radioOverline;
+
+  /// The Radio screen's title.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran radio'**
+  String get radioTitle;
+
+  /// Line under the Radio title.
+  ///
+  /// In en, this message translates to:
+  /// **'A quieter moment, wherever you are.'**
+  String get radioTagline;
+
+  /// The stations' source, shown discreetly on the player. A brand name: keep it in Latin letters.
+  ///
+  /// In en, this message translates to:
+  /// **'MP3Quran'**
+  String get radioSource;
+
+  /// Player state: a station is chosen, nothing plays.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get radioStatusReady;
+
+  /// Player state: opening the stream after Play.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting…'**
+  String get radioStatusConnecting;
+
+  /// Player state: the live stream is playing.
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get radioStatusLive;
+
+  /// Player state: paused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get radioStatusPaused;
+
+  /// Player state: the stream broke and the same station is tried again.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnecting…'**
+  String get radioStatusReconnecting;
+
+  /// Player state: stopped by the listener or the sleep timer.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped'**
+  String get radioStatusStopped;
+
+  /// Player state: the station could not be played after the retries.
+  ///
+  /// In en, this message translates to:
+  /// **'Unavailable'**
+  String get radioStatusUnavailable;
+
+  /// Under the player when the station is unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This station can\'t be reached right now. Check your connection and try again.'**
+  String get radioUnavailableHint;
+
+  /// Button: play the station.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get radioPlay;
+
+  /// Button: pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get radioPause;
+
+  /// Button: stop the radio.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get radioStop;
+
+  /// Mini player close button: stops the radio.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop and close the player'**
+  String get radioClose;
+
+  /// Heart button, not yet a favorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {station} to favorites'**
+  String radioFavoriteAdd(String station);
+
+  /// Heart button, a favorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {station} from favorites'**
+  String radioFavoriteRemove(String station);
+
+  /// Sleep timer control and sheet title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep timer'**
+  String get radioSleepTimer;
+
+  /// Sleep timer: no timer.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get radioSleepOff;
+
+  /// The sleep timer row: its current choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep timer · {value}'**
+  String radioSleepLabel(String value);
+
+  /// Why the sleep timer is not available.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a station to set the sleep timer.'**
+  String get radioSleepNeedsAudio;
+
+  /// Line in the sleep timer sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'The radio stops at the chosen time, even with the screen locked.'**
+  String get radioSleepSheetBody;
+
+  /// Heading of the station list.
+  ///
+  /// In en, this message translates to:
+  /// **'Your stations'**
+  String get radioYourStations;
+
+  /// Station list tab: every station.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get radioAll;
+
+  /// Station list tab: favorites only.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get radioFavorites;
+
+  /// Search field hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a station'**
+  String get radioSearchHint;
+
+  /// Under the station that is playing.
+  ///
+  /// In en, this message translates to:
+  /// **'Now playing'**
+  String get radioNowPlaying;
+
+  /// Under a station the app has no checked description for.
+  ///
+  /// In en, this message translates to:
+  /// **'Live station'**
+  String get radioVariantPlain;
+
+  /// Under a station whose stream is the mujawwad recitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Mujawwad recitation'**
+  String get radioVariantMujawwad;
+
+  /// Under a station whose stream is the Warsh narration.
+  ///
+  /// In en, this message translates to:
+  /// **'Warsh narration'**
+  String get radioVariantWarsh;
+
+  /// Discreet source credit under the station list.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio by MP3Quran'**
+  String get radioAttribution;
+
+  /// Favorites tab, empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorites yet. Tap the heart next to a station to keep it here.'**
+  String get radioNoFavorites;
+
+  /// Search with no result.
+  ///
+  /// In en, this message translates to:
+  /// **'No station matches “{query}”.'**
+  String radioNoMatches(String query);
+
+  /// First load of the station list.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading stations…'**
+  String get radioLoading;
+
+  /// No kept list and the fetch failed.
+  ///
+  /// In en, this message translates to:
+  /// **'The station list couldn\'t be loaded. Live radio needs an internet connection.'**
+  String get radioLoadFailed;
+
+  /// Button: fetch the station list again.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get radioTryAgain;
+
+  /// The refresh failed; the kept list is shown.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update the station list. Showing the saved one.'**
+  String get radioSavedList;
+
+  /// The line under the station on the lock screen and notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Live · MP3Quran'**
+  String get radioNowPlayingSubtitle;
+
+  /// Mini player title button.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Quran radio: {station}'**
+  String radioOpenPlayer(String station);
+
+  /// Player card before any station is chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a station below'**
+  String get radioChooseStation;
+
+  /// A sleep timer length.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, one{1 min} other{{minutes} min}}'**
+  String radioSleepMinutes(int minutes);
 }
 
 class _AppLocalizationsDelegate

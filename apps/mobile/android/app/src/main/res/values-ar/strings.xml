@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">أذّن في الناس</string>
+    <!-- Quran radio notification: the Stop button (DESIGN.md section 15 D122). -->
+    <string name="radio_stop">إيقاف</string>
 </resources>

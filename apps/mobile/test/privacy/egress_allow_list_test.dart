@@ -3,11 +3,21 @@ import 'dart:io';
 
 import 'package:daily_muslim/features/packages/data/http_cdn_channel.dart';
 import 'package:daily_muslim/features/quran/data/http_quran_origin.dart';
+import 'package:daily_muslim/features/radio/data/http_radio_catalog_origin.dart';
+import 'package:daily_muslim/features/radio/domain/radio_station.dart';
+import 'package:daily_muslim/features/radio/domain/radio_stream_policy.dart';
 import 'package:dm_packages/dm_packages.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// The only hosts the app may contact (REQ-PRIV-006, ADR-017).
-const _allowedHosts = {'cdn.azenfelnas.app', 'api.azenfelnas.app'};
+/// The only hosts the app may contact (REQ-PRIV-006, ADR-017), plus
+/// MP3Quran's documented radio catalog (§15 D122). Live streams are not
+/// written in the code: they come from that catalog and play only on
+/// MP3Quran's own domains ([RadioStreamPolicy]).
+const _allowedHosts = {
+  'cdn.azenfelnas.app',
+  'api.azenfelnas.app',
+  'www.mp3quran.net',
+};
 
 /// Shipped source trees, relative to `apps/mobile/` (tests excluded).
 const _sourceRoots = [
@@ -42,10 +52,12 @@ const _sourceExtensions = {
 };
 
 /// Files allowed to open a network connection: the two CDN adapters (data
-/// packages, and the offline Quran download of §15 D107).
+/// packages, and the offline Quran download of §15 D107) and the radio
+/// catalog (§15 D122). The radio's audio is opened by the platform player.
 const _networkAdapters = {
   'lib/features/packages/data/http_cdn_channel.dart',
   'lib/features/quran/data/http_quran_origin.dart',
+  'lib/features/radio/data/http_radio_catalog_origin.dart',
 };
 
 /// APIs that open a connection, in Dart, Kotlin/Java and Swift.
@@ -227,6 +239,51 @@ void main() {
       expect(uri.host, 'cdn.azenfelnas.app');
     }
     client.close(force: true);
+  });
+
+  test('REQ-PRIV-006 REQ-RADIO-001 the radio catalog connects to '
+      'www.mp3quran.net over HTTPS and nowhere else', () async {
+    final attempts = <Uri>[];
+    final client = HttpClient()
+      ..connectionFactory = (uri, proxyHost, proxyPort) {
+        attempts.add(uri);
+        throw const SocketException('egress blocked in tests');
+      };
+    final origin = HttpRadioCatalogOrigin.withClient(
+      client,
+      backoff: (_) => Duration.zero,
+    );
+
+    await origin.radios(RadioLanguage.ar);
+    await origin.radios(RadioLanguage.en);
+
+    // One try and two retries per language.
+    expect(attempts, hasLength(6));
+    for (final uri in attempts) {
+      expect(uri.scheme, 'https');
+      expect(uri.host, 'www.mp3quran.net');
+    }
+    client.close(force: true);
+  });
+
+  test('REQ-PRIV-006 REQ-RADIO-004 radio streams play only over HTTPS on '
+      "MP3Quran's own domains", () {
+    expect(
+      RadioStreamPolicy.allows(
+        Uri.parse('https://backup.qurango.net/radio/mix'),
+      ),
+      isTrue,
+    );
+    for (final url in [
+      'http://backup.qurango.net/radio/mix',
+      'https://stream.radiojar.com/0tpy1h0kxtzuv',
+      'https://qurango.net.example.com/radio/mix',
+      'https://evilqurango.net/radio/mix',
+      'https://user@backup.qurango.net/radio/mix',
+      'https://backup.qurango.net:8443/radio/mix',
+    ]) {
+      expect(RadioStreamPolicy.allows(Uri.parse(url)), isFalse, reason: url);
+    }
   });
 
   test('REQ-PRIV-006 cleartext traffic and arbitrary loads are never '

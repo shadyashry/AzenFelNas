@@ -73,6 +73,14 @@ import 'package:daily_muslim/features/quran/domain/build_search_index.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
 import 'package:daily_muslim/features/quran/domain/quran_origin.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
+import 'package:daily_muslim/features/radio/application/refresh_radio_catalog.dart';
+import 'package:daily_muslim/features/radio/application/toggle_radio_favorite.dart';
+import 'package:daily_muslim/features/radio/data/asset_featured_stations.dart';
+import 'package:daily_muslim/features/radio/data/channel_radio_audio.dart';
+import 'package:daily_muslim/features/radio/data/file_radio_catalog_store.dart';
+import 'package:daily_muslim/features/radio/data/http_radio_catalog_origin.dart';
+import 'package:daily_muslim/features/radio/domain/radio_ports.dart';
+import 'package:daily_muslim/features/radio/presentation/radio_providers.dart';
 import 'package:daily_muslim/features/schedule/application/calculate_schedule.dart';
 import 'package:daily_muslim/features/schedule/application/load_runtime_data.dart';
 import 'package:daily_muslim/features/schedule/domain/runtime_data.dart';
@@ -125,6 +133,8 @@ abstract final class AppBindings {
     ReadFreeSpace freeSpace = const ChannelFreeSpace(),
     ChannelVoiceAudio? voiceAudio,
     ApplyAppLanguage appLanguage = const ChannelAppLanguage(),
+    RadioAudio radioAudio = const ChannelRadioAudio(),
+    RadioCatalogOrigin? radioOrigin,
   }) {
     final settings = DriftSettingsStore(databases.dm);
     final eventLog = DriftEventLog(databases.dm);
@@ -258,6 +268,43 @@ abstract final class AppBindings {
       ),
       exportDiagnosticBundleProvider.overrideWithValue(
         const ExportDiagnosticBundle(ClipboardDiagnosticText()),
+      ),
+      ..._radio(
+        assets: assets,
+        root: Directory('${blobRoot.parent.path}/radio'),
+        settings: settings,
+        clock: clock,
+        audio: radioAudio,
+        origin: radioOrigin ?? HttpRadioCatalogOrigin.standard(),
+      ),
+    ];
+  }
+
+  /// Quran radio (§15 D122): MP3Quran's documented catalog over HTTPS, the
+  /// list kept under [root] (app support storage), favorites and the last
+  /// station in settings, and the native player behind [audio].
+  static List<Override> _radio({
+    required AssetBundle assets,
+    required Directory root,
+    required DriftSettingsStore settings,
+    required Clock clock,
+    required RadioAudio audio,
+    required RadioCatalogOrigin origin,
+  }) {
+    final store = FileRadioCatalogStore(root);
+    return [
+      radioAudioProvider.overrideWithValue(audio),
+      radioCatalogStoreProvider.overrideWithValue(store),
+      refreshRadioCatalogProvider.overrideWithValue(
+        RefreshRadioCatalog(
+          origin: origin,
+          store: store,
+          featured: AssetFeaturedStations(assets),
+          clock: clock,
+        ),
+      ),
+      toggleRadioFavoriteProvider.overrideWithValue(
+        ToggleRadioFavorite(read: settings, write: settings),
       ),
     ];
   }

@@ -14,4 +14,7 @@ enum RawdahGlyphKind {
 
   /// An open Mushaf on a rahl: Quran (§15 D107).
   mushaf,
+
+  /// A small arch sending two rings of sound each way: Radio (§15 D122).
+  radio,
 }

@@ -60,6 +60,7 @@ flutter:
     - assets/brand/
     - assets/art/
     - assets/athan/
+    - assets/radio/
     # The pinned Quran package (§15 D107), bundled so it installs with no
     # network (§15 D117). Not in git: `tool/bundle_quran.py` copies a
     # verified build here; without it the app downloads it from the CDN.

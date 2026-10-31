@@ -4,10 +4,11 @@ import 'package:meta/meta.dart';
 /// One destination's label.
 @immutable
 final class RawdahTabLabels {
-  /// The five labels, already localised.
+  /// The six labels, already localised.
   const new({
     required this.home,
     required this.quran,
+    required this.radio,
     required this.qibla,
     required this.athan,
     required this.settings,
@@ -18,6 +19,9 @@ final class RawdahTabLabels {
 
   /// Quran.
   final String quran;
+
+  /// Radio.
+  final String radio;
 
   /// Qibla.
   final String qibla;
@@ -32,6 +36,7 @@ final class RawdahTabLabels {
   String of(RawdahTab tab) => switch (tab) {
     RawdahTab.home => home,
     RawdahTab.quran => quran,
+    RawdahTab.radio => radio,
     RawdahTab.qibla => qibla,
     RawdahTab.athan => athan,
     RawdahTab.settings => settings,

@@ -22,6 +22,13 @@ Downloadable voices (not bundled; downloaded after install from `cdn.azenfelnas.
 | `mirza_isha_2013.m4a`: Isha Athan called and published by Moazzambeg Mirza (Internet Archive `IshaAzanByMoazzambegMirza07092013`, 2013). Room tone before the first phrase removed, −2.2 dB to −16 LUFS, AAC-LC 96 kbps | Public Domain Mark 1.0 (by the performer) | none required; credited on the licences page and beside the voice. Legal to confirm the mark suffices (`DESIGN.md` §15 D112). `dev`/`lab` only until reviewed |
 | `icr_friday_2024.m4a`: first Friday Athan of 2024-05-17 at ICR, called and published by Asim Javed (Internet Archive, CC0). −4.5 dB to −16 LUFS, AAC-LC 96 kbps | CC0 1.0 | none required; credited anyway. `dev`/`lab` only until reviewed |
 
+## Quran radio (streamed, not bundled)
+
+| Source | Licence | Obligation |
+|---|---|---|
+| MP3Quran radio stations and their list (`www.mp3quran.net/api/v3/radios`; streams on `backup.qurango.net`), played live, never stored or rehosted (`DESIGN.md` §15 D122) | MP3Quran's published permission for any visitor or developer to use its material and links (privacy page, read 2026-10-31; record in `docs/release/radio/README.md`) | discreet credit «Audio by MP3Quran»; no affiliation implied |
+| AndroidX Media3 `media3-exoplayer`, `media3-session` 1.11.1 (Android app) | Apache-2.0 | licence notice (ADR-027) |
+
 ## Accuracy Lab (development only, not shipped in the app)
 
 | Source | Licence | Obligation |

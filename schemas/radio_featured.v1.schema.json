@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://azenfelnas.app/schemas/radio_featured.v1.schema.json",
+  "title": "Featured radio stations v1",
+  "description": "The MP3Quran stations the Radio screen shows first (DESIGN.md §15 D122), bundled with the app. Each entry names the provider's station id and the stream path that id had when it was checked; the app applies the entry only while the live catalog still gives that id that path (REQ-RADIO-003), so a reused id never inherits another station's name. Names replace the provider's display names; descriptions say only what was checked by hand.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "provider", "checkedOn", "stations"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "provider": { "const": "mp3quran", "description": "Only MP3Quran's own stations (REQ-RADIO-004)." },
+    "checkedOn": { "type": "string", "format": "date", "description": "When the ids and paths were checked against the live catalog." },
+    "stations": { "type": "array", "items": { "$ref": "#/$defs/station" } }
+  },
+  "$defs": {
+    "text": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["en", "ar"],
+      "properties": {
+        "en": { "type": "string", "minLength": 1 },
+        "ar": { "type": "string", "minLength": 1 }
+      }
+    },
+    "station": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "streamPath"],
+      "properties": {
+        "id": { "type": "integer", "minimum": 1, "description": "The provider's station id (REQ-RADIO-002)." },
+        "streamPath": { "type": "string", "pattern": "^/radio/[A-Za-z0-9_-]+$" },
+        "name": { "$ref": "#/$defs/text" },
+        "description": { "$ref": "#/$defs/text" }
+      }
+    }
+  }
+}

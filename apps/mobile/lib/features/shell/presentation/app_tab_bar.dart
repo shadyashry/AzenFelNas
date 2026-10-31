@@ -1,4 +1,5 @@
 import 'package:daily_muslim/features/home/presentation/home_providers.dart';
+import 'package:daily_muslim/features/radio/presentation/radio_mini_player.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/features/shell/presentation/athan_stop_bar.dart';
@@ -8,10 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// The app's navigation bar (§7.2, §15 D89, D107) on the five
-/// destinations: Home, Quran, Qibla, Athan and Settings, each a top-level
-/// location. The Qibla needle takes the place's real bearing. While an
-/// Athan plays, its Stop sits above the bar (§15 D118).
+/// The app's navigation bar (§7.2, §15 D89, D107, D122) on the six
+/// destinations: Home, Quran, Radio, Qibla, Athan and Settings, each a
+/// top-level location. The Qibla needle takes the place's real bearing.
+/// While an Athan plays, its Stop sits above the bar (§15 D118); while the
+/// radio is on, the mini player does, on every tab but Radio (§15 D122).
 final class AppTabBar extends ConsumerWidget {
   /// The bar with [current] selected.
   const new({required this.current, super.key});
@@ -23,6 +25,7 @@ final class AppTabBar extends ConsumerWidget {
   static String locationOf(RawdahTab tab) => switch (tab) {
     RawdahTab.home => const HomeRoute().location,
     RawdahTab.quran => const QuranRoute().location,
+    RawdahTab.radio => const RadioRoute().location,
     RawdahTab.qibla => const QiblaRoute().location,
     RawdahTab.athan => const HealthRoute().location,
     RawdahTab.settings => const SettingsRoute().location,
@@ -43,6 +46,7 @@ final class AppTabBar extends ConsumerWidget {
       labels: RawdahTabLabels(
         home: l.navHome,
         quran: l.navQuran,
+        radio: l.navRadio,
         qibla: l.navQibla,
         athan: l.navAthan,
         settings: l.navSettings,
@@ -54,7 +58,11 @@ final class AppTabBar extends ConsumerWidget {
     );
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [const AthanStopBar(), bar],
+      children: [
+        const AthanStopBar(),
+        if (current != RawdahTab.radio) const RadioMiniPlayer(),
+        bar,
+      ],
     );
   }
 }

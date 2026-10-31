@@ -12,6 +12,7 @@ import android.os.VibratorManager
 import app.azenfelnas.athan.bridge.AthanCoreHost
 import app.azenfelnas.athan.bridge.AthanVoiceHost
 import app.azenfelnas.pigeon.AthanSchedulerApi
+import app.azenfelnas.radio.RadioBridge
 import io.flutter.FlutterInjector
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -23,6 +24,7 @@ import java.util.TimeZone
 
 class MainActivity : FlutterActivity() {
   private var voices: AthanVoiceHost? = null
+  private var radio: RadioBridge? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -77,6 +79,8 @@ class MainActivity : FlutterActivity() {
     )
     Thread({ installBundledAudio(core) }, "athan-audio-install").start()
     registerVoiceAudio(flutterEngine, AthanVoiceHost(applicationContext).also { voices = it })
+    // Quran radio's commands and state (DESIGN.md section 15 D122); the player itself lives in RadioService.
+    radio = RadioBridge(applicationContext).also { it.register(flutterEngine.dartExecutor.binaryMessenger) }
   }
 
   private fun vibrateOnce(ms: Long) {
@@ -102,6 +106,9 @@ class MainActivity : FlutterActivity() {
   override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
     voices?.watchAthan(null)
     voices?.stopPreview()
+    // The radio plays on without the screen; only this screen's link to it goes.
+    radio?.release()
+    radio = null
     super.cleanUpFlutterEngine(flutterEngine)
   }
 

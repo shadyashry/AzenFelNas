@@ -1555,4 +1555,160 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranPreviousShort => 'السابقة';
+
+  @override
+  String get navRadio => 'الإذاعة';
+
+  @override
+  String get radioOverline => 'استمع وتدبّر';
+
+  @override
+  String get radioTitle => 'إذاعة القرآن';
+
+  @override
+  String get radioTagline => 'لحظات من السكينة، أينما كنت.';
+
+  @override
+  String get radioSource => '⁨MP3Quran⁩';
+
+  @override
+  String get radioStatusReady => 'جاهز';
+
+  @override
+  String get radioStatusConnecting => 'جارٍ الاتصال…';
+
+  @override
+  String get radioStatusLive => 'مباشر';
+
+  @override
+  String get radioStatusPaused => 'متوقف مؤقتًا';
+
+  @override
+  String get radioStatusReconnecting => 'جارٍ إعادة الاتصال…';
+
+  @override
+  String get radioStatusStopped => 'متوقف';
+
+  @override
+  String get radioStatusUnavailable => 'غير متاح';
+
+  @override
+  String get radioUnavailableHint =>
+      'تعذّر الوصول إلى هذه الإذاعة الآن. تحقّق من اتصالك وحاول مرة أخرى.';
+
+  @override
+  String get radioPlay => 'تشغيل';
+
+  @override
+  String get radioPause => 'إيقاف مؤقت';
+
+  @override
+  String get radioStop => 'إيقاف';
+
+  @override
+  String get radioClose => 'إيقاف وإغلاق المشغّل';
+
+  @override
+  String radioFavoriteAdd(String station) {
+    return 'أضف $station إلى المفضلة';
+  }
+
+  @override
+  String radioFavoriteRemove(String station) {
+    return 'أزل $station من المفضلة';
+  }
+
+  @override
+  String get radioSleepTimer => 'مؤقّت النوم';
+
+  @override
+  String get radioSleepOff => 'إيقاف';
+
+  @override
+  String radioSleepLabel(String value) {
+    return 'مؤقّت النوم · $value';
+  }
+
+  @override
+  String get radioSleepNeedsAudio => 'شغّل إذاعة لضبط مؤقّت النوم.';
+
+  @override
+  String get radioSleepSheetBody =>
+      'تتوقف الإذاعة في الوقت المختار، حتى والشاشة مقفلة.';
+
+  @override
+  String get radioYourStations => 'إذاعاتك';
+
+  @override
+  String get radioAll => 'الكل';
+
+  @override
+  String get radioFavorites => 'المفضلة';
+
+  @override
+  String get radioSearchHint => 'ابحث عن إذاعة';
+
+  @override
+  String get radioNowPlaying => 'تستمع الآن';
+
+  @override
+  String get radioVariantPlain => 'إذاعة مباشرة';
+
+  @override
+  String get radioVariantMujawwad => 'تلاوة مجوّدة';
+
+  @override
+  String get radioVariantWarsh => 'رواية ورش';
+
+  @override
+  String get radioAttribution => 'الصوت من ⁨MP3Quran⁩';
+
+  @override
+  String get radioNoFavorites =>
+      'لا توجد إذاعات مفضلة بعد. اضغط على القلب بجانب أي إذاعة لحفظها هنا.';
+
+  @override
+  String radioNoMatches(String query) {
+    return 'لا توجد إذاعة تطابق «$query».';
+  }
+
+  @override
+  String get radioLoading => 'جارٍ تحميل الإذاعات…';
+
+  @override
+  String get radioLoadFailed =>
+      'تعذّر تحميل قائمة الإذاعات. يحتاج البث المباشر إلى اتصال بالإنترنت.';
+
+  @override
+  String get radioTryAgain => 'حاول مرة أخرى';
+
+  @override
+  String get radioSavedList =>
+      'تعذّر تحديث قائمة الإذاعات. تُعرض القائمة المحفوظة.';
+
+  @override
+  String get radioNowPlayingSubtitle => 'مباشر · ⁨MP3Quran⁩';
+
+  @override
+  String radioOpenPlayer(String station) {
+    return 'افتح إذاعة القرآن: $station';
+  }
+
+  @override
+  String get radioChooseStation => 'اختر إذاعة من القائمة';
+
+  @override
+  String radioSleepMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقيقة',
+      many: '$minutes دقيقة',
+      few: '$minutes دقائق',
+      two: 'دقيقتان',
+      one: 'دقيقة واحدة',
+      zero: '0 دقيقة',
+    );
+    return '$_temp0';
+  }
 }

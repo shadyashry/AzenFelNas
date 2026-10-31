@@ -54,6 +54,18 @@
       "name": "Athan voice: Asim Javed (ICR, 2024)",
       "licence": "CC0-1.0",
       "notice": "Downloadable Athan voice “Asim Javed (ICR, 2024)”: the first Friday Athan of 17 May 2024 at ICR, called by Asim Javed and published by him at archive.org/details/icr-friday-prayer-1st-adhan-17th-may-2024-9th-dhul-qadah-1445-by-asim-javed under CC0 1.0 (creativecommons.org/publicdomain/zero/1.0/). Changed: volume lowered 4.5 dB; encoded AAC-LC 96 kbps. No endorsement is implied."
+    },
+    {
+      "package": "radio",
+      "name": "Quran radio: MP3Quran",
+      "licence": "MP3Quran permission",
+      "notice": "Live Quran radio stations and their names come from MP3Quran (mp3quran.net) through its published API, under the permission on its site for any visitor or developer to use its material and links. The audio is streamed from MP3Quran's servers and is not stored or changed. Azen Fel Nas is not affiliated with MP3Quran or with the reciters."
+    },
+    {
+      "package": "radio",
+      "name": "AndroidX Media3",
+      "licence": "Apache-2.0",
+      "notice": "The Android radio player uses AndroidX Media3 (ExoPlayer and media session), Copyright The Android Open Source Project, under the Apache License 2.0 (apache.org/licenses/LICENSE-2.0)."
     }
   ]
 }

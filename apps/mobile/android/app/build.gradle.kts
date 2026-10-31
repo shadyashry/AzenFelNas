@@ -71,4 +71,7 @@ dependencies {
     implementation(project(":athan-core"))
     // Pigeon's Kotlin host runs @async calls as suspend functions (§15 D83).
     implementation(libs.kotlinx.coroutines.android)
+    // Quran radio: one player in a media session service (DESIGN.md section 15 D122). Apache-2.0.
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.session)
 }

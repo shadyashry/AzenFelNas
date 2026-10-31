@@ -25,6 +25,7 @@ JSON Schema (draft 2020-12) is the contract for every JSON document that crosses
 | `gazetteer_package.v1` | §9.5 | Dart `dm_contracts` (Python pipeline models in S12) |
 | `athan_audio_manifest.v1` | §9.5 | Dart `dm_contracts` |
 | `athan_voice_catalog.v1` | §15 D111 | Dart app `AssetVoiceCatalog` (decodes the fixtures in its test) · Python `data-pipelines` pins (`athan_voices.v1.toml`) |
+| `radio_featured.v1` | §15 D122 | Dart app `AssetFeaturedStations` (decodes the fixtures in `radio_catalog_test`) |
 | `tz_polygons.v1.ksy`, `country_polygons.v1.ksy` | §9.5, §15 D23, D70 | Python `data-pipelines` (writer) · Dart `dm_civil_time` `ReadPolygonIndex` (S11) |
 
 Each language models the schemas it produces or consumes (§15 D24).

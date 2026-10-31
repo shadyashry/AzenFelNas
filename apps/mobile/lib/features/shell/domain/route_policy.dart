@@ -71,6 +71,7 @@ abstract final class RoutePolicy {
     ['quran', 'search'] => const QuranSearchRoute(),
     ['quran', 'notes'] => const QuranNotesRoute(),
     ['quran', 'storage'] => const QuranStorageRoute(),
+    ['radio'] => const RadioRoute(),
     ['calc', final id] when CalculationRoute.idPattern.hasMatch(id) =>
       CalculationRoute(id),
     ['calc', final id, final code]

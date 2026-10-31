@@ -135,6 +135,22 @@ abstract final class AppSettings {
     false,
   );
 
+  /// `radioFavorites`: the favorite stations by provider-qualified id
+  /// (`mp3quran:74`), never by name (§15 D122, REQ-RADIO-002).
+  static const SettingKey<Set<String>> radioFavorites = SettingKey(
+    'radioFavorites',
+    StringSetCodec(),
+    <String>{},
+  );
+
+  /// `radioStationId`: the last chosen station, restored at start without
+  /// playing (§15 D122, REQ-RADIO-006).
+  static const radioStationId = SettingKey<String?>(
+    'radioStationId',
+    OptionalStringCodec(),
+    null,
+  );
+
   /// The Appendix K key names, in order.
   static const List<String> wires = [
     'locale',
@@ -155,5 +171,7 @@ abstract final class AppSettings {
     'athanPlanGeneration',
     'fajrSoundId',
     'quranRemoved',
+    'radioFavorites',
+    'radioStationId',
   ];
 }

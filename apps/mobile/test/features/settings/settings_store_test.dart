@@ -48,6 +48,8 @@ void main() {
         AppSettings.athanPlanGeneration,
         AppSettings.fajrSoundId,
         AppSettings.quranRemoved,
+        AppSettings.radioFavorites,
+        AppSettings.radioStationId,
       ].map((k) => k.wire),
       AppSettings.wires,
     );

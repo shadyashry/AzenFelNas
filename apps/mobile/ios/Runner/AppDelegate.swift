@@ -23,6 +23,10 @@ import UIKit
       DeviceZoneChannel.register(messenger: registrar.messenger())
       StorageChannel.register(messenger: registrar.messenger())
     }
+    // Quran radio (DESIGN.md §15 D122): one shared player that outlives any screen.
+    if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "DmRadio") {
+      RadioPlayer.register(messenger: registrar.messenger())
+    }
   }
 }
 
