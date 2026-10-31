@@ -326,18 +326,6 @@ abstract class AppLocalizations {
   /// **'Open settings'**
   String get remediationActionOpenSettings;
 
-  /// Onboarding welcome step title.
-  ///
-  /// In en, this message translates to:
-  /// **'Prayer times for where you are'**
-  String get onboardingWelcomeTitle;
-
-  /// Onboarding welcome step body.
-  ///
-  /// In en, this message translates to:
-  /// **'Works offline, without an account. Your location stays on this phone.'**
-  String get onboardingWelcomeBody;
-
   /// Button: ask for approximate location.
   ///
   /// In en, this message translates to:
@@ -361,12 +349,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Location is not available'**
   String get onboardingFailedTitle;
-
-  /// Button: retry location.
-  ///
-  /// In en, this message translates to:
-  /// **'Try again'**
-  String get onboardingTryAgain;
 
   /// Onboarding done step title.
   ///
@@ -1676,30 +1658,6 @@ abstract class AppLocalizations {
   /// **'More'**
   String get settingsMoreSection;
 
-  /// Onboarding: title of the place step.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose your city'**
-  String get onboardingChooseCity;
-
-  /// Onboarding welcome: main button; detects the place from the device location.
-  ///
-  /// In en, this message translates to:
-  /// **'Find my location'**
-  String get onboardingDetect;
-
-  /// Onboarding welcome: secondary link to the city list.
-  ///
-  /// In en, this message translates to:
-  /// **'I\'ll choose my city'**
-  String get onboardingChooseCityMyself;
-
-  /// Onboarding: under 'Finding your place'.
-  ///
-  /// In en, this message translates to:
-  /// **'This takes a few seconds.'**
-  String get onboardingResolvingBody;
-
   /// Onboarding failure: the city suggested by the device time zone.
   ///
   /// In en, this message translates to:
@@ -1711,30 +1669,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use {place}'**
   String onboardingUseSuggestion(String place);
-
-  /// Onboarding failure: link to the city list.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose another city'**
-  String get onboardingOtherCity;
-
-  /// Onboarding welcome feature.
-  ///
-  /// In en, this message translates to:
-  /// **'Works offline'**
-  String get onboardingFeatureOffline;
-
-  /// Onboarding welcome feature.
-  ///
-  /// In en, this message translates to:
-  /// **'Athan on time'**
-  String get onboardingFeatureAthan;
-
-  /// Onboarding welcome feature.
-  ///
-  /// In en, this message translates to:
-  /// **'Qibla compass'**
-  String get onboardingFeatureQibla;
 
   /// Place search: heading of the cities suggested before typing.
   ///
@@ -2917,6 +2851,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap the page to show or hide the controls'**
   String get quranControlsHint;
+
+  /// Header of the first screen, at the leading edge (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome'**
+  String get welcomeHeader;
+
+  /// Gold line above the welcome headline (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'A moment of peace, every day'**
+  String get welcomeEyebrow;
+
+  /// Welcome headline; the line break is kept where both lines fit, otherwise the text wraps naturally (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times,\nwherever you are.'**
+  String get welcomeHeadline;
+
+  /// Heading of the welcome panel (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Let’s make it local.'**
+  String get welcomeHeading;
+
+  /// Paragraph of the welcome panel; the line break is kept where both lines fit (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Set your location for prayer times\nand your Qibla direction.'**
+  String get welcomeBody;
+
+  /// Primary welcome action: find the place from the device's approximate location (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Use my location'**
+  String get welcomeUseLocation;
+
+  /// Secondary welcome action: open the city picker (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a city instead'**
+  String get welcomeChooseCity;
+
+  /// Privacy sentence under the welcome actions; true of the code: the location is never uploaded (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Your location stays on this device.'**
+  String get welcomePrivacy;
+
+  /// Welcome feature caption (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Works offline'**
+  String get welcomeFeatureOffline;
+
+  /// Welcome feature caption (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer alerts'**
+  String get welcomeFeatureAlerts;
+
+  /// Welcome feature caption (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla direction'**
+  String get welcomeFeatureQibla;
+
+  /// Title of the first-run city picker (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Where do you pray?'**
+  String get cityPickerTitle;
+
+  /// Line under the city picker title (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your city to get started.'**
+  String get cityPickerBody;
+
+  /// Hint and label of the city picker's search field; the offline list is searched by city name only (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Search for a city'**
+  String get cityPickerSearch;
+
+  /// City picker button that pins the selected city (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Use this city'**
+  String get cityPickerConfirm;
+
+  /// City picker: the search found nothing (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'No matching cities'**
+  String get cityPickerEmpty;
+
+  /// Screen-reader line for the city chosen in the picker (§15 D126).
+  ///
+  /// In en, this message translates to:
+  /// **'Selected: {city}'**
+  String cityPickerSelected(String city);
 }
 
 class _AppLocalizationsDelegate

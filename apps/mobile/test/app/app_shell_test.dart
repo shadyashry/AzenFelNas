@@ -31,7 +31,7 @@ void main() {
   shellTest(
     'the first start opens onboarding in the device language',
     (tester, _) async {
-      expect(find.text('Prayer times for where you are'), findsOneWidget);
+      expect(find.text('Let’s make it local.'), findsOneWidget);
     },
   );
 
@@ -62,7 +62,7 @@ void main() {
     'a refused deep link lands on Home (REQ-SEC-010)',
     location: '/calc/not-an-id',
     (tester, _) async => expect(
-      find.text('Prayer times for where you are'),
+      find.text('Let’s make it local.'),
       findsOneWidget,
     ),
   );

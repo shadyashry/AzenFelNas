@@ -24,10 +24,16 @@ dev_dependencies:
 # for interface text, Lora and Noto Naskh Arabic for display text (prayer
 # names, times, headings). Every file is a variable font; it is declared once
 # per weight it serves so a requested weight matches a real face (never a
-# synthesized bold), and DmTheme sets the matching `wght` axis.
+# synthesized bold), and DmTheme sets the matching `wght` axis. The Emerald
+# horizon welcome screen (§15 D126) adds DM Sans for its interface text,
+# Gelasio (a Georgia-metric serif) for its English display text and Amiri
+# Regular (a static face) for its Arabic headline.
 flutter:
   # The licences ship with the faces; FontLicences shows them (§10.4).
   assets:
+    - fonts/OFL-Amiri.txt
+    - fonts/OFL-DMSans.txt
+    - fonts/OFL-Gelasio.txt
     - fonts/OFL-Inter.txt
     - fonts/OFL-Lora.txt
     - fonts/OFL-NotoNaskhArabic.txt
@@ -73,3 +79,17 @@ flutter:
           weight: 600
         - asset: fonts/NotoNaskhArabic-Variable.ttf
           weight: 700
+    - family: DM Sans
+      fonts:
+        - asset: fonts/DMSans-Variable.ttf
+          weight: 400
+        - asset: fonts/DMSans-Variable.ttf
+          weight: 500
+    - family: Gelasio
+      fonts:
+        - asset: fonts/Gelasio-Variable.ttf
+          weight: 400
+    - family: Amiri
+      fonts:
+        - asset: fonts/Amiri-Regular.ttf
+          weight: 400

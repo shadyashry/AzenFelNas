@@ -133,13 +133,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get remediationActionOpenSettings => 'افتح الإعدادات';
 
   @override
-  String get onboardingWelcomeTitle => 'مواقيت الصلاة حيث أنت';
-
-  @override
-  String get onboardingWelcomeBody =>
-      'يشتغل من غير إنترنت ومن غير حساب. موقعك بيفضل على الموبايل ده.';
-
-  @override
   String get onboardingUseLocation => 'استخدم الموقع التقريبي';
 
   @override
@@ -150,9 +143,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingFailedTitle => 'الموقع مش متاح';
-
-  @override
-  String get onboardingTryAgain => 'جرّب تاني';
 
   @override
   String get onboardingDoneTitle => 'مواقيتك جاهزة';
@@ -977,18 +967,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsMoreSection => 'المزيد';
 
   @override
-  String get onboardingChooseCity => 'اختار مدينتك';
-
-  @override
-  String get onboardingDetect => 'حدّد مكاني';
-
-  @override
-  String get onboardingChooseCityMyself => 'هختار مدينتي بنفسي';
-
-  @override
-  String get onboardingResolvingBody => 'ثواني ونحدّد مكانك.';
-
-  @override
   String onboardingSuggestion(String place) {
     return 'توقيت موبايلك بيقول إنك غالبًا في $place.';
   }
@@ -997,18 +975,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String onboardingUseSuggestion(String place) {
     return 'استخدم $place';
   }
-
-  @override
-  String get onboardingOtherCity => 'اختار مدينة تانية';
-
-  @override
-  String get onboardingFeatureOffline => 'من غير نت';
-
-  @override
-  String get onboardingFeatureAthan => 'الأذان في وقته';
-
-  @override
-  String get onboardingFeatureQibla => 'بوصلة القبلة';
 
   @override
   String get placeSuggestions => 'مدن في نفس توقيتك';
@@ -1756,4 +1722,57 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranControlsHint => 'المس الصفحة لإظهار أدوات القراءة أو إخفائها';
+
+  @override
+  String get welcomeHeader => 'مرحبًا بك';
+
+  @override
+  String get welcomeEyebrow => 'لحظات سكينة، كل يوم';
+
+  @override
+  String get welcomeHeadline => 'مواقيت الصلاة،\nأينما كنت.';
+
+  @override
+  String get welcomeHeading => 'ابدأ بمواقيت مدينتك';
+
+  @override
+  String get welcomeBody => 'حدّد موقعك لمعرفة مواقيت الصلاة\nواتجاه القبلة.';
+
+  @override
+  String get welcomeUseLocation => 'استخدم موقعي';
+
+  @override
+  String get welcomeChooseCity => 'اختيار المدينة يدويًا';
+
+  @override
+  String get welcomePrivacy => 'يبقى موقعك على هذا الجهاز فقط.';
+
+  @override
+  String get welcomeFeatureOffline => 'يعمل دون إنترنت';
+
+  @override
+  String get welcomeFeatureAlerts => 'تنبيهات الصلاة';
+
+  @override
+  String get welcomeFeatureQibla => 'اتجاه القبلة';
+
+  @override
+  String get cityPickerTitle => 'في أي مدينة تصلّي؟';
+
+  @override
+  String get cityPickerBody => 'اختر مدينتك للبدء.';
+
+  @override
+  String get cityPickerSearch => 'ابحث عن مدينة';
+
+  @override
+  String get cityPickerConfirm => 'اعتماد هذه المدينة';
+
+  @override
+  String get cityPickerEmpty => 'لا توجد مدن مطابقة';
+
+  @override
+  String cityPickerSelected(String city) {
+    return 'المدينة المختارة: $city';
+  }
 }

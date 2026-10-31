@@ -26,19 +26,27 @@ final class OnboardingController extends Notifier<OnboardingState> {
   /// Asks for approximate location and resolves it; a refusal or no fix is
   /// [OnboardingFailed]. A fix is named after the place nearest it; a
   /// failure offers the largest place of the phone's time zone (§15 D100).
+  /// One request runs at a time, and a city chosen while it runs stands
+  /// (§15 D126).
   Future<void> useApproximateLocation() async {
+    if (state is OnboardingResolving) return;
     state = const OnboardingResolving();
+    final next = await _locate();
+    if (state is OnboardingResolving) state = next;
+  }
+
+  Future<OnboardingState> _locate() async {
     switch (await ref.read(contextUseCasesProvider.future)) {
       case Err(:final failure):
-        state = OnboardingFailed(failure);
+        return OnboardingFailed(failure);
       case Ok(value: final useCases):
         switch (await useCases.locate()) {
           case Ok(:final value):
             final near = await useCases.nameNearest(value.context.place.point);
-            state = _done(value, name: near?.nameIn(_language));
+            return _done(value, name: near?.nameIn(_language));
           case Err(:final failure):
             final suggested = await useCases.suggest();
-            state = OnboardingFailed(
+            return OnboardingFailed(
               failure,
               suggestion: suggested.firstOrNull?.namedIn(_language),
             );
