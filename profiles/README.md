@@ -24,7 +24,7 @@ The Sharia board and the accuracy lead replace them through a profile-change PR 
 | all | `evidence.sources: []` | **Owed**: the official publications to verify must be retrieved and hashed (§15 D50); no URL or hash is invented |
 | `engine.default` | `ENGINE_DEFAULT`, scope `*`, Fajr/Isha `solarAltitude` 18°, Asr k = 1 | §6.5 |
 | `engine.default` | `effectiveFrom: 0001-01-01`, `maxAbsMinutes: 0` | **§15 D50 default**: the fallback covers the engine's whole domain; no offsets |
-| `eg.egas.standard` | Fajr 19.5°, Isha 17.5°, Asr k = 1, Dhuhr offset 0, `maxAbsMinutes: 3`, `GOVERNMENT`, `effectiveFrom: 2026-10-01` (§15 D97), `benchmarkSet: eg-2026-q4` | §6.5 (illustrative) |
+| `eg.egas.standard` | Fajr 19.5°, Isha 17.5°, Asr k = 1, Dhuhr offset 0, `maxAbsMinutes: 3`, `GOVERNMENT`, `effectiveFrom: 2026-10-01` (§15 D97), `benchmarkSet: eg-2026-q4` | §6.5; **checked by §15 D131** against Dar al-Ifta's Cairo table for October 2026 (all 186 times within a minute; 184 exact with nearest rounding at the authority's point) |
 | `sa.ummalqura.standard` | Isha `intervalAfter maghrib` 90 min; Ramadan Isha 120 min | §6.5 |
 | `sa.ummalqura.standard` | Fajr 18°, Asr k = 1, `GOVERNMENT`, `effectiveFrom: 2026-10-01` (§15 D97), `maxAbsMinutes: 0` | **§15 D50 default** |
 | `ae.awqaf.standard` | Fajr 18.1°, Isha 18.2°, Asr k = 1, Maghrib horizon 40′ refraction, Fajr −1 / Sunrise −3 / Dhuhr +2 / Maghrib +2 / Isha −1 min, rounding ceil (Sunrise floor), `maxAbsMinutes: 3`, `GOVERNMENT`, `effectiveFrom: 2026-10-01` | **§15 D99**: fitted to 123 days of the Awqaf table (93 % to the minute, all within 1 min, Maghrib never early) |
