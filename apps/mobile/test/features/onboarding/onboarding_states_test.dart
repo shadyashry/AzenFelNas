@@ -138,21 +138,29 @@ void main() {
       expect(find.text('Use my location'), findsOneWidget);
     });
 
-    testWidgets('REQ-ALM-026 step(done) after a granted fix; finishing asks '
-        'for notifications and exact alarms and completes the first run', (
+    testWidgets('REQ-ALM-026 step(done) after a granted fix: Set up prayer '
+        'alerts asks for notifications and exact alarms and keeps setup open; '
+        'View today\u2019s prayer times completes the first run', (
       tester,
     ) async {
       final (_, settings) = await pump(tester, access: LocationAccess.granted);
       await tester.tap(find.text('Use my location'));
-      await pumpUntil(tester, find.text('Your times are ready'));
-      await tester.tap(find.text("Show today's times"));
-      await pumpUntil(tester, find.text('Your times are ready'));
+      await pumpUntil(tester, find.byKey(const Key('setupDone')));
+      await pumpUntil(tester, find.text('Set up prayer alerts'));
+      await tester.tap(find.text('Set up prayer alerts'));
+      for (var i = 0; i < 20 && grant.asked.length < 2; i++) {
+        await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+        await tester.pump();
+      }
+      expect(grant.asked, [AthanGrant.notifications, AthanGrant.exactAlarms]);
+      expect(settings.written, isEmpty);
+      await tester.tap(find.text('View today’s prayer times'));
       for (var i = 0; i < 20 && settings.written.isEmpty; i++) {
         await tester.runAsync(() => Future<void>.delayed(Duration.zero));
         await tester.pump();
       }
       expect(settings.written, {'onboardingComplete': true});
-      expect(grant.asked, [AthanGrant.notifications, AthanGrant.exactAlarms]);
+      expect(grant.asked, hasLength(2));
     });
   });
 
@@ -179,8 +187,8 @@ void main() {
         around: FakePlacesAround(nearby: cairo),
       );
       await tester.tap(find.text('Use my location'));
-      await pumpUntil(tester, find.text('Your times are ready'));
-      expect(find.text('Prayer times for Cairo.'), findsOneWidget);
+      await pumpUntil(tester, find.byKey(const Key('setupDone')));
+      expect(find.text('Cairo'), findsOneWidget);
     });
 
     testWidgets('when location fails, the phone time zone offers its city '
@@ -197,8 +205,8 @@ void main() {
         findsOneWidget,
       );
       await tester.tap(find.byKey(const Key('onboardingUseSuggestion')));
-      await pumpUntil(tester, find.text('Your times are ready'));
-      expect(find.text('Prayer times for Cairo.'), findsOneWidget);
+      await pumpUntil(tester, find.byKey(const Key('setupDone')));
+      expect(find.text('Cairo'), findsOneWidget);
     });
 
     testWidgets('with no zone city the failure offers the city list first', (

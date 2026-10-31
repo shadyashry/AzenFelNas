@@ -350,30 +350,6 @@ abstract class AppLocalizations {
   /// **'Location is not available'**
   String get onboardingFailedTitle;
 
-  /// Onboarding done step title.
-  ///
-  /// In en, this message translates to:
-  /// **'Your times are ready'**
-  String get onboardingDoneTitle;
-
-  /// Onboarding done step body.
-  ///
-  /// In en, this message translates to:
-  /// **'Prayer times for {place}.'**
-  String onboardingDoneBody(String place);
-
-  /// Onboarding done step: why the notification and alarm prompts follow (REQ-ALM-026, §15 D96).
-  ///
-  /// In en, this message translates to:
-  /// **'So the Athan sounds on time, the next screens ask to allow notifications and alarms.'**
-  String get onboardingAthanPermissions;
-
-  /// Onboarding done button.
-  ///
-  /// In en, this message translates to:
-  /// **'Show today\'s times'**
-  String get onboardingShowTimes;
-
   /// Manual place screen title.
   ///
   /// In en, this message translates to:
@@ -2953,6 +2929,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Selected: {city}'**
   String cityPickerSelected(String city);
+
+  /// Header of the setup-completion screen (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer setup'**
+  String get setupHeader;
+
+  /// Gold line above the completion headline (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Location saved'**
+  String get setupLocationSaved;
+
+  /// Completion headline once the times are calculated; the break is kept where both lines fit (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times\nare ready'**
+  String get setupReadyHeadline;
+
+  /// Completion headline while the times are calculated (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing prayer times…'**
+  String get setupPreparing;
+
+  /// Completion headline when the times could not be calculated (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times are not ready'**
+  String get setupNotReady;
+
+  /// Button: calculate the times again (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get setupRetry;
+
+  /// Label of the location summary (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Selected location'**
+  String get setupSelectedLocation;
+
+  /// Link that reopens the city picker (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get setupChange;
+
+  /// Screen-reader label of the Change link (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Change city'**
+  String get setupChangeLabel;
+
+  /// A place and its country (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'{city}, {country}'**
+  String setupPlace(String city, String country);
+
+  /// Title of the alerts section (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer alerts'**
+  String get setupAlertsTitle;
+
+  /// Status of alerts not set up yet (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get setupOptional;
+
+  /// Alerts not set up yet (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications to receive prayer reminders.'**
+  String get setupPendingBody;
+
+  /// Helper under the pending alerts text (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'You can set these up later in Settings.'**
+  String get setupPendingHelper;
+
+  /// Note that the times do not need alerts (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'You can view prayer times without enabling alerts.'**
+  String get setupWithoutAlerts;
+
+  /// Button: ask for the alert permissions (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Set up prayer alerts'**
+  String get setupAlertsAction;
+
+  /// Button: end setup and open Home (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'View today’s prayer times'**
+  String get setupViewTimes;
+
+  /// Status of alerts whose capabilities are all granted (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled'**
+  String get setupEnabled;
+
+  /// Alerts enabled (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Your prayer alerts are enabled.'**
+  String get setupEnabledBody;
+
+  /// Helper under the enabled alerts text (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Adhan and reminders in Settings.'**
+  String get setupEnabledHelper;
+
+  /// Status of alerts with a capability missing (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Needs attention'**
+  String get setupAttention;
+
+  /// Button: open the prompt or settings screen that fixes alerts (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Review alert settings'**
+  String get setupReview;
+
+  /// Status while the alert capabilities are read (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Checking alerts…'**
+  String get setupChecking;
+
+  /// Alerts need attention: no notification permission (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off, so prayer alerts cannot appear.'**
+  String get setupMissingNotifications;
+
+  /// Alerts need attention: no exact alarms (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Alarms & reminders is off, so the Adhan may sound late.'**
+  String get setupMissingExactAlarms;
+
+  /// Alerts need attention: battery restriction or muted channel (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'Battery saving or muted notifications may keep the Adhan from sounding.'**
+  String get setupMissingAppSettings;
+
+  /// Alerts need attention: the phone cannot tell, or nothing the user can grant fixes it (§15 D127).
+  ///
+  /// In en, this message translates to:
+  /// **'This phone could not confirm that prayer alerts will sound.'**
+  String get setupMissingUnknown;
 }
 
 class _AppLocalizationsDelegate

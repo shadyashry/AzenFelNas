@@ -144,21 +144,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingFailedTitle => 'Location is not available';
 
   @override
-  String get onboardingDoneTitle => 'Your times are ready';
-
-  @override
-  String onboardingDoneBody(String place) {
-    return 'Prayer times for $place.';
-  }
-
-  @override
-  String get onboardingAthanPermissions =>
-      'So the Athan sounds on time, the next screens ask to allow notifications and alarms.';
-
-  @override
-  String get onboardingShowTimes => 'Show today\'s times';
-
-  @override
   String get placeTitle => 'Choose a place';
 
   @override
@@ -1745,4 +1730,93 @@ class AppLocalizationsEn extends AppLocalizations {
   String cityPickerSelected(String city) {
     return 'Selected: $city';
   }
+
+  @override
+  String get setupHeader => 'Prayer setup';
+
+  @override
+  String get setupLocationSaved => 'Location saved';
+
+  @override
+  String get setupReadyHeadline => 'Prayer times\nare ready';
+
+  @override
+  String get setupPreparing => 'Preparing prayer times…';
+
+  @override
+  String get setupNotReady => 'Prayer times are not ready';
+
+  @override
+  String get setupRetry => 'Try again';
+
+  @override
+  String get setupSelectedLocation => 'Selected location';
+
+  @override
+  String get setupChange => 'Change';
+
+  @override
+  String get setupChangeLabel => 'Change city';
+
+  @override
+  String setupPlace(String city, String country) {
+    return '$city, $country';
+  }
+
+  @override
+  String get setupAlertsTitle => 'Prayer alerts';
+
+  @override
+  String get setupOptional => 'Optional';
+
+  @override
+  String get setupPendingBody =>
+      'Enable notifications to receive prayer reminders.';
+
+  @override
+  String get setupPendingHelper => 'You can set these up later in Settings.';
+
+  @override
+  String get setupWithoutAlerts =>
+      'You can view prayer times without enabling alerts.';
+
+  @override
+  String get setupAlertsAction => 'Set up prayer alerts';
+
+  @override
+  String get setupViewTimes => 'View today’s prayer times';
+
+  @override
+  String get setupEnabled => 'Enabled';
+
+  @override
+  String get setupEnabledBody => 'Your prayer alerts are enabled.';
+
+  @override
+  String get setupEnabledHelper => 'Manage Adhan and reminders in Settings.';
+
+  @override
+  String get setupAttention => 'Needs attention';
+
+  @override
+  String get setupReview => 'Review alert settings';
+
+  @override
+  String get setupChecking => 'Checking alerts…';
+
+  @override
+  String get setupMissingNotifications =>
+      'Notifications are off, so prayer alerts cannot appear.';
+
+  @override
+  String get setupMissingExactAlarms =>
+      'Alarms & reminders is off, so the Adhan may sound late.';
+
+  @override
+  String get setupMissingAppSettings =>
+      'Battery saving or muted notifications may keep the Adhan from sounding.';
+
+  @override
+  String get setupMissingUnknown =>
+      'This phone could not confirm that prayer alerts will sound.';
 }

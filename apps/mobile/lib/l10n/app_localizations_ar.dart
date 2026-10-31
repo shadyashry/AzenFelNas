@@ -145,21 +145,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingFailedTitle => 'الموقع مش متاح';
 
   @override
-  String get onboardingDoneTitle => 'مواقيتك جاهزة';
-
-  @override
-  String onboardingDoneBody(String place) {
-    return 'مواقيت الصلاة في $place.';
-  }
-
-  @override
-  String get onboardingAthanPermissions =>
-      'عشان الأذان يتسمع في وقته، الشاشات الجاية هتطلب السماح بالإشعارات والمنبهات.';
-
-  @override
-  String get onboardingShowTimes => 'اعرض مواقيت النهارده';
-
-  @override
   String get placeTitle => 'اختار مكان';
 
   @override
@@ -1775,4 +1760,93 @@ class AppLocalizationsAr extends AppLocalizations {
   String cityPickerSelected(String city) {
     return 'المدينة المختارة: $city';
   }
+
+  @override
+  String get setupHeader => 'إعداد مواقيت الصلاة';
+
+  @override
+  String get setupLocationSaved => 'تم حفظ الموقع';
+
+  @override
+  String get setupReadyHeadline => 'مواقيت الصلاة\nجاهزة';
+
+  @override
+  String get setupPreparing => 'جارٍ تجهيز مواقيت الصلاة…';
+
+  @override
+  String get setupNotReady => 'مواقيت الصلاة غير جاهزة';
+
+  @override
+  String get setupRetry => 'إعادة المحاولة';
+
+  @override
+  String get setupSelectedLocation => 'الموقع المحدد';
+
+  @override
+  String get setupChange => 'تغيير';
+
+  @override
+  String get setupChangeLabel => 'تغيير المدينة';
+
+  @override
+  String setupPlace(String city, String country) {
+    return '$city، $country';
+  }
+
+  @override
+  String get setupAlertsTitle => 'تنبيهات الصلاة';
+
+  @override
+  String get setupOptional => 'اختيارية';
+
+  @override
+  String get setupPendingBody => 'فعّل الإشعارات لتصلك تذكيرات الصلاة.';
+
+  @override
+  String get setupPendingHelper => 'يمكنك تفعيلها لاحقًا من الإعدادات.';
+
+  @override
+  String get setupWithoutAlerts =>
+      'يمكنك عرض مواقيت الصلاة دون تفعيل التنبيهات.';
+
+  @override
+  String get setupAlertsAction => 'إعداد تنبيهات الصلاة';
+
+  @override
+  String get setupViewTimes => 'عرض مواقيت اليوم';
+
+  @override
+  String get setupEnabled => 'مفعّلة';
+
+  @override
+  String get setupEnabledBody => 'تنبيهات الصلاة مفعّلة.';
+
+  @override
+  String get setupEnabledHelper =>
+      'يمكنك إدارة الأذان والتذكيرات من الإعدادات.';
+
+  @override
+  String get setupAttention => 'تحتاج إلى مراجعة';
+
+  @override
+  String get setupReview => 'مراجعة إعدادات التنبيهات';
+
+  @override
+  String get setupChecking => 'جارٍ التحقق من التنبيهات…';
+
+  @override
+  String get setupMissingNotifications =>
+      'الإشعارات متوقفة، لذا لا يمكن أن تظهر تنبيهات الصلاة.';
+
+  @override
+  String get setupMissingExactAlarms =>
+      'إذن المنبّهات والتذكيرات متوقف، لذا قد يتأخر الأذان.';
+
+  @override
+  String get setupMissingAppSettings =>
+      'قد يمنع توفير البطارية أو كتم الإشعارات صوت الأذان.';
+
+  @override
+  String get setupMissingUnknown =>
+      'لم يتمكن الهاتف من تأكيد عمل تنبيهات الصلاة.';
 }

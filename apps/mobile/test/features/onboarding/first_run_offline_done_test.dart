@@ -48,8 +48,8 @@ void main() {
     await tester.tap(find.widgetWithText(ListTile, 'Cairo').first);
     await tester.pump();
     await tester.tap(find.byKey(const Key('cityPickerConfirm')));
-    await pumpUntil(tester, find.text('Your times are ready'));
-    await tester.tap(find.text("Show today's times"));
+    await pumpUntil(tester, find.byKey(const Key('setupDone')));
+    await tester.tap(find.text('View today’s prayer times'));
     await pumpUntil(tester, find.byType(TimeRow));
 
     // Home: the manual place, no engine-default notice (the Egyptian seed
@@ -89,8 +89,8 @@ void main() {
     );
     await pumpUntil(tester, find.text('Use my location'));
     await tester.tap(find.text('Use my location'));
-    await pumpUntil(tester, find.text('Your times are ready'));
-    await tester.tap(find.text("Show today's times"));
+    await pumpUntil(tester, find.byKey(const Key('setupDone')));
+    await tester.tap(find.text('View today’s prayer times'));
     await pumpUntil(tester, find.byType(TimeRow));
 
     // The device location is named after the city it is in (§15 D101).

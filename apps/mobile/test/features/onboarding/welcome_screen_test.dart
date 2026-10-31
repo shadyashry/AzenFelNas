@@ -178,7 +178,7 @@ void main() {
       final access = await pump(tester, access: LocationAccess.granted);
       expect(access.requests, 0);
       await tester.tap(find.text('Use my location'));
-      await pumpUntil(tester, find.text('Your times are ready'));
+      await pumpUntil(tester, find.byKey(const Key('setupDone')));
       expect(access.requests, 1);
       expect(grant.asked, isEmpty);
     });
@@ -325,11 +325,11 @@ void main() {
       await tester.tap(find.widgetWithText(ListTile, 'Cairo'));
       await tester.pump();
       expect(tester.widget<ListTile>(find.byType(ListTile)).selected, isTrue);
-      expect(find.text('Your times are ready'), findsNothing);
+      expect(find.byKey(const Key('setupDone')), findsNothing);
 
       await tester.tap(confirm);
-      await pumpUntil(tester, find.text('Your times are ready'));
-      expect(find.text('Prayer times for Cairo.'), findsOneWidget);
+      await pumpUntil(tester, find.byKey(const Key('setupDone')));
+      expect(find.text('Cairo'), findsOneWidget);
     });
 
     testWidgets('says when no city matches', (tester) async {
@@ -373,7 +373,7 @@ void main() {
       final confirm = find.byKey(const Key('cityPickerConfirm'));
       await tester.scrollUntilVisible(confirm, 40, scrollable: list);
       await tapVisible(tester, confirm);
-      await pumpUntil(tester, find.text('Your times are ready'));
+      await pumpUntil(tester, find.byKey(const Key('setupDone')));
     });
   });
 
@@ -393,8 +393,8 @@ void main() {
     await tester.pumpWidget(app());
     await pumpUntil(tester, find.text('Use my location'));
     await tester.tap(find.text('Use my location'));
-    await pumpUntil(tester, find.text('Your times are ready'));
-    await tester.tap(find.text("Show today's times"));
+    await pumpUntil(tester, find.byKey(const Key('setupDone')));
+    await tester.tap(find.text('View today’s prayer times'));
     await pumpUntil(tester, find.byType(TimeRow));
 
     // The app is closed and opened again over the same storage.
