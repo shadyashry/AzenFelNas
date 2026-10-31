@@ -139,7 +139,7 @@ void main() {
         );
 
         Finder strip(String label) => find.descendant(
-          of: find.byType(ListView),
+          of: find.byType(GridView),
           matching: find.bySemanticsLabel(label),
         );
 
@@ -150,7 +150,7 @@ void main() {
           expect(strip(page(n)), findsOneWidget);
         }
         expect(strip(page(299)), findsNothing);
-        expect(find.byType(Slider), findsOneWidget);
+        expect(find.byType(GridView), findsOneWidget);
 
         await tester.tap(strip(page(302)));
         await tester.pumpAndSettle();
@@ -159,11 +159,11 @@ void main() {
           tester.element(find.byType(ReaderTopBar)),
         );
         expect(container.read(readerProvider).page, 302);
-        expect(find.byType(Slider), findsNothing);
+        expect(find.byType(GridView), findsNothing);
       });
 
       testWidgets('REQ-QRN-022: Go to page stays one tap away from the page '
-          'strip', (tester) async {
+          'grid', (tester) async {
         await _pump(tester, locale);
         final l = await AppLocalizations.delegate.load(locale);
 
@@ -173,7 +173,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.byType(TextField), findsOneWidget);
-        expect(find.byType(Slider), findsNothing);
+        expect(find.byType(GridView), findsNothing);
       });
     });
   }

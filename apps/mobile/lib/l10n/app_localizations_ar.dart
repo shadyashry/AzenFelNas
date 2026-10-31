@@ -1190,8 +1190,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get quranSurahPagesHint =>
-      'دوس على صفحة عشان تفتحها، أو اسحب عشان تتنقل جوه السورة.';
+  String get quranSurahPagesHint => 'دوس على صفحة عشان تفتحها.';
 
   @override
   String quranPage(String page) {
@@ -1484,9 +1483,6 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get quranSurahPagesOpen => 'صفحات السورة';
-
-  @override
   String quranNextSurah(String surah) {
     return 'كمّل في $surah';
   }
@@ -1508,4 +1504,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranBookmarked => 'متعلّم عليها';
+
+  @override
+  String get quranWithinSurah => 'داخل السورة';
+
+  @override
+  String get quranSurahWholePage => 'السورة كلها في الصفحة دي';
+
+  @override
+  String quranSurahPageOf(String position, String count) {
+    return '$position من $count صفحة';
+  }
+
+  @override
+  String get quranAllPages => 'كل الصفحات';
+
+  @override
+  String get quranSurahActions => 'أول السورة أو آية';
+
+  @override
+  String quranAyahRange(String first, String last) {
+    return 'الآيات $first–$last';
+  }
+
+  @override
+  String get quranPositionSaved => 'اتحفظ مكان القراءة';
+
+  @override
+  String get quranEditionShort => 'مصحف المدينة · حفص';
+
+  @override
+  String get quranTajweed => 'ألوان التجويد';
+
+  @override
+  String get quranReadingMode => 'طريقة القراءة';
+
+  @override
+  String get quranCalmReading =>
+      'قراءة هادية: المصحف زي ما طبعه مجمع الملك فهد بالظبط، بحبر غامق وبإطاره وعلامات آياته. مفيش أي حاجة اتلوّنت.';
+
+  @override
+  String get quranTajweedUnavailableShort => 'مقفولة · مش متاحة للمصحف ده لسه';
+
+  @override
+  String get quranTajweedUnavailable =>
+      'ألوان التجويد هتتعرض بس من مصدر تجويد مسموح بيه ومطابق لصفحات المصحف ده، ومعاه دليل الألوان بتاعه. لسه مفيش مصدر زي ده للطبعة دي، والتطبيق عمره ما بيلوّن حروف أو علامات من عنده.';
+
+  @override
+  String get quranNextShort => 'التالية';
+
+  @override
+  String get quranPreviousShort => 'السابقة';
 }

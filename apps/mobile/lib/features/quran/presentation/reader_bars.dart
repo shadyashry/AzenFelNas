@@ -11,19 +11,24 @@ import 'package:daily_muslim/features/quran/presentation/quran_format.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_index_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_controller.dart';
+import 'package:daily_muslim/features/quran/presentation/reading_mode_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/surah_pages_sheet.dart';
 import 'package:daily_muslim/features/schedule/presentation/schedule_providers.dart';
 import 'package:daily_muslim/features/shell/domain/app_route.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// The bar above the page: the surah of the page (tap for the surah index
-/// at it), the juz (tap for the juz index at it) and the page number (tap
-/// for the pages of the surah), the bookmark, search and the menu.
+/// The reader's header above the page, in the deep Madinah green of
+/// Horizon whatever the mode (§15 D121): the surah (tap for the surah index
+/// at it), the edition, the juz (tap for the juz index at it) and the page
+/// number (tap for the pages of the surah), then the bookmark, search and
+/// the menu. It draws under the status bar and keeps to two short lines.
 final class ReaderTopBar extends ConsumerWidget {
-  /// The bar for [page].
+  /// The header for [page].
   const new({required this.page, super.key});
 
   /// The current page.
@@ -45,94 +50,151 @@ final class ReaderTopBar extends ConsumerWidget {
     final marked =
         ref.watch(bookmarksProvider).value?.any((b) => b.page == page) ?? false;
     final font = ref.watch(quranFontProvider).value ?? false;
-    return Material(
-      color: theme.colorScheme.surface,
-      child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(12, 4, 4, 4),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  if (sura != null)
-                    _TitleTap(
-                      hint: l.quranIndex,
-                      onTap: () => showQuranIndexSheet(
-                        context,
-                        currentSura: sura.number,
-                      ),
-                      child: Text(
-                        sura.header,
-                        textDirection: TextDirection.rtl,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontFamily: font ? QuranFont.family : null,
-                          fontSize: 20,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  Row(
+    // Ivory, sage and gold on green: Horizon's night tokens, which are
+    // made for a green ground (REQ-UX-010).
+    const on = RawdahScheme.night;
+    final arabic = style.locale == StatusLocale.ar;
+    final quranFont = font ? QuranFont.family : null;
+    final caption = theme.textTheme.bodySmall?.copyWith(color: on.inkMuted);
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Material(
+        color: RawdahScheme.of(context).navBar,
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(
+            16,
+            MediaQuery.paddingOf(context).top + 4,
+            4,
+            6,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      if (part != null) ...[
+                      if (sura != null)
                         _TitleTap(
                           hint: l.quranIndex,
                           onTap: () => showQuranIndexSheet(
                             context,
-                            currentJuz: part.number,
+                            currentSura: sura.number,
                           ),
-                          child: Text(
-                            l.quranJuz(QuranFormat.number(part.number, style)),
-                            style: theme.textTheme.bodySmall,
-                          ),
-                        ),
-                        Text(' · ', style: theme.textTheme.bodySmall),
-                      ],
-                      Flexible(
-                        child: _TitleTap(
-                          hint: l.quranGoToPage,
-                          onTap: () => sura == null
-                              ? showGoToPageDialog(context, ref)
-                              : showSurahPagesSheet(
-                                  context,
-                                  sura: sura,
-                                  page: page,
-                                  onGoToPage: () =>
-                                      showGoToPageDialog(context, ref),
+                          child: arabic
+                              ? Text(
+                                  sura.header,
+                                  textDirection: TextDirection.rtl,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontFamily: quranFont,
+                                    fontSize: 21,
+                                    color: on.ink,
+                                  ),
+                                )
+                              : Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        QuranFormat.surahName(sura, style),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: theme.textTheme.titleMedium
+                                            ?.copyWith(
+                                              color: on.ink,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      sura.header,
+                                      textDirection: TextDirection.rtl,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        fontFamily: quranFont,
+                                        fontSize: 16,
+                                        color: on.accent,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                          child: Text(
-                            l.quranPage(QuranFormat.number(page, style)),
-                            style: theme.textTheme.bodySmall,
-                          ),
                         ),
+                      Row(
+                        children: [
+                          if (constraints.maxWidth >= 240)
+                            Flexible(
+                              child: Text(
+                                '${l.quranEditionShort} · ',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: caption,
+                              ),
+                            ),
+                          if (part != null) ...[
+                            _TitleTap(
+                              hint: l.quranIndex,
+                              onTap: () => showQuranIndexSheet(
+                                context,
+                                currentJuz: part.number,
+                              ),
+                              child: Text(
+                                l.quranJuz(
+                                  QuranFormat.number(part.number, style),
+                                ),
+                                style: caption,
+                              ),
+                            ),
+                            Text(' · ', style: caption),
+                          ],
+                          _TitleTap(
+                            hint: l.quranGoToPage,
+                            onTap: () => sura == null
+                                ? showGoToPageDialog(context, ref)
+                                : showSurahPagesSheet(
+                                    context,
+                                    sura: sura,
+                                    page: page,
+                                    onGoToPage: () =>
+                                        showGoToPageDialog(context, ref),
+                                  ),
+                            child: Text(
+                              l.quranPage(QuranFormat.number(page, style)),
+                              style: caption,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-            IconButton(
-              tooltip: marked ? l.quranBookmarkRemove : l.quranBookmarkAdd,
-              isSelected: marked,
-              icon: const Icon(Icons.bookmark_border),
-              selectedIcon: const Icon(Icons.bookmark),
-              onPressed: () => ref
-                  .read(bookmarkStoreProvider)
-                  .toggleBookmark(
-                    QuranEditionPin.layoutId,
-                    page,
-                    nowUtcMs: ref.read(clockProvider).nowUtcMs(),
-                  ),
-            ),
-            IconButton(
-              tooltip: l.quranSearch,
-              icon: const Icon(Icons.search),
-              onPressed: () => context.push(const QuranSearchRoute().location),
-            ),
-            const _ReaderMenu(),
-          ],
+              IconButton(
+                tooltip: marked ? l.quranBookmarkRemove : l.quranBookmarkAdd,
+                isSelected: marked,
+                color: on.ink,
+                icon: const Icon(Icons.bookmark_border),
+                selectedIcon: Icon(Icons.bookmark, color: on.accent),
+                onPressed: () => ref
+                    .read(bookmarkStoreProvider)
+                    .toggleBookmark(
+                      QuranEditionPin.layoutId,
+                      page,
+                      nowUtcMs: ref.read(clockProvider).nowUtcMs(),
+                    ),
+              ),
+              IconButton(
+                tooltip: l.quranSearch,
+                color: on.ink,
+                icon: const Icon(Icons.search),
+                onPressed: () =>
+                    context.push(const QuranSearchRoute().location),
+              ),
+              _ReaderMenu(color: on.ink),
+            ],
+          ),
         ),
       ),
     );
@@ -188,11 +250,14 @@ enum _MenuItem {
   fit,
   facing,
   showHighlights,
+  tajweed,
   storage,
 }
 
 final class _ReaderMenu extends ConsumerWidget {
-  const new();
+  const new({required this.color});
+
+  final Color color;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -202,6 +267,7 @@ final class _ReaderMenu extends ConsumerWidget {
     final prefs = state.preferences;
     return PopupMenuButton<_MenuItem>(
       tooltip: l.quranMore,
+      iconColor: color,
       icon: const Icon(Icons.more_vert),
       onSelected: (item) => switch (item) {
         _MenuItem.ayahs => _showPageAyahs(context, ref, state.page),
@@ -218,6 +284,7 @@ final class _ReaderMenu extends ConsumerWidget {
           prefs.copyWith(facingPages: !prefs.facingPages),
         ),
         _MenuItem.showHighlights => controller.toggleHighlights(),
+        _MenuItem.tajweed => showReadingModeSheet(context),
         _MenuItem.storage => context.push(const QuranStorageRoute().location),
       },
       itemBuilder: (context) => [
@@ -245,69 +312,99 @@ final class _ReaderMenu extends ConsumerWidget {
           checked: state.showHighlights,
           child: Text(l.quranShowHighlights),
         ),
+        PopupMenuItem(value: _MenuItem.tajweed, child: Text(l.quranTajweed)),
         PopupMenuItem(value: _MenuItem.storage, child: Text(l.quranStorage)),
       ],
     );
   }
 }
 
-/// The bar below the page. Its order is the Mushaf's, not the interface's:
-/// *Next page* is always on the left and points left, *Previous page* on the
-/// right, in Arabic and in English (REQ-QRN-020).
+/// The page buttons below the page, labelled in words (§15 D121). Their
+/// order is the Mushaf's, not the interface's: *Next page* is always on
+/// the left and points left, *Previous page* on the right, in Arabic and in
+/// English (REQ-QRN-020). On the chosen surah's last page *Next page*
+/// becomes [continueLabel], which runs [onContinue].
 final class ReaderBottomBar extends StatelessWidget {
-  /// The bar driving [viewport].
-  const new({required this.viewport, super.key});
+  /// The buttons driving [viewport].
+  const new({
+    required this.viewport,
+    this.continueLabel,
+    this.continueShort,
+    this.onContinue,
+    this.dense = false,
+    super.key,
+  });
 
   /// The page surface.
   final MushafViewportController viewport;
 
+  /// Short labels on one line, for short windows; the full wording stays
+  /// in the tooltip and for screen readers.
+  final bool dense;
+
+  /// *Continue to* the next surah, in place of *Next page*.
+  final String? continueLabel;
+
+  /// The next surah's name, for [dense].
+  final String? continueShort;
+
+  /// Opens the next surah.
+  final VoidCallback? onContinue;
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return Material(
-      color: Theme.of(context).colorScheme.surface,
-      child: ListenableBuilder(
-        listenable: viewport,
-        builder: (context, _) => Directionality(
-          textDirection: TextDirection.ltr,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _Command(
-                viewport,
-                ViewportCommand.next,
-                Icons.arrow_back,
-                l.quranNextPage,
+    final next = continueLabel ?? l.quranNextPage;
+    final nextShort = continueLabel == null
+        ? l.quranNextShort
+        : continueShort ?? next;
+    // The row is laid out left to right like the Mushaf, but each label
+    // reads in the interface's own direction and may take two lines
+    // rather than lose its end.
+    final reading = Directionality.of(context);
+    Widget label(String text, String short) => Semantics(
+      label: text,
+      excludeSemantics: true,
+      child: Text(
+        dense ? short : text,
+        textDirection: reading,
+        textAlign: TextAlign.center,
+        maxLines: dense ? 1 : 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Row(
+          children: [
+            Expanded(
+              child: Tooltip(
+                message: next,
+                excludeFromSemantics: true,
+                child: FilledButton.icon(
+                  onPressed:
+                      onContinue ?? () => viewport.send(ViewportCommand.next),
+                  icon: const Icon(Icons.arrow_back),
+                  label: label(next, nextShort),
+                ),
               ),
-              _Command(
-                viewport,
-                ViewportCommand.zoomOut,
-                Icons.zoom_out,
-                l.quranZoomOut,
-                enabled: viewport.scale > 1,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Tooltip(
+                message: l.quranPreviousPage,
+                excludeFromSemantics: true,
+                child: OutlinedButton.icon(
+                  onPressed: () => viewport.send(ViewportCommand.previous),
+                  iconAlignment: IconAlignment.end,
+                  icon: const Icon(Icons.arrow_forward),
+                  label: label(l.quranPreviousPage, l.quranPreviousShort),
+                ),
               ),
-              _Command(
-                viewport,
-                ViewportCommand.reset,
-                Icons.fit_screen,
-                l.quranResetZoom,
-                enabled: viewport.scale > 1,
-              ),
-              _Command(
-                viewport,
-                ViewportCommand.zoomIn,
-                Icons.zoom_in,
-                l.quranZoomIn,
-                enabled: viewport.scale < 4,
-              ),
-              _Command(
-                viewport,
-                ViewportCommand.previous,
-                Icons.arrow_forward,
-                l.quranPreviousPage,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -315,26 +412,19 @@ final class ReaderBottomBar extends StatelessWidget {
 }
 
 final class _Command extends StatelessWidget {
-  const new(
-    this.viewport,
-    this.command,
-    this.icon,
-    this.label, {
-    this.enabled = true,
-  });
+  const new(this.viewport, this.command, this.icon, this.label);
 
   final MushafViewportController viewport;
   final ViewportCommand command;
   final IconData icon;
   final String label;
-  final bool enabled;
 
   @override
   Widget build(BuildContext context) => IconButton(
     tooltip: label,
     iconSize: 28,
     constraints: const BoxConstraints(minWidth: 52, minHeight: 52),
-    onPressed: enabled ? () => viewport.send(command) : null,
+    onPressed: () => viewport.send(command),
     icon: Icon(icon, semanticLabel: label),
   );
 }

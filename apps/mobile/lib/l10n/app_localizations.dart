@@ -2021,7 +2021,7 @@ abstract class AppLocalizations {
   /// Hint under the page strip of the current surah.
   ///
   /// In en, this message translates to:
-  /// **'Tap a page to open it, or slide to move along the surah.'**
+  /// **'Tap a page to open it.'**
   String get quranSurahPagesHint;
 
   /// Current Mushaf page.
@@ -2474,12 +2474,6 @@ abstract class AppLocalizations {
   /// **'Type an ayah number from 1 to {count}.'**
   String quranGoToAyahInvalid(String count);
 
-  /// Surah bar button: open the strip of the surah's pages.
-  ///
-  /// In en, this message translates to:
-  /// **'Pages of this surah'**
-  String get quranSurahPagesOpen;
-
   /// On the surah's last page: open the next surah.
   ///
   /// In en, this message translates to:
@@ -2509,6 +2503,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bookmarked'**
   String get quranBookmarked;
+
+  /// Small heading of the surah navigator under the page.
+  ///
+  /// In en, this message translates to:
+  /// **'WITHIN THIS SURAH'**
+  String get quranWithinSurah;
+
+  /// Beside the page number when the surah is on one page.
+  ///
+  /// In en, this message translates to:
+  /// **'the whole surah is on this page'**
+  String get quranSurahWholePage;
+
+  /// Beside the page number: its place among the surah's pages.
+  ///
+  /// In en, this message translates to:
+  /// **'{position} of {count} pages'**
+  String quranSurahPageOf(String position, String count);
+
+  /// Button: the grid of the surah's pages.
+  ///
+  /// In en, this message translates to:
+  /// **'All pages'**
+  String get quranAllPages;
+
+  /// Menu button in the surah navigator.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginning of the surah or an ayah'**
+  String get quranSurahActions;
+
+  /// The surah's verses on the current page.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayahs {first}–{last}'**
+  String quranAyahRange(String first, String last);
+
+  /// Shown once the page is saved as the reading position.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading position saved'**
+  String get quranPositionSaved;
+
+  /// The edition, in the reader's header.
+  ///
+  /// In en, this message translates to:
+  /// **'Madinah Mushaf · Hafs'**
+  String get quranEditionShort;
+
+  /// Menu item and switch: Tajweed colours.
+  ///
+  /// In en, this message translates to:
+  /// **'Tajweed colours'**
+  String get quranTajweed;
+
+  /// Title of the reading mode sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading mode'**
+  String get quranReadingMode;
+
+  /// The default reading mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm reading: the Mushaf exactly as the King Fahd Complex printed it, in dark ink with its own frame and verse markers. Nothing is recoloured.'**
+  String get quranCalmReading;
+
+  /// Under the disabled Tajweed switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Off · not available for this Mushaf yet'**
+  String get quranTajweedUnavailableShort;
+
+  /// Why Tajweed colours are not offered.
+  ///
+  /// In en, this message translates to:
+  /// **'Tajweed colours will only be offered from a permitted Tajweed source that matches these pages, with that source\'s own colour legend. None is available for this edition yet, and the app never colours letters or marks by itself.'**
+  String get quranTajweedUnavailable;
+
+  /// Short label of Next page on short windows.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get quranNextShort;
+
+  /// Short label of Previous page on short windows.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get quranPreviousShort;
 }
 
 class _AppLocalizationsDelegate

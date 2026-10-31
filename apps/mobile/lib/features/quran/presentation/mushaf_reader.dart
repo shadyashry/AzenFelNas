@@ -1,31 +1,37 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:daily_muslim/features/home/presentation/display_style.dart';
 import 'package:daily_muslim/features/quran/domain/ayah_highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight.dart';
 import 'package:daily_muslim/features/quran/domain/highlight_color.dart';
 import 'package:daily_muslim/features/quran/domain/installed_quran.dart';
+import 'package:daily_muslim/features/quran/domain/mushaf_index_entries.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_layout.dart';
 import 'package:daily_muslim/features/quran/domain/mushaf_lines.dart';
 import 'package:daily_muslim/features/quran/domain/quran_edition_pin.dart';
+import 'package:daily_muslim/features/quran/domain/reader_preferences.dart';
 import 'package:daily_muslim/features/quran/domain/verse_place.dart';
 import 'package:daily_muslim/features/quran/presentation/ayah_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/highlight_sheet.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_page_image.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_viewport.dart';
 import 'package:daily_muslim/features/quran/presentation/mushaf_viewport_controller.dart';
+import 'package:daily_muslim/features/quran/presentation/quran_format.dart';
 import 'package:daily_muslim/features/quran/presentation/quran_providers.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_bars.dart';
 import 'package:daily_muslim/features/quran/presentation/reader_controller.dart';
 import 'package:daily_muslim/features/quran/presentation/surah_nav_bar.dart';
 import 'package:daily_muslim/l10n/app_localizations.dart';
+import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// The Mushaf reader (§15 D107): the page surface between the reader's
-/// bars. The bars sit above and below the page, never over it; hiding them
-/// gives the page the whole screen.
+/// The Mushaf reader (§15 D107, D121): the page surface between the
+/// reader's header and controls, which sit above and below the page, or
+/// beside it in a wide, short window, never over it; hiding them gives the
+/// page the whole screen.
 final class MushafReader extends ConsumerStatefulWidget {
   /// The reader of [installed].
   const new({required this.installed, super.key});
@@ -33,12 +39,27 @@ final class MushafReader extends ConsumerStatefulWidget {
   /// The active package.
   final InstalledQuran installed;
 
+  /// Whether the controls go beside the page instead of under it
+  /// (§15 D121): in a landscape window where a whole page, fitted to the
+  /// height left, still leaves at least [panelMin] of width beside it.
+  /// Content-driven, not tied to a device: a page is about 0.7 as wide as
+  /// it is tall.
+  static bool sideBySide(Size size, EdgeInsets insets, double aspect) {
+    if (size.width <= size.height) return false;
+    final pageWidth = (size.height - insets.vertical) * aspect;
+    return size.width - insets.horizontal - pageWidth >= panelMin;
+  }
+
+  /// The narrowest side panel.
+  static const double panelMin = 280;
+
   @override
   ConsumerState<MushafReader> createState() => _MushafReaderState();
 }
 
 final class _MushafReaderState extends ConsumerState<MushafReader> {
   final _viewport = MushafViewportController();
+  final GlobalKey _surfaceKey = GlobalKey();
 
   @override
   void dispose() {
@@ -54,21 +75,141 @@ final class _MushafReaderState extends ConsumerState<MushafReader> {
       return Center(child: Text(l.quranOpening));
     }
     final chrome = state.chromeVisible;
-    return SafeArea(
-      bottom: !chrome,
+    final image = widget.installed.manifest.pageImage;
+    final aspect = image.width / image.height;
+    // One key for every layout, so hiding the bars or turning the phone
+    // keeps the pages, their zoom and the viewport's command handler
+    // (§15 D116, D121).
+    final surface = KeyedSubtree(
+      key: _surfaceKey,
+      child: _Surface(installed: widget.installed, viewport: _viewport),
+    );
+    return ColoredBox(
+      color: RawdahScheme.of(context).ground,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final size = constraints.biggest;
+          final insets = MediaQuery.paddingOf(context);
+          if (chrome && MushafReader.sideBySide(size, insets, aspect)) {
+            return Row(
+              children: [
+                Expanded(child: SafeArea(child: surface)),
+                SizedBox(
+                  // Fit page: what the fitted page leaves, so no blank band
+                  // is left beside it. Fit width: narrow, the page takes
+                  // the rest.
+                  width: state.preferences.fit == PageFit.width
+                      ? MushafReader.panelMin
+                      : (size.width -
+                                insets.horizontal -
+                                (size.height - insets.vertical) * aspect -
+                                16)
+                            .clamp(MushafReader.panelMin, 420)
+                            .toDouble(),
+                  child: Material(
+                    color: RawdahScheme.of(context).panel,
+                    child: Column(
+                      children: [
+                        ReaderTopBar(page: state.page),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: SafeArea(
+                              top: false,
+                              bottom: false,
+                              child: ReaderControls(
+                                viewport: _viewport,
+                                density: ReaderDensity.full,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+          return Column(
+            children: [
+              if (chrome) ReaderTopBar(page: state.page),
+              Expanded(
+                child: SafeArea(top: !chrome, bottom: !chrome, child: surface),
+              ),
+              if (chrome)
+                SafeArea(
+                  top: false,
+                  bottom: false,
+                  child: ReaderControls(
+                    viewport: _viewport,
+                    density: ReaderDensity.forHeight(
+                      MediaQuery.sizeOf(context).height,
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+/// The controls under or beside the page: the surah navigator and the page
+/// buttons, kept to a readable width on wide windows, or the drawing bar
+/// while a highlight is drawn.
+final class ReaderControls extends ConsumerWidget {
+  /// The controls driving [viewport] at [density].
+  const new({required this.viewport, required this.density, super.key});
+
+  /// The page surface.
+  final MushafViewportController viewport;
+
+  /// How much room they may take.
+  final ReaderDensity density;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final style = DisplayStyle.of(context, ref);
+    final scheme = RawdahScheme.of(context);
+    if (ref.watch(readerProvider.select((s) => s.draft != null))) {
+      return DrawBar(viewport: viewport);
+    }
+    final scope = ref.watch(readerScopeProvider);
+    final suras = ref.watch(surasProvider).value ?? const <SuraEntry>[];
+    final next = continueAfter(scope, suras);
+    final name = next == null ? null : QuranFormat.surahName(next, style);
+    return Material(
+      color: scheme.panel,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          if (chrome) ReaderTopBar(page: state.page),
-          // Keyed so hiding or showing the bars keeps the pages, their zoom
-          // and the viewport's command handler (§15 D116).
-          Expanded(
-            key: const ValueKey('surface'),
-            child: _Surface(installed: widget.installed, viewport: _viewport),
+          Divider(height: 1, color: scheme.hairline),
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 640),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SurahNavBar(viewport: viewport, density: density),
+                  ReaderBottomBar(
+                    viewport: viewport,
+                    dense: density != ReaderDensity.full,
+                    continueShort: name,
+                    continueLabel: name == null
+                        ? null
+                        : next?.startPage == scope?.page
+                        ? l.quranNextSurahSamePage(name)
+                        : l.quranNextSurah(name),
+                    onContinue: next == null
+                        ? null
+                        : () => openSurah(ref, next),
+                  ),
+                ],
+              ),
+            ),
           ),
-          if (chrome && state.draft == null) const SurahNavBar(),
-          if (chrome && state.draft == null)
-            ReaderBottomBar(viewport: _viewport),
-          if (chrome && state.draft != null) DrawBar(viewport: _viewport),
         ],
       ),
     );

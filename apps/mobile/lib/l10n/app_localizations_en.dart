@@ -1162,8 +1162,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get quranSurahPagesHint =>
-      'Tap a page to open it, or slide to move along the surah.';
+  String get quranSurahPagesHint => 'Tap a page to open it.';
 
   @override
   String quranPage(String page) {
@@ -1456,9 +1455,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get quranSurahPagesOpen => 'Pages of this surah';
-
-  @override
   String quranNextSurah(String surah) {
     return 'Continue to $surah';
   }
@@ -1480,4 +1476,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranBookmarked => 'Bookmarked';
+
+  @override
+  String get quranWithinSurah => 'WITHIN THIS SURAH';
+
+  @override
+  String get quranSurahWholePage => 'the whole surah is on this page';
+
+  @override
+  String quranSurahPageOf(String position, String count) {
+    return '$position of $count pages';
+  }
+
+  @override
+  String get quranAllPages => 'All pages';
+
+  @override
+  String get quranSurahActions => 'Beginning of the surah or an ayah';
+
+  @override
+  String quranAyahRange(String first, String last) {
+    return 'Ayahs $first–$last';
+  }
+
+  @override
+  String get quranPositionSaved => 'Reading position saved';
+
+  @override
+  String get quranEditionShort => 'Madinah Mushaf · Hafs';
+
+  @override
+  String get quranTajweed => 'Tajweed colours';
+
+  @override
+  String get quranReadingMode => 'Reading mode';
+
+  @override
+  String get quranCalmReading =>
+      'Calm reading: the Mushaf exactly as the King Fahd Complex printed it, in dark ink with its own frame and verse markers. Nothing is recoloured.';
+
+  @override
+  String get quranTajweedUnavailableShort =>
+      'Off · not available for this Mushaf yet';
+
+  @override
+  String get quranTajweedUnavailable =>
+      'Tajweed colours will only be offered from a permitted Tajweed source that matches these pages, with that source\'s own colour legend. None is available for this edition yet, and the app never colours letters or marks by itself.';
+
+  @override
+  String get quranNextShort => 'Next';
+
+  @override
+  String get quranPreviousShort => 'Previous';
 }

@@ -39,6 +39,7 @@ final class ReaderState {
     this.draft,
     this.mark,
     this.scopeSura,
+    this.positionSaved = false,
   });
 
   /// The current page (the right page of a spread).
@@ -69,6 +70,9 @@ final class ReaderState {
   /// its pages (§15 D120). `null` until one is chosen.
   final int? scopeSura;
 
+  /// Whether the page shown is the one saved as the reading position.
+  final bool positionSaved;
+
   ReaderState _with({
     int? page,
     bool? restored,
@@ -78,6 +82,7 @@ final class ReaderState {
     HighlightDraft? Function()? draft,
     VersePlace? Function()? mark,
     int? scopeSura,
+    bool? positionSaved,
   }) => ReaderState(
     page: page ?? this.page,
     restored: restored ?? this.restored,
@@ -87,6 +92,7 @@ final class ReaderState {
     draft: draft == null ? this.draft : draft(),
     mark: mark == null ? this.mark : mark(),
     scopeSura: scopeSura ?? this.scopeSura,
+    positionSaved: positionSaved ?? this.positionSaved,
   );
 }
 
@@ -122,6 +128,7 @@ final class ReaderController extends Notifier<ReaderState> {
       page: QuranEditionPin.layout.clamp(page ?? state.page),
       restored: true,
       preferences: preferences,
+      positionSaved: page != null,
     );
   }
 
@@ -129,7 +136,7 @@ final class ReaderController extends Notifier<ReaderState> {
   void goTo(int page) {
     final clamped = QuranEditionPin.layout.clamp(page);
     if (clamped == state.page && state.restored) return;
-    state = state._with(page: clamped, restored: true);
+    state = state._with(page: clamped, restored: true, positionSaved: false);
     _save?.cancel();
     _save = Timer(const Duration(milliseconds: 400), () {
       unawaited(_savePosition(clamped));
@@ -146,7 +153,9 @@ final class ReaderController extends Notifier<ReaderState> {
         );
     // Home's "Continue Quran" follows the page just saved, also the first
     // one (§15 D108).
-    if (ref.mounted) ref.invalidate(lastQuranPageProvider);
+    if (!ref.mounted) return;
+    ref.invalidate(lastQuranPageProvider);
+    if (state.page == page) state = state._with(positionSaved: true);
   }
 
   /// Opens the page of [place] and outlines its lines for [markFor]

@@ -75,6 +75,36 @@ void main() {
     expect(controller.scale, greaterThan(1));
   });
 
+  testWidgets('REQ-QRN-033: turning single pages into facing pages keeps '
+      'the page shown', (tester) async {
+    final controller = MushafViewportController();
+    addTearDown(controller.dispose);
+    Widget app({required int count, required int item}) => Directionality(
+      textDirection: TextDirection.ltr,
+      child: MushafViewport(
+        itemCount: count,
+        item: item,
+        aspect: 0.7,
+        fit: PageFit.page,
+        controller: controller,
+        drawing: false,
+        semanticLabel: 'page',
+        itemBuilder: (context, i, size) => Text('item $i of $count'),
+        onItemChanged: (_) {},
+        onDraw: (_, _, _) {},
+        onTap: (_, _) {},
+      ),
+    );
+    // Page 49 alone, then in the spread of pages 49 and 50.
+    await tester.pumpWidget(app(count: 604, item: 48));
+    await tester.pump();
+    await tester.pumpWidget(app(count: 302, item: 24));
+    await tester.pump();
+
+    expect(find.text('item 24 of 302'), findsOneWidget);
+    expect(find.text('item 48 of 302'), findsNothing);
+  });
+
   for (final locale in const [Locale('en'), Locale('ar')]) {
     group('interface ${locale.languageCode}', () {
       testWidgets('REQ-QRN-020: a swipe to the right turns to the next '

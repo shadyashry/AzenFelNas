@@ -419,6 +419,10 @@ final class _MushafViewportState extends State<MushafViewport> {
             child: Directionality(
               textDirection: TextDirection.rtl,
               child: PageView.builder(
+                // A new count (single pages ↔ facing pages) needs a new
+                // scroll position: the old one would carry its offset over
+                // and show another page than [item] (§15 D121).
+                key: ValueKey(widget.itemCount),
                 controller: _pages,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: widget.itemCount,

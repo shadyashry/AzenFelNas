@@ -13,13 +13,13 @@ import 'package:dm_ui/dm_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// The pages of the surah being read, as small images of the official
-/// pages in Mushaf order (right to left), each with its number, the
-/// surah's first verse on it and a bookmark mark, and a slider along them
-/// that previews a page before opening it (§15 D114, D120). It opens on
-/// [page], marked; a tap opens a page. A surah on one page shows that page
-/// alone, without the slider. [onGoToPage] offers typing any page number
-/// instead.
+/// *All pages* of the surah being read (§15 D114, D120, D121): only the
+/// pages it is on, as small images of the official pages in Mushaf order
+/// (right to left) in a grid as wide as the window allows, each with its
+/// number, the surah's verses on it and a bookmark mark (an icon, not a
+/// colour). It opens scrolled to [page], which is marked; a tap opens a
+/// page. It scrolls, so it works on short landscape windows too.
+/// [onGoToPage] offers typing any page number instead.
 Future<void> showSurahPagesSheet(
   BuildContext context, {
   required SuraEntry sura,
@@ -29,6 +29,7 @@ Future<void> showSurahPagesSheet(
   context: context,
   showDragHandle: true,
   isScrollControlled: true,
+  useSafeArea: true,
   builder: (context) =>
       _SurahPages(sura: sura, page: page, onGoToPage: onGoToPage),
 );
@@ -49,36 +50,21 @@ final class _SurahPages extends ConsumerStatefulWidget {
 }
 
 final class _SurahPagesState extends ConsumerState<_SurahPages> {
-  static const double _thumbWidth = 96;
+  /// The widest a page in the grid may be.
+  static const double _maxThumb = 112;
   static const double _gap = 12;
-  static const double _extent = _thumbWidth + _gap;
 
-  late int _focus = widget.page;
-  ScrollController? _strip;
-  double _viewport = 0;
+  ScrollController? _grid;
 
   @override
   void dispose() {
-    _strip?.dispose();
+    _grid?.dispose();
     super.dispose();
   }
-
-  /// The strip offset that centres page [index] (0 = the surah's first).
-  double _centre(int index) =>
-      (index * _extent - (_viewport - _extent) / 2).clamp(0, double.infinity);
 
   void _open(int page) {
     ref.read(readerProvider.notifier).goTo(page);
     Navigator.of(context).pop();
-  }
-
-  void _slide(double value, int first) {
-    setState(() => _focus = value.round());
-    final strip = _strip;
-    if (strip == null || !strip.hasClients) return;
-    strip.jumpTo(
-      _centre(_focus - first).clamp(0, strip.position.maxScrollExtent),
-    );
   }
 
   @override
@@ -88,135 +74,127 @@ final class _SurahPagesState extends ConsumerState<_SurahPages> {
     final theme = Theme.of(context);
     final range = ref.watch(surahPagesProvider(widget.sura.number)).value;
     final installed = readablePackage(ref.watch(quranStatusProvider));
-    final starts =
-        ref.watch(surahPageStartsProvider(widget.sura.number)).value ??
-        const <int, ({int aya, bool continued})>{};
-    final bookmarked = {
-      for (final b in ref.watch(bookmarksProvider).value ?? const <Bookmark>[])
-        b.page,
-    };
     if (range == null || installed == null) {
       return const SizedBox(
         height: 200,
         child: Center(child: CircularProgressIndicator()),
       );
     }
+    final ayahs =
+        ref.watch(surahPageAyahsProvider(widget.sura.number)).value ??
+        const <int, ({int first, int last, bool continued})>{};
+    final bookmarked = {
+      for (final b in ref.watch(bookmarksProvider).value ?? const <Bookmark>[])
+        b.page,
+    };
     final (:first, :last) = range;
     final count = last - first + 1;
     final image = installed.manifest.pageImage;
-    final thumbHeight = _thumbWidth * image.height / image.width;
+    final scale = MediaQuery.textScalerOf(context);
     String n(int v) => QuranFormat.number(v, style);
-    String? ayah(int page) => switch (starts[page]) {
+    String? ayahLine(int page) => switch (ayahs[page]) {
       null => null,
-      (:final aya, continued: true) => l.quranPageContinuedAyah(n(aya)),
-      (:final aya, continued: false) => l.quranPageFirstAyah(n(aya)),
+      (:final first, continued: true, last: _) => l.quranPageContinuedAyah(
+        n(first),
+      ),
+      (:final first, :final last, continued: false) when first == last =>
+        l.quranPageFirstAyah(n(first)),
+      (:final first, :final last, continued: false) => l.quranAyahRange(
+        n(first),
+        n(last),
+      ),
     };
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                l.quranSurahPages(
-                  QuranFormat.surahName(widget.sura, style),
-                  n(first),
-                  n(last),
-                ),
-                style: theme.textTheme.titleMedium,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              l.quranSurahPages(
+                QuranFormat.surahName(widget.sura, style),
+                n(first),
+                n(last),
               ),
+              style: theme.textTheme.titleMedium,
             ),
-            if (count > 1)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
-                child: Text(
-                  l.quranSurahPagesHint,
-                  style: theme.textTheme.bodySmall,
-                ),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+            child: Text(
+              l.quranSurahPagesHint,
+              style: theme.textTheme.bodySmall,
+            ),
+          ),
+          Flexible(
             // The Mushaf runs right to left in either interface language.
-            Directionality(
+            child: Directionality(
               textDirection: TextDirection.rtl,
-              child: SizedBox(
-                height:
-                    thumbHeight +
-                    16 +
-                    MediaQuery.textScalerOf(context).scale(40),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    _viewport = constraints.maxWidth;
-                    final strip = _strip ??= ScrollController(
-                      initialScrollOffset: _centre(widget.page - first),
-                    );
-                    return ListView.builder(
-                      controller: strip,
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: _gap),
-                      itemExtent: _extent,
-                      itemCount: count,
-                      itemBuilder: (context, i) => _Thumb(
-                        installed: installed,
-                        page: first + i,
-                        label: n(first + i),
-                        ayah: ayah(first + i),
-                        bookmarked: bookmarked.contains(first + i),
-                        current: first + i == widget.page,
-                        focused: first + i == _focus,
-                        width: _thumbWidth,
-                        height: thumbHeight,
-                        onTap: () => _open(first + i),
-                      ),
-                    );
-                  },
-                ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final width = constraints.maxWidth - 2 * _gap;
+                  final columns = ((width + _gap) / (_maxThumb + _gap))
+                      .ceil()
+                      .clamp(3, 12);
+                  final thumbWidth = (width - (columns - 1) * _gap) / columns;
+                  final thumbHeight = thumbWidth * image.height / image.width;
+                  final rowHeight = thumbHeight + 12 + scale.scale(36);
+                  final grid = _grid ??= ScrollController(
+                    initialScrollOffset:
+                        ((widget.page - first) ~/ columns) *
+                            (rowHeight + _gap) -
+                        rowHeight / 2,
+                  );
+                  return GridView.builder(
+                    controller: grid,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(_gap),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: columns,
+                      mainAxisSpacing: _gap,
+                      crossAxisSpacing: _gap,
+                      mainAxisExtent: rowHeight,
+                    ),
+                    itemCount: count,
+                    itemBuilder: (context, i) => _Thumb(
+                      installed: installed,
+                      page: first + i,
+                      label: n(first + i),
+                      ayah: ayahLine(first + i),
+                      bookmarked: bookmarked.contains(first + i),
+                      current: first + i == widget.page,
+                      width: thumbWidth,
+                      height: thumbHeight,
+                      onTap: () => _open(first + i),
+                    ),
+                  );
+                },
               ),
             ),
-            if (count > 1)
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: Slider(
-                  value: _focus.clamp(first, last).toDouble(),
-                  min: first.toDouble(),
-                  max: last.toDouble(),
-                  divisions: count - 1,
-                  label: l.quranPage(n(_focus)),
-                  semanticFormatterCallback: (v) => l.quranPage(n(v.round())),
-                  onChanged: (v) => _slide(v, first),
-                ),
-              ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                children: [
-                  TextButton.icon(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      widget.onGoToPage();
-                    },
-                    icon: const Icon(Icons.dialpad),
-                    label: Text(l.quranGoToPage),
-                  ),
-                  const Spacer(),
-                  FilledButton(
-                    onPressed: _focus == widget.page
-                        ? null
-                        : () => _open(_focus),
-                    child: Text(l.quranPage(n(_focus))),
-                  ),
-                ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: TextButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  widget.onGoToPage();
+                },
+                icon: const Icon(Icons.dialpad),
+                label: Text(l.quranGoToPage),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-/// One page of the strip: the official page image, small, and its number.
+/// One page of the grid: the official page image, small, its number, the
+/// surah's verses on it and, when bookmarked, a bookmark icon.
 final class _Thumb extends StatelessWidget {
   const new({
     required this.installed,
@@ -225,7 +203,6 @@ final class _Thumb extends StatelessWidget {
     required this.ayah,
     required this.bookmarked,
     required this.current,
-    required this.focused,
     required this.width,
     required this.height,
     required this.onTap,
@@ -237,7 +214,6 @@ final class _Thumb extends StatelessWidget {
   final String? ayah;
   final bool bookmarked;
   final bool current;
-  final bool focused;
   final double width;
   final double height;
   final VoidCallback onTap;
@@ -245,6 +221,7 @@ final class _Thumb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = RawdahScheme.of(context);
+    final theme = Theme.of(context);
     final l = AppLocalizations.of(context);
     final dpr = MediaQuery.devicePixelRatioOf(context);
     return Semantics(
@@ -259,62 +236,59 @@ final class _Thumb extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(6),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-          child: Column(
-            children: [
-              DecoratedBox(
-                position: DecorationPosition.foreground,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: current
-                        ? scheme.accent
-                        : focused
-                        ? scheme.primary
-                        : scheme.hairline,
-                    width: current || focused ? 3 : 1,
-                  ),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: SizedBox(
-                  width: width,
-                  height: height,
-                  child: Image(
-                    image: ResizeImage(
-                      FileImage(File(installed.pagePath(page))),
-                      width: (width * dpr).round(),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                DecoratedBox(
+                  position: DecorationPosition.foreground,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: current ? scheme.accent : scheme.hairline,
+                      width: current ? 3 : 1,
                     ),
-                    fit: BoxFit.contain,
-                    gaplessPlayback: true,
-                    errorBuilder: (context, error, stack) =>
-                        ColoredBox(color: scheme.wash),
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (bookmarked)
-                    Icon(Icons.bookmark, size: 14, color: scheme.accent),
-                  Text(
-                    label,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: current ? scheme.accent : null,
-                      fontWeight: current ? FontWeight.w700 : null,
+                  child: SizedBox(
+                    width: width,
+                    height: height,
+                    child: Image(
+                      image: ResizeImage(
+                        FileImage(File(installed.pagePath(page))),
+                        width: (width * dpr).round(),
+                      ),
+                      fit: BoxFit.contain,
+                      gaplessPlayback: true,
+                      errorBuilder: (context, error, stack) =>
+                          ColoredBox(color: scheme.wash),
                     ),
                   ),
-                ],
-              ),
-              if (ayah case final ayah?)
-                Text(
-                  ayah,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.labelSmall,
                 ),
-            ],
-          ),
+                if (bookmarked)
+                  PositionedDirectional(
+                    top: 0,
+                    start: 4,
+                    child: Icon(Icons.bookmark, size: 18, color: scheme.accent),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: current ? scheme.accent : null,
+                fontWeight: current ? FontWeight.w700 : null,
+                decoration: current ? TextDecoration.underline : null,
+              ),
+            ),
+            if (ayah case final ayah?)
+              Text(
+                ayah,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.labelSmall,
+              ),
+          ],
         ),
       ),
     );

@@ -225,28 +225,36 @@ final FutureProviderFamily<({int first, int last})?, int> surahPagesProvider =
       );
     });
 
-/// The first verse of surah `sura` on each of its pages, by page
-/// (§15 D120): the verse the surah opens the page with, or the one carried
-/// over from the page before (`continued`). Pages where the package places
-/// none of its verses are left out.
-final FutureProviderFamily<Map<int, ({int aya, bool continued})>, int>
-surahPageStartsProvider =
-    FutureProvider.family<Map<int, ({int aya, bool continued})>, int>((
-      ref,
-      sura,
-    ) async {
+/// The verses of surah `sura` on each of its pages, by page (§15 D120):
+/// the first and the last that touch the page, and whether the first was
+/// carried over from the page before (`continued`). Pages where the
+/// package places none of its verses are left out.
+final FutureProviderFamily<
+  Map<int, ({int first, int last, bool continued})>,
+  int
+>
+surahPageAyahsProvider =
+    FutureProvider.family<
+      Map<int, ({int first, int last, bool continued})>,
+      int
+    >((ref, sura) async {
       final pages = await ref.watch(surahPagesProvider(sura).future);
       if (pages == null) return const {};
-      final starts = <int, ({int aya, bool continued})>{};
+      final ayahs = <int, ({int first, int last, bool continued})>{};
       for (var p = pages.first; p <= pages.last; p++) {
         final verses = await ref.watch(versesOnPageProvider(p).future);
-        for (final v in verses) {
-          if (v.sura != sura) continue;
-          starts[p] = (aya: v.aya, continued: v.page < p);
-          break;
-        }
+        final own = [
+          for (final v in verses)
+            if (v.sura == sura) v,
+        ];
+        if (own.isEmpty) continue;
+        ayahs[p] = (
+          first: own.first.aya,
+          last: own.last.aya,
+          continued: own.first.page < p,
+        );
       }
-      return starts;
+      return ayahs;
     });
 
 /// The verse highlights of the pinned layout, in Mushaf order.
